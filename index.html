@@ -94,8 +94,8 @@
     .actor-card .price { font-size: 0.78rem; color: var(--accent); }
 
     /* Expandable */
-    .hidden-actors { display: none; }
-    .hidden-actors.show { display: grid; }
+    .hidden-actors { display: none; margin-top: 10px; }
+    .hidden-actors.show { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
     .expand-btn {
       background: none; border: 1px solid var(--border); color: var(--muted);
       padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
@@ -193,7 +193,7 @@
         <a href="https://apify.com/santamaria-automations/jobscout24-ch-scraper" class="actor-card"><span class="name">JobScout24.ch Scraper</span><span class="meta">Switzerland</span><span class="price">$0.008/SERP</span></a>
         <a href="https://apify.com/santamaria-automations/ictjobs-ch-scraper" class="actor-card"><span class="name">ICTjobs.ch Scraper</span><span class="meta">Switzerland · IT</span><span class="price">$0.008/SERP</span></a>
       </div>
-      <button class="expand-btn" onclick="toggle('jobs')">Show all 30+ job scrapers</button>
+      <button class="expand-btn" id="jobs-btn" data-show-text="Show all 30+ job scrapers" data-hide-text="Hide job scrapers" onclick="toggle('jobs')">Show all 30+ job scrapers</button>
     </div>
 
     <!-- DIRECTORIES -->
@@ -215,7 +215,7 @@
         <a href="https://apify.com/santamaria-automations/zefix-ch-scraper" class="actor-card"><span class="name">Zefix.ch Scraper</span><span class="meta">Switzerland · Commercial register</span><span class="price">$0.003/SERP</span></a>
         <a href="https://apify.com/santamaria-automations/made-in-china-scraper" class="actor-card"><span class="name">Made-in-China Scraper</span><span class="meta">China · Manufacturer directory</span><span class="price">$0.003/SERP</span></a>
       </div>
-      <button class="expand-btn" onclick="toggle('dirs')">Show all 12 directory scrapers</button>
+      <button class="expand-btn" id="dirs-btn" data-show-text="Show all 12 directory scrapers" data-hide-text="Hide directory scrapers" onclick="toggle('dirs')">Show all 12 directory scrapers</button>
     </div>
 
     <!-- MARKETPLACES -->
@@ -239,7 +239,7 @@
         <a href="https://apify.com/santamaria-automations/booking-com-scraper" class="actor-card"><span class="name">Booking.com Scraper</span><span class="meta">Global · Hotels</span><span class="price">Pay-per-result</span></a>
         <a href="https://apify.com/santamaria-automations/autoscout24-scraper" class="actor-card"><span class="name">AutoScout24 Scraper</span><span class="meta">Europe · Car marketplace</span><span class="price">Pay-per-result</span></a>
       </div>
-      <button class="expand-btn" onclick="toggle('market')">Show all 14 marketplace scrapers</button>
+      <button class="expand-btn" id="market-btn" data-show-text="Show all 14 marketplace scrapers" data-hide-text="Hide marketplace scrapers" onclick="toggle('market')">Show all 14 marketplace scrapers</button>
     </div>
 
     <!-- SOCIAL -->
@@ -282,7 +282,7 @@
         <a href="https://apify.com/santamaria-automations/rss-feed-reader" class="actor-card"><span class="name">RSS Feed Reader</span><span class="meta">Monitor any feed</span><span class="price">Pay-per-result</span></a>
         <a href="https://apify.com/santamaria-automations/html-to-markdown" class="actor-card"><span class="name">HTML to Markdown</span><span class="meta">Bulk web content to MD</span><span class="price">Pay-per-result</span></a>
       </div>
-      <button class="expand-btn" onclick="toggle('enrich')">Show all 16 enrichment tools</button>
+      <button class="expand-btn" id="enrich-btn" data-show-text="Show all 16 enrichment tools" data-hide-text="Hide enrichment tools" onclick="toggle('enrich')">Show all 16 enrichment tools</button>
     </div>
   </div>
 
@@ -305,13 +305,13 @@
   <script>
     function toggle(id) {
       const hidden = document.getElementById(id + '-hidden');
-      const btn = hidden.previousElementSibling.nextElementSibling;
+      const btn = document.getElementById(id + '-btn');
       if (hidden.classList.contains('show')) {
         hidden.classList.remove('show');
-        btn.textContent = btn.textContent.replace('Hide', 'Show all');
+        btn.textContent = btn.dataset.showText;
       } else {
         hidden.classList.add('show');
-        btn.textContent = btn.textContent.replace('Show all', 'Hide');
+        btn.textContent = btn.dataset.hideText;
       }
     }
   </script>
