@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram scrapen -- &Ouml;ffentliche Kan&auml;le ohne Login | NanoScrape</title>
+  <meta name="description" content="Nachrichten, Medien und Metadaten aus &ouml;ffentlichen Telegram-Kan&auml;len extrahieren. Kein Login oder API-Key n&ouml;tig. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Pay-per-Result.">
+  <meta property="og:title" content="Telegram Scraper -- &Ouml;ffentliche Kan&auml;le, kein Login | NanoScrape">
+  <meta property="og:description" content="&Ouml;ffentliche Telegram-Kan&auml;le im grossen Stil scrapen. Kein Login n&ouml;tig, ~12MB Image, 128MB RAM. Nachrichten, Medien und Metadaten.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/telegram-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/telegram-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/telegram-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/telegram-scraper/de/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/telegram-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Telegram Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Telegram public channel scraper. ~12MB Docker image, 128MB RAM. No login required. Returns messages, media URLs, view counts, and channel metadata.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "pay-per-result"
+    },
+    "url": "https://apify.com/santamaria-automations/telegram-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Telegram scrapen -- &ouml;ffentliche Kan&auml;le ohne Login</h1>
+    <p class="lead">Nachrichten, Medien und Metadaten aus beliebigen &ouml;ffentlichen Telegram-Kan&auml;len oder -Gruppen extrahieren. Kein Telegram-Konto, API-Key oder Login erforderlich. Nutzt die &ouml;ffentliche Web-Vorschau. Rein HTTP-basiert -- kein Chrome, kein Playwright.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~telegram-scraper/input" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Preise</div><div class="value">Pay-per-Result</div></div>
+      <div class="spec"><div class="label">Login</div><div class="value">Nicht erforderlich</div></div>
+    </div>
+
+    <h2 class="section-title">Was Sie scrapen k&ouml;nnen</h2>
+    <ul>
+      <li><strong>Kanalnachrichten</strong> -- vollst&auml;ndiger Textinhalt mit Formatierung</li>
+      <li><strong>Medien</strong> -- Foto-URLs, Video-Thumbnails, Dokument-Links</li>
+      <li><strong>Aufrufzahlen</strong> -- Engagement-Metriken pro Nachricht</li>
+      <li><strong>Kanal-Metadaten</strong> -- Name, Beschreibung, Abonnentenzahl, Foto</li>
+      <li><strong>Weitergeleitete Nachrichten</strong> -- Informationen zum urspr&uuml;nglichen Quellkanal</li>
+      <li><strong>Mehrere Kan&auml;le</strong> -- mehrere Kan&auml;le in einem einzigen Lauf scrapen</li>
+    </ul>
+
+    <h2 class="section-title">Typische Anwendungsf&auml;lle</h2>
+    <ul>
+      <li><strong>OSINT-Recherche</strong> -- &ouml;ffentliche Kan&auml;le zur Informationsgewinnung &uuml;berwachen</li>
+      <li><strong>Marktbeobachtung</strong> -- Krypto-, Finanz- oder branchenspezifische Kan&auml;le verfolgen</li>
+      <li><strong>Markenbeobachtung</strong> -- Erw&auml;hnungen in &ouml;ffentlichen Telegram-Kan&auml;len finden</li>
+      <li><strong>Inhaltsanalyse</strong> -- Nachrichtenmuster und Engagement-Trends analysieren</li>
+      <li><strong>Archivierung</strong> -- strukturierte Sicherungen &ouml;ffentlicher Kanalinhalte erstellen</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf &uuml;ber die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~telegram-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "channels": ["duaborgin", "techcrunch"],
+    "maxMessages": 100
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/telegram-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> -- L&auml;ufe ausl&ouml;sen und Ergebnisse per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP)</strong> -- Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> -- Apify SDK f&uuml;r programmatischen Zugriff</li>
+      <li><strong>Google Sheets / Airtable</strong> -- Export &uuml;ber Apify-Integrationen</li>
+    </ul>
+
+    <h2 class="section-title">Im Vergleich</h2>
+    <table class="compare-table">
+      <tr><th>Merkmal</th><th>NanoScrape</th><th>Telegram Bot API</th></tr>
+      <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>N/A</td></tr>
+      <tr><td>Login erforderlich</td><td class="highlight">Nein</td><td>Ja (Bot-Token)</td></tr>
+      <tr><td>Kosten</td><td class="highlight">Pay-per-Result</td><td>Kostenlos, aber limitiert</td></tr>
+      <tr><td>&Ouml;ffentliche Kan&auml;le</td><td>Ja</td><td>Bot muss Mitglied sein</td></tr>
+      <tr><td>Rate-Limits</td><td>Automatisch verwaltet</td><td>Strenge API-Limits</td></tr>
+      <tr><td>Ausgabe</td><td>Strukturiertes JSON</td><td>Rohes API-Format</td></tr>
+    </table>
+
+    <h2 class="section-title">Ausgabefelder</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>channel</td><td>string</td><td>duaborgin</td></tr>
+      <tr><td>message_id</td><td>number</td><td>12345</td></tr>
+      <tr><td>text</td><td>string</td><td>Breaking: Neues KI-Modell ver&ouml;ffentlicht...</td></tr>
+      <tr><td>date</td><td>string</td><td>2026-04-23T14:30:00Z</td></tr>
+      <tr><td>views</td><td>number</td><td>15420</td></tr>
+      <tr><td>media_url</td><td>string</td><td>https://cdn.telegram.org/...</td></tr>
+      <tr><td>forwarded_from</td><td>string</td><td>quellkanal</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~telegram-scraper/input" class="btn-secondary">Jetzt testen -- kostenloser Einstieg</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
