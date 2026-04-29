@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抓取FirmenABC.at — 奥地利企业名录 | NanoScrape</title>
+  <meta name="description" content="从FirmenABC.at提取企业信息，奥地利综合性企业名录。10万+奥地利企业，含联系数据。纯HTTP Go爬虫，低至$0.003/搜索结果。">
+  <meta property="og:title" content="FirmenABC.at爬虫 — 奥地利企业名录 | NanoScrape">
+  <meta property="og:description" content="大规模抓取FirmenABC.at奥地利企业名录。10万+企业，联系数据。无需浏览器。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/firmenabc-at-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/firmenabc-at-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FirmenABC.at Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Extract business listings from FirmenABC.at, Austria's comprehensive business directory. 100K+ Austrian businesses with contact data. HTTP-only Go scraper from $0.003/SERP.",
+    "offers": {"@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per result"},
+    "url": "https://apify.com/santamaria-automations/firmenabc-at-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  </div>
+
+  <div class="detail">
+    <h1>抓取FirmenABC.at — 10万+奥地利企业，含已验证联系数据</h1>
+    <p class="lead">从FirmenABC.at提取结构化企业资料，这是奥地利最全面的企业名录之一。获取公司名称、地址、电话号码、网站、营业时间和行业分类。非常适合构建奥地利B2B潜在客户列表或进行奥地利各行业市场调研。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~firmenabc-at-scraper/input" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
+      <div class="spec"><div class="label">覆盖范围</div><div class="value">奥地利</div></div>
+      <div class="spec"><div class="label">价格</div><div class="value">$0.003/搜索结果</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS指纹</div></div>
+    </div>
+
+    <h2 class="section-title">可抓取的数据</h2>
+    <ul>
+      <li><strong>企业资料</strong> — 公司名称、地址、电话、邮箱、网站</li>
+      <li><strong>营业时间</strong> — 详细的每周营业时间表（如有）</li>
+      <li><strong>行业分类</strong> — 企业类别和子类别</li>
+      <li><strong>评分和评价</strong> — 客户评分（如有）</li>
+      <li><strong>地理搜索</strong> — 按城市、地区或邮编筛选</li>
+      <li><strong>多查询</strong> — 单次运行中搜索多个行业或地点</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>奥地利B2B客户开发</strong> — 按行业构建精准的奥地利企业列表</li>
+      <li><strong>本地服务发现</strong> — 查找特定奥地利地区的服务提供商</li>
+      <li><strong>市场分析</strong> — 绘制奥地利各城市和地区的企业密度图</li>
+      <li><strong>竞争情报</strong> — 监控您所在行业的新注册企业</li>
+      <li><strong>数据补充</strong> — 用已验证的奥地利联系人信息补充现有CRM数据</li>
+    </ul>
+
+    <h2 class="section-title">API示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~firmenabc-at-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["installateur"], "location": "Wien", "maxResultsPerQuery": 100}'
+
+<span class="comment"># 或通过MCP与AI代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/firmenabc-at-scraper</span></pre></div>
+
+    <h2 class="section-title">集成方式</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — 通过Webhook触发运行并处理结果</li>
+      <li><strong>AI代理 (MCP)</strong> — Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — 使用Apify SDK进行编程访问</li>
+      <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
+    </ul>
+
+    <h2 class="section-title">对比</h2>
+    <table class="compare-table">
+      <tr><th>特性</th><th>NanoScrape</th><th>替代方案</th></tr>
+      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>无</td></tr>
+      <tr><td>内存占用</td><td class="highlight">128MB</td><td>无</td></tr>
+      <tr><td>每1k搜索结果成本</td><td class="highlight">$3.00</td><td>无</td></tr>
+      <tr><td>联系数据</td><td class="highlight">电话、邮箱、网站</td><td>无</td></tr>
+      <tr><td>可用性</td><td class="highlight">Apify上唯一的爬虫</td><td>无可用</td></tr>
+    </table>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>company_name</td><td>string</td><td>Installateur Huber GmbH</td></tr>
+      <tr><td>address</td><td>string</td><td>Mariahilfer Str. 45, 1060 Wien</td></tr>
+      <tr><td>phone</td><td>string</td><td>+43 1 5871234</td></tr>
+      <tr><td>website</td><td>string</td><td>https://www.example.at</td></tr>
+      <tr><td>category</td><td>string</td><td>Installateur</td></tr>
+      <tr><td>rating</td><td>number</td><td>4.5</td></tr>
+      <tr><td>url</td><td>string</td><td>https://firmenabc.at/...</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~firmenabc-at-scraper/input" class="btn-secondary">立即试用 — 提供免费额度</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

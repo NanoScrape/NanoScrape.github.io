@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抓取Tutti.ch — 瑞士分类信息平台 | NanoScrape</title>
+  <meta name="description" content="从Tutti.ch提取分类信息，瑞士最大的分类信息市场。通过_next/data端点绕过Cloudflare。支持关键词和分类搜索。纯HTTP Go爬虫，低至$0.003/搜索结果。">
+  <meta property="og:title" content="Tutti.ch爬虫 — 瑞士分类信息平台 | NanoScrape">
+  <meta property="og:description" content="大规模抓取Tutti.ch瑞士市场。Cloudflare绕过，关键词+分类搜索。无需浏览器。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/tutti-ch-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/tutti-ch-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Tutti.ch Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Tutti.ch scraper with Cloudflare bypass via _next/data. Swiss classifieds marketplace. ~12MB Docker image, 128MB RAM.",
+    "offers": {"@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per SERP result"},
+    "url": "https://apify.com/santamaria-automations/tutti-ch-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+  </div>
+
+  <div class="detail">
+    <h1>抓取Tutti.ch — 瑞士分类信息，Cloudflare绕过与分类搜索</h1>
+    <p class="lead">从Tutti.ch提取结构化列表数据，瑞士最受欢迎的分类信息平台。我们的爬虫通过直接访问Next.js _next/data端点绕过Cloudflare保护，无需任何浏览器即可获取干净的JSON数据。支持按关键词、分类、州（Canton）或价格范围搜索。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~tutti-ch-scraper/input" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
+      <div class="spec"><div class="label">覆盖范围</div><div class="value">瑞士</div></div>
+      <div class="spec"><div class="label">价格</div><div class="value">$0.003/搜索结果</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">Cloudflare绕过 (_next/data)</div></div>
+    </div>
+
+    <h2 class="section-title">可抓取的数据</h2>
+    <ul>
+      <li><strong>分类信息列表</strong> — 标题、描述、价格、地点、卖家类型、图片</li>
+      <li><strong>分类浏览</strong> — 按车辆、电子产品、家具、招聘、房产等分类筛选</li>
+      <li><strong>地理筛选</strong> — 按州（Canton）、城市或半径搜索</li>
+      <li><strong>价格范围</strong> — 按最低和最高价格筛选</li>
+      <li><strong>卖家信息</strong> — 用户名、注册时间、商家或个人</li>
+      <li><strong>多查询</strong> — 单次执行中运行多个搜索</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>瑞士市场调研</strong> — 分析瑞士各地区二手商品的价格趋势</li>
+      <li><strong>竞争定价</strong> — 监控瑞士二手市场上的竞争对手定价</li>
+      <li><strong>房产分析</strong> — 跟踪特定州的租赁和房产信息</li>
+      <li><strong>汽车市场情报</strong> — 按品牌、车型和地区分析二手车定价</li>
+      <li><strong>电商情报</strong> — 了解特定产品类别的供需情况</li>
+    </ul>
+
+    <h2 class="section-title">API示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tutti-ch-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["iphone 15"], "canton": "ZH", "maxResultsPerQuery": 100}'
+
+<span class="comment"># 或通过MCP与AI代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/tutti-ch-scraper</span></pre></div>
+
+    <h2 class="section-title">集成方式</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — 通过Webhook触发运行并处理结果</li>
+      <li><strong>AI代理 (MCP)</strong> — Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — 使用Apify SDK进行编程访问</li>
+      <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
+    </ul>
+
+    <h2 class="section-title">对比</h2>
+    <table class="compare-table">
+      <tr><th>特性</th><th>NanoScrape</th><th>浏览器爬虫</th></tr>
+      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>每1k搜索结果成本</td><td class="highlight">$3.00</td><td>$10 - $25</td></tr>
+      <tr><td>Cloudflare绕过</td><td class="highlight">_next/data（无浏览器）</td><td>完整Chrome无头浏览器</td></tr>
+      <tr><td>速度 (1k列表)</td><td class="highlight">~3分钟</td><td>20-40分钟</td></tr>
+      <tr><td>Canton筛选</td><td class="highlight">支持</td><td>不一定</td></tr>
+    </table>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>iPhone 15 Pro 256GB</td></tr>
+      <tr><td>price</td><td>number</td><td>890</td></tr>
+      <tr><td>currency</td><td>string</td><td>CHF</td></tr>
+      <tr><td>location</td><td>string</td><td>Zurich, ZH</td></tr>
+      <tr><td>description</td><td>string</td><td>完整列表描述</td></tr>
+      <tr><td>seller</td><td>string</td><td>techdealer_zh</td></tr>
+      <tr><td>images</td><td>string[]</td><td>["https://..."]</td></tr>
+      <tr><td>category</td><td>string</td><td>Electronics</td></tr>
+      <tr><td>url</td><td>string</td><td>https://tutti.ch/...</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-04-20</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~tutti-ch-scraper/input" class="btn-secondary">立即试用 — 提供免费额度</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
