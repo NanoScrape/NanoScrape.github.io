@@ -15,6 +15,7 @@
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/">
   <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/">
   <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/fr/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/">
   <link rel="icon" href="../nanoscrape_logo_square.png" type="image/png">
   <script type="application/ld+json">
@@ -61,13 +62,16 @@
     .hero-stat .num { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
     .hero-stat .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
 
-    /* Language Selector */
-    .lang-selector {
-      position: absolute; top: 16px; right: 20px; font-size: 0.85rem;
-    }
-    .lang-selector a { color: var(--muted); margin: 0 4px; }
-    .lang-selector a.active { color: var(--white); font-weight: 600; }
-    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+    /* Language Dropdown */
+    .lang-dropdown { position: absolute; top: 16px; right: 20px; display: inline-block; }
+    .lang-trigger { background: none; border: 1px solid var(--border); color: var(--muted); padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; min-height: 44px; display: flex; align-items: center; gap: 4px; }
+    .lang-trigger:hover { border-color: var(--accent); color: var(--accent); }
+    .lang-menu { display: none; position: absolute; right: 0; top: 100%; margin-top: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; min-width: 140px; z-index: 100; overflow: hidden; }
+    .lang-dropdown.open .lang-menu { display: block; }
+    .lang-menu a { display: block; padding: 10px 16px; color: var(--muted); font-size: 0.9rem; border-bottom: 1px solid var(--border); }
+    .lang-menu a:last-child { border-bottom: none; }
+    .lang-menu a:hover { background: var(--border); color: var(--white); text-decoration: none; }
+    .lang-menu a.active { color: var(--accent); font-weight: 600; }
 
     /* Value Props */
     .value-props {
@@ -161,7 +165,6 @@
       .actors-grid { grid-template-columns: 1fr; }
     }
     @media (max-width: 480px) {
-      .lang-selector { font-size: 0.8rem; }
       .hero img.logo { height: 56px; }
     }
   </style>
@@ -169,7 +172,15 @@
 <body>
 
   <div class="hero">
-    <div class="lang-selector">&#127760; <a href="/">EN</a> | <a href="/de/">DE</a> | <a href="/zh/" class="active">&#20013;&#25991;</a></div>
+    <div class="lang-dropdown">
+      <button class="lang-trigger">&#127760; &#20013;&#25991; &#9662;</button>
+      <div class="lang-menu">
+        <a href="/">English</a>
+        <a href="/de/">Deutsch</a>
+        <a href="/zh/" class="active">&#20013;&#25991;</a>
+        <a href="/fr/">Fran&#231;ais</a>
+      </div>
+    </div>
     <img src="../nanoscrape_logo.svg" alt="NanoScrape" class="logo">
     <p>基于Go语言的HTTP-only爬虫。~10MB Docker镜像，128MB内存，数据中心代理。比同类工具便宜10-100倍。</p>
     <div class="hero-stats">
@@ -219,12 +230,12 @@
       </div>
       <div class="actors-grid hidden-actors" id="jobs-hidden">
         <div class="actor-card actor-card-dual"><span class="name">Jobs.ch Scraper</span><span class="meta">瑞士</span><span class="price">$2.75/1k SERP</span><div class="card-actions"><a href="/actors/jobs-ch-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
-        <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper" class="actor-card"><span class="name">Arbeitsagentur.de Scraper</span><span class="meta">德国 · 政府</span><span class="price">$0.008/SERP</span></a>
-        <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="actor-card"><span class="name">Arbeit.Swiss Scraper</span><span class="meta">瑞士 · 政府</span><span class="price">$0.008/SERP</span></a>
+        <div class="actor-card actor-card-dual"><span class="name">Arbeitsagentur.de Scraper</span><span class="meta">德国 · 政府</span><span class="price">$0.008/SERP</span><div class="card-actions"><a href="/actors/arbeitsagentur-de-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
+        <div class="actor-card actor-card-dual"><span class="name">Arbeit.Swiss Scraper</span><span class="meta">瑞士 · 政府</span><span class="price">$0.008/SERP</span><div class="card-actions"><a href="/actors/arbeit-swiss-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ams-at-scraper" class="actor-card"><span class="name">AMS Austria Scraper</span><span class="meta">奥地利 · HMAC认证</span><span class="price">$0.008/SERP</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper" class="actor-card"><span class="name">Karriere.at Scraper</span><span class="meta">奥地利</span><span class="price">$0.008/SERP</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-at-scraper" class="actor-card"><span class="name">StepStone.at Scraper</span><span class="meta">奥地利</span><span class="price">$0.008/SERP</span></a>
-        <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper" class="actor-card"><span class="name">Jobware.de Scraper</span><span class="meta">德国</span><span class="price">$0.008/SERP</span></a>
+        <div class="actor-card actor-card-dual"><span class="name">Jobware.de Scraper</span><span class="meta">德国</span><span class="price">$0.008/SERP</span><div class="card-actions"><a href="/actors/jobware-de-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper" class="actor-card"><span class="name">Stellenanzeigen.de Scraper</span><span class="meta">德国</span><span class="price">$0.008/SERP</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper" class="actor-card"><span class="name">MeineStadt.de Scraper</span><span class="meta">德国 · 区域</span><span class="price">$0.008/SERP</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reed-uk-scraper" class="actor-card"><span class="name">Reed.co.uk Scraper</span><span class="meta">英国</span><span class="price">$0.008/SERP</span></a>
@@ -245,7 +256,7 @@
       <h3>&#128214; 企业目录</h3>
       <div class="actors-grid" id="dirs-visible">
         <div class="actor-card actor-card-dual"><span class="name">Google Maps Scraper</span><span class="meta">全球 · 每条记录30+个字段</span><span class="price">$1/1k条记录</span><div class="card-actions"><a href="/actors/google-maps-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
-        <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/europages-scraper" class="actor-card"><span class="name">Europages Scraper</span><span class="meta">30+个国家 · B2B</span><span class="price">$0.003/SERP</span></a>
+        <div class="actor-card actor-card-dual"><span class="name">Europages Scraper</span><span class="meta">30+个国家 · B2B</span><span class="price">$0.003/SERP</span><div class="card-actions"><a href="/actors/europages-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/europages-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/kompass-scraper" class="actor-card"><span class="name">Kompass Scraper</span><span class="meta">70+个国家 · DataDome绕过</span><span class="price">$0.003/SERP</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/gelbeseiten-de-scraper" class="actor-card"><span class="name">Gelbe Seiten Scraper</span><span class="meta">德国 · 黄页</span><span class="price">$0.003/SERP</span></a>
       </div>
@@ -290,7 +301,7 @@
     <div class="category">
       <h3>&#128241; 社交媒体</h3>
       <div class="actors-grid">
-        <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper" class="actor-card"><span class="name">Reddit Scraper</span><span class="meta">帖子、评论、搜索、用户 · azuretls绕过</span><span class="price">$0.75/1k条</span></a>
+        <div class="actor-card actor-card-dual"><span class="name">Reddit Scraper</span><span class="meta">帖子、评论、搜索、用户 · azuretls绕过</span><span class="price">$0.75/1k条</span><div class="card-actions"><a href="/actors/reddit-scraper/zh/" class="learn">了解更多</a><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper" class="open">在Apify上打开 &#8599;</a></div></div>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper" class="actor-card"><span class="name">YouTube Scraper</span><span class="meta">视频、频道、Shorts</span><span class="price">按结果付费</span></a>
         <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper" class="actor-card"><span class="name">Telegram Scraper</span><span class="meta">公开频道 · 无需登录</span><span class="price">按结果付费</span></a>
       </div>
@@ -358,6 +369,13 @@
         btn.textContent = btn.dataset.hideText;
       }
     }
+  </script>
+
+  <script>
+    document.querySelectorAll('.lang-trigger').forEach(btn => {
+      btn.addEventListener('click', e => { e.stopPropagation(); btn.parentElement.classList.toggle('open'); });
+    });
+    document.addEventListener('click', () => { document.querySelectorAll('.lang-dropdown.open').forEach(d => d.classList.remove('open')); });
   </script>
 
 </body>
