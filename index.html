@@ -3,122 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NanoScrape — Lean Web Scrapers | 10× Cheaper, 100× Lighter</title>
+  <title>NanoScrape — Lightweight Web Scraping Actors</title>
   <meta name="description" content="HTTP-only Go web scrapers for Apify. ~10MB images, 128MB RAM, datacenter proxy. Job boards, directories, marketplaces, social media. Pay-per-result from $0.50/1k.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="icon" href="nanoscrape_logo_square.png" type="image/png">
   <style>
     :root {
-      --bg: #0a0a0a;
-      --surface: #141414;
-      --border: #222;
-      --text: #e0e0e0;
-      --muted: #888;
-      --accent: #4ade80;
-      --accent2: #22d3ee;
+      --bg: #080a10;
+      --surface: #0e1118;
+      --border: #1a1f2e;
+      --text: #dce8f5;
+      --muted: #7a99ba;
+      --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15);
+      --white: #dce8f5;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    /* Hero */
     .hero {
       text-align: center;
-      padding: 80px 20px 60px;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+      padding: 60px 20px 50px;
+      background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
       border-bottom: 1px solid var(--border);
     }
-    .hero h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 16px; }
-    .hero h1 span { color: var(--accent); }
-    .hero p { font-size: 1.25rem; color: var(--muted); max-width: 600px; margin: 0 auto 32px; }
+    .hero img.logo { height: 80px; margin-bottom: 24px; }
+    .hero p { font-size: 1.15rem; color: var(--muted); max-width: 560px; margin: 0 auto 32px; }
     .hero-stats {
       display: flex; justify-content: center; gap: 48px; flex-wrap: wrap;
-      margin-top: 32px;
     }
     .hero-stat { text-align: center; }
-    .hero-stat .num { font-size: 2.5rem; font-weight: 800; color: var(--accent); }
-    .hero-stat .label { font-size: 0.85rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+    .hero-stat .num { font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+    .hero-stat .label { font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1.5px; }
 
+    /* Value Props */
     .value-props {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 24px; max-width: 1000px; margin: -30px auto 0; padding: 0 20px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px; max-width: 960px; margin: -24px auto 0; padding: 0 20px;
       position: relative; z-index: 1;
     }
     .prop {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      padding: 24px; text-align: center;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 20px; text-align: center;
     }
-    .prop .icon { font-size: 2rem; margin-bottom: 8px; }
-    .prop h3 { font-size: 1.1rem; margin-bottom: 8px; }
-    .prop p { font-size: 0.9rem; color: var(--muted); }
+    .prop .icon { font-size: 1.8rem; margin-bottom: 6px; }
+    .prop h3 { font-size: 1rem; margin-bottom: 6px; color: var(--white); }
+    .prop p { font-size: 0.85rem; color: var(--muted); }
 
-    .section { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
-    .section h2 { font-size: 1.8rem; font-weight: 700; margin-bottom: 8px; }
-    .section .subtitle { color: var(--muted); margin-bottom: 32px; }
+    /* Sections */
+    .section { max-width: 1060px; margin: 0 auto; padding: 56px 20px; }
+    .section h2 { font-size: 1.6rem; font-weight: 700; margin-bottom: 6px; color: var(--white); }
+    .section .subtitle { color: var(--muted); margin-bottom: 28px; font-size: 0.95rem; }
 
-    .profiles {
-      display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
-      margin-bottom: 48px;
-    }
+    /* Profiles */
+    .profiles { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
     .profile-card {
-      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-      padding: 24px 32px; text-align: center; flex: 1; min-width: 280px; max-width: 400px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+      padding: 24px 28px; text-align: center; flex: 1; min-width: 260px; max-width: 380px;
     }
-    .profile-card h3 { font-size: 1.3rem; margin-bottom: 8px; }
-    .profile-card .count { font-size: 2rem; font-weight: 800; color: var(--accent); }
-    .profile-card .desc { color: var(--muted); font-size: 0.9rem; margin: 8px 0 16px; }
-    .profile-card a.btn {
-      display: inline-block; background: var(--accent); color: #000; padding: 10px 24px;
-      border-radius: 8px; font-weight: 600; font-size: 0.95rem;
+    .profile-card h3 { font-size: 1.2rem; margin-bottom: 6px; color: var(--white); }
+    .profile-card .count { font-size: 1.8rem; font-weight: 800; color: var(--accent); }
+    .profile-card .desc { color: var(--muted); font-size: 0.85rem; margin: 6px 0 14px; }
+    .btn {
+      display: inline-block; background: var(--accent); color: #fff; padding: 10px 22px;
+      border-radius: 8px; font-weight: 600; font-size: 0.9rem; border: none; cursor: pointer;
     }
-    .profile-card a.btn:hover { opacity: 0.9; text-decoration: none; }
+    .btn:hover { opacity: 0.9; text-decoration: none; }
 
-    .category { margin-bottom: 40px; }
+    /* Categories */
+    .category { margin-bottom: 36px; }
     .category h3 {
-      font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px;
-      color: var(--accent); margin-bottom: 16px; padding-bottom: 8px;
+      font-size: 1rem; text-transform: uppercase; letter-spacing: 1.5px;
+      color: var(--accent); margin-bottom: 14px; padding-bottom: 8px;
       border-bottom: 1px solid var(--border);
     }
     .actors-grid {
-      display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 12px;
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 10px;
     }
     .actor-card {
       background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      padding: 16px; display: flex; flex-direction: column; gap: 4px;
+      padding: 14px 16px; display: flex; flex-direction: column; gap: 3px;
       transition: border-color 0.2s;
     }
-    .actor-card:hover { border-color: var(--accent); }
-    .actor-card .name { font-weight: 600; font-size: 0.95rem; }
-    .actor-card .meta { font-size: 0.8rem; color: var(--muted); }
-    .actor-card .price { font-size: 0.8rem; color: var(--accent2); }
+    .actor-card:hover { border-color: var(--accent); text-decoration: none; }
+    .actor-card .name { font-weight: 600; font-size: 0.9rem; color: var(--white); }
+    .actor-card .meta { font-size: 0.78rem; color: var(--muted); }
+    .actor-card .price { font-size: 0.78rem; color: var(--accent); }
 
+    /* Expandable */
+    .hidden-actors { display: none; }
+    .hidden-actors.show { display: grid; }
+    .expand-btn {
+      background: none; border: 1px solid var(--border); color: var(--muted);
+      padding: 8px 20px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;
+      margin-top: 10px; transition: all 0.2s;
+    }
+    .expand-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* CTA */
     .cta {
-      text-align: center; padding: 60px 20px;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a2e1a 50%, #0a0a0a 100%);
+      text-align: center; padding: 50px 20px;
+      background: radial-gradient(ellipse at center, var(--accent-glow) 0%, transparent 60%);
       border-top: 1px solid var(--border);
     }
-    .cta h2 { font-size: 1.8rem; margin-bottom: 12px; }
-    .cta p { color: var(--muted); margin-bottom: 24px; }
-    .cta a.btn {
-      display: inline-block; background: var(--accent); color: #000; padding: 12px 32px;
-      border-radius: 8px; font-weight: 700; font-size: 1.1rem;
-    }
+    .cta h2 { font-size: 1.6rem; margin-bottom: 10px; color: var(--white); }
+    .cta p { color: var(--muted); margin-bottom: 20px; }
 
-    footer { text-align: center; padding: 32px; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--border); }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
 
     @media (max-width: 600px) {
-      .hero h1 { font-size: 2rem; }
-      .hero-stats { gap: 24px; }
-      .hero-stat .num { font-size: 1.8rem; }
-      .value-props { grid-template-columns: 1fr; }
+      .hero img.logo { height: 56px; }
+      .hero-stats { gap: 20px; }
+      .hero-stat .num { font-size: 1.6rem; }
+      .value-props { grid-template-columns: 1fr 1fr; }
+      .actors-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
   <div class="hero">
-    <h1>⚡ <span>Nano</span>Scrape</h1>
-    <p>Lean HTTP-only web scrapers built in Go. ~10MB Docker images, 128MB RAM, datacenter proxy. 10–100× cheaper than alternatives.</p>
+    <img src="nanoscrape_logo.svg" alt="NanoScrape" class="logo">
+    <p>HTTP-only Go scrapers for Apify. ~10MB images, 128MB RAM, datacenter proxy. 10-100x cheaper than alternatives.</p>
     <div class="hero-stats">
       <div class="hero-stat"><div class="num">90+</div><div class="label">Scrapers</div></div>
       <div class="hero-stat"><div class="num">12</div><div class="label">ATS Platforms</div></div>
@@ -128,214 +137,184 @@
   </div>
 
   <div class="value-props">
-    <div class="prop">
-      <div class="icon">🪶</div>
-      <h3>Featherweight</h3>
-      <p>~10MB Docker images. 128MB RAM. No browser, no Playwright, no Chrome. Pure HTTP with TLS fingerprinting.</p>
-    </div>
-    <div class="prop">
-      <div class="icon">💰</div>
-      <h3>10× Cheaper</h3>
-      <p>Pay-per-result from $0.50/1k items. No monthly fees. No minimum spend. AI agents pick us because we're the cheapest.</p>
-    </div>
-    <div class="prop">
-      <div class="icon">🤖</div>
-      <h3>Agent-Ready</h3>
-      <p>Every actor has MCP integration, declared output schemas, and agent-optimized descriptions. Works with Claude, Cursor, LangChain.</p>
-    </div>
-    <div class="prop">
-      <div class="icon">🛡️</div>
-      <h3>Anti-Bot Resilient</h3>
-      <p>Chrome TLS fingerprinting, warm session pools, automatic IP rotation. Cracks Reddit, Indeed, and more with datacenter proxy.</p>
-    </div>
+    <div class="prop"><div class="icon">🪶</div><h3>Featherweight</h3><p>~10MB Docker images. 128MB RAM. No browser. Pure HTTP + TLS fingerprinting.</p></div>
+    <div class="prop"><div class="icon">💰</div><h3>10x Cheaper</h3><p>Pay-per-result from $0.50/1k. No monthly fees. AI agents prefer the cheapest option.</p></div>
+    <div class="prop"><div class="icon">🤖</div><h3>Agent-Ready</h3><p>MCP integration, output schemas, agent-optimized descriptions. Works with Claude, Cursor, LangChain.</p></div>
+    <div class="prop"><div class="icon">🛡️</div><h3>Anti-Bot Resilient</h3><p>Chrome TLS fingerprinting, warm session pools, auto IP rotation. Datacenter proxy.</p></div>
   </div>
 
   <div class="section">
-    <h2>Apify Store Profiles</h2>
+    <h2>Apify Store</h2>
     <p class="subtitle">Our scrapers are available on two Apify profiles</p>
-
     <div class="profiles">
       <div class="profile-card">
         <h3>santamaria-automations</h3>
         <div class="count">90+</div>
-        <div class="desc">Original profile — job boards, directories, marketplaces, enrichment tools across 24+ countries</div>
-        <a href="https://apify.com/santamaria-automations" class="btn">Browse Actors →</a>
+        <div class="desc">Job boards, directories, marketplaces, enrichment tools across 24+ countries</div>
+        <a href="https://apify.com/santamaria-automations" class="btn">Browse Actors</a>
       </div>
       <div class="profile-card">
         <h3>nanoscrape</h3>
         <div class="count">New</div>
-        <div class="desc">New NanoScrape organization — next-gen scrapers, social media, ATS extractors</div>
-        <a href="https://apify.com/nanoscrape" class="btn">Browse Actors →</a>
+        <div class="desc">Next-gen scrapers, social media, ATS extractors</div>
+        <a href="https://apify.com/nanoscrape" class="btn">Browse Actors</a>
       </div>
     </div>
 
     <h2>Actor Catalog</h2>
-    <p class="subtitle">All scrapers organized by category</p>
+    <p class="subtitle">All scrapers organized by category. Click any actor to open it on Apify.</p>
 
+    <!-- JOBS -->
     <div class="category">
       <h3>🏢 Job Boards (30+ scrapers)</h3>
-      <div class="actors-grid">
-        <a href="https://apify.com/santamaria-automations/indeed-scraper" class="actor-card">
-          <span class="name">Indeed Scraper 🆓</span>
-          <span class="meta">60+ countries · Chrome + residential proxy</span>
-          <span class="price">FREE until May 2026, then $1/1k</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/linkedin-scraper" class="actor-card">
-          <span class="name">LinkedIn Jobs Scraper</span>
-          <span class="meta">Global · Guest API, no login</span>
-          <span class="price">$0.008/SERP + $0.020/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/stepstone-de-scraper" class="actor-card">
-          <span class="name">StepStone.de Scraper</span>
-          <span class="meta">Germany · JSON API</span>
-          <span class="price">$0.008/SERP + $0.020/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="actor-card">
-          <span class="name">Jobs.ch Scraper</span>
-          <span class="meta">Switzerland · Go rewrite</span>
-          <span class="price">$2.75/1k SERP + $5/1k detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper" class="actor-card">
-          <span class="name">Arbeitsagentur.de Scraper</span>
-          <span class="meta">Germany · Government job portal</span>
-          <span class="price">$0.008/SERP + $0.020/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="actor-card">
-          <span class="name">Arbeit.Swiss Scraper</span>
-          <span class="meta">Switzerland · Government portal</span>
-          <span class="price">$0.008/SERP + $0.020/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/ams-at-scraper" class="actor-card">
-          <span class="name">AMS Austria Scraper</span>
-          <span class="meta">Austria · HMAC-SHA512 auth</span>
-          <span class="price">$0.008/SERP + $0.020/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/ycombinator-scraper" class="actor-card">
-          <span class="name">Hacker News Scraper</span>
-          <span class="meta">Stories, jobs, comments, user activity</span>
-          <span class="price">$0.50/1k items</span>
-        </a>
+      <div class="actors-grid" id="jobs-visible">
+        <a href="https://apify.com/santamaria-automations/indeed-scraper" class="actor-card"><span class="name">Indeed Scraper</span><span class="meta">60+ countries · Chrome + residential proxy</span><span class="price">FREE until May 2026</span></a>
+        <a href="https://apify.com/santamaria-automations/linkedin-scraper" class="actor-card"><span class="name">LinkedIn Jobs Scraper</span><span class="meta">Global · Guest API, no login</span><span class="price">$0.008/SERP + $0.020/detail</span></a>
+        <a href="https://apify.com/santamaria-automations/ycombinator-scraper" class="actor-card"><span class="name">Hacker News Scraper</span><span class="meta">Stories, jobs, comments, users</span><span class="price">$0.50/1k items</span></a>
+        <a href="https://apify.com/santamaria-automations/stepstone-de-scraper" class="actor-card"><span class="name">StepStone.de Scraper</span><span class="meta">Germany · Leading job board</span><span class="price">$0.008/SERP + $0.020/detail</span></a>
       </div>
-      <p style="color:var(--muted);margin-top:12px;font-size:0.9rem">+ 22 more: Karriere.at, StepStone.at, Reed.co.uk, Jobindex.dk, France Travail, Pracuj.pl, Arbetsformedlingen.se, Jobware.de, Stellenanzeigen.de, MeineStadt.de, SwissDevJobs.ch, JobScout24.ch, ICTjobs.ch, Welcome to the Jungle, Jobrapido, and all Swiss regional boards</p>
+      <div class="actors-grid hidden-actors" id="jobs-hidden">
+        <a href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="actor-card"><span class="name">Jobs.ch Scraper</span><span class="meta">Switzerland</span><span class="price">$2.75/1k SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper" class="actor-card"><span class="name">Arbeitsagentur.de Scraper</span><span class="meta">Germany · Government</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="actor-card"><span class="name">Arbeit.Swiss Scraper</span><span class="meta">Switzerland · Government</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/ams-at-scraper" class="actor-card"><span class="name">AMS Austria Scraper</span><span class="meta">Austria · HMAC auth</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/karriere-at-scraper" class="actor-card"><span class="name">Karriere.at Scraper</span><span class="meta">Austria</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/stepstone-at-scraper" class="actor-card"><span class="name">StepStone.at Scraper</span><span class="meta">Austria</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/jobware-de-scraper" class="actor-card"><span class="name">Jobware.de Scraper</span><span class="meta">Germany</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper" class="actor-card"><span class="name">Stellenanzeigen.de Scraper</span><span class="meta">Germany</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/meinestadt-de-scraper" class="actor-card"><span class="name">MeineStadt.de Scraper</span><span class="meta">Germany · Regional</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/reed-uk-scraper" class="actor-card"><span class="name">Reed.co.uk Scraper</span><span class="meta">United Kingdom</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/france-travail-scraper" class="actor-card"><span class="name">France Travail Scraper</span><span class="meta">France · Government</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/pracuj-pl-scraper" class="actor-card"><span class="name">Pracuj.pl Scraper</span><span class="meta">Poland</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/jobindex-dk-scraper" class="actor-card"><span class="name">Jobindex.dk Scraper</span><span class="meta">Denmark</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/arbetsformedlingen-se-scraper" class="actor-card"><span class="name">Arbetsformedlingen Scraper</span><span class="meta">Sweden · Government</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/welcome-to-the-jungle-scraper" class="actor-card"><span class="name">Welcome to the Jungle</span><span class="meta">France/Europe</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/swissdevjobs-ch-scraper" class="actor-card"><span class="name">SwissDevJobs.ch Scraper</span><span class="meta">Switzerland · Tech</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/jobscout24-ch-scraper" class="actor-card"><span class="name">JobScout24.ch Scraper</span><span class="meta">Switzerland</span><span class="price">$0.008/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/ictjobs-ch-scraper" class="actor-card"><span class="name">ICTjobs.ch Scraper</span><span class="meta">Switzerland · IT</span><span class="price">$0.008/SERP</span></a>
+      </div>
+      <button class="expand-btn" onclick="toggle('jobs')">Show all 30+ job scrapers</button>
     </div>
 
+    <!-- DIRECTORIES -->
     <div class="category">
       <h3>📖 Business Directories</h3>
-      <div class="actors-grid">
-        <a href="https://apify.com/santamaria-automations/google-maps-scraper" class="actor-card">
-          <span class="name">Google Maps Scraper</span>
-          <span class="meta">Global · 30+ fields per place</span>
-          <span class="price">$1/1k places</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/europages-scraper" class="actor-card">
-          <span class="name">Europages Scraper</span>
-          <span class="meta">30+ countries · B2B directory</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/kompass-scraper" class="actor-card">
-          <span class="name">Kompass Scraper</span>
-          <span class="meta">70+ countries · DataDome bypass</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/gelbeseiten-de-scraper" class="actor-card">
-          <span class="name">Gelbe Seiten Scraper</span>
-          <span class="meta">Germany · Yellow Pages</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
+      <div class="actors-grid" id="dirs-visible">
+        <a href="https://apify.com/santamaria-automations/google-maps-scraper" class="actor-card"><span class="name">Google Maps Scraper</span><span class="meta">Global · 30+ fields per place</span><span class="price">$1/1k places</span></a>
+        <a href="https://apify.com/santamaria-automations/europages-scraper" class="actor-card"><span class="name">Europages Scraper</span><span class="meta">30+ countries · B2B</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/kompass-scraper" class="actor-card"><span class="name">Kompass Scraper</span><span class="meta">70+ countries · DataDome bypass</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/gelbeseiten-de-scraper" class="actor-card"><span class="name">Gelbe Seiten Scraper</span><span class="meta">Germany · Yellow Pages</span><span class="price">$0.003/SERP</span></a>
       </div>
-      <p style="color:var(--muted);margin-top:12px;font-size:0.9rem">+ 10 more: search.ch, wlw.de, Herold.at, FirmenABC.at, DasÖrtliche, GoYellow, Telefonbuch.de, 11880.com, Moneyhouse.ch, Zefix.ch</p>
+      <div class="actors-grid hidden-actors" id="dirs-hidden">
+        <a href="https://apify.com/santamaria-automations/search-ch-scraper" class="actor-card"><span class="name">search.ch Scraper</span><span class="meta">Switzerland · 2M+ listings</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/wlw-de-scraper" class="actor-card"><span class="name">wlw.de Scraper</span><span class="meta">Germany · B2B suppliers</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/herold-at-scraper" class="actor-card"><span class="name">Herold.at Scraper</span><span class="meta">Austria · Yellow Pages</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/firmenabc-at-scraper" class="actor-card"><span class="name">FirmenABC.at Scraper</span><span class="meta">Austria · Business directory</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/dasoertliche-de-scraper" class="actor-card"><span class="name">Das Oertliche Scraper</span><span class="meta">Germany · Phone directory</span><span class="price">$0.002/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/moneyhouse-ch-scraper" class="actor-card"><span class="name">Moneyhouse.ch Scraper</span><span class="meta">Switzerland · Company registry</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/zefix-ch-scraper" class="actor-card"><span class="name">Zefix.ch Scraper</span><span class="meta">Switzerland · Commercial register</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/made-in-china-scraper" class="actor-card"><span class="name">Made-in-China Scraper</span><span class="meta">China · Manufacturer directory</span><span class="price">$0.003/SERP</span></a>
+      </div>
+      <button class="expand-btn" onclick="toggle('dirs')">Show all 12 directory scrapers</button>
     </div>
 
+    <!-- MARKETPLACES -->
     <div class="category">
-      <h3>🛒 Marketplaces & Classifieds</h3>
-      <div class="actors-grid">
-        <a href="https://apify.com/santamaria-automations/tutti-ch-scraper" class="actor-card">
-          <span class="name">Tutti.ch Scraper</span>
-          <span class="meta">Switzerland · Cloudflare bypass</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/kleinanzeigen-de-scraper" class="actor-card">
-          <span class="name">Kleinanzeigen.de Scraper</span>
-          <span class="meta">Germany · Classifieds</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/willhaben-at-scraper" class="actor-card">
-          <span class="name">Willhaben.at Scraper</span>
-          <span class="meta">Austria · Classifieds</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/subito-it-scraper" class="actor-card">
-          <span class="name">Subito.it Scraper</span>
-          <span class="meta">Italy · Classifieds</span>
-          <span class="price">$0.003/SERP + $0.005/detail</span>
-        </a>
+      <h3>🛒 Marketplaces & Real Estate</h3>
+      <div class="actors-grid" id="market-visible">
+        <a href="https://apify.com/santamaria-automations/tutti-ch-scraper" class="actor-card"><span class="name">Tutti.ch Scraper</span><span class="meta">Switzerland · Cloudflare bypass</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/kleinanzeigen-de-scraper" class="actor-card"><span class="name">Kleinanzeigen.de Scraper</span><span class="meta">Germany · Classifieds</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/willhaben-at-scraper" class="actor-card"><span class="name">Willhaben.at Scraper</span><span class="meta">Austria · Classifieds</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/subito-it-scraper" class="actor-card"><span class="name">Subito.it Scraper</span><span class="meta">Italy · Classifieds</span><span class="price">$0.003/SERP</span></a>
       </div>
-      <p style="color:var(--muted);margin-top:12px;font-size:0.9rem">+ 10 more: Blocket.se, Finn.no, DBA.dk, OLX.pl, Bazos, Marktplaats.nl, Immowelt.de, Homegate.ch, Funda.nl, Immoweb.be, Booking.com, AutoScout24, Eventbrite, Groupon</p>
+      <div class="actors-grid hidden-actors" id="market-hidden">
+        <a href="https://apify.com/santamaria-automations/blocket-se-scraper" class="actor-card"><span class="name">Blocket.se Scraper</span><span class="meta">Sweden</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/finn-no-scraper" class="actor-card"><span class="name">Finn.no Scraper</span><span class="meta">Norway</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/dba-dk-scraper" class="actor-card"><span class="name">DBA.dk Scraper</span><span class="meta">Denmark</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/bazos-scraper" class="actor-card"><span class="name">Bazos Scraper</span><span class="meta">SK/CZ/AT/PL</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/homegate-scraper" class="actor-card"><span class="name">Homegate.ch Scraper</span><span class="meta">Switzerland · Real estate</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/immowelt-de-scraper" class="actor-card"><span class="name">Immowelt.de Scraper</span><span class="meta">Germany · Real estate</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/funda-nl-scraper" class="actor-card"><span class="name">Funda.nl Scraper</span><span class="meta">Netherlands · Real estate</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/immoweb-be-scraper" class="actor-card"><span class="name">Immoweb.be Scraper</span><span class="meta">Belgium · Real estate</span><span class="price">$0.003/SERP</span></a>
+        <a href="https://apify.com/santamaria-automations/booking-com-scraper" class="actor-card"><span class="name">Booking.com Scraper</span><span class="meta">Global · Hotels</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/autoscout24-scraper" class="actor-card"><span class="name">AutoScout24 Scraper</span><span class="meta">Europe · Car marketplace</span><span class="price">Pay-per-result</span></a>
+      </div>
+      <button class="expand-btn" onclick="toggle('market')">Show all 14 marketplace scrapers</button>
     </div>
 
+    <!-- SOCIAL -->
     <div class="category">
       <h3>📱 Social Media</h3>
       <div class="actors-grid">
-        <a href="https://apify.com/santamaria-automations/reddit-scraper" class="actor-card">
-          <span class="name">Reddit Scraper — $0.75/1k</span>
-          <span class="meta">Posts, comments, search, users · azuretls bypass</span>
-          <span class="price">$0.75/1k items</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/youtube-scraper" class="actor-card">
-          <span class="name">YouTube Scraper</span>
-          <span class="meta">Videos, channels, shorts</span>
-          <span class="price">Pay-per-result</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/telegram-scraper" class="actor-card">
-          <span class="name">Telegram Scraper</span>
-          <span class="meta">Public channels · No login</span>
-          <span class="price">Pay-per-result</span>
-        </a>
+        <a href="https://apify.com/santamaria-automations/reddit-scraper" class="actor-card"><span class="name">Reddit Scraper</span><span class="meta">Posts, comments, search, users · azuretls bypass</span><span class="price">$0.75/1k items</span></a>
+        <a href="https://apify.com/santamaria-automations/youtube-scraper" class="actor-card"><span class="name">YouTube Scraper</span><span class="meta">Videos, channels, shorts</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/telegram-scraper" class="actor-card"><span class="name">Telegram Scraper</span><span class="meta">Public channels · No login</span><span class="price">Pay-per-result</span></a>
       </div>
     </div>
 
+    <!-- ECOMMERCE -->
+    <div class="category">
+      <h3>🛍️ Ecommerce & Price Comparison</h3>
+      <div class="actors-grid">
+        <a href="https://apify.com/santamaria-automations/aliexpress-scraper" class="actor-card"><span class="name">AliExpress Scraper</span><span class="meta">Global · Products</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/galaxus-ch-scraper" class="actor-card"><span class="name">Galaxus.ch Scraper</span><span class="meta">Switzerland · Retailer</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/geizhals-scraper" class="actor-card"><span class="name">Geizhals Scraper</span><span class="meta">DACH · Price comparison</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/billiger-de-scraper" class="actor-card"><span class="name">Billiger.de Scraper</span><span class="meta">Germany · Price comparison</span><span class="price">Pay-per-result</span></a>
+      </div>
+    </div>
+
+    <!-- ENRICHMENT -->
     <div class="category">
       <h3>🔧 Enrichment & Utilities</h3>
-      <div class="actors-grid">
-        <a href="https://apify.com/santamaria-automations/website-contact-extractor" class="actor-card">
-          <span class="name">Website Contact Extractor</span>
-          <span class="meta">LLM-powered · Emails, phones, decision-makers</span>
-          <span class="price">$0.01/company</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/website-job-extractor" class="actor-card">
-          <span class="name">Website Job Extractor</span>
-          <span class="meta">24 ATS systems detected · LLM extraction</span>
-          <span class="price">$0.01/company</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/website-email-scraper" class="actor-card">
-          <span class="name">Website Email & Phone Scraper</span>
-          <span class="meta">Crawls any site for contact info</span>
-          <span class="price">Pay-per-result</span>
-        </a>
-        <a href="https://apify.com/santamaria-automations/phone-validator" class="actor-card">
-          <span class="name">Phone Number Validator</span>
-          <span class="meta">Bulk international validation</span>
-          <span class="price">Pay-per-result</span>
-        </a>
+      <div class="actors-grid" id="enrich-visible">
+        <a href="https://apify.com/santamaria-automations/website-contact-extractor" class="actor-card"><span class="name">Website Contact Extractor</span><span class="meta">LLM-powered · Emails, phones, decision-makers</span><span class="price">$0.01/company</span></a>
+        <a href="https://apify.com/santamaria-automations/website-job-extractor" class="actor-card"><span class="name">Website Job Extractor</span><span class="meta">24 ATS systems detected</span><span class="price">$0.01/company</span></a>
+        <a href="https://apify.com/santamaria-automations/website-email-scraper" class="actor-card"><span class="name">Website Email & Phone Scraper</span><span class="meta">Crawls any site for contact info</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/phone-validator" class="actor-card"><span class="name">Phone Number Validator</span><span class="meta">Bulk international validation</span><span class="price">Pay-per-result</span></a>
       </div>
-      <p style="color:var(--muted);margin-top:12px;font-size:0.9rem">+ 12 more: IP Geolocation, Image Metadata, PDF Extractor, HTML to Markdown, RSS Feed Reader, SEO Metadata, SSL Inspector, Wikipedia Scraper, Broken Link Checker, Favicon Extractor, Domain WHOIS, Sitemap Discovery</p>
+      <div class="actors-grid hidden-actors" id="enrich-hidden">
+        <a href="https://apify.com/santamaria-automations/ip-geolocation" class="actor-card"><span class="name">IP Geolocation</span><span class="meta">Bulk IP to location</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/domain-whois-dns" class="actor-card"><span class="name">Domain WHOIS & DNS</span><span class="meta">Bulk domain intelligence</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/seo-metadata-extractor" class="actor-card"><span class="name">SEO Metadata Extractor</span><span class="meta">Full SEO audit</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/ssl-certificate-inspector" class="actor-card"><span class="name">SSL Certificate Inspector</span><span class="meta">TLS audit & expiry</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/sitemap-url-discovery" class="actor-card"><span class="name">Sitemap & URL Discovery</span><span class="meta">Find all URLs on any site</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/pdf-extractor" class="actor-card"><span class="name">PDF Text Extractor</span><span class="meta">Bulk PDF to text</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/rss-feed-reader" class="actor-card"><span class="name">RSS Feed Reader</span><span class="meta">Monitor any feed</span><span class="price">Pay-per-result</span></a>
+        <a href="https://apify.com/santamaria-automations/html-to-markdown" class="actor-card"><span class="name">HTML to Markdown</span><span class="meta">Bulk web content to MD</span><span class="price">Pay-per-result</span></a>
+      </div>
+      <button class="expand-btn" onclick="toggle('enrich')">Show all 16 enrichment tools</button>
     </div>
   </div>
 
   <div class="cta">
     <h2>Start Scraping in Seconds</h2>
     <p>No setup. No monthly fees. Just pick an actor and run it.</p>
-    <a href="https://apify.com/santamaria-automations" class="btn">Browse All Actors on Apify →</a>
+    <a href="https://apify.com/santamaria-automations" class="btn">Browse All Actors on Apify</a>
   </div>
 
   <footer>
-    <p>NanoScrape — Lean web scrapers for the Apify ecosystem</p>
-    <p style="margin-top:8px">
-      <a href="https://apify.com/santamaria-automations">Apify Store</a> ·
-      <a href="https://github.com/NanoScrape">GitHub</a> ·
+    <img src="nanoscrape_logo.svg" alt="NanoScrape" style="height:32px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a href="https://apify.com/nanoscrape">NanoScrape Org</a> &middot;
+      <a href="https://github.com/NanoScrape">GitHub</a> &middot;
       <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
     </p>
   </footer>
+
+  <script>
+    function toggle(id) {
+      const hidden = document.getElementById(id + '-hidden');
+      const btn = hidden.previousElementSibling.nextElementSibling;
+      if (hidden.classList.contains('show')) {
+        hidden.classList.remove('show');
+        btn.textContent = btn.textContent.replace('Hide', 'Show all');
+      } else {
+        hidden.classList.add('show');
+        btn.textContent = btn.textContent.replace('Show all', 'Hide');
+      }
+    }
+  </script>
 
 </body>
 </html>
