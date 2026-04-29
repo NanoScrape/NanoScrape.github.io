@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrape Jobs.ch — Switzerland's Largest Job Board | NanoScrape</title>
-  <meta name="description" content="Extract job listings from Jobs.ch, Switzerland's biggest job platform. HTTP-only Go scraper, ~12MB image, 128MB RAM. Multi-query search, company logos, salary data. From $2.75/1k SERP results.">
-  <meta property="og:title" content="Jobs.ch Scraper — Swiss Job Market | NanoScrape">
-  <meta property="og:description" content="Scrape Jobs.ch at scale. Go-based HTTP scraper, no browser needed. Multi-query support with company logos and full job details.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/jobs-ch-scraper/">
+  <title>Jobs.ch scrapen — Schweizer Stellenmarkt, strukturierte Daten | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von Jobs.ch extrahieren, der größten Schweizer Jobplattform. HTTP-only Go-Scraper, ~12MB Image, 128MB RAM. Multi-Query, Firmenlogos, Gehaltsdaten. Ab $2,75/1k SERP.">
+  <meta property="og:title" content="Jobs.ch Scraper — Schweizer Stellenmarkt | NanoScrape">
+  <meta property="og:description" content="Jobs.ch im großen Stil scrapen. Go-basierter HTTP-Scraper, kein Browser nötig. Multi-Query mit Firmenlogos und vollständigen Stellendetails.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/jobs-ch-scraper/de/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/de/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/">
   <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/de/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/">
-  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -43,7 +43,6 @@
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
     .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
     .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
     .nav a.logo img { height: 28px; }
@@ -53,90 +52,83 @@
     .lang-selector a { color: var(--muted); margin: 0 3px; }
     .lang-selector a.active { color: var(--white); font-weight: 600; }
     .lang-selector a:hover { color: var(--accent); text-decoration: none; }
-
     .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
     .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
     .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-
     .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
     .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
     .btn-primary:hover { opacity: 0.9; text-decoration: none; }
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-
     .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
     .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
     .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-
     .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
     .detail ul { padding-left: 20px; margin-bottom: 24px; }
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
-
     .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
     .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
     .code-block .comment { color: var(--muted); }
-
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
     .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
     .compare-table td { color: var(--text); }
     .compare-table tr:hover td { background: var(--surface); }
     .highlight { color: var(--accent); font-weight: 700; }
-
     footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
   </style>
 </head>
 <body>
 
   <div class="nav">
-    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <a href="/de/" class="logo"><img src="../../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
     <div class="nav-right">
-      <a href="/" class="back">&larr; All actors</a>
-      <span class="lang-selector">&#127760; <a href="/actors/jobs-ch-scraper/" class="active">EN</a> | <a href="/actors/jobs-ch-scraper/de/">DE</a></span>
+      <a href="/de/" class="back">&larr; Alle Aktoren</a>
+      <span class="lang-selector">&#127760; <a href="/actors/jobs-ch-scraper/">EN</a> | <a href="/actors/jobs-ch-scraper/de/" class="active">DE</a></span>
     </div>
   </div>
 
   <div class="detail">
-    <h1>Scrape Jobs.ch — Switzerland's Largest Job Board, Structured Data in Seconds</h1>
-    <p class="lead">Pull structured job listings from Jobs.ch, the dominant Swiss job platform with over 100,000 active postings. Our Go-based scraper handles multi-query searches, returns company logos, and extracts full job details including salary ranges. No browser required — pure HTTP with datacenter proxies.</p>
+    <h1>Jobs.ch scrapen — die größte Schweizer Jobbörse, strukturierte Daten in Sekunden</h1>
+    <p class="lead">Strukturierte Stellenanzeigen von Jobs.ch abrufen, der dominierenden Schweizer Jobplattform mit über 100.000 aktiven Inseraten. Unser Go-basierter Scraper verarbeitet Multi-Query-Suchen, liefert Firmenlogos und extrahiert vollständige Stellendetails inklusive Gehaltsangaben. Kein Browser erforderlich — reines HTTP mit Datacenter-Proxys.</p>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="btn-primary">Open on Apify &rarr;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobs-ch-scraper/input" class="btn-secondary">Try it now</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobs-ch-scraper/input" class="btn-secondary">Jetzt testen</a>
     </div>
 
     <div class="specs">
-      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
       <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">Switzerland</div></div>
-      <div class="spec"><div class="label">Pricing</div><div class="value">$2.75/1k SERP + $5/1k detail</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS fingerprinting</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Schweiz</div></div>
+      <div class="spec"><div class="label">Preise</div><div class="value">$2,75/1k SERP + $5/1k Detail</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS-Fingerprinting</div></div>
     </div>
 
-    <h2 class="section-title">What You Can Scrape</h2>
+    <h2 class="section-title">Was Sie scrapen können</h2>
     <ul>
-      <li><strong>Job search results</strong> — title, company, location, salary snippet, posting date across all Swiss cantons</li>
-      <li><strong>Full job details</strong> — complete description, requirements, benefits, employment type, work model</li>
-      <li><strong>Company data</strong> — company name, logo URL, industry sector, company size</li>
-      <li><strong>Multi-query</strong> — run dozens of keyword searches in a single actor run with deduplication</li>
-      <li><strong>Salary information</strong> — extracted salary ranges where available on listings</li>
-      <li><strong>All Swiss languages</strong> — German, French, Italian, and English job listings</li>
+      <li><strong>Suchergebnisse</strong> — Titel, Firma, Standort, Gehaltsvorschau, Veröffentlichungsdatum über alle Schweizer Kantone</li>
+      <li><strong>Vollständige Stellendetails</strong> — komplette Beschreibung, Anforderungen, Benefits, Beschäftigungsart, Arbeitsmodell</li>
+      <li><strong>Unternehmensdaten</strong> — Firmenname, Logo-URL, Branche, Unternehmensgröße</li>
+      <li><strong>Multi-Query</strong> — dutzende Suchbegriffe in einem Lauf mit automatischer Deduplizierung</li>
+      <li><strong>Gehaltsinformationen</strong> — extrahierte Gehaltsspannen, wo in Inseraten verfügbar</li>
+      <li><strong>Alle Schweizer Sprachen</strong> — deutsche, französische, italienische und englische Stellenanzeigen</li>
     </ul>
 
-    <h2 class="section-title">Primary Use Cases</h2>
+    <h2 class="section-title">Typische Anwendungsfälle</h2>
     <ul>
-      <li><strong>Swiss labor market analytics</strong> — track hiring trends, salary benchmarks, and skill demand across cantons</li>
-      <li><strong>Recruitment intelligence</strong> — monitor competitor hiring activity and identify talent acquisition patterns</li>
-      <li><strong>Job board aggregation</strong> — feed Swiss job data into your own platform or aggregator service</li>
-      <li><strong>Economic research</strong> — analyze employment patterns across Switzerland's multilingual regions</li>
-      <li><strong>Sales prospecting</strong> — identify growing Swiss companies through their hiring volume and roles</li>
+      <li><strong>Schweizer Arbeitsmarktanalyse</strong> — Einstellungstrends, Gehaltsbenchmarks und Skill-Nachfrage über Kantone verfolgen</li>
+      <li><strong>Recruiting-Intelligence</strong> — Hiring-Aktivitäten von Mitbewerbern beobachten und Recruiting-Muster erkennen</li>
+      <li><strong>Jobbörsen-Aggregation</strong> — Schweizer Jobdaten in die eigene Plattform oder den Aggregator-Service einspeisen</li>
+      <li><strong>Wirtschaftsforschung</strong> — Beschäftigungsmuster in den mehrsprachigen Regionen der Schweiz analysieren</li>
+      <li><strong>Vertriebsansprache</strong> — wachsende Schweizer Unternehmen über deren Hiring-Volumen und Rollen identifizieren</li>
     </ul>
 
-    <h2 class="section-title">API Example</h2>
-    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobs-ch-scraper/runs?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
@@ -145,38 +137,38 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobs-ch-scrap
     "includeJobDetails": true
   }'
 
-<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/jobs-ch-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrations</h2>
+    <h2 class="section-title">Integrationen</h2>
     <ul>
-      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
-      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
-      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+      <li><strong>n8n / Make / Zapier</strong> — Läufe auslösen und Ergebnisse per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets / Airtable</strong> — Export über Apify-Integrationen</li>
     </ul>
 
-    <h2 class="section-title">How It Compares</h2>
+    <h2 class="section-title">Im Vergleich</h2>
     <table class="compare-table">
-      <tr><th>Feature</th><th>NanoScrape</th><th>Browser-based Swiss scrapers</th></tr>
-      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
-      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
-      <tr><td>Cost per 1k SERP</td><td class="highlight">$2.75</td><td>$10 - $25</td></tr>
-      <tr><td>Cost per 1k details</td><td class="highlight">$5.00</td><td>$15 - $40</td></tr>
-      <tr><td>Anti-bot approach</td><td>TLS fingerprinting</td><td>Full Chrome browser</td></tr>
-      <tr><td>Speed (1k jobs)</td><td class="highlight">~3 min</td><td>15-45 min</td></tr>
-      <tr><td>Multi-query</td><td>Yes (deduplicated)</td><td>Limited</td></tr>
+      <tr><th>Merkmal</th><th>NanoScrape</th><th>Browser-basierte Schweizer Scraper</th></tr>
+      <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Kosten pro 1k SERP</td><td class="highlight">$2,75</td><td>$10 - $25</td></tr>
+      <tr><td>Kosten pro 1k Details</td><td class="highlight">$5,00</td><td>$15 - $40</td></tr>
+      <tr><td>Anti-Bot-Ansatz</td><td>TLS-Fingerprinting</td><td>Vollständiger Chrome-Browser</td></tr>
+      <tr><td>Geschwindigkeit (1k Jobs)</td><td class="highlight">~3 Min.</td><td>15-45 Min.</td></tr>
+      <tr><td>Multi-Query</td><td>Ja (dedupliziert)</td><td>Eingeschränkt</td></tr>
     </table>
 
-    <h2 class="section-title">Output Fields</h2>
+    <h2 class="section-title">Ausgabefelder</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
       <tr><td>title</td><td>string</td><td>Software Developer (80-100%)</td></tr>
       <tr><td>company</td><td>string</td><td>Swisscom</td></tr>
-      <tr><td>location</td><td>string</td><td>Zurich, ZH</td></tr>
+      <tr><td>location</td><td>string</td><td>Zürich, ZH</td></tr>
       <tr><td>salary</td><td>string</td><td>CHF 90'000 - 120'000</td></tr>
       <tr><td>work_model</td><td>string</td><td>Hybrid</td></tr>
-      <tr><td>description</td><td>string</td><td>Full job description text</td></tr>
+      <tr><td>description</td><td>string</td><td>Vollständige Stellenbeschreibung</td></tr>
       <tr><td>company_logo</td><td>string</td><td>https://...</td></tr>
       <tr><td>url</td><td>string</td><td>https://jobs.ch/...</td></tr>
       <tr><td>posted_at</td><td>string</td><td>2026-04-20</td></tr>
@@ -184,15 +176,15 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobs-ch-scrap
     </table>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="btn-primary">Open on Apify &rarr;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobs-ch-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobs-ch-scraper/input" class="btn-secondary">Jetzt testen — kostenloser Einstieg</a>
     </div>
   </div>
 
   <footer>
-    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <img src="../../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
     <p>
-      <a href="/">NanoScrape Home</a> &middot;
+      <a href="/de/">NanoScrape Startseite</a> &middot;
       <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
       <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
       <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>

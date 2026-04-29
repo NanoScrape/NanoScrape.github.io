@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StepStone.de scrapen — Deutschlands führende Jobbörse, in Go neu geschrieben | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von StepStone.de extrahieren, Deutschlands größter Jobplattform. HTTP-only Go-Scraper, ~12MB Image, 128MB RAM. Multi-Query mit Firmendaten. Ab $0,008/SERP.">
+  <meta property="og:title" content="StepStone.de Scraper — Deutscher Jobmarkt-Führer | NanoScrape">
+  <meta property="og:description" content="StepStone.de im großen Stil scrapen. Go-basierter HTTP-Scraper, Multi-Query, Firmendaten. Kein Browser nötig.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/stepstone-de-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/de/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "StepStone.de Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only StepStone.de job scraper built in Go. Germany's largest job board. ~12MB Docker image, 128MB RAM. Multi-query search with company data.",
+    "offers": { "@type": "Offer", "price": "0.008", "priceCurrency": "USD", "description": "per SERP result" },
+    "url": "https://apify.com/santamaria-automations/stepstone-de-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; } .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; } .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; } .lang-selector a { color: var(--muted); margin: 0 3px; } .lang-selector a.active { color: var(--white); font-weight: 600; } .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/de/" class="logo"><img src="../../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/de/" class="back">&larr; Alle Aktoren</a>
+      <span class="lang-selector">&#127760; <a href="/actors/stepstone-de-scraper/">EN</a> | <a href="/actors/stepstone-de-scraper/de/" class="active">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>StepStone.de scrapen — Deutschlands größte Jobbörse, in Go für Geschwindigkeit neu geschrieben</h1>
+    <p class="lead">Strukturierte Jobdaten von StepStone.de extrahieren, der dominierenden Jobplattform auf dem deutschen Markt mit hunderttausenden aktiven Inseraten. Unsere Go-Neuentwicklung liefert 10x geringeren Ressourcenverbrauch gegenüber browserbasierten Scrapern und unterstützt Multi-Query-Suchen mit vollständigen Firmen-Metadaten. Datacenter-Proxys halten die Kosten minimal.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~stepstone-de-scraper/input" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Deutschland</div></div>
+      <div class="spec"><div class="label">Preise</div><div class="value">$0,008/SERP + $0,020/Detail</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS-Fingerprinting</div></div>
+    </div>
+
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Suchergebnisse</strong> — Titel, Firma, Standort, Gehaltsspanne, Veröffentlichungsdatum über alle deutschen Regionen</li>
+      <li><strong>Vollständige Stellendetails</strong> — komplette Beschreibung, Anforderungen, Benefits, Arbeitsmodell, Vertragsart</li>
+      <li><strong>Firmenprofile</strong> — Arbeitgeber, Branche, Größe, Logo und Firmenbeschreibung</li>
+      <li><strong>Multi-Query</strong> — mehrere Keyword- und Standortsuchen in einem Lauf mit automatischer Deduplizierung</li>
+      <li><strong>Gehaltsschätzungen</strong> — StepStones Gehaltsprognosen, wo verfügbar</li>
+      <li><strong>Bewerbungslinks</strong> — direkte Bewerbungs-URLs für jedes Inserat</li>
+    </ul>
+
+    <h2 class="section-title">Typische Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Deutscher Arbeitsmarkt-Intelligence</strong> — Einstellungsvolumen, Skill-Nachfrage und Gehaltstrends nach Region verfolgen</li>
+      <li><strong>Recruiting-Analytics</strong> — Time-to-Fill und Hiring-Aktivität von Mitbewerbern benchmarken</li>
+      <li><strong>Jobbörsen-Aggregation</strong> — StepStone-Daten mit anderen deutschen Börsen für vollständige Marktabdeckung kombinieren</li>
+      <li><strong>Vertriebsansprache</strong> — wachsende deutsche Unternehmen über deren aktive Stellenausschreibungen identifizieren</li>
+      <li><strong>Personalplanung</strong> — Arbeitskräfteangebot und -nachfrage über deutsche Bundesländer analysieren</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["data scientist"],
+    "location": "Munich",
+    "maxResultsPerQuery": 100,
+    "includeJobDetails": true
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — Läufe auslösen und Ergebnisse per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets / Airtable</strong> — Export über Apify-Integrationen</li>
+    </ul>
+
+    <h2 class="section-title">Im Vergleich</h2>
+    <table class="compare-table">
+      <tr><th>Merkmal</th><th>NanoScrape</th><th>Browser-basierte Scraper</th></tr>
+      <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Kosten pro 1k SERP</td><td class="highlight">$8,00</td><td>$15 - $30</td></tr>
+      <tr><td>Kosten pro 1k Details</td><td class="highlight">$20,00</td><td>$30 - $60</td></tr>
+      <tr><td>Anti-Bot-Ansatz</td><td>TLS-Fingerprinting</td><td>Vollständiger Chrome-Browser</td></tr>
+      <tr><td>Geschwindigkeit (1k Jobs)</td><td class="highlight">~4 Min.</td><td>25-60 Min.</td></tr>
+      <tr><td>Multi-Query</td><td>Ja (dedupliziert)</td><td>Eingeschränkt</td></tr>
+    </table>
+
+    <h2 class="section-title">Ausgabefelder</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>title</td><td>string</td><td>Data Scientist (m/w/d)</td></tr>
+      <tr><td>company</td><td>string</td><td>BMW Group</td></tr>
+      <tr><td>location</td><td>string</td><td>München, Bayern</td></tr>
+      <tr><td>salary</td><td>string</td><td>55.000 - 75.000 EUR/Jahr</td></tr>
+      <tr><td>work_model</td><td>string</td><td>Hybrid</td></tr>
+      <tr><td>description</td><td>string</td><td>Vollständige Stellenbeschreibung</td></tr>
+      <tr><td>company_logo</td><td>string</td><td>https://...</td></tr>
+      <tr><td>apply_url</td><td>string</td><td>https://stepstone.de/...</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-04-21</td></tr>
+      <tr><td>search_query</td><td>string</td><td>data scientist</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~stepstone-de-scraper/input" class="btn-secondary">Jetzt testen — kostenloser Einstieg</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/de/">NanoScrape Startseite</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>
