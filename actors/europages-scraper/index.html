@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Europages B2B Directory — 30+ Countries | NanoScrape</title>
+  <meta name="description" content="Extract B2B company profiles from Europages, Europe's largest supplier directory. 30+ countries, company contacts, industry classification. HTTP-only Go scraper from $0.003/result.">
+  <meta property="og:title" content="Europages Scraper — B2B Directory, 30+ Countries | NanoScrape">
+  <meta property="og:description" content="Scrape Europages supplier directory at scale. Company profiles, contact data, 30+ European countries. No browser needed.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/europages-scraper/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/europages-scraper/">
+  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Europages Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Europages B2B directory scraper. 30+ European countries, company profiles with contact data. ~12MB Docker image, 128MB RAM.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per SERP result"
+    },
+    "url": "https://apify.com/santamaria-automations/europages-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
+    .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; }
+    .lang-selector a { color: var(--muted); margin: 0 3px; }
+    .lang-selector a.active { color: var(--white); font-weight: 600; }
+    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/" class="back">&larr; All actors</a>
+      <span class="lang-selector">&#127760; <a href="/actors/europages-scraper/" class="active">EN</a> | <a href="/de/">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>Scrape Europages B2B Directory — Supplier Data from 30+ European Countries</h1>
+    <p class="lead">Extract structured company profiles from Europages, Europe's leading B2B supplier directory with over 3 million listed businesses. Get company names, addresses, contact details, industry classifications, and product categories across 30+ countries. The only working Europages scraper available on Apify.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/europages-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~europages-scraper/input" class="btn-secondary">Try it now</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">30+ EU Countries</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.003/SERP + $0.005/detail</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS fingerprinting</div></div>
+    </div>
+
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li><strong>Company profiles</strong> — business name, description, year founded, employee count, revenue range</li>
+      <li><strong>Contact information</strong> — address, phone, email, website URL</li>
+      <li><strong>Industry data</strong> — NACE codes, product categories, certifications</li>
+      <li><strong>Geographic filtering</strong> — target specific countries, regions, or cities</li>
+      <li><strong>Product catalogs</strong> — listed products and services per company</li>
+      <li><strong>Multi-query</strong> — search for multiple product categories or industries in one run</li>
+    </ul>
+
+    <h2 class="section-title">Primary Use Cases</h2>
+    <ul>
+      <li><strong>Supplier sourcing</strong> — find manufacturers, wholesalers, and service providers across Europe</li>
+      <li><strong>B2B lead generation</strong> — build targeted prospect lists by industry, country, and company size</li>
+      <li><strong>Market research</strong> — map competitive landscapes and supplier density by region</li>
+      <li><strong>Supply chain analysis</strong> — identify alternative suppliers and diversify sourcing</li>
+      <li><strong>Trade intelligence</strong> — monitor European business directories for new entrants and market shifts</li>
+    </ul>
+
+    <h2 class="section-title">API Example</h2>
+    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~europages-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["industrial valves"],
+    "country": "DE",
+    "maxResultsPerQuery": 200,
+    "includeCompanyDetails": true
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/europages-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <h2 class="section-title">How It Compares</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>NanoScrape</th><th>Alternatives</th></tr>
+      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>N/A (no working alternatives)</td></tr>
+      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>N/A</td></tr>
+      <tr><td>Cost per 1k SERP</td><td class="highlight">$3.00</td><td>N/A</td></tr>
+      <tr><td>Country coverage</td><td class="highlight">30+ countries</td><td>N/A</td></tr>
+      <tr><td>Contact data</td><td>Email, phone, website</td><td>N/A</td></tr>
+      <tr><td>Availability</td><td class="highlight">Only working scraper on Apify</td><td>None functional</td></tr>
+    </table>
+
+    <h2 class="section-title">Output Fields</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><td>company_name</td><td>string</td><td>Bosch Rexroth AG</td></tr>
+      <tr><td>description</td><td>string</td><td>Manufacturer of hydraulic systems...</td></tr>
+      <tr><td>country</td><td>string</td><td>Germany</td></tr>
+      <tr><td>city</td><td>string</td><td>Stuttgart</td></tr>
+      <tr><td>phone</td><td>string</td><td>+49 711 ...</td></tr>
+      <tr><td>email</td><td>string</td><td>info@example.com</td></tr>
+      <tr><td>website</td><td>string</td><td>https://www.example.com</td></tr>
+      <tr><td>employees</td><td>string</td><td>1,000-5,000</td></tr>
+      <tr><td>categories</td><td>string[]</td><td>["Hydraulic equipment", "Valves"]</td></tr>
+      <tr><td>url</td><td>string</td><td>https://europages.com/...</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/europages-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~europages-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/">NanoScrape Home</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>

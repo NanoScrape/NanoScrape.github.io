@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Arbeit.Swiss — Swiss Government Job Portal | NanoScrape</title>
+  <meta name="description" content="Extract job listings from Arbeit.Swiss, Switzerland's official government employment service. HTTP-only Go scraper with HMAC-SHA512 authentication. All cantons covered. From $0.008/result.">
+  <meta property="og:title" content="Arbeit.Swiss Scraper — Official Swiss Job Portal | NanoScrape">
+  <meta property="og:description" content="Scrape the Swiss government job portal. HMAC-SHA512 auth handled automatically. All cantons, all languages.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/">
+  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Arbeit.Swiss Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only scraper for Arbeit.Swiss, Switzerland's official government employment service. HMAC-SHA512 authentication, ~12MB Docker image, 128MB RAM. Covers all 26 cantons.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.008",
+      "priceCurrency": "USD",
+      "description": "per SERP result"
+    },
+    "url": "https://apify.com/santamaria-automations/arbeit-swiss-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
+    .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; }
+    .lang-selector a { color: var(--muted); margin: 0 3px; }
+    .lang-selector a.active { color: var(--white); font-weight: 600; }
+    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/" class="back">&larr; All actors</a>
+      <span class="lang-selector">&#127760; <a href="/actors/arbeit-swiss-scraper/" class="active">EN</a> | <a href="/de/">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>Scrape Arbeit.Swiss — Official Swiss Government Job Data, All 26 Cantons</h1>
+    <p class="lead">Access structured vacancy data from Switzerland's official public employment service. Arbeit.Swiss is operated by SECO (State Secretariat for Economic Affairs) and lists positions that private job boards often miss. Our scraper handles the platform's HMAC-SHA512 API authentication automatically, delivering clean data without any browser overhead.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~arbeit-swiss-scraper/input" class="btn-secondary">Try it now</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">Switzerland (Gov)</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.008/SERP + $0.020/detail</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">HMAC-SHA512 auth</div></div>
+    </div>
+
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li><strong>Government job listings</strong> — positions registered with Swiss regional employment centers (RAV)</li>
+      <li><strong>Full job details</strong> — description, requirements, languages needed, start date, contract duration</li>
+      <li><strong>Employer data</strong> — company name, canton, industry classification</li>
+      <li><strong>Canton-level filtering</strong> — target specific Swiss cantons (Zurich, Bern, Geneva, etc.)</li>
+      <li><strong>Multi-language listings</strong> — German, French, Italian, and Romansch positions</li>
+      <li><strong>Multi-query</strong> — batch multiple search terms in a single run</li>
+    </ul>
+
+    <h2 class="section-title">Primary Use Cases</h2>
+    <ul>
+      <li><strong>Public sector research</strong> — analyze government-registered vacancies that are not on commercial job boards</li>
+      <li><strong>Swiss labor policy analysis</strong> — track employment patterns across cantons and industries</li>
+      <li><strong>Job board aggregation</strong> — supplement commercial job data with official government listings</li>
+      <li><strong>Regional workforce planning</strong> — understand hiring demand by canton and language region</li>
+      <li><strong>Immigration research</strong> — monitor roles open to foreign workers under Swiss labor law</li>
+    </ul>
+
+    <h2 class="section-title">API Example</h2>
+    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["informatiker"],
+    "canton": "ZH",
+    "maxResultsPerQuery": 100,
+    "includeJobDetails": true
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/arbeit-swiss-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <h2 class="section-title">How It Compares</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>NanoScrape</th><th>Alternatives</th></tr>
+      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>N/A (no alternatives)</td></tr>
+      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>N/A</td></tr>
+      <tr><td>Auth handling</td><td class="highlight">HMAC-SHA512 auto</td><td>N/A</td></tr>
+      <tr><td>Canton coverage</td><td class="highlight">All 26</td><td>N/A</td></tr>
+      <tr><td>Language support</td><td>DE, FR, IT, RM</td><td>N/A</td></tr>
+      <tr><td>Availability</td><td class="highlight">Only scraper on Apify</td><td>None available</td></tr>
+    </table>
+
+    <h2 class="section-title">Output Fields</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><td>title</td><td>string</td><td>Informatiker/in EFZ</td></tr>
+      <tr><td>company</td><td>string</td><td>Kanton Zurich</td></tr>
+      <tr><td>location</td><td>string</td><td>Zurich, ZH</td></tr>
+      <tr><td>canton</td><td>string</td><td>ZH</td></tr>
+      <tr><td>language</td><td>string</td><td>de</td></tr>
+      <tr><td>description</td><td>string</td><td>Full job description text</td></tr>
+      <tr><td>start_date</td><td>string</td><td>2026-06-01</td></tr>
+      <tr><td>url</td><td>string</td><td>https://arbeit.swiss/...</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-04-18</td></tr>
+      <tr><td>search_query</td><td>string</td><td>informatiker</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~arbeit-swiss-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/">NanoScrape Home</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>

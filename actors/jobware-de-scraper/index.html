@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Jobware.de — German Professional Jobs | NanoScrape</title>
+  <meta name="description" content="Extract professional job listings from Jobware.de, Germany's premium career portal. HTTP-only Go scraper, salary data, contact extraction. From $0.00375/SERP result.">
+  <meta property="og:title" content="Jobware.de Scraper — German Professional Jobs | NanoScrape">
+  <meta property="og:description" content="Scrape Jobware.de professional job listings. Salary data, recruiter contacts, full descriptions. No browser required.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/jobware-de-scraper/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/jobware-de-scraper/">
+  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Jobware.de Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Jobware.de scraper for German professional job listings. Salary data, contact extraction, ~12MB Docker image, 128MB RAM.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00375",
+      "priceCurrency": "USD",
+      "description": "per SERP result"
+    },
+    "url": "https://apify.com/santamaria-automations/jobware-de-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
+    .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; }
+    .lang-selector a { color: var(--muted); margin: 0 3px; }
+    .lang-selector a.active { color: var(--white); font-weight: 600; }
+    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/" class="back">&larr; All actors</a>
+      <span class="lang-selector">&#127760; <a href="/actors/jobware-de-scraper/" class="active">EN</a> | <a href="/de/">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>Scrape Jobware.de — Premium German Job Listings with Salary and Contact Data</h1>
+    <p class="lead">Extract professional job postings from Jobware.de, one of Germany's established career portals focused on qualified professionals and management positions. Get salary information, recruiter contact details, and full job descriptions. Ideal for the mid-to-senior German job market segment that StepStone and Indeed don't fully cover.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobware-de-scraper/input" class="btn-secondary">Try it now</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">Germany</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.00375/SERP + $0.00875/detail</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS fingerprinting</div></div>
+    </div>
+
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li><strong>Professional job listings</strong> — title, company, location, employment type, seniority level</li>
+      <li><strong>Salary data</strong> — salary ranges and compensation details when published</li>
+      <li><strong>Recruiter contacts</strong> — contact person name, email, phone where available</li>
+      <li><strong>Full descriptions</strong> — complete job description, requirements, and company profile text</li>
+      <li><strong>Multi-query</strong> — search for multiple roles or locations in a single run</li>
+      <li><strong>Company metadata</strong> — employer name, industry, size, and logo</li>
+    </ul>
+
+    <h2 class="section-title">Primary Use Cases</h2>
+    <ul>
+      <li><strong>German salary benchmarking</strong> — collect compensation data for professional and management roles</li>
+      <li><strong>Recruiter lead generation</strong> — extract hiring manager contact details for outreach</li>
+      <li><strong>Job board aggregation</strong> — supplement Indeed/StepStone data with Jobware's unique professional listings</li>
+      <li><strong>Competitive hiring analysis</strong> — monitor which companies are recruiting for specific roles</li>
+      <li><strong>HR tech integration</strong> — feed structured job data into ATS or matching platforms</li>
+    </ul>
+
+    <h2 class="section-title">API Example</h2>
+    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobware-de-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["projektmanager"],
+    "location": "Berlin",
+    "maxResultsPerQuery": 50,
+    "includeJobDetails": true
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/jobware-de-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <h2 class="section-title">How It Compares</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>NanoScrape</th><th>Browser-based scrapers</th></tr>
+      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Cost per 1k SERP</td><td class="highlight">$3.75</td><td>$10 - $25</td></tr>
+      <tr><td>Contact extraction</td><td class="highlight">Built-in</td><td>Rarely included</td></tr>
+      <tr><td>Salary data</td><td>Yes</td><td>Varies</td></tr>
+      <tr><td>Speed (1k jobs)</td><td class="highlight">~4 min</td><td>20-60 min</td></tr>
+    </table>
+
+    <h2 class="section-title">Output Fields</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><td>title</td><td>string</td><td>Projektmanager (m/w/d) IT</td></tr>
+      <tr><td>company</td><td>string</td><td>Deutsche Telekom AG</td></tr>
+      <tr><td>location</td><td>string</td><td>Berlin, Germany</td></tr>
+      <tr><td>salary</td><td>string</td><td>65.000 - 85.000 EUR</td></tr>
+      <tr><td>contact_name</td><td>string</td><td>Frau Sabine Mueller</td></tr>
+      <tr><td>contact_email</td><td>string</td><td>recruiting@example.de</td></tr>
+      <tr><td>description</td><td>string</td><td>Full job description text</td></tr>
+      <tr><td>employment_type</td><td>string</td><td>Vollzeit</td></tr>
+      <tr><td>url</td><td>string</td><td>https://jobware.de/...</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-04-19</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~jobware-de-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/">NanoScrape Home</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>

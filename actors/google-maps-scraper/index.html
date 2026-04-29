@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Google Maps Places — $1/1k Businesses | NanoScrape</title>
+  <meta name="description" content="Extract business data from Google Maps. 30+ fields per place: name, address, phone, website, reviews, ratings, hours, GPS coordinates. $0.00375/place — 10x cheaper than alternatives.">
+  <meta property="og:title" content="Google Maps Scraper — $1/1k Places | NanoScrape">
+  <meta property="og:description" content="Scrape Google Maps business data at scale. 30+ fields, reviews, GPS. 10x cheaper than browser-based alternatives.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/google-maps-scraper/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/google-maps-scraper/">
+  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Google Maps Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Google Maps business scraper. 30+ fields per place including reviews, GPS, hours, photos. ~80MB image, 256MB RAM, datacenter proxy. Global coverage.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00375",
+      "priceCurrency": "USD",
+      "description": "per place result"
+    },
+    "url": "https://apify.com/santamaria-automations/google-maps-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
+    .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; }
+    .lang-selector a { color: var(--muted); margin: 0 3px; }
+    .lang-selector a.active { color: var(--white); font-weight: 600; }
+    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/" class="back">&larr; All actors</a>
+      <span class="lang-selector">&#127760; <a href="/actors/google-maps-scraper/" class="active">EN</a> | <a href="/de/">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>Scrape Google Maps Places — 30+ Fields per Business at $1 per 1,000</h1>
+    <p class="lead">Extract comprehensive business data from Google Maps at a fraction of the cost of alternatives. Get name, address, phone, website, reviews, ratings, opening hours, GPS coordinates, and photos for any location worldwide. Our scraper delivers 30+ structured fields per place using datacenter proxies, making it 10x more affordable than browser-based competitors.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~google-maps-scraper/input" class="btn-secondary">Try it now</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker Image</div><div class="value">~80MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">256MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">BUYPROXIES Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.00375/place</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">Session rotation</div></div>
+    </div>
+
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li><strong>Business profiles</strong> — name, category, address, phone, website, Google Maps URL</li>
+      <li><strong>Ratings and reviews</strong> — average rating, review count, individual review text and scores</li>
+      <li><strong>Opening hours</strong> — full weekly schedule, holiday hours, current open/closed status</li>
+      <li><strong>GPS coordinates</strong> — latitude and longitude for mapping and geospatial analysis</li>
+      <li><strong>Photos</strong> — photo URLs from business listings</li>
+      <li><strong>Rich metadata</strong> — price level, accessibility, amenities, popular times</li>
+    </ul>
+
+    <h2 class="section-title">Primary Use Cases</h2>
+    <ul>
+      <li><strong>Local lead generation</strong> — build prospect lists of businesses by category and location</li>
+      <li><strong>Market mapping</strong> — analyze business density, competition, and gaps in any geographic area</li>
+      <li><strong>Review monitoring</strong> — track ratings and review sentiment for brands or competitors</li>
+      <li><strong>Real estate analysis</strong> — map nearby amenities, businesses, and points of interest</li>
+      <li><strong>Data enrichment</strong> — add phone, website, and GPS data to existing business databases</li>
+    </ul>
+
+    <h2 class="section-title">API Example</h2>
+    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["restaurants in Munich"],
+    "maxResultsPerQuery": 100,
+    "language": "en"
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <h2 class="section-title">How It Compares</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>NanoScrape</th><th>compass/crawler-google-places</th></tr>
+      <tr><td>Cost per 1k places</td><td class="highlight">$3.75</td><td>$35 - $50</td></tr>
+      <tr><td>RAM usage</td><td class="highlight">256MB</td><td>2-8GB</td></tr>
+      <tr><td>Proxy type</td><td class="highlight">Datacenter ($0.006/req)</td><td>Residential ($$$)</td></tr>
+      <tr><td>Fields per place</td><td>30+</td><td>20-30</td></tr>
+      <tr><td>Review extraction</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>GPS coordinates</td><td>Yes</td><td>Yes</td></tr>
+    </table>
+
+    <h2 class="section-title">Output Fields</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><td>name</td><td>string</td><td>Augustiner-Keller</td></tr>
+      <tr><td>category</td><td>string</td><td>Beer garden</td></tr>
+      <tr><td>address</td><td>string</td><td>Arnulfstr. 52, 80335 Munich</td></tr>
+      <tr><td>phone</td><td>string</td><td>+49 89 594393</td></tr>
+      <tr><td>website</td><td>string</td><td>https://www.augustinerkeller.de</td></tr>
+      <tr><td>rating</td><td>number</td><td>4.5</td></tr>
+      <tr><td>review_count</td><td>number</td><td>12,847</td></tr>
+      <tr><td>latitude</td><td>number</td><td>48.1432</td></tr>
+      <tr><td>longitude</td><td>number</td><td>11.5512</td></tr>
+      <tr><td>opening_hours</td><td>object</td><td>{"Mon": "11:00-23:00", ...}</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~google-maps-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/">NanoScrape Home</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Reddit Posts & Comments — $0.75/1k | NanoScrape</title>
+  <meta name="description" content="Extract Reddit posts, nested comments, search results, and user activity. HTTP-only Go scraper with azuretls bypass. Configurable comment depth (1-5). 6x cheaper than competitors.">
+  <meta property="og:title" content="Reddit Scraper — Posts & Comments at $0.75/1k | NanoScrape">
+  <meta property="og:description" content="Scrape Reddit at scale. Posts, nested comments, search, user profiles. 6x cheaper than alternatives.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/reddit-scraper/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/reddit-scraper/">
+  <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Reddit Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Reddit scraper. Posts, nested comments (depth 1-5), search, user activity, subreddit feeds. ~12MB Docker image, 128MB RAM, azuretls bypass.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.00075",
+      "priceCurrency": "USD",
+      "description": "per result ($0.75/1k)"
+    },
+    "url": "https://apify.com/santamaria-automations/reddit-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; max-width: 900px; margin: 0 auto; padding: 16px 20px; }
+    .nav a.logo { display: flex; align-items: center; gap: 8px; color: var(--white); font-weight: 700; }
+    .nav a.logo img { height: 28px; }
+    .nav .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav a.back { color: var(--muted); font-size: 0.85rem; }
+    .lang-selector { font-size: 0.85rem; }
+    .lang-selector a { color: var(--muted); margin: 0 3px; }
+    .lang-selector a.active { color: var(--white); font-weight: 600; }
+    .lang-selector a:hover { color: var(--accent); text-decoration: none; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+  </style>
+</head>
+<body>
+
+  <div class="nav">
+    <a href="/" class="logo"><img src="../../nanoscrape_logo.svg" alt="NanoScrape"> NanoScrape</a>
+    <div class="nav-right">
+      <a href="/" class="back">&larr; All actors</a>
+      <span class="lang-selector">&#127760; <a href="/actors/reddit-scraper/" class="active">EN</a> | <a href="/de/">DE</a></span>
+    </div>
+  </div>
+
+  <div class="detail">
+    <h1>Scrape Reddit Posts and Comments — Nested Threads at $0.75 per 1,000 Results</h1>
+    <p class="lead">Extract posts, nested comment threads, search results, and user activity from Reddit at a fraction of the cost of existing scrapers. Configurable comment depth from 1 to 5 levels gives you control over how deep into conversations you go. Our scraper handles Reddit's anti-bot protections transparently, delivering clean structured data from any subreddit or search query.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~reddit-scraper/input" class="btn-secondary">Try it now</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter (azuretls)</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.75/1k results</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">azuretls bypass</div></div>
+    </div>
+
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li><strong>Posts</strong> — title, body, author, score, upvote ratio, awards, flair, media URLs</li>
+      <li><strong>Nested comments</strong> — full comment threads with configurable depth (1-5 levels), author, score, timestamps</li>
+      <li><strong>Search results</strong> — find posts matching keywords across all of Reddit or specific subreddits</li>
+      <li><strong>User activity</strong> — posts and comments from specific Reddit user profiles</li>
+      <li><strong>Subreddit feeds</strong> — hot, new, top, rising, and controversial sorting</li>
+      <li><strong>Cross-posts and links</strong> — original source tracking and external URLs</li>
+    </ul>
+
+    <h2 class="section-title">Primary Use Cases</h2>
+    <ul>
+      <li><strong>Brand monitoring</strong> — track mentions of your product, company, or competitors across Reddit</li>
+      <li><strong>Sentiment analysis</strong> — analyze community opinions and reactions to products, events, or trends</li>
+      <li><strong>Market research</strong> — mine Reddit discussions for unfiltered consumer feedback and pain points</li>
+      <li><strong>Content research</strong> — discover trending topics, frequently asked questions, and popular formats</li>
+      <li><strong>AI training data</strong> — collect structured conversational data with nested reply chains</li>
+    </ul>
+
+    <h2 class="section-title">API Example</h2>
+    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~reddit-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["best CRM software"],
+    "subreddits": ["smallbusiness", "startups"],
+    "maxResultsPerQuery": 100,
+    "commentDepth": 3
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/reddit-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <h2 class="section-title">How It Compares</h2>
+    <table class="compare-table">
+      <tr><th>Feature</th><th>NanoScrape</th><th>Competitors ($5/1k)</th></tr>
+      <tr><td>Cost per 1k results</td><td class="highlight">$0.75</td><td>$5.00</td></tr>
+      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Comment depth</td><td class="highlight">1-5 levels (configurable)</td><td>Usually top-level only</td></tr>
+      <tr><td>User profiles</td><td>Yes</td><td>Varies</td></tr>
+      <tr><td>Price advantage</td><td class="highlight">6x cheaper</td><td>Baseline</td></tr>
+    </table>
+
+    <h2 class="section-title">Output Fields</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
+      <tr><td>title</td><td>string</td><td>What CRM do you actually use?</td></tr>
+      <tr><td>body</td><td>string</td><td>Full post text / comment text</td></tr>
+      <tr><td>author</td><td>string</td><td>u/startup_founder</td></tr>
+      <tr><td>subreddit</td><td>string</td><td>r/smallbusiness</td></tr>
+      <tr><td>score</td><td>number</td><td>847</td></tr>
+      <tr><td>upvote_ratio</td><td>number</td><td>0.94</td></tr>
+      <tr><td>comment_count</td><td>number</td><td>234</td></tr>
+      <tr><td>comments</td><td>object[]</td><td>[{author, body, score, replies}]</td></tr>
+      <tr><td>url</td><td>string</td><td>https://reddit.com/r/...</td></tr>
+      <tr><td>created_at</td><td>string</td><td>2026-04-18T14:30:00Z</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~reddit-scraper/input" class="btn-secondary">Try it now — free tier available</a>
+    </div>
+  </div>
+
+  <footer>
+    <img src="../../nanoscrape_logo.svg" alt="NanoScrape" style="height:28px;margin-bottom:6px;display:block;margin-left:auto;margin-right:auto;opacity:0.6">
+    <p>
+      <a href="/">NanoScrape Home</a> &middot;
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations">Apify Store</a> &middot;
+      <a target="_blank" rel="noopener" href="https://github.com/NanoScrape">GitHub</a> &middot;
+      <a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>
+    </p>
+  </footer>
+
+</body>
+</html>
