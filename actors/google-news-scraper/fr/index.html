@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scraper Google News &mdash; Actualit&eacute;s, articles et tendances | NanoScrape</title>
+  <meta name="description" content="Extrayez les titres, articles et tendances de Google News &agrave; grande &eacute;chelle. Scraper HTTP-only en Go, ~12MB d'image Docker, 128MB de RAM. Sortie structur&eacute;e avec titre, source, date, URL. Paiement au r&eacute;sultat.">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-news-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-news-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-news-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Google News Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Google News scraper. ~12MB Docker image, 128MB RAM. Returns headlines, articles, sources, publish dates, and trending topics.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "pay-per-result"
+    },
+    "url": "https://apify.com/santamaria-automations/google-news-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Scraper Google News &mdash; Actualit&eacute;s, articles et tendances &agrave; grande &eacute;chelle</h1>
+    <p class="lead">Extrayez des donn&eacute;es structur&eacute;es depuis Google News. Retourne les titres, noms de sources, dates de publication et URLs. Recherche par mot-cl&eacute;, th&egrave;me ou r&eacute;gion. HTTP-only &mdash; sans Chrome, sans Playwright.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~google-news-scraper/input" class="btn-secondary">Essayer maintenant</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Image Docker</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Couverture</div><div class="value">Mondiale</div></div>
+      <div class="spec"><div class="label">Tarifs</div><div class="value">Paiement au r&eacute;sultat</div></div>
+      <div class="spec"><div class="label">Anti-bot</div><div class="value">Empreinte TLS</div></div>
+    </div>
+
+    <h2 class="section-title">Ce que vous pouvez extraire</h2>
+    <ul>
+      <li><strong>Titres principaux</strong> &mdash; derni&egrave;res actualit&eacute;s par cat&eacute;gorie ou th&egrave;me</li>
+      <li><strong>R&eacute;sultats de recherche</strong> &mdash; articles correspondant &agrave; tout mot-cl&eacute; ou expression</li>
+      <li><strong>M&eacute;tadonn&eacute;es d'articles</strong> &mdash; titre, source, date de publication, extrait, URL</li>
+      <li><strong>Actualit&eacute;s par th&egrave;me</strong> &mdash; business, technologie, sport, sant&eacute;, science, divertissement</li>
+      <li><strong>Actualit&eacute;s r&eacute;gionales</strong> &mdash; filtrage par pays ou &eacute;dition linguistique</li>
+      <li><strong>Sujets tendance</strong> &mdash; th&egrave;mes populaires et clusters de couverture</li>
+    </ul>
+
+    <h2 class="section-title">Cas d&#39;utilisation</h2>
+    <ul>
+      <li><strong>Veille m&eacute;diatique</strong> &mdash; suivez les mentions de marque, la concurrence et les &eacute;volutions sectorielles</li>
+      <li><strong>Analyse de sentiment</strong> &mdash; alimentez vos pipelines NLP avec les titres pour l'analyse de march&eacute;</li>
+      <li><strong>D&eacute;tection de tendances</strong> &mdash; identifiez les sujets &eacute;mergents avant qu'ils ne deviennent mainstream</li>
+      <li><strong>Agr&eacute;gation de contenu</strong> &mdash; construisez des flux d'actualit&eacute;s, r&eacute;sum&eacute;s ou tableaux de bord</li>
+      <li><strong>Recherche acad&eacute;mique</strong> &mdash; analysez les sch&eacute;mas de couverture m&eacute;diatique</li>
+    </ul>
+
+    <h2 class="section-title">Exemple API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une ex&#233;cution via l&#39;API Apify</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-news-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["intelligence artificielle"],
+    "language": "fr",
+    "maxResults": 100
+  }'
+
+<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/google-news-scraper</span></pre></div>
+
+    <h2 class="section-title">Int&eacute;grations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> &mdash; d&eacute;clencher des ex&eacute;cutions et traiter les r&eacute;sultats via webhook</li>
+      <li><strong>Agents IA (MCP)</strong> &mdash; Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> &mdash; SDK Apify pour l'acc&egrave;s programmatique</li>
+      <li><strong>Google Sheets / Airtable</strong> &mdash; export via les int&eacute;grations Apify</li>
+    </ul>
+
+    <h2 class="section-title">Comparaison</h2>
+    <table class="compare-table">
+      <tr><th>Caract&eacute;ristique</th><th>NanoScrape</th><th>Scrapers bas&eacute;s navigateur</th></tr>
+      <tr><td>Image Docker</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Co&ucirc;t pour 1k articles</td><td class="highlight">Paiement au r&eacute;sultat</td><td>5$ - 20$</td></tr>
+      <tr><td>Anti-bot</td><td>Empreinte TLS</td><td>Chrome complet</td></tr>
+      <tr><td>Vitesse</td><td class="highlight">Rapide</td><td>Lent (surcharge navigateur)</td></tr>
+      <tr><td>Couverture</td><td>Mondiale</td><td>Variable</td></tr>
+    </table>
+
+    <h2 class="section-title">Champs de sortie</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>title</td><td>string</td><td>OpenAI annonce un nouveau mod&egrave;le GPT</td></tr>
+      <tr><td>source</td><td>string</td><td>Reuters</td></tr>
+      <tr><td>url</td><td>string</td><td>https://reuters.com/...</td></tr>
+      <tr><td>published_at</td><td>string</td><td>2026-04-23T10:30:00Z</td></tr>
+      <tr><td>snippet</td><td>string</td><td>OpenAI a d&eacute;voil&eacute; aujourd'hui...</td></tr>
+      <tr><td>topic</td><td>string</td><td>Technology</td></tr>
+      <tr><td>search_query</td><td>string</td><td>intelligence artificielle</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~google-news-scraper/input" class="btn-secondary">Essayer maintenant &mdash; offre gratuite disponible</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

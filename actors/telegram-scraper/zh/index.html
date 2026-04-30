@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抓取Telegram公开频道 -- 无需登录 | NanoScrape</title>
+  <meta name="description" content="从Telegram公开频道提取消息、媒体和元数据。无需登录或API密钥。纯HTTP Go抓取工具，约12MB Docker镜像，128MB内存。按结果付费。">
+  <meta property="og:title" content="Telegram抓取工具 -- 公开频道，无需登录 | NanoScrape">
+  <meta property="og:description" content="大规模抓取Telegram公开频道。无需登录，约12MB镜像，128MB内存。消息、媒体和元数据的结构化输出。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/telegram-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/telegram-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/telegram-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/telegram-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/telegram-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/telegram-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Telegram Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "HTTP-only Telegram public channel scraper. ~12MB Docker image, 128MB RAM. No login required. Returns messages, media URLs, view counts, and channel metadata.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD",
+      "description": "pay-per-result"
+    },
+    "url": "https://apify.com/santamaria-automations/telegram-scraper",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>抓取Telegram公开频道 -- 无需登录</h1>
+    <p class="lead">从任何Telegram公开频道或群组提取消息、媒体和元数据。无需Telegram账号、API密钥或登录。使用公开网页预览。纯HTTP -- 无需Chrome，无需Playwright。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper" class="btn-primary">在Apify上打开 &#8594;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~telegram-scraper/input" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
+      <div class="spec"><div class="label">覆盖范围</div><div class="value">全球</div></div>
+      <div class="spec"><div class="label">价格</div><div class="value">按结果付费</div></div>
+      <div class="spec"><div class="label">登录</div><div class="value">无需登录</div></div>
+    </div>
+
+    <h2 class="section-title">可抓取的数据</h2>
+    <ul>
+      <li><strong>频道消息</strong> -- 包含格式的完整文本内容</li>
+      <li><strong>媒体</strong> -- 照片URL、视频缩略图、文档链接</li>
+      <li><strong>浏览量</strong> -- 每条消息的互动指标</li>
+      <li><strong>频道元数据</strong> -- 名称、描述、订阅者数量、头像</li>
+      <li><strong>转发消息</strong> -- 原始来源频道信息</li>
+      <li><strong>多频道</strong> -- 单次运行抓取多个频道</li>
+    </ul>
+
+    <h2 class="section-title">主要用例</h2>
+    <ul>
+      <li><strong>OSINT研究</strong> -- 监控公开频道进行情报收集</li>
+      <li><strong>市场监控</strong> -- 追踪加密货币、金融或特定行业频道</li>
+      <li><strong>品牌监控</strong> -- 在公开Telegram频道中发现品牌提及</li>
+      <li><strong>内容分析</strong> -- 分析消息模式和互动趋势</li>
+      <li><strong>归档</strong> -- 创建公开频道内容的结构化备份</li>
+    </ul>
+
+    <h2 class="section-title">API示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过Apify API启动一次运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~telegram-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "channels": ["duaborgin", "techcrunch"],
+    "maxMessages": 100
+  }'
+
+<span class="comment"># 或通过MCP与AI代理一起使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/telegram-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> -- 触发运行并通过Webhook处理结果</li>
+      <li><strong>AI代理 (MCP)</strong> -- Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> -- 通过Apify SDK进行编程访问</li>
+      <li><strong>Google Sheets / Airtable</strong> -- 通过Apify集成导出</li>
+    </ul>
+
+    <h2 class="section-title">对比</h2>
+    <table class="compare-table">
+      <tr><th>特性</th><th>NanoScrape</th><th>Telegram Bot API</th></tr>
+      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>不适用</td></tr>
+      <tr><td>需要登录</td><td class="highlight">否</td><td>是（bot token）</td></tr>
+      <tr><td>成本</td><td class="highlight">按结果付费</td><td>免费但有限</td></tr>
+      <tr><td>公开频道</td><td>是</td><td>Bot需为成员</td></tr>
+      <tr><td>速率限制</td><td>自动管理</td><td>严格API限制</td></tr>
+      <tr><td>输出</td><td>结构化JSON</td><td>原始API格式</td></tr>
+    </table>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>channel</td><td>string</td><td>duaborgin</td></tr>
+      <tr><td>message_id</td><td>number</td><td>12345</td></tr>
+      <tr><td>text</td><td>string</td><td>Breaking: New AI model released...</td></tr>
+      <tr><td>date</td><td>string</td><td>2026-04-23T14:30:00Z</td></tr>
+      <tr><td>views</td><td>number</td><td>15420</td></tr>
+      <tr><td>media_url</td><td>string</td><td>https://cdn.telegram.org/...</td></tr>
+      <tr><td>forwarded_from</td><td>string</td><td>source_channel</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper" class="btn-primary">在Apify上打开 &#8594;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~telegram-scraper/input" class="btn-secondary">立即试用 -- 提供免费套餐</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

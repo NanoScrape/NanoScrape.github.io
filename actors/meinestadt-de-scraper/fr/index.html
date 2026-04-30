@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scraper MeineStadt.de &mdash; Emplois r&eacute;gionaux en Allemagne | NanoScrape</title>
+  <meta name="description" content="Extrayez les offres d'emploi de MeineStadt.de, le portail r&eacute;gional allemand. Scraper HTTP-only en Go, ~12MB Docker, 128MB RAM. Titre, entreprise, lieu, salaire, description. 0,008$/SERP.">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/meinestadt-de-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Scraper MeineStadt.de &mdash; Emplois r&eacute;gionaux en Allemagne</h1>
+    <p class="lead">Extrayez des donn&eacute;es structur&eacute;es d'offres d'emploi de MeineStadt.de, le portail r&eacute;gional leader en Allemagne. Retourne titre, entreprise, lieu, type de poste et description compl&egrave;te. Couvre toutes les villes et r&eacute;gions allemandes. HTTP-only &mdash; sans Chrome, sans Playwright.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~meinestadt-de-scraper/input" class="btn-secondary">Essayer maintenant</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Image Docker</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Couverture</div><div class="value">Allemagne</div></div>
+      <div class="spec"><div class="label">Tarifs</div><div class="value">0,008$/SERP</div></div>
+      <div class="spec"><div class="label">Anti-bot</div><div class="value">Empreinte TLS</div></div>
+    </div>
+
+    <h2 class="section-title">Ce que vous pouvez extraire</h2>
+    <ul>
+      <li><strong>R&eacute;sultats de recherche</strong> &mdash; titre, entreprise, lieu, date de publication</li>
+      <li><strong>D&eacute;tails complets</strong> &mdash; description, exigences, avantages</li>
+      <li><strong>Focus r&eacute;gional</strong> &mdash; filtrage par ville, r&eacute;gion ou Bundesland</li>
+      <li><strong>Informations entreprise</strong> &mdash; nom de l'employeur, secteur d'activit&eacute;</li>
+      <li><strong>Multi-requ&ecirc;tes</strong> &mdash; plusieurs recherches mot-cl&eacute; + lieu par ex&eacute;cution</li>
+      <li><strong>Types de postes</strong> &mdash; temps plein, temps partiel, mini-job, apprentissage</li>
+    </ul>
+
+    <h2 class="section-title">Cas d&#39;utilisation</h2>
+    <ul>
+      <li><strong>Analyse du march&eacute; r&eacute;gional</strong> &mdash; comparez le recrutement entre villes et r&eacute;gions allemandes</li>
+      <li><strong>G&eacute;n&eacute;ration de leads PME</strong> &mdash; trouvez des PME qui recrutent localement</li>
+      <li><strong>Intelligence recrutement</strong> &mdash; d&eacute;couvrez les sch&eacute;mas de demande en talents r&eacute;gionaux</li>
+      <li><strong>HR tech</strong> &mdash; agr&eacute;gez les emplois r&eacute;gionaux allemands dans votre plateforme</li>
+      <li><strong>Recherche acad&eacute;mique</strong> &mdash; &eacute;tudiez la dynamique du march&eacute; du travail r&eacute;gional en Allemagne</li>
+    </ul>
+
+    <h2 class="section-title">Exemple API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une ex&#233;cution via l&#39;API Apify</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~meinestadt-de-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["Mechatroniker"],
+    "location": "Stuttgart",
+    "maxResultsPerQuery": 50
+  }'
+
+<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/meinestadt-de-scraper</span></pre></div>
+
+    <h2 class="section-title">Int&eacute;grations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> &mdash; d&eacute;clencher des ex&eacute;cutions et traiter les r&eacute;sultats via webhook</li>
+      <li><strong>Agents IA (MCP)</strong> &mdash; Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> &mdash; SDK Apify pour l'acc&egrave;s programmatique</li>
+      <li><strong>Google Sheets / Airtable</strong> &mdash; export via les int&eacute;grations Apify</li>
+    </ul>
+
+    <h2 class="section-title">Comparaison</h2>
+    <table class="compare-table">
+      <tr><th>Caract&eacute;ristique</th><th>NanoScrape</th><th>Scrapers bas&eacute;s navigateur</th></tr>
+      <tr><td>Image Docker</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>RAM</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>Co&ucirc;t pour 1k r&eacute;sultats</td><td class="highlight">~0,80$</td><td>5$ - 20$</td></tr>
+      <tr><td>Anti-bot</td><td>Empreinte TLS</td><td>Chrome complet</td></tr>
+      <tr><td>Vitesse (1k offres)</td><td class="highlight">~3 min</td><td>15-45 min</td></tr>
+      <tr><td>Couverture r&eacute;gionale</td><td>Toutes les villes</td><td>Limit&eacute;e</td></tr>
+    </table>
+
+    <h2 class="section-title">Champs de sortie</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>title</td><td>string</td><td>Mechatroniker (m/w/d)</td></tr>
+      <tr><td>company</td><td>string</td><td>Bosch GmbH</td></tr>
+      <tr><td>location</td><td>string</td><td>Stuttgart, Baden-Wurttemberg</td></tr>
+      <tr><td>job_type</td><td>string</td><td>Vollzeit</td></tr>
+      <tr><td>description</td><td>string</td><td>Description compl&egrave;te du poste</td></tr>
+      <tr><td>url</td><td>string</td><td>https://meinestadt.de/...</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-04-20</td></tr>
+      <tr><td>search_query</td><td>string</td><td>Mechatroniker</td></tr>
+    </table>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~meinestadt-de-scraper/input" class="btn-secondary">Essayer maintenant &mdash; offre gratuite disponible</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
