@@ -112,16 +112,16 @@
       '</div>';
 
     if (isHomepage) {
-      // Homepage: centered logo, larger, dropdown absolute top-right
+      // Homepage: centered SVG logo (includes tagline), larger, dropdown absolute top-right
       el.innerHTML =
         '<nav class="ns-nav ns-nav-home">' +
           dropdownHtml +
           '<a href="' + getHomepageUrl(ctx.currentLang) + '" class="ns-logo ns-logo-home">' +
-            '<img src="/nanoscrape_logo.svg" alt="NanoScrape" width="200" height="40">' +
+            '<img src="/nanoscrape_logo.svg" alt="NanoScrape — Lightweight Web Scraping Actors">' +
           '</a>' +
         '</nav>';
     } else {
-      // Actor page: logo left, back link + dropdown right
+      // Actor page: square PNG icon + "NanoScrape" text, left-aligned
       var backLabels = { en: '\u2190 All actors', de: '\u2190 Alle Aktoren', zh: '\u2190 \u6240\u6709\u5DE5\u5177', fr: '\u2190 Tous les acteurs' };
       var backUrl = getHomepageUrl(ctx.currentLang);
       var backLink = '<a href="' + backUrl + '" class="nav-back">' + (backLabels[ctx.currentLang] || backLabels.en) + '</a>';
@@ -129,7 +129,8 @@
       el.innerHTML =
         '<nav class="ns-nav">' +
           '<a href="' + getHomepageUrl(ctx.currentLang) + '" class="ns-logo">' +
-            '<img src="/nanoscrape_logo.svg" alt="NanoScrape" width="120" height="28"> ' +
+            '<img src="/nanoscrape_logo_square.png" alt="NanoScrape" class="ns-logo-icon">' +
+            '<span class="ns-logo-text">NanoScrape</span>' +
           '</a>' +
           '<div class="ns-nav-right">' +
             backLink +
@@ -180,15 +181,18 @@
     style.id = 'ns-component-styles';
     style.textContent =
       '.ns-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1060px; margin: 0 auto; padding: 14px 20px; }' +
-      '.ns-logo { display: flex; align-items: center; gap: 8px; color: #dce8f5; font-weight: 700; text-decoration: none; }' +
-      '.ns-logo img { height: 28px; }' +
+      '.ns-logo { display: flex; align-items: center; gap: 10px; color: #dce8f5; font-weight: 700; text-decoration: none; }' +
+      '.ns-logo:hover { text-decoration: none; }' +
+      '.ns-logo-icon { height: 28px; width: 28px; border-radius: 4px; }' +
+      '.ns-logo-text { font-family: Arial, sans-serif; font-size: 1.1rem; font-weight: 700; color: #dce8f5; letter-spacing: -0.5px; }' +
       '.ns-nav-right { display: flex; align-items: center; gap: 16px; }' +
       '.nav-back { color: #7a99ba; font-size: 0.85rem; text-decoration: none; }' +
       '.nav-back:hover { color: #0047ff; }' +
 
-      /* Homepage nav: centered logo, dropdown absolute top-right */
-      '.ns-nav-home { justify-content: center; position: relative; }' +
-      '.ns-logo-home img { height: 40px; }' +
+      /* Homepage nav: centered SVG logo with tagline visible */
+      '.ns-nav-home { justify-content: center; position: relative; padding: 20px; }' +
+      '.ns-logo-home { display: flex; justify-content: center; }' +
+      '.ns-logo-home img { height: 70px; width: auto; }' +
       '.ns-nav-home .ns-lang-dropdown { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }' +
 
       '.ns-lang-dropdown { position: relative; display: inline-block; }' +
@@ -208,8 +212,9 @@
 
       '@media (max-width: 480px) {' +
         '.ns-nav { flex-wrap: wrap; gap: 8px; }' +
-        '.ns-logo img { height: 22px; }' +
-        '.ns-logo-home img { height: 32px; }' +
+        '.ns-logo-icon { height: 22px; width: 22px; }' +
+        '.ns-logo-text { font-size: 0.95rem; }' +
+        '.ns-logo-home img { height: 50px; }' +
         '.ns-nav-right { width: 100%; display: flex; justify-content: space-between; }' +
         '.nav-back { font-size: 0.8rem; }' +
         '.ns-lang-trigger { font-size: 0.8rem; padding: 4px 10px; }' +
