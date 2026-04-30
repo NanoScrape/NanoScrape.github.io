@@ -87,47 +87,60 @@
   // ============================================================================
 
   function renderHeader() {
-    const el = document.getElementById('site-header');
+    var el = document.getElementById('site-header');
     if (!el) return;
 
-    const ctx = detectContext();
-    const currentLangObj = LANGUAGES.find(l => l.code === ctx.currentLang);
+    var ctx = detectContext();
+    var currentLangObj = LANGUAGES.find(function(l) { return l.code === ctx.currentLang; });
+    var isHomepage = !ctx.isActorPage;
 
-    // Back link (only on actor pages)
-    let backLink = '';
-    if (ctx.isActorPage) {
-      const backLabels = { en: '← All actors', de: '← Alle Aktoren', zh: '← 所有工具', fr: '← Tous les acteurs' };
-      const backUrl = getHomepageUrl(ctx.currentLang);
-      backLink = '<a href="' + backUrl + '" class="nav-back">' + (backLabels[ctx.currentLang] || backLabels.en) + '</a>';
-    }
-
-    // Language dropdown
-    let menuItems = '';
-    for (const lang of LANGUAGES) {
-      const url = buildLangUrl(lang.code, ctx.actorSlug, ctx.isActorPage);
-      const activeClass = lang.code === ctx.currentLang ? ' class="active"' : '';
+    // Language dropdown HTML
+    var menuItems = '';
+    for (var i = 0; i < LANGUAGES.length; i++) {
+      var lang = LANGUAGES[i];
+      var url = buildLangUrl(lang.code, ctx.actorSlug, ctx.isActorPage);
+      var activeClass = lang.code === ctx.currentLang ? ' class="active"' : '';
       menuItems += '<a href="' + url + '"' + activeClass + '>' + lang.label + '</a>';
     }
 
-    const triggerLabel = currentLangObj ? currentLangObj.triggerLabel : 'EN';
+    var triggerLabel = currentLangObj ? currentLangObj.triggerLabel : 'EN';
 
-    el.innerHTML =
-      '<nav class="ns-nav">' +
-        '<a href="' + getHomepageUrl(ctx.currentLang) + '" class="ns-logo">' +
-          '<img src="/nanoscrape_logo.svg" alt="NanoScrape" width="120" height="28"> ' +
-        '</a>' +
-        '<div class="ns-nav-right">' +
-          backLink +
-          '<div class="ns-lang-dropdown">' +
-            '<button class="ns-lang-trigger" aria-label="Language">🌐 ' + triggerLabel + ' ▾</button>' +
-            '<div class="ns-lang-menu">' + menuItems + '</div>' +
+    var dropdownHtml =
+      '<div class="ns-lang-dropdown">' +
+        '<button class="ns-lang-trigger" aria-label="Language">\uD83C\uDF10 ' + triggerLabel + ' \u25BE</button>' +
+        '<div class="ns-lang-menu">' + menuItems + '</div>' +
+      '</div>';
+
+    if (isHomepage) {
+      // Homepage: centered logo, larger, dropdown absolute top-right
+      el.innerHTML =
+        '<nav class="ns-nav ns-nav-home">' +
+          dropdownHtml +
+          '<a href="' + getHomepageUrl(ctx.currentLang) + '" class="ns-logo ns-logo-home">' +
+            '<img src="/nanoscrape_logo.svg" alt="NanoScrape" width="200" height="40">' +
+          '</a>' +
+        '</nav>';
+    } else {
+      // Actor page: logo left, back link + dropdown right
+      var backLabels = { en: '\u2190 All actors', de: '\u2190 Alle Aktoren', zh: '\u2190 \u6240\u6709\u5DE5\u5177', fr: '\u2190 Tous les acteurs' };
+      var backUrl = getHomepageUrl(ctx.currentLang);
+      var backLink = '<a href="' + backUrl + '" class="nav-back">' + (backLabels[ctx.currentLang] || backLabels.en) + '</a>';
+
+      el.innerHTML =
+        '<nav class="ns-nav">' +
+          '<a href="' + getHomepageUrl(ctx.currentLang) + '" class="ns-logo">' +
+            '<img src="/nanoscrape_logo.svg" alt="NanoScrape" width="120" height="28"> ' +
+          '</a>' +
+          '<div class="ns-nav-right">' +
+            backLink +
+            dropdownHtml +
           '</div>' +
-        '</div>' +
-      '</nav>';
+        '</nav>';
+    }
 
     // Dropdown toggle
-    const trigger = el.querySelector('.ns-lang-trigger');
-    const dropdown = el.querySelector('.ns-lang-dropdown');
+    var trigger = el.querySelector('.ns-lang-trigger');
+    var dropdown = el.querySelector('.ns-lang-dropdown');
     if (trigger && dropdown) {
       trigger.addEventListener('click', function(e) {
         e.stopPropagation();
@@ -173,6 +186,11 @@
       '.nav-back { color: #7a99ba; font-size: 0.85rem; text-decoration: none; }' +
       '.nav-back:hover { color: #0047ff; }' +
 
+      /* Homepage nav: centered logo, dropdown absolute top-right */
+      '.ns-nav-home { justify-content: center; position: relative; }' +
+      '.ns-logo-home img { height: 40px; }' +
+      '.ns-nav-home .ns-lang-dropdown { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); }' +
+
       '.ns-lang-dropdown { position: relative; display: inline-block; }' +
       '.ns-lang-trigger { background: none; border: 1px solid #1a1f2e; color: #7a99ba; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem; min-height: 44px; display: flex; align-items: center; gap: 4px; }' +
       '.ns-lang-trigger:hover { border-color: #0047ff; color: #0047ff; }' +
@@ -191,6 +209,7 @@
       '@media (max-width: 480px) {' +
         '.ns-nav { flex-wrap: wrap; gap: 8px; }' +
         '.ns-logo img { height: 22px; }' +
+        '.ns-logo-home img { height: 32px; }' +
         '.ns-nav-right { width: 100%; display: flex; justify-content: space-between; }' +
         '.nav-back { font-size: 0.8rem; }' +
         '.ns-lang-trigger { font-size: 0.8rem; padding: 4px 10px; }' +
