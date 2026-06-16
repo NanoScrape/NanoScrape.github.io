@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Website Contact Extractor (Browser): JS-Unternehmensseiten | NanoScrape</title>
+  <meta name="description" content="Kontakte (Name, Position, E-Mail, Telefon) aus JavaScript-gerenderten Unternehmensseiten (React, Vue, Angular SPAs) per Playwright + KI extrahieren. Anti-Halluzinations-Validierung. Auto-chained von der HTTP-only Version. $0,02/Unt. + $0,010/Kontakt.">
+  <meta property="og:title" content="Website Contact Extractor (Browser): JS-Sites | NanoScrape">
+  <meta property="og:description" content="Playwright + LLM Kontakt-Extraktion für React/Vue/Angular-Unternehmenssites. Team-, Kontakt-, About-, Impressum-Seiten. Anti-Halluzinations-Validierung.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/website-contact-extractor-browser/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Website Contact Extractor (Browser)","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Playwright + LLM Kontakt-Extraktion für JavaScript-gerenderte Unternehmensseiten. Gleiche Ausgabe wie HTTP-only Website Contact Extractor, deckt React/Vue/Angular SPAs ab, die ohne JS leeres HTML liefern. Zwei-Phasen-Render (Hauptseiten, dann Detailseiten). Anti-Halluzinations-Validierung gegen Quell-HTML.","offers":{"@type":"Offer","price":"0.02","priceCurrency":"USD","description":"pro Unternehmen, plus $0,010 pro Kontakt"},"url":"https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Website Contact Extractor (Browser): JS-lastige Unternehmenssites</h1>
+    <p class="lead">Kontakte (Name, Position, E-Mail, Telefon) aus JavaScript-gerenderten Unternehmensseiten (React, Vue, Angular SPAs) per Playwright plus KI extrahieren. Browser-basierte Ergänzung zum HTTP-only Website Contact Extractor: deckt Team-, Kontakt-, About- und Impressum-Seiten ab, die ohne JavaScript leeres HTML liefern. Gleiches Input-Format, gleiche Ausgabe, Anti-Halluzinations-Validierung gegen Quell-HTML. Auto-chained, wenn der HTTP-Actor ein Unternehmen mit js_rendering_suspected markiert.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Preis</div><div class="value">$0,02/Unt. + $0,010/Kontakt</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">1024MB</div></div>
+      <div class="spec"><div class="label">Engine</div><div class="value">Playwright + LLM</div></div>
+      <div class="spec"><div class="label">Validierung</div><div class="value">Anti-Halluzination</div></div>
+      <div class="spec"><div class="label">LLM-Provider</div><div class="value">Gemini, Groq, OpenRouter</div></div>
+      <div class="spec"><div class="label">Auto-Chain</div><div class="value">Vom HTTP-Actor</div></div>
+    </div>
+
+    <h2 class="section-title">Wann diesen Actor nutzen</h2>
+    <ul>
+      <li><strong>JS-gerenderte Team-/Kontaktseiten:</strong> React, Vue, Angular und andere SPA-Frameworks</li>
+      <li><strong>Leere HTML-Antworten:</strong> Sites, deren Kontaktseite clientseitig gerendert wird</li>
+      <li><strong>Vom HTTP-Actor markierte Unternehmen:</strong> Auto-Chain via enablePlaywrightFallback</li>
+      <li><strong>Team-Detailseiten:</strong> Zwei-Phasen-Render erfasst einzelne Mitgliederprofile</li>
+      <li><strong>Anti-Halluzinations-Anforderung:</strong> Kontakte werden gegen Quell-HTML validiert, nicht LLM-erfunden</li>
+    </ul>
+
+    <h2 class="section-title">So funktioniert es</h2>
+    <ul>
+      <li><strong>Link-Discovery</strong> von der Homepage per HTTP (schnell)</li>
+      <li><strong>Phase 1:</strong> Playwright rendert Hauptseiten (Team, Kontakt, About, Impressum)</li>
+      <li><strong>Phase 2:</strong> Playwright rendert Team-Mitglieder-Detailseiten</li>
+      <li><strong>LLM-Extraktion</strong> mit Gemini Flash, Groq oder OpenRouter</li>
+      <li><strong>Anti-Halluzinations-Validierung</strong> gegen Quell-HTML</li>
+      <li><strong>Cross-Company-Dedup</strong> fängt LLM-erfundene Namen</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Run the browser contact extractor on a list of JS-heavy company sites</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-contact-extractor-browser/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "companies": [
+      {
+        "company_id": "abc-123",
+        "company_name": "TechCorp AG",
+        "website_url": "https://techcorp.ch"
+      }
+    ],
+    "llmProvider": "gemini",
+    "geminiApiKey": "YOUR_GEMINI_KEY"
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/website-contact-extractor-browser</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Runs auslösen und Kontaktdaten per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+      <li><strong>CRM (HubSpot, Pipedrive, Salesforce):</strong> Kontakte direkt in Ihre Pipeline pushen</li>
+    </ul>
+
+    <h2 class="section-title">Output-Beispiel</h2>
+    <div class="code-block"><pre>{
+  "company_id": "abc-123",
+  "company_name": "TechCorp AG",
+  "contacts": [
+    {
+      "name": "Max Mustermann",
+      "position": "CTO",
+      "email": "max@techcorp.ch",
+      "confidence": 0.92
+    }
+  ],
+  "status": "success",
+  "browser_extraction": true
+}</pre></div>
+
+    <h2 class="section-title">Verwandte Actors</h2>
+    <ul>
+      <li><a href="/actors/website-contact-extractor/de/">Website Contact Extractor (HTTP)</a>: schlanke HTTP-only Version, zuerst nutzen</li>
+      <li><a href="/actors/website-job-extractor-browser/de/">Website Job Extractor (Browser)</a>: gleicher Playwright-Stack, Job-Output</li>
+      <li><a href="/actors/url-contact-scraper/de/">URL Contact Scraper</a>: Single-Fetch-Kontakt-Extraktion at Scale</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">Jetzt testen (Free-Tier verfügbar)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网站邮箱抓取器：多页邮箱 + 电话 + 社媒 | NanoScrape</title>
+  <meta name="description" content="从任意网站提取邮箱、电话号码、社交媒体 URL 与地址。每站多页爬取，优先抓取联系、法律声明、关于页。$0.001/页。HTTP-only Go，无需 API key。">
+  <meta property="og:title" content="网站邮箱抓取器：多页邮箱提取 | NanoScrape">
+  <meta property="og:description" content="爬取任意网站获取邮箱、电话、社媒、地址。每站多页。$0.001/页。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/website-email-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/website-email-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/website-email-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/website-email-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/website-email-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/website-email-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/website-email-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"网站邮箱抓取器：多页邮箱 + 电话 + 社媒","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"多页网站爬虫，提取邮箱、电话号码、社交媒体链接与地址。优先联系、法律声明与关于页。HTTP-only Go。","offers":{"@type":"Offer","price":"0.001","priceCurrency":"USD","description":"每页"},"url":"https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>网站邮箱抓取器：多页邮箱、电话、社媒提取</h1>
+    <p class="lead">从任意网站提取邮箱、电话号码、社交媒体 URL 与实体地址。对每个输入 URL，抓取器访问主页、发现所有内部链接、优先访问联系、法律声明与关于页，按站爬取多个页面，并将全部信息去重为一条干净记录。无需 API key、无需登录。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/VpLcKwzcl70CPHljg/source?addFromActorId=VpLcKwzcl70CPHljg&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">定价</div><div class="value">$0.001/页</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">引擎</div><div class="value">HTTP-only Go</div></div>
+      <div class="spec"><div class="label">爬取范围</div><div class="value">每站多页</div></div>
+      <div class="spec"><div class="label">提取项</div><div class="value">邮箱、电话、社媒、地址</div></div>
+      <div class="spec"><div class="label">优先页</div><div class="value">联系、法律声明、关于</div></div>
+    </div>
+
+    <h2 class="section-title">可提取内容</h2>
+    <ul>
+      <li><strong>邮箱：</strong>所有爬取页面中找到的邮箱地址，去重</li>
+      <li><strong>电话号码：</strong>国际格式，从 tel: 链接与文本中提取</li>
+      <li><strong>社媒 URL：</strong>LinkedIn、Facebook、Instagram、Twitter/X、YouTube、TikTok</li>
+      <li><strong>实体地址：</strong>来自 schema.org 结构化数据（如存在）</li>
+      <li><strong>联系页 URL：</strong>爬取过程中发现的最深联系页</li>
+      <li><strong>爬取元数据：</strong>pages_crawled 计数与域名</li>
+    </ul>
+
+    <h2 class="section-title">主要用例</h2>
+    <ul>
+      <li><strong>列表扩充。</strong>输入公司域名列表，按公司输出邮箱和电话</li>
+      <li><strong>CRM 卫生。</strong>重新爬取客户或潜在客户站点以捕获联系方式更新</li>
+      <li><strong>大规模潜客扩充。</strong>百万 URL 列表，$1/1000 页</li>
+      <li><strong>销售勘探。</strong>与我们的目录抓取器结合，为外联收集联系方式</li>
+      <li><strong>列表清洗。</strong>多页爬取后剔除无联系方式的条目</li>
+      <li><strong>合规审计。</strong>验证每个站点都有可达的联系页</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># Crawl websites for email, phone and social</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-email-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": [
+      "https://www.example-company.ch",
+      "https://www.another-business.de"
+    ],
+    "maxPagesPerSite": 10
+  }'
+
+<span class="comment"># Or use with AI agents via MCP:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/website-email-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发爬取并将结果路由至 CRM</li>
+      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>域名列表输入，联系记录输出</li>
+    </ul>
+
+    <h2 class="section-title">输出示例</h2>
+    <div class="code-block"><pre>{
+  "url": "https://www.example-company.ch",
+  "domain": "example-company.ch",
+  "emails": ["info@example-company.ch", "jobs@example-company.ch"],
+  "phones": ["+41 44 123 45 67"],
+  "social_urls": {
+    "linkedin": "https://www.linkedin.com/company/example-company",
+    "facebook": "https://www.facebook.com/examplecompany"
+  },
+  "address": "Bahnhofstrasse 1, 8001 Zurich, Switzerland",
+  "pages_crawled": 8,
+  "contact_page_url": "https://www.example-company.ch/kontakt"
+}</pre></div>
+
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/url-contact-scraper/zh/">URL Contact Scraper</a>：百万 URL 规模的单次抓取联系提取</li>
+      <li><a href="/actors/website-contact-extractor/zh/">Website Contact Extractor</a>：LLM 驱动的具名联系人（姓名 + 职位 + 邮箱）</li>
+      <li><a href="/actors/website-content-crawler/zh/">Website Content Crawler</a>：相同爬取引擎，输出 AI 用 Markdown</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/VpLcKwzcl70CPHljg/source?addFromActorId=VpLcKwzcl70CPHljg&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

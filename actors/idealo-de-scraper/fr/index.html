@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Idealo.de Scraper : 6 pays, $3/1k SERP | NanoScrape</title>
+  <meta name="description" content="Scrapez le comparateur de prix Idealo dans 6 pays (DE, FR, ES, IT, UK, AT). Renvoie meilleur prix, offres marchands, note, nombre d'avis, EAN, marque, specs et catégorie. SERP $0,003, détail $0,008. Pour le contrôle MAP, le repricing et l'intelligence marchand.">
+  <meta property="og:title" content="Idealo.de Scraper : 6 pays, $3/1k SERP | NanoScrape">
+  <meta property="og:description" content="Extraire le comparateur Idealo depuis DE, FR, ES, IT, UK, AT. Meilleur prix, offres marchands, EAN, specs. Résistant Akamai. Paiement au résultat.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/idealo-de-scraper/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/idealo-de-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/idealo-de-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/idealo-de-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/idealo-de-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/idealo-de-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/idealo-de-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Idealo.de Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Scraper de comparateur de prix Idealo pour le leader allemand. Multi-pays : DE, FR, ES, IT, UK, AT. Renvoie meilleur prix, offres marchands, note, nombre d'avis, EAN/GTIN, marque, specs, catégorie et détail complet par marchand. Protection bot Akamai contournée par empreinte TLS. 128 Mo RAM, proxy résidentiel.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per SERP product"
+    },
+    "url": "https://apify.com/santamaria-automations/idealo-de-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Idealo.de Scraper : 6 pays, $3 pour 1 000 résultats SERP</h1>
+    <p class="lead">Scrapez Idealo, le premier comparateur de prix d'Allemagne avec des millions d'offres provenant de milliers de boutiques en ligne. Multi-pays : DE, FR, ES, IT, UK et AT. Renvoie meilleur prix, offres marchands, note, nombre d'avis, EAN/GTIN, marque, specs et catégorie. Le mode détail optionnel fournit la liste complète des marchands avec prix par boutique. Protection bot Akamai contournée via empreinte TLS Chrome. Pour le suivi tarifaire, le contrôle MAP, le repricing et l'intelligence marchand sur la zone DACH et au-delà.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/idealo-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/M4OfRHArl4T4rvHuD/source?addFromActorId=M4OfRHArl4T4rvHuD&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif SERP</div><div class="value">$0,003/résultat</div></div>
+      <div class="spec"><div class="label">Tarif détail</div><div class="value">$0,008/résultat</div></div>
+      <div class="spec"><div class="label">Pays</div><div class="value">6</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128 Mo</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
+      <div class="spec"><div class="label">Anti-bot</div><div class="value">Akamai TLS</div></div>
+    </div>
+
+    <h2 class="section-title">Ce que vous pouvez scraper</h2>
+    <ul>
+      <li><strong>Identité produit :</strong> name, description, brand, category, ean, product_url, product_image_url</li>
+      <li><strong>Prix :</strong> best_price, price_currency, price_count (nombre de marchands)</li>
+      <li><strong>Notes :</strong> rating, review_count</li>
+      <li><strong>Mode détail :</strong> merchant_name, merchant_price, ventilation complète par boutique</li>
+      <li><strong>Specs :</strong> attributs produit structurés (processeur, RAM, taille d'écran, capacité, etc.)</li>
+      <li><strong>Pays :</strong> Allemagne (idealo.de), France (idealo.fr), Espagne (idealo.es), Italie (idealo.it), Royaume-Uni (idealo.co.uk), Autriche (idealo.at)</li>
+    </ul>
+
+    <h2 class="section-title">Cas d'usage principaux</h2>
+    <ul>
+      <li><strong>Suivi tarifaire.</strong> Planifier des scans quotidiens sur une liste SKU et tracer best_price dans le temps</li>
+      <li><strong>Contrôle MAP.</strong> Signaler les marchands vendant en dessous du prix minimum pour les équipes conformité</li>
+      <li><strong>Outils de repricing.</strong> Injecter les tableaux merchant_price dans des repricers automatisés</li>
+      <li><strong>Intelligence marchand.</strong> Cartographier quelles boutiques portent un SKU et l'agressivité de leurs prix</li>
+      <li><strong>Écart de prix entre pays.</strong> Même EAN sur .de, .fr, .es, .it pour la détection d'arbitrage</li>
+      <li><strong>Enrichissement catalogue.</strong> Récupérer EAN, marque, specs et catégorie pour l'hygiène de la base produit</li>
+    </ul>
+
+    <h2 class="section-title">Exemple d'API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~idealo-de-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQuery": "macbook air m3",
+    "maxResults": 50,
+    "includeDetails": true,
+    "country": "fr"
+  }'
+
+<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/idealo-de-scraper</span></pre></div>
+
+    <h2 class="section-title">Intégrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> déclencher des runs et alimenter des tableaux de bord tarifaires</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+      <li><strong>Google Sheets, Airtable :</strong> liste SKU en entrée, meilleur prix + détail marchand en sortie</li>
+    </ul>
+
+    <h2 class="section-title">Champs de sortie</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>name</td><td>string</td><td>Apple MacBook Air M3 13" 256 Go</td></tr>
+      <tr><td>brand</td><td>string</td><td>Apple</td></tr>
+      <tr><td>best_price</td><td>number</td><td>999,00</td></tr>
+      <tr><td>price_currency</td><td>string</td><td>EUR</td></tr>
+      <tr><td>price_count</td><td>integer</td><td>42</td></tr>
+      <tr><td>rating</td><td>number</td><td>4,7</td></tr>
+      <tr><td>review_count</td><td>integer</td><td>1 283</td></tr>
+      <tr><td>ean</td><td>string</td><td>0195949179426</td></tr>
+      <tr><td>category</td><td>string</td><td>Notebooks &gt; MacBook Air</td></tr>
+      <tr><td>merchant_name</td><td>string</td><td>Amazon.fr</td></tr>
+    </table>
+
+    <h2 class="section-title">Scrapers liés</h2>
+    <ul>
+      <li><a href="/actors/billiger-de-scraper/">Billiger.de Scraper</a> : comparateur Allemagne, 100M+ offres</li>
+      <li><a href="/actors/geizhals-scraper/">Geizhals Scraper</a> : spécialiste tech DACH</li>
+      <li><a href="/actors/galaxus-ch-scraper/">Galaxus.ch Scraper</a> : plus grand e-commerçant suisse</li>
+      <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a> : référence tarifaire multi-marketplaces</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/idealo-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/M4OfRHArl4T4rvHuD/source?addFromActorId=M4OfRHArl4T4rvHuD&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

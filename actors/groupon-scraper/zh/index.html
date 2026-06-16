@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groupon 爬虫:12 个国家,$3/1k 优惠 | NanoScrape</title>
+  <meta name="description" content="抓取 12 个国家的 Groupon 优惠(DE、US、UK、FR、IT、ES、NL、BE、AT、PL、AU、IE)。返回标题、商家、价格、原价、折扣、地点、评分、图片和类别。类别扩散每城市约 80 条。每条 $0.003。">
+  <meta property="og:title" content="Groupon 爬虫:12 个国家,$3/1k | NanoScrape">
+  <meta property="og:description" content="提取 12 个国家的 Groupon 优惠。商家、价格、折扣、地点、评分。基于 SSR,无需浏览器。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/groupon-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/groupon-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/groupon-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/groupon-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/groupon-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/groupon-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/groupon-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Groupon Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "覆盖 12 个国家(DE、US、UK、FR、IT、ES、NL、BE、AT、PL、AU、IE)的 Groupon 优惠爬虫。直接读取公开 SSR Apollo 缓存,无需浏览器。类别扩散每城市约收集 80 条独特优惠。返回优惠标题、商家名称、价格、原价、折扣、地点、经纬度、评分、图片、类别及可选详细描述。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per deal scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/groupon-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Groupon 爬虫:12 个国家,每 1,000 条优惠 $3</h1>
+    <p class="lead">抓取 12 个国家的 Groupon 优惠:DE、US、UK、FR、IT、ES、NL、BE、AT、PL、AU 和 IE。直接读取公开的 SSR Apollo 缓存,因此无需浏览器。类别扩散发现子页面,并按 UUID 去重收集每个城市约 80 条独特优惠。可选的详细模式抓取完整描述、细则条款、选项、地点和评论数。适用于优惠情报、促销时机分析和本地商家发现。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/groupon-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/pj5yPSeJ0AyNzXjfj/source?addFromActorId=pj5yPSeJ0AyNzXjfj&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.003/条</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">国家数</div><div class="value">12</div></div>
+      <div class="spec"><div class="label">每城市条数</div><div class="value">~80</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
+      <div class="spec"><div class="label">方法</div><div class="value">SSR Apollo 缓存</div></div>
+    </div>
+
+    <h2 class="section-title">可抓取的字段</h2>
+    <ul>
+      <li><strong>优惠身份:</strong> title, deal_url, deal_id, deal_slug, category</li>
+      <li><strong>商家:</strong> merchant_name, merchant_rating, merchant_rating_count</li>
+      <li><strong>价格:</strong> price, original_price, currency, discount_percent</li>
+      <li><strong>地点:</strong> location_name, location_address, latitude, longitude, locations_total</li>
+      <li><strong>详细模式:</strong> description, highlights, fine_print, sold_quantity, expiry_date, merchant_website, merchant_phone, opening_hours, options, locations</li>
+      <li><strong>覆盖范围:</strong> DE、US、UK、FR、IT、ES、NL、BE、AT、PL、AU、IE</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>优惠情报。</strong> 按周追踪每个城市哪些类别推出最大折扣</li>
+      <li><strong>促销时机分析。</strong> 利用 expiry_date 和 sold_quantity 模拟各垂类的售罄速度</li>
+      <li><strong>本地商家发现。</strong> 抓取 merchant_website、merchant_phone 和 opening_hours 用于冷启动外联</li>
+      <li><strong>竞争对手定价。</strong> 在某市场内比较竞争服务商的 original_price 与 price</li>
+      <li><strong>地区扩张调研。</strong> 利用 latitude、longitude 和 locations_total 在进入城市前评估覆盖度</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~groupon-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "country": "DE",
+    "city": "berlin",
+    "maxResults": 100,
+    "includeDetails": false
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 智能体配合使用:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/groupon-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier:</strong> 调度城市扫描并将优惠路由到 Slack 或 CRM</li>
+      <li><strong>AI 智能体 (MCP):</strong> Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js:</strong> 通过 Apify SDK 编程访问</li>
+      <li><strong>Google Sheets、Airtable:</strong> 城市/类别输入,优惠输出</li>
+    </ul>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>60 分钟深层组织按摩</td></tr>
+      <tr><td>merchant_name</td><td>string</td><td>Berlin Wellness Spa</td></tr>
+      <tr><td>price</td><td>number</td><td>39.00</td></tr>
+      <tr><td>original_price</td><td>number</td><td>79.00</td></tr>
+      <tr><td>currency</td><td>string</td><td>EUR</td></tr>
+      <tr><td>discount_percent</td><td>number</td><td>51</td></tr>
+      <tr><td>merchant_rating</td><td>number</td><td>4.5</td></tr>
+      <tr><td>location_address</td><td>string</td><td>Friedrichstr. 100, 10117 Berlin</td></tr>
+      <tr><td>latitude</td><td>number</td><td>52.5170</td></tr>
+      <tr><td>category</td><td>string</td><td>beauty-spas</td></tr>
+    </table>
+
+    <h2 class="section-title">相关爬虫</h2>
+    <ul>
+      <li><a href="/actors/aliexpress-scraper/">AliExpress Scraper</a>:全球电商市场</li>
+      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a>:用完整商家档案丰富商家</li>
+      <li><a href="/actors/website-contact-extractor/">Website Contact Extractor</a>:从商家网站抓取邮箱和决策人</li>
+      <li><a href="/actors/trustpilot-scraper/">Trustpilot Scraper</a>:交叉核对商家声誉</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/groupon-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/pj5yPSeJ0AyNzXjfj/source?addFromActorId=pj5yPSeJ0AyNzXjfj&fpr=0khfbz" class="btn-secondary">立即试用(提供免费额度)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

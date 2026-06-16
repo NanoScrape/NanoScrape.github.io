@@ -3,86 +3,56 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scrape Google News — Headlines, Articles & Trends | NanoScrape</title>
-  <meta name="description" content="Extract Google News headlines, articles, and trending topics at scale. HTTP-only Go scraper, ~12MB Docker image, 128MB RAM. Structured output with title, source, publish date, URL. Pay-per-result pricing.">
-  <meta property="og:title" content="Google News Scraper — Headlines & Trends | NanoScrape">
-  <meta property="og:description" content="Scrape Google News at scale. No browser, ~12MB image, 128MB RAM. Returns headlines, articles, sources, and trending topics.">
+  <title>Google News Scraper: Articles, Sources, Publish Dates at $1/1k | NanoScrape</title>
+  <meta name="description" content="Scrape news articles from Google News for any search query. Returns article title, publisher name, publisher URL, direct article URL, publish date and search query. Filter by country and language. $0.001 per article. HTTP-only Go.">
+  <meta property="og:title" content="Google News Scraper: Articles + Sources + Dates | NanoScrape">
+  <meta property="og:description" content="Google News article scraper. Title, publisher, URL, publish date, country and language filters. $0.001/article.">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/google-news-scraper/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
   <link rel="canonical" href="https://www.nanoscrape.com/actors/google-news-scraper/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-news-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-news-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-news-scraper/">
   <link rel="icon" href="../../nanoscrape_logo_square.png" type="image/png">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Google News Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "HTTP-only Google News scraper. ~12MB Docker image, 128MB RAM. Returns headlines, articles, sources, publish dates, and trending topics.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "pay-per-result"
-    },
-    "url": "https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Google News Scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"HTTP-only Google News scraper. Returns article title, publisher name, publisher URL, direct article URL, RFC 2822 publish date, search query. Filter by country and language. Multi-query supported.","offers":{"@type":"Offer","price":"0.001","priceCurrency":"USD","description":"per article"},"url":"https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
   </script>
   <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
     .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
     .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
     .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-
     .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
     .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
     .btn-primary:hover { opacity: 0.9; text-decoration: none; }
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-
     .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
     .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
     .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-
     .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
     .detail ul { padding-left: 20px; margin-bottom: 24px; }
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
-
     .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
     .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
     .code-block .comment { color: var(--muted); }
-
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
     .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
     .compare-table td { color: var(--text); }
     .compare-table tr:hover td { background: var(--surface); }
     .highlight { color: var(--accent); font-weight: 700; }
-
     footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
   </style>
 </head>
 <body>
@@ -90,50 +60,53 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Scrape Google News — Headlines, Articles & Trends at Scale</h1>
-    <p class="lead">Extract structured news data from Google News. Returns headlines, article titles, source names, publish dates, and URLs. Search by keyword, topic, or region. HTTP-only — no Chrome, no Playwright.</p>
+    <h1>Google News Scraper: Articles, Sources and Publish Dates</h1>
+    <p class="lead">Scrape news articles from Google News for any search query. Returns clean structured data: article title (without source suffix), publisher name, publisher URL, direct article URL, publish date in RFC 2822 format, and the search query that matched the article. Filter by country and language. HTTP-only Go binary, no browser.</p>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &#8594;</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
       <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">Try it now</a>
     </div>
 
     <div class="specs">
-      <div class="spec"><div class="label">Docker Image</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.001/article</div></div>
       <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">Global</div></div>
-      <div class="spec"><div class="label">Pricing</div><div class="value">Pay-per-result</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS fingerprinting</div></div>
+      <div class="spec"><div class="label">Engine</div><div class="value">HTTP-only Go</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">Global, 100+ countries</div></div>
+      <div class="spec"><div class="label">Languages</div><div class="value">All Google News</div></div>
+      <div class="spec"><div class="label">Format</div><div class="value">RFC 2822 dates</div></div>
     </div>
 
-    <h2 class="section-title">What You Can Scrape</h2>
+    <h2 class="section-title">What you can extract</h2>
     <ul>
-      <li><strong>Top headlines</strong> — latest news across all categories or specific topics</li>
-      <li><strong>Search results</strong> — articles matching any keyword or phrase</li>
-      <li><strong>Article metadata</strong> — title, source, publish date, snippet, URL</li>
-      <li><strong>Topic-based news</strong> — business, technology, sports, health, science, entertainment</li>
-      <li><strong>Regional news</strong> — filter by country or language edition</li>
-      <li><strong>Trending stories</strong> — currently trending topics and coverage clusters</li>
+      <li><strong>Article title:</strong> cleaned, without the source suffix that Google News appends</li>
+      <li><strong>Publisher:</strong> source name (Reuters, CNN, TechCrunch, etc.) and publisher_url</li>
+      <li><strong>Article URL:</strong> direct link to the published article (not the Google News redirect)</li>
+      <li><strong>Publish date:</strong> RFC 2822 format, ready for parsing into any datetime library</li>
+      <li><strong>Search query:</strong> the query that matched, useful when running multi-query batches</li>
+      <li><strong>Filters:</strong> language code (en, de, fr, etc.) and country code for regional results</li>
     </ul>
 
-    <h2 class="section-title">Primary Use Cases</h2>
+    <h2 class="section-title">Primary use cases</h2>
     <ul>
-      <li><strong>Media monitoring</strong> — track brand mentions, competitor news, and industry developments</li>
-      <li><strong>Sentiment analysis</strong> — feed headlines into NLP pipelines for market sentiment</li>
-      <li><strong>Trend detection</strong> — identify emerging topics before they go mainstream</li>
-      <li><strong>Content aggregation</strong> — build news feeds, digests, or dashboards</li>
-      <li><strong>Academic research</strong> — analyze media coverage patterns and news framing</li>
+      <li><strong>Media monitoring.</strong> Track brand mentions, competitor news and industry developments across publishers</li>
+      <li><strong>Sentiment analysis.</strong> Feed clean headlines into NLP pipelines for market sentiment scoring</li>
+      <li><strong>Trend detection.</strong> Identify emerging topics before they go mainstream by tracking weekly article counts</li>
+      <li><strong>Content aggregation.</strong> Build news feeds, executive digests or topic dashboards</li>
+      <li><strong>Academic research.</strong> Analyze media coverage patterns and news framing across countries</li>
+      <li><strong>SEO and AEO research.</strong> See which sources rank for your target topics in Google's news ecosystem</li>
     </ul>
 
-    <h2 class="section-title">API Example</h2>
-    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
+    <h2 class="section-title">API example</h2>
+    <div class="code-block"><pre><span class="comment"># Search Google News for any keyword</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-news-scraper/runs?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "searchQueries": ["artificial intelligence"],
+    "searchQueries": ["artificial intelligence", "climate change"],
     "language": "en",
-    "maxResults": 100
+    "country": "US",
+    "maxResults": 100,
+    "maxResultsPerQuery": 50
   }'
 
 <span class="comment"># Or use with AI agents via MCP:</span>
@@ -141,38 +114,32 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-news-s
 
     <h2 class="section-title">Integrations</h2>
     <ul>
-      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
-      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
-      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+      <li><strong>n8n, Make, Zapier:</strong> trigger searches and route articles to Slack, email or BI</li>
+      <li><strong>AI Agents (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets, Airtable, BigQuery:</strong> query list in, article records out</li>
     </ul>
 
-    <h2 class="section-title">How It Compares</h2>
-    <table class="compare-table">
-      <tr><th>Feature</th><th>NanoScrape</th><th>Browser-based scrapers</th></tr>
-      <tr><td>Docker image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
-      <tr><td>RAM usage</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
-      <tr><td>Cost per 1k articles</td><td class="highlight">Pay-per-result</td><td>$5 - $20</td></tr>
-      <tr><td>Anti-bot approach</td><td>TLS fingerprinting</td><td>Full Chrome browser</td></tr>
-      <tr><td>Speed</td><td class="highlight">Fast</td><td>Slow (browser overhead)</td></tr>
-      <tr><td>Coverage</td><td>Global</td><td>Varies</td></tr>
-    </table>
+    <h2 class="section-title">Output sample</h2>
+    <div class="code-block"><pre>{
+  "title": "OpenAI Announces New GPT Model with Multimodal Capabilities",
+  "source": "Reuters",
+  "publisher_url": "https://www.reuters.com",
+  "url": "https://www.reuters.com/technology/openai-announces-new-gpt-model-...",
+  "published_at": "Thu, 12 Jun 2026 14:30:00 +0000",
+  "search_query": "artificial intelligence"
+}</pre></div>
 
-    <h2 class="section-title">Output Fields</h2>
-    <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th></tr>
-      <tr><td>title</td><td>string</td><td>OpenAI Announces New GPT Model</td></tr>
-      <tr><td>source</td><td>string</td><td>Reuters</td></tr>
-      <tr><td>url</td><td>string</td><td>https://reuters.com/...</td></tr>
-      <tr><td>published_at</td><td>string</td><td>2026-04-23T10:30:00Z</td></tr>
-      <tr><td>snippet</td><td>string</td><td>OpenAI today unveiled...</td></tr>
-      <tr><td>topic</td><td>string</td><td>Technology</td></tr>
-      <tr><td>search_query</td><td>string</td><td>artificial intelligence</td></tr>
-    </table>
+    <h2 class="section-title">Related Actors</h2>
+    <ul>
+      <li><a href="/actors/google-search-scraper/">Google Search Scraper</a>: full SERP including organic, ads, PAA and AI Overview</li>
+      <li><a href="/actors/rss-feed-reader/">RSS Feed Reader</a>: complementary RSS/Atom/JSON Feed harvesting</li>
+      <li><a href="/actors/wikipedia-scraper/">Wikipedia Scraper</a>: encyclopedic context alongside breaking news</li>
+    </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &#8594;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">Try it now — free tier available</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">Try it now (free tier available)</a>
     </div>
   </div>
 

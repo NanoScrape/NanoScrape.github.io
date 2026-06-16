@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Remotive 抓取器：远程职位 + 薪资，25 字段，$3/1k | NanoScrape</title>
+  <meta name="description" content="抓取 Remotive.com 远程职位，含结构化薪资、雇佣类型、类目、公司信息、完整描述与申请 URL。每职位 25 个字段。无需登录。每 1,000 个职位 $3。">
+  <meta property="og:title" content="Remotive 抓取器：远程职位 + 薪资，25 字段 | NanoScrape">
+  <meta property="og:description" content="提取 Remotive 远程职位，25 个字段含薪资、公司网站、标语与在招职位数。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/remotive-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/remotive-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/remotive-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/remotive-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/remotive-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/remotive-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/remotive-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Remotive Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "抓取 Remotive.com 精选远程职位列表，每个职位 25 个字段：结构化薪资（最小、最大、货币）、雇佣类型（全职、合同、自由职业）、类目、标签、文本与 HTML 完整描述、发布日期、所需候选人地区、公司名称与 logo，以及可选雇主增强（公司网站、标语、在招职位数、公司主页 URL）。按结果付费。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per job scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Remotive 抓取器：25 个字段，薪资与雇主增强</h1>
+    <p class="lead">抓取 Remotive.com 精选远程职位，每个职位 25 个字段。含结构化薪资（最小、最大、货币）、雇佣类型（全职、合同、自由职业）、类目、标签、文本与 HTML 完整描述、发布日期、所需候选人地区、公司名称与 logo。可开启雇主增强获取公司网站、标语、在招职位数与主页 URL。按结果付费，每 1,000 个职位 $3。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$3/1k 职位</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全球远程</div></div>
+      <div class="spec"><div class="label">每职位字段数</div><div class="value">25</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS + IP 轮换</div></div>
+    </div>
+
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>职位详情：</strong>标题、id、完整描述（文本 + HTML）、类目、标签、job_type（全职、兼职、合同、自由职业）、发布日期、申请 URL</li>
+      <li><strong>薪资情报：</strong>salary_min、salary_max、salary_currency、salary_text</li>
+      <li><strong>所需地区：</strong>candidate_location（例如 "Worldwide"、"USA Only"、"Europe"）</li>
+      <li><strong>公司信息：</strong>公司名称、公司 logo URL</li>
+      <li><strong>雇主增强：</strong>company_website、company_tagline、open_positions_count、company_profile_url</li>
+      <li><strong>元数据：</strong>来源 URL、搜索查询、scraped_at 时间戳</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>远程人才寻源。</strong>按类目过滤（software-dev、design、marketing），将结构化记录推入招聘 CRM</li>
+      <li><strong>薪资基准。</strong>聚合 salary_min 与 salary_max，制定有竞争力的远程职位薪酬</li>
+      <li><strong>远程友好公司清单建设。</strong>用雇主增强字段区分全球招聘与地区限制公司</li>
+      <li><strong>垂类 ATS 回填。</strong>将 description_html 导入自有招聘板，只展示与受众匹配的类目</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~remotive-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchUrls": ["https://remotive.com/remote-jobs/software-dev"],
+    "includeCompanyInfo": true,
+    "maxResults": 100
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/remotive-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理职位记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>查询输入，结构化职位输出</li>
+    </ul>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>Senior Python Engineer</td></tr>
+      <tr><td>company</td><td>string</td><td>GitLab</td></tr>
+      <tr><td>category</td><td>string</td><td>Software Development</td></tr>
+      <tr><td>job_type</td><td>string</td><td>full-time</td></tr>
+      <tr><td>candidate_location</td><td>string</td><td>Worldwide</td></tr>
+      <tr><td>salary_min</td><td>integer</td><td>110000</td></tr>
+      <tr><td>salary_max</td><td>integer</td><td>160000</td></tr>
+      <tr><td>company_website</td><td>string</td><td>https://about.gitlab.com</td></tr>
+      <tr><td>open_positions_count</td><td>integer</td><td>42</td></tr>
+      <tr><td>apply_url</td><td>string</td><td>https://remotive.com/...</td></tr>
+    </table>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/remoteok-scraper/">RemoteOK 抓取器</a>：1,300+ 远程职位，含薪资与标签</li>
+      <li><a href="/actors/weworkremotely-scraper/">WeWorkRemotely 抓取器</a>：最大远程招聘板，含总部与国家信号</li>
+      <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs 抓取器</a>：直接对接 16 个 ATS 系统（Lever、Greenhouse、Workday）</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

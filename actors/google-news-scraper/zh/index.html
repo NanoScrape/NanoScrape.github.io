@@ -3,59 +3,54 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>抓取Google新闻 -- 头条、文章与趋势 | NanoScrape</title>
-  <meta name="description" content="大规模提取Google新闻头条、文章和热门话题。纯HTTP Go抓取工具，约12MB Docker镜像，128MB内存。结构化输出包含标题、来源、发布日期、URL。按结果付费。">
-  <meta property="og:title" content="Google新闻抓取工具 -- 头条与趋势 | NanoScrape">
-  <meta property="og:description" content="大规模抓取Google新闻。无需浏览器，约12MB镜像，128MB内存。返回头条、文章、来源和热门话题。">
+  <title>Google News 抓取器：文章、来源、发布日期 $1/千 | NanoScrape</title>
+  <meta name="description" content="按任意搜索查询抓取 Google News 新闻文章。返回文章标题、出版商名称、出版商 URL、文章直链、发布日期与搜索查询。按国家与语言过滤。$0.001/文章。HTTP-only Go。">
+  <meta property="og:title" content="Google News 抓取器：文章 + 来源 + 日期 | NanoScrape">
+  <meta property="og:description" content="Google News 文章抓取器。标题、出版商、URL、发布日期、国家与语言过滤。$0.001/文章。">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
   <link rel="canonical" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-news-scraper/">
   <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-news-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
   <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-news-scraper/">
   <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Google News Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "HTTP-only Google News scraper. ~12MB Docker image, 128MB RAM. Returns headlines, articles, sources, publish dates, and trending topics.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "pay-per-result"
-    },
-    "url": "https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Google News 抓取器：文章、来源、发布日期 $1/千","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"HTTP-only Google News 抓取器。返回文章标题、出版商名称、出版商 URL、文章直链、RFC 2822 发布日期、搜索查询。按国家与语言过滤。支持多查询。","offers":{"@type":"Offer","price":"0.001","priceCurrency":"USD","description":"每文章"},"url":"https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
   </script>
   <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
     a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
     .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
     .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
     .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
     .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
     .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
     .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
     .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
     .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
     .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
     @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
     #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
   </style>
@@ -65,89 +60,86 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>抓取Google新闻 -- 大规模采集头条、文章与趋势</h1>
-    <p class="lead">从Google新闻提取结构化新闻数据。返回头条、文章标题、来源名称、发布日期和URL。支持按关键词、主题或地区搜索。纯HTTP -- 无需Chrome，无需Playwright。</p>
+    <h1>Google News 抓取器：文章、来源与发布日期</h1>
+    <p class="lead">按任意搜索查询抓取 Google News 新闻文章。返回干净结构化数据：文章标题（去除来源后缀）、出版商名称、出版商 URL、文章直链、RFC 2822 格式发布日期，以及匹配该文章的搜索查询。按国家与语言过滤。HTTP-only Go 二进制，无浏览器。</p>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &#8594;</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
       <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用</a>
     </div>
 
     <div class="specs">
-      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">定价</div><div class="value">$0.001/文章</div></div>
       <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
-      <div class="spec"><div class="label">覆盖范围</div><div class="value">全球</div></div>
-      <div class="spec"><div class="label">价格</div><div class="value">按结果付费</div></div>
-      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS指纹</div></div>
+      <div class="spec"><div class="label">引擎</div><div class="value">HTTP-only Go</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全球 100+ 国家</div></div>
+      <div class="spec"><div class="label">语言</div><div class="value">Google News 全部</div></div>
+      <div class="spec"><div class="label">格式</div><div class="value">RFC 2822 日期</div></div>
     </div>
 
-    <h2 class="section-title">可抓取的数据</h2>
+    <h2 class="section-title">可提取内容</h2>
     <ul>
-      <li><strong>头条新闻</strong> -- 所有类别或特定主题的最新新闻</li>
-      <li><strong>搜索结果</strong> -- 匹配任何关键词或短语的文章</li>
-      <li><strong>文章元数据</strong> -- 标题、来源、发布日期、摘要、URL</li>
-      <li><strong>主题新闻</strong> -- 商业、科技、体育、健康、科学、娱乐</li>
-      <li><strong>地区新闻</strong> -- 按国家或语言版本筛选</li>
-      <li><strong>热门话题</strong> -- 当前热门主题和报道集群</li>
+      <li><strong>文章标题：</strong>已清理，去除 Google News 附加的来源后缀</li>
+      <li><strong>出版商：</strong>来源名称（Reuters、CNN、TechCrunch 等）与 publisher_url</li>
+      <li><strong>文章 URL：</strong>已发布文章的直链（非 Google News 重定向）</li>
+      <li><strong>发布日期：</strong>RFC 2822 格式，可直接由任何 datetime 库解析</li>
+      <li><strong>搜索查询：</strong>命中的查询，多查询批处理时有用</li>
+      <li><strong>过滤：</strong>语言代码（en、de、fr 等）与国家代码用于区域结果</li>
     </ul>
 
     <h2 class="section-title">主要用例</h2>
     <ul>
-      <li><strong>媒体监控</strong> -- 追踪品牌提及、竞争对手新闻和行业动态</li>
-      <li><strong>情绪分析</strong> -- 将头条输入NLP管道进行市场情绪分析</li>
-      <li><strong>趋势检测</strong> -- 在新兴话题成为主流之前发现它们</li>
-      <li><strong>内容聚合</strong> -- 构建新闻推送、摘要或仪表板</li>
-      <li><strong>学术研究</strong> -- 分析媒体报道模式和新闻框架</li>
+      <li><strong>媒体监控。</strong>跨出版商跟踪品牌提及、竞品新闻与行业发展</li>
+      <li><strong>情感分析。</strong>将干净标题送入 NLP 管线进行市场情感评分</li>
+      <li><strong>趋势检测。</strong>通过每周文章计数在主流化之前识别新兴话题</li>
+      <li><strong>内容聚合。</strong>构建新闻源、高管摘要或话题仪表板</li>
+      <li><strong>学术研究。</strong>跨国分析媒体报道模式与新闻框架</li>
+      <li><strong>SEO 与 AEO 研究。</strong>查看 Google 新闻生态中哪些来源为您的目标话题排名</li>
     </ul>
 
-    <h2 class="section-title">API示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过Apify API启动一次运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># Search Google News for any keyword</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-news-scraper/runs?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "searchQueries": ["artificial intelligence"],
-    "language": "zh",
-    "maxResults": 100
+    "searchQueries": ["artificial intelligence", "climate change"],
+    "language": "en",
+    "country": "US",
+    "maxResults": 100,
+    "maxResultsPerQuery": 50
   }'
 
-<span class="comment"># 或通过MCP与AI代理一起使用：</span>
+<span class="comment"># Or use with AI agents via MCP:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/google-news-scraper</span></pre></div>
 
     <h2 class="section-title">集成</h2>
     <ul>
-      <li><strong>n8n / Make / Zapier</strong> -- 触发运行并通过Webhook处理结果</li>
-      <li><strong>AI代理 (MCP)</strong> -- Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python / Node.js</strong> -- 通过Apify SDK进行编程访问</li>
-      <li><strong>Google Sheets / Airtable</strong> -- 通过Apify集成导出</li>
+      <li><strong>n8n、Make、Zapier：</strong>触发搜索并将文章路由至 Slack、邮件或 BI</li>
+      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
+      <li><strong>Google Sheets、Airtable、BigQuery：</strong>查询列表输入，文章记录输出</li>
     </ul>
 
-    <h2 class="section-title">对比</h2>
-    <table class="compare-table">
-      <tr><th>特性</th><th>NanoScrape</th><th>基于浏览器的抓取工具</th></tr>
-      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
-      <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
-      <tr><td>每1k篇文章成本</td><td class="highlight">按结果付费</td><td>$5 - $20</td></tr>
-      <tr><td>反爬虫方案</td><td>TLS指纹</td><td>完整Chrome浏览器</td></tr>
-      <tr><td>速度</td><td class="highlight">快速</td><td>慢（浏览器开销）</td></tr>
-      <tr><td>覆盖范围</td><td>全球</td><td>不确定</td></tr>
-    </table>
+    <h2 class="section-title">输出示例</h2>
+    <div class="code-block"><pre>{
+  "title": "OpenAI Announces New GPT Model with Multimodal Capabilities",
+  "source": "Reuters",
+  "publisher_url": "https://www.reuters.com",
+  "url": "https://www.reuters.com/technology/openai-announces-new-gpt-model-...",
+  "published_at": "Thu, 12 Jun 2026 14:30:00 +0000",
+  "search_query": "artificial intelligence"
+}</pre></div>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>OpenAI发布新GPT模型</td></tr>
-      <tr><td>source</td><td>string</td><td>Reuters</td></tr>
-      <tr><td>url</td><td>string</td><td>https://reuters.com/...</td></tr>
-      <tr><td>published_at</td><td>string</td><td>2026-04-23T10:30:00Z</td></tr>
-      <tr><td>snippet</td><td>string</td><td>OpenAI今日发布...</td></tr>
-      <tr><td>topic</td><td>string</td><td>Technology</td></tr>
-      <tr><td>search_query</td><td>string</td><td>artificial intelligence</td></tr>
-    </table>
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/google-search-scraper/zh/">Google 搜索抓取器</a>：完整 SERP，含自然结果、广告、PAA 与 AI Overview</li>
+      <li><a href="/actors/rss-feed-reader/zh/">RSS Feed Reader</a>：补充性 RSS/Atom/JSON Feed 收集</li>
+      <li><a href="/actors/wikipedia-scraper/zh/">Wikipedia 抓取器</a>：在突发新闻旁提供百科上下文</li>
+    </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &#8594;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用 -- 提供免费套餐</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
     </div>
   </div>
 
