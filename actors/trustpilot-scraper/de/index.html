@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trustpilot Scraper: Firmenbewertungen + Trust-Scores | NanoScrape</title>
+  <meta name="description" content="Trustpilot Firmenprofile und Bewertungen scrapen. Liefert Trust-Score, Durchschnittsbewertung, Gesamtbewertungen, Bewertungstext, Autor, Daten, verifizierten Status, Firmenantwort. Pay-per-Result.">
+  <meta property="og:title" content="Trustpilot Scraper: Bewertungen + Ratings | NanoScrape">
+  <meta property="og:description" content="Firmenprofile und einzelne Bewertungen aus Trustpilot extrahieren. Nach Sternen filtern, nach Aktualität sortieren, suchen oder URLs einfügen. Ab $0,001 pro Bewertung.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Trustpilot Scraper",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+    "description": "Trustpilot Firmenbewertungs-Scraper. Liefert Firmenprofil (Trust-Score, Rating, Gesamtbewertungen, Kategorien, Land, Logo) plus einzelne Bewertungen (1 bis 5 Sterne, Titel, Text, Autor, Daten, verifizierter Status, Firmenantwort).",
+    "offers": { "@type": "Offer", "price": "0.001", "priceCurrency": "USD", "description": "per review" },
+    "url": "https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Trustpilot Scraper: Firmenbewertungen und Trust-Scores</h1>
+    <p class="lead">Firmenprofile und Konsumentenbewertungen aus Trustpilot extrahieren, der globalen Bewertungsplattform, die jede große Branche abdeckt. Zwei Output-Typen in einem Lauf: Firmenprofile (Firmenname, Domain, Website, Trust-Score, Durchschnittsbewertung, Gesamtbewertungszahl, Kategorien, Land, Logo) und einzelne Bewertungen (1 bis 5 Sterne, Titel, Volltext, Autorenname, Land des Autors, Gesamtbewertungen des Autors, Posting-Datum, Datum der Erfahrung, verifizierter Kauf-Status, Antworttext und Datum des Unternehmens, Quelle wie Organic oder Invited). Per Keyword suchen oder Firmen-URLs einfügen. Nach Sternen filtern, nach Aktualität oder Relevanz sortieren. Wir extrahieren ausschließlich öffentlich sichtbare Bewertungsseiten, kein Login-Bypass.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Business</div><div class="value">$3 pro 1.000 Profile</div></div>
+      <div class="spec"><div class="label">Review</div><div class="value">$1 pro 1.000 Bewertungen</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Filter</div><div class="value">Sterne + Sortierung</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Residential</div></div>
+    </div>
+
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Firmenprofil:</strong> company_name, domain, website, trust_score, average_rating, total_reviews, categories, country, logo</li>
+      <li><strong>Bewertung:</strong> star_rating (1 bis 5), Titel, voller Bewertungstext, Quelle (Organic, Invited, ...)</li>
+      <li><strong>Autor:</strong> Name, Land, Gesamtbewertungen des Autors</li>
+      <li><strong>Daten:</strong> Posting-Datum und Datum der Erfahrung</li>
+      <li><strong>Status:</strong> verifizierter Kauf (boolean)</li>
+      <li><strong>Firmenantwort:</strong> Antworttext und Antwortdatum, wenn vorhanden</li>
+    </ul>
+
+    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Brand-Reputation-Monitoring.</strong> Trust-Score und Bewertungsvolumen-Drift wöchentlich verfolgen, bei Rating-Drops alarmieren</li>
+      <li><strong>Wettbewerber-Sentiment-Analyse.</strong> Bewertungsthemen (Pros, Cons, häufige Beschwerden) zwischen Konkurrenten vergleichen</li>
+      <li><strong>E-Commerce-Trust-Intelligence.</strong> Den Trustpilot-Verlauf eines Anbieters vor Beschaffung oder Partnerschaft prüfen</li>
+      <li><strong>Customer-Voice-Mining.</strong> 1-Sterne- und 5-Sterne-Bewertungen in eine NLP-Pipeline für Themen-Extraktion und CX-Research ziehen</li>
+      <li><strong>Reply-Rate-Audits.</strong> Messen, wie oft ein Wettbewerber auf Bewertungen antwortet und wie schnell</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~trustpilot-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["https://www.trustpilot.com/review/amazon.com"],
+    "maxReviewsPerBusiness": 50,
+    "sortBy": "recency"
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/trustpilot-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Bewertungs- oder Firmenrecords per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+      <li><strong>BigQuery, Snowflake, Looker:</strong> Bewertungsdatensätze in Analytics- und BI-Dashboards pushen</li>
+    </ul>
+
+    <h2 class="section-title">Ausgabefelder (Review-Item)</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>type</td><td>string</td><td>review</td></tr>
+      <tr><td>company_name</td><td>string</td><td>Amazon</td></tr>
+      <tr><td>star_rating</td><td>integer</td><td>5</td></tr>
+      <tr><td>title</td><td>string</td><td>Schnelle Lieferung, korrektes Listing</td></tr>
+      <tr><td>review_text</td><td>string</td><td>Bestellung kam einen Tag früher an...</td></tr>
+      <tr><td>author_name</td><td>string</td><td>Jane D.</td></tr>
+      <tr><td>author_country</td><td>string</td><td>GB</td></tr>
+      <tr><td>date_posted</td><td>string</td><td>2026-04-22</td></tr>
+      <tr><td>verified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>company_reply</td><td>string</td><td>Vielen Dank für die freundlichen Worte ...</td></tr>
+    </table>
+
+    <h2 class="section-title">Hinweise und Limits</h2>
+    <ul>
+      <li><strong>Nur öffentliche Daten.</strong> Trustpilot hat Anti-Scraping-Klauseln in den AGB. Wir extrahieren ausschließlich öffentlich sichtbare Firmen- und Bewertungsseiten, kein Login-Bypass, kein Zugriff auf private Bewertungen</li>
+      <li><strong>Filter unterstützt.</strong> Nach <code>recency</code> oder <code>relevance</code> sortieren, auf eine bestimmte Sterne-Bewertung filtern, um 1-Sterne- oder 5-Sterne-Reviews zu isolieren</li>
+      <li><strong>Business-only-Modus.</strong> <code>maxReviewsPerBusiness: 0</code> setzen, um nur die Firmenzusammenfassung zu erhalten, nützlich für günstige Bulk-Profil-Sweeps</li>
+    </ul>
+
+    <h2 class="section-title">Verwandte Scraper</h2>
+    <ul>
+      <li><a href="/actors/clutch-co-scraper/">Clutch.co Scraper</a>: B2B-Agentur-Bewertungen und -Ratings</li>
+      <li><a href="/actors/kununu-de-scraper/">Kununu Scraper</a>: DACH-Arbeitgeberbewertungen + Gehälter</li>
+      <li><a href="/actors/glassdoor-scraper/">Glassdoor Scraper</a>: globale Arbeitgeberbewertungen + Jobs + Gehälter</li>
+      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a>: Firmen mit Google-Bewertungen und Ratings anreichern</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trustpilot 抓取器：商家评价 + 信任评分 | NanoScrape</title>
+  <meta name="description" content="抓取 Trustpilot 商家资料和评价。返回信任评分、平均评分、评价总数、评价文本、作者、日期、验证状态、商家回复。按结果付费。">
+  <meta property="og:title" content="Trustpilot 抓取器：评价 + 评分 | NanoScrape">
+  <meta property="og:description" content="从 Trustpilot 提取商家资料和单条评价。按星级筛选、按时间排序、搜索或粘贴 URL。每条评价起价 $0.001。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Trustpilot Scraper",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+    "description": "Trustpilot 商家评价抓取器。返回商家资料（信任评分、评分、评价总数、类目、国家、Logo）以及单条评价（1 至 5 星、标题、文本、作者、日期、验证状态、商家回复）。",
+    "offers": { "@type": "Offer", "price": "0.001", "priceCurrency": "USD", "description": "per review" },
+    "url": "https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Trustpilot 抓取器：商家评价与信任评分</h1>
+    <p class="lead">从 Trustpilot 提取商家资料和消费者评价，这是覆盖每个主要行业的全球评价平台。一次运行包含两类输出：商家资料（公司名、域名、网站、信任评分、平均评分、评价总数、类目、国家、Logo）和单条评价（1 至 5 星评分、标题、完整正文、作者姓名、作者国家、作者总评价数、发布日期、体验日期、已验证购买状态、商家回复文本和日期、来源如 Organic 或 Invited）。按关键词搜索或粘贴商家 URL。按星级筛选，按时间或相关性排序。我们只提取公开可见的评价页面，不绕过登录。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">商家</div><div class="value">$3/1000 资料</div></div>
+      <div class="spec"><div class="label">评价</div><div class="value">$1/1000 评价</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+      <div class="spec"><div class="label">筛选</div><div class="value">星级 + 排序</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">住宅代理</div></div>
+    </div>
+
+    <h2 class="section-title">可以抓取的内容</h2>
+    <ul>
+      <li><strong>商家资料：</strong>company_name、domain、website、trust_score、average_rating、total_reviews、categories、country、logo</li>
+      <li><strong>评价：</strong>star_rating（1 至 5）、标题、完整评价文本、来源（Organic、Invited 等）</li>
+      <li><strong>作者：</strong>姓名、国家、作者总评价数</li>
+      <li><strong>日期：</strong>发布日期与体验日期</li>
+      <li><strong>状态：</strong>已验证购买（boolean）</li>
+      <li><strong>商家回复：</strong>回复文本与日期（如有）</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>品牌声誉监控。</strong>逐周追踪信任评分与评价量漂移，对评分下降发出告警</li>
+      <li><strong>竞争对手情绪分析。</strong>在对手之间比较评价主题（优点、缺点、常见投诉）</li>
+      <li><strong>电商信任情报。</strong>采购或合作前核查供应商的 Trustpilot 履历</li>
+      <li><strong>客户声音挖掘。</strong>将 1 星和 5 星评价拉入 NLP 流程做主题抽取与 CX 研究</li>
+      <li><strong>回复率审计。</strong>测量竞争对手回复评价的频率与速度</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动任务</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~trustpilot-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["https://www.trustpilot.com/review/amazon.com"],
+    "maxReviewsPerBusiness": 50,
+    "sortBy": "recency"
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 智能体一起使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/trustpilot-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 webhook 触发任务并处理评价或商家记录</li>
+      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行程序化访问</li>
+      <li><strong>BigQuery、Snowflake、Looker：</strong>将评价数据集推入分析与 BI 仪表板</li>
+    </ul>
+
+    <h2 class="section-title">输出字段（评价条目）</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>type</td><td>string</td><td>review</td></tr>
+      <tr><td>company_name</td><td>string</td><td>Amazon</td></tr>
+      <tr><td>star_rating</td><td>integer</td><td>5</td></tr>
+      <tr><td>title</td><td>string</td><td>发货快，描述准确</td></tr>
+      <tr><td>review_text</td><td>string</td><td>订单提前一天送达...</td></tr>
+      <tr><td>author_name</td><td>string</td><td>Jane D.</td></tr>
+      <tr><td>author_country</td><td>string</td><td>GB</td></tr>
+      <tr><td>date_posted</td><td>string</td><td>2026-04-22</td></tr>
+      <tr><td>verified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>company_reply</td><td>string</td><td>感谢您的好评 ...</td></tr>
+    </table>
+
+    <h2 class="section-title">注意与限制</h2>
+    <ul>
+      <li><strong>仅公开数据。</strong>Trustpilot 在条款中包含反抓取声明。我们只提取公开可见的商家和评价页面，不绕过登录，不访问私有评价</li>
+      <li><strong>支持的筛选。</strong>按 <code>recency</code> 或 <code>relevance</code> 排序，按特定星级筛选以隔离 1 星或 5 星评价</li>
+      <li><strong>仅商家模式。</strong>设置 <code>maxReviewsPerBusiness: 0</code> 只获取商家摘要，适合低成本的批量资料扫描</li>
+    </ul>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/clutch-co-scraper/">Clutch.co 抓取器</a>：B2B 代理商评价与评分</li>
+      <li><a href="/actors/kununu-de-scraper/">Kununu 抓取器</a>：DACH 雇主评价 + 薪资</li>
+      <li><a href="/actors/glassdoor-scraper/">Glassdoor 抓取器</a>：全球雇主评价 + 职位 + 薪资</li>
+      <li><a href="/actors/google-maps-scraper/">Google Maps 抓取器</a>：用 Google 评价和评分丰富商家</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">立即试用（有免费额度）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
