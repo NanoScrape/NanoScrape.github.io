@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSL 证书检查器：TLS 审计和到期，$1/1k | NanoScrape</title>
+  <meta name="description" content="对任何域名进行批量 SSL/TLS 证书检查。返回颁发者、到期日期、链验证、TLS 版本、密码套件和 0-100 安全评分。每 1,000 域名 $1。">
+  <meta property="og:title" content="SSL 证书检查器：TLS 审计和到期监控 | NanoScrape">
+  <meta property="og:description" content="检查任何域名的 SSL/TLS 证书。颁发者、到期、链、密码、安全评分。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/ssl-certificate-inspector/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SSL Certificate Inspector",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "对任何域名进行批量 SSL/TLS 证书检查。返回颁发者、到期、链验证、TLS 版本、密码套件、SAN 列表和 0-100 安全评分。128MB 内存，每域名 $0.001。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per domain inspected"
+    },
+    "url": "https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>SSL 证书检查器：TLS 审计和到期监控，每 1,000 域名 $1</h1>
+    <p class="lead">检查任何域名的 SSL/TLS 证书。返回颁发者、主题、到期日期、days_until_expiry、链有效性、签名算法、密钥大小、SAN 列表、支持的 TLS 版本、接受的密码套件和 0-100 安全评分。为批量而生：输入 10,000 域名，每证书一行返回。适用于合规审计、到期监控、安全态势仪表盘和供应商风险审查。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/域名</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">任意域名</div></div><div class="spec"><div class="label">输出字段</div><div class="value">20+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">原生 TLS 握手</div></div>
+    </div>
+
+    <h2 class="section-title">您能获得什么</h2>
+    <ul>
+      <li><strong>证书身份：</strong>issuer、subject、common_name、sans[]、serial_number</li>
+      <li><strong>有效性：</strong>not_before、not_after、days_until_expiry、is_expired、is_self_signed</li>
+      <li><strong>链：</strong>chain_valid、chain_length、root_ca、intermediate_cas[]</li>
+      <li><strong>加密：</strong>signature_algorithm、key_algorithm、key_size_bits</li>
+      <li><strong>TLS 态势：</strong>tls_versions_supported、cipher_suites、supports_tls13、security_score (0-100)</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>合规审计。</strong>验证范围内每一个域名满足 PCI-DSS 或 SOC 2 TLS 要求</li>
+      <li><strong>到期监控。</strong>对子域名群组中 30 天内即将到期的证书发出告警</li>
+      <li><strong>安全态势仪表盘。</strong>在统一 0-100 量表上对每一个面向客户的服务评分</li>
+      <li><strong>供应商风险审查。</strong>入驻前评估第三方供应商的 TLS 卫生</li>
+      <li><strong>收购尽职调查。</strong>盘点目标公司域名组合上的证书健康度</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ssl-certificate-inspector/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domains": [
+      "google.com",
+      "stripe.com",
+      "shopify.com",
+      "example-app.com",
+      "vendor-portal.com"
+    ],
+    "checkChain": true,
+    "checkCiphers": true
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/ssl-certificate-inspector</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
+    </ul>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>domain</td><td>string</td><td>stripe.com</td></tr>
+      <tr><td>issuer</td><td>string</td><td>DigiCert TLS RSA SHA256 2020 CA1</td></tr>
+      <tr><td>common_name</td><td>string</td><td>stripe.com</td></tr>
+      <tr><td>sans</td><td>array</td><td>["stripe.com","www.stripe.com"]</td></tr>
+      <tr><td>not_after</td><td>string</td><td>2026-09-12T23:59:59Z</td></tr>
+      <tr><td>days_until_expiry</td><td>integer</td><td>91</td></tr>
+      <tr><td>chain_valid</td><td>boolean</td><td>true</td></tr>
+      <tr><td>signature_algorithm</td><td>string</td><td>sha256WithRSAEncryption</td></tr>
+      <tr><td>supports_tls13</td><td>boolean</td><td>true</td></tr>
+      <tr><td>security_score</td><td>integer</td><td>98</td></tr>
+    </table>
+
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/domain-whois-dns/">Domain WHOIS & DNS</a>: 证书审计与 WHOIS 和 DNS 态势配对</li>
+      <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: 识别每个证书背后的 CDN</li>
+      <li><a href="/actors/ip-geolocation/">IP Geolocation</a>: 用托管国家富化每个证书</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

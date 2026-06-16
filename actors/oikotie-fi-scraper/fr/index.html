@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oikotie.fi Scraper : Immobilier finlandais, Neliohinta | NanoScrape</title>
+  <meta name="description" content="Extrayez les annonces d'achat et de location de Oikotie.fi dans 50+ villes finlandaises. Retourne prix EUR, configuration de pieces finlandaise (3h+k+s), surface m2, type de batiment (Kerrostalo), annee, etage, district, GPS, courtier. Sans connexion. A partir de 3$ pour 1 000 annonces.">
+  <meta property="og:title" content="Oikotie.fi Scraper : Immobilier finlandais | NanoScrape">
+  <meta property="og:description" content="Extrayez les donnees immobilieres finlandaises de Oikotie.fi. Prix EUR, configuration de pieces finlandaise, Kerrostalo / Omakotitalo, district, GPS, courtier. Paiement au resultat. Sans connexion.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/oikotie-fi-scraper/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Oikotie.fi Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Scraper immobilier finlandais pour Oikotie.fi, plus grand portail immobilier de Finlande (Sanoma Group). Retourne prix EUR (avec calcul neliohinta), configuration de pieces finlandaise (par exemple 3h+k+s), surface en m2, terrain, type de batiment (Kerrostalo, Rivitalo, Omakotitalo), annee de construction, etage et nombre total d'etages, adresse avec district, coordonnees GPS, description complete, agence et nom du courtier. Supporte 50+ villes finlandaises. HTTP-only, 128MB RAM.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Oikotie.fi Scraper : immobilier finlandais, Neliohinta, 50+ villes</h1>
+    <p class="lead">Extrayez chaque annonce immobiliere sur Oikotie.fi, le plus grand portail immobilier de Finlande (Sanoma). Retourne prix en EUR (avec calcul neliohinta comme price_numeric divise par area_sqm), la configuration de pieces finlandaise (par exemple 3h+k+s pour 3 pieces, cuisine, sauna), surface en m2, taille du terrain pour les maisons, type de batiment (Kerrostalo, Rivitalo, Omakotitalo, Paritalo), annee de construction, etage et nombre total d'etages, adresse avec district (par exemple Toolo, Punavuori), coordonnees GPS, description finlandaise complete, agence et nom du courtier. Supporte 50+ villes finlandaises dont Helsinki, Tampere, Turku, Oulu, Espoo, Vantaa.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif</div><div class="value">3$ / 1k annonces</div></div>
+      <div class="spec"><div class="label">Couverture</div><div class="value">50+ villes FI</div></div>
+      <div class="spec"><div class="label">Marches</div><div class="value">Achat + Location</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Apify par defaut</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">HTTP-only</div></div>
+    </div>
+
+    <h2 class="section-title">Ce que vous pouvez extraire</h2>
+    <ul>
+      <li><strong>Prix :</strong> price (formate "295 000 EUR"), price_numeric (nombre parse), permet un calcul neliohinta propre (EUR/m2)</li>
+      <li><strong>Configuration :</strong> rooms (compteur entier), room_configuration (layout finlandais comme "3h+k+s"), area_sqm, lot_area_sqm, floor, floor_count</li>
+      <li><strong>Batiment :</strong> building_type (Kerrostalo immeuble, Rivitalo maison en bande, Omakotitalo maison individuelle, Paritalo maison jumelee), building_year</li>
+      <li><strong>Localisation :</strong> address, city, district (par exemple Toolo, Kallio, Punavuori), latitude, longitude</li>
+      <li><strong>Description :</strong> description complete en finnois (kuvaus)</li>
+      <li><strong>Courtier :</strong> broker_name (Kiinteistomaailma, OP Koti, Huoneistokeskus, ...), realtor_name (agent individuel)</li>
+      <li><strong>Medias :</strong> image_url</li>
+      <li><strong>Metadonnees :</strong> published_at, source_url, scraped_at</li>
+    </ul>
+
+    <h2 class="section-title">Cas d'usage courants</h2>
+    <ul>
+      <li><strong>Analyse du marche finlandais.</strong> Suivre les tendances neliohinta (EUR par m2) a Helsinki, Espoo, Tampere, Turku et dans les 50+ villes supportees</li>
+      <li><strong>Cartes de prix par district d'Helsinki.</strong> Construire une heatmap de price_numeric/area_sqm par district (Toolo, Punavuori, Kallio, Kruununhaka, Eira)</li>
+      <li><strong>Benchmarking Kerrostalo vs Omakotitalo.</strong> Comparer les prix immeuble vs maison individuelle par cohorte building_year</li>
+      <li><strong>Screening d'investissement.</strong> Croiser les marches d'achat et de location sur le meme district pour calculer les rendements locatifs finlandais</li>
+      <li><strong>Prospection de courtiers.</strong> Extraire chaque annonce active Kiinteistomaailma, OP Koti, Huoneistokeskus pour la prospection B2B</li>
+    </ul>
+
+    <h2 class="section-title">Tarification</h2>
+    <ul>
+      <li><strong>Demarrage de l'actor :</strong> 0,05$ par execution (unique)</li>
+      <li><strong>Annonce extraite :</strong> 0,003$ par resultat</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Nouveau sur Apify ?</strong> Chaque compte recoit 5$ de credit plateforme mensuel gratuit. Apres les 0,05$ de demarrage, cela suffit pour environ 1 650 annonces sur cet actor avant de vous engager a payer.</p>
+
+    <h2 class="section-title">Exemple d'API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une execution via l'API Apify</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~oikotie-fi-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "buy",
+    "location": "Helsinki",
+    "maxResults": 100
+  }'
+
+<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/oikotie-fi-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> declencher des executions et piper les annonces finlandaises vers Google Sheets, Airtable ou votre CRM</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'acces programmatique</li>
+      <li><strong>BI et entrepots :</strong> pousser le JSON vers BigQuery, Postgres, Snowflake pour les tableaux de bord neliohinta</li>
+    </ul>
+
+    <h2 class="section-title">Champs de sortie (exemple)</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>title</td><td>string</td><td>Kerrostalo, 3h+k+s, 75 m2</td></tr>
+      <tr><td>address</td><td>string</td><td>Mannerheimintie 42 A 5</td></tr>
+      <tr><td>district</td><td>string</td><td>Toolo</td></tr>
+      <tr><td>price</td><td>string</td><td>295 000 EUR</td></tr>
+      <tr><td>price_numeric</td><td>number</td><td>295000</td></tr>
+      <tr><td>rooms</td><td>integer</td><td>3</td></tr>
+      <tr><td>room_configuration</td><td>string</td><td>3h+k+s</td></tr>
+      <tr><td>area_sqm</td><td>number</td><td>75,0</td></tr>
+      <tr><td>building_type</td><td>string</td><td>Kerrostalo</td></tr>
+      <tr><td>building_year</td><td>integer</td><td>1965</td></tr>
+    </table>
+
+    <h2 class="section-title">Scrapers associes</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a> : immobilier suisse avec prix CHF et Minergie</li>
+      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de Scraper</a> : immobilier allemand avec Warmmiete et classe energetique</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a> : portail numero 1 des Pays-Bas avec energielabel</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a> : immobilier belge avec label PEB</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

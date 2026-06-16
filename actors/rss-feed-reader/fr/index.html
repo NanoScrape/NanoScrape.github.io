@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecteur RSS : parser RSS, Atom & JSON Feed en masse, 0,50$/1k | NanoScrape</title>
+  <meta name="description" content="Parser et surveiller des sources RSS 2.0, Atom 1.0 et JSON Feed en masse. Retourne titres, auteurs, contenu, images, catégories et dates de publication. Filtre par plage de dates. 0,50$ pour 1 000 flux.">
+  <meta property="og:title" content="Lecteur RSS : parser RSS, Atom & JSON Feed en masse | NanoScrape">
+  <meta property="og:description" content="Parser des flux RSS, Atom et JSON à grande échelle. Retourne titres, auteurs, contenu, dates. Paiement au résultat.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/rss-feed-reader/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/rss-feed-reader/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/rss-feed-reader/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/rss-feed-reader/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "RSS Feed Reader",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Parser RSS 2.0, Atom 1.0 et JSON Feed en masse. Retourne titres d'items, auteurs, contenu, dates, catégories, pièces jointes et images en ligne. Filtre par plage de dates. 128MB RAM, 0,0005$ par flux.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.0005",
+      "priceCurrency": "USD",
+      "description": "per feed parsed"
+    },
+    "url": "https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Lecteur RSS : surveiller tout flux à l'échelle, 0,50$ pour 1 000 flux</h1>
+    <p class="lead">Parsez des sources RSS 2.0, Atom 1.0 et JSON Feed depuis toute URL de flux. Retourne chaque élément avec titre, auteur, lien, date de publication, contenu, résumé, catégories, pièces jointes et images en ligne. Filtrez par plage de dates ou catégorie. Construit pour la surveillance : planifiez horaire pour alimenter un agrégateur de news, une pipeline d'alerte ou une base de contenu. Idéal pour surveillance d'actualités, indexation de podcasts, suivi de blogs et alertes de mention de marque.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif</div><div class="value">0,0005$/flux</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Couverture</div><div class="value">RSS, Atom, JSON Feed</div></div><div class="spec"><div class="label">Champs de sortie</div><div class="value">15+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">HTTP + parseur XML/JSON</div></div>
+    </div>
+
+    <h2 class="section-title">Ce que vous obtenez</h2>
+    <ul>
+      <li><strong>Par élément :</strong> title, link, author, published_at, updated_at, content_html, summary</li>
+      <li><strong>Taxonomie :</strong> categories[], tags[], language</li>
+      <li><strong>Médias :</strong> enclosures[] (podcasts, pièces jointes), inline_images[], featured_image</li>
+      <li><strong>Métadonnées du flux :</strong> feed_title, feed_description, feed_link, feed_updated_at, total_items</li>
+      <li><strong>Filtrage :</strong> max_age_days, since_date, category_filter, keyword_filter</li>
+    </ul>
+
+    <h2 class="section-title">Cas d'usage principaux</h2>
+    <ul>
+      <li><strong>Surveillance d'actualités.</strong> Agréger des centaines de sources sectorielles dans une pipeline unique de mention</li>
+      <li><strong>Indexation de podcasts.</strong> Récupérer chaque épisode d'un catalogue avec métadonnées et URLs audio</li>
+      <li><strong>Suivi de blogs.</strong> Diffrer quotidiennement le flux d'un concurrent pour détecter nouveaux posts et sujets</li>
+      <li><strong>Alertes de mention de marque.</strong> Filtrer les flux par mot-clé et déclencher des notifications Slack ou webhook</li>
+      <li><strong>Hydratation de base de contenu.</strong> Remplir une base éditoriale depuis les archives RSS d'éditeurs</li>
+    </ul>
+
+    <h2 class="section-title">Exemple d'API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~rss-feed-reader/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "feedUrls": [
+      "https://techcrunch.com/feed/",
+      "https://feeds.feedburner.com/feedburner/Techcrunch",
+      "https://www.theverge.com/rss/index.xml",
+      "https://hnrss.org/frontpage",
+      "https://example-podcast.com/rss"
+    ],
+    "maxAgeDays": 7,
+    "extractFullContent": true
+  }'
+
+<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/rss-feed-reader</span></pre></div>
+
+    <h2 class="section-title">Intégrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les enregistrements via webhook</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+      <li><strong>Google Sheets, Airtable :</strong> entrées en masse, données structurées en sortie</li>
+    </ul>
+
+    <h2 class="section-title">Champs de sortie</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>feed_url</td><td>string</td><td>https://techcrunch.com/feed/</td></tr>
+      <tr><td>feed_title</td><td>string</td><td>TechCrunch</td></tr>
+      <tr><td>total_items</td><td>integer</td><td>42</td></tr>
+      <tr><td>item_title</td><td>string</td><td>Acme lève 50M$ en Série B</td></tr>
+      <tr><td>author</td><td>string</td><td>Nom du reporter</td></tr>
+      <tr><td>published_at</td><td>string</td><td>2026-06-13T08:42:00Z</td></tr>
+      <tr><td>link</td><td>string</td><td>https://techcrunch.com/2026/06/13/acme-series-b/</td></tr>
+      <tr><td>content_html</td><td>string</td><td><p>Acme, le leader...</p></td></tr>
+      <tr><td>categories</td><td>array</td><td>["startups","funding"]</td></tr>
+      <tr><td>featured_image</td><td>string</td><td>https://techcrunch.com/images/acme.jpg</td></tr>
+    </table>
+
+    <h2 class="section-title">Acteurs associés</h2>
+    <ul>
+      <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: convertir le contenu HTML de chaque item en markdown propre</li>
+      <li><a href="/actors/wikipedia-scraper/">Wikipedia Scraper</a>: enrichir les entités d'actualités avec résumés Wikipedia</li>
+      <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: extraire canonical et OG depuis chaque URL d'item</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Immowelt.de 抓取器：德国房地产，暖租金/冷租金 | NanoScrape</title>
+  <meta name="description" content="抓取 Immowelt.de 全德国的租赁与销售房源。返回 Warmmiete、Kaltmiete、房间数、面积、PLZ、能源等级（A+ 至 H）、中介公司、电话、佣金标志。无需登录。每 1,000 条 $3 起。">
+  <meta property="og:title" content="Immowelt.de 抓取器：德国房地产 | NanoScrape">
+  <meta property="og:description" content="从 Immowelt.de 提取德国房产数据。暖租金/冷租金、能源等级、中介联系方式、PLZ、佣金标志。按结果付费。无需登录。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Immowelt.de Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "针对 Immowelt.de 的德国房地产抓取器，德国最大的房产平台之一。返回价格、Warmmiete（暖租金）、Kaltmiete（冷租金）、房间数、平方米面积、土地面积、楼层（如 2. OG）、含 PLZ 的完整地址、街区、能源等级（A+ 至 H）、佣金标志、中介公司、电话、网站以及带场景标签的图片。HTTP-only，128MB 内存。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Immowelt.de 抓取器：德国房地产，暖租金与能源等级</h1>
+    <p class="lead">抓取 Immowelt.de 上的全部租赁和销售房源，德国最大的房产平台之一。返回 Warmmiete（含杂费的暖租金）、Kaltmiete（冷租金）、房间数、平方米面积、独立屋的土地面积、楼层（如 2. OG）、含 PLZ 的完整地址、街区、A+ 至 H 的能源等级、佣金标志（Provisionspflichtig）、中介公司名称（100% 覆盖）、电话（80% 覆盖）、网站和法律声明。支持任何在浏览器中拼好的 /liste/ 搜索 URL。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k 房源</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全德国</div></div>
+      <div class="spec"><div class="label">每条字段</div><div class="value">40+</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 默认</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">HTTP-only</div></div>
+    </div>
+
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>德国租金拆分：</strong>price、price_label、price_warm（Warmmiete）、price_cold（Kaltmiete）、price_raw</li>
+      <li><strong>户型：</strong>rooms、area_sqm、plot_size（独立屋的土地面积）、floor、property_type（FLAT、HOUSE 等）、property_subtype（Etagenwohnung、Penthouse 等）</li>
+      <li><strong>位置：</strong>address、neighborhood、city、postcode（PLZ）、availability_date</li>
+      <li><strong>能源：</strong>energy_class（Energieausweis A+ 至 H）、通过 description 提取的供暖方式</li>
+      <li><strong>中介：</strong>publisher_name、publisher_type（AGENT 或 PRIVATE）、is_premium_partner、agent_company、agent_name、agent_phone、agent_website、agent_address、agent_profile_url、agent_imprint_url</li>
+      <li><strong>媒体：</strong>image_url、image_urls（完整画廊）、image_tags（每张图的场景标签，如 "living_room" 配德语描述）</li>
+      <li><strong>标志位：</strong>is_new、is_exclusive、has_3d_tour、has_brokerage_fee（Provisionspflichtig）、is_private_owner</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>Mietspiegel 研究。</strong>基于实时 Warmmiete 与 Kaltmiete 数据按城市和 PLZ 构建私有 Mietspiegel</li>
+      <li><strong>Energieausweis 基准。</strong>按 A 至 H 能源等级与联邦州计算中位挂牌租金，用于绿色建筑研究</li>
+      <li><strong>无佣金房源清单。</strong>筛选 has_brokerage_fee=false，找到买方代理可用的业主直挂房源</li>
+      <li><strong>柏林/慕尼黑/汉堡投资筛选。</strong>对比街区的每平米价，给被低估的 Kieze 排序</li>
+      <li><strong>中介拓客。</strong>构建德国全部活跃机构的 CRM 名单，含姓名、电话、网站与法律声明</li>
+    </ul>
+
+    <h2 class="section-title">定价</h2>
+    <ul>
+      <li><strong>抓取房源：</strong>每条结果 $0.003，全部 40+ 字段填充</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度，相当于在付费之前可抓取约 1,600 条 Immowelt 房源。</p>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~immowelt-de-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchUrls": [
+      "https://www.immowelt.de/liste/berlin/wohnungen/mieten",
+      "https://www.immowelt.de/liste/muenchen/haeuser/kaufen"
+    ],
+    "maxResults": 100
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/immowelt-de-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发运行并将 Immowelt 房源送入 Google Sheets、Airtable 或您的 CRM</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 Mietspiegel 流水线</li>
+    </ul>
+
+    <h2 class="section-title">输出字段（示例）</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>3-Zimmer-Wohnung in Berlin Kreuzberg</td></tr>
+      <tr><td>price_warm</td><td>number</td><td>1200 (EUR)</td></tr>
+      <tr><td>price_cold</td><td>number</td><td>950</td></tr>
+      <tr><td>rooms</td><td>number</td><td>3</td></tr>
+      <tr><td>area_sqm</td><td>number</td><td>78.5</td></tr>
+      <tr><td>postcode</td><td>string</td><td>10969</td></tr>
+      <tr><td>neighborhood</td><td>string</td><td>Kreuzberg</td></tr>
+      <tr><td>energy_class</td><td>string</td><td>C</td></tr>
+      <tr><td>has_brokerage_fee</td><td>boolean</td><td>true</td></tr>
+      <tr><td>agent_company</td><td>string</td><td>Immobilien Schmidt GmbH</td></tr>
+    </table>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与半房间制</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号房产门户，含 energielabel</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be 抓取器</a>：比利时房源，含 PEB 能源评级</li>
+      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi 抓取器</a>：芬兰房源</li>
+      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de 抓取器</a>：德国分类信息，跨渠道信号</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

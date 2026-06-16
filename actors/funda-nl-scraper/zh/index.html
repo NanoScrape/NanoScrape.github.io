@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Funda.nl 抓取器：荷兰房产，energielabel | NanoScrape</title>
+  <meta name="description" content="抓取 Funda.nl 在荷兰每个城市的 koop 与 huur 房源。返回 EUR 价格、含荷兰邮编的地址、GPS、卧室、居住面积、建造年份、完整 energielabel（A+++++ 至 G）、30+ 张图片、完整荷兰语 omschrijving。无需登录。每 1,000 条 $3 起。">
+  <meta property="og:title" content="Funda.nl 抓取器：荷兰房产 | NanoScrape">
+  <meta property="og:description" content="从 Funda.nl 提取荷兰房产数据。EUR 价格、energielabel、完整荷兰语描述、30+ 张图片、GPS。按结果付费。无需登录。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/funda-nl-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/funda-nl-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/funda-nl-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/funda-nl-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/funda-nl-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/funda-nl-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/funda-nl-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Funda.nl Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "针对 Funda.nl 的荷兰房产抓取器，荷兰头号房产门户，品牌认知度 93%，30 万+ 活跃房源。返回 EUR 价格、原始挂牌价（用于检测降价）、price_per_m2、含荷兰邮编的完整地址、街区、省份、GPS 坐标、卧室、房间、浴室、居住面积、土地面积、建造年份、完整的荷兰 energielabel 体系（A+++++ 至 G）、供暖方式（Cv-ketel、Stadsverwarming、Warmtepomp）、建造类型（Bestaande bouw 或 Nieuwbouw）、完整荷兰语 omschrijving 以及全部原分辨率图片。涵盖 koop 与 huur。HTTP-only，128MB 内存。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/funda-nl-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Funda.nl 抓取器：荷兰房产，energielabel，35+ 字段</h1>
+    <p class="lead">抓取 Funda.nl 上的每条房产，荷兰头号房产门户，品牌认知度 93%，30 万+ 活跃房源。返回 EUR 挂牌价、原始挂牌价（用于检测降价）、price_per_m2、含荷兰邮编（如 1015 BS）的完整地址、街区、省份、GPS、卧室数、房间数、浴室数、居住面积、土地面积、建造年份、完整的荷兰 energielabel 体系（A+++++、A++++、A+++、A++、A+、A 至 G）、供暖方式（Cv-ketel、Stadsverwarming、Warmtepomp）、建造类型（Bestaande bouw vs Nieuwbouw）、3,000-6,000 字的完整荷兰语 omschrijving 以及所有原分辨率图片。涵盖 koop 与 huur 市场。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/funda-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/tEZqHc8INIbx2OWwG/source?addFromActorId=tEZqHc8INIbx2OWwG&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k SERP</div></div>
+      <div class="spec"><div class="label">详情价</div><div class="value">$8 / 1k</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全荷兰</div></div>
+      <div class="spec"><div class="label">房源池</div><div class="value">30万+</div></div>
+      <div class="spec"><div class="label">市场</div><div class="value">Koop + Huur</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+    </div>
+
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>价格：</strong>price（EUR）、price_original（检测降价）、price_per_m2、price_currency、listing_type（koop 或 huur）</li>
+      <li><strong>户型：</strong>bedrooms、rooms、bathrooms、living_area_m2、plot_size_m2（独立屋）、year_built、property_type（公寓、独立屋、别墅、平房、停车位、土地）</li>
+      <li><strong>位置：</strong>address、street、postal_code（荷兰格式带空格，如 1015 BS）、city、neighborhood、province（Noord-Holland、Zuid-Holland 等）、latitude、longitude</li>
+      <li><strong>荷兰能源：</strong>energy_label（A+++++ 至 G，正确处理所有加号等级）、heating_type、construction_type</li>
+      <li><strong>描述：</strong>完整荷兰语 omschrijving 纯文本，通常 3,000-6,000 字符</li>
+      <li><strong>设施：</strong>标签（Balkon、Tuin、Lift、Monumentaal pand、Vrijstaand、隔热等级）</li>
+      <li><strong>媒体：</strong>property_image_url、photos（30+ 张原 CDN 分辨率）</li>
+      <li><strong>中介：</strong>agent_name（makelaar）、agent_url、agent_phone 与 agent_email（公开时）</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>荷兰市场分析。</strong>追踪每个荷兰城市的挂牌价、挂牌时长与库存趋势</li>
+      <li><strong>阿姆斯特丹/鹿特丹/乌得勒支投资研究。</strong>通过 price_per_m2 差值在高增长街区识别被低估的房源</li>
+      <li><strong>租金回报（koop vs huur）。</strong>把同一条街上的售卖和出租房源匹配，计算净资本化率</li>
+      <li><strong>energielabel 感知估值。</strong>量化 A+++++ 至 G 各能源等级的价格溢价，是荷兰绿色房贷研究的关键</li>
+      <li><strong>每日价格变动追踪。</strong>每日执行，按 listing ID 与 price_original 与昨日做差，识别困境出售</li>
+      <li><strong>makelaar 拓客。</strong>按挂牌量、街区占比与价格段定位荷兰中介</li>
+    </ul>
+
+    <h2 class="section-title">定价</h2>
+    <ul>
+      <li><strong>Actor 启动：</strong>每次运行 $0.001</li>
+      <li><strong>搜索结果（SERP）：</strong>每条房源 $0.003</li>
+      <li><strong>完整详情（描述、全部图片、建造年份、供暖、房间数）：</strong>每条房源 $0.008</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度，相当于在付费之前可抓取约 1,600 条 SERP 房源或 600 条带详情的房源。</p>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~funda-nl-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchUrls": [
+      "https://www.funda.nl/zoeken/koop?selected_area=%5B%22amsterdam%22%5D&price=%22-500000%22"
+    ],
+    "maxResults": 300,
+    "includeDetails": true
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/funda-nl-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发运行并将荷兰房源送入 Google Sheets、Airtable 或您的 CRM</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 energielabel 感知的估值流水线</li>
+    </ul>
+
+    <h2 class="section-title">输出字段（示例）</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>Aldengoor 2</td></tr>
+      <tr><td>price</td><td>number</td><td>3400000 (EUR)</td></tr>
+      <tr><td>price_per_m2</td><td>number</td><td>9341</td></tr>
+      <tr><td>postal_code</td><td>string</td><td>1083 AK</td></tr>
+      <tr><td>neighborhood</td><td>string</td><td>Buitenveldert-Zuidoost</td></tr>
+      <tr><td>province</td><td>string</td><td>Noord-Holland</td></tr>
+      <tr><td>living_area_m2</td><td>number</td><td>364</td></tr>
+      <tr><td>plot_size_m2</td><td>number</td><td>689</td></tr>
+      <tr><td>year_built</td><td>number</td><td>1964</td></tr>
+      <tr><td>energy_label</td><td>string</td><td>A+</td></tr>
+    </table>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与 Minergie</li>
+      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含 Warmmiete 与能源等级</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be 抓取器</a>：比利时房产，含 PEB 能源标签</li>
+      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi 抓取器</a>：芬兰房产，含房间配置</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/funda-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/tEZqHc8INIbx2OWwG/source?addFromActorId=tEZqHc8INIbx2OWwG&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

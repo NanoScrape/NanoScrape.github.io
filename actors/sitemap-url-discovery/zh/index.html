@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap 与 URL 发现：找出网站每个 URL，$1/1k | NanoScrape</title>
+  <meta name="description" content="解析 robots.txt、sitemap.xml 和 sitemap 索引以发现网站每个 URL。返回 URL 及其 lastmod、changefreq 和 priority。支持 gzipped sitemap。每 1,000 sitemap $1。">
+  <meta property="og:title" content="Sitemap 与 URL 发现：找出任意网站所有 URL | NanoScrape">
+  <meta property="og:description" content="解析 sitemap.xml 和 robots.txt 以发现站点每一个 URL。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/sitemap-url-discovery/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Sitemap and URL Discovery",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "解析 robots.txt、sitemap.xml 和 sitemap 索引以发现网站上每个 URL。返回 URL 及其 lastmod、changefreq 和 priority。支持 gzip sitemap。128MB 内存，每 sitemap $0.001。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per sitemap processed"
+    },
+    "url": "https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Sitemap 与 URL 发现：找出任意网站每一个 URL，每 1,000 sitemap $1</h1>
+    <p class="lead">解析 robots.txt、sitemap.xml 和嵌套 sitemap 索引以发现任意网站上每一个已发布 URL。返回每个 URL 及其最后修改日期、变更频率和优先级。支持 gzip sitemap 和 sitemap 索引链。为批量而生：输入域名列表，返回每个域名的完整 URL 清单。适用于 SEO 审计、内容监控、竞争情报和爬取前 URL 发现。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/FOkcFNjk48ygVJv7i/source?addFromActorId=FOkcFNjk48ygVJv7i&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/sitemap</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">任意域名</div></div><div class="spec"><div class="label">输出字段</div><div class="value">8+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">原生 XML + gzip</div></div>
+    </div>
+
+    <h2 class="section-title">您能获得什么</h2>
+    <ul>
+      <li><strong>URL 清单：</strong>来自 sitemap.xml 和嵌套 sitemap 索引的每个 <loc></li>
+      <li><strong>每 URL 元数据：</strong>lastmod、changefreq、priority、image_count、video_count</li>
+      <li><strong>Sitemap 来源：</strong>sitemap_url、sitemap_type（urlset/sitemapindex）、is_gzipped</li>
+      <li><strong>robots.txt：</strong>声明的 sitemap、允许/禁止路径、crawl_delay</li>
+      <li><strong>聚合：</strong>total_urls、last_modified_max、scraped_at</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>SEO 审计。</strong>对比已声明 URL 和已爬 URL，发现索引差距</li>
+      <li><strong>内容监控。</strong>跨时间 diff sitemap 以检测新增、修改或删除的页面</li>
+      <li><strong>竞争情报。</strong>通过解析竞争对手的 sitemap 链绘制其完整内容足迹</li>
+      <li><strong>爬取前 URL 发现。</strong>将 URL 列表交给下游爬虫进行定向抓取</li>
+      <li><strong>迁移 QA。</strong>验证旧 sitemap 中每个 URL 在改版后正确重定向</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "domains": [
+      "https://example.com",
+      "https://competitor.com",
+      "https://news-site.com"
+    ],
+    "maxUrlsPerSite": 10000,
+    "followSitemapIndexes": true,
+    "parseRobotsTxt": true
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/sitemap-url-discovery</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
+    </ul>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>source_domain</td><td>string</td><td>example.com</td></tr>
+      <tr><td>sitemap_url</td><td>string</td><td>https://example.com/sitemap.xml</td></tr>
+      <tr><td>total_urls</td><td>integer</td><td>12,486</td></tr>
+      <tr><td>url</td><td>string</td><td>https://example.com/blog/post-1</td></tr>
+      <tr><td>lastmod</td><td>string</td><td>2026-06-10T14:00:00Z</td></tr>
+      <tr><td>changefreq</td><td>string</td><td>weekly</td></tr>
+      <tr><td>priority</td><td>number</td><td>0.8</td></tr>
+      <tr><td>robots_sitemaps</td><td>array</td><td>["https://example.com/sitemap.xml"]</td></tr>
+      <tr><td>is_gzipped</td><td>boolean</td><td>false</td></tr>
+      <tr><td>scraped_at</td><td>string</td><td>2026-06-13T10:15:42Z</td></tr>
+    </table>
+
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将发现的 URL 送入批量 markdown 提取器</li>
+      <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: 从每个发现的 URL 提取 SEO 元数据</li>
+      <li><a href="/actors/broken-link-checker/">Broken Link Checker</a>: 验证 sitemap 中每个 URL 返回 200</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/FOkcFNjk48ygVJv7i/source?addFromActorId=FOkcFNjk48ygVJv7i&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

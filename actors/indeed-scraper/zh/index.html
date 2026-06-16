@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>大规模抓取Indeed招聘信息 — 60+个国家，无需浏览器 | NanoScrape</title>
-  <meta name="description" content="提取60+个国家的Indeed招聘信息。HTTP-only Go爬虫，~10MB内存，住宅代理。返回职位、公司、薪资、福利、描述。按结果付费，低至$0.001/职位。">
-  <meta property="og:title" content="Indeed Scraper — 60+个国家 | NanoScrape">
-  <meta property="og:description" content="提取60+个国家的Indeed招聘信息。HTTP-only Go爬虫，~10MB内存，住宅代理。返回职位、公司、薪资、福利、描述。按结果付费，低至$0.001/职位。">
+  <title>Indeed Scraper：60+ 国家，无需登录 | NanoScrape</title>
+  <meta name="description" content="抓取 60+ 国家的 Indeed 招聘信息，覆盖 indeed.com、indeed.de、indeed.co.uk、indeed.fr 等站点。每个职位返回 50+ 字段：标题、公司、地点、含币种的薪资范围、雇佣类型、远程选项、文本与 HTML 完整描述、福利、发布日期、过期日期和申请 URL。两种模式：Fast ">
+  <meta property="og:title" content="Indeed Scraper: 60+ 国家，无需登录 | NanoScrape">
+  <meta property="og:description" content="抓取 60+ 国家的 Indeed 招聘信息，覆盖 indeed.com、indeed.de、indeed.co.uk、indeed.fr 等站点。每个职位返回 50+ 字段：标题、公司、地点、含币种的薪资范围、雇佣类型、远程选项、文本与 HTML 完整描述、福利、发布日期、过期日期和申请 URL。两种模式：Fast 模式 25 秒内返回 100 条搜索列表，Full 模式为每个职位补充公司评分、">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
   <link rel="canonical" href="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/indeed-scraper/">
   <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/indeed-scraper/de/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
   <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/indeed-scraper/">
   <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
   <script type="application/ld+json">
@@ -24,11 +24,12 @@
     "name": "Indeed Scraper",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Cloud (Apify)",
+    "description": "Scrape Indeed job listings across 60+ countries from indeed.com, indeed.de, indeed.co.uk, indeed.fr and more. Returns 50+ fields per job including title, company, location, salary range with currency, employment type, remote option, full description in text and HTML, company benefits, posted date, expiry date and apply URL. Two modes: Fast pulls the search list in 25 seconds for 100 jobs, Full enriches every job with company rating, CEO, industry, revenue, headquarters and happiness score.",
     "offers": {
       "@type": "Offer",
       "price": "0.001",
       "priceCurrency": "USD",
-      "description": "per job result"
+      "description": "per job scraped"
     },
     "url": "https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz",
     "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
@@ -37,152 +38,135 @@
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
       --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
-
     .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
     .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
     .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-
     .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
     .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
     .btn-primary:hover { opacity: 0.9; text-decoration: none; }
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-
     .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
     .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
     .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
     .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-
     .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
     .detail ul { padding-left: 20px; margin-bottom: 24px; }
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
-
     .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
     .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
     .code-block .comment { color: var(--muted); }
-
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
     .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
     .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
     .compare-table td { color: var(--text); }
     .compare-table tr:hover td { background: var(--surface); }
     .highlight { color: var(--accent); font-weight: 700; }
-
     footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-
     @media (max-width: 480px) {
-      .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
-      
       .detail h1 { font-size: 1.5rem; }
       .specs { grid-template-columns: repeat(2, 1fr); }
       .ctas { flex-direction: column; }
       .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
     }
-      #site-header { min-height: 56px; }
+    #site-header { min-height: 56px; }
     #site-footer { min-height: 80px; }
   </style>
 </head>
 <body>
 
   <div id="site-header"></div>
-  </div>
 
   <div class="detail">
-    <h1>大规模抓取Indeed招聘信息 — 60+个国家，无需浏览器</h1>
-    <p class="lead">从Indeed移动端API提取结构化职位数据。返回职位名称、公司、地点、薪资、福利、描述和申请链接。并发详情抓取，每个Worker独立代理会话。纯HTTP — 无Chrome，无Playwright。</p>
+    <h1>Indeed Scraper：60+ 国家，无需登录</h1>
+    <p class="lead">抓取 60+ 国家的 Indeed 招聘信息，覆盖 indeed.com、indeed.de、indeed.co.uk、indeed.fr 等站点。每个职位返回 50+ 字段：标题、公司、地点、含币种的薪资范围、雇佣类型、远程选项、文本与 HTML 完整描述、福利、发布日期、过期日期和申请 URL。两种模式：Fast 模式 25 秒内返回 100 条搜索列表，Full 模式为每个职位补充公司评分、CEO、行业、营收、总部和员工幸福度评分。</p>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/input?fpr=0khfbz" class="btn-secondary">立即试用</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">立即试用</a>
     </div>
 
     <div class="specs">
-      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/job</div></div>
       <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">住宅代理</div></div>
-      <div class="spec"><div class="label">覆盖范围</div><div class="value">60+个国家</div></div>
-      <div class="spec"><div class="label">价格</div><div class="value">$1/1k职位</div></div>
-      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS fingerprinting + 预热会话</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">60+ countries</div></div>
+      <div class="spec"><div class="label">每个职位字段数</div><div class="value">10+</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify datacenter</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS + IP rotation</div></div>
     </div>
 
-    <h2 class="section-title">可抓取的数据</h2>
+    <h2 class="section-title">您可以抓取的内容</h2>
     <ul>
-      <li><strong>搜索结果</strong> — 职位名称、公司、地点、薪资预览、发布日期</li>
-      <li><strong>完整职位详情</strong> — 完整描述、福利、资质要求、雇佣类型</li>
-      <li><strong>公司信息</strong> — 公司名称、Logo链接、评分</li>
-      <li><strong>多查询</strong> — 单次运行中执行多个关键词搜索</li>
-      <li><strong>直接URL</strong> — 通过URL抓取指定职位详情</li>
-      <li><strong>60+个国家</strong> — indeed.com、indeed.de、indeed.co.uk、indeed.fr等</li>
+      <li><strong>职位信息：</strong> title、company、location、country、employment_type、remote_option、posted_at、expires_at</li>
+      <li><strong>薪资数据：</strong> salary_min、salary_max、salary_currency、salary_period、salary_text</li>
+      <li><strong>完整职位内容：</strong> description_full、description_html、description_snippet、requirements、company_benefits</li>
+      <li><strong>公司补充信息 (Full 模式)：</strong> 公司评分、CEO、行业、营收、总部、员工幸福度评分、技能</li>
+      <li><strong>信任信号：</strong> top_listing 标记、job_status、company_logo_url、source_url、apply_url</li>
     </ul>
 
     <h2 class="section-title">主要使用场景</h2>
     <ul>
-      <li><strong>就业市场研究</strong> — 分析各地区的招聘趋势、薪资分布和技能需求</li>
-      <li><strong>潜在客户开发</strong> — 发现正在积极招聘的公司（增长信号）</li>
-      <li><strong>竞争情报</strong> — 监控竞争对手的招聘信息以获取战略洞察</li>
-      <li><strong>HR科技</strong> — 将职位数据导入ATS聚合器、招聘平台或匹配算法</li>
-      <li><strong>学术研究</strong> — 使用结构化、干净的数据进行劳动力市场分析</li>
+      <li><strong>人才市场画像。</strong> 每周抓取 60+ 国家的 Indeed 搜索数据，按城市、岗位与资历绘制招聘量地图</li>
+      <li><strong>销售线索生成。</strong> 识别正在积极招聘的公司（强增长信号），并导入 CRM</li>
+      <li><strong>薪资基准。</strong> 跨地区聚合 salary_min 与 salary_max，将自家 offer 与市场对齐</li>
+      <li><strong>ATS 聚合器补全。</strong> 使用 Full 模式将 description_html 和公司补充信息导入自有招聘网站</li>
     </ul>
 
-    <h2 class="section-title">API示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~indeed-scraper/runs?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
     "searchQueries": ["software engineer"],
     "country": "de",
     "maxResultsPerQuery": 50,
-    "includeJobDetails": true
+    "mode": "fast"
   }'
 
-<span class="comment"># 或通过MCP与AI代理配合使用：</span>
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/indeed-scraper</span></pre></div>
 
-    <h2 class="section-title">集成方式</h2>
+    <h2 class="section-title">集成</h2>
     <ul>
-      <li><strong>n8n / Make / Zapier</strong> — 通过Webhook触发运行并处理结果</li>
-      <li><strong>AI代理 (MCP)</strong> — Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python / Node.js</strong> — 使用Apify SDK进行编程访问</li>
-      <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理职位记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>搜索词输入，结构化职位数据输出</li>
     </ul>
-
-    <h2 class="section-title">对比</h2>
-    <table class="compare-table">
-      <tr><th>特性</th><th>NanoScrape</th><th>浏览器爬虫</th></tr>
-      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
-      <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
-      <tr><td>每1k职位成本</td><td class="highlight">$1.00</td><td>$5 - $20</td></tr>
-      <tr><td>反爬虫方案</td><td class="highlight">TLS指纹 + 预热会话</td><td>完整Chrome浏览器</td></tr>
-      <tr><td>速度 (1k职位)</td><td class="highlight">~5分钟</td><td>20-60分钟</td></tr>
-      <tr><td>国家覆盖</td><td class="highlight">60+</td><td>不定 (5-30)</td></tr>
-    </table>
 
     <h2 class="section-title">输出字段</h2>
     <table class="compare-table">
       <tr><th>字段</th><th>类型</th><th>示例</th></tr>
       <tr><td>title</td><td>string</td><td>Senior Software Engineer</td></tr>
-      <tr><td>company</td><td>string</td><td>Google</td></tr>
-      <tr><td>location</td><td>string</td><td>Munich, Bavaria</td></tr>
-      <tr><td>salary</td><td>string</td><td>$120,000 - $180,000 a year</td></tr>
-      <tr><td>job_type</td><td>string</td><td>Full-time</td></tr>
-      <tr><td>description</td><td>string</td><td>完整职位描述HTML</td></tr>
-      <tr><td>benefits</td><td>string[]</td><td>["Health insurance", "401k"]</td></tr>
-      <tr><td>company_logo</td><td>string</td><td>https://...</td></tr>
-      <tr><td>apply_url</td><td>string</td><td>https://indeed.com/...</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-04-28</td></tr>
+      <tr><td>company</td><td>string</td><td>Zalando SE</td></tr>
+      <tr><td>location</td><td>string</td><td>Berlin, Germany</td></tr>
+      <tr><td>salary_text</td><td>string</td><td>60.000 - 80.000 EUR per year</td></tr>
+      <tr><td>employment_type</td><td>string</td><td>Full-time</td></tr>
+      <tr><td>remote_option</td><td>string</td><td>Hybrid</td></tr>
+      <tr><td>description_full</td><td>string</td><td>We are looking for...</td></tr>
+      <tr><td>company_benefits</td><td>string[]</td><td>["Health insurance","Stock options"]</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-06-10</td></tr>
+      <tr><td>apply_url</td><td>string</td><td>https://indeed.com/viewjob?jk=...</td></tr>
     </table>
 
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper</a>: 通过 LinkedIn 访客 API 抓取全球职位，无需登录</li>
+      <li><a href="/actors/stepstone-de-scraper/">StepStone.de Scraper</a>: 德国领先招聘网站，含薪资与福利</li>
+      <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: 直接从 16 个 ATS 系统抓取 (Lever、Greenhouse、Workday)</li>
+    </ul>
+
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
-      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/input?fpr=0khfbz" class="btn-secondary">立即试用 — 提供免费额度</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
     </div>
   </div>
 

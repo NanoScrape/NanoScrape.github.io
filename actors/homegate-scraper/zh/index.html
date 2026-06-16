@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Homegate.ch 抓取器：瑞士房地产，CHF 价格 | NanoScrape</title>
+  <meta name="description" content="抓取 Homegate.ch 全部 26 个瑞士州的租赁和销售房源。返回 CHF 毛租金、净租金、附加费、房间数（半房间制）、面积、州、GPS、设施、中介联系方式。无需登录。每 1,000 条 $3 起。">
+  <meta property="og:title" content="Homegate.ch 抓取器：瑞士房地产 | NanoScrape">
+  <meta property="og:description" content="从 Homegate.ch 提取瑞士房产数据。CHF 价格、房间数、面积、州、GPS、中介联系方式。按结果付费。无需登录。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/homegate-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/homegate-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/homegate-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/homegate-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/homegate-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/homegate-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/homegate-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Homegate.ch Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "针对 Homegate.ch 的瑞士房地产抓取器，瑞士最大的房产门户，覆盖全部 26 个州、10 万+ 活跃房源。返回 CHF 毛租金、净租金、附加费、房间数（含瑞士半房间制）、面积（平方米）、邮编、州、GPS 坐标、设施（阳台、电梯、Minergie 节能认证）、全部图片以及中介联系方式（姓名、公司、电话、网站）。HTTP-only，128MB 内存。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Homegate.ch 抓取器：瑞士房地产，CHF 价格，26 个州</h1>
+    <p class="lead">抓取 Homegate.ch 上的全部租赁和销售房源，瑞士最大的房产门户，超过 10 万套活跃房源。返回 CHF 毛租金、净租金（Nettomiete）、附加费（Nebenkosten）、采用瑞士半房间制的房间数（如 3.5 房）、平方米面积、邮编、州、GPS 坐标、完整设施列表（Balkon、Lift、Minergie、Waschmaschine）、每张图片以及中介联系方式（姓名、公司、电话、网站）。支持任何浏览器中拼好的搜索 URL。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k SERP</div></div>
+      <div class="spec"><div class="label">详情价</div><div class="value">$8 / 1k</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全部 26 州</div></div>
+      <div class="spec"><div class="label">房源池</div><div class="value">10万+</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">DataDome aware</div></div>
+    </div>
+
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>价格：</strong>price（CHF 毛租金或售价）、price_net（净租金）、price_extra（附加费）、currency、price_type</li>
+      <li><strong>户型：</strong>rooms（瑞士半房间制 1.5、2.5、3.5）、area_sqm、floor、property_type、listing_type</li>
+      <li><strong>位置：</strong>address、city、postal_code、canton（ZH、BE、VD、GE、TI、...）、latitude、longitude</li>
+      <li><strong>设施：</strong>数组（Balkon、Lift、Minergie、Waschmaschine、停车位、可养宠物、安静、视野佳）</li>
+      <li><strong>媒体：</strong>image_url（主图）、image_urls（完整画廊，通常 15-20 张）、description</li>
+      <li><strong>中介：</strong>agent_name、agent_company、agent_phone、agent_logo_url、agent_url</li>
+      <li><strong>元数据：</strong>listed_at、available_from、source_url、source_platform、scraped_at</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>瑞士市场分析。</strong>追踪苏黎世、日内瓦、伯尔尼、洛桑、巴塞尔各州的中位挂牌租金并计算同比环比变化</li>
+      <li><strong>投资筛选。</strong>用同一邮编内的售价与租金回报率交叉对比，识别被低估的州</li>
+      <li><strong>搬迁工具。</strong>为消费者应用提供按州、房间数和 Minergie 节能认证筛选的数据源</li>
+      <li><strong>中介拓客。</strong>构建瑞士全部活跃中介和机构的联系人清单，含电话和网站</li>
+      <li><strong>可比市场分析。</strong>每日快照为估值模型提供价格变动和挂牌时长数据集</li>
+    </ul>
+
+    <h2 class="section-title">定价</h2>
+    <ul>
+      <li><strong>Actor 启动：</strong>每次运行 $0.001</li>
+      <li><strong>抓取房源（SERP）：</strong>每条结果 $0.003</li>
+      <li><strong>详情页（中介联系方式、价格拆分）：</strong>每条结果 $0.008</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度，相当于在付费之前可抓取约 1,600 条 SERP 房源或 600 条带详情的房源。</p>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~homegate-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchUrls": ["https://www.homegate.ch/mieten/immobilien/ort-zuerich/trefferliste"],
+    "maxResults": 100,
+    "includeDetails": false
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/homegate-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发运行并将房源送入 Google Sheets、Airtable 或您的 CRM</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支持估值流水线</li>
+    </ul>
+
+    <h2 class="section-title">输出字段（示例）</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>3.5-Zimmer-Wohnung in Zuerich Enge</td></tr>
+      <tr><td>price</td><td>number</td><td>2225 (CHF)</td></tr>
+      <tr><td>price_net</td><td>number</td><td>2050</td></tr>
+      <tr><td>price_extra</td><td>number</td><td>175</td></tr>
+      <tr><td>rooms</td><td>number</td><td>3.5</td></tr>
+      <tr><td>area_sqm</td><td>number</td><td>78</td></tr>
+      <tr><td>canton</td><td>string</td><td>ZH</td></tr>
+      <tr><td>postal_code</td><td>string</td><td>8002</td></tr>
+      <tr><td>features</td><td>array</td><td>["Balkon", "Lift", "Minergie"]</td></tr>
+      <tr><td>agent_company</td><td>string</td><td>Walde &amp; Partner Immobilien AG</td></tr>
+    </table>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含暖租金/冷租金及能源等级</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号房产门户，含 energielabel</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be 抓取器</a>：比利时房源，含 PEB 能源评级</li>
+      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi 抓取器</a>：芬兰房源，含房间配置</li>
+      <li><a href="/actors/tutti-ch-scraper/">Tutti.ch 抓取器</a>：瑞士分类信息，跨渠道市场信号</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
