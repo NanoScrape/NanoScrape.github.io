@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threads Search Scraper: Keyword + Profil-Posts, $0,50/1k | NanoScrape</title>
+  <meta name="description" content="Threads.net per Keyword durchsuchen oder Posts jedes öffentlichen Profils scrapen. Liefert Post-Text, Autor-Benutzername, Verifiziert-Badge, Like-Anzahl, Reply-Anzahl, Repost-Anzahl, Zeitstempel und direkten Post-URL. Ohne Login. $0,0005 pro Post.">
+  <meta property="og:title" content="Threads Search Scraper: Keyword + Profil-Posts | NanoScrape">
+  <meta property="og:description" content="Threads.net-Posts per Keyword-Suche oder Profil extrahieren. Text, Autor, Likes, Replies, Reposts, Zeitstempel. Ohne Login. Pay-per-Result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/threads-search-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/threads-search-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/threads-search-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/threads-search-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Threads Search Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Threads.net Such- und Profil-Post-Scraper. Kombinieren Sie Keyword-Queries mit Profil-URLs, um Posts zu ernten. Liefert post_id, text, author_username, author_verified, like_count, reply_count, repost_count, quote_count, posted_at, post_url, has_media. Kein Login oder API-Key erforderlich.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.0005",
+      "priceCurrency": "USD",
+      "description": "per post scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Threads Search Scraper: Keyword + Profil-Posts, $0,50 pro 1.000 Posts</h1>
+    <p class="lead">Threads.net per Keyword durchsuchen oder die aktuellen Posts jedes öffentlichen Profils scrapen. Jeder Post enthält Text, Autor-Benutzernamen, Verifiziert-Badge, like_count, reply_count, repost_count, quote_count, posted_at-Zeitstempel, has_media-Flag und direkten Post-URL. Mischen Sie Keywords und Profil-URLs im selben Lauf, Ergebnisse werden über alle Inputs hinweg dedupliziert. Kein Login erforderlich.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Preise</div><div class="value">$0,0005/Post</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Felder pro Post</div><div class="value">15</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Direkt oder Apify-Proxy</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">SSR-Rehydration</div></div>
+    </div>
+
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Post-Identität:</strong> post_id, post_url, author_username, author_name, author_verified</li>
+      <li><strong>Inhalt:</strong> text (bis 2.000 Zeichen), has_media-Flag, posted_at-Zeitstempel</li>
+      <li><strong>Engagement:</strong> like_count, reply_count, repost_count, quote_count</li>
+      <li><strong>Herkunft:</strong> search_query (welches Keyword diesen Post lieferte), source_platform, scraped_at</li>
+      <li><strong>Input-Flexibilität:</strong> searchQueries und profileUrls im selben Lauf mischen, mit Auto-Deduplikation</li>
+    </ul>
+
+    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Trend-Monitoring auf Threads.</strong> Keywords wie "AI art" oder "iOS 18" stündlich pollen, um Narrativ-Shifts auf Threads gegenüber anderen Plattformen zu verfolgen</li>
+      <li><strong>Brand-Mention-Surveillance.</strong> Markenname und Konkurrenznamen suchen, Ergebnisse per Webhook an Slack routen</li>
+      <li><strong>Verifizierte-Creator-Discovery.</strong> Nach author_verified filtern, um Blue-Check-Creator in Ihrer Nische zu finden</li>
+      <li><strong>Engagement-Benchmarking.</strong> like_count- und reply_count-Verteilungen über Keywords oder Accounts vergleichen</li>
+      <li><strong>Plattformübergreifender Content-Audit.</strong> Mit dem Twitter-Scraper koppeln, um zu sehen, wie derselbe Autor auf X gegenüber Threads performt</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~threads-search-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["AI art", "travel photography"],
+    "profileUrls": ["https://www.threads.net/@zuck"],
+    "maxPostsPerQuery": 50,
+    "maxResults": 0
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/threads-search-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Posts per Webhook an Slack, Notion oder CRM routen</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets, Airtable:</strong> Keywords rein, Post-Feed mit Engagement raus</li>
+    </ul>
+
+    <h2 class="section-title">Ausgabefelder</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>post_id</td><td>string</td><td>3368741234567890123</td></tr>
+      <tr><td>text</td><td>string</td><td>Just launched our new AI feature</td></tr>
+      <tr><td>author_username</td><td>string</td><td>zuck</td></tr>
+      <tr><td>author_name</td><td>string</td><td>Mark Zuckerberg</td></tr>
+      <tr><td>author_verified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>like_count</td><td>integer</td><td>42.500</td></tr>
+      <tr><td>reply_count</td><td>integer</td><td>1.230</td></tr>
+      <tr><td>repost_count</td><td>integer</td><td>870</td></tr>
+      <tr><td>posted_at</td><td>string</td><td>2026-05-01T14:30:00Z</td></tr>
+      <tr><td>post_url</td><td>string</td><td>https://www.threads.net/@zuck/post/C6abc123xyz</td></tr>
+    </table>
+
+    <h2 class="section-title">Verwandte Scraper</h2>
+    <ul>
+      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a>: gleicher Content-Audit auf X / Twitter</li>
+      <li><a href="/actors/reddit-scraper/">Reddit Scraper</a>: Subreddit-Posts, Kommentare, Suche und User</li>
+      <li><a href="/actors/tiktok-profile-scraper/">TikTok Profile Scraper</a>: TikTok-Profildaten derselben Creators</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

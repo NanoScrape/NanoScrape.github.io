@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Snapchat Profile Scraper: Creator-Daten, ohne Login, $1/1k | NanoScrape</title>
+  <meta name="description" content="Öffentliche Snapchat-Creator-Profile scrapen. Liefert Display-Name, Bio, Abonnenten-Anzahl, Avatar-URL, Verifiziert-Status und Website-Link. Ohne Snapchat-Account oder API-Key. Bulk-Benutzername-Input. $0,001 pro Profil.">
+  <meta property="og:title" content="Snapchat Profile Scraper: Creator-Daten, ohne Login | NanoScrape">
+  <meta property="og:description" content="Snapchat-Creator-Profildaten extrahieren: Display-Name, Bio, Abonnenten, Avatar, Verifiziert-Status, Website. Ohne Login. Pay-per-Result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/snapchat-profile-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Snapchat Profile Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Snapchat-Creator-Profil-Scraper. Übergeben Sie Benutzernamen oder vollständige Snapchat-Profil-URLs und erhalten Sie Display-Name, Bio, Abonnenten-Anzahl, Bitmoji- / Avatar-URL, Official-Story-Verifiziert-Badge sowie den aus der Bio extrahierten externen Website-Link. Kein Login oder API-Key erforderlich. Bulk-Input via stringList.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per profile scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>Snapchat Profile Scraper: Creator-Daten, ohne Login, $1 pro 1.000 Profile</h1>
+    <p class="lead">Öffentliche Snapchat-Creator-Profile in Bulk extrahieren. Liefert display_name, bio (bis 500 Zeichen), subscriber_count, Avatar- bzw. Bitmoji-URL, Official-Story-Verifiziert-Flag und die aus der Bio geparste externe Website-URL. Benutzernamen, @-Handles oder vollständige web.snapchat.com-URLs in derselben Inputliste akzeptiert. Kein Snapchat-Account, kein API-Key.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">Preise</div><div class="value">$0,001/Profil</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Felder pro Profil</div><div class="value">9</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Direkt oder Apify-Proxy</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">SSR-Rehydration</div></div>
+    </div>
+
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Identität:</strong> username, display_name, profile_url (kanonische web.snapchat.com-URL)</li>
+      <li><strong>Bio-Block:</strong> bio-Text (bis 500 Zeichen), aus der Bio extrahierte Website-URL</li>
+      <li><strong>Reichweite:</strong> subscriber_count (null, wenn Snapchat es verbirgt)</li>
+      <li><strong>Trust:</strong> is_verified-Flag (Official-Story-Badge)</li>
+      <li><strong>Medien:</strong> avatar_url (Bitmoji oder hochgeladenes Bild), scraped_at-Zeitstempel</li>
+    </ul>
+
+    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Creator-Outreach.</strong> Website-URL aus einer Liste von Snapchat-Creators extrahieren, um Landingpages und Outreach-E-Mails zu finden</li>
+      <li><strong>Influencer-Datenbank-Refresh.</strong> subscriber_count und verifizierten Status neu snapshotten, um Agentur-Datenbanken aktuell zu halten</li>
+      <li><strong>Brand-Account-Audit.</strong> display_name und Bio für Ihr Roster an Brand-Handles ziehen, um konsistente Positionierung zu prüfen</li>
+      <li><strong>Lookalike-Sourcing.</strong> Snapchat-Handles mit TikTok- und Twitter-Profilen derselben Person querverweisen</li>
+      <li><strong>Verifiziert-Badge-Filter.</strong> is_verified=true filtern, um eine kuratierte Liste von Official-Story-Creators in einer Nische aufzubauen</li>
+    </ul>
+
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~snapchat-profile-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "profileUrls": ["nasa", "@snapchat", "https://web.snapchat.com/@gucci"],
+    "maxResults": 0
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/snapchat-profile-scraper</span></pre></div>
+
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Profilzeilen per Webhook routen</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets, Airtable:</strong> Benutzernamen rein, vollständige Creator-Profil-CSV raus</li>
+    </ul>
+
+    <h2 class="section-title">Ausgabefelder</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>username</td><td>string</td><td>nasa</td></tr>
+      <tr><td>display_name</td><td>string</td><td>NASA</td></tr>
+      <tr><td>bio</td><td>string</td><td>Explore the universe and discover our home planet.</td></tr>
+      <tr><td>subscriber_count</td><td>integer</td><td>2.500.000</td></tr>
+      <tr><td>avatar_url</td><td>string</td><td>https://snapchat.com/bitmojis/...</td></tr>
+      <tr><td>is_verified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>website</td><td>string</td><td>https://www.nasa.gov</td></tr>
+      <tr><td>profile_url</td><td>string</td><td>https://web.snapchat.com/@nasa</td></tr>
+      <tr><td>scraped_at</td><td>string</td><td>2026-05-17T10:00:00Z</td></tr>
+    </table>
+
+    <h2 class="section-title">Verwandte Scraper</h2>
+    <ul>
+      <li><a href="/actors/tiktok-profile-scraper/">TikTok Profile Scraper</a>: gleiche Creator-Abdeckung auf TikTok mit TikTok-Shop-Seller-Flag</li>
+      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a>: plattformübergreifende Creator-Intelligenz</li>
+      <li><a href="/actors/youtube-scraper/">YouTube Scraper</a>: Channel-Daten desselben Creators plattformübergreifend</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>

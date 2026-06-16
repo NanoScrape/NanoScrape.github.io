@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube 抓取器：视频、频道、Shorts，$1/1k | NanoScrape</title>
+  <meta name="description" content="抓取 YouTube 搜索结果、频道、视频详情和 Shorts。返回标题、观看量、点赞、评论、时长、标签、缩略图、频道信息和互动率。无需 API 密钥。可导出 JSON、CSV 或 Excel。每个结果 $0.001。">
+  <meta property="og:title" content="YouTube 抓取器：视频、频道、Shorts | NanoScrape">
+  <meta property="og:description" content="无需 API 密钥即可提取 YouTube 视频、频道和 Shorts。标题、观看量、点赞、评论、标签、缩略图、时长、互动率。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/youtube-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/youtube-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/youtube-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/youtube-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/youtube-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/youtube-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/youtube-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "YouTube Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "YouTube 搜索、频道、视频和 Shorts 抓取器。四种模式：关键词搜索、频道 URL（视频）、视频详情、频道 URL（Shorts）。返回标题、观看量、点赞、评论、时长、标签、缩略图、频道订阅、互动率、is_short / is_live / is_premiere 标记。无需 API 密钥。可选 includeDetails 开关，获取更丰富的视频级数据。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per result scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>YouTube 抓取器：视频、频道、Shorts，每 1,000 个结果 $1</h1>
+    <p class="lead">无需 API 密钥即可抓取 YouTube。一个 actor 支持四种模式：关键词搜索、频道视频、单个视频详情、频道 Shorts。每条结果包含 title、view_count、like_count、comment_count、时长、标签、缩略图、含订阅数的频道信息、is_short / is_live / is_premiere 标记、计算得出的 engagement_rate，并可通过 includeDetails 获取完整详情（描述、标签、类目、语言）。</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/结果</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+      <div class="spec"><div class="label">模式</div><div class="value">search、channel、video、shorts</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">SSR + IP 轮换</div></div>
+    </div>
+
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>标识：</strong>id、video_url、title、type（video、channel、short）、is_short、is_live、is_premiere</li>
+      <li><strong>互动数据：</strong>view_count、like_count、comment_count、engagement_rate（计算所得百分比）</li>
+      <li><strong>频道上下文：</strong>channel_id、channel_name、channel_subscribers、channel_url</li>
+      <li><strong>内容：</strong>description、tags、category、language、duration、duration_seconds、thumbnail_url</li>
+      <li><strong>时间：</strong>published_at（ISO 时间戳）</li>
+      <li><strong>来源：</strong>search_query（搜索模式下）、source_url、scraped_at</li>
+    </ul>
+
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>垂类关键词调研。</strong>在 YouTube 上按观看量排序搜索 "python 教程"，看哪些标题主宰该垂类</li>
+      <li><strong>频道表现审计。</strong>抓取某创作者频道下的全部视频，对最近 100 条计算中位 engagement_rate</li>
+      <li><strong>Shorts 趋势挖掘。</strong>对 50 个频道使用 shorts 模式，找到某垂类内势头上升的 Shorts 形式</li>
+      <li><strong>赞助内容识别。</strong>从标签与标题模式识别创作者目录中的品牌赞助视频</li>
+      <li><strong>SEO 竞品追踪。</strong>每日快照竞品上传的 view_count，追踪排名变化与爆款时刻</li>
+    </ul>
+
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~youtube-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "mode": "channel",
+    "urls": ["https://www.youtube.com/@MrBeast"],
+    "maxResults": 100,
+    "sortBy": "views",
+    "includeDetails": true
+  }'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/youtube-scraper</span></pre></div>
+
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并流式处理新视频记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>查询或频道 URL 输入，完整视频 CSV 输出</li>
+    </ul>
+
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>id</td><td>string</td><td>dQw4w9WgXcQ</td></tr>
+      <tr><td>title</td><td>string</td><td>How to Code in Python</td></tr>
+      <tr><td>view_count</td><td>integer</td><td>1,500,000</td></tr>
+      <tr><td>like_count</td><td>integer</td><td>45,000</td></tr>
+      <tr><td>comment_count</td><td>integer</td><td>3,200</td></tr>
+      <tr><td>engagement_rate</td><td>number</td><td>3.2</td></tr>
+      <tr><td>duration</td><td>string</td><td>12:34</td></tr>
+      <tr><td>channel_name</td><td>string</td><td>TechTutorials</td></tr>
+      <tr><td>is_short</td><td>boolean</td><td>false</td></tr>
+      <tr><td>thumbnail_url</td><td>string</td><td>https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg</td></tr>
+    </table>
+
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/tiktok-video-scraper/">TikTok 视频抓取器</a>：TikTok 上的最近视频，含互动数据、话题标签与音乐</li>
+      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X 主页 + 推文抓取器</a>：跨平台创作者情报</li>
+      <li><a href="/actors/reddit-scraper/">Reddit 抓取器</a>：子版块的帖子、评论、搜索与用户</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
