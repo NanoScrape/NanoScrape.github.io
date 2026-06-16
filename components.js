@@ -23,8 +23,8 @@
   ];
 
   const APIFY_PROFILES = {
-    main: 'https://apify.com/santamaria-automations',
-    org: 'https://apify.com/nanoscrape',
+    main: 'https://apify.com/santamaria-automations?fpr=0khfbz',
+    org: 'https://apify.com/nanoscrape?fpr=0khfbz',
   };
 
   // ============================================================================

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon 搜索抓取器：20 个市场，位置/徽章/Prime，$1/1k | NanoScrape</title>
+  <meta name="description" content="按关键词抓取 20 个 Amazon 市场的搜索结果。返回 ASIN、标题、价格、评分、评价、徽章、Prime 状态、赞助标识、页面位置、购买量提示。每条结果 $0.001。">
+  <meta property="og:title" content="Amazon 搜索抓取器：20 个市场 | NanoScrape">
+  <meta property="og:description" content="按关键词抓取 Amazon 搜索结果。ASIN、价格、徽章、位置。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/amazon-search-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/amazon-search-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/amazon-search-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/amazon-search-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/amazon-search-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/amazon-search-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/amazon-search-scraper/">
+  <link rel="icon" href="../../../nanoscrape_logo_square.png" type="image/png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Amazon Search Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "覆盖 20 个市场的 Amazon SERP 抓取器。按查询和页面返回 ASIN、标题、价格、评分、徽章、赞助标识、位置。128MB RAM，数据中心代理。",
+    "offers": {"@type": "Offer", "price": "0.001", "priceCurrency": "USD", "description": "per search result"},
+    "url": "https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <div class="detail">
+    <h1>Amazon 搜索抓取器：20 个市场，每 1000 条结果 $1</h1>
+    <p class="lead">按关键词抓取 20 个 Amazon 市场的搜索结果。返回 ASIN、标题、价格、原价、星级、评价数、缩略图、徽章、Prime 状态、赞助标识、页面位置、快速配送承诺、优惠券、购买量提示。可按价格区间、星级或仅 Prime 进行筛选。</p>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~amazon-search-scraper/input?fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$1/1k 条结果</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">市场</div><div class="value">20</div></div>
+      <div class="spec"><div class="label">每行字段数</div><div class="value">25+</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">会话轮换</div></div>
+    </div>
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul><li><strong>每条结果数据：</strong>asin、title、url、marketplace、page、positionOnPage、positionOverall</li><li><strong>价格：</strong>price（value + currency + raw）、listPrice（促销时显示删除线）</li><li><strong>评分：</strong>stars、reviewsCount</li><li><strong>徽章：</strong>isAmazonChoice、isBestSeller、isPrime、isSponsored、isLimitedDeal</li><li><strong>提示文字：</strong>deliveryText、fastDeliveryText、badgeText、couponText、purchaseVolumeText</li><li><strong>搜索上下文：</strong>searchQuery、sortBy、已应用的筛选条件</li></ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul><li><strong>关键词排名监控。</strong>每日跟踪您的 ASIN 在目标关键词下的位置</li><li><strong>竞争情报。</strong>识别哪些 ASIN 在关键词下排名前 N、哪些为赞助结果</li><li><strong>新品发现。</strong>'running shoes 2026' 的前 100 个 ASIN</li><li><strong>PPC 研究。</strong>按关键词对比赞助位与自然位的位置</li><li><strong>目录种子。</strong>将 ASIN 输入 amazon-product-scraper 以进行详细数据增强</li></ul>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~amazon-search-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["wireless earbuds", "smart speaker"], "country": "US", "maxResultsPerQuery": 50, "sortBy": "relevance"}'
+
+<span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/amazon-search-scraper</span></pre></div>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理结果</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>通过 Apify 集成导出</li>
+    </ul>
+    <h2 class="section-title">相关 Amazon 抓取器</h2>
+    <ul><li><a href="/actors/amazon-product-scraper/zh/">Amazon 商品抓取器</a>：为该抓取器返回的每个 ASIN 提供 50+ 字段</li><li><a href="/actors/amazon-bestsellers-scraper/zh/">Amazon 畅销榜抓取器</a>：按类目获取前 100 名，替代关键词搜索</li><li><a href="/actors/amazon-seller-scraper/zh/">Amazon 卖家抓取器</a>：卖家店铺及其完整商品目录</li></ul>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations~amazon-search-scraper/input?fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
+  <div id="site-footer"></div>
+  <script src="/components.js"></script>
+</body>
+</html>
