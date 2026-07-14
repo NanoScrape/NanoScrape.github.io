@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Scrape Google Maps Places — $1/1k Businesses | NanoScrape</title>
-  <meta name="description" content="Extract business data from Google Maps. 30+ fields per place: name, address, phone, website, reviews, ratings, hours, GPS coordinates. $0.00375/place — 10x cheaper than alternatives.">
+  <meta name="description" content="Extract business data from Google Maps at $1 per 1,000 places. 30+ fields including full reviews, popular times, opening hours, GPS coordinates. Optional AI-powered contact and job extraction. 35x cheaper than browser-based alternatives.">
   <meta property="og:title" content="Google Maps Scraper — $1/1k Places | NanoScrape">
   <meta property="og:description" content="Scrape Google Maps business data at scale. 30+ fields, reviews, GPS. 10x cheaper than browser-based alternatives.">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/google-maps-scraper/">
@@ -24,12 +24,12 @@
     "name": "Google Maps Scraper",
     "applicationCategory": "DeveloperApplication",
     "operatingSystem": "Cloud (Apify)",
-    "description": "Google Maps business scraper. 30+ fields per place including reviews, GPS, hours, photos. ~80MB image, 256MB RAM, datacenter proxy. Global coverage.",
+    "description": "Google Maps business scraper. 30+ fields per place including full reviews, popular times, GPS, hours, photos. Optional AI-powered contact and job extraction. ~80MB image, 256MB RAM, datacenter proxy. Global coverage.",
     "offers": {
       "@type": "Offer",
-      "price": "0.00375",
+      "price": "0.001",
       "priceCurrency": "USD",
-      "description": "per place result"
+      "description": "per place result ($1 per 1,000)"
     },
     "url": "https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz",
     "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
@@ -40,7 +40,7 @@
     "@context": "https://schema.org",
     "@type": "VideoObject",
     "name": "Google Maps Scraper Walkthrough — Extract 30+ Fields per Place at $1/1k",
-    "description": "Full walkthrough of the NanoScrape Google Maps Scraper on Apify: how to extract business profiles, reviews, ratings, GPS coordinates, opening hours and photos at $0.00375 per place — 10x cheaper than browser-based alternatives.",
+    "description": "Full walkthrough of the NanoScrape Google Maps Scraper on Apify: how to extract business profiles, reviews, ratings, GPS coordinates, opening hours and photos at $1 per 1,000 places, 35x cheaper than browser-based alternatives.",
     "thumbnailUrl": "https://i.ytimg.com/vi/NNYUGS_PbTo/maxresdefault.jpg",
     "uploadDate": "2026-07-14",
     "contentUrl": "https://www.youtube.com/watch?v=NNYUGS_PbTo",
@@ -113,7 +113,7 @@
 
   <div class="detail">
     <h1>Scrape Google Maps Places — 30+ Fields per Business at $1 per 1,000</h1>
-    <p class="lead">Extract comprehensive business data from Google Maps at a fraction of the cost of alternatives. Get name, address, phone, website, reviews, ratings, opening hours, GPS coordinates, and photos for any location worldwide. Our scraper delivers 30+ structured fields per place using datacenter proxies, making it 10x more affordable than browser-based competitors.</p>
+    <p class="lead">Extract comprehensive business data from Google Maps at a fraction of the cost of alternatives. Get name, address, phone, website, ratings, opening hours, GPS coordinates, photos, plus optional featured reviews, popular-times histograms, and AI-powered contact or job enrichment. Global coverage, any language, one flat rate.</p>
 
     <div class="ctas">
       <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
@@ -129,18 +129,20 @@
       <div class="spec"><div class="label">RAM</div><div class="value">256MB</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">BUYPROXIES Datacenter</div></div>
       <div class="spec"><div class="label">Coverage</div><div class="value">Global</div></div>
-      <div class="spec"><div class="label">Pricing</div><div class="value">$0.00375/place</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$1 / 1,000 places</div></div>
       <div class="spec"><div class="label">Anti-Bot</div><div class="value">Session rotation</div></div>
     </div>
 
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
-      <li><strong>Business profiles</strong> — name, category, address, phone, website, Google Maps URL</li>
-      <li><strong>Ratings and reviews</strong> — average rating, review count, individual review text and scores</li>
-      <li><strong>Opening hours</strong> — full weekly schedule, holiday hours, current open/closed status</li>
-      <li><strong>GPS coordinates</strong> — latitude and longitude for mapping and geospatial analysis</li>
-      <li><strong>Photos</strong> — photo URLs from business listings</li>
-      <li><strong>Rich metadata</strong> — price level, accessibility, amenities, popular times</li>
+      <li><strong>Business profiles</strong> — name, category, address (with parsed street/city/postal code/state/country), phone, website, Google Maps URL</li>
+      <li><strong>Ratings breakdown</strong> — average rating, review count, and reviews-per-rating distribution (1 to 5 stars)</li>
+      <li><strong>Featured reviews (opt-in)</strong> — author name, star rating, publication date, review text, owner responses</li>
+      <li><strong>Opening hours</strong> — full weekly schedule with multiple slots per day, current open/closed status</li>
+      <li><strong>Popular times (opt-in)</strong> — visitor-traffic histogram by weekday and hour (0 to 100)</li>
+      <li><strong>GPS + geo data</strong> — latitude, longitude, Plus Code, IANA timezone</li>
+      <li><strong>Photos and menu</strong> — thumbnail, image gallery, menu link, reservation and order-online links</li>
+      <li><strong>Attributes</strong> — dine-in, delivery, Wi-Fi, wheelchair access, and other Google-listed amenities</li>
     </ul>
 
     <h2 class="section-title">Primary Use Cases</h2>
@@ -153,17 +155,34 @@
     </ul>
 
     <h2 class="section-title">API Example</h2>
-    <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/runs?token=YOUR_TOKEN" \
+    <div class="code-block"><pre><span class="comment"># Start a run and get results back in one request</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{
-    "searchQueries": ["restaurants in Munich"],
+    "searchStrings": ["restaurants in Munich"],
     "maxResultsPerQuery": 100,
-    "language": "en"
+    "language": "en",
+    "includeReviews": true,
+    "maxReviewsPerPlace": 10
   }'
 
 <span class="comment"># Or use with AI agents via MCP:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</span></pre></div>
+
+    <h2 class="section-title">Optional Enrichments</h2>
+    <ul>
+      <li><strong>includeReviews</strong> — fetch featured reviews per place with author, star rating, date, text, and owner response. Configure with <code>maxReviewsPerPlace</code>, <code>reviewsSort</code>, and <code>reviewsNewerThan</code>. Adds ~300 ms per place. Free.</li>
+      <li><strong>includePopularTimes</strong> — pull Google's visitor-traffic histogram by weekday and hour. Adds ~1.5 s per place. Free.</li>
+      <li><strong>enableContactExtraction</strong> — AI-powered add-on that visits each business website and extracts team member names, emails, phones, and departments. Billed by the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>.</li>
+      <li><strong>enableJobExtraction</strong> — AI-powered add-on that scans each business's career page and returns open positions. Billed by the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a>.</li>
+      <li><strong>excludeCids</strong> — pass an array of Google CIDs to skip places you have already collected. Perfect for incremental scheduled runs.</li>
+      <li><strong>Structured queries</strong> — instead of plain <code>searchStrings</code>, use the <code>queries</code> array to attach a per-query <code>company_id</code> and separate the search term from the location and country code.</li>
+    </ul>
+
+    <h2 class="section-title">Tutorials</h2>
+    <ul>
+      <li><a href="/tutorials/scrape-google-maps-with-n8n/"><strong>How to Scrape Google Maps with n8n</strong></a> — connect this actor to n8n and push results into a Google Sheet. Free workflow template, 10-minute setup.</li>
+    </ul>
 
     <h2 class="section-title">Integrations</h2>
     <ul>
@@ -176,28 +195,35 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-s
     <h2 class="section-title">How It Compares</h2>
     <table class="compare-table">
       <tr><th>Feature</th><th>NanoScrape</th><th>compass/crawler-google-places</th></tr>
-      <tr><td>Cost per 1k places</td><td class="highlight">$3.75</td><td>$35 - $50</td></tr>
+      <tr><td>Cost per 1k places</td><td class="highlight">$1.00 (all fields included)</td><td>$35 - $50</td></tr>
       <tr><td>RAM usage</td><td class="highlight">256MB</td><td>2-8GB</td></tr>
-      <tr><td>Proxy type</td><td class="highlight">Datacenter ($0.006/req)</td><td>Residential ($$$)</td></tr>
+      <tr><td>Proxy type</td><td class="highlight">Datacenter</td><td>Residential ($$$)</td></tr>
       <tr><td>Fields per place</td><td>30+</td><td>20-30</td></tr>
-      <tr><td>Review extraction</td><td>Yes</td><td>Yes</td></tr>
-      <tr><td>GPS coordinates</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Reviews</td><td>Featured reviews included, opt-in</td><td>Extra billing</td></tr>
+      <tr><td>Popular times</td><td>Included, opt-in</td><td>Extra billing</td></tr>
+      <tr><td>Contact / job enrichment</td><td>AI-powered add-on</td><td>Not available</td></tr>
+      <tr><td>Incremental scraping (excludeCids)</td><td>Yes</td><td>No</td></tr>
     </table>
 
-    <h2 class="section-title">Output Fields</h2>
+    <h2 class="section-title">Output Fields (Sample)</h2>
     <table class="compare-table">
       <tr><th>Field</th><th>Type</th><th>Example</th></tr>
-      <tr><td>name</td><td>string</td><td>Augustiner-Keller</td></tr>
+      <tr><td>title</td><td>string</td><td>Augustiner-Keller</td></tr>
       <tr><td>category</td><td>string</td><td>Beer garden</td></tr>
-      <tr><td>address</td><td>string</td><td>Arnulfstr. 52, 80335 Munich</td></tr>
+      <tr><td>address</td><td>string</td><td>Arnulfstr. 52, 80335 Munich, Germany</td></tr>
+      <tr><td>complete_address</td><td>object</td><td>{ street, city, postal_code, state, country }</td></tr>
       <tr><td>phone</td><td>string</td><td>+49 89 594393</td></tr>
       <tr><td>website</td><td>string</td><td>https://www.augustinerkeller.de</td></tr>
-      <tr><td>rating</td><td>number</td><td>4.5</td></tr>
-      <tr><td>review_count</td><td>number</td><td>12,847</td></tr>
-      <tr><td>latitude</td><td>number</td><td>48.1432</td></tr>
-      <tr><td>longitude</td><td>number</td><td>11.5512</td></tr>
-      <tr><td>opening_hours</td><td>object</td><td>{"Mon": "11:00-23:00", ...}</td></tr>
+      <tr><td>review_rating</td><td>number</td><td>4.5</td></tr>
+      <tr><td>review_count</td><td>number</td><td>12847</td></tr>
+      <tr><td>reviews_per_rating</td><td>object</td><td>{ "1": 42, "2": 31, "3": 89, "4": 312, "5": 1349 }</td></tr>
+      <tr><td>user_reviews</td><td>array</td><td>[ { name, rating, text, published_at, response_from_owner } ]</td></tr>
+      <tr><td>popular_times</td><td>object</td><td>{ "Monday": { "12": 43, "13": 61, ... } }</td></tr>
+      <tr><td>latitude / longitude</td><td>number</td><td>48.1432 / 11.5512</td></tr>
+      <tr><td>open_hours</td><td>object</td><td>{ "Monday": ["11:00-23:00"], ... }</td></tr>
+      <tr><td>cid</td><td>string</td><td>12345678901234567 (stable, use for excludeCids)</td></tr>
     </table>
+    <p style="color: var(--muted); font-size: 0.85rem; margin-top: -12px; margin-bottom: 24px;">30+ fields total. See the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">actor README on Apify</a> for the complete field reference.</p>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>

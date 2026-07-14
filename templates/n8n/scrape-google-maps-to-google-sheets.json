@@ -1,0 +1,145 @@
+{
+  "name": "Scrape Google Maps to Google Sheets (NanoScrape)",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "e5f0a1b7-2c40-4a1e-9d0a-000000000001",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1000001-0000-0000-0000-000000000001",
+              "name": "apifyToken",
+              "value": "PASTE_YOUR_APIFY_TOKEN_HERE",
+              "type": "string"
+            },
+            {
+              "id": "a1000001-0000-0000-0000-000000000002",
+              "name": "searchQuery",
+              "value": "restaurants in Paris",
+              "type": "string"
+            },
+            {
+              "id": "a1000001-0000-0000-0000-000000000003",
+              "name": "maxResults",
+              "value": 20,
+              "type": "number"
+            },
+            {
+              "id": "a1000001-0000-0000-0000-000000000004",
+              "name": "language",
+              "value": "en",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "e5f0a1b7-2c40-4a1e-9d0a-000000000002",
+      "name": "Set Search Params",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/run-sync-get-dataset-items?token={{ $json.apifyToken }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"searchStrings\": [\"{{ $json.searchQuery }}\"],\n  \"maxResultsPerQuery\": {{ $json.maxResults }},\n  \"language\": \"{{ $json.language }}\"\n}",
+        "options": {
+          "timeout": 300000
+        }
+      },
+      "id": "e5f0a1b7-2c40-4a1e-9d0a-000000000003",
+      "name": "Run Google Maps Scraper",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "PASTE_YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "id": "e5f0a1b7-2c40-4a1e-9d0a-000000000004",
+      "name": "Append to Google Sheet",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [960, 300]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Set Search Params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Search Params": {
+      "main": [
+        [
+          {
+            "node": "Run Google Maps Scraper",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run Google Maps Scraper": {
+      "main": [
+        [
+          {
+            "node": "Append to Google Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "templateName": "Scrape Google Maps to Google Sheets",
+    "templateAuthor": "NanoScrape",
+    "templateSource": "https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/",
+    "actor": "santamaria-automations/google-maps-scraper"
+  },
+  "tags": []
+}
