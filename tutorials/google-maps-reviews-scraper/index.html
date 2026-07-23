@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps Reviews Scraper: Extract Reviews at Scale ($1/1000 Places) | NanoScrape</title>
+  <meta name="description" content="Scrape Google Maps reviews without hitting the Places API rate limits. Extract author name, star rating, date, text and owner response for every business found. Free with the base scraper.">
+  <meta name="primary-keyword" content="google maps reviews scraper">
+  <meta property="og:title" content="Google Maps Reviews Scraper: Full Reviews Included Free | NanoScrape">
+  <meta property="og:description" content="Extract Google Maps reviews at scale. One flag on the base scraper, reviews come along free.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Google Maps Reviews at Scale",
+  "description": "Use the NanoScrape Google Maps Scraper with includeReviews enabled to extract featured reviews for every business found.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Any HTTP client or Apify SDK integration"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Google Maps Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Get your Apify API token",
+      "text": "Sign up for a free Apify account and copy your Personal API token from Settings then Integrations."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Enable reviews in the input JSON",
+      "text": "Set includeReviews true, choose how many reviews per place, pick a sort order, then send the input to the actor."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it and inspect the reviews",
+      "text": "Send the input to the actor via the Apify sync endpoint. Results come back in one HTTP response."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Google Maps Reviews Scraper: Extract Reviews at Scale",
+  "description": "How to scrape Google Maps reviews with author, rating, date, text and owner response without the Places API.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-07-23",
+  "dateModified": "2026-07-23",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I get more than 8 reviews per place?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The scraper returns what Google surfaces in featured reviews, typically up to 8 per place. Set maxReviewsPerPlace to 0 to remove the client-side cap, but Google's own surface limit still applies."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are all reviews included, or only the top ones?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only the reviews Google features in the place preview panel. Full historical reviews are not exposed by Google in a public feed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do reviews cost extra?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The $1 per 1,000 places rate includes reviews. No per-review or per-request add-on fee."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fresh are the reviews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every scrape hits Google Maps live. Reviews are as fresh as what Google shows at the moment of the request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this to monitor my competitors' reviews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Set reviewsSort to newest and reviewsNewerThan to the date of your last check. Run on a schedule to get only new reviews since the last run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping Google Maps reviews legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Reviews on Google Maps are publicly visible. Scraping public data is generally permitted, though jurisdictional rules vary. GDPR applies when review authors are named. Consult a lawyer for specific compliance questions."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Google Maps Reviews Scraper",
+      "item": "https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google Maps Reviews Scraper</nav>
+
+    <h1>Google Maps Reviews Scraper: Full Reviews Included, $1 per 1,000 Places</h1>
+    <p class="lead">Extract Google Maps reviews at scale with author name, star rating, publication date, review text, and owner response. Enable one flag on the NanoScrape scraper and reviews come along free with the base run. No Places API quota to worry about, no paying twice for the same data.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $1 per 1,000 places (reviews included, no add-on fee)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, any HTTP client</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Try it on Apify &rarr;</a>
+      <a href="/actors/google-maps-scraper/" class="btn-secondary">See the actor page</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-build">What you will build</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Get your Apify API token</a></li>
+        <li><a href="#step-2">Step 2: Enable reviews in the input JSON</a></li>
+        <li><a href="#step-3">Step 3: Run it and inspect the reviews</a></li>
+        <li><a href="#sorting">Sort and filter reviews</a></li>
+        <li><a href="#response-shape">What the review object looks like</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-build">What you will build</h2>
+    <p>A one-request scrape that returns every place matching your search query, each populated with its featured reviews. For a typical search returning 50 businesses, you get 50 rows with a <code class="code-inline">user_reviews</code> array on each, typically 5 to 10 reviews per place with author name, star rating, date, and text.</p>
+    <p>The reviews come from the same actor that scrapes the base business data. There is no separate reviews-only endpoint. This keeps costs predictable at $1 per 1,000 places, with reviews included at no extra charge.</p>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, which covers about 5,000 places from this scraper.</li>
+        <li>An HTTP client (curl, Postman, or any language's fetch). Or use one of the integrations at the end of this tutorial (n8n, Make, Zapier, Apify SDK, MCP).</li>
+      </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Get your Apify API token</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper</a> and click <strong>Try for free</strong>.</li>
+        <li>Sign up with Google or email.</li>
+        <li>Click your avatar (top right), open <strong>Settings</strong>, then <strong>Integrations</strong>.</li>
+        <li>Copy the <strong>Personal API token</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Enable reviews in the input JSON</h2>
+      <p>The reviews feature is controlled by three input fields. Only the first is required.</p>
+      <ul>
+        <li><code class="code-inline">includeReviews: true</code>: turn it on. Adds about 300 ms per place. Free.</li>
+        <li><code class="code-inline">maxReviewsPerPlace</code>: cap per place, default 25. Set to <code class="code-inline">0</code> for no cap. The actual number returned depends on how many featured reviews Google surfaces (usually up to 8 for high-traffic places).</li>
+        <li><code class="code-inline">reviewsSort</code>: one of <code class="code-inline">most_relevant</code> (default), <code class="code-inline">newest</code>, <code class="code-inline">highest_rating</code>, <code class="code-inline">lowest_rating</code>.</li>
+      </ul>
+      <p>Minimal working input:</p>
+      <div class="code-block"><pre>{
+  "searchStrings": ["restaurants in Paris"],
+  "maxResultsPerQuery": 20,
+  "language": "en",
+  "includeReviews": true,
+  "maxReviewsPerPlace": 10
+}</pre></div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and inspect the reviews</h2>
+      <p>Simplest run: POST the input to the sync endpoint. Results return in the same response body, typically within 10 to 30 seconds for 20 places with reviews.</p>
+      <div class="code-block"><pre>curl -X POST \
+  "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchStrings": ["restaurants in Paris"],
+    "maxResultsPerQuery": 20,
+    "language": "en",
+    "includeReviews": true,
+    "maxReviewsPerPlace": 10
+  }'</pre></div>
+      <p>Each item in the response array is a full business record with 30-plus fields, and each record now has a <code class="code-inline">user_reviews</code> array populated with the reviews we requested.</p>
+      <div class="callout tip"><strong>Tip:</strong> for larger jobs (more than a few hundred places) use the async endpoint at <code>/runs</code> instead of <code>/run-sync-get-dataset-items</code>. The sync endpoint has a 5-minute timeout.</div>
+    </div>
+
+    <h2 id="sorting">Sort and filter reviews</h2>
+    <p>The <code class="code-inline">reviewsSort</code> option changes which reviews Google surfaces first:</p>
+    <ul>
+        <li><strong>most_relevant</strong> (default): Google's own ranking. Weighted mix of recency, helpfulness, and quality signals.</li>
+        <li><strong>newest</strong>: most recent first. Best for monitoring fresh sentiment.</li>
+        <li><strong>highest_rating</strong>: 5-star reviews first. Useful for pulling testimonial-style content.</li>
+        <li><strong>lowest_rating</strong>: 1-star reviews first. Best for competitor analysis or complaint monitoring.</li>
+      </ul>
+    <p>To only pull reviews from a specific time window, add <code class="code-inline">reviewsNewerThan</code> in YYYY-MM-DD format. The scraper automatically switches to <code class="code-inline">newest</code> sort and stops as soon as it hits an older review, so the run is fast and cheap:</p>
+    <div class="code-block"><pre>{
+  "searchStrings": ["cafes in Berlin"],
+  "maxResultsPerQuery": 50,
+  "includeReviews": true,
+  "reviewsNewerThan": "2026-06-01"
+}</pre></div>
+
+    <h2 id="response-shape">What the review object looks like</h2>
+    <p>Every entry in <code class="code-inline">user_reviews</code> has the same shape:</p>
+    <div class="code-block"><pre>{
+  "name": "Marie Dupont",
+  "profile_link": "https://www.google.com/maps/contrib/114798109881286611060",
+  "rating": 5,
+  "text": "Excellent cuisine, warm atmosphere.",
+  "published_at": "2025-12-10",
+  "response_from_owner": null
+}</pre></div>
+    <p>The parent record also includes <code class="code-inline">reviews_per_rating</code>, a breakdown of the full-history review distribution across the five stars. Useful for computing average sentiment even when you're only surfacing a handful of individual reviews per place.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Apify actor:</strong> $1.00 per 1,000 places. Reviews are included in that price with no extra charge.</li>
+        <li><strong>Free tier:</strong> $5/month covers about 5,000 places, or roughly 25,000 to 50,000 reviews depending on your <code class="code-inline">maxReviewsPerPlace</code> setting.</li>
+        <li><strong>Compared to Google Places API:</strong> Places API charges per request and caps reviews at 5 per place. For 5,000 places with 10 reviews each, this scraper costs $5. The equivalent Places API workload runs into the hundreds of dollars.</li>
+      </ul>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Can I get more than 8 reviews per place?</summary>
+        <p>The scraper returns whatever Google surfaces in the featured reviews view, typically up to 8 for high-traffic places. Set <code>maxReviewsPerPlace: 0</code> to remove the cap on your side, but Google's own surface limit still applies.</p>
+      </details>
+      <details>
+        <summary>Are all reviews included, or only the top ones?</summary>
+        <p>Only the reviews Google chooses to feature in the place preview panel. These are the reviews Google has selected as most helpful, typically recent positive reviews with photos or detailed text. Full historical reviews are not exposed by Google in a public feed.</p>
+      </details>
+      <details>
+        <summary>Do reviews cost extra?</summary>
+        <p>No. The $1 per 1,000 places rate includes reviews when <code>includeReviews: true</code>. There is no per-review or per-request add-on fee.</p>
+      </details>
+      <details>
+        <summary>How fresh are the reviews?</summary>
+        <p>Every scrape hits Google Maps live. Reviews are as fresh as what Google is currently showing at the moment of the request.</p>
+      </details>
+      <details>
+        <summary>Can I use this to monitor my competitors&#39; reviews?</summary>
+        <p>Yes. Set <code>reviewsSort</code> to <code>newest</code> and <code>reviewsNewerThan</code> to the date of your last check. Run on a schedule to get only the new reviews since your last run.</p>
+      </details>
+      <details>
+        <summary>Is scraping Google Maps reviews legal?</summary>
+        <p>Reviews on Google Maps are publicly visible data. Scraping public data is generally permitted in most jurisdictions, though the specifics depend on where you and your users are located and what you do with the data. GDPR applies when review authors are named. Consult a lawyer for specific compliance questions.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: full actor documentation, all input parameters, complete field reference.</li>
+      <li><a href="/actors/google-maps-scraper/">NanoScrape actor page</a>: quick-reference specs, pricing, use cases.</li>
+      <li><a href="/tutorials/scrape-google-maps-with-n8n/">How to Scrape Google Maps with n8n</a>: n8n workflow tutorial for the same actor, with a downloadable template.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Try the scraper on Apify &rarr;</a>
+      <a href="/actors/" class="btn-secondary">See all NanoScrape actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
