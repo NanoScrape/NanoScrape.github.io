@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Google Maps: Business Data, Phones &amp; Ratings | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping Google Maps. Pull 30+ fields per business, phone, website, rating, review count, hours and GPS coordinates. No code required, results in seconds.">
+  <meta name="primary-keyword" content="scrape google maps">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape Google Maps (No Code, 5 Minutes) | NanoScrape">
+  <meta property="og:description" content="Extract business name, phone, website, rating, hours and GPS from any Google Maps search. 30+ fields per place, $1 per 1,000 results.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-google-maps/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-google-maps/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-google-maps/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-google-maps/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Google Maps",
+  "description": "Use the NanoScrape Google Maps Scraper on Apify to extract business data from any search query without writing code.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "A Google Maps search query"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify Google Maps Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Create your free Apify account",
+      "text": "Open the Google Maps Scraper page on Apify, click Try for free, and sign up with Google or email. The free tier gives you $5 of usage credit every month."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Set your search query",
+      "text": "In the Input tab, enter one or more search strings that include both the category and the location, then adjust maxResultsPerQuery to control how many places you want per query."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run the scraper",
+      "text": "Click Save and Run. The actor starts immediately and streams results into the dataset as each query completes. Most runs finish in under a minute."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export your data",
+      "text": "Open the Dataset tab, click Export, and choose JSON, CSV, Excel, or any other format. The file downloads immediately."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Scrape Google Maps",
+  "description": "A practical guide to extracting business data from Google Maps using the NanoScrape Google Maps Scraper on Apify. No code required.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-07-24",
+  "dateModified": "2026-07-24",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-google-maps/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need to write any code to scrape Google Maps?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Apify Console has a form-based input editor. Type your search queries, click Run, and download results. Code is only needed for API automation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many results can I get per query?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Up to 120 per query (Google Maps page limit). Split searches by neighborhood or category for broader coverage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are reviews included in the base price?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Reviews cost $0.30 per 1,000 reviews and are opt-in via includeReviews: true. All other data is included in the base $1 per 1,000 places."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape businesses worldwide or only in the US?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, worldwide. Include the country or city in your search string and set the language parameter to the appropriate ISO 639-1 code for localized results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fresh is the data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Data is live. Every scrape hits Google Maps at run time with no caching or stored snapshots."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get email addresses along with the Google Maps data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Set enableEmailExtraction: true for email, phone, and social URLs. For structured contacts with names and positions, also enable enableContactExtraction and provide an LLM API key."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping Google Maps legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scraping publicly visible data is generally permitted in most jurisdictions. GDPR and local privacy laws apply to personal data you collect. Consult legal counsel for your specific situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I skip places I have already scraped on repeat runs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Pass previously scraped CIDs in the excludeCids parameter and the scraper skips them."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Scrape Google Maps",
+      "item": "https://www.nanoscrape.com/tutorials/scrape-google-maps/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Google Maps</nav>
+
+    <h1>How to Scrape Google Maps</h1>
+    <p class="lead">Type a search query, click Run, and in about ten seconds you have a structured dataset with 30-plus fields per business: name, category, full address, phone, website, rating, review count, opening hours, GPS coordinates, price range, and more. No code, no browser automation, no proxy setup. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">NanoScrape Google Maps Scraper</a> handles everything on Apify's infrastructure.</p>
+
+    <figure>
+      <img src="assets/01-hero-google-maps-dataset-results.png" alt="Apify Console dataset view showing Google Maps scraper results with business names, addresses, phones, ratings and review counts in structured columns" loading="lazy" width="3200" height="1842">
+      <figcaption>What a finished run looks like: 30+ fields per place, ready to export as JSON, CSV, or Excel.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $1 per 1,000 places (free tier covers ~5,000/month)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console (no code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See pricing details</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#step-1">Step 1: Create your Apify account</a></li>
+        <li><a href="#step-2">Step 2: Set your search query</a></li>
+        <li><a href="#step-3">Step 3: Run the scraper</a></li>
+        <li><a href="#step-4">Step 4: Export your data</a></li>
+        <li><a href="#enrichment">Add emails, reviews, and more</a></li>
+        <li><a href="#api">Automate with the API</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Common use cases</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>Every place the scraper returns comes with 30-plus structured fields. Here is an abbreviated example output (the actor's own documented example, showing the shape of a real result):</p>
+    <div class="code-block"><pre>{
+  "title": "Example Bistro",
+  "category": "French restaurant",
+  "address": "1 Example Street, 75000 Paris, France",
+  "complete_address": {
+    "street": "1 Example Street",
+    "city": "Paris",
+    "postal_code": "75000",
+    "country": "France"
+  },
+  "phone": "+33 1 00 00 00 00",
+  "website": "https://www.example.com/",
+  "review_rating": 4.5,
+  "review_count": 1823,
+  "status": "OPERATIONAL",
+  "price_range": "$$",
+  "open_hours": {
+    "Monday": ["12:00-14:30", "19:00-22:30"],
+    "Friday": ["12:00-14:30", "19:00-23:00"]
+  },
+  "latitude": 48.8571,
+  "longitude": 2.3007,
+  "cid": "12345678901234567",
+  "scraped_at": "2026-07-24T10:00:00.000Z"
+}</pre></div>
+    <p>Beyond the basics, you can opt in to reviews, popular-times histograms, email addresses, social profiles (Facebook, Instagram, LinkedIn, Twitter/X, TikTok, YouTube), SSL inspection, WHOIS data, tech stack detection, and AI-powered contact extraction. Every enrichment is billed separately only when you enable it.</p>
+    <div class="callout"><strong>30-plus fields are included in the base price.</strong> Popular times, GBP completeness score, chain detection, duplicate tagging, and reservation-platform parsing are all included. Reviews are the only add-on billed separately ($0.30 per 1,000 reviews when you set <code class="code-inline">includeReviews: true</code>).</div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create your free Apify account</h2>
+      <ol>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper page on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong>. Sign up with Google or email. It takes about a minute.</li>
+        <li>You land in Apify Console with the actor's <strong>Input</strong> tab open and $5 of free credit ready to use.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-actor-page-try-for-free.png" alt="NanoScrape Google Maps Scraper page on Apify Console with the Try for free button highlighted in orange" loading="lazy" width="3200" height="1842">
+      <figcaption>The actor page on Apify. Click Try for free to open the Input tab.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>Already have an Apify account?</strong> Skip to Step 2. If you want to use an existing account that belongs to an organization, make sure you have Actor run permissions on that workspace.</div>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Set your search query</h2>
+      <p>The scraper's <strong>Input</strong> tab has two ways to define what to search. The simplest is <code class="code-inline">searchStrings</code>: an array of plain text queries, each one sent directly to Google Maps.</p>
+      <div class="code-block"><pre>{
+  "searchStrings": [
+    "coffee shops in Berlin",
+    "dentists in New York",
+    "law firms in London"
+  ],
+  "maxResultsPerQuery": 20
+}</pre></div>
+      <p>A few tips that make a real difference:</p>
+      <ul>
+        <li><strong>Include the location in the query string.</strong> Google Maps uses the whole string to rank results. "coffee shops Berlin" returns better results than "coffee shops" with a separate city filter.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code> goes up to 120, which is Google Maps' page limit for a single query. For wider coverage, run multiple targeted queries instead.</li>
+        <li>For non-English regions, set <code class="code-inline">"language": "de"</code> (or <code class="code-inline">fr</code>, <code class="code-inline">es</code>, <code class="code-inline">ja</code>, etc.) to get localized business names and category labels.</li>
+        <li>If you want to pass your own reference ID alongside each query (for joining results back to your CRM), switch to the <code class="code-inline">queries</code> array instead of <code class="code-inline">searchStrings</code> and add a <code class="code-inline">company_id</code> field per query.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-input-tab-search-strings.png" alt="Apify Console Input tab for the Google Maps Scraper showing the searchStrings field with example queries and maxResultsPerQuery set to 20" loading="lazy" width="3200" height="1842">
+      <figcaption>The Input tab. Paste your queries into searchStrings and set how many results you want per query.</figcaption>
+    </figure>
+      <div class="callout"><strong>Structured queries with a company_id:</strong> if you are enriching an existing list, use the <code class="code-inline">queries</code> array instead. Pass a <code class="code-inline">company_id</code> per query and the scraper copies it into every result row, making it easy to join back to your source data without matching on name or address.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run the scraper</h2>
+      <p>Click <strong>Save and Run</strong> at the bottom of the Input tab. You land on the run detail page. The <strong>Log</strong> tab streams progress in real time, and the <strong>Dataset</strong> tab populates as each query finishes.</p>
+      <figure>
+      <img src="assets/04-run-in-progress.png" alt="Apify Console run detail page showing the live log with query progress and the dataset tab showing rows accumulating" loading="lazy" width="3200" height="1842">
+      <figcaption>The run detail page. Log tab shows progress; Dataset tab fills in as results arrive.</figcaption>
+    </figure>
+      <p>Speed depends on the number of queries and <code class="code-inline">maxResultsPerQuery</code>. A typical run of 3 queries at 20 results each finishes in 10 to 20 seconds. A run of 10 queries at 100 results each takes about two minutes.</p>
+      <p>If a run finishes but the dataset looks empty, click the <strong>Dataset</strong> tab and check that the view is not filtered. You can also open the Log tab and look for error lines. The most common causes are a search query that returns zero results (the location is misspelled or too specific) or a temporary proxy issue (re-running once usually clears it).</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Export your data</h2>
+      <p>Open the <strong>Dataset</strong> tab on the run detail page. Click <strong>Export</strong> at the top right. You can download as:</p>
+      <ul>
+        <li><strong>JSON</strong> for use in code or APIs</li>
+        <li><strong>CSV</strong> for Excel, Google Sheets, or LibreOffice</li>
+        <li><strong>Excel (.xlsx)</strong> ready to open without any import steps</li>
+        <li><strong>JSON-L</strong> (one JSON object per line) for streaming or Spark pipelines</li>
+      </ul>
+      <figure>
+      <img src="assets/05-export-dialog.png" alt="Apify Console Dataset tab with the Export button highlighted and a dropdown showing JSON, CSV, Excel and other format options" loading="lazy" width="3200" height="1842">
+      <figcaption>Click Export to download the dataset in the format that fits your workflow.</figcaption>
+    </figure>
+      <p>If you want to pull results into an automation tool like n8n, Make, or Zapier instead of downloading a file, skip to the <a href="#api">API section</a> below. Every dataset is also accessible by its URL from any Apify run, so you can poll it or pipe it directly into a downstream step.</p>
+    </div>
+
+    <h2 id="enrichment">Add emails, reviews, and more</h2>
+    <p>The base scrape returns the 30-plus fields you saw above. These optional add-ons stack on top, each enabled by a single flag in the Input JSON.</p>
+    <h3>Featured reviews</h3>
+    <p>Set <code class="code-inline">"includeReviews": true</code> and each place gets a <code class="code-inline">user_reviews</code> array with author name, star rating, publication date, and review text. Sort options: <code class="code-inline">most_relevant</code>, <code class="code-inline">newest</code>, <code class="code-inline">highest_rating</code>, <code class="code-inline">lowest_rating</code>. To filter by date, add <code class="code-inline">"reviewsNewerThan": "2026-01-01"</code> and the scraper stops pulling once it passes that cutoff.</p>
+    <div class="callout warn"><strong>Reviews have a separate charge: $0.30 per 1,000 reviews.</strong> They are not included in the base $1 per 1,000 places. If you enable <code class="code-inline">includeReviews</code> and scrape 500 places at 10 reviews each, that is 5,000 reviews, billed at $0.30 extra on top of the base place charge.</div>
+    <h3>Popular times histogram</h3>
+    <p>Set <code class="code-inline">"includePopularTimes": true</code> and each result gets a <code class="code-inline">popular_times</code> object with visitor-traffic scores (0 to 100) broken down by weekday and hour. Adds about 1.5 seconds per place. Included in the base $1 per 1,000 place price.</p>
+    <div class="code-block"><pre>"popular_times": {
+  "Monday": { "9": 38, "10": 52, "11": 70, "12": 81, "13": 79 },
+  "Saturday": { "10": 60, "11": 88, "12": 95, "13": 90 }
+}</pre></div>
+    <h3>Email addresses and social profiles</h3>
+    <p>Set <code class="code-inline">"enableEmailExtraction": true</code> and the scraper visits every business website it found and pulls out email addresses, phone numbers, and social profile URLs (LinkedIn, Facebook, Instagram, Twitter/X, TikTok, YouTube) using a regex extractor. No LLM key needed.</p>
+    <h3>AI-powered contact extraction</h3>
+    <p>Set <code class="code-inline">"enableContactExtraction": true</code> and provide a <code class="code-inline">geminiApiKey</code> (free tier available at <a target="_blank" rel="noopener" href="https://aistudio.google.com/app/apikey">Google AI Studio</a>). The scraper visits each business website and extracts structured contacts: name, position, email, phone, department. Results merge into the same dataset row as the Maps data.</p>
+    <div class="code-block"><pre>{
+  "searchStrings": ["IT companies in Munich"],
+  "maxResultsPerQuery": 20,
+  "enableContactExtraction": true,
+  "enableEmailExtraction": true,
+  "geminiApiKey": "your-gemini-api-key",
+  "waitForAddOns": true
+}</pre></div>
+    <div class="callout tip"><strong>All add-on results merge into one row per business</strong> when <code class="code-inline">waitForAddOns: true</code> (the default). You get one clean dataset with everything in it, no join step needed. If you set <code class="code-inline">waitForAddOns: false</code>, add-ons run in the background and write to separate datasets that you join yourself.</div>
+
+    <h2 id="api">Automate with the API</h2>
+    <p>Every actor on Apify can be called from your code or an automation platform. The simplest path is a synchronous HTTP call: POST your input JSON and the API blocks until the run completes, then returns the dataset.</p>
+    <div class="code-block"><pre>curl -s -X POST \
+  "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchStrings": ["plumbers in Chicago"],
+    "maxResultsPerQuery": 50
+  }'</pre></div>
+    <p>The response is a JSON array of place objects, ready to pipe into your database, spreadsheet, or downstream API. Get your personal API token from <a target="_blank" rel="noopener" href="https://console.apify.com/settings/integrations?fpr=0khfbz">Apify Console &rsaquo; Settings &rsaquo; Integrations</a>.</p>
+    <p>For long-running jobs (thousands of places, many queries), use the async variant instead: POST to start a run, get back a <code class="code-inline">runId</code>, then poll <code class="code-inline">/v2/actor-runs/{runId}/dataset/items</code> until the run status is <code class="code-inline">SUCCEEDED</code>. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">actor README</a> has code examples in JavaScript, Python, and cURL.</p>
+    <h3>Use via n8n, Make, or Zapier</h3>
+    <p>If you prefer a no-code automation platform, all three support Apify natively. For n8n specifically, there is a step-by-step tutorial that walks you through connecting the scraper to a Google Sheet: <a href="/tutorials/scrape-google-maps-with-n8n/">How to Scrape Google Maps with n8n</a>.</p>
+    <h3>Connect to an AI agent via MCP</h3>
+    <p>The scraper also ships an MCP server. Paste this URL into your MCP client (Claude Desktop, Cursor, VS Code, or any LangChain / LlamaIndex agent):</p>
+    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</pre></div>
+    <p>Once connected, you can prompt the agent directly: "Find pediatric dentists in Zurich and put them in a table." The agent discovers the input schema automatically and runs the actor on your behalf.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Base places:</strong> $1.00 per 1,000 places on the Free plan. Down to $0.75 per 1,000 on Business Gold. Every place comes with 30-plus fields including popular times, GPS, category, hours, price range, and all other base data.</li>
+        <li><strong>Reviews:</strong> $0.30 per 1,000 reviews, billed separately only when you set <code class="code-inline">includeReviews: true</code>. Not included in the base place price.</li>
+        <li><strong>Contact and social enrichment add-ons:</strong> each has its own per-result rate, shown on the individual add-on actor pages. All are opt-in and skip cleanly for places with no website, no phone, or no social URL.</li>
+        <li><strong>Apify platform:</strong> the free tier gives you $5 of credit every month, enough for around 5,000 place results. You only pay if you go over.</li>
+      </ul>
+    <p>A practical estimate: scraping 500 places across ten queries takes about 2 minutes and costs $0.50. Adding reviews at 10 per place adds another $0.15. Contact extraction via the AI add-on adds a small per-place cost on top, depending on which LLM provider you use (Gemini's free tier handles most jobs without a paid plan).</p>
+
+    <h2 id="use-cases">Common use cases</h2>
+    <h3>Lead generation</h3>
+    <p>Search for businesses in a specific category and city, add email extraction, and export to your CRM or cold-email tool. Filter by <code class="code-inline">review_count</code>, <code class="code-inline">review_rating</code>, or <code class="code-inline">status: OPERATIONAL</code> to focus on active businesses.</p>
+    <h3>Market research</h3>
+    <p>Map every competitor in a region. The <code class="code-inline">local_rank</code> field (automatic when two or more places share the same category and city) shows each place's position in its cohort by review count, plus how many reviews separate it from position 3.</p>
+    <h3>SEO and reputation monitoring</h3>
+    <p>Pull reviews on a schedule with <code class="code-inline">reviewsNewerThan</code> set to last week's date. If the <code class="code-inline">review_intel_math</code> block (automatic when <code class="code-inline">includeReviews</code> is on) shows <code class="code-inline">rating_trend: "declining"</code>, flag the account for review.</p>
+    <h3>Data enrichment for existing lists</h3>
+    <p>Use the <code class="code-inline">queries</code> array instead of <code class="code-inline">searchStrings</code>. Pass your internal <code class="code-inline">company_id</code> alongside each query. The scraper copies it into every result row, making it trivial to join the enriched data back to your source list without matching on name or address.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need to write any code to scrape Google Maps?</summary>
+        <p>No. The Apify Console gives you a form-based input editor. Type your search queries, click Save and Run, and download the results. Code is only needed if you want to call the actor from an automation pipeline or your own application.</p>
+      </details>
+      <details>
+        <summary>How many results can I get per query?</summary>
+        <p>Up to 120 per single query, which is Google Maps' page limit for one search. For wider coverage, split your search by neighborhood, sub-category, or city district and run each as a separate search string. For example, instead of "restaurants in London", try "restaurants in Shoreditch", "restaurants in Camden", and "restaurants in Notting Hill".</p>
+      </details>
+      <details>
+        <summary>Are reviews included in the base price?</summary>
+        <p>No. Reviews are billed separately at $0.30 per 1,000 reviews, only when you explicitly set <code>includeReviews: true</code>. Everything else, including popular times, GPS coordinates, opening hours, photo URLs, price range, and category data, is included in the base $1 per 1,000 places.</p>
+      </details>
+      <details>
+        <summary>Can I scrape businesses worldwide or only in the US?</summary>
+        <p>The scraper works on any country and language Google Maps covers. Include the country or city in your search string and set the <code>language</code> parameter to the appropriate ISO 639-1 code (<code>de</code> for German, <code>fr</code> for French, <code>ja</code> for Japanese, etc.) to get localized results.</p>
+      </details>
+      <details>
+        <summary>How fresh is the data?</summary>
+        <p>Every scrape hits the live Google Maps API at run time. There is no cached data or stored snapshot. Whatever Google shows at the moment you run the actor is what you get.</p>
+      </details>
+      <details>
+        <summary>Can I get email addresses along with the Google Maps data?</summary>
+        <p>Yes. Enable <code>enableEmailExtraction: true</code> for a regex-based extractor that pulls emails, phone numbers, and social profile URLs from each business's website, with no API key required. For structured contacts (name, position, email), also enable <code>enableContactExtraction: true</code> and provide a Gemini or Groq API key. Results merge into the same dataset row as the Maps data.</p>
+      </details>
+      <details>
+        <summary>Is scraping Google Maps legal?</summary>
+        <p>Scraping publicly visible data from websites is generally allowed in most jurisdictions under the Computer Fraud and Abuse Act (US) and similar laws. The <em>hiQ Labs v. LinkedIn</em> ruling confirmed that scraping public web data is not unauthorized access. That said, GDPR and local privacy laws apply to any personal data you collect and store. Consult legal counsel for your specific situation.</p>
+      </details>
+      <details>
+        <summary>Can I skip places I have already scraped on repeat runs?</summary>
+        <p>Yes. Every Google Maps place has a stable <code>cid</code> field that does not change even if the business renames or moves. Pass an array of CIDs in <code>excludeCids</code> and the scraper skips them. A common pattern in automated workflows: read the CID column from your previous export, pass the array back in, and only new places land in the output.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: full documentation, all input parameters, and the complete field reference.</li>
+      <li><a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a>: step-by-step guide for sending results straight into a Google Sheet using a free n8n workflow template.</li>
+      <li><a href="/tutorials/google-maps-reviews-scraper/">Google Maps Reviews Scraper</a>: focused guide on extracting and filtering customer reviews from Google Maps.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">See all tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
