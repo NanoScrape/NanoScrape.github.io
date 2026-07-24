@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google Maps Reviews Scraper: Extract Reviews at Scale ($1/1000 Places) | NanoScrape</title>
-  <meta name="description" content="Scrape Google Maps reviews without hitting the Places API rate limits. Extract author name, star rating, date, text and owner response for every business found. Free with the base scraper.">
+  <title>Google Maps Reviews Scraper: Extract All Reviews at Scale ($0.30/1000) | NanoScrape</title>
+  <meta name="description" content="Scrape Google Maps reviews at scale without the Places API. Extract author name, star rating, date, text and owner response. $1 per 1,000 places plus $0.30 per 1,000 reviews.">
   <meta name="primary-keyword" content="google maps reviews scraper">
-  <meta property="og:title" content="Google Maps Reviews Scraper: Full Reviews Included Free | NanoScrape">
-  <meta property="og:description" content="Extract Google Maps reviews at scale. One flag on the base scraper, reviews come along free.">
+  <meta property="og:title" content="Google Maps Reviews Scraper: Extract All Reviews at Scale | NanoScrape">
+  <meta property="og:description" content="Extract Google Maps reviews at scale via the Apify actor. $1/1000 places + $0.30/1000 reviews.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-maps-reviews-scraper/">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -101,18 +101,10 @@
   "mainEntity": [
     {
       "@type": "Question",
-      "name": "Can I get more than 8 reviews per place?",
+      "name": "How many reviews can I extract per place?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The scraper returns what Google surfaces in featured reviews, typically up to 8 per place. Set maxReviewsPerPlace to 0 to remove the client-side cap, but Google's own surface limit still applies."
-      }
-    },
-    {
-      "@type": "Question",
-      "name": "Are all reviews included, or only the top ones?",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "Only the reviews Google features in the place preview panel. Full historical reviews are not exposed by Google in a public feed."
+        "text": "As many as Google has. The maxReviewsPerPlace parameter caps the count; set it to 0 for no cap. Cost scales at $0.30 per 1,000 reviews."
       }
     },
     {
@@ -120,7 +112,7 @@
       "name": "Do reviews cost extra?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The $1 per 1,000 places rate includes reviews. No per-review or per-request add-on fee."
+        "text": "Yes. With includeReviews on, each review is billed at $0.30 per 1,000. Base place-scrape rate stays at $1 per 1,000 places."
       }
     },
     {
@@ -256,13 +248,13 @@
   <article class="article">
     <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google Maps Reviews Scraper</nav>
 
-    <h1>Google Maps Reviews Scraper: Full Reviews Included, $1 per 1,000 Places</h1>
-    <p class="lead">Extract Google Maps reviews at scale with author name, star rating, publication date, review text, and owner response. Enable one flag on the NanoScrape scraper and reviews come along free with the base run. No Places API quota to worry about, no paying twice for the same data.</p>
+    <h1>Google Maps Reviews Scraper: Extract All Reviews at Scale</h1>
+    <p class="lead">Pull every review for every business Google Maps returns for your query. Author name, star rating, publication date, review text, owner response. One opt-in flag on the NanoScrape scraper, priced at $1 per 1,000 places plus $0.30 per 1,000 reviews. No Places API quota, no per-request rate limits.</p>
 
     <div class="meta-row">
       <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
       <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
-      <div class="meta-item"><strong>Cost:</strong> $1 per 1,000 places (reviews included, no add-on fee)</div>
+      <div class="meta-item"><strong>Cost:</strong> $1 per 1,000 places + $0.30 per 1,000 reviews (FREE tier; Business/GOLD tier is 25% cheaper on places)</div>
       <div class="meta-item"><strong>Tools:</strong> Apify, any HTTP client</div>
     </div>
 
@@ -287,8 +279,8 @@
     </div>
 
     <h2 id="what-you-build">What you will build</h2>
-    <p>A one-request scrape that returns every place matching your search query, each populated with its featured reviews. For a typical search returning 50 businesses, you get 50 rows with a <code class="code-inline">user_reviews</code> array on each, typically 5 to 10 reviews per place with author name, star rating, date, and text.</p>
-    <p>The reviews come from the same actor that scrapes the base business data. There is no separate reviews-only endpoint. This keeps costs predictable at $1 per 1,000 places, with reviews included at no extra charge.</p>
+    <p>A one-request scrape that returns every place matching your search query, each populated with the full set of available reviews. For a typical search returning 50 businesses, you get 50 rows with a <code class="code-inline">user_reviews</code> array on each. Use <code class="code-inline">maxReviewsPerPlace</code> to cap the count per place, or set it to <code class="code-inline">0</code> to pull everything Google has.</p>
+    <p>The reviews come from the same actor that scrapes the base business data, so you get both in one request. Base rate is $1 per 1,000 places (FREE tier) with a $0.30 per 1,000 reviews add-on that only kicks in when you turn reviews on.</p>
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
@@ -312,8 +304,8 @@
       <h2>Enable reviews in the input JSON</h2>
       <p>The reviews feature is controlled by three input fields. Only the first is required.</p>
       <ul>
-        <li><code class="code-inline">includeReviews: true</code>: turn it on. Adds about 300 ms per place. Free.</li>
-        <li><code class="code-inline">maxReviewsPerPlace</code>: cap per place, default 25. Set to <code class="code-inline">0</code> for no cap. The actual number returned depends on how many featured reviews Google surfaces (usually up to 8 for high-traffic places).</li>
+        <li><code class="code-inline">includeReviews: true</code>: turn on review extraction. Adds about 300 ms per place. Billed at $0.30 per 1,000 reviews.</li>
+        <li><code class="code-inline">maxReviewsPerPlace</code>: cap the number of reviews pulled per place. Default is 25. Set to <code class="code-inline">0</code> to pull every review the place has. Higher values increase both runtime and cost.</li>
         <li><code class="code-inline">reviewsSort</code>: one of <code class="code-inline">most_relevant</code> (default), <code class="code-inline">newest</code>, <code class="code-inline">highest_rating</code>, <code class="code-inline">lowest_rating</code>.</li>
       </ul>
       <p>Minimal working input:</p>
@@ -370,28 +362,32 @@
   "published_at": "2025-12-10",
   "response_from_owner": null
 }</pre></div>
-    <p>The parent record also includes <code class="code-inline">reviews_per_rating</code>, a breakdown of the full-history review distribution across the five stars. Useful for computing average sentiment even when you're only surfacing a handful of individual reviews per place.</p>
+    <p>The parent record also includes <code class="code-inline">reviews_per_rating</code>, a breakdown of the full-history review distribution across the five stars. This is included in the base place-scrape (no per-review fee) and is useful for computing average sentiment cheaply when you don't need individual review text.</p>
 
     <h2 id="cost">What it costs</h2>
+    <p>Pay-per-event pricing. Three charge events:</p>
     <ul>
-        <li><strong>Apify actor:</strong> $1.00 per 1,000 places. Reviews are included in that price with no extra charge.</li>
-        <li><strong>Free tier:</strong> $5/month covers about 5,000 places, or roughly 25,000 to 50,000 reviews depending on your <code class="code-inline">maxReviewsPerPlace</code> setting.</li>
-        <li><strong>Compared to Google Places API:</strong> Places API charges per request and caps reviews at 5 per place. For 5,000 places with 10 reviews each, this scraper costs $5. The equivalent Places API workload runs into the hundreds of dollars.</li>
+        <li><strong>Place scraped:</strong> $0.001 per place (FREE / BRONZE tier). $0.00075 per place on GOLD, PLATINUM, and DIAMOND (25% cheaper). Includes all 30+ fields per place.</li>
+        <li><strong>Review extracted:</strong> $0.0003 per review, only when <code class="code-inline">includeReviews</code> is on. Same price across all tiers.</li>
+        <li><strong>Actor start:</strong> $0.00005 per GB of memory used at start. Trivial for typical runs.</li>
       </ul>
+    <p>Concrete examples on the FREE tier:</p>
+    <ul>
+        <li>50 places with 10 reviews each: <strong>$0.20</strong> ($0.05 places + $0.15 reviews).</li>
+        <li>1,000 places with 25 reviews each: <strong>$8.50</strong> ($1.00 places + $7.50 reviews).</li>
+        <li>1,000 places with no reviews: <strong>$1.00</strong>.</li>
+      </ul>
+    <p>For comparison, Google's Places API charges roughly $17 per 1,000 place-detail requests and caps reviews at 5 per place. For 1,000 places with 10 reviews each, this actor costs $8.50 versus Places API's ~$17 (and you get up to your chosen review cap, not just 5).</p>
 
     <h2 id="faq">FAQ</h2>
     <div class="faq">
       <details>
-        <summary>Can I get more than 8 reviews per place?</summary>
-        <p>The scraper returns whatever Google surfaces in the featured reviews view, typically up to 8 for high-traffic places. Set <code>maxReviewsPerPlace: 0</code> to remove the cap on your side, but Google's own surface limit still applies.</p>
-      </details>
-      <details>
-        <summary>Are all reviews included, or only the top ones?</summary>
-        <p>Only the reviews Google chooses to feature in the place preview panel. These are the reviews Google has selected as most helpful, typically recent positive reviews with photos or detailed text. Full historical reviews are not exposed by Google in a public feed.</p>
+        <summary>How many reviews can I extract per place?</summary>
+        <p>As many as Google has for that place. The <code>maxReviewsPerPlace</code> parameter controls the cap on your side. Set it to <code>0</code> for no cap and the actor will pull every review Google exposes. Note this scales linearly with cost at $0.30 per 1,000 reviews.</p>
       </details>
       <details>
         <summary>Do reviews cost extra?</summary>
-        <p>No. The $1 per 1,000 places rate includes reviews when <code>includeReviews: true</code>. There is no per-review or per-request add-on fee.</p>
+        <p>Yes. When <code>includeReviews: true</code>, each review extracted is billed at $0.0003 (that is $0.30 per 1,000 reviews). The base place-scrape rate ($1 per 1,000 places) covers rating summaries and the star-distribution breakdown, but individual review objects are the review add-on's job.</p>
       </details>
       <details>
         <summary>How fresh are the reviews?</summary>
