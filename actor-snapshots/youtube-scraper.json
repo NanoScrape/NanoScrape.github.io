@@ -1,0 +1,49 @@
+{
+  "slug": "santamaria-automations/youtube-scraper",
+  "name": "youtube-scraper",
+  "title": "YouTube Scraper - Extract Videos, Channels & Shorts",
+  "description": "Scrape YouTube videos, channels, and Shorts without an API key. Search by keyword and extract video titles, views, likes, comments, tags, thumbnails,  descriptions, and engagement rates. Scrape channel subscriber counts, video lists, and metadata.",
+  "readme": "# YouTube Scraper\n\nScrape [YouTube](https://www.youtube.com/) videos, channels, Shorts, and search results. Extract views, likes, comments, tags, descriptions, thumbnails, engagement metrics, and channel info. No API key required.\n\n## Four Scraping Modes\n\n| Mode | Input | Output | Use Case |\n|------|-------|--------|----------|\n| **SEARCH** | Keywords | Videos from search results | Find videos by topic |\n| **CHANNEL** | Channel URLs | Channel info + video list | Analyze a creator's content |\n| **SHORTS** | Channel URLs | Channel info + Shorts list | Track short-form content |\n| **VIDEO** | Video URLs/IDs | Full video metadata | Deep analysis of specific videos |\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/youtube-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `youtube-scraper` to scrape data from youtube. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Multi-query support** — Search multiple keywords in a single run with per-query limits\n- **Deduplication** — Same video found by different queries is only returned once\n- **Detail enrichment** — Toggle `includeDetails` for likes, comments, tags, category, and full description\n- **No API key needed** — Works without YouTube Data API credentials\n- **Engagement rate** — Automatically calculated from likes + comments / views\n- **Shorts detection** — Identifies YouTube Shorts with `is_short` flag\n- **Channel metadata** — Subscriber count, video count, handle, verification status\n- **Thumbnail preview** — See thumbnails directly in the Apify dataset table\n- **Pay-per-result** — Only pay for results you get, no monthly fees\n\n## Data Extracted\n\n### Search results (fast)\n\n| Field | Example |\n|-------|---------|\n| `title` | \"React Tutorial for Beginners\" |\n| `video_url` | \"https://www.youtube.com/watch?v=...\" |\n| `thumbnail_url` | \"https://i.ytimg.com/vi/.../hq720.jpg\" |\n| `view_count` | 5681802 |\n| `duration` | \"1:00:06\" |\n| `channel_name` | \"Programming with Mosh\" |\n| `channel_url` | \"https://www.youtube.com/@programmingwithmosh\" |\n| `published_at` | \"2 years ago\" |\n| `is_short` | false |\n| `search_query` | \"react tutorial\" |\n\n### With `includeDetails: true` (complete)\n\nAll fields above, plus:\n\n| Field | Example |\n|-------|---------|\n| `like_count` | 95000 |\n| `comment_count` | 1900 |\n| `engagement_rate` | 1.705 |\n| `description` | Full video description text |\n| `tags` | [\"react\", \"javascript\", \"tutorial\", ...] |\n| `category` | \"Education\" |\n| `published_at` | \"2024-09-16T05:00:00-07:00\" (exact ISO date) |\n| `channel_subscribers` | \"4.2M subscribers\" |\n\n### Channel data (channel/shorts modes)\n\n| Field | Example |\n|-------|---------|\n| `name` | \"MrBeast\" |\n| `handle` | \"@MrBeast\" |\n| `subscriber_count` | \"472M subscribers\" |\n| `video_count` | \"960 videos\" |\n| `channel_url` | \"https://www.youtube.com/@MrBeast\" |\n\n## Pricing\n\nPay-per-result pricing. You only pay for the data you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Search result scraped | $0.001 | A video entry from search results |\n| Video details extracted | $0.003 | Full metadata from a video page |\n| Channel scraped | $0.001 | Channel info with video listings |\n\n**Examples:**\n- 1,000 search results = **$1.00**\n- 500 videos with full details = **$1.50**\n- 10 channels + 500 videos = **$0.51**\n\nNo monthly fees. No minimum spend.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `mode` | string | `search`, `channel`, `video`, or `shorts` | `search` |\n| `searchQueries` | string[] | Keywords to search (search mode) | `[]` |\n| `urls` | string[] | YouTube URLs (channel/video/shorts modes) | `[]` |\n| `maxResults` | integer | Maximum total results. 0 = unlimited. | `100` |\n| `maxResultsPerQuery` | integer | Maximum results per query/URL | `100` |\n| `sortBy` | string | `relevance`, `date`, `views`, `rating` | `relevance` |\n| `includeDetails` | boolean | Fetch detail pages for likes, tags, etc. | `false` |\n| `proxyConfiguration` | object | Proxy settings | Auto |\n\n## Usage Examples\n\n### Search for videos by keyword\n\n```json\n{\n  \"mode\": \"search\",\n  \"searchQueries\": [\"web scraping tutorial\", \"python automation\"],\n  \"maxResults\": 100,\n  \"maxResultsPerQuery\": 50,\n  \"sortBy\": \"relevance\",\n  \"includeDetails\": true\n}\n```\n\n### Scrape all videos from a channel\n\n```json\n{\n  \"mode\": \"channel\",\n  \"urls\": [\"https://www.youtube.com/@MrBeast\"],\n  \"maxResults\": 200\n}\n```\n\n### Get full details for specific videos\n\n```json\n{\n  \"mode\": \"video\",\n  \"urls\": [\n    \"https://www.youtube.com/watch?v=dQw4w9WgXcQ\",\n    \"https://www.youtube.com/watch?v=9bZkp7q19f0\"\n  ]\n}\n```\n\n### Scrape Shorts from a channel\n\n```json\n{\n  \"mode\": \"shorts\",\n  \"urls\": [\"https://www.youtube.com/@MrBeast\"],\n  \"maxResults\": 50\n}\n```\n\n## Supported URL Formats\n\n- `https://www.youtube.com/@MrBeast` — Channel by handle\n- `https://www.youtube.com/channel/UCX6OQ3DkcsbYNE6H8uQQuVA` — Channel by ID\n- `https://www.youtube.com/watch?v=dQw4w9WgXcQ` — Video URL\n- `https://youtu.be/dQw4w9WgXcQ` — Short URL\n- `https://www.youtube.com/shorts/abc123` — Shorts URL\n- `dQw4w9WgXcQ` — Just the video ID\n\n## Output\n\nResults are exported to the default dataset. A **YouTube Videos** table view shows thumbnails, titles, views, likes, comments, engagement, and duration at a glance.\n\nExport to JSON, CSV, Excel, or connect via API.\n\n## FAQ\n\n**Do I need a YouTube API key?**\nNo. This scraper works without any API key or credentials.\n\n**What's the difference between search mode and search + details?**\nSearch mode returns basic data from search results (fast). With `includeDetails: true`, each video's page is also visited to get likes, comments, tags, category, and full description.\n\n**Can I scrape comments?**\nThe scraper extracts the total comment count per video. Full comment text extraction is not yet supported.\n\n**Does this work with YouTube Shorts?**\nYes. Use `shorts` mode with a channel URL, or check the `is_short` flag in other modes.\n\n**How many videos can I scrape?**\nUp to 10,000 per run. For larger volumes, run multiple instances with different queries.\n\n\n## Related Actors\n\n**Related Scrapers**\n\n- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)\n- [Kununu.de Scraper — Employer reviews](https://apify.com/santamaria-automations/kununu-de-scraper)\n- [Eventbrite Scraper — Event listings](https://apify.com/santamaria-automations/eventbrite-scraper)\n- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/issues) and we'll look into it.\n",
+  "readmeSource": "actors/social-media/youtube-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-24T16:25:54.103Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "youtube-search-result",
+        "title": "Search Result scraped",
+        "description": "A video entry was extracted from YouTube search results, including title, views, duration, channel name, and thumbnail.",
+        "isPrimary": true,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "youtube-video-result",
+        "title": "Video details extracted",
+        "description": "Full metadata was extracted from a video page, including exact like and comment counts, tags, category, full description, and engagement rate.",
+        "isPrimary": false,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "youtube-channel-scraped",
+        "title": "Youtube channel scraped",
+        "description": "A YouTube channel was processed, returning subscriber count, video count, total views, handle, verification status, and video listings.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-07-27T08:42:20.231Z"
+}

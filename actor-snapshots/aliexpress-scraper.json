@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/aliexpress-scraper",
+  "name": "aliexpress-scraper",
+  "title": "AliExpress Scraper",
+  "description": "Scrape product listings from AliExpress. Extract prices, ratings, reviews, seller info, and shipping details. Perfect for dropshipping research and price monitoring.",
+  "readme": "# AliExpress Scraper\n\nScrape product listings from AliExpress, one of the world's largest e-commerce platforms. Extract prices, ratings, order counts, images, and shipping details. Perfect for dropshipping research, competitor analysis, and price monitoring.\n\n## Features\n\n- **Search by URL or keyword** - provide AliExpress search URLs or plain text queries\n- **Rich product data** - prices, discounts, ratings, order counts, multiple images\n- **Pagination** - automatically follows search result pages up to your limit\n- **Sort options** - best match, most orders, price ascending/descending, newest\n- **Anti-bot resistant** - Chrome TLS fingerprinting via bogdanfinn/tls-client\n- **Lightweight** - 128MB memory, ~12MB Docker image (Go + Alpine)\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/aliexpress-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `aliexpress-scraper` to scrape product listings from aliexpress. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output Data\n\nEach product includes:\n\n| Field | Description |\n|-------|-------------|\n| `id` | AliExpress product ID |\n| `title` | Product title |\n| `price` | Current/sale price |\n| `original_price` | Original price before discount |\n| `currency` | Currency code (USD, EUR, etc.) |\n| `discount_percent` | Discount percentage |\n| `rating` | Star rating (0-5) |\n| `orders_count` | Number of orders (e.g., \"2,000+ sold\") |\n| `image_url` | Primary product image |\n| `image_urls` | All product images |\n| `shipping_info` | Shipping description |\n| `free_shipping` | Whether free shipping is available |\n| `category` | AliExpress category ID |\n| `source_url` | Direct link to the product page |\n\n**Note:** Store name, store URL, and store rating are only available on product detail pages and are not included in SERP-only results. Review count is also detail-page only on current AliExpress.\n\n## Input Examples\n\n### Search by keyword\n```json\n{\n  \"searchQuery\": \"bluetooth speaker\",\n  \"maxResults\": 100,\n  \"sortBy\": \"orders\"\n}\n```\n\n### Search by URL\n```json\n{\n  \"searchUrls\": [\"https://www.aliexpress.com/w/wholesale-solar-panel.html\"],\n  \"maxResults\": 200\n}\n```\n\n### Multiple searches\n```json\n{\n  \"searchUrls\": [\n    \"https://www.aliexpress.com/w/wholesale-phone-case.html\",\n    \"https://www.aliexpress.com/w/wholesale-usb-cable.html\"\n  ],\n  \"maxResults\": 50\n}\n```\n\n## Proxy Configuration\n\nAliExpress has anti-bot protection. **RESIDENTIAL proxy is strongly recommended.**\n\n```json\n{\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true,\n    \"apifyProxyGroups\": [\"RESIDENTIAL\"]\n  }\n}\n```\n\nDatacenter proxies may work intermittently but can trigger CAPTCHAs or blocks.\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| `product-serp-result` | $0.002 per product |\n\n## Limitations\n\n- Store information (name, URL, rating) requires fetching individual product detail pages (not included in SERP data)\n- Review count is not available in SERP results\n- AliExpress may show localized prices based on detected region\n- Heavy anti-bot protection may cause occasional blocks even with RESIDENTIAL proxy\n- Maximum ~60 products per page, paginated search\n\n## Related Actors\n\n**E-Commerce & Price Comparison**\n\n- [AutoScout24 Scraper — European car listings](https://apify.com/santamaria-automations/autoscout24-scraper)\n- [Galaxus.ch Scraper — Swiss electronics retailer](https://apify.com/santamaria-automations/galaxus-ch-scraper)\n- [Groupon Scraper — Deals in 12 countries](https://apify.com/santamaria-automations/groupon-scraper)\n- [Booking.com Scraper — Hotel listings](https://apify.com/santamaria-automations/booking-com-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/3ICWv9o93q1F9hHPE/issues) and we'll look into it.\n",
+  "readmeSource": "actors/ecommerce/aliexpress/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T13:50:42.776Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "product-serp-result",
+        "title": "Product found",
+        "description": "A product listing with price, rating, orders count, seller info, and images",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-07-27T08:42:20.505Z"
+}
