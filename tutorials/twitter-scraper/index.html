@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter Scraper: Extract Profiles and Tweets Without a Login | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping public Twitter/X profiles and recent tweets with the NanoScrape actor. Get follower counts, bios, engagement metrics, and up to 1,000 tweets per account. No login required.">
+  <meta name="primary-keyword" content="twitter scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Twitter Scraper: Profiles and Tweets Without a Login | NanoScrape">
+  <meta property="og:description" content="Pull public Twitter/X profile data and recent tweets in bulk. Follower counts, bios, likes, retweets, view counts, and more. No login or API key. Pay-per-result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/twitter-scraper/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/twitter-scraper/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/twitter-scraper/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/twitter-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Twitter/X Profiles and Tweets",
+  "description": "Use the NanoScrape Twitter/X Profiles and Tweets Scraper on Apify to extract public profiles and recent tweets in bulk without logging in to X.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.31"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of Twitter/X usernames to scrape"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Twitter/X Profiles + Tweets Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor on Apify",
+      "text": "Go to the Twitter/X Profiles and Tweets Scraper actor page on Apify and click Try for free. Create a free account if you do not have one."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Configure the input",
+      "text": "Paste your Twitter/X usernames into the input editor. Adjust tweetsPerUser, includeReplies, and includeRetweets to match what you need."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and download results",
+      "text": "Click Start. When the run finishes, open the dataset to view and export results as JSON, CSV, or XLSX."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Twitter Scraper: Extract Profiles and Tweets Without a Login",
+  "description": "A practical guide to scraping public Twitter/X profiles and recent tweets at scale using the NanoScrape actor on Apify. No login, no API key, pay-per-result.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-07-27",
+  "dateModified": "2026-07-27",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/twitter-scraper/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a Twitter/X login, developer app, or API key?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor calls the same public GraphQL endpoint x.com uses for logged-out browsing. You only need a free Apify account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape private (protected) Twitter accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Protected accounts return profile metadata only. The author.is_protected field will be true in the output."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many tweets can I get per account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Up to 1,000 tweets per account, controlled by the tweetsPerUser field (0 to 1000)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this work for both twitter.com and x.com handles?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The actor accepts bare handles, @-prefixed handles, and full URLs on both twitter.com and x.com domains."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if X rate-limits the scraper mid-run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If X rate-limits a proxy IP, the actor rotates to a fresh residential session and retries up to maxIPRotations times (default 5). For very large batches, split across multiple runs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get only original tweets and not retweets or replies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set includeReplies to false (the default) and includeRetweets to false. You will only receive original tweets and quote-tweets."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping public Twitter/X data legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scraping publicly visible data is generally permitted in most jurisdictions. X's Terms of Service restrict automated access, but this is a contractual matter. The legal picture varies by country and use. Consult a lawyer for specific compliance questions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run this on a schedule and track follower growth over time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use Apify Schedules or an n8n Schedule Trigger for recurring runs. Include the scraped_at timestamp to track changes over time."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Twitter Scraper",
+      "item": "https://www.nanoscrape.com/tutorials/twitter-scraper/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Twitter Scraper</nav>
+
+    <h1>Twitter Scraper: Pull Profiles and Tweets Without a Login or API Key</h1>
+    <p class="lead">Pass in a list of Twitter/X usernames and get back structured data for each account: full profile stats plus recent tweets with likes, retweets, view counts, replies, bookmark counts, hashtags, mentions, and expanded URLs. Up to 1,000 tweets per account. No login, no developer API key, no browser automation. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">NanoScrape Twitter Scraper</a> runs on Apify at $0.0003 per item delivered.</p>
+
+    <figure>
+      <img src="assets/01-hero-output-json.png" alt="Apify dataset view showing Twitter profile and tweet records with fields for username, follower count, tweet text, like count, retweet count, and view count" loading="lazy" width="3200" height="1842">
+      <figcaption>One row per tweet, with the full author profile embedded. Export to JSON, CSV, or XLSX.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> ~$0.31 per 1,000 items ($0.01 start + $0.0003 per tweet or profile)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Twitter Scraper</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Configure the input</a></li>
+        <li><a href="#step-3">Step 3: Run and download results</a></li>
+        <li><a href="#output-structure">Output structure</a></li>
+        <li><a href="#caveats">Protected accounts, rate limits, and caveats</a></li>
+        <li><a href="#n8n-integration">Use with n8n or Make</a></li>
+        <li><a href="#mcp-ai-agents">Use with AI agents via MCP</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>For every username you submit, the actor does two lookups behind the scenes: a profile fetch and a timeline fetch. What comes back:</p>
+    <ul>
+        <li><strong>Per tweet:</strong> tweet ID and URL, full text (never truncated), language, timestamp, conversation ID, reply / retweet / quote / pinned flags, retweeted or quoted tweet ID, in-reply-to fields, and the source client.</li>
+        <li><strong>Engagement per tweet:</strong> reply count, retweet count, like count, quote count, bookmark count, and view count.</li>
+        <li><strong>Entities per tweet:</strong> hashtags, @mentions with stable user IDs, expanded URLs (the real destination behind t.co shortlinks), cashtags, and media items (photo / video / GIF) with CDN URLs.</li>
+        <li><strong>Author profile embedded on every tweet:</strong> username, display name, bio, location, website (with expanded URL), follower count, following count, tweet count, listed count, favourites count, media count, profile image URL, banner URL, account creation date, verified status (both legacy blue tick and X Blue), and protected status.</li>
+      </ul>
+    <p>If you only need profile data, set <code class="code-inline">tweetsPerUser</code> to <code class="code-inline">0</code> and turn on <code class="code-inline">includeProfileOnlyItems</code>. Each user produces one row where <code class="code-inline">item_type</code> is <code class="code-inline">profile</code> and the <code class="code-inline">tweet</code> field is omitted.</p>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, which covers about 16,000 tweets across your runs.</li>
+        <li>A list of Twitter/X usernames, @-prefixed handles, or full profile URLs you want to scrape. All three formats work in the same input field.</li>
+      </ul>
+    <div class="callout"><strong>No Twitter/X login or developer API key needed.</strong> The actor calls the same public GraphQL endpoint that x.com uses for logged-out browsing. You do not need a personal X account, a developer app, or a bearer token.</div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the actor on Apify</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">NanoScrape Twitter/X Profiles + Tweets Scraper</a> on Apify.</li>
+        <li>Click <strong>Try for free</strong>. Sign up with Google or email if you do not have an account. It takes about a minute.</li>
+        <li>Apify redirects you to the actor's input editor in Apify Console.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-actor-page-apify.png" alt="NanoScrape Twitter X Profiles Tweets Scraper actor page on Apify showing the description, pricing summary, and Try for free button" loading="lazy" width="3200" height="1842">
+      <figcaption>The actor page on Apify. Click Try for free to open the input editor.</figcaption>
+    </figure>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Configure the input</h2>
+      <p>In the <strong>Input</strong> tab, paste your accounts in the <code class="code-inline">usernames</code> array. Mix formats freely: plain handles, @-prefixed handles, or full profile URLs. The actor normalizes them all before the first API call.</p>
+      <div class="code-block"><pre>{
+  "usernames": [
+    "openai",
+    "@AnthropicAI",
+    "https://x.com/GoogleDeepMind"
+  ],
+  "tweetsPerUser": 20,
+  "includeReplies": false,
+  "includeRetweets": true,
+  "proxyConfiguration": {
+    "useApifyProxy": true,
+    "apifyProxyGroups": ["RESIDENTIAL"]
+  }
+}</pre></div>
+      <p>Input fields and when to change them:</p>
+      <ul>
+        <li><code class="code-inline">usernames</code> <em>(required)</em>: an array of handles, @-handles, or full x.com / twitter.com profile URLs.</li>
+        <li><code class="code-inline">tweetsPerUser</code>: 0 to 1000. The default is 20. Set to 0 and enable <code class="code-inline">includeProfileOnlyItems</code> if you only need profile stats.</li>
+        <li><code class="code-inline">includeReplies</code>: <code class="code-inline">false</code> by default. Set to <code class="code-inline">true</code> if you want to include tweets that are direct replies to other accounts.</li>
+        <li><code class="code-inline">includeRetweets</code>: <code class="code-inline">true</code> by default. Set to <code class="code-inline">false</code> to see only original tweets and quotes.</li>
+        <li><code class="code-inline">includeProfileOnlyItems</code>: <code class="code-inline">false</code> by default. Enable to also push one extra profile-only row per user (useful when you need the author record without iterating tweets).</li>
+        <li><code class="code-inline">proxyConfiguration</code>: leave the residential proxy default. X rate-limits datacenter IPs hard. Residential proxy is included in the $0.01 actor-start fee.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-input-editor.png" alt="Apify Console input editor for the Twitter scraper showing the usernames array and tweetsPerUser field filled in" loading="lazy" width="3200" height="1846">
+      <figcaption>The input editor in Apify Console. Replace the example handles with your own list.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>Tip:</strong> for competitor research, start with <code class="code-inline">tweetsPerUser: 100</code> and <code class="code-inline">includeRetweets: false</code>. You get the last 100 original posts per account, ready for sentiment analysis or content benchmarking, without retweet noise inflating the count.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and download results</h2>
+      <ol>
+        <li>Click <strong>Start</strong> at the bottom of the input page.</li>
+        <li>Apify shows a live log. For a batch of 5 accounts at 20 tweets each, the run finishes in under 30 seconds.</li>
+        <li>When the status changes to <strong>Succeeded</strong>, click the <strong>Results</strong> tab to open the dataset.</li>
+        <li>Use the <strong>Export</strong> button to download as JSON, JSONL, CSV, or XLSX. You can also read the dataset directly via the Apify API or from an n8n, Make, or Zapier workflow.</li>
+      </ol>
+      <figure>
+      <img src="assets/04-dataset-results.png" alt="Apify Console dataset view after a successful Twitter scraper run showing rows with tweet text, engagement metrics, and author profile fields" loading="lazy" width="3200" height="1842">
+      <figcaption>The dataset after the run. One row per tweet, with the author profile embedded in every row.</figcaption>
+    </figure>
+      <div class="callout">The output is one row per tweet, not one row per user. A run for 3 accounts at 20 tweets each produces up to 60 rows. If you also enabled <code class="code-inline">includeProfileOnlyItems</code>, 3 additional profile rows appear in the dataset.</div>
+    </div>
+
+    <h2 id="output-structure">Output structure</h2>
+    <p>Each dataset row has three top-level fields: <code class="code-inline">item_type</code>, <code class="code-inline">tweet</code>, and <code class="code-inline">author</code>. The following example is taken from the actor README output schema (not a live run; field names and structure are accurate, values are illustrative):</p>
+    <div class="code-block"><pre>{
+  "item_type": "tweet",
+  "tweet": {
+    "id": "1900000000000000000",
+    "text": "Full tweet text here.",
+    "lang": "en",
+    "created_at": "2026-01-15T16:00:24Z",
+    "is_reply": false,
+    "is_retweet": false,
+    "is_quote": false,
+    "is_pinned": false,
+    "url": "https://x.com/example_handle/status/1900000000000000000",
+    "engagement": {
+      "reply_count": 186,
+      "retweet_count": 638,
+      "like_count": 2444,
+      "quote_count": 12,
+      "bookmark_count": 89,
+      "view_count": 484164
+    },
+    "entities": {
+      "hashtags": [],
+      "mentions": [{"username": "another_handle", "user_id": "999999999"}],
+      "urls": [
+        {
+          "url": "https://t.co/exampleShort",
+          "expanded_url": "https://example.com/blog/post",
+          "display_url": "example.com/blog/post"
+        }
+      ],
+      "cashtags": [],
+      "media": [{"type": "photo", "url": "https://pbs.twimg.com/media/..."}]
+    }
+  },
+  "author": {
+    "username": "example_handle",
+    "display_name": "Example Company",
+    "bio": "Example bio for the account.",
+    "location": "Example City",
+    "website_expanded": "https://example.com",
+    "verified": false,
+    "blue_verified": true,
+    "followers_count": 12345,
+    "following_count": 188,
+    "tweet_count": 4200,
+    "created_at": "Tue Sep 01 08:38:01 +0000 2015",
+    "profile_url": "https://x.com/example_handle"
+  },
+  "scraped_at": "2026-07-27T09:00:00Z"
+}</pre></div>
+    <p>A few fields worth calling out:</p>
+    <ul>
+        <li><code class="code-inline">tweet.text</code> is always the full, untruncated text, even for long-form X Premium posts.</li>
+        <li><code class="code-inline">entities.urls[].expanded_url</code> resolves the t.co shortlink to the real destination URL. Useful for lead research and tracking shared articles.</li>
+        <li><code class="code-inline">entities.mentions[].user_id</code> is the mentioned user's stable internal ID. User IDs never change even when someone changes their handle.</li>
+        <li><code class="code-inline">engagement.view_count</code> may be 0 for tweets posted within the last few minutes. X populates the count with a short delay.</li>
+        <li><code class="code-inline">author.blue_verified</code> is the X Blue subscription badge. <code class="code-inline">author.verified</code> is the legacy verified badge for public figures.</li>
+      </ul>
+
+    <h2 id="caveats">Protected accounts, rate limits, and caveats</h2>
+    <ul>
+        <li><strong>Protected accounts:</strong> the actor fetches the profile metadata but cannot retrieve tweets, since tweets on protected accounts are only visible to approved followers. The profile data is still returned in the output.</li>
+        <li><strong>Suspended or deleted accounts:</strong> silently skipped. They do not appear in the dataset.</li>
+        <li><strong>Rate limits:</strong> the actor uses residential proxies and rotates to a fresh session if X rate-limits a proxy IP. It retries up to <code class="code-inline">maxIPRotations</code> times (default 5) before logging an escalation. For very large batches (thousands of accounts), consider splitting across multiple runs.</li>
+        <li><strong>View count delay:</strong> <code class="code-inline">engagement.view_count</code> is sometimes 0 for tweets posted in the past few minutes. If you need accurate view counts, wait a few minutes after a tweet goes live before scraping.</li>
+      </ul>
+
+    <h2 id="n8n-integration">Use with n8n or Make</h2>
+    <p>The actor runs on Apify's public API, so any tool that can make an HTTP POST can trigger it. The simplest path in n8n or Make is the Apify run-sync endpoint, which blocks until the run finishes and returns the dataset as a JSON array.</p>
+    <h3>n8n</h3>
+    <p>Install the <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a> (pre-installed on n8n Cloud; add via Community Nodes on self-hosted). Use the <em>Run an Actor and get dataset</em> operation. Set Actor ID to <code class="code-inline">santamaria-automations/twitter-x-profiles-tweets-scraper</code>, paste your input JSON, and wire the output to a Google Sheets Append node, a database node, or wherever you want the data to land.</p>
+    <p>For a scheduled monitor: replace the Manual Trigger with a Schedule Trigger, and use a Set node before the Apify node to build the <code class="code-inline">usernames</code> array dynamically from a Google Sheet, Airtable, or any other source. Use an <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> account if you want a managed instance with no maintenance.</p>
+    <h3>Make (formerly Integromat)</h3>
+    <p>Use the HTTP module to POST to the Apify run-sync endpoint. The URL pattern is:</p>
+    <div class="code-block"><pre>https://api.apify.com/v2/acts/santamaria-automations~twitter-x-profiles-tweets-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN</pre></div>
+    <p>Set the content type to <code class="code-inline">application/json</code> and pass your input in the request body. Make returns the full dataset as a parsed JSON array in one step.</p>
+
+    <h2 id="mcp-ai-agents">Use with AI agents via MCP</h2>
+    <p>The actor is available as an MCP tool for any AI client that supports the Model Context Protocol: Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, and others. Add the server to your MCP configuration:</p>
+    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/twitter-x-profiles-tweets-scraper</pre></div>
+    <p>Once connected, you can give your AI agent instructions like:</p>
+    <ul>
+        <li>"Fetch the 30 most recent original tweets from these 5 competitor accounts. Skip retweets and replies. Show me a table of tweet text, likes, retweets, and view count."</li>
+        <li>"Scrape the profiles for these 20 handles and compare their follower counts, tweet counts, and verified status."</li>
+        <li>"Get the last 50 tweets from @openai that mention 'safety'. Return only the tweet text, like count, and timestamp."</li>
+      </ul>
+    <div class="callout">Clients that support dynamic tool discovery (Claude.ai, VS Code) load the full input schema automatically via <code class="code-inline">add-actor</code>. You do not need to configure the tool parameters manually.</div>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Actor start:</strong> $0.01 per run. This one-time fee covers the container startup, X session bootstrap, and the first user lookup.</li>
+        <li><strong>Per item delivered:</strong> $0.0003 per tweet row or profile-only row written to the dataset.</li>
+        <li><strong>Free tier:</strong> Apify gives you $5 of usage credit every month. After the $0.01 start fee, that leaves $4.99 for items, which is about 16,600 tweets.</li>
+      </ul>
+    <p>Some quick calculations:</p>
+    <ul>
+        <li>1 account, 20 tweets: $0.016</li>
+        <li>50 accounts, 20 tweets each: $0.310</li>
+        <li>1,000 accounts, 5 tweets each (profile monitoring): $1.510</li>
+        <li>Daily run for 10 accounts at 50 tweets each, over a month: ~$4.65</li>
+      </ul>
+    <div class="callout"><strong>Pricing source:</strong> these figures come from the actor's live pay-per-event pricing configuration (effective 2026-06-10). Check the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">actor page</a> for current rates before budgeting a large run.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need a Twitter/X login, developer app, or API key?</summary>
+        <p>No. The actor calls the same public GraphQL endpoint that x.com uses for logged-out browsing. You do not need a personal X account, a Meta developer app, or any X-issued credentials. A free Apify account is all you need.</p>
+      </details>
+      <details>
+        <summary>Can I scrape private (protected) Twitter accounts?</summary>
+        <p>No. Protected accounts are visible only to approved followers. The actor returns the public profile metadata for protected accounts (username, bio, follower count) but cannot retrieve their tweets. The <code>author.is_protected</code> field in the output will be <code>true</code>.</p>
+      </details>
+      <details>
+        <summary>How many tweets can I get per account?</summary>
+        <p>Up to 1,000 tweets per account, controlled by the <code>tweetsPerUser</code> input field. Set it to 0 and enable <code>includeProfileOnlyItems</code> if you only need profile-level data.</p>
+      </details>
+      <details>
+        <summary>Does this work for both twitter.com and x.com handles?</summary>
+        <p>Yes. The actor accepts bare handles, @-prefixed handles, and full URLs on both twitter.com and x.com domains. It normalizes all of them to the same username before making the API calls.</p>
+      </details>
+      <details>
+        <summary>What if X rate-limits the scraper mid-run?</summary>
+        <p>If X returns a rate-limit response, the actor automatically rotates to a fresh residential proxy session and retries. It repeats this up to <code>maxIPRotations</code> times (default 5). If all retry attempts are exhausted, the actor logs an escalation message and stops the run. Splitting a very large batch into multiple smaller runs reduces the chance of hitting rate limits.</p>
+      </details>
+      <details>
+        <summary>How do I get only original tweets and not retweets or replies?</summary>
+        <p>Set <code>"includeReplies": false</code> (the default) and <code>"includeRetweets": false</code> in the input. You will get only original tweets and quote-tweets from the user's timeline.</p>
+      </details>
+      <details>
+        <summary>Is scraping public Twitter/X data legal?</summary>
+        <p>Scraping publicly visible data is generally permitted in most jurisdictions. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping public profiles does not violate the Computer Fraud and Abuse Act. X's Terms of Service restrict automated access, but ToS violations are a contractual matter, not a criminal one. The legal picture also varies by country and intended use. Consult a lawyer if you have specific compliance questions.</p>
+      </details>
+      <details>
+        <summary>Can I run this on a schedule and track follower growth over time?</summary>
+        <p>Yes. In Apify Console, open the actor and use the <strong>Schedules</strong> tab to configure a recurring run. In n8n, replace the Manual Trigger with a Schedule Trigger. Each run appends a new batch to the dataset, so you can plot follower count or engagement metrics as a time series by including the <code>scraped_at</code> timestamp in your analysis.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">Twitter/X Profiles + Tweets Scraper on Apify</a>: full actor documentation, input schema, and complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">Instagram Scraper on Apify</a>: extract public Instagram profile stats and recent posts in the same pay-per-result model.</li>
+      <li><a href="/tutorials/instagram-scraper/">Instagram Scraper tutorial</a>: the same workflow applied to Instagram public profiles and recent posts.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>: enrich profiles that list an external website by extracting team emails, phones, and names.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
