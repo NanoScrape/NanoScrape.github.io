@@ -226,8 +226,86 @@
   </script>
 
   <div class="section">
-    <h2>Actor-Katalog</h2>
-    <p class="subtitle">Preise ab $0,001/SERP. Keine monatlichen Geb&#252;hren. Zahlen Sie nur, was Sie scrapen.</p>
+    <div class="catalog-head">
+      <div>
+        <h2>Aktoren-Katalog</h2>
+        <p class="subtitle">131 Aktoren. Preise ab $0,001/SERP &mdash; keine Monatsgeb&#252;hr, zahlen Sie nur, was Sie scrapen.</p>
+      </div>
+      <div class="catalog-filters" role="group" aria-label="Aktoren filtern">
+        <button type="button" class="chip is-on" data-filter="all">Alle 131</button>
+        <button type="button" class="chip" data-filter="cat" data-match="jobb">Jobb&#246;rsen</button>
+        <button type="button" class="chip" data-filter="cat" data-match="verzeichnis">Verzeichnisse</button>
+        <button type="button" class="chip" data-filter="cat" data-match="social">Social</button>
+        <button type="button" class="chip" data-filter="cat" data-match="commerce">E-Commerce</button>
+        <button type="button" class="chip" data-filter="cat" data-match="enrichment">Enrichment</button>
+        <button type="button" class="chip" data-filter="cheap">Unter $1/1k</button>
+        <span class="catalog-count" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <style>
+      .catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
+      .catalog-head h2 { margin-bottom: 4px; }
+      .catalog-filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+      .chip { border: 1px solid var(--border); background: var(--surface); color: var(--muted); font: 500 0.8rem/1 inherit; padding: 8px 12px; border-radius: 999px; white-space: nowrap; cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s; min-height: 34px; }
+      .chip:hover { border-color: var(--accent); color: var(--white); }
+      .chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .catalog-count { color: #4d6480; font-size: 0.78rem; margin-left: 4px; }
+      .category.is-hidden { display: none; }
+      .actor-card.is-hidden { display: none; }
+      .is-filtering .expand-btn { display: none; }
+      @media (max-width: 700px) {
+        .catalog-filters { width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-bottom: 2px; }
+        .catalog-count { display: none; }
+      }
+    </style>
+
+    <script>
+      (function () {
+        var head = document.querySelector('.catalog-filters');
+        if (!head) return;
+        var cards = [];
+        document.querySelectorAll('.category').forEach(function (cat) {
+          var label = ((cat.querySelector('h3') || {}).textContent || '').toLowerCase();
+          cat.querySelectorAll('.actor-card').forEach(function (card) {
+            var priceText = ((card.querySelector('.price') || {}).textContent || '').replace(/,/g, '.');
+            var nums = (priceText.match(/[\d.]+/g) || []).map(Number);
+            cards.push({
+              el: card,
+              cat: cat,
+              label: label,
+              cheap: nums.length ? Math.min.apply(null, nums) <= 1 : false
+            });
+          });
+        });
+        var count = document.querySelector('.catalog-count');
+        var section = document.querySelector('.section');
+        function apply(btn) {
+          var mode = btn.getAttribute('data-filter');
+          var match = (btn.getAttribute('data-match') || '').toLowerCase();
+          var shown = 0;
+          head.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-on', c === btn); });
+          if (section) section.classList.toggle('is-filtering', mode !== 'all');
+          document.querySelectorAll('.hidden-actors').forEach(function (g) { g.classList.toggle('show', mode !== 'all'); });
+          cards.forEach(function (c) {
+            var keep = mode === 'all' ||
+                       (mode === 'cheap' && c.cheap) ||
+                       (mode === 'cat' && c.label.indexOf(match) > -1);
+            c.el.classList.toggle('is-hidden', !keep);
+            if (keep) shown++;
+          });
+          document.querySelectorAll('.category').forEach(function (cat) {
+            var any = cat.querySelector('.actor-card:not(.is-hidden)');
+            cat.classList.toggle('is-hidden', !any);
+          });
+          count.textContent = mode === 'all' ? '' : shown + ' von ' + cards.length + ' angezeigt';
+        }
+        head.addEventListener('click', function (e) {
+          var btn = e.target.closest('.chip');
+          if (btn) apply(btn);
+        });
+      })();
+    </script>
 
     <div class="category">
       <h3>&#127970; Jobb&#246;rsen (30+ Scraper)</h3>
@@ -370,7 +448,7 @@
     document.addEventListener('click', () => { document.querySelectorAll('.lang-dropdown.open').forEach(d => d.classList.remove('open')); });
   </script>
 
-  <script src="/components.js"></script>
-  <script src="/search.js"></script>
+  <script src="/components.js?v=3"></script>
+  <script src="/search.js?v=3"></script>
 </body>
 </html>

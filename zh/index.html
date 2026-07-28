@@ -302,8 +302,86 @@
   </script>
 
   <div class="section">
-    <h2>工具目录</h2>
-    <p class="subtitle">价格低至$0.001/SERP。无月费。只为抓取的数据付费。</p>
+    <div class="catalog-head">
+      <div>
+        <h2>工具目录</h2>
+        <p class="subtitle">131 个工具。$0.001/SERP 起 &mdash; 无月费，按实际抓取量付费。</p>
+      </div>
+      <div class="catalog-filters" role="group" aria-label="筛选工具">
+        <button type="button" class="chip is-on" data-filter="all">全部 131</button>
+        <button type="button" class="chip" data-filter="cat" data-match="招聘">招聘网站</button>
+        <button type="button" class="chip" data-filter="cat" data-match="目录">企业目录</button>
+        <button type="button" class="chip" data-filter="cat" data-match="社交">社交媒体</button>
+        <button type="button" class="chip" data-filter="cat" data-match="比价">电商</button>
+        <button type="button" class="chip" data-filter="cat" data-match="增强">数据增强</button>
+        <button type="button" class="chip" data-filter="cheap">低于 $1/1k</button>
+        <span class="catalog-count" aria-live="polite"></span>
+      </div>
+    </div>
+
+    <style>
+      .catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
+      .catalog-head h2 { margin-bottom: 4px; }
+      .catalog-filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+      .chip { border: 1px solid var(--border); background: var(--surface); color: var(--muted); font: 500 0.8rem/1 inherit; padding: 8px 12px; border-radius: 999px; white-space: nowrap; cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s; min-height: 34px; }
+      .chip:hover { border-color: var(--accent); color: var(--white); }
+      .chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+      .catalog-count { color: #4d6480; font-size: 0.78rem; margin-left: 4px; }
+      .category.is-hidden { display: none; }
+      .actor-card.is-hidden { display: none; }
+      .is-filtering .expand-btn { display: none; }
+      @media (max-width: 700px) {
+        .catalog-filters { width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-bottom: 2px; }
+        .catalog-count { display: none; }
+      }
+    </style>
+
+    <script>
+      (function () {
+        var head = document.querySelector('.catalog-filters');
+        if (!head) return;
+        var cards = [];
+        document.querySelectorAll('.category').forEach(function (cat) {
+          var label = ((cat.querySelector('h3') || {}).textContent || '').toLowerCase();
+          cat.querySelectorAll('.actor-card').forEach(function (card) {
+            var priceText = (card.querySelector('.price') || {}).textContent || '';
+            var nums = (priceText.match(/[\d.]+/g) || []).map(Number);
+            cards.push({
+              el: card,
+              cat: cat,
+              label: label,
+              cheap: nums.length ? Math.min.apply(null, nums) <= 1 : false
+            });
+          });
+        });
+        var count = document.querySelector('.catalog-count');
+        var section = document.querySelector('.section');
+        function apply(btn) {
+          var mode = btn.getAttribute('data-filter');
+          var match = (btn.getAttribute('data-match') || '').toLowerCase();
+          var shown = 0;
+          head.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-on', c === btn); });
+          if (section) section.classList.toggle('is-filtering', mode !== 'all');
+          document.querySelectorAll('.hidden-actors').forEach(function (g) { g.classList.toggle('show', mode !== 'all'); });
+          cards.forEach(function (c) {
+            var keep = mode === 'all' ||
+                       (mode === 'cheap' && c.cheap) ||
+                       (mode === 'cat' && c.label.indexOf(match) > -1);
+            c.el.classList.toggle('is-hidden', !keep);
+            if (keep) shown++;
+          });
+          document.querySelectorAll('.category').forEach(function (cat) {
+            var any = cat.querySelector('.actor-card:not(.is-hidden)');
+            cat.classList.toggle('is-hidden', !any);
+          });
+          count.textContent = mode === 'all' ? '' : '\u5DF2\u663E\u793A ' + shown + ' / ' + cards.length;
+        }
+        head.addEventListener('click', function (e) {
+          var btn = e.target.closest('.chip');
+          if (btn) apply(btn);
+        });
+      })();
+    </script>
 
     <!-- JOBS -->
     <div class="category">
@@ -455,7 +533,7 @@
 
   
 
-  <script src="/components.js"></script>
-  <script src="/search.js"></script>
+  <script src="/components.js?v=3"></script>
+  <script src="/search.js?v=3"></script>
 </body>
 </html>

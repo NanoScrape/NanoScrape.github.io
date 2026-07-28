@@ -1,0 +1,130 @@
+<!--
+  NanoScrape — catalog header + working filter chips
+
+  Replaces, in index.html:
+
+      <h2>Actor Catalog</h2>
+      <p class="subtitle">Pricing starts at $0.001/SERP. No monthly fees. Pay only for what you scrape.</p>
+
+  Self-contained: markup + CSS + script. Requires NO changes to the 131 actor cards —
+  the script derives each card's category from its `.category h3` heading and its price
+  from the existing `.price` span.
+-->
+
+<div class="catalog-head">
+  <div>
+    <h2>Actor Catalog</h2>
+    <p class="subtitle">131 actors. Pricing from $0.001/SERP — no monthly fees, pay only for what you scrape.</p>
+  </div>
+  <div class="catalog-filters" role="group" aria-label="Filter actors">
+    <button type="button" class="chip is-on" data-filter="all">All 131</button>
+    <button type="button" class="chip" data-filter="cat" data-match="job">Job boards</button>
+    <button type="button" class="chip" data-filter="cat" data-match="director">Directories</button>
+    <button type="button" class="chip" data-filter="cat" data-match="social">Social</button>
+    <button type="button" class="chip" data-filter="cat" data-match="ecommerce">Ecommerce</button>
+    <button type="button" class="chip" data-filter="cat" data-match="enrichment">Enrichment</button>
+    <button type="button" class="chip" data-filter="cheap">Under $1/1k</button>
+    <span class="catalog-count" aria-live="polite"></span>
+  </div>
+</div>
+
+<style>
+  .catalog-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; flex-wrap: wrap; margin-bottom: 18px; }
+  .catalog-head h2 { margin-bottom: 4px; }
+  .catalog-filters { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+  .chip { border: 1px solid var(--border); background: var(--surface); color: var(--muted); font: 500 0.8rem/1 inherit; padding: 8px 12px; border-radius: 999px; white-space: nowrap; cursor: pointer; transition: border-color 0.15s, color 0.15s, background 0.15s; min-height: 34px; }
+  .chip:hover { border-color: var(--accent); color: var(--white); }
+  .chip.is-on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .catalog-count { color: #4d6480; font-size: 0.78rem; margin-left: 4px; }
+  .category.is-hidden { display: none; }
+  .actor-card.is-hidden { display: none; }
+  .is-filtering .expand-btn { display: none; }
+  @media (max-width: 700px) {
+    .catalog-filters { width: 100%; overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; padding-bottom: 2px; }
+    .catalog-count { display: none; }
+  }
+</style>
+
+<script>
+  (function () {
+    var head = document.querySelector('.catalog-filters');
+    if (!head) return;
+
+    // Derive filter data from the existing markup — no per-card edits needed.
+    var cards = [];
+    document.querySelectorAll('.category').forEach(function (cat) {
+      var label = (cat.querySelector('h3') || {}).textContent || '';
+      label = label.toLowerCase();
+      cat.querySelectorAll('.actor-card').forEach(function (card) {
+        var priceText = (card.querySelector('.price') || {}).textContent || '';
+        var nums = (priceText.match(/[\d.]+/g) || []).map(Number);
+        cards.push({
+          el: card,
+          cat: cat,
+          label: label,
+          // "cheap" = smallest figure on the card is at most $1 (per 1k or per SERP)
+          cheap: nums.length ? Math.min.apply(null, nums) <= 1 : false
+        });
+      });
+    });
+
+    var count = document.querySelector('.catalog-count');
+    var section = document.querySelector('.section');
+
+    function apply(btn) {
+      var mode = btn.getAttribute('data-filter');
+      var match = (btn.getAttribute('data-match') || '').toLowerCase();
+      var shown = 0;
+
+      head.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-on', c === btn); });
+      if (section) section.classList.toggle('is-filtering', mode !== 'all');
+
+      // While filtering, reveal the collapsed groups so matches inside are not lost.
+      document.querySelectorAll('.hidden-actors').forEach(function (g) {
+        g.classList.toggle('show', mode !== 'all');
+      });
+
+      cards.forEach(function (c) {
+        var keep = mode === 'all' ||
+                   (mode === 'cheap' && c.cheap) ||
+                   (mode === 'cat' && c.label.indexOf(match) > -1);
+        c.el.classList.toggle('is-hidden', !keep);
+        if (keep) shown++;
+      });
+
+      document.querySelectorAll('.category').forEach(function (cat) {
+        var any = cat.querySelector('.actor-card:not(.is-hidden)');
+        cat.classList.toggle('is-hidden', !any);
+      });
+
+      count.textContent = mode === 'all' ? '' : shown + ' of ' + cards.length + ' shown';
+    }
+
+    head.addEventListener('click', function (e) {
+      var btn = e.target.closest('.chip');
+      if (btn) apply(btn);
+    });
+  })();
+</script>
+
+<!--
+  TRANSLATED STRINGS (de / fr / zh homepages)
+
+  DE  h2: Aktoren-Katalog
+      subtitle: 131 Aktoren. Preise ab $0.001/SERP — keine Monatsgebühr, du zahlst nur, was du scrapest.
+      chips: Alle 131 · Jobbörsen · Verzeichnisse · Social · E-Commerce · Enrichment · Unter $1/1k
+      count: „N von 131 angezeigt“
+
+  FR  h2: Catalogue d’acteurs
+      subtitle: 131 acteurs. À partir de $0.001/SERP — sans abonnement, vous ne payez que ce que vous extrayez.
+      chips: Les 131 · Offres d’emploi · Annuaires · Social · E-commerce · Enrichissement · Moins de $1/1k
+      count: « N sur 131 affichés »
+
+  ZH  h2: 工具目录
+      subtitle: 131 个工具。$0.001/SERP 起 — 无月费，按实际抓取量付费。
+      chips: 全部 131 · 招聘网站 · 企业目录 · 社交媒体 · 电商 · 数据增强 · 低于 $1/1k
+      count: “已显示 N / 131”
+
+  Note: the category chips match on the localized `.category h3` text, so `data-match`
+  must be the localized substring on translated pages (e.g. data-match="jobbörsen").
+-->
