@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape YouTube Videos, Channels, and Shorts Without an API Key (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping YouTube search results, channel uploads, and Shorts. Extract views, likes, comments, tags, and engagement rates. No API key needed. Pay-per-result from $1 per 1,000 videos.">
+  <meta name="primary-keyword" content="youtube scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape YouTube Videos, Channels, and Shorts Without an API Key | NanoScrape">
+  <meta property="og:description" content="Extract YouTube search results, channel uploads, and Shorts with full metadata. Views, likes, comments, tags, thumbnails. No YouTube Data API key required.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/youtube-scraper/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/youtube-scraper/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/youtube-scraper/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/youtube-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape YouTube Videos, Channels, and Shorts Without an API Key",
+  "description": "Use the NanoScrape YouTube Scraper on Apify to extract video titles, views, likes, comments, tags, thumbnails, and channel metadata in bulk without a YouTube Data API key.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.10"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of keywords or YouTube channel URLs to scrape"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape YouTube Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Create a free Apify account",
+      "text": "Sign up for a free Apify account at apify.com. The free tier gives $5 of credit every month."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Open the YouTube Scraper",
+      "text": "Navigate to the NanoScrape YouTube Scraper actor on Apify and open the Input tab."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Choose a mode and configure inputs",
+      "text": "Select a scraping mode from the dropdown, then fill in the searchQueries or urls field depending on the mode chosen."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run the actor",
+      "text": "Click Save and Run. The actor starts and results appear in the dataset as they are scraped."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export your results",
+      "text": "Open the dataset from the run detail page and export to JSON, CSV, or Excel."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Scrape YouTube Videos, Channels, and Shorts Without an API Key",
+  "description": "Step-by-step tutorial for scraping YouTube search results, channel uploads, and Shorts in bulk using the NanoScrape YouTube Scraper on Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-07-28",
+  "dateModified": "2026-07-28",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/youtube-scraper/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a YouTube Data API key to use this scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The scraper does not use the YouTube Data API. It scrapes YouTube via browser-like requests, so there is no API key or quota to manage."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the daily or monthly video limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no hard monthly cap. Each run can return up to 10,000 results. For larger collections, run multiple actor invocations. Your only limit is your Apify credit balance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape the actual comment text, not just the comment count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The scraper extracts the total comment count per video. Full comment text extraction is not currently supported."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I search multiple keywords in one run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add multiple strings to the searchQueries array. They run in parallel and duplicates across queries are removed. You pay only for unique results."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get exact like counts? The view count on the results page is approximate.",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set includeDetails: true. This visits each video page and returns the exact like count, comment count, engagement rate, tags, full description, and exact publish date. It adds $0.003 per video."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does this work for YouTube Shorts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use shorts mode with a channel URL, or filter search or channel results by the is_short boolean flag."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping YouTube legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scraping publicly available data is generally permitted in most jurisdictions. YouTube ToS prohibit automated scraping (civil risk), but the hiQ v. LinkedIn ruling confirmed it is not a criminal violation of the Computer Fraud and Abuse Act for public data. Consult a lawyer for your specific situation."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I connect the output directly to Google Sheets, Airtable, or a database?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Download CSV or JSON from the dataset page, use the Apify API with the dataset ID, or connect via a webhook to n8n, Make, or Zapier for automated pipelines."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Scrape YouTube Videos, Channels, and Shorts Without an API Key",
+      "item": "https://www.nanoscrape.com/tutorials/youtube-scraper/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; YouTube Scraper</nav>
+
+    <h1>How to Scrape YouTube Videos, Channels, and Shorts Without an API Key</h1>
+    <p class="lead">The YouTube Data API caps you at 10,000 quota units per day, forces you to register an OAuth app, and locks certain fields behind restricted access. This tutorial shows a different path: a pay-per-result scraper on Apify that returns video titles, views, likes, comments, tags, engagement rates, and full channel metadata with no API key, no quota ceiling, and no monthly subscription. A hundred videos costs about ten cents.</p>
+
+    <figure>
+      <img src="assets/01-youtube-scraper-dataset-table.png" alt="Apify dataset table showing scraped YouTube videos with columns for title, view count, duration, channel name, likes, and thumbnail" loading="lazy" width="3200" height="1846">
+      <figcaption>What you get: one row per video with title, views, likes, duration, channel, and thumbnail.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.001 per search result, $0.003 per full video detail (free tier covers first $5)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape YouTube Scraper</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Open the YouTube Scraper on Apify</a>
+      <a href="#cost" class="btn-secondary">Read pricing details below</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
+        <li><a href="#step-2">Step 2: Open the YouTube Scraper</a></li>
+        <li><a href="#step-3">Step 3: Choose a mode and configure inputs</a></li>
+        <li><a href="#step-4">Step 4: Run the actor</a></li>
+        <li><a href="#step-5">Step 5: Export your results</a></li>
+        <li><a href="#modes">The four scraping modes</a></li>
+        <li><a href="#full-details">Getting full video details</a></li>
+        <li><a href="#fields">Field reference</a></li>
+        <li><a href="#schedule">Schedule recurring runs</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz">NanoScrape YouTube Scraper</a> runs on Apify and supports four independent modes: keyword search, channel upload lists, Shorts, and direct video lookup by URL or ID. All four return results to a downloadable dataset. There is no YouTube Data API key required and no OAuth app to register.</p>
+    <ul>
+        <li><strong>Search mode</strong>: give it one or more keywords and it returns matching videos with title, view count, duration, channel name, thumbnail URL, and publish date.</li>
+        <li><strong>Channel mode</strong>: give it a channel URL or handle and it returns every upload from that channel plus channel-level metadata (subscriber count, video count, verification status).</li>
+        <li><strong>Shorts mode</strong>: same as channel mode but filtered to Shorts only.</li>
+        <li><strong>Video mode</strong>: give it individual video URLs or IDs for deep metadata on those exact videos.</li>
+      </ul>
+    <p>Enable <code class="code-inline">includeDetails</code> on any mode to add exact like count, comment count, engagement rate, full description, tags, and category. That requires a second page request per video, which adds $0.003 per video to the cost.</p>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. The free tier gives you $5 of usage credit every month, enough for about 5,000 basic search results.</li>
+        <li>One or more YouTube search keywords, channel URLs, or video URLs to scrape.</li>
+      </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create a free Apify account</h2>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Sign up with Google or email. The form takes about a minute to fill in.</li>
+        <li>You land on the actor's input form inside Apify Console. The free $5 credit is added automatically.</li>
+      </ol>
+      <div class="callout tip"><strong>Already have an account?</strong> Just click the actor link above. You land directly on the input form.</div>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Open the YouTube Scraper</h2>
+      <p>After signing in, you are on the actor's page. Click <strong>Input</strong> in the left sidebar (or it may already be selected). You will see a form with a Mode dropdown at the top and fields for queries and URLs below it.</p>
+      <figure>
+      <img src="assets/02-youtube-scraper-actor-input-form.png" alt="Apify Console showing the YouTube Scraper actor input form with the Mode dropdown and searchQueries field visible" loading="lazy" width="3200" height="1846">
+      <figcaption>The actor input form. Start by picking a mode from the dropdown.</figcaption>
+    </figure>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Choose a mode and configure inputs</h2>
+      <p>The Mode field controls everything else on the form. The most common starting point is <strong>search</strong>:</p>
+      <div class="code-block"><pre>{
+  "mode": "search",
+  "searchQueries": [
+    "web scraping tutorial",
+    "python automation 2026"
+  ],
+  "maxResults": 100,
+  "maxResultsPerQuery": 50,
+  "sortBy": "relevance",
+  "includeDetails": false
+}</pre></div>
+      <p>Key fields:</p>
+      <ul>
+        <li><code class="code-inline">mode</code>: <code class="code-inline">search</code>, <code class="code-inline">channel</code>, <code class="code-inline">video</code>, or <code class="code-inline">shorts</code>. See the <a href="#modes">mode reference</a> below.</li>
+        <li><code class="code-inline">searchQueries</code>: an array of keywords (search mode only). Multiple queries run in parallel and duplicate videos are removed automatically.</li>
+        <li><code class="code-inline">urls</code>: an array of channel or video URLs (channel, video, and shorts modes).</li>
+        <li><code class="code-inline">maxResults</code>: total result cap across all queries or URLs. Set to <code class="code-inline">0</code> for unlimited (up to 10,000 per run).</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">relevance</code>, <code class="code-inline">date</code>, <code class="code-inline">views</code>, or <code class="code-inline">rating</code>.</li>
+        <li><code class="code-inline">includeDetails</code>: set to <code class="code-inline">true</code> to add likes, comments, tags, engagement rate, full description, and exact publish date. Costs an extra $0.003 per video.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-input-json-search-mode-configured.png" alt="Apify Console YouTube Scraper input tab with search mode selected and two search queries typed in the searchQueries field" loading="lazy" width="3200" height="1846">
+      <figcaption>Search mode with two queries. Both run in parallel; duplicate videos between queries are deduplicated.</figcaption>
+    </figure>
+      <div class="callout"><strong>Want to use the JSON editor?</strong> Click <strong>JSON editor</strong> (top right of the input form) and paste the snippet above directly. This skips the form fields and is easier when you have many queries.</div>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Run the actor</h2>
+      <p>Click <strong>Save and Run</strong> at the bottom of the input form. Apify starts the actor and you see the live log in the <strong>Log</strong> tab. For a search run returning 100 videos, the actor finishes in roughly 20 to 40 seconds.</p>
+      <figure>
+      <img src="assets/04-actor-run-succeeded.png" alt="Apify Console run detail page showing a green SUCCEEDED status badge and the log showing 100 results scraped" loading="lazy" width="3200" height="1846">
+      <figcaption>A completed run. Green SUCCEEDED badge means all results are in the dataset.</figcaption>
+    </figure>
+      <p>If the run status shows FAILED, the most common causes are:</p>
+      <ul>
+        <li><strong>Quota exceeded</strong>: your free $5 credit is spent. Top up in <a target="_blank" rel="noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
+        <li><strong>Empty results</strong>: the keyword returned nothing on YouTube. Try a broader search term.</li>
+        <li><strong>Invalid URL</strong>: for channel or video modes, check that the URL resolves to an existing YouTube page.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="step-5">
+      <span class="step-number">STEP 5</span>
+      <h2>Export your results</h2>
+      <p>Once the run succeeds, click <strong>Results</strong> (or the dataset link) in the run detail page. You see a table preview with thumbnails, titles, views, and all other fields.</p>
+      <figure>
+      <img src="assets/05-dataset-export-options.png" alt="Apify dataset page with the Export button expanded showing JSON, CSV, XML, Excel, HTML, and RSS format options" loading="lazy" width="3200" height="1846">
+      <figcaption>Export options on the dataset page. JSON and CSV are the most common choices.</figcaption>
+    </figure>
+      <p>Click <strong>Export</strong> and choose your format:</p>
+      <ul>
+        <li><strong>JSON</strong>: full nested objects, best for programmatic processing.</li>
+        <li><strong>CSV</strong>: flat rows, opens directly in Excel or Google Sheets.</li>
+        <li><strong>Excel</strong>: formatted workbook with a YouTube Videos sheet.</li>
+      </ul>
+      <p>You can also hit the dataset via the Apify API or connect to it from n8n, Make, or Zapier using the dataset ID shown in the URL.</p>
+    </div>
+
+    <h2 id="modes">The four scraping modes</h2>
+    <ul>
+        <li><strong>search</strong>: takes one or more keywords in <code class="code-inline">searchQueries</code>. Returns videos from YouTube search results sorted by <code class="code-inline">sortBy</code>. Good for topic research, competitor analysis, and finding trending content. Deduplication across multiple queries runs automatically.</li>
+        <li><strong>channel</strong>: takes one or more channel URLs in <code class="code-inline">urls</code>. Returns channel metadata (subscriber count, video count, handle, verification badge) plus a list of the channel's uploaded videos. Good for auditing a creator's full catalog.</li>
+        <li><strong>video</strong>: takes one or more video URLs or bare video IDs in <code class="code-inline">urls</code>. Returns full metadata for those exact videos. Always fetches detail-level data regardless of the <code class="code-inline">includeDetails</code> flag.</li>
+        <li><strong>shorts</strong>: takes one or more channel URLs and returns only the Shorts tab for that channel. Useful for tracking short-form content separately from long-form uploads.</li>
+      </ul>
+    <div class="callout"><strong>Mixing modes in one run:</strong> the actor supports only one mode per run. To combine, for example, a keyword search with a channel audit, run them as two separate actor invocations and merge the resulting datasets.</div>
+
+    <h2 id="full-details">Getting full video details</h2>
+    <p>By default, search and channel modes return only the data visible in the YouTube search results or channel listings: title, view count, duration, channel name, thumbnail, and approximate publish date. That is fast and costs $0.001 per video.</p>
+    <p>Set <code class="code-inline">"includeDetails": true</code> and the scraper opens each video's page as a second request. This adds:</p>
+    <ul>
+        <li>Exact <code class="code-inline">like_count</code> and <code class="code-inline">comment_count</code> (search results only show approximate views).</li>
+        <li><code class="code-inline">engagement_rate</code> calculated automatically as (likes + comments) / views.</li>
+        <li>Full <code class="code-inline">description</code> text.</li>
+        <li><code class="code-inline">tags</code> array.</li>
+        <li><code class="code-inline">category</code> (Education, Gaming, Music, etc.).</li>
+        <li>Exact ISO 8601 publish date instead of the "2 years ago" relative string.</li>
+        <li><code class="code-inline">channel_subscribers</code> for the uploading channel.</li>
+      </ul>
+    <div class="code-block"><pre>{
+  "mode": "search",
+  "searchQueries": ["python web scraping"],
+  "maxResults": 50,
+  "includeDetails": true
+}</pre></div>
+    <p>With <code class="code-inline">includeDetails: true</code>, each video costs $0.001 (search result) plus $0.003 (detail page) = $0.004 total. Fifty videos comes to $0.20.</p>
+    <div class="callout tip"><strong>Tip:</strong> run without <code class="code-inline">includeDetails</code> first to see which videos are worth enriching, then pass those video URLs to a second <strong>video</strong>-mode run. This avoids paying $0.003 for detail pages on low-relevance results.</div>
+
+    <h2 id="fields">Field reference</h2>
+    <h3>Search results (default)</h3>
+    <ul>
+        <li><code class="code-inline">title</code>: video title.</li>
+        <li><code class="code-inline">video_url</code>: full YouTube URL.</li>
+        <li><code class="code-inline">thumbnail_url</code>: HQ thumbnail image URL.</li>
+        <li><code class="code-inline">view_count</code>: total views as an integer.</li>
+        <li><code class="code-inline">duration</code>: video length as a string (e.g. "12:34").</li>
+        <li><code class="code-inline">channel_name</code> and <code class="code-inline">channel_url</code>: uploader identity.</li>
+        <li><code class="code-inline">published_at</code>: relative string like "2 years ago" (exact date with <code class="code-inline">includeDetails</code>).</li>
+        <li><code class="code-inline">is_short</code>: boolean flag for YouTube Shorts.</li>
+        <li><code class="code-inline">search_query</code>: which of your input queries found this video.</li>
+      </ul>
+    <h3>With includeDetails: true (additional)</h3>
+    <ul>
+        <li><code class="code-inline">like_count</code>: exact like count.</li>
+        <li><code class="code-inline">comment_count</code>: exact comment count.</li>
+        <li><code class="code-inline">engagement_rate</code>: (likes + comments) / views, as a decimal.</li>
+        <li><code class="code-inline">description</code>: full video description text.</li>
+        <li><code class="code-inline">tags</code>: array of tag strings.</li>
+        <li><code class="code-inline">category</code>: YouTube category label.</li>
+        <li><code class="code-inline">channel_subscribers</code>: subscriber count string (e.g. "4.2M subscribers").</li>
+      </ul>
+    <h3>Channel mode (additional)</h3>
+    <ul>
+        <li><code class="code-inline">name</code>: channel display name.</li>
+        <li><code class="code-inline">handle</code>: @handle string.</li>
+        <li><code class="code-inline">subscriber_count</code>: subscriber count string.</li>
+        <li><code class="code-inline">video_count</code>: total number of uploads.</li>
+        <li><code class="code-inline">channel_url</code>: canonical channel URL.</li>
+      </ul>
+
+    <h2 id="schedule">Schedule recurring runs</h2>
+    <p>From the actor page in Apify Console, click <strong>Schedules</strong> in the left sidebar and then <strong>Create schedule</strong>. Set a cron expression (for example, <code class="code-inline">0 6 * * 1</code> for every Monday at 6 AM UTC) and attach this actor with the same input JSON you tested manually.</p>
+    <p>Each scheduled run writes to a fresh dataset. To process the output automatically, connect a webhook in the schedule settings: Apify sends a POST request to your URL when the run finishes, with the dataset ID in the payload. From there you can pull the results into a database, a Google Sheet, or any other destination.</p>
+    <div class="callout">If you prefer a no-code automation layer, you can trigger the actor from n8n or Make using their Apify integrations. The <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> starts the actor and waits for the dataset in a single workflow step.</div>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Search result</strong>: $0.001 per video (basic data from search results page).</li>
+        <li><strong>Video details</strong>: $0.003 per video (added when <code class="code-inline">includeDetails: true</code>).</li>
+        <li><strong>Channel scraped</strong>: $0.001 per channel (channel metadata plus video list).</li>
+        <li><strong>Actor start</strong>: $0.00005 per GB of memory used, minimum once per run (effectively less than a cent for typical runs).</li>
+      </ul>
+    <p>Common scenarios:</p>
+    <ul>
+        <li>1,000 search results (no details): <strong>$1.00</strong>.</li>
+        <li>500 search results with full details: 500 x ($0.001 + $0.003) = <strong>$2.00</strong>.</li>
+        <li>10 channels with 500 videos each (basic): 10 x $0.001 + 5,000 x $0.001 = <strong>$5.01</strong>.</li>
+        <li>A weekly run pulling 100 new videos every Monday: roughly <strong>$0.40 per month</strong>.</li>
+      </ul>
+    <p>The free Apify tier gives you $5 of credit every month automatically. You only need to add a payment method if your usage goes over that.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need a YouTube Data API key to use this scraper?</summary>
+        <p>No. The scraper does not use the YouTube Data API at all. It scrapes YouTube the same way a browser would, so no API key, OAuth app, or quota to manage.</p>
+      </details>
+      <details>
+        <summary>What is the daily or monthly video limit?</summary>
+        <p>There is no hard monthly cap. Each run can return up to 10,000 results. For larger collections, run multiple instances with different queries or channel lists. Your effective limit is your Apify credit balance.</p>
+      </details>
+      <details>
+        <summary>Can I scrape the actual comment text, not just the comment count?</summary>
+        <p>The scraper extracts the total comment count per video. Full comment text extraction is not yet supported. The actor page lists open feature requests if you want to follow progress.</p>
+      </details>
+      <details>
+        <summary>Can I search multiple keywords in one run?</summary>
+        <p>Yes. Add multiple strings to the <code>searchQueries</code> array. All queries run in parallel and duplicate videos found by more than one query are returned only once. There is no per-query fee, just the per-result price for the videos returned.</p>
+      </details>
+      <details>
+        <summary>How do I get exact like counts? The view count on the results page is approximate.</summary>
+        <p>Set <code>includeDetails: true</code>. This opens each video page and extracts the exact like count, comment count, engagement rate, tags, full description, and exact ISO 8601 publish date. It adds $0.003 per video.</p>
+      </details>
+      <details>
+        <summary>Does this work for YouTube Shorts?</summary>
+        <p>Yes in two ways. Use shorts mode with a channel URL to pull all Shorts from a channel. Or use search or channel modes and filter results where <code>is_short</code> is <code>true</code>.</p>
+      </details>
+      <details>
+        <summary>Is scraping YouTube legal?</summary>
+        <p>Scraping publicly available data is generally permitted in most jurisdictions. The hiQ Labs v. LinkedIn ruling in the US confirmed that scraping public data does not violate the Computer Fraud and Abuse Act. YouTube's Terms of Service prohibit automated scraping, which creates civil risk (account suspension, cease-and-desist), but not criminal risk for public data. For GDPR purposes, any personal data (names, handles) in the output is subject to data protection rules. Consult a lawyer if you have specific compliance questions.</p>
+      </details>
+      <details>
+        <summary>Can I connect the output directly to Google Sheets, Airtable, or a database?</summary>
+        <p>Yes. Download the CSV from the dataset page and import it manually, or connect via the Apify API using the dataset ID. For automation, use an Apify webhook to trigger a downstream workflow in n8n, Make, or Zapier when the run finishes.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/youtube-scraper/">YouTube Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz">YouTube Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google Maps, Instagram, Reddit, and more.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Open the YouTube Scraper on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
