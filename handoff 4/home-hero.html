@@ -1,0 +1,220 @@
+<!--
+  NanoScrape homepage hero — paste this block into index.html in place of:
+
+      <div class="hero">
+        <div id="site-header"></div>
+      </div>
+
+  Keep <div id="site-header"></div> as the FIRST child (components.js v2 renders
+  the nav links + language picker + Start free into it). Everything below the
+  hero (value props, Apify Store, Actor Catalog, CTA, #site-footer) stays as is,
+  except the two pricing strings noted at the bottom of this file.
+
+  The same block goes into /de/index.html, /fr/index.html and /zh/index.html
+  with the translated strings listed at the bottom.
+-->
+
+<div class="hero">
+  <div id="site-header"></div>
+
+  <div class="hero-body">
+    <div class="hero-copy">
+      <img src="/nanoscrape_logo.svg" alt="NanoScrape — Lightweight Web Scraping Actors" class="hero-logo" width="300" height="56">
+      <h1>131 web scrapers that never open a browser</h1>
+      <p>HTTP-only Go actors on Apify. 10–50× cheaper than browser-based scrapers, sub-second cold starts. Pay per result from $0.001/SERP, no monthly fee.</p>
+    </div>
+
+    <!-- Cost estimator. Presets, not a slider: three facts beat a toy. -->
+    <aside class="cost-card" aria-label="Cost estimate">
+      <div class="cost-head">
+        <span class="cost-kicker">Cost estimate</span>
+        <div class="cost-vol" role="group" aria-label="Result volume">
+          <button type="button" class="is-on" data-vol="1000">1k</button>
+          <button type="button" data-vol="10000">10k</button>
+          <button type="button" data-vol="100000">100k</button>
+        </div>
+      </div>
+      <p class="cost-sub">Google Maps business data · <span data-cost-label>1,000 results</span></p>
+
+      <div class="cost-row">
+        <div class="cost-line"><span>NanoScrape</span><b data-cost-nano>$1.00</b></div>
+        <div class="cost-bar"><i style="width:8.3%"></i></div>
+      </div>
+      <div class="cost-row is-alt">
+        <div class="cost-line"><span>Typical browser actor</span><b data-cost-browser>$12.00</b></div>
+        <div class="cost-bar"><i class="alt" style="width:100%"></i></div>
+      </div>
+
+      <div class="cost-keep"><span>You keep</span><b data-cost-save>$11.00</b></div>
+      <p class="cost-note">Cheapest actors run at $0.0005 per SERP. Datacenter proxy, 128&nbsp;MB RAM, &lt;1&nbsp;s cold start.</p>
+    </aside>
+  </div>
+
+  <!-- Search owns its own full-width line. Focus hands over to the ⌘K palette
+       in search.js, so hero and nav search are one surface. -->
+  <div class="hero-search">
+    <form class="search-field" action="/" onsubmit="return false;">
+      <span class="search-icon" aria-hidden="true">&#8981;</span>
+      <input type="search" data-ns-search-input autocomplete="off" spellcheck="false"
+             aria-label="Search actors, tutorials and templates"
+             placeholder="Search 131 actors, tutorials and templates — try “instagram”, “jobs germany”, “n8n”">
+      <span class="search-kbd" aria-hidden="true">&#8984;K</span>
+    </form>
+    <div class="hero-chips">
+      <span class="chips-label">Popular:</span>
+      <a href="/actors/google-maps-scraper/">Google Maps</a>
+      <a href="/actors/instagram-scraper/">Instagram</a>
+      <a href="/actors/indeed-scraper/">Indeed</a>
+      <a href="/actors/amazon-product-scraper/">Amazon</a>
+      <a href="/actors/trustpilot-scraper/">Trustpilot</a>
+      <a href="/actors/google-search-scraper/">Google Search</a>
+    </div>
+  </div>
+</div>
+
+<!-- Three paths. This is the fix for "the homepage misses links to tutorials
+     and templates" — above the fold, not only in the footer. -->
+<div class="paths">
+  <a href="/" class="path">
+    <strong>Browse all actors →</strong>
+    <span>131 scrapers by category, country and price.</span>
+  </a>
+  <a href="/tutorials/" class="path">
+    <strong>Tutorials →</strong>
+    <span>Guides that turn an actor into a live n8n, Make or Zapier automation.</span>
+  </a>
+  <a href="/templates/" class="path">
+    <strong>Templates →</strong>
+    <span>Ready-to-import workflow JSON. Download, paste your token, run.</span>
+  </a>
+</div>
+
+<style>
+  /* ---- hero -------------------------------------------------------------- */
+  .hero { position: relative; padding: 0 0 44px; background: radial-gradient(ellipse 760px 520px at 18% 30%, var(--accent-glow) 0%, transparent 70%); border-bottom: 1px solid var(--border); text-align: left; }
+  .hero-body { display: grid; grid-template-columns: 1fr 340px; gap: 52px; align-items: center; max-width: 1060px; margin: 0 auto; padding: 40px 20px 0; }
+  .hero-logo { height: 56px; width: auto; margin-bottom: 26px; }
+  .hero h1 { font-size: 2.8rem; line-height: 1.1; font-weight: 800; color: var(--white); letter-spacing: -1.3px; margin-bottom: 16px; text-wrap: balance; }
+  .hero-copy p { font-size: 1.1rem; color: var(--muted); line-height: 1.6; max-width: 520px; margin: 0; text-wrap: pretty; }
+
+  /* ---- cost card --------------------------------------------------------- */
+  .cost-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; box-shadow: 0 18px 50px rgba(0,0,0,0.35); }
+  .cost-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
+  .cost-kicker { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.3px; color: #4d6480; font-weight: 700; }
+  .cost-vol { display: flex; gap: 2px; border: 1px solid var(--border); border-radius: 8px; padding: 2px; }
+  .cost-vol button { background: none; border: none; color: var(--muted); font: 700 0.72rem/1 inherit; padding: 6px 9px; border-radius: 6px; cursor: pointer; transition: background 0.18s, color 0.18s; min-height: 28px; }
+  .cost-vol button.is-on { background: var(--accent); color: #fff; }
+  .cost-sub { color: var(--muted); font-size: 0.78rem; margin-bottom: 18px; }
+  .cost-row { padding: 8px 10px; margin: 0 -10px; border-radius: 9px; transition: background 0.18s; }
+  .cost-row:hover { background: rgba(0,71,255,0.08); }
+  .cost-row.is-alt:hover { background: rgba(255,255,255,0.03); }
+  .cost-line { display: flex; justify-content: space-between; font-size: 0.83rem; margin-bottom: 7px; color: var(--muted); }
+  .cost-line span { color: var(--white); font-weight: 600; }
+  .cost-row.is-alt .cost-line span { color: var(--muted); font-weight: 400; }
+  .cost-line b { color: var(--accent); font-weight: 800; font-variant-numeric: tabular-nums; }
+  .cost-row.is-alt .cost-line b { color: oklch(0.68 0.15 30); font-weight: 700; }
+  .cost-bar { height: 10px; border-radius: 5px; background: var(--border); overflow: hidden; }
+  .cost-bar i { display: block; height: 100%; background: var(--accent); border-radius: 5px; transition: width 0.5s cubic-bezier(0.2,0.8,0.2,1); }
+  .cost-bar i.alt { background: oklch(0.52 0.15 30); }
+  .cost-keep { display: flex; align-items: baseline; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.8rem; }
+  .cost-keep b { color: var(--white); font-weight: 800; font-size: 1.15rem; font-variant-numeric: tabular-nums; }
+  .cost-note { color: #4d6480; font-size: 0.72rem; margin-top: 8px; line-height: 1.5; }
+
+  /* ---- search line ------------------------------------------------------- */
+  .hero-search { max-width: 1060px; margin: 40px auto 0; padding: 0 20px; }
+  .search-field { display: flex; align-items: center; gap: 12px; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 0 18px; height: 62px; box-shadow: 0 12px 40px rgba(0,0,0,0.45); transition: border-color 0.15s; }
+  .search-field:focus-within { border-color: var(--accent); }
+  .search-icon { color: #4d6480; font-size: 1.1rem; }
+  .search-field input { flex: 1; background: none; border: none; outline: none; color: var(--text); font-size: 1.02rem; height: 100%; font-family: inherit; -webkit-appearance: none; }
+  .search-field input::placeholder { color: #4d6480; }
+  .search-kbd { border: 1px solid var(--border); color: #4d6480; font-size: 0.7rem; padding: 3px 7px; border-radius: 5px; font-family: ui-monospace, monospace; flex-shrink: 0; }
+  .hero-chips { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 14px; }
+  .chips-label { color: #4d6480; font-size: 0.8rem; }
+  .hero-chips a { border: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 0.8rem; padding: 6px 11px; border-radius: 999px; white-space: nowrap; transition: border-color 0.15s, color 0.15s; }
+  .hero-chips a:hover { border-color: var(--accent); color: var(--white); text-decoration: none; }
+
+  /* ---- three paths ------------------------------------------------------- */
+  .paths { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; max-width: 1000px; margin: -28px auto 0; padding: 0 20px; position: relative; z-index: 2; }
+  .path { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 20px 22px; display: flex; flex-direction: column; gap: 6px; transition: border-color 0.15s, transform 0.15s; }
+  .path:hover { border-color: var(--accent); transform: translateY(-2px); text-decoration: none; }
+  .path strong { color: var(--white); font-weight: 700; font-size: 1rem; }
+  .path span { color: var(--muted); font-size: 0.85rem; line-height: 1.55; }
+
+  /* ---- mobile ------------------------------------------------------------ */
+  @media (max-width: 900px) {
+    .hero-body { grid-template-columns: 1fr; gap: 28px; padding-top: 28px; }
+    .hero h1 { font-size: 2rem; letter-spacing: -0.9px; }
+    .paths { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding-bottom: 32px; }
+    .hero-logo { height: 40px; margin-bottom: 20px; }
+    .hero h1 { font-size: 1.75rem; }
+    .hero-copy p { font-size: 0.95rem; }
+    .hero-search { margin-top: 26px; }
+    .search-field { height: 52px; padding: 0 14px; }
+    .search-field input { font-size: 0.95rem; }
+    .search-kbd { display: none; }
+    .hero-chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+    .hero-chips a { min-height: 32px; display: flex; align-items: center; }
+  }
+</style>
+
+<script>
+  /* Cost estimator: $1 per 1,000 results (NanoScrape) vs $12 (browser actor). */
+  (function () {
+    var box = document.querySelector('.cost-card');
+    if (!box) return;
+    var fmt = function (n) { return '$' + n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); };
+    box.addEventListener('click', function (e) {
+      var b = e.target.closest('.cost-vol button');
+      if (!b) return;
+      var vol = +b.getAttribute('data-vol'), k = vol / 1000;
+      box.querySelectorAll('.cost-vol button').forEach(function (x) { x.classList.toggle('is-on', x === b); });
+      box.querySelector('[data-cost-label]').textContent = vol.toLocaleString('en-US') + ' results';
+      box.querySelector('[data-cost-nano]').textContent = fmt(k * 1);
+      box.querySelector('[data-cost-browser]').textContent = fmt(k * 12);
+      box.querySelector('[data-cost-save]').textContent = fmt(k * 11);
+    });
+  })();
+</script>
+
+<!--
+  ============================================================================
+  ALSO CHANGE (pricing correction, all four language homepages)
+  ============================================================================
+  index.html, "Actor Catalog" subtitle:
+    before: Pricing starts at $0.002/SERP. No monthly fees. Pay only for what you scrape.
+    after:  Pricing starts at $0.001/SERP. No monthly fees. Pay only for what you scrape.
+
+  index.html <meta name="description"> and og:description: replace
+    "from $0.002/SERP" with "from $0.001/SERP".
+
+  llms.txt / README.md: same $0.002 → $0.001 correction, and 90+ → 131+.
+
+  ============================================================================
+  TRANSLATED HERO STRINGS
+  ============================================================================
+  DE  h1: 131 Web-Scraper, die niemals einen Browser öffnen
+      p:  HTTP-only Go-Aktoren auf Apify. 10–50× günstiger als browserbasierte
+          Scraper, Kaltstart unter einer Sekunde. Abrechnung pro Ergebnis ab
+          $0.001/SERP, keine Monatsgebühr.
+      search placeholder: 131 Aktoren, Tutorials und Vorlagen durchsuchen …
+      paths: Alle Aktoren ansehen → / Tutorials → / Vorlagen →
+      cost card: Kostenschätzung · Google Maps Firmendaten · Du behältst
+
+  FR  h1: 131 scrapers web qui n’ouvrent jamais de navigateur
+      p:  Acteurs Go HTTP uniquement sur Apify. 10–50× moins cher que les
+          scrapers basés sur navigateur, démarrage à froid sous la seconde.
+          Paiement au résultat à partir de $0.001/SERP, sans abonnement.
+      search placeholder: Rechercher parmi 131 acteurs, tutoriels et modèles …
+      paths: Voir tous les acteurs → / Tutoriels → / Modèles →
+      cost card: Estimation des coûts · Données Google Maps · Vous gardez
+
+  ZH  h1: 131 个从不打开浏览器的网页抓取工具
+      p:  运行在 Apify 上的纯 HTTP Go 工具。比基于浏览器的抓取工具便宜
+          10–50 倍，冷启动低于 1 秒。按结果计费，$0.001/SERP 起，无月费。
+      search placeholder: 搜索 131 个工具、教程和模板 …
+      paths: 浏览全部工具 → / 教程 → / 模板 →
+      cost card: 成本估算 · Google 地图商家数据 · 你可节省
+-->
