@@ -338,48 +338,52 @@
 
     <script>
       (function () {
-        var head = document.querySelector('.catalog-filters');
-        if (!head) return;
-        var cards = [];
-        document.querySelectorAll('.category').forEach(function (cat) {
-          var label = ((cat.querySelector('h3') || {}).textContent || '').toLowerCase();
-          cat.querySelectorAll('.actor-card').forEach(function (card) {
-            var priceText = (card.querySelector('.price') || {}).textContent || '';
-            var nums = (priceText.match(/[\d.]+/g) || []).map(Number);
-            cards.push({
-              el: card,
-              cat: cat,
-              label: label,
-              cheap: nums.length ? Math.min.apply(null, nums) <= 1 : false
+        function init() {
+          var head = document.querySelector('.catalog-filters');
+          if (!head) return;
+          var cards = [];
+          document.querySelectorAll('.category').forEach(function (cat) {
+            var label = ((cat.querySelector('h3') || {}).textContent || '').toLowerCase();
+            cat.querySelectorAll('.actor-card').forEach(function (card) {
+              var priceText = (card.querySelector('.price') || {}).textContent || '';
+              var nums = (priceText.match(/[\d.]+/g) || []).map(Number);
+              cards.push({
+                el: card,
+                cat: cat,
+                label: label,
+                cheap: nums.length ? Math.min.apply(null, nums) <= 1 : false
+              });
             });
           });
-        });
-        var count = document.querySelector('.catalog-count');
-        var section = document.querySelector('.section');
-        function apply(btn) {
-          var mode = btn.getAttribute('data-filter');
-          var match = (btn.getAttribute('data-match') || '').toLowerCase();
-          var shown = 0;
-          head.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-on', c === btn); });
-          if (section) section.classList.toggle('is-filtering', mode !== 'all');
-          document.querySelectorAll('.hidden-actors').forEach(function (g) { g.classList.toggle('show', mode !== 'all'); });
-          cards.forEach(function (c) {
-            var keep = mode === 'all' ||
-                       (mode === 'cheap' && c.cheap) ||
-                       (mode === 'cat' && c.label.indexOf(match) > -1);
-            c.el.classList.toggle('is-hidden', !keep);
-            if (keep) shown++;
+          var count = document.querySelector('.catalog-count');
+          var section = document.querySelector('.section');
+          function apply(btn) {
+            var mode = btn.getAttribute('data-filter');
+            var match = (btn.getAttribute('data-match') || '').toLowerCase();
+            var shown = 0;
+            head.querySelectorAll('.chip').forEach(function (c) { c.classList.toggle('is-on', c === btn); });
+            if (section) section.classList.toggle('is-filtering', mode !== 'all');
+            document.querySelectorAll('.hidden-actors').forEach(function (g) { g.classList.toggle('show', mode !== 'all'); });
+            cards.forEach(function (c) {
+              var keep = mode === 'all' ||
+                         (mode === 'cheap' && c.cheap) ||
+                         (mode === 'cat' && c.label.indexOf(match) > -1);
+              c.el.classList.toggle('is-hidden', !keep);
+              if (keep) shown++;
+            });
+            document.querySelectorAll('.category').forEach(function (cat) {
+              var any = cat.querySelector('.actor-card:not(.is-hidden)');
+              cat.classList.toggle('is-hidden', !any);
+            });
+            count.textContent = (mode === 'all' || !cards.length) ? '' : '\u5DF2\u663E\u793A ' + shown + ' / ' + cards.length;
+          }
+          head.addEventListener('click', function (e) {
+            var btn = e.target.closest('.chip');
+            if (btn) apply(btn);
           });
-          document.querySelectorAll('.category').forEach(function (cat) {
-            var any = cat.querySelector('.actor-card:not(.is-hidden)');
-            cat.classList.toggle('is-hidden', !any);
-          });
-          count.textContent = mode === 'all' ? '' : '\u5DF2\u663E\u793A ' + shown + ' / ' + cards.length;
         }
-        head.addEventListener('click', function (e) {
-          var btn = e.target.closest('.chip');
-          if (btn) apply(btn);
-        });
+        if (document.readyState !== 'loading') init();
+        else document.addEventListener('DOMContentLoaded', init);
       })();
     </script>
 
