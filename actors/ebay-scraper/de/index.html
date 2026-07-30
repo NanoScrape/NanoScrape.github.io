@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>eBay Scraper: 8 Marktplätze, 20+ Felder für $3 pro 1.000 | NanoScrape</title>
+  <meta name="description" content="eBay-Aktivangebote per Suchbegriff oder URL über 8 regionale Marktplätze scrapen. Preis, Zustand, Angebotstyp, Gebote, Versand, Verkaufsanzahl, Beobachter und 15 weitere Felder pro Angebot. HTTP-only, kein Browser. $3 pro 1.000 Ergebnisse.">
+  <meta property="og:title" content="eBay Scraper: 8 Marktplätze, 20+ Felder für $3/1k | NanoScrape">
+  <meta property="og:description" content="eBay-Angebote per Suchbegriff oder URL scrapen. 20+ Felder pro Angebot über ebay.com, .co.uk, .de, .fr, .it, .es, .ca, .com.au. HTTP-only, Pay-per-Result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/ebay-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/ebay-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ebay-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ebay-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ebay-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ebay-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ebay-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "eBay Product Scraper",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud (Apify)",
+  "description": "HTTP-only eBay scraper. Extract active listings by keyword or URL across 8 regional marketplaces (US, UK, DE, FR, IT, ES, CA, AU). Returns 20 or more fields per listing including price, condition, listing type, bids, shipping cost, sold count, and watcher count. No browser, no eBay API key.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0.003",
+    "priceCurrency": "USD",
+    "description": "per listing result ($3 per 1,000)"
+  },
+  "url": "https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  }
+}
+  </script>
+
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <div class="detail">
+    <h1>eBay Product Scraper für 8 Marktplätze</h1>
+    <p class="lead">eBay-Aktivangebote per Suchbegriff oder URL extrahieren. Liefert 20 oder mehr Felder pro Angebot, darunter Preis, Zustand, Angebotstyp, Gebote, Versandkosten, Verkaufsanzahl, Beobachter und Sponsored-Kennzeichnung. Unterstützt alle 8 großen regionalen Marktplätze (USA, UK, Deutschland, Frankreich, Italien, Spanien, Kanada, Australien). HTTP-only, kein Browser oder eBay-API-Schlüssel nötig. Pay-per-Result zu $3 pro 1.000 Angebote.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="/tutorials/ebay-scraper/" class="btn-secondary">Zum Tutorial</a>
+    </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">8 regionale Marktplätze</div></div>
+      <div class="spec"><div class="label">Preise</div><div class="value">$3 / 1.000 Angebote</div></div>
+      <div class="spec"><div class="label">Auth</div><div class="value">Nicht erforderlich</div></div>
+      <div class="spec"><div class="label">Runtime-Typ</div><div class="value">HTTP-only, kein Browser</div></div>
+    </div>
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Angebots-Identität</strong> - itemId, title, URL, image URL, Marktplatz-Domain</li>
+      <li><strong>Preissignale</strong> - price, currency, originalPrice, discountPercent, Best-Offer-Verfügbarkeit</li>
+      <li><strong>Zustand und Typ</strong> - condition (new, used, refurbished, open box, for parts), listingType (buy_it_now, auction, accepts_offers)</li>
+      <li><strong>Auktionsdaten</strong> - bidsCount, timeLeft (bei Auktionsangeboten)</li>
+      <li><strong>Versand und Standort</strong> - shippingCost, freeShipping-Flag, itemLocation</li>
+      <li><strong>Popularitätssignale</strong> - soldCount, watcherCount, isSponsored-Flag</li>
+      <li><strong>Query-Kontext</strong> - searchQuery und scrapedAt-Zeitstempel zur Nachvollziehbarkeit</li>
+    </ul>
+    <h2 class="section-title">Typische Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Preisbeobachtung</strong> - eine Mitbewerber-SKU planmäßig über mehrere Marktplätze verfolgen</li>
+      <li><strong>Dropshipping-Produktrecherche</strong> - Angebote mit vielen Beobachtern und hohen Verkäufen in einer Nische finden</li>
+      <li><strong>Cross-Border-Arbitrage</strong> - dieselbe Suchanfrage auf .com, .co.uk, .de und .com.au vergleichen</li>
+      <li><strong>Auktions-Intelligence</strong> - Auktionen mit wenigen Geboten kurz vor Ablauf aufspüren</li>
+      <li><strong>Vintage und Sammlerobjekte</strong> - nach Zustand und Suchbegriff filtern und eine Beobachtungsliste über alle 8 Marktplätze gleichzeitig aufbauen</li>
+    </ul>
+    <h2 class="section-title">Preismodell</h2>
+    <p>Zwei Events: <strong>$0,001</strong> pro Aktor-Start (einmalig zu Beginn eines Laufs) plus <strong>$0,003</strong> pro zurückgegebenem Angebot. Das entspricht rund <strong>$3 pro 1.000 Ergebnisse</strong>. Sie zahlen nur für Angebote, die erfolgreich Daten liefern. Neue Apify-Konten erhalten $5 monatliches Plattform-Guthaben, das für etwa 1.600 Angebote in diesem Aktor reicht, bevor Sie sich zu einer Zahlung verpflichten.</p>
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Zwei Suchanfragen auf dem US-Marktplatz, nur Sofort-Kaufen, unter $900,
+# neu oder refurbished, kostenloser Versand. Der Sync-Endpoint liefert Items direkt.</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ebay-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["iphone 15 pro", "iphone 15 pro max"],
+    "marketplace": "ebay.com",
+    "maxResults": 50,
+    "listingType": "buy_it_now",
+    "condition": ["new", "refurbished"],
+    "sortBy": "price_low",
+    "maxPrice": 900,
+    "freeShippingOnly": true
+  }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/ebay-scraper</span></pre></div>
+    <h2 class="section-title">Unterstützte Marktplätze</h2>
+    <ul>
+      <li><strong>ebay.com</strong> - USA (USD)</li>
+      <li><strong>ebay.co.uk</strong> - Vereinigtes Königreich (GBP)</li>
+      <li><strong>ebay.de</strong> - Deutschland (EUR)</li>
+      <li><strong>ebay.fr</strong> - Frankreich (EUR)</li>
+      <li><strong>ebay.it</strong> - Italien (EUR)</li>
+      <li><strong>ebay.es</strong> - Spanien (EUR)</li>
+      <li><strong>ebay.ca</strong> - Kanada (CAD)</li>
+      <li><strong>ebay.com.au</strong> - Australien (AUD)</li>
+    </ul>
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> - Läufe auslösen und Ergebnisse per Webhook verarbeiten</li>
+      <li><strong>KI-Agenten (MCP)</strong> - Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> - Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets / Airtable</strong> - Export über Apify-Integrationen</li>
+    </ul>
+    <h2 class="section-title">Tutorials</h2>
+    <ul>
+      <li><a href="/tutorials/ebay-scraper/"><strong>eBay-Produktangebote über 8 Marktplätze scrapen</strong></a> - Schritt-für-Schritt-Anleitung zu Suchbegriff- und URL-Modus, Filtern nach Zustand und Angebotstyp, Preisspanne und Export-Optionen.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="noopener" href="/tutorials/ebay-scraper/" class="btn-secondary">Zum Tutorial</a>
+    </div>
+  </div>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+</body>
+</html>
