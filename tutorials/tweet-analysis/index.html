@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Collect and Analyze Tweets from Any Public Account (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Collect tweets, engagement counts, and author data from any public Twitter/X account without an API key. Export to CSV or JSON for sentiment analysis, trend tracking, or brand monitoring.">
+  <meta name="primary-keyword" content="tweet analysis">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Collect and Analyze Tweets from Any Public Account (2026 Guide)">
+  <meta property="og:description" content="Collect tweets with engagement counts and author profiles from any public account on Twitter/X. No API key needed. Export to CSV or JSON. About $0.31 per 1,000 tweets.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/tweet-analysis/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/tweet-analysis/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/tweet-analysis/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Collect and Analyze Tweets from Any Public Twitter/X Account",
+  "description": "Use the NanoScrape Twitter / X Profiles + Tweets Scraper on Apify to collect tweet text, engagement metrics, and author data from any public account, then export to CSV or JSON for analysis in Excel, Python, or R.",
+  "totalTime": "PT10M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.31"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "List of Twitter/X usernames or profile URLs to analyze"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify account (free tier works)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Twitter / X Profiles + Tweets Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Step 1: Open the actor",
+      "text": "Open the Twitter / X Profiles + Tweets Scraper on Apify and sign into your free account."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 2: Pick accounts and options",
+      "text": "Enter the usernames you want to collect tweets from and set tweetsPerUser to the number you need."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 3: Run and collect",
+      "text": "Click Start to run the actor. It fetches each account's profile and tweets and streams results into the dataset."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 4: Export your dataset",
+      "text": "Click Export in the Results tab and choose CSV for spreadsheets or JSON for code-based analysis."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Collect and Analyze Tweets from Any Public Account (2026 Guide)",
+  "description": "A step-by-step guide to collecting tweet data for analysis without a Twitter/X API key or developer account.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-02",
+  "dateModified": "2026-08-02",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/tweet-analysis/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a Twitter/X API key or developer account?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor calls X's public endpoints without requiring your credentials, API keys, or a Twitter developer app. You only need an Apify account."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I collect tweets from multiple accounts in one run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add as many usernames as you need to the usernames array. All accounts are processed in the same run, and results go into a single dataset."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does tweetsPerUser: 0 do?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It collects only the author profile (bio, follower counts, verified status, etc.) with no tweets. Useful if you need to build a profile dataset for influencer research without paying for tweet items."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I filter tweets by date or keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor does not filter by date or keyword at collection time. Download the full dataset and filter locally. Because created_at is an ISO 8601 timestamp on every item, date filtering in a spreadsheet or with pandas is straightforward."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens with protected or suspended accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Protected accounts return only the profile object with no tweets (their timeline is private). Suspended accounts return no data. The actor continues to the next username without failing the whole run."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fresh is the data?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor fetches data live from X at the time you run it. There is no caching. The scraped_at field on each item records the exact UTC timestamp."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for sentiment analysis?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The tweet.text field contains the raw tweet text, which you can pass to any sentiment library or LLM. The lang field tells you which language X detected, which is useful for routing multilingual datasets to the right model."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Tweet Analysis",
+      "item": "https://www.nanoscrape.com/tutorials/tweet-analysis/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Tweet Analysis</nav>
+
+    <h1>How to Collect and Analyze Tweets from Any Public Account</h1>
+    <p class="lead">Grab tweet text, engagement counts (likes, retweets, views), author profile data, and hashtag entities from any public Twitter/X account. No developer account, no API key, no login. Each item comes back as structured JSON you can pipe straight into Excel, Python, R, or a database. About $0.31 per 1,000 tweets.</p>
+
+    <figure>
+      <img src="assets/01-tweet-analysis-dataset-table.png" alt="Apify dataset table showing collected tweets with engagement counts, author data, and tweet text side by side" loading="lazy" width="1280" height="800">
+      <figcaption>Each row is one tweet with full engagement metrics and the author profile embedded.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.31 per 1,000 tweets (free tier covers ~16,000 tweets/month)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Try the Twitter/X Scraper free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-can-analyze">What data you can analyze</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Pick accounts and options</a></li>
+        <li><a href="#step-3">Step 3: Run and collect</a></li>
+        <li><a href="#step-4">Step 4: Export your dataset</a></li>
+        <li><a href="#analysis-workflows">Analysis workflows</a></li>
+        <li><a href="#automate-n8n">Automate recurring collection with n8n</a></li>
+        <li><a href="#what-it-costs">What it costs</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-can-analyze">What data you can analyze</h2>
+    <p>Each tweet comes back as one JSON item with three top-level keys: <code class="code-inline">item_type</code>, <code class="code-inline">tweet</code>, and <code class="code-inline">author</code>. The <code class="code-inline">tweet</code> object holds everything you need for content and engagement analysis. The <code class="code-inline">author</code> object holds the account profile, so you get follower counts and bio data alongside every tweet without a second lookup.</p>
+    <h3>Tweet fields</h3>
+    <div class="code-block"><pre>{
+  "item_type": "tweet",
+  "tweet": {
+    "id": "2071963996576743795",
+    "text": "We just 10x'd agent tool access to 20,000+",
+    "lang": "en",
+    "created_at": "2026-06-30T14:28:06Z",
+    "url": "https://x.com/apify/status/2071963996576743795",
+    "is_quote": false,
+    "is_retweet": false,
+    "is_reply": false,
+    "is_pinned": true,
+    "engagement": {
+      "reply_count": 117,
+      "retweet_count": 82,
+      "like_count": 554,
+      "quote_count": 98,
+      "bookmark_count": 269,
+      "view_count": 826768
+    },
+    "entities": {
+      "hashtags": [],
+      "mentions": [{ "username": "coinbase" }],
+      "urls": []
+    }
+  },
+  "author": {
+    "username": "apify",
+    "display_name": "Apify",
+    "followers_count": 10347,
+    "tweet_count": 4219,
+    "verified": false,
+    "blue_verified": false
+  },
+  "scraped_at": "2026-06-30T15:00:00Z"
+}</pre></div>
+    <ul>
+        <li><strong>engagement.like_count, retweet_count, view_count</strong> are the main signals for engagement analysis. View count is especially useful because it lets you calculate a real engagement rate (likes / views).</li>
+        <li><strong>entities.hashtags and entities.mentions</strong> are parsed arrays, so you can count hashtag frequency or build a mention graph without regex on the raw text.</li>
+        <li><strong>is_retweet, is_reply, is_pinned, is_quote</strong> are boolean flags. Filter to <code class="code-inline">is_retweet: false</code> and <code class="code-inline">is_reply: false</code> to work with original content only.</li>
+        <li><strong>lang</strong> is the language code Twitter inferred. Useful for multilingual account analysis.</li>
+        <li><strong>author</strong> is embedded in every row, so joining on a separate profile table is not necessary.</li>
+      </ul>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/sign-up?fpr=0khfbz">apify.com/sign-up</a>. No credit card required. The free tier includes $5 of usage credit each month.</li>
+        <li>The list of Twitter/X usernames or profile URLs you want to analyze. Plain handles (<code class="code-inline">openai</code>), at-prefixed handles (<code class="code-inline">@openai</code>), and full profile URLs all work.</li>
+      </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Step 1: Open the actor</h2>
+      <ol>
+        <li>Go to <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper</a> and click <strong>Try for free</strong>.</li>
+        <li>Sign in or create your free Apify account.</li>
+        <li>The actor opens directly in Apify Console on the <strong>Input</strong> tab.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-tweet-analysis-actor-information.png" alt="Twitter X Profiles and Tweets Scraper actor information page on Apify showing description, pricing model, and Try for free button" loading="lazy" width="1280" height="800">
+      <figcaption>The actor page shows current pricing and a description of what fields you get back.</figcaption>
+    </figure>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Step 2: Pick accounts and options</h2>
+      <p>In the <strong>Input</strong> tab, switch to <strong>JSON editor</strong> and paste a configuration like this one. You can add as many usernames as you need in a single run.</p>
+      <div class="code-block"><pre>{
+  "usernames": [
+    "openai",
+    "@AnthropicAI",
+    "https://x.com/Google"
+  ],
+  "tweetsPerUser": 50,
+  "includeReplies": false,
+  "includeRetweets": false
+}</pre></div>
+      <p>Input fields and what each one does:</p>
+      <ul>
+        <li><code class="code-inline">usernames</code> <em>(required)</em> - the accounts to scrape. Mix and match plain handles, @handles, and full profile URLs freely.</li>
+        <li><code class="code-inline">tweetsPerUser</code> - how many recent tweets to fetch per account. Range 0 to 1,000. Set to <code class="code-inline">0</code> if you only need the profile data and no tweets.</li>
+        <li><code class="code-inline">includeReplies</code> - whether to include tweets that are replies to other people. Default <code class="code-inline">false</code>. Set to <code class="code-inline">true</code> if you are studying conversation patterns.</li>
+        <li><code class="code-inline">includeRetweets</code> - whether to include retweets. Default <code class="code-inline">true</code>. Set to <code class="code-inline">false</code> to focus on original content only.</li>
+      </ul>
+      <div class="callout tip"><strong>Analysis tip:</strong> For engagement benchmarking or sentiment analysis, start with <code class="code-inline">"includeReplies": false</code> and <code class="code-inline">"includeRetweets": false</code>. That gives you only original tweets, which is the cleanest signal for both topics.</div>
+      <figure>
+      <img src="assets/03-tweet-analysis-input-form.png" alt="Apify Console input editor showing usernames field populated with three Twitter accounts and tweetsPerUser set to 50" loading="lazy" width="1280" height="800">
+      <figcaption>You can enter handles in any format. The actor normalizes them automatically.</figcaption>
+    </figure>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Step 3: Run and collect</h2>
+      <p>Click <strong>Start</strong> at the top right. The actor boots, authenticates against X without needing your credentials, fetches each user's profile and tweets, and streams results into the dataset as it goes. A run over three accounts with 50 tweets each typically finishes in under a minute.</p>
+      <figure>
+      <img src="assets/04-tweet-analysis-run-log.png" alt="Apify run log showing the Twitter scraper completing successfully with tweet items pushed to the dataset" loading="lazy" width="1280" height="800">
+      <figcaption>The log shows each account as it is processed and the total item count at the end.</figcaption>
+    </figure>
+      <p>When the run finishes, the status changes to <strong>Succeeded</strong>. Click the <strong>Results</strong> tab to see the collected items in table view. The item count in the header tells you exactly how many tweets were returned.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Step 4: Export your dataset</h2>
+      <p>From the <strong>Results</strong> tab, click <strong>Export</strong> and choose your format:</p>
+      <ul>
+        <li><strong>CSV</strong> - opens directly in Excel or Google Sheets. Each column maps to one field. Nested objects like <code class="code-inline">engagement</code> are flattened automatically.</li>
+        <li><strong>JSON</strong> - ideal for Python (pandas, NLTK, spaCy) or R. The full nested structure is preserved.</li>
+        <li><strong>XLSX</strong> - if you prefer native Excel format with proper column types.</li>
+        <li><strong>JSONL</strong> - one object per line, useful for streaming into a database or LLM pipeline.</li>
+      </ul>
+      <div class="callout"><strong>Using the API:</strong> You can also pull the data programmatically via the Apify dataset API. The URL follows this pattern: <code class="code-inline">https://api.apify.com/v2/datasets/{datasetId}/items?format=json&token={apiToken}</code>. This is useful for automated pipelines that need fresh data each day.</div>
+    </div>
+
+    <h2 id="analysis-workflows">Analysis workflows</h2>
+    <h3>Engagement benchmarking across accounts</h3>
+    <p>Load the CSV into a spreadsheet. Add a computed column: <code class="code-inline">like_count / view_count * 100</code> for a like rate per impression. Group by <code class="code-inline">author.username</code> and compare. Because the actor embeds the author in every row, you can pivot directly without a join.</p>
+    <h3>Hashtag frequency and trending topics</h3>
+    <p>The <code class="code-inline">tweet.entities.hashtags</code> field is a pre-parsed array of strings. In Python, flatten across all tweets and use <code class="code-inline">collections.Counter</code> to get a frequency table in three lines:</p>
+    <div class="code-block"><pre>import json
+from collections import Counter
+
+tweets = json.load(open("tweets.json"))
+tags = [tag for item in tweets for tag in item["tweet"]["entities"]["hashtags"]]
+print(Counter(tags).most_common(20))</pre></div>
+    <h3>Sentiment scoring with an LLM</h3>
+    <p>Pass the <code class="code-inline">tweet.text</code> field to any LLM API (or a local model) and ask it to classify sentiment as positive, neutral, or negative. Because you have <code class="code-inline">created_at</code>, you can then plot sentiment over time to catch how a brand's tone changed around a product launch or news event.</p>
+    <h3>Influencer reach comparison</h3>
+    <p>The <code class="code-inline">author.followers_count</code> and <code class="code-inline">engagement.view_count</code> fields let you compare actual reach against follower count. Accounts with a high view-to-follower ratio have strong algorithmic amplification, which is a better signal than raw follower count for influencer selection.</p>
+
+    <h2 id="automate-n8n">Automate recurring collection with n8n</h2>
+    <p>To track accounts on a schedule (daily or weekly), use n8n to trigger runs and pipe the results into a Google Sheet or database automatically. Sign up at <a target="_blank" rel="sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a>, then build a workflow with:</p>
+    <ol>
+        <li><strong>Schedule Trigger</strong> - set it to run daily at a fixed time.</li>
+        <li><strong>HTTP Request node</strong> - POST to <code class="code-inline">https://api.apify.com/v2/acts/santamaria-automations~twitter-x-profiles-tweets-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> with your JSON input as the body. The endpoint runs the actor and returns items in one call.</li>
+        <li><strong>Google Sheets node</strong> (or any database node) - append the returned rows to your tracking sheet.</li>
+      </ol>
+    <div class="code-block"><pre>{
+  "usernames": ["openai", "@AnthropicAI", "Google"],
+  "tweetsPerUser": 20,
+  "includeReplies": false,
+  "includeRetweets": false
+}</pre></div>
+    <p>Because each run timestamp-stamps the <code class="code-inline">scraped_at</code> field on every item, you can store all runs in the same sheet and filter by date for trend charts.</p>
+
+    <h2 id="what-it-costs">What it costs</h2>
+    <ul>
+        <li><strong>Actor start:</strong> $0.01 per run. This covers session bootstrap and the first account lookup regardless of how many tweets you collect.</li>
+        <li><strong>Per tweet (or profile-only record):</strong> $0.0003 each.</li>
+        <li><strong>Free tier:</strong> Apify gives every account $5 of usage credit each month, which covers about 16,600 tweets before you pay anything.</li>
+      </ul>
+    <p>Quick cost estimates:</p>
+    <ul>
+        <li>3 accounts, 20 tweets each (60 items): $0.01 + $0.018 = $0.028</li>
+        <li>10 accounts, 50 tweets each (500 items): $0.01 + $0.15 = $0.16</li>
+        <li>50 accounts, 100 tweets each (5,000 items): $0.01 + $1.50 = $1.51</li>
+        <li>1,000 tweets: roughly $0.31 all in</li>
+      </ul>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need a Twitter/X API key or developer account?</summary>
+        <p>No. The actor calls X's public endpoints without requiring your credentials, API keys, or a Twitter developer app. You only need an Apify account.</p>
+      </details>
+      <details>
+        <summary>Can I collect tweets from multiple accounts in one run?</summary>
+        <p>Yes. Add as many usernames as you need to the <code class="code-inline">usernames</code> array. All accounts are processed in the same run, and results go into a single dataset.</p>
+      </details>
+      <details>
+        <summary>What does tweetsPerUser: 0 do?</summary>
+        <p>It collects only the author profile (bio, follower counts, verified status, etc.) with no tweets. Useful if you need to build a profile dataset for influencer research without paying for tweet items.</p>
+      </details>
+      <details>
+        <summary>Can I filter tweets by date or keyword?</summary>
+        <p>The actor does not filter by date or keyword at collection time. Download the full dataset and filter locally. Because <code class="code-inline">created_at</code> is an ISO 8601 timestamp on every item, date filtering in a spreadsheet or with pandas is straightforward.</p>
+      </details>
+      <details>
+        <summary>What happens with protected or suspended accounts?</summary>
+        <p>Protected accounts return only the profile object with no tweets (their timeline is private). Suspended accounts return no data. The actor continues to the next username without failing the whole run.</p>
+      </details>
+      <details>
+        <summary>How fresh is the data?</summary>
+        <p>The actor fetches data live from X at the time you run it. There is no caching. The <code class="code-inline">scraped_at</code> field on each item records the exact UTC timestamp.</p>
+      </details>
+      <details>
+        <summary>Can I use this for sentiment analysis?</summary>
+        <p>Yes. The <code class="code-inline">tweet.text</code> field contains the raw tweet text, which you can pass to any sentiment library or LLM. The <code class="code-inline">lang</code> field tells you which language X detected, which is useful for routing multilingual datasets to the right model.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profiles + Tweets Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://www.nanoscrape.com/tutorials/twitter-scraper/">How to Scrape Twitter/X Profiles and Tweets</a>: The companion tutorial covering actor setup, input options, and output structure in depth.</li>
+      <li><a target="_blank" rel="noopener" href="https://www.nanoscrape.com/tutorials/reddit-scraper/">How to Scrape Reddit Posts and Comments</a>: Collect subreddit posts, comments, and engagement data for social media comparison analysis.</li>
+      <li><a target="_blank" rel="noopener" href="https://www.nanoscrape.com/tutorials/youtube-scraper/">YouTube Scraper tutorial</a>: Collect video metadata and comment data from YouTube channels for cross-platform content analysis.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Start collecting tweets free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=3"></script>
+  <script src="/search.js?v=3"></script>
+</body>
+</html>
