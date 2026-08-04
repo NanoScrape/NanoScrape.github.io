@@ -1,0 +1,152 @@
+{
+  "id": "0icQ8w6k50WgJsrci",
+  "slug": "santamaria-automations/booking-com-scraper",
+  "name": "booking-com-scraper",
+  "title": "Booking.com Hotel Scraper",
+  "description": "Scrape hotel listings from Booking.com with 34+ fields: prices, GPS coordinates, guest review scores, street addresses, discount badges, cancellation policies, sold-out signals, and high-res photos. HTTP-only, fast, no browser required.",
+  "readme": "# Booking.com Hotel Scraper\n\nScrape hotel listings from [Booking.com](https://www.booking.com) with **34+ structured fields** including GPS coordinates, guest review scores, street addresses, discount badges, sold-out signals, high-res photos, and cancellation policies. Search any city, region, or country worldwide.\n\nExport results as **JSON, CSV, Excel, or HTML** directly from the Apify platform.\n\n## How it works\n\n1. Enter a destination (e.g., \"Berlin\", \"Rome\", \"Tokyo\")\n2. Set check-in and check-out dates\n3. Choose number of guests and rooms\n4. Run the actor — results appear in seconds\n\nThe actor calls Booking.com's internal GraphQL API directly. No browser, no cookies, no manual session handling required.\n\n## Use cases\n\n- **Travel price comparison and monitoring** — track nightly rates across hundreds of hotels for any destination and date range\n- **Revenue management and competitive pricing intelligence** — monitor competitor pricing, discount patterns, and availability signals\n- **Market research for hotel operators and consultants** — benchmark star ratings, pricing tiers, and cancellation policies by location\n- **Mapping hotel inventories with GPS data** — build geo-analytics dashboards, coverage maps, or proximity-based filters using latitude/longitude\n- **Lead generation for travel agencies and OTAs** — extract hotel contact details and inventory at scale\n- **Tracking promotional discount patterns** — capture \"Getaway Deal\", \"Limited-time Deal\", and \"Early Bird\" badges as they appear\n- **Monitoring availability and sold-out signals** — identify high-demand periods by tracking `is_sold_out` across date windows\n- **Building hotel comparison tools and travel apps** — structured data with photos, GPS, pricing, and policies ready for direct integration\n- **Academic research on travel pricing patterns** — large-scale structured dataset for econometric or machine-learning studies\n- **Yield analysis and demand forecasting** — correlate occupancy signals with price fluctuations over time\n\n## Architecture note\n\nHTTP-only (no browser) — uses Booking.com's internal GraphQL API with TLS fingerprinting. Significantly faster and cheaper than browser-based alternatives, with lower memory requirements and no risk of JavaScript rendering failures.\n\n## Output\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | number | Booking.com hotel ID |\n| `name` | string | Hotel name |\n| `url` | string | Direct link to hotel on Booking.com |\n| `star_rating` | number\\|null | Star rating (1–5) |\n| `review_score` | number\\|null | Guest review score (0–10, e.g. 8.7) |\n| `review_count` | number\\|null | Total number of guest reviews |\n| `review_score_word` | string\\|null | Score label (Exceptional / Fabulous / Wonderful / Superb / Very Good / Good / Pleasant / Okay) |\n| `secondary_score` | number\\|null | Secondary review sub-score (0–10) |\n| `is_closed` | boolean | Whether the hotel is temporarily closed |\n| `photo_url` | string\\|null | Main photo (240px square) |\n| `photo_url_high_res` | string\\|null | Main photo (600px square, high-res) |\n| `photos` | string[]\\|null | All photo URLs (when `includeAllPhotos=true`) |\n| `location` | string\\|null | District + city from search results |\n| `district` | string\\|null | District or neighborhood |\n| `city` | string\\|null | City from destination resolution |\n| `property_city` | string\\|null | City from hotel's own data |\n| `property_country` | string\\|null | Country from hotel's own data |\n| `country_code` | string\\|null | ISO country code |\n| `address` | string\\|null | Street address (e.g. \"Kurfürstendamm 12\") |\n| `latitude` | number\\|null | GPS latitude |\n| `longitude` | number\\|null | GPS longitude |\n| `distance_from_center` | string\\|null | Distance from city center |\n| `price` | number\\|null | Total stay price in selected currency |\n| `price_per_night` | number\\|null | Price divided by number of nights |\n| `original_price` | number\\|null | Original price before discount |\n| `original_price_stay` | string\\|null | Pre-discount formatted stay total (e.g. \"CHF 259\") |\n| `currency` | string\\|null | Price currency code |\n| `is_sold_out` | boolean | Whether sold out for selected dates |\n| `discount_badge` | string\\|null | Promotion label (\"Getaway Deal\", \"Limited-time Deal\") |\n| `discount_badge_id` | string\\|null | Internal badge identifier from Booking.com |\n| `free_cancellation` | boolean | Free cancellation available |\n| `free_cancellation_until` | string\\|null | Cancellation deadline date |\n| `no_prepayment` | boolean | No prepayment required |\n| `room_id` | string\\|null | Room type identifier |\n| `meal_plan` | string\\|null | Included meal plan |\n| `scraped_at` | string | ISO timestamp of when data was scraped |\n\n## Pricing\n\n| Event | Cost |\n|-------|------|\n| Start | $0.050 per run |\n| Hotel | $0.005 per result |\n\n**100 hotels = $0.55** | **1,000 hotels = $5.05**\n\n## Input options\n\n| Field | Default | Description |\n|-------|---------|-------------|\n| `destination` | _(required)_ | City, region, or country name |\n| `checkin` | Tomorrow | Check-in date (YYYY-MM-DD) |\n| `checkout` | Day after checkin | Check-out date (YYYY-MM-DD) |\n| `adults` | 2 | Number of adult guests |\n| `children` | 0 | Number of child guests |\n| `rooms` | 1 | Number of rooms |\n| `currency` | EUR | Price currency (ISO 4217) |\n| `sortBy` | POPULARITY | Sort order (POPULARITY, PRICE, REVIEW_SCORE, DISTANCE) |\n| `maxResults` | 100 | Max hotels to scrape (0 = unlimited) |\n| `includeAllPhotos` | false | Include `photos[]` array with all photo URLs |\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/booking-com-scraper\n```\n\n**Example prompts once connected:**\n\n> \"Use `booking-com-scraper` to find the 20 cheapest hotels in Rome for next weekend. Sort by price and return as a table with name, price per night, GPS coordinates, and cancellation policy.\"\n\n> \"Scrape 50 hotels in Amsterdam for July 15–17 and show which ones have a discount badge active.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Examples\n\n### Hotels in Berlin\n```json\n{\n  \"destination\": \"Berlin\",\n  \"checkin\": \"2026-08-01\",\n  \"checkout\": \"2026-08-03\",\n  \"adults\": 2,\n  \"currency\": \"EUR\",\n  \"maxResults\": 50\n}\n```\n\n### Cheapest hotels in Rome\n```json\n{\n  \"destination\": \"Rome\",\n  \"checkin\": \"2026-09-01\",\n  \"checkout\": \"2026-09-03\",\n  \"sortBy\": \"PRICE\",\n  \"maxResults\": 100\n}\n```\n\n### Family trip to Zurich with photos\n```json\n{\n  \"destination\": \"Zurich\",\n  \"checkin\": \"2026-10-01\",\n  \"checkout\": \"2026-10-05\",\n  \"adults\": 2,\n  \"children\": 2,\n  \"rooms\": 1,\n  \"currency\": \"CHF\",\n  \"maxResults\": 50,\n  \"includeAllPhotos\": true\n}\n```\n\n### Hotels sorted by review score in Tokyo\n```json\n{\n  \"destination\": \"Tokyo\",\n  \"checkin\": \"2026-11-01\",\n  \"checkout\": \"2026-11-04\",\n  \"sortBy\": \"REVIEW_SCORE\",\n  \"currency\": \"JPY\",\n  \"maxResults\": 200\n}\n```\n\n## Related Actors\n\n**E-Commerce & Price Comparison**\n\n- [AutoScout24 Scraper — European car listings](https://apify.com/santamaria-automations/autoscout24-scraper)\n- [AliExpress Scraper — Global marketplace](https://apify.com/santamaria-automations/aliexpress-scraper)\n- [Galaxus.ch Scraper — Swiss electronics retailer](https://apify.com/santamaria-automations/galaxus-ch-scraper)\n- [Groupon Scraper — Deals in 12 countries](https://apify.com/santamaria-automations/groupon-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing a field or not working as expected? [Open an issue](https://console.apify.com/actors/0icQ8w6k50WgJsrci/issues) and we'll fix it.\n",
+  "readmeSource": "actors/ecommerce/booking-com/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:23:08.685Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running (per 128MB RAM, minimum 1 event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-hotel-result",
+        "title": "Hotel scraped",
+        "description": "A hotel listing with price, rating, amenities, and availability",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.003,
+          "BRONZE": 0.00297,
+          "SILVER": 0.00293,
+          "GOLD": 0.00287,
+          "PLATINUM": 0.00287,
+          "DIAMOND": 0.00287
+        }
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": {
+    "title": "Booking.com Hotel Scraper Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "destination": {
+        "title": "Destination",
+        "type": "string",
+        "description": "City, region, or country name to search for hotels (e.g., 'Berlin', 'Rome', 'Bangkok').",
+        "editor": "textfield",
+        "prefill": "Berlin"
+      },
+      "destType": {
+        "title": "Destination Type",
+        "type": "string",
+        "description": "Type of the destination being searched.",
+        "enum": [
+          "CITY",
+          "REGION",
+          "COUNTRY",
+          "HOTEL",
+          "DISTRICT"
+        ],
+        "default": "CITY",
+        "editor": "select"
+      },
+      "checkin": {
+        "title": "Check-in Date",
+        "type": "string",
+        "description": "Check-in date in YYYY-MM-DD format. Defaults to tomorrow.",
+        "editor": "textfield"
+      },
+      "checkout": {
+        "title": "Check-out Date",
+        "type": "string",
+        "description": "Check-out date in YYYY-MM-DD format. Defaults to the day after check-in.",
+        "editor": "textfield"
+      },
+      "adults": {
+        "title": "Adults",
+        "type": "integer",
+        "description": "Number of adult guests.",
+        "default": 2,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "children": {
+        "title": "Children",
+        "type": "integer",
+        "description": "Number of child guests.",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 10
+      },
+      "rooms": {
+        "title": "Rooms",
+        "type": "integer",
+        "description": "Number of rooms.",
+        "default": 1,
+        "minimum": 1,
+        "maximum": 30
+      },
+      "currency": {
+        "title": "Currency",
+        "type": "string",
+        "description": "Currency for prices (ISO 4217 code).",
+        "default": "EUR",
+        "editor": "textfield",
+        "prefill": "EUR"
+      },
+      "sortBy": {
+        "title": "Sort By",
+        "type": "string",
+        "description": "How to sort hotel results.",
+        "enum": [
+          "POPULARITY",
+          "PRICE",
+          "REVIEW_SCORE",
+          "DISTANCE"
+        ],
+        "default": "POPULARITY",
+        "editor": "select"
+      },
+      "maxResults": {
+        "title": "Maximum Results",
+        "type": "integer",
+        "description": "Maximum number of hotels to scrape. Set 0 for unlimited.",
+        "default": 100,
+        "minimum": 0,
+        "maximum": 10000,
+        "prefill": 100
+      },
+      "includeAllPhotos": {
+        "title": "Include All Photos",
+        "type": "boolean",
+        "description": "Include a photos[] array with all available photo URLs per hotel. Currently returns the low-res and high-res variants of the main photo. No additional requests are made.",
+        "default": false
+      },
+      "proxyConfiguration": {
+        "title": "Proxy Configuration",
+        "type": "object",
+        "description": "Apify proxy settings. Datacenter proxy works fine for this API.",
+        "editor": "proxy",
+        "default": {
+          "useApifyProxy": true
+        }
+      }
+    },
+    "required": [
+      "destination"
+    ]
+  },
+  "fetchedAt": "2026-08-04T11:35:00.000Z"
+}
