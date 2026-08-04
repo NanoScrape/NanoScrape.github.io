@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Instagram Follower Counts Without the Instagram API (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Track follower counts, engagement signals, and verification status for any public Instagram account. No login, no API key. Runs in under 2 minutes for batches of 100 accounts. $0.005 per profile.">
+  <meta name="primary-keyword" content="instagram followers scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape Instagram Follower Counts Without the API | NanoScrape">
+  <meta property="og:description" content="Pull follower counts, following counts, post totals, and verification flags for any list of public Instagram accounts in minutes. No login required.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Instagram Follower Counts Without the Instagram API",
+  "description": "Use the NanoScrape Instagram Scraper to pull follower counts, following counts, post totals, and verification status for any list of public Instagram accounts. No login or API key required.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.50"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of Instagram handles to monitor"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Instagram Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor on Apify",
+      "text": "Open the NanoScrape Instagram Scraper on Apify, click Try for free, and create a free account if you do not have one yet."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Build your account list and configure the input",
+      "text": "Paste your Instagram handles into the usernames array and set maxPostsPerProfile to 0 to skip post fetching for a faster follower-count run."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and check results",
+      "text": "Click Start, wait for the run to succeed, then open the dataset to view or export follower counts as JSON, CSV, or XLSX."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Scrape Instagram Follower Counts Without the Instagram API",
+  "description": "Step-by-step guide to monitoring Instagram follower counts, following counts, and verification status for any public account using the NanoScrape Instagram Scraper on Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-04",
+  "dateModified": "2026-08-04",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need an Instagram account or Meta API key to use this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor reads publicly available profile data over HTTP. You do not need an Instagram login or a Meta API key."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get the actual list of followers, not just the count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor returns the follower count, not a list of individual followers. Follower lists require a login and are not publicly available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens with private accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Private accounts return the profile row including follower count. The is_private field is set to true. Post details are not available."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run this on a schedule to track changes over time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use Apify's built-in Schedules tab to run the actor daily or weekly. Each run creates a new dataset you can compare over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fast is a follower-count run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "With maxPostsPerProfile set to 0, a batch of 100 handles typically finishes in under two minutes."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping public Instagram follower counts legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scraping public data is generally permitted in many jurisdictions, but Meta's Terms of Service restrict automated scraping. The legal picture varies by country. Consult a lawyer for commercial or high-volume use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if the actor encounters an auth wall mid-run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If Instagram serves an auth wall, the actor stops and logs an escalation message. Split your batch into smaller runs or wait and retry."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Scrape Instagram Follower Counts",
+      "item": "https://www.nanoscrape.com/tutorials/scrape-instagram-follower-counts/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Instagram Follower Counts</nav>
+
+    <h1>How to Scrape Instagram Follower Counts Without the Instagram API</h1>
+    <p class="lead">Supply a list of Instagram handles and get back follower counts, following counts, post totals, verification badges, and business category for each account. Set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code> to skip post fetching entirely and make each run faster. HTTP-only, no login, no API key. About $5 per 1,000 profiles.</p>
+
+    <figure>
+      <img src="assets/01-instagram-followers-scraper-dataset-table.png" alt="Apify dataset table showing Instagram accounts with columns for username, follower count, following count, post count, and verification status" loading="lazy" width="3840" height="2160">
+      <figcaption>One row per handle: follower count, following count, post total, and verification flag in a clean dataset.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> ~$5 per 1,000 profiles ($0.005 per profile + $0.001 to start)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Instagram Scraper</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#who-this-is-for">Who this is for</a></li>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Build your account list</a></li>
+        <li><a href="#step-3">Step 3: Run and check results</a></li>
+        <li><a href="#track-growth">Track follower growth over time</a></li>
+        <li><a href="#automate-with-n8n">Automate with n8n or Make</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="who-this-is-for">Who this is for</h2>
+    <p>This guide covers one specific task: pulling follower counts, following counts, post totals, verification status, and business category for a list of public Instagram accounts in one automated batch. It is not about extracting post content or captions.</p>
+    <ul>
+        <li><strong>Influencer marketers</strong> who need to vet dozens of creator accounts before a campaign: check follower counts, verify the blue badge, confirm the account is public and business-categorized.</li>
+        <li><strong>Competitive researchers</strong> tracking a set of brand or creator accounts weekly: schedule a recurring run and see how follower counts move after product launches or campaigns.</li>
+        <li><strong>Agencies and data teams</strong> building dashboards or CRM enrichment pipelines: pull structured profile stats for any handle in bulk and load them into a spreadsheet or database.</li>
+      </ul>
+    <div class="callout"><strong>Just the stats, not the posts.</strong> Set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code> in the input. The run finishes faster, and the cost per profile is the same. Only flip it to a number above 0 if you also need recent post data.</div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>For each public handle in your list, the actor returns one dataset row. For follower monitoring the fields that matter most are:</p>
+    <ul>
+        <li><code class="code-inline">username</code>: the handle as entered</li>
+        <li><code class="code-inline">user_id</code>: Instagram's stable numeric ID. Stays the same even if the handle changes, so you can join across runs.</li>
+        <li><code class="code-inline">follower_count</code>: current follower total at scrape time</li>
+        <li><code class="code-inline">following_count</code>: number of accounts this profile follows</li>
+        <li><code class="code-inline">post_count</code>: total posts on the profile</li>
+        <li><code class="code-inline">is_verified</code>: <code class="code-inline">true</code> when the account has the blue checkmark</li>
+        <li><code class="code-inline">is_private</code>: <code class="code-inline">true</code> for private accounts. Follower counts are still returned; post details are not.</li>
+        <li><code class="code-inline">is_business_account</code>: <code class="code-inline">true</code> for creator or business profiles</li>
+        <li><code class="code-inline">category_name</code>: the business category label the account owner set, e.g. "Retail Company" or "Musician/Band"</li>
+        <li><code class="code-inline">biography</code> and <code class="code-inline">website</code>: the bio text and any external link</li>
+      </ul>
+    <p>Here is what a real result looks like from a run we performed on 2026-08-03:</p>
+    <div class="code-block"><pre>{
+  "username": "nasa",
+  "user_id": "528817151",
+  "full_name": "NASA",
+  "biography": "Exploring the universe and our home planet.",
+  "website": "https://www.nasa.gov/",
+  "follower_count": 104249797,
+  "following_count": 91,
+  "post_count": 4865,
+  "is_verified": true,
+  "is_private": false,
+  "is_business_account": true,
+  "category_name": "Science, Technology &amp; Engineering",
+  "profile_url": "https://www.instagram.com/nasa/",
+  "scraped_at": "2026-08-03T05:43:57.083Z",
+  "posts": []
+}</pre></div>
+    <div class="callout"><strong>Source note:</strong> the record above is from a real actor run on 2026-08-03 (run ID jLTfLLSwnIUJ3BtXR). The empty <code class="code-inline">posts</code> array is because we set <code class="code-inline">maxPostsPerProfile</code> to 0 for a faster follower-count run.</div>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit per month, enough for around 1,000 profile lookups.</li>
+        <li>A list of public Instagram handles you want to monitor. You can use bare handles (<code class="code-inline">nasa</code>), @-prefixed handles (<code class="code-inline">@nasa</code>), or full profile URLs. Mix and match freely.</li>
+      </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the actor on Apify</h2>
+      <ol>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">NanoScrape Instagram Scraper</a> on Apify.</li>
+        <li>Click <strong>Try for free</strong>. Sign up with Google or email if you do not have an account.</li>
+        <li>Apify takes you to the actor input page in Apify Console.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-instagram-followers-scraper-actor-information.png" alt="NanoScrape Instagram Scraper actor page on Apify showing the Information tab with description and pricing details" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor's Information tab on Apify. Click Try for free to open the input editor.</figcaption>
+    </figure>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Build your account list and configure the input</h2>
+      <p>In Apify Console, switch to the <strong>Input</strong> tab. Paste your handles into the <code class="code-inline">usernames</code> array. For a pure follower-count run, set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code>.</p>
+      <div class="code-block"><pre>{
+  "usernames": [
+    "natgeo",
+    "nasa",
+    "nike",
+    "adidas",
+    "redbull"
+  ],
+  "maxPostsPerProfile": 0,
+  "proxyConfiguration": {
+    "useApifyProxy": true
+  }
+}</pre></div>
+      <ul>
+        <li><code class="code-inline">usernames</code> <em>(required)</em>: your list of handles. Bare handles, @-prefixed handles, and full profile URLs all work.</li>
+        <li><code class="code-inline">maxPostsPerProfile</code>: set to <code class="code-inline">0</code> to skip post content entirely. The run is faster and the cost per profile is the same.</li>
+        <li><code class="code-inline">proxyConfiguration</code>: leave the default (<code class="code-inline">useApifyProxy: true</code>). Apify's datacenter proxies handle IP rotation automatically.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-instagram-followers-scraper-input-editor.png" alt="Apify Console input editor for the Instagram Scraper with usernames array and maxPostsPerProfile set to 0" loading="lazy" width="3840" height="2160">
+      <figcaption>Input editor with maxPostsPerProfile set to 0. This skips post fetching and speeds up the run.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>How many handles can you run at once?</strong> There is no hard limit in the input. For a monitoring list of a few hundred accounts, a single run typically finishes in a few minutes. For thousands of handles, splitting into batches of 200 to 500 reduces any individual run time and makes failures easier to retry.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and check results</h2>
+      <ol>
+        <li>Click <strong>Start</strong> at the bottom of the input page.</li>
+        <li>Watch the live log. For a batch of 100 handles with <code class="code-inline">maxPostsPerProfile: 0</code>, the run typically finishes in under two minutes.</li>
+        <li>When status shows <strong>Succeeded</strong>, click <strong>Results</strong> in the top tab bar to open the dataset.</li>
+        <li>Use <strong>Export</strong> to download as JSON, JSONL, CSV, or XLSX.</li>
+      </ol>
+      <figure>
+      <img src="assets/04-instagram-followers-scraper-run-log.png" alt="Apify Console run log for the Instagram Scraper showing profile scraping progress with follower counts per account" loading="lazy" width="3840" height="2160">
+      <figcaption>The run log. Each scraped account gets a log line showing the follower count.</figcaption>
+    </figure>
+      <p>To compare competitor follower counts side by side, use the Table view in the Results tab. Each column maps to one output field. You can sort by <code class="code-inline">follower_count</code> to rank accounts immediately.</p>
+    </div>
+
+    <h2 id="track-growth">Track follower growth over time</h2>
+    <p>A one-time scrape gives you a snapshot. To track growth, schedule the same run on a recurring interval. Each run produces a new dataset. You can export those datasets and compare timestamps in a spreadsheet to calculate weekly or monthly follower changes.</p>
+    <h3>Set up a scheduled run in Apify Console</h3>
+    <ol>
+        <li>Open the actor in <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz">Apify Console</a>.</li>
+        <li>Click the <strong>Schedules</strong> tab and create a new schedule.</li>
+        <li>Set the cron expression for your cadence. Daily at midnight UTC is <code class="code-inline">0 0 * * *</code>. Weekly on Mondays is <code class="code-inline">0 0 * * 1</code>.</li>
+        <li>Paste your monitoring list into the scheduled run's input. Apify saves the input with the schedule.</li>
+      </ol>
+    <div class="callout tip"><strong>Interpreting the numbers.</strong> A follower count drop does not always mean lost followers. Instagram periodically removes bot or inactive accounts in bulk, which affects all accounts simultaneously. Compare your tracked accounts to public benchmarks for context before drawing conclusions.</div>
+    <h3>Export to Google Sheets for trend charts</h3>
+    <p>After each run, download the dataset as CSV and append the rows to a Google Sheet. Add a <code class="code-inline">run_date</code> column (the date you downloaded), then chart <code class="code-inline">follower_count</code> over time per account. For an automated pipeline that skips the manual download step, use n8n (see the next section).</p>
+
+    <h2 id="automate-with-n8n">Automate with n8n or Make</h2>
+    <p>You can trigger the actor automatically and route the results into Google Sheets, a database, or a Slack alert without writing any code.</p>
+    <h3>n8n</h3>
+    <p>Add a <strong>Schedule Trigger</strong> node set to run weekly or daily. Connect it to an <strong>Apify: Run an Actor and get dataset</strong> node. Set the Actor ID to <code class="code-inline">santamaria-automations/instagram-scraper</code>, set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code> in the input, and wire the output to an <strong>Append to Google Sheet</strong> node. Every scheduled trigger writes a fresh row of follower counts to your sheet.</p>
+    <p>Need a managed n8n instance with no server setup? <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> runs your workflows around the clock and includes the Apify node out of the box.</p>
+    <h3>Make (formerly Integromat)</h3>
+    <p>Use an <strong>HTTP module</strong> to POST to the Apify run-sync endpoint with your input JSON as the body. The response contains the dataset items. Route them to a Google Sheets module or a data store. The run-sync endpoint blocks until the run finishes, so a single HTTP call returns the complete dataset.</p>
+    <div class="code-block"><pre>POST https://api.apify.com/v2/acts/santamaria-automations~instagram-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</pre></div>
+    <div class="callout"><strong>For large monitoring lists in automation tools:</strong> the <code class="code-inline">run-sync-get-dataset-items</code> endpoint has a timeout. For lists over ~200 handles, start the run with <code class="code-inline">/runs</code>, poll the run status, then read the dataset once the status is <code class="code-inline">SUCCEEDED</code>.</div>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Actor start:</strong> $0.001 per run regardless of batch size.</li>
+        <li><strong>Per profile scraped:</strong> $0.005 per row written to the dataset. 100 profiles costs $0.50 plus $0.001 to start.</li>
+        <li><strong>Free tier:</strong> Apify gives you $5 per month, which covers around 1,000 profile lookups.</li>
+      </ul>
+    <p>For a weekly monitoring run of 50 competitor accounts, the total cost is $0.001 + (50 x $0.005) = $0.251 per run, or roughly $1 per month.</p>
+    <div class="callout"><strong>Pricing source:</strong> these figures come from the actor's live pricing configuration, effective 2026-07-18. Verify the current rates on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">actor page</a> before budgeting a large batch.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need an Instagram account or Meta API key to use this?</summary>
+        <p>No. The actor reads publicly available profile data over HTTP. You do not need a personal Instagram login, a Meta developer app, or any Instagram-issued credentials. A free Apify account is all you need.</p>
+      </details>
+      <details>
+        <summary>Can I get the actual list of followers, not just the count?</summary>
+        <p>No. This actor returns the follower <em>count</em>, not the list of individual followers. Instagram requires a login to view a full follower list, so that data is not publicly available without authentication. If you need the count for monitoring or benchmarking purposes, this actor handles it well.</p>
+      </details>
+      <details>
+        <summary>What happens with private accounts?</summary>
+        <p>Private accounts still return the profile row, including follower count, following count, and bio. The actor sets <code>is_private: true</code> in the output. Post details are not returned for private accounts.</p>
+      </details>
+      <details>
+        <summary>Can I run this on a schedule to track changes over time?</summary>
+        <p>Yes. In Apify Console, open the actor and click <strong>Schedules</strong> to set up a recurring run. You can use a daily or weekly cron expression. Each run creates a new dataset. Export datasets over time and compare timestamps in a spreadsheet to track follower growth.</p>
+      </details>
+      <details>
+        <summary>How fast is a follower-count run?</summary>
+        <p>With <code>maxPostsPerProfile</code> set to <code>0</code>, the actor skips post fetching and only retrieves the profile stats page for each handle. A batch of 100 handles typically finishes in under two minutes.</p>
+      </details>
+      <details>
+        <summary>Is scraping public Instagram follower counts legal?</summary>
+        <p>Scraping publicly visible data is generally permitted in most jurisdictions. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that accessing public data does not violate the Computer Fraud and Abuse Act. That said, Meta's Terms of Service restrict automated scraping. The legal picture varies by country and use case. Consult a lawyer before using the data commercially or at high volume.</p>
+      </details>
+      <details>
+        <summary>What if the actor encounters an auth wall mid-run?</summary>
+        <p>If Instagram temporarily requires login for unauthenticated traffic, the actor stops and logs an escalation message rather than silently returning empty rows. You will see it in the run log. Try splitting your batch into smaller runs or waiting a few hours before retrying.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/instagram-scraper/">Instagram Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">Instagram Scraper on Apify</a>: Actor README, input schema, and complete field reference on Apify Store.</li>
+      <li><a href="/tutorials/instagram-scraper/">How to Scrape Instagram Profiles and Posts</a>: The same actor configured for post content extraction: captions, like counts, media URLs, and up to 12 recent posts per profile.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>: Enrich accounts that list an external website by extracting team emails, phones, and names.</li>
+      <li><a href="/tutorials/linkedin-company-scraper/">LinkedIn Company Scraper tutorial</a>: Pull follower counts and company stats from LinkedIn to complement your Instagram research.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=3"></script>
+  <script src="/search.js?v=3"></script>
+</body>
+</html>
