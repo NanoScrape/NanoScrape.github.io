@@ -1,0 +1,102 @@
+{
+  "slug": "santamaria-automations/website-contact-extractor",
+  "name": "website-contact-extractor",
+  "title": "Website Contact Extractor — AI Contacts, Emails, Phones",
+  "description": "Extract structured contacts (name, position, email, phone, LinkedIn) plus emails, phones, socials and address from any company website. AI-powered — Gemini / Groq / OpenRouter (bring your own key). Pay-per-result.",
+  "readme": "# Website Contact Extractor\n\nExtract contact information from any website — emails, phone numbers, social media links, and company address — in a single run. Give it a list of URLs and get back one consolidated contact record per site. No API keys needed.\n\n## How It Works\n\nFor each URL you provide, the scraper:\n\n1. Visits the homepage and captures the page title and meta description\n2. Parses schema.org JSON-LD structured data to extract the company address\n3. Discovers internal links — contact, about, impressum, team, and privacy pages are always crawled first\n4. Extracts email addresses from page text and `mailto:` links\n5. Extracts phone numbers from `tel:` links and international-format (+XX) text\n6. Finds social media profile links (LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing)\n7. Returns one record per website with all contact details consolidated\n\nChallenge pages (bot-protection walls) are skipped automatically so the run keeps going.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=nanoscrape/website-contact-extractor\n```\n\n**Example prompt once connected:**\n\n> \"Use `website-contact-extractor` to extract the contact email, phone number, and LinkedIn page for acme-corp.com.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input Example\n\n```json\n{\n  \"urls\": [\n    \"acme-corp.com\",\n    \"https://www.another-company.de\",\n    \"https://startup.io/contact\"\n  ],\n  \"maxPagesPerUrl\": 15\n}\n```\n\nBare domains (`acme-corp.com`) and full URLs are both accepted.\n\n## Output Example\n\n```json\n[\n  {\n    \"url\": \"https://acme-corp.com\",\n    \"domain\": \"acme-corp.com\",\n    \"title\": \"Acme Corp — Business Solutions\",\n    \"description\": \"We help businesses automate their operations worldwide.\",\n    \"emails\": [\"info@acme-corp.com\", \"sales@acme-corp.com\"],\n    \"phones\": [\"+1 555 123 4567\"],\n    \"address\": \"123 Main St, San Francisco, CA 94105, US\",\n    \"social_links\": {\n      \"linkedin\": \"https://linkedin.com/company/acme-corp\",\n      \"twitter\": \"https://twitter.com/acmecorp\",\n      \"facebook\": \"https://facebook.com/acmecorp\"\n    },\n    \"pages_crawled\": 9,\n    \"scraped_at\": \"2026-05-06T10:00:00Z\"\n  }\n]\n```\n\n## Pricing\n\nYou pay per website processed — one charge per contact record regardless of how many emails or phone numbers were found.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.15 | Covers container startup |\n| Contact result | $0.001 | Per website contact record produced |\n\n**Example costs:**\n\n| Websites | Cost |\n|----------|------|\n| 1 website | $0.151 |\n| 100 websites | $0.25 |\n| 1,000 websites | $1.15 |\n| 10,000 websites | $10.15 |\n\nNo monthly fees. No minimum spend.\n\n## Input Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `urls` | string[] | required | Website URLs or bare domains to scrape |\n| `maxPagesPerUrl` | integer | 15 | Max pages to crawl per site (1–50) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output Fields\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `url` | string | Input URL that was scraped |\n| `domain` | string | Normalized domain name |\n| `title` | string | Page title from the homepage |\n| `description` | string | Meta description from the homepage |\n| `emails` | string[] | All unique email addresses found (lowercase) |\n| `phones` | string[] | Phone numbers from tel: links and international-format text |\n| `address` | string | Company address from schema.org JSON-LD structured data |\n| `social_links` | object | Social profiles found (linkedin, twitter, facebook, instagram, youtube, xing) |\n| `pages_crawled` | integer | Number of pages visited |\n| `scraped_at` | string | ISO timestamp of when the record was produced |\n\n## Tips\n\n- **Contact and impressum pages are checked first** — the scraper prioritizes `/contact`, `/kontakt`, `/impressum`, `/about`, `/team`, and similar paths\n- **15 pages covers most SMB and mid-market sites** — most businesses expose all contact info within the first 15 pages\n- **Increase to 30–50 pages** for large corporate sites or to find role-specific emails (hr@, press@)\n- **One record per website** — all emails, phones, and social links from a site are consolidated into a single row, making it easy to use in spreadsheets or CRMs\n- **Address from structured data** — address is only populated when the site includes schema.org JSON-LD markup (common on SMB and local business sites)\n\n## Related Actors\n\n**Enrich with more data**\n\n- [Contact Details Scraper](https://apify.com/nanoscrape/contact-details-scraper) — same core extraction, alternative entry point\n- [Google Maps Email Scraper](https://apify.com/nanoscrape/google-maps-email-scraper) — find businesses via Maps then extract emails\n\n**Lead generation sources**\n\n- [B2B Leads Scraper](https://apify.com/nanoscrape/b2b-leads-scraper) — Clutch and G2 company directories\n- [Yellow Pages Scraper](https://apify.com/nanoscrape/yellow-pages-scraper) — US local business listings\n- [Y Combinator Scraper](https://apify.com/nanoscrape/y-combinator-scraper) — startup company leads\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature, please [open an issue](https://console.apify.com/actors/website-contact-extractor/issues) and we'll look into it.\n",
+  "readmeSource": "apify-api-source-files",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": null,
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 5e-05,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "company-enriched",
+        "title": "Company processed",
+        "description": "Charged per company whose website is crawled and analyzed for contacts",
+        "isPrimary": false,
+        "priceUsd": 0.01,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "contact-result",
+        "title": "Contact extracted",
+        "description": "Charged per contact extracted (name, email, phone, position, etc.)",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": {
+    "title": "Website Contact Extractor Input",
+    "description": "Configure the websites to crawl for contact details. Provide either `urls` (simple URL list) or `companies` (URLs with company_id passthrough for join-back).",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "urls": {
+        "title": "URLs or Domains",
+        "type": "array",
+        "description": "List of website URLs or domains to extract contact details from. Bare domains (example.com) and full URLs (https://www.example.com) are both accepted.",
+        "editor": "stringList",
+        "prefill": [
+          "https://example.com"
+        ],
+        "items": {
+          "type": "string"
+        }
+      },
+      "companies": {
+        "title": "Companies (with company_id passthrough)",
+        "type": "array",
+        "description": "Alternative to `urls`. Each entry carries a company_id that is echoed on the output row, enabling downstream join-back to your data.",
+        "editor": "json",
+        "items": {
+          "type": "object",
+          "required": [
+            "website_url"
+          ],
+          "properties": {
+            "company_id": {
+              "title": "Company ID",
+              "type": "string",
+              "description": "Your internal identifier — echoed on the output row so you can join enrichment results back to your source data."
+            },
+            "website_url": {
+              "title": "Website URL",
+              "type": "string",
+              "description": "The company's website URL to crawl."
+            }
+          }
+        }
+      },
+      "maxPagesPerUrl": {
+        "title": "Max Pages Per URL",
+        "type": "integer",
+        "description": "Maximum pages to crawl per website. Contact, about, impressum, and team pages are always prioritized. Higher values find more details but take longer.",
+        "default": 15,
+        "minimum": 1,
+        "maximum": 50,
+        "editor": "number"
+      },
+      "proxyConfiguration": {
+        "title": "Proxy Configuration",
+        "type": "object",
+        "description": "Proxy settings. Apify proxy works for most sites.",
+        "editor": "proxy",
+        "default": {
+          "useApifyProxy": true
+        }
+      }
+    }
+  },
+  "fetchedAt": "2026-08-04T11:56:37.000Z"
+}
