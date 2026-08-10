@@ -113,7 +113,7 @@
     return null;
   }
 
-  function buildLangUrl(targetLang, actorSlug, isActorPage, isTutorialDetail) {
+  function buildLangUrl(targetLang, actorSlug, isActorPage, isTutorialDetail, section) {
     var lang = null;
     for (var i = 0; i < LANGUAGES.length; i++) if (LANGUAGES[i].code === targetLang) lang = LANGUAGES[i];
     if (!lang) return '/';
@@ -124,8 +124,10 @@
       // Prefer the page's own hreflang; if absent, fall back to the tutorials hub in target lang.
       var alt = tutorialAlternateHref(targetLang);
       if (alt) return alt;
-      return targetLang === 'en' ? '/tutorials/' : '/' + lang.prefix + '/tutorials/';
+      return tutorialsHubUrl(targetLang);
     }
+    // Tutorials hub → keep users on the hub for the target language.
+    if (section === 'tutorials') return tutorialsHubUrl(targetLang);
     return targetLang === 'en' ? '/' : '/' + lang.prefix + '/';
   }
 
@@ -154,7 +156,7 @@
     var items = '';
     for (var i = 0; i < LANGUAGES.length; i++) {
       var l = LANGUAGES[i];
-      items += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail) + '"' +
+      items += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail, ctx.section) + '"' +
         (l.code === ctx.currentLang ? ' class="active" aria-current="true"' : '') + '>' + l.label + '</a>';
     }
     var trigger = 'EN';
@@ -261,7 +263,7 @@
     var langLinks = '';
     for (var i = 0; i < LANGUAGES.length; i++) {
       var l = LANGUAGES[i];
-      langLinks += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail) + '"' +
+      langLinks += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail, ctx.section) + '"' +
         (l.code === ctx.currentLang ? ' class="active"' : '') + '>' + l.triggerLabel + '</a>';
     }
 
