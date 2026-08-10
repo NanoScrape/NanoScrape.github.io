@@ -136,6 +136,14 @@
     return '/';
   }
 
+  // Language-aware tutorials hub URL. EN at /tutorials/, others under /{lang}/tutorials/.
+  function tutorialsHubUrl(langCode) {
+    for (var i = 0; i < LANGUAGES.length; i++) {
+      if (LANGUAGES[i].code === langCode) return LANGUAGES[i].prefix ? '/' + LANGUAGES[i].prefix + '/tutorials/' : '/tutorials/';
+    }
+    return '/tutorials/';
+  }
+
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
 
   // ==========================================================================
@@ -162,7 +170,7 @@
     var on = function (s) { return ctx.section === s ? ' class="ns-nav-link is-current"' : ' class="ns-nav-link"'; };
     return '<div class="ns-nav-links">' +
       '<a href="' + actorsHref + '"' + on(ctx.section === 'home' ? 'home' : 'actors').replace('is-current', (ctx.section === 'home' || ctx.section === 'actors') ? 'is-current' : '') + '>' + esc(t.actors) + '</a>' +
-      '<a href="/tutorials/"' + on('tutorials') + '>' + esc(t.tutorials) + '</a>' +
+      '<a href="' + tutorialsHubUrl(ctx.currentLang) + '"' + on('tutorials') + '>' + esc(t.tutorials) + '</a>' +
       '<a href="/templates/"' + on('templates') + '>' + esc(t.templates) + '</a>' +
       '</div>';
   }
@@ -180,7 +188,7 @@
     if (!title) return '';
     var parts = ['<a href="' + homeUrl(ctx.currentLang) + '">' + esc(t.home) + '</a>'];
     if (ctx.section === 'actors') parts.push('<a href="' + homeUrl(ctx.currentLang) + '">' + esc(t.actors) + '</a>');
-    if (ctx.section === 'tutorials') parts.push('<a href="/tutorials/">' + esc(t.tutorials) + '</a>');
+    if (ctx.section === 'tutorials') parts.push('<a href="' + tutorialsHubUrl(ctx.currentLang) + '">' + esc(t.tutorials) + '</a>');
     if (ctx.section === 'templates') parts.push('<a href="/templates/">' + esc(t.templates) + '</a>');
     if (section) parts.push('<span>' + esc(section) + '</span>');
     parts.push('<span class="current">' + esc(title) + '</span>');
@@ -274,7 +282,7 @@
             '<a href="' + home + '#enrichment">Enrichment</a>' +
           '</div>' +
           '<div class="ns-footer-col"><h4>' + esc(t.colLearn) + '</h4>' +
-            '<a href="/tutorials/">' + esc(t.allTutorials) + '</a>' +
+            '<a href="' + tutorialsHubUrl(ctx.currentLang) + '">' + esc(t.allTutorials) + '</a>' +
             '<a href="/tutorials/scrape-google-maps-with-n8n/">Google Maps with n8n</a>' +
             '<a href="/tutorials/instagram-scraper/">Instagram scraping</a>' +
             '<a href="/tutorials/google-maps-reviews-scraper/">Google Maps reviews</a>' +
