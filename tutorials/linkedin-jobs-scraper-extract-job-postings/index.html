@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape LinkedIn Job Listings Without a Login (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Extract job titles, companies, locations, salaries, and full descriptions from LinkedIn Jobs with no login required. $0.001 per result. Covers keyword search, SERP bulk mode, and n8n automation.">
+  <meta name="primary-keyword" content="linkedin scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape LinkedIn Job Listings Without a Login | NanoScrape">
+  <meta property="og:description" content="Pull structured LinkedIn job data at scale: title, company, location, salary, seniority, industry, applicant count, and hiring manager. No login. $0.001 per listing.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape LinkedIn Job Listings Without a Login",
+  "description": "Use the NanoScrape LinkedIn Jobs Scraper on Apify to collect job titles, companies, locations, salaries, and full descriptions from LinkedIn Jobs at scale, without a LinkedIn account.",
+  "totalTime": "PT10M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Job search keywords or LinkedIn job search URLs"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape LinkedIn Jobs Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor",
+      "text": "Open the LinkedIn Jobs Scraper on Apify, click Try for free, and sign up with Google or email."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Configure your search",
+      "text": "Switch to JSON editor in the Input tab and set searchQueries, location, and any filters you need."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run the actor",
+      "text": "Click Start in the top right of the Input tab and watch the live run log."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export your results",
+      "text": "From the Results tab, click Export to download as JSON, CSV, or Excel, or connect Google Sheets via the Integrations panel."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "LinkedIn Jobs Scraper: Extract Job Listings Without a Login",
+  "description": "How to scrape LinkedIn job postings by keyword, location, job type, and experience level using the NanoScrape LinkedIn Jobs Scraper on Apify. No account required.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-10",
+  "dateModified": "2026-08-10",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a LinkedIn account to use this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor uses LinkedIn's public job search, which is visible without a login. No account or cookies are required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which countries are supported?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every country LinkedIn serves. The actor detects ISO country codes for 30+ locales including DACH, EU, UK, US, Canada, Australia, India, and more."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get more than 1,000 results for a keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set location to a country name or ISO code. The actor expands to major cities automatically, running one query per city to bypass LinkedIn's ~990-result ceiling."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is salary data always available?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Salary is only available when LinkedIn displays it publicly. It is more common in US listings. Fields are null when salary is not shown."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between SERP-only and full detail mode?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Full detail mode fetches each job's detail page for descriptions, seniority, and hiring manager. SERP-only mode returns search-result data only and runs about 3x faster."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this to monitor specific company job pages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Add a company's LinkedIn jobs page URL to startUrls. The actor paginates all listings from that page. Use directUrls to check specific job IDs for still-alive status."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping LinkedIn legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor only accesses publicly visible job data. The hiQ Labs v. LinkedIn ruling found scraping public data is not a CFAA violation. LinkedIn ToS restricts automated access. Consult a lawyer for specific compliance questions."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "LinkedIn Jobs Scraper",
+      "item": "https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; LinkedIn Jobs Scraper</nav>
+
+    <h1>How to Scrape LinkedIn Job Listings Without a Login</h1>
+    <p class="lead">Pull job titles, companies, locations, salaries, employment types, seniority levels, applicant counts, and full descriptions from LinkedIn Jobs. No LinkedIn account needed. Four input modes cover keyword search, pasted URLs, and still-alive monitoring. Pricing starts at $0.001 per listing.</p>
+
+    <figure>
+      <img src="assets/01-linkedin-scraper-dataset-table.png" alt="Apify dataset table showing LinkedIn job listings with columns for job title, company, location, employment type, seniority level, and posted date" loading="lazy" width="3200" height="1842">
+      <figcaption>One row per job listing. The actor returns title, company, location, salary, seniority, employment type, applicant count, and full description.</figcaption>
+    </figure>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.001 per listing (free tier covers ~4,999 listings/month)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz" class="btn-primary">Try the LinkedIn Jobs Scraper free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What data you get</a></li>
+        <li><a href="#four-modes">Four input modes</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Configure your search</a></li>
+        <li><a href="#step-3">Step 3: Run the actor</a></li>
+        <li><a href="#step-4">Step 4: Export your results</a></li>
+        <li><a href="#n8n-automation">Automate with n8n</a></li>
+        <li><a href="#use-cases">Common use cases</a></li>
+        <li><a href="#cost">What it costs</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What data you get</h2>
+    <p>Each run returns one dataset row per job listing. All data comes from LinkedIn's public job search pages, which are visible to any visitor without an account. The actor uses plain HTTP requests so runs are fast and cost-effective.</p>
+    <div class="code-block"><pre>{
+  "id": "4371481846",
+  "title": "Senior Software Engineer, Backend",
+  "company": "Acme Analytics",
+  "location": "New York, NY",
+  "country": "US",
+  "job_status": "online",
+  "employment_type": "full-time",
+  "seniority_level": "Mid-Senior level",
+  "remote_option": "hybrid",
+  "salary_text": "$140,000 - $180,000/yr",
+  "salary_min": 140000,
+  "salary_max": 180000,
+  "salary_currency": "USD",
+  "salary_period": "year",
+  "company_industry": "Technology, Information and Internet",
+  "company_employee_count": "201-500 employees",
+  "company_website": "https://www.acmeanalytics.example",
+  "applicants": "&lt;25",
+  "description_snippet": "We are looking for a Senior Software Engineer to join our platform team...",
+  "description_full": "Full job description text...",
+  "posted_at": "2026-08-05T00:00:00.000Z",
+  "source_url": "https://www.linkedin.com/jobs/view/4371481846",
+  "search_query": "Senior Software Engineer",
+  "scraped_at": "2026-08-10T08:30:00.000Z"
+}</pre></div>
+    <h3>Core output fields</h3>
+    <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">country</code>: the basic listing details.</li>
+        <li><code class="code-inline">employment_type</code>: full-time, part-time, contract, temporary, or internship.</li>
+        <li><code class="code-inline">seniority_level</code>: entry, associate, mid-senior, director, or executive.</li>
+        <li><code class="code-inline">remote_option</code>: remote, hybrid, or on-site.</li>
+        <li><code class="code-inline">salary_min</code>, <code class="code-inline">salary_max</code>, <code class="code-inline">salary_currency</code>, <code class="code-inline">salary_period</code>: structured salary data when LinkedIn publicly displays it.</li>
+        <li><code class="code-inline">applicants</code>: normalized to &lt;25, 95, 200+, or similar.</li>
+        <li><code class="code-inline">description_full</code>: the complete job description text (requires <code class="code-inline">includeJobDetails: true</code>).</li>
+        <li><code class="code-inline">job_poster_name</code>, <code class="code-inline">job_poster_title</code>, <code class="code-inline">job_poster_profile_url</code>: the hiring manager when LinkedIn exposes them.</li>
+        <li><code class="code-inline">company_follower_count</code>, <code class="code-inline">company_founded</code>, <code class="code-inline">company_funding_rounds</code>: company enrichment when <code class="code-inline">includeCompanyDetails: true</code>.</li>
+        <li><code class="code-inline">job_status</code>: online, expired, or offline, useful for still-alive monitoring in direct-URL mode.</li>
+      </ul>
+    <div class="callout"><strong>What the actor does not return:</strong> private LinkedIn data (direct messages, connection requests, InMail allowances) and any content behind a login wall. The public job search page is the data source.</div>
+
+    <h2 id="four-modes">Four input modes</h2>
+    <p>Pick the mode that matches your workflow. All four modes produce the same output fields.</p>
+    <ul>
+        <li><strong>Keyword search (default)</strong> - provide <code class="code-inline">searchQueries</code> and an optional <code class="code-inline">location</code>. Best for discovering jobs you want to monitor over time.</li>
+        <li><strong>SERP-only bulk mode</strong> - set <code class="code-inline">includeJobDetails: false</code> to skip the per-job detail fetch. Returns title, company, location, and posted date at roughly 3x the speed. Best for large market scans.</li>
+        <li><strong>Start URLs</strong> - paste a LinkedIn job search URL from your browser directly into <code class="code-inline">startUrls</code>. Useful when you want to replicate a filtered search you set up manually.</li>
+        <li><strong>Direct URLs</strong> - pass specific LinkedIn job URLs in <code class="code-inline">directUrls</code> to check if those listings are still live. Perfect for verifying jobs already stored in your database.</li>
+      </ul>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz">the actor page</a>. The free tier includes $5 of usage credit each month, which covers about 4,999 job listings.</li>
+        <li>Keywords or LinkedIn job search URLs to target. If you want to paste a custom filtered search URL, run a search on LinkedIn first and copy the URL from your browser's address bar.</li>
+      </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the actor</h2>
+      <ol>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz">NanoScrape LinkedIn Jobs Scraper</a> on Apify.</li>
+        <li>Click <strong>Try for free</strong>. Sign up with Google or email. It takes about a minute.</li>
+        <li>Once signed in, the actor opens in Apify Console with the Input tab active.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-linkedin-scraper-actor-page.png" alt="Apify actor page for the NanoScrape LinkedIn Jobs Scraper showing title, description, pricing events, and a Try for free button" loading="lazy" width="3200" height="1842">
+      <figcaption>The LinkedIn Jobs Scraper on Apify. Click Try for free to open the input form.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>Already have an Apify account?</strong> Just follow the actor link and it drops you straight into the input editor.</div>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Configure your search</h2>
+      <p>In the <strong>Input</strong> tab, click <strong>JSON editor</strong> at the top right. Paste the input below to start a keyword search with filters:</p>
+      <div class="code-block"><pre>{
+  "searchQueries": ["Software Engineer", "Data Scientist"],
+  "location": "United States",
+  "datePosted": "past-week",
+  "jobType": "full-time",
+  "experienceLevel": "mid-senior",
+  "remoteFilter": "remote",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</pre></div>
+      <h3>Key input parameters</h3>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: array of keyword strings. The actor deduplicates results across queries automatically.</li>
+        <li><code class="code-inline">location</code>: city, region, or country. Set a whole country like <code class="code-inline">"Germany"</code> to trigger automatic city expansion, which bypasses LinkedIn's ~990-result-per-query ceiling.</li>
+        <li><code class="code-inline">datePosted</code>: <code class="code-inline">any</code>, <code class="code-inline">past-24h</code>, <code class="code-inline">past-week</code>, or <code class="code-inline">past-month</code>.</li>
+        <li><code class="code-inline">jobType</code>: <code class="code-inline">full-time</code>, <code class="code-inline">part-time</code>, <code class="code-inline">contract</code>, <code class="code-inline">temporary</code>, or <code class="code-inline">internship</code>.</li>
+        <li><code class="code-inline">experienceLevel</code>: <code class="code-inline">entry</code>, <code class="code-inline">associate</code>, <code class="code-inline">mid-senior</code>, <code class="code-inline">director</code>, or <code class="code-inline">executive</code>.</li>
+        <li><code class="code-inline">remoteFilter</code>: <code class="code-inline">remote</code>, <code class="code-inline">hybrid</code>, or <code class="code-inline">on-site</code>.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 990 with city expansion).</li>
+        <li><code class="code-inline">includeJobDetails</code>: set to <code class="code-inline">false</code> for SERP-only bulk mode (title, company, location only, but 3x faster).</li>
+        <li><code class="code-inline">easyApply</code>: set to <code class="code-inline">true</code> to return only LinkedIn Easy Apply listings.</li>
+      </ul>
+      <h3>Bulk mode for large market scans</h3>
+      <p>If you need thousands of listings fast and only need title, company, location, and posted date, skip the per-job detail fetch:</p>
+      <div class="code-block"><pre>{
+  "searchQueries": ["Data Scientist"],
+  "location": "Germany",
+  "includeJobDetails": false,
+  "maxResultsPerQuery": 500
+}</pre></div>
+      <figure>
+      <img src="assets/03-linkedin-scraper-input-json.png" alt="Apify Console Input tab showing the JSON editor with searchQueries, location, datePosted, and jobType fields configured for LinkedIn job scraping" loading="lazy" width="3200" height="1842">
+      <figcaption>Paste your search configuration in JSON editor mode. At minimum, set searchQueries and location.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>Paste a LinkedIn search URL instead.</strong> Open LinkedIn Jobs, apply your filters manually, then copy the URL from your browser. Paste it into <code class="code-inline">startUrls</code> and set <code class="code-inline">maxResultsPerQuery</code> to cap results. The actor paginates from your exact filter setup.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run the actor</h2>
+      <p>Click <strong>Start</strong> at the top right. The run log shows each query as it processes. In default detail mode, the actor fetches each job's detail page in turn, so expect about one to two jobs per second. A search returning 100 jobs typically finishes in under three minutes.</p>
+      <figure>
+      <img src="assets/04-linkedin-scraper-run-log.png" alt="Apify Console run log for the LinkedIn Jobs Scraper showing job titles being processed with a running item count" loading="lazy" width="3200" height="1842">
+      <figcaption>The live run log. Each job appears as it resolves, with a running item count at the top.</figcaption>
+    </figure>
+      <p>When the status changes to <strong>Succeeded</strong>, click <strong>Results</strong> to preview the dataset. Each row is one job listing. Scroll right to see salary, seniority, applicant count, and description fields.</p>
+      <div class="callout tip"><strong>Running large searches.</strong> When your keyword returns more than 990 results for a given location, set <code class="code-inline">location</code> to a country name instead of a city. The actor expands to major cities automatically, running parallel queries so you collect several thousand results from a single actor run.</div>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Export your results</h2>
+      <p>From the <strong>Results</strong> tab, click <strong>Export</strong> to download the dataset as JSON, CSV, or Excel. For live destinations, use the Integrations panel:</p>
+      <ul>
+        <li><strong>Google Sheets:</strong> click <strong>Integrations</strong> below the run log, choose Google Sheets, and authorize once. Future runs on this actor will append new rows automatically.</li>
+        <li><strong>Airtable / Notion / Postgres:</strong> same flow via the matching integration tile.</li>
+        <li><strong>Webhook:</strong> open <strong>Integrations &rsaquo; Add Integration &rsaquo; Webhook</strong> and paste your endpoint. Apify posts the full dataset payload when the run finishes.</li>
+        <li><strong>n8n / Make / Zapier:</strong> call the actor from an HTTP Request node and retrieve results from the dataset endpoint. See the <a href="#n8n-automation">n8n section</a> below for a step-by-step walkthrough.</li>
+      </ul>
+    </div>
+
+    <h2 id="n8n-automation">Automate with n8n</h2>
+    <p>To monitor a set of job searches on a regular schedule (for example, pulling all new remote senior engineering roles each weekday morning), connect the actor to <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a> using the verified <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a>.</p>
+    <ol>
+        <li>Open n8n and create a new workflow.</li>
+        <li>Add a <strong>Schedule Trigger</strong> node. Set the interval to once a day or once a week, depending on how fresh you need the data.</li>
+        <li>Add an <strong>Apify</strong> node. Set <strong>Operation</strong> to <em>Run an Actor and get dataset</em>. Set <strong>Actor ID</strong> to <code class="code-inline">santamaria-automations/linkedin-scraper</code>.</li>
+        <li>In the <strong>Input JSON</strong> field, paste your search configuration (keywords, location, filters, and results cap).</li>
+        <li>Add a <strong>Google Sheets</strong> node (or a Slack or email node) to deliver the new listings to your team.</li>
+        <li>Save and activate the workflow.</li>
+      </ol>
+    <div class="code-block"><pre>{
+  "searchQueries": ["Software Engineer", "Backend Engineer"],
+  "location": "Germany",
+  "datePosted": "past-24h",
+  "remoteFilter": "remote",
+  "jobType": "full-time",
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": true
+}</pre></div>
+    <p>This workflow runs daily, pulls remote engineering roles posted in the last 24 hours across Germany, and writes new listings to a Google Sheet. At $0.001 per listing, pulling 100 listings per day costs about $3 per month.</p>
+    <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and includes the Apify node pre-installed. On self-hosted or n8n Desktop, install it from <strong>Settings &rsaquo; Community Nodes</strong> with package name <code class="code-inline">@apify/n8n-nodes-apify</code>.</div>
+
+    <h2 id="use-cases">Common use cases</h2>
+    <h3>Recruitment and candidate sourcing</h3>
+    <p>Monitor open roles by keyword and geography so your sourcing team sees new listings before candidates do. Filter by <code class="code-inline">experienceLevel</code> and <code class="code-inline">jobType</code> to focus on roles that match the candidates you have in your pipeline. Combine with the <a href="/tutorials/linkedin-company-scraper/">LinkedIn Company Scraper</a> to enrich each employer with headcount, industry, and funding data.</p>
+    <h3>Competitor hiring intelligence</h3>
+    <p>Track which companies are hiring for which roles week over week. Run a search scoped to specific competitors using <code class="code-inline">startUrls</code> from a company jobs page, for example <code class="code-inline">https://www.linkedin.com/company/stripe/jobs/</code>. Chart how their headcount growth maps to their product announcements or funding rounds.</p>
+    <h3>Job board and aggregator feeds</h3>
+    <p>Ingest normalized LinkedIn listings into your own job board, ATS, or vertical search site. All title, location, and description fields are structured JSON, ready to index. The <code class="code-inline">source_url</code> field links back to each original LinkedIn listing for attribution.</p>
+    <h3>Labour market research</h3>
+    <p>Quantify hiring velocity by industry, role, and region. Run searches across several countries and group results by <code class="code-inline">company_industry</code>, <code class="code-inline">seniority_level</code>, and <code class="code-inline">remote_option</code>. Salary data is available for US listings far more often than EU ones, but posting volume by country gives you a hiring heat map even without salary figures.</p>
+    <h3>Still-alive monitoring</h3>
+    <p>If your internal database stores LinkedIn job URLs from past scrapes, use direct-URL mode to check which listings are still active. Set <code class="code-inline">directUrls</code> to your list and read <code class="code-inline">job_status</code> on each returned row. Rows with <code class="code-inline">job_status: "expired"</code> or <code class="code-inline">"offline"</code> can be flagged or removed automatically.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Actor start:</strong> $0.001 per run (one-time flat fee, regardless of results count).</li>
+        <li><strong>Per job listing:</strong> $0.001 per result. That is $1 per 1,000 listings.</li>
+        <li><strong>No monthly fees. No minimum spend.</strong></li>
+      </ul>
+    <div class="code-block"><pre>100 listings (SERP only)         = $0.101  ($0.001 start + $0.100)
+100 listings (with full details) = $0.101  (same -- price per result is the same regardless of mode)
+1,000 listings                   = $1.001  ($0.001 + $1.000)
+Daily monitor, 100 listings/day  ~ $3.10/month</pre></div>
+    <p>The Apify free tier includes $5 of usage credit each month, which covers about 4,999 job listings before you pay anything.</p>
+    <div class="callout"><strong>Company enrichment cost note:</strong> enabling <code class="code-inline">includeCompanyDetails: true</code> adds one extra HTTP request per unique company in the result set. For a 100-job run with 80 distinct employers, that adds roughly 80 seconds to the runtime and a small amount of additional compute cost shown in the Apify Console breakdown.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need a LinkedIn account to use this?</summary>
+        <p>No. The actor scrapes LinkedIn's public job search pages, which do not require a login. All data it returns is visible to any anonymous visitor on LinkedIn's public job board.</p>
+      </details>
+      <details>
+        <summary>Which countries are supported?</summary>
+        <p>Every country LinkedIn serves. The actor auto-detects ISO country codes for 30+ countries including the US, UK, Canada, Australia, Germany, France, Switzerland, Austria, Netherlands, Spain, Italy, Poland, Portugal, Sweden, Norway, Denmark, Finland, India, Japan, Singapore, Brazil, and Mexico.</p>
+      </details>
+      <details>
+        <summary>How do I get more than 1,000 results for a keyword?</summary>
+        <p>Set <code>location</code> to a country name (for example <code>"Germany"</code>) or the ISO country code (<code>"DE"</code>). The actor automatically expands to major cities and runs a separate query per city, letting you pull several thousand results for a single keyword in one run. This bypasses LinkedIn's ~990-result-per-query ceiling.</p>
+      </details>
+      <details>
+        <summary>Is salary data always available?</summary>
+        <p>Salary is only shown when LinkedIn publicly displays it on the listing, which depends on the employer. It is much more common in US listings than EU ones. The actor returns <code>salary_min</code>, <code>salary_max</code>, <code>salary_currency</code>, and <code>salary_period</code> when the data is present, and leaves them null when it is not.</p>
+      </details>
+      <details>
+        <summary>What is the difference between SERP-only and full detail mode?</summary>
+        <p>Full detail mode (the default, with <code>includeJobDetails: true</code>) fetches each job's detail page to collect the full description, employment type, seniority, applicant count, hiring manager, and more. SERP-only mode (<code>includeJobDetails: false</code>) skips that detail fetch and returns only what appears on the search results page: title, company, location, logo, and posted date. SERP-only runs roughly 3x faster and is ideal for large market scans where you only need the basics.</p>
+      </details>
+      <details>
+        <summary>Can I use this to monitor specific company job pages?</summary>
+        <p>Yes. Paste a company's LinkedIn jobs page URL (for example <code>https://www.linkedin.com/company/stripe/jobs/</code>) into <code>startUrls</code>. The actor paginates through all listings on that page and returns them as structured data. You can also pass individual job listing URLs via <code>directUrls</code> to check whether those specific jobs are still active.</p>
+      </details>
+      <details>
+        <summary>Is scraping LinkedIn legal?</summary>
+        <p>The actor only accesses data publicly visible on LinkedIn's job search without logging in. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping publicly available data is not a violation of the Computer Fraud and Abuse Act. LinkedIn's Terms of Service restrict automated access, so you are responsible for your own use case. Consult a lawyer for jurisdiction-specific compliance questions.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper actor page</a>: Full input reference, output schema, pricing details, and API integration examples.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz">LinkedIn Jobs Scraper on Apify</a>: Try the actor directly in Apify Console or access it via the Apify API.</li>
+      <li><a href="/tutorials/linkedin-company-scraper/">How to Scrape LinkedIn Company Data Without a Login</a>: Enrich any company list with employee count, industry, headquarters, and top employee profiles using our LinkedIn Company Scraper.</li>
+      <li><a href="/tutorials/extract-emails-from-websites-bulk/">How to Extract Contact Emails and Phone Numbers from Company Websites</a>: After collecting jobs and employers from LinkedIn, use this actor to pull decision-maker contact details from company websites.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the NanoScrape catalog.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz" class="btn-primary">Try the LinkedIn Jobs Scraper free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=5"></script>
+  <script src="/search.js?v=5"></script>
+</body>
+</html>
