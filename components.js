@@ -36,9 +36,10 @@
     org: 'https://apify.com/nanoscrape?fpr=0khfbz'
   };
 
-  // Only the homepage and actor pages are localized today. Tutorials and
-  // templates exist in EN only, so those links always point at the canonical
-  // EN path — never a prefixed 404.
+  // Homepage, actor pages, and tutorial pages are localized. Templates are
+  // still EN-only. For tutorials the localization uses language-specific
+  // slugs (SEO), so the picker navigates via the page's own <link rel="alternate"
+  // hreflang> tags — the writer emits those into every tutorial's <head>.
   var T = {
     en: { actors: 'Actors', tutorials: 'Tutorials', templates: 'Templates', search: 'Search actors, tutorials…', store: 'Apify Store', start: 'Start free', home: 'Home', lang: 'Language',
           colActors: 'Actors', colLearn: 'Learn', colBuild: 'Build', colCompany: 'NanoScrape',
@@ -70,6 +71,10 @@
     var path = window.location.pathname;
     var currentLang = 'en';
 
+    // Tutorials: /{lang}/tutorials/{slug}/ for non-EN, /tutorials/{slug}/ for EN.
+    var tutorialLangMatch = path.match(/^\/([a-z]{2})\/tutorials\//);
+    if (tutorialLangMatch) currentLang = tutorialLangMatch[1];
+
     for (var i = 0; i < LANGUAGES.length; i++) {
       var lang = LANGUAGES[i];
       if (!lang.prefix) continue;
@@ -84,20 +89,42 @@
     var m = path.match(/\/actors\/([^\/]+)/);
     var actorSlug = m ? m[1] : null;
     var section = 'other';
-    if (path === '/' || /^\/(de|zh|fr)\/?$/.test(path)) section = 'home';
+    if (path === '/' || /^\/(de|zh|fr|es|it|pt)\/?$/.test(path)) section = 'home';
     else if (actorSlug) section = 'actors';
-    else if (path.indexOf('/tutorials/') === 0) section = 'tutorials';
+    else if (path.indexOf('/tutorials/') === 0 || /^\/[a-z]{2}\/tutorials\//.test(path)) section = 'tutorials';
     else if (path.indexOf('/templates/') === 0) section = 'templates';
 
-    return { currentLang: currentLang, actorSlug: actorSlug, isActorPage: !!actorSlug, section: section, path: path };
+    var isTutorialDetail = section === 'tutorials' && !/\/tutorials\/?$/.test(path);
+    return { currentLang: currentLang, actorSlug: actorSlug, isActorPage: !!actorSlug, isTutorialDetail: isTutorialDetail, section: section, path: path };
   }
 
-  function buildLangUrl(targetLang, actorSlug, isActorPage) {
+  // On tutorial detail pages the language picker uses the page's own
+  // <link rel="alternate" hreflang> tags (rendered by the tutorial writer)
+  // as the source of translated-sibling URLs. Falls back to the target-lang
+  // tutorials hub if the current tutorial has no translation in that language.
+  function tutorialAlternateHref(targetLang) {
+    try {
+      var links = document.querySelectorAll('link[rel="alternate"][hreflang]');
+      for (var i = 0; i < links.length; i++) {
+        var hl = links[i].getAttribute('hreflang');
+        if (hl === targetLang) return links[i].getAttribute('href');
+      }
+    } catch (e) {}
+    return null;
+  }
+
+  function buildLangUrl(targetLang, actorSlug, isActorPage, isTutorialDetail) {
     var lang = null;
     for (var i = 0; i < LANGUAGES.length; i++) if (LANGUAGES[i].code === targetLang) lang = LANGUAGES[i];
     if (!lang) return '/';
     if (isActorPage && actorSlug) {
       return targetLang === 'en' ? '/actors/' + actorSlug + '/' : '/actors/' + actorSlug + '/' + lang.prefix + '/';
+    }
+    if (isTutorialDetail) {
+      // Prefer the page's own hreflang; if absent, fall back to the tutorials hub in target lang.
+      var alt = tutorialAlternateHref(targetLang);
+      if (alt) return alt;
+      return targetLang === 'en' ? '/tutorials/' : '/' + lang.prefix + '/tutorials/';
     }
     return targetLang === 'en' ? '/' : '/' + lang.prefix + '/';
   }
@@ -119,7 +146,7 @@
     var items = '';
     for (var i = 0; i < LANGUAGES.length; i++) {
       var l = LANGUAGES[i];
-      items += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage) + '"' +
+      items += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail) + '"' +
         (l.code === ctx.currentLang ? ' class="active" aria-current="true"' : '') + '>' + l.label + '</a>';
     }
     var trigger = 'EN';
@@ -226,7 +253,7 @@
     var langLinks = '';
     for (var i = 0; i < LANGUAGES.length; i++) {
       var l = LANGUAGES[i];
-      langLinks += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage) + '"' +
+      langLinks += '<a href="' + buildLangUrl(l.code, ctx.actorSlug, ctx.isActorPage, ctx.isTutorialDetail) + '"' +
         (l.code === ctx.currentLang ? ' class="active"' : '') + '>' + l.triggerLabel + '</a>';
     }
 
