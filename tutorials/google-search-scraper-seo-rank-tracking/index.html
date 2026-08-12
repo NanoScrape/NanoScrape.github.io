@@ -6,7 +6,6 @@
   <title>How to Build an SEO Rank Tracking Tool with Google Search Scraper (2026 Guide) | NanoScrape</title>
   <meta name="description" content="Step-by-step guide to tracking keyword rankings with the NanoScrape Google Search Scraper on Apify. Scrape SERP positions for any keyword list, schedule daily runs, and monitor your domain&#39;s rank over time. $1.50 per 1,000 SERP pages.">
   <meta name="primary-keyword" content="seo rank tracking tool">
-  <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="How to Build an SEO Rank Tracking Tool with Google Search Scraper | NanoScrape">
   <meta property="og:description" content="Monitor your keyword rankings daily with no monthly subscription. Scrape Google SERPs for organic positions, AI Overviews, and PAA questions at $1.50 per 1,000 pages.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-search-scraper-seo-rank-tracking/">
@@ -267,9 +266,6 @@
   </style>
 </head>
 <body>
-  <div class="draft-banner">
-    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
-  </div>
 
   <div id="site-header"></div>
 
@@ -301,6 +297,7 @@
       <ol>
         <li><a href="#what-you-get">What you get</a></li>
         <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#keyword-research">Find keywords worth tracking</a></li>
         <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
         <li><a href="#step-2">Step 2: Open the Google Search Scraper</a></li>
         <li><a href="#step-3">Step 3: Build your keyword list</a></li>
@@ -334,6 +331,44 @@
         <li>Your domain name (for example, <code class="code-inline">yoursite.com</code>) so you can identify your own entries in the results.</li>
       </ul>
 
+    <h2 id="keyword-research">Find keywords worth tracking</h2>
+    <p>Before you start scraping SERPs, you need a keyword list that is actually worth tracking. Targeting queries with zero or negligible search volume means you are measuring rankings nobody cares about. <a target="_blank" rel="noopener" href="https://dataforseo.com/?aff=320516">DataForSEO</a> gives you real Google search volume data via API, so you can build a list based on actual demand rather than guesswork.</p>
+    <p>The two most useful endpoints for this workflow are:</p>
+    <ul>
+        <li><strong>Search Volume (live)</strong>: <code class="code-inline">/keywords_data/google/search_volume/live</code>. Pass a list of keywords and get back monthly search volume, competition level, CPC, and trend data for each. Use this to filter out keywords below your minimum volume threshold.</li>
+        <li><strong>Keyword Ideas (live)</strong>: <code class="code-inline">/dataforseo_labs/google/keyword_ideas/live</code>. Pass a seed keyword and get back related queries ranked by volume. Great for discovering which long-tail variants your competitors are ranking for.</li>
+      </ul>
+    <p>Here is a minimal example that takes a seed keyword, fetches related ideas, and filters to those with at least 100 monthly searches:</p>
+    <div class="code-block"><pre>const response = await fetch(
+  'https://api.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live',
+  {
+    method: 'POST',
+    headers: {
+      Authorization: 'Basic ' + btoa('YOUR_LOGIN:YOUR_PASSWORD'),
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify([{
+      keyword: 'rank tracking tool',
+      location_code: 2840,   // United States
+      language_code: 'en',
+      limit: 100,
+    }]),
+  }
+);
+const { tasks } = await response.json();
+const ideas = tasks[0].result[0].items;
+
+// Filter to keywords with real search volume
+const trackable = ideas
+  .filter(k =&gt; k.keyword_info.search_volume &gt;= 100)
+  .map(k =&gt; ({ keyword: k.keyword, volume: k.keyword_info.search_volume }))
+  .sort((a, b) =&gt; b.volume - a.volume);
+
+console.log('Keywords to track:', trackable);
+// Pass trackable.map(k =&gt; k.keyword) directly into the scraper's queries field</pre></div>
+    <div class="callout tip"><strong>DataForSEO has a free trial with no credit card required.</strong> You get $1 of API credit to test with, enough to look up volume for several hundred keywords. Sign up at <a target="_blank" rel="noopener" href="https://dataforseo.com/?aff=320516">dataforseo.com</a> and use the credentials you receive as the <code class="code-inline">YOUR_LOGIN:YOUR_PASSWORD</code> values above.</div>
+    <p>Once you have filtered your list down to keywords with meaningful volume, paste them into the scraper's <code class="code-inline">queries</code> field in Step 3. This way every run measures positions for queries that real users are actually typing.</p>
+
     <div class="step" id="step-1">
       <span class="step-number">STEP 1</span>
       <h2>Create a free Apify account</h2>
@@ -361,9 +396,9 @@
       <p>Click <strong>Input</strong> in the left sidebar. Enter one keyword per line in the <strong>Search Queries</strong> field. Each keyword runs as a separate Google search and produces one dataset row per SERP page.</p>
       <div class="code-block"><pre>{
   "queries": [
-    "best project management software",
-    "project management tool for small teams",
-    "free project management app"
+    "best seo rank tracking tool",
+    "google search position checker",
+    "keyword rank tracker free"
   ],
   "countryCode": "us",
   "languageCode": "en",
