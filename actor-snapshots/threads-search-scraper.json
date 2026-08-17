@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/threads-search-scraper",
+  "name": "threads-search-scraper",
+  "title": "Threads Search & Profile Scraper",
+  "description": "Search Threads.net by keyword or scrape any public profile's posts. Returns post text, author, like count, reply count, repost count, and timestamp. No login required. Pay-per-result: $0.50/1,000 posts.",
+  "readme": "# Threads Search & Profile Scraper\n\nSearch [Threads.net](https://www.threads.net/) by keyword or scrape any public profile's posts — no account required. Extract post text, author details, like count, reply count, repost count, and timestamps in bulk.\n\n## Features\n\n- **Keyword search** — find posts matching any topic across all of Threads\n- **Profile scraping** — extract recent posts from any public Threads account\n- **No login required** — uses Threads' publicly accessible server-rendered pages\n- **Engagement metrics** — like count, reply count, repost count, and quote count\n- **Deduplication** — the same post is never returned twice across queries\n- **Challenge detection** — skips bot-protection pages and logs a warning\n- **Pay-per-result** — only pay for posts you receive\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=nanoscrape/threads-search-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `threads-search-scraper` to search Threads for 'sustainable fashion' and return the 20 most recent posts with author names and like counts.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Data Extracted\n\n| Field | Example |\n|-------|---------|\n| `post_id` | `\"3368741234567890123\"` |\n| `text` | `\"Just launched our new AI feature!\"` |\n| `author_username` | `\"zuck\"` |\n| `author_name` | `\"Mark Zuckerberg\"` |\n| `author_verified` | `true` |\n| `like_count` | `42500` |\n| `reply_count` | `1230` |\n| `repost_count` | `870` |\n| `quote_count` | `140` |\n| `posted_at` | `\"2026-05-01T14:30:00Z\"` |\n| `post_url` | `\"https://www.threads.net/@zuck/post/C6abc123xyz\"` |\n| `has_media` | `false` |\n| `search_query` | `\"AI art\"` |\n| `source_platform` | `\"threads.net\"` |\n| `scraped_at` | `\"2026-05-04T11:00:00Z\"` |\n\n## Pricing\n\nPay-per-result pricing. You only pay for posts you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.25 | One-time container startup fee |\n| Post scraped | $0.50 / 1,000 | Each Threads post returned |\n\n**Examples:**\n- 100 posts = **$0.30** total ($0.25 start + $0.05 results)\n- 1,000 posts = **$0.75** total\n- 5,000 posts = **$2.75** total\n\nNo monthly fees. No minimum spend.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `searchQueries` | string[] | Keywords to search on Threads.net | — |\n| `profileUrls` | string[] | Profile URLs or usernames to scrape | — |\n| `maxPostsPerQuery` | integer | Max posts per search or profile | `50` |\n| `maxResults` | integer | Hard cap on total posts (0 = unlimited) | `0` |\n| `proxyConfiguration` | object | Apify proxy settings | Auto |\n\n## Usage Examples\n\n### Search by keyword\n\n```json\n{\n  \"searchQueries\": [\"AI art\", \"machine learning\"],\n  \"maxPostsPerQuery\": 50\n}\n```\n\n### Scrape a public profile\n\n```json\n{\n  \"profileUrls\": [\"@zuck\", \"https://www.threads.net/@natgeo\"],\n  \"maxPostsPerQuery\": 30\n}\n```\n\n### Combine search and profiles with result cap\n\n```json\n{\n  \"searchQueries\": [\"climate change\"],\n  \"profileUrls\": [\"bbcnews\", \"nytimes\"],\n  \"maxPostsPerQuery\": 50,\n  \"maxResults\": 200\n}\n```\n\n## Notes\n\n- Threads uses server-side rendering: the first page of results is available without executing JavaScript.\n- Threads does not expose public paginated API endpoints without authentication, so each search or profile fetch returns one batch of SSR posts.\n- If a profile requires login to view, the actor logs a warning and skips it.\n- For monitoring social topics over time, run the actor on a schedule via Apify's scheduler.\n",
+  "readmeSource": "actors/social-media/threads-search-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-06-01T16:01:36.473Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "Charged once per run when the actor starts.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "threads-result",
+        "title": "Threads post record",
+        "description": "Charged per Threads post returned ($0.50 per 1,000 posts). Records include text, author, like/reply/repost counts, and timestamp.",
+        "isPrimary": false,
+        "priceUsd": 0.0005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.156Z"
+}

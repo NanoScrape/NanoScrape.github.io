@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/france-travail-scraper",
+  "name": "france-travail-scraper",
+  "title": "France Travail Job Scraper - French Jobs",
+  "description": "Scrapes job listings from France Travail (formerly Pole Emploi), France's public employment service with 500,000+ active listings. Extract title, company, location, contract type, salary, and full description. Supports multi-query search with deduplication. HTTP-only, 128MB.",
+  "readme": "# France Travail Job Scraper\n\nScrape job listings from **France Travail** (formerly Pole Emploi), France's public employment service with 500,000+ active job listings. Extract title, company, location, contract type, salary, and full description.\n\nHTTP-only scraper using Cheerio (no browser). Runs at 128MB memory.\n\n---\n\n## Scraper d'offres d'emploi France Travail\n\nScrapez les offres d'emploi de **France Travail** (anciennement Pole Emploi), le service public de l'emploi en France avec plus de 500 000 offres actives. Extrayez le titre, l'entreprise, la localisation, le type de contrat, le salaire et la description complete.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/france-travail-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `france-travail-scraper` to scrape job listings from france travail. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Related Actors\n\nLooking for more job data? Check out our other scrapers:\n\n**Global**\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-scraper)\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper)\n\n**DACH Region**\n- [Jobs.ch Scraper](https://apify.com/santamaria-automations/jobs-ch-scraper)\n- [StepStone.de Scraper](https://apify.com/santamaria-automations/stepstone-de-scraper)\n- [Karriere.at Scraper](https://apify.com/santamaria-automations/karriere-at-scraper)\n\n**Nordics**\n- [Arbetsformedlingen.se Scraper](https://apify.com/santamaria-automations/arbetsformedlingen-se-scraper) -- Swedish jobs\n- [Jobindex.dk Scraper](https://apify.com/santamaria-automations/jobindex-dk-scraper) -- Danish jobs\n\n**UK**\n- [Reed.co.uk Scraper](https://apify.com/santamaria-automations/reed-uk-scraper) -- UK jobs\n\n**Enrich your job data**\n- [Website Job Extractor](https://apify.com/santamaria-automations/website-job-extractor)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n---\n\n## Features\n\n- **500,000+ active listings** from France's largest public job board\n- **Multi-query support** -- run multiple search keywords in one execution, deduplicated\n- **SERP + Detail modes** -- fast SERP-only or full detail extraction with salary and remote info\n- **French contract types** -- CDI, CDD, interim, alternance, stage\n- **Remote detection** -- detects teletravail (remote work) mentions\n- **Salary parsing** -- structured min/max from French salary formats (annuel, mensuel, horaire)\n- **Location filtering** -- filter by department code (75 = Paris, 69 = Lyon, etc.)\n- **Low cost** -- 128MB memory, HTTP-only\n\n## Output Fields\n\n| Field | Type | Description |\n|---|---|---|\n| `id` | string | France Travail offer ID |\n| `title` | string | Job title |\n| `company` | string/null | Hiring company name |\n| `location` | string | Job location (city, department) |\n| `country` | string | Always \"FR\" |\n| `employment_type` | string/null | full-time, temporary, internship, etc. |\n| `remote_option` | string/null | remote, hybrid, or null |\n| `salary_min` | number/null | Minimum salary (EUR) |\n| `salary_max` | number/null | Maximum salary (EUR) |\n| `salary_text` | string/null | Salary as displayed |\n| `description_snippet` | string/null | Short description (max 500 chars) |\n| `description_full` | string/null | Full description (detail mode only) |\n| `posted_at` | string/null | Publication date |\n| `source_url` | string | France Travail listing URL |\n| `source_platform` | string | Always \"francetravail.fr\" |\n| `search_query` | string/null | The search keyword that found this job |\n| `scraped_at` | string | Scrape timestamp (ISO 8601) |\n\n## Input Examples\n\n### Basic search\n```json\n{\n  \"searchQuery\": \"developpeur\",\n  \"maxResults\": 50\n}\n```\n\n### Multi-query with location\n```json\n{\n  \"searchQueries\": [\"developpeur\", \"ingenieur\", \"data scientist\"],\n  \"location\": \"75\",\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 100\n}\n```\n\n### With full details (salary + description)\n```json\n{\n  \"searchQueries\": [\"developpeur python\"],\n  \"includeDetails\": true,\n  \"maxResults\": 50\n}\n```\n\n## Pricing\n\n| Event | Price (USD) | Description |\n|---|---|---|\n| `job-start` | $0.05 | Per actor run |\n| `job-serp-result` | $0.003 | Per job listing from search results |\n| `job-detail-result` | $0.008 | Per job detail page fetched |\n\n",
+  "readmeSource": "actors/jobs/france-travail/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T13:27:10.647Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Search result scraped",
+        "description": "A job listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job details extracted",
+        "description": "Full job data from detail page including description and requirements",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.270Z"
+}

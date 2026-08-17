@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/tiktok-followers-scraper",
+  "name": "tiktok-followers-scraper",
+  "title": "TikTok Followers Scraper",
+  "description": "Scrape the follower list of any public TikTok account. Returns username, display name, bio, verified status, follower count, and profile URL for each follower. No login required. Pay-per-result.",
+  "readme": "# TikTok Followers Scraper\n\nScrape the full follower list of any public [TikTok](https://www.tiktok.com/) account. Supply one or more usernames and receive a structured dataset of their followers — including username, display name, bio, verified status, follower count, and profile URL. No login required.\n\n## Features\n\n- **Multiple profiles** — scrape followers for several accounts in a single run\n- **Pagination** — automatically pages through all followers up to the optional limit\n- **No login required** — uses TikTok's public profile and follower endpoints\n- **Username or URL input** — accepts bare usernames, `@username`, or full TikTok URLs\n- **Challenge detection** — logs a warning and skips accounts that trigger bot-protection pages\n- **Per-profile limit** — optionally cap the number of followers returned per account\n- **Pay-per-result** — only pay for follower records you receive\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/tiktok-followers-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `tiktok-followers-scraper` to get the first 200 followers of 'charlidamelio'. Return a table showing username, display name, verified status, and follower count.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Data Extracted\n\n| Field | Example |\n|-------|---------|\n| `source_username` | `\"charlidamelio\"` |\n| `username` | `\"khaby.lame\"` |\n| `display_name` | `\"Khabane lame\"` |\n| `bio` | `\"Just a simple guy\"` |\n| `verified` | `true` |\n| `avatar_url` | `\"https://p16-sign.tiktokcdn-us.com/...\"` |\n| `follower_count` | `157000000` |\n| `following_count` | `1000` |\n| `profile_url` | `\"https://www.tiktok.com/@khaby.lame\"` |\n| `scraped_at` | `\"2026-04-29T10:00:00Z\"` |\n\n## Pricing\n\nPay-per-result pricing. You only pay for follower records you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.25 | One-time container startup fee |\n| Follower scraped | $0.50 / 1,000 | Each follower record returned |\n\n**Examples:**\n- 1,000 followers = **$0.75** total ($0.25 start + $0.50 results)\n- 10,000 followers = **$5.25** total\n\nNo monthly fees. No minimum spend.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `profiles` | string[] | TikTok usernames, `@username` handles, or full profile URLs to scrape followers for | — |\n| `maxFollowersPerProfile` | integer | Maximum followers to return per profile. `0` means no limit. | `0` |\n| `proxyConfiguration` | object | Apify proxy settings | Auto |\n\n## Usage Examples\n\n### Scrape followers of a single account\n\n```json\n{\n  \"profiles\": [\"charlidamelio\"],\n  \"maxFollowersPerProfile\": 1000\n}\n```\n\n### Scrape followers for multiple accounts\n\n```json\n{\n  \"profiles\": [\n    \"https://www.tiktok.com/@charlidamelio\",\n    \"@khaby.lame\",\n    \"mrbeast\"\n  ],\n  \"maxFollowersPerProfile\": 500,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  }\n}\n```\n\n### Unlimited followers (scrapes all)\n\n```json\n{\n  \"profiles\": [\"somebrand\"],\n  \"maxFollowersPerProfile\": 0\n}\n```\n\n## Output\n\nResults are exported to the default dataset. The **Followers Overview** table view shows source account, username, display name, bio, verified status, follower count, following count, and profile URL.\n\nExport to JSON, CSV, Excel, or connect via the Apify API.\n\n## FAQ\n\n**Which accounts can be scraped?**\nAny public TikTok account. Private accounts and accounts that require login to view are not supported.\n\n**What does `follower_count: null` mean?**\nThe follower record was returned but the stats block was not populated for that user — this can happen for new or very small accounts. The username and profile URL are still valid.\n\n**Can I scrape the full follower list of a large account?**\nYes. Leave `maxFollowersPerProfile` at `0` to scrape without limit. Be aware that accounts with millions of followers may take a long time and incur higher costs.\n\n**Is the follower list in any particular order?**\nTikTok returns followers in reverse-chronological order (most recent first). The order may vary slightly depending on the account size and pagination behaviour.\n\n**What happens if TikTok shows a challenge page?**\nThe actor detects common challenge-page indicators and skips the affected account with an error log entry. Other accounts in the run continue normally.\n",
+  "readmeSource": "actors/social-media/tiktok-followers-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-06-12T12:39:05.929Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "One-time container startup fee per run. Covers the real-browser session TikTok requires for the signed follower endpoint.",
+        "isPrimary": false,
+        "priceUsd": 0.03,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "follower-result",
+        "title": "TikTok follower delivered",
+        "description": "Charged per public TikTok follower returned ($0.80 per 1,000 followers). Includes username, stable user ID, secUid, display name, bio, verified badge, follower / following counts, avatar URL, and the source profile reference.",
+        "isPrimary": true,
+        "priceUsd": 0.0008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.196Z"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/dasoertliche-de-scraper",
+  "name": "dasoertliche-de-scraper",
+  "title": "Das Örtliche Scraper - German Phone Directory",
+  "description": "Scrape business listings from dasoertliche.de, Germany's phone directory. Extract names, phone numbers, emails, addresses, geo coordinates, and optionally websites and opening hours. HTTP-only, low RAM usage.",
+  "readme": "# Das Örtliche Scraper\n\nScrape business listings from [dasoertliche.de](https://www.dasoertliche.de), Germany's phone directory.\n\n## Features\n\n- **JSON-LD extraction** — Reliable structured data from ItemList with LocalBusiness entries\n- **25 results per page** with automatic pagination\n- **Phone numbers** — Direct from JSON-LD structured data\n- **Geo coordinates** — Latitude/longitude for each business\n- **Optional detail pages** — Website URLs, email, fax, opening hours, logo, ratings, social links\n- **HTTP-only** — Low memory (~128MB), fast execution\n- **Pay-per-result** pricing via Apify billing events\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/dasoertliche-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `dasoertliche-de-scraper` to scrape company data from dasoertliche de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\n| Field | Type | Default | Description |\n|-------|------|---------|-------------|\n| `keyword` | string | required | Business type (e.g., \"Zahnarzt\", \"Restaurant\") |\n| `city` | string | required | City to search in (e.g., \"Berlin\", \"München\") |\n| `maxResults` | number | 100 | Maximum results to scrape |\n| `includeDetails` | boolean | false | Fetch detail pages for website/email/hours |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output Fields\n\n### From SERP (always available)\n- `name` — Business name\n- `phone` — Phone number\n- `address` — Full address\n- `street`, `city`, `postal_code`, `region` — Address components\n- `latitude`, `longitude` — Geo coordinates\n- `detail_url` — Link to detail page\n\n### From Detail Page (when `includeDetails=true`)\n- `website` — Business website URL\n- `email` — Email address\n- `fax` — Fax number\n- `opening_hours` — Business hours\n- `additional_phones` — Extra phone numbers\n- `logo_url` — Business logo image URL (from Kundenlogo or itemprop image)\n- `ratings` — Aggregated web ratings as key-value pairs, e.g. `{ \"Google\": \"4.3/5 aus 3 Bewertungen\" }` (platforms: Google, Jameda, Sanego, Yelp, golocal, Kununu, ProvenExpert, etc.)\n- `social_links` — Social media profile URLs as key-value pairs, e.g. `{ \"facebook\": \"https://...\" }` (facebook, instagram, xing, linkedin, youtube)\n\n## Pricing Events\n\n| Event | Price |\n|-------|-------|\n| `directory-start` | $0.05 |\n| `directory-serp-result` | $0.003 |\n| `directory-detail-result` | $0.005 |\n\n## Enrichment add-ons\n\nAfter the scrape completes, this actor can automatically trigger AI-powered extraction on every website found in the results. Each add-on runs as a separate actor and produces its own dataset.\n\n### Contact extraction\n\nExtracts team member names, email addresses, phone numbers, positions, and departments from company websites. Powered by the [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor).\n\nEnable it by setting `enableContactExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `CONTACT_EXTRACTOR_RUN_ID`.\n\n### Job listing extraction\n\nExtracts open positions, job titles, locations, departments, and career page URLs from company websites. Powered by the [Website Job Extractor](https://apify.com/santamaria-automations/website-job-extractor).\n\nEnable it by setting `enableJobExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `JOB_EXTRACTOR_RUN_ID`.\n\n### Browser fallback\n\nSome company websites are built with JavaScript frameworks (React, Vue, Angular) that require a full browser to render. When `enableBrowserFallback` is set to `true`, the contact/job extractors will automatically re-scrape these sites with Playwright. This catches ~25% more sites but increases cost and runtime. Only applies when contact or job extraction is enabled.\n\n### LLM API keys\n\nBoth add-ons use LLMs to extract structured data. Provide one or more API keys. When multiple keys are provided, the system uses them in priority order with automatic fallback:\n\n1. **Gemini** (recommended) -- Best quality-to-cost ratio. Free tier includes 1M tokens/min. Get a key at [Google AI Studio](https://aistudio.google.com/app/apikey).\n2. **Groq** (optional) -- Ultra-fast inference. Get a key at [Groq Console](https://console.groq.com/keys).\n3. **OpenRouter** (optional) -- Access to 100+ models. Get a key at [OpenRouter](https://openrouter.ai/keys).\n\nOne key is sufficient. With multiple keys, if the primary provider hits a rate limit, the system falls back to the next available provider automatically.\n\n## Related Actors\n\n**DACH Business Directories**\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Swiss Company Data**\n- [Zefix.ch Scraper](https://apify.com/santamaria-automations/zefix-ch-scraper) -- Official Swiss commercial register\n- [Moneyhouse.ch Scraper](https://apify.com/santamaria-automations/moneyhouse-ch-scraper) -- Swiss company registry\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n\n## Support\n\nFound a bug or have a feature request? [Open an issue](https://console.apify.com/actors/5302DN15QNdwWPZ1s/issues).\n",
+  "readmeSource": "actors/directories/dasoertliche-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-12T12:46:47.773Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.05,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "SERP listing scraped",
+        "description": "Basic listing: name, phone, address",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Detail page scraped",
+        "description": "Full profile: website, hours, geo",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.889Z"
+}

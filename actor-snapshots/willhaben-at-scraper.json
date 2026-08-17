@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/willhaben-at-scraper",
+  "name": "willhaben-at-scraper",
+  "title": "Willhaben.at Scraper - Austrian Classifieds",
+  "description": "Scrape classified listings from willhaben.at, Austria's #1 classifieds platform. Cars, real estate, jobs, electronics and more. Paste any search URL with all filters. HTTP-only, fast, pay-per-result.",
+  "readme": "# Willhaben.at Scraper\n\nScrape classified listings from [willhaben.at](https://www.willhaben.at), Austria's largest classifieds platform with 10M+ monthly visitors.\n\n## How it works\n\n1. Go to [willhaben.at](https://www.willhaben.at) and set up your search with all desired filters (category, location, price range, make, model, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n\nThat's it. The actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/willhaben-at-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `willhaben-at-scraper` to scrape company data from willhaben at. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** — Whatever you can filter on willhaben.at, the actor can scrape\n- **All categories** — Marketplace, Real Estate (Immobilien), Jobs, Autos\n- **Multiple searches** — Paste multiple URLs to run several searches in one run\n- **Detail enrichment** — Optionally get full descriptions from detail pages\n- **Fast & cheap** — HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Description | Source |\n|-------|-------------|--------|\n| `id` | Willhaben ad ID | Search |\n| `title` | Ad title | Search |\n| `description` | Ad description text | Search |\n| `price` | Price in EUR | Search |\n| `location` / `state` / `district` / `postcode` | Location details | Search |\n| `latitude` / `longitude` | GPS coordinates | Search |\n| `seller_name` / `seller_type` | Seller info (private/professional) | Search |\n| `image_url` / `image_urls` | Images | Search |\n| `posted_at` | Publication date (ISO 8601) | Search |\n| `source_url` | Direct link to listing | Search |\n| `scraped_at` | Scrape timestamp (ISO 8601) | Search |\n\n## Pricing\n\nNo start fee — pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (basic) | $0.003 |\n| Listing (with details) | $0.005 |\n\n**100 listings = $0.30** (basic) or **$0.50** (with details)\n\n## Examples\n\n### Used BMWs under 10,000 EUR\n```json\n{\n  \"searchUrls\": [\"https://www.willhaben.at/iad/gebrauchtwagen/auto/gebrauchtwagenboerse?sfId=c6c228b5-2f72-4ee4-b843-933902bbc877&isNavigation=true&CAR_TYPE=10&CAR_MODEL/MAKE=1003&PRICE_TO=10000\"],\n  \"maxResults\": 50\n}\n```\n\n### Apartments in Vienna\n```json\n{\n  \"searchUrls\": [\"https://www.willhaben.at/iad/immobilien/mietwohnungen/mietwohnung-angebote?areaId=900\"],\n  \"maxResults\": 100\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.willhaben.at/iad/kaufen-und-verkaufen/marktplatz?keyword=iphone\",\n    \"https://www.willhaben.at/iad/kaufen-und-verkaufen/marktplatz?keyword=macbook\"\n  ],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 100\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n- [Subito.it Scraper — Italy](https://apify.com/santamaria-automations/subito-it-scraper)\n- [Njuskalo.hr Scraper — Croatia](https://apify.com/santamaria-automations/njuskalo-hr-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/e3pDPNYMmexKxoglh/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/willhaben-at/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-25T12:04:20.411Z",
+    "events": [
+      {
+        "key": "directory-serp-result",
+        "title": "Listing (basic)",
+        "description": "Per listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Listing (with details)",
+        "description": "Per listing with full details",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.651Z"
+}

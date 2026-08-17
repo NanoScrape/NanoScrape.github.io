@@ -1,0 +1,55 @@
+{
+  "slug": "santamaria-automations/autoscout24-scraper",
+  "name": "autoscout24-scraper",
+  "title": "AutoScout24 Scraper - European Car Marketplace",
+  "description": "Scrape vehicle listings from AutoScout24, Europe's largest online car marketplace. Extract prices, specs, mileage, dealer info, and images from millions of cars across 18 countries.",
+  "readme": "# AutoScout24 Scraper - European Car Marketplace\n\nScrape vehicle listings from [AutoScout24](https://www.autoscout24.de), Europe's largest online car marketplace with millions of listings across 18 countries.\n\n## What data can you get?\n\nFor each vehicle listing, the scraper extracts:\n\n- **Vehicle info**: make, model, version, body type, color\n- **Specs**: mileage, fuel type, transmission, power (HP/kW), doors, seats, drive train\n- **Pricing**: price, currency, first registration date\n- **Dealer**: name, location, phone, seller type (dealer/private)\n- **Media**: main image URL, all image URLs\n- **Meta**: listing ID, source URL, country code, scraped timestamp\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/autoscout24-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `autoscout24-scraper` to scrape product listings from autoscout24. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Option 1: Paste a search URL\n\n1. Go to [autoscout24.de](https://www.autoscout24.de) (or .ch, .at, .fr, .it, etc.)\n2. Use the filters to find the cars you want\n3. Copy the URL from your browser\n4. Paste it into the **Search URLs** field\n\n### Option 2: Use make/model filters\n\nSet the **Make** (e.g., \"BMW\") and **Model** (e.g., \"3er\") fields. You can also set price range, year range, fuel type, and country.\n\n## Input examples\n\n### Search by URL\n```json\n{\n  \"searchUrls\": [\"https://www.autoscout24.de/lst?sort=standard&desc=0&atype=C&cy=D&make=bmw&model=3er\"],\n  \"maxResults\": 100,\n  \"includeDetails\": true\n}\n```\n\n### Search by make/model\n```json\n{\n  \"make\": \"BMW\",\n  \"model\": \"3er\",\n  \"country\": \"DE\",\n  \"priceFrom\": 10000,\n  \"priceTo\": 30000,\n  \"maxResults\": 50,\n  \"includeDetails\": true\n}\n```\n\n### Budget electric cars in Germany\n```json\n{\n  \"make\": \"Volkswagen\",\n  \"model\": \"ID.3\",\n  \"country\": \"DE\",\n  \"fuelType\": \"electric\",\n  \"priceTo\": 25000,\n  \"maxResults\": 100\n}\n```\n\n## Output example\n\n```json\n{\n  \"id\": \"ca83343a-6238-4378-a33d-c7d069b24a14\",\n  \"title\": \"BMW 320d M Sport\",\n  \"make\": \"BMW\",\n  \"model\": \"320d\",\n  \"model_version\": \"M Sport\",\n  \"price\": 28900,\n  \"currency\": \"EUR\",\n  \"mileage_km\": 45000,\n  \"first_registration\": \"2021-06-01\",\n  \"fuel_type\": \"Diesel\",\n  \"transmission\": \"Automatik\",\n  \"power_hp\": 190,\n  \"power_kw\": 140,\n  \"body_type\": \"Limousine\",\n  \"color\": \"Schwarz\",\n  \"num_doors\": 4,\n  \"num_seats\": 5,\n  \"drive_train\": \"Hinterrad\",\n  \"dealer_name\": \"BMW Niederlassung Berlin\",\n  \"dealer_location\": \"10115 Berlin, DE\",\n  \"dealer_phone\": \"+4930123456\",\n  \"seller_type\": \"Dealer\",\n  \"image_url\": \"https://prod.pictures.autoscout24.net/listing-images/...\",\n  \"image_urls\": [\"...\"],\n  \"source_url\": \"https://www.autoscout24.de/angebote/...\",\n  \"source_platform\": \"autoscout24\",\n  \"country_code\": \"DE\",\n  \"scraped_at\": \"2026-03-31T12:00:00Z\"\n}\n```\n\n\n## Related Actors\n\n**E-Commerce & Price Comparison**\n\n- [AliExpress Scraper — Global marketplace](https://apify.com/santamaria-automations/aliexpress-scraper)\n- [Galaxus.ch Scraper — Swiss electronics retailer](https://apify.com/santamaria-automations/galaxus-ch-scraper)\n- [Groupon Scraper — Deals in 12 countries](https://apify.com/santamaria-automations/groupon-scraper)\n- [Booking.com Scraper — Hotel listings](https://apify.com/santamaria-automations/booking-com-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Supported countries\n\nDE (Germany), AT (Austria), CH (Switzerland), FR (France), IT (Italy), ES (Spain), NL (Netherlands), BE (Belgium), LU (Luxembourg), SE (Sweden)\n\n## Performance\n\n- **Speed**: ~20 listings per SERP page, detail pages add ~1.5s each\n- **Memory**: 128 MB (Go binary, no browser needed)\n- **Cost**: SERP result $0.003, detail result $0.005\n\n## Tips\n\n- **Without details**: Much faster, good for price monitoring and market overviews\n- **With details**: Gets body type, color, seats, doors, drive train, and description\n- **Multiple searches**: Pass multiple URLs to scrape different makes/models in one run\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/b3v3e29Sms7JRUvab/issues) and we'll look into it.\n",
+  "readmeSource": "actors/ecommerce/autoscout24/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T13:54:22.617Z",
+    "events": [
+      {
+        "key": "vehicle-serp-result",
+        "title": "Listing found",
+        "description": "A vehicle listing from search results with price, mileage, make, model, and images",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.003,
+          "BRONZE": 0.00297,
+          "SILVER": 0.00293,
+          "GOLD": 0.00287,
+          "PLATINUM": 0.00287,
+          "DIAMOND": 0.00287
+        }
+      },
+      {
+        "key": "vehicle-detail-result",
+        "title": "Details extracted",
+        "description": "Full vehicle data from detail page including body type, color, seats, doors, and description",
+        "isPrimary": false,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.005,
+          "BRONZE": 0.00497,
+          "SILVER": 0.00493,
+          "GOLD": 0.00487,
+          "PLATINUM": 0.00487,
+          "DIAMOND": 0.00487
+        }
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.520Z"
+}

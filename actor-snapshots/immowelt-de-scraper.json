@@ -1,0 +1,40 @@
+{
+  "slug": "santamaria-automations/immowelt-de-scraper",
+  "name": "immowelt-de-scraper",
+  "title": "Immowelt.de Scraper - German Real Estate Listings",
+  "description": "Scrape real estate listings from immowelt.de, Germany's #2 property platform. Extract price, rooms, area, address, publisher, and images from search results. Supports rent/buy for apartments, houses, land, and commercial properties. Fast and competitive pricing.",
+  "readme": "# Immowelt.de Scraper\n\nScrape real estate listings from [immowelt.de](https://www.immowelt.de), one of Germany's largest property platforms.\n\n## How To Use\n\n### Option 1: Paste a search URL (recommended)\n\nCopy any immowelt.de search URL from your browser with all your filters applied:\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.immowelt.de/liste/berlin/wohnungen/mieten\",\n    \"https://www.immowelt.de/liste/muenchen/haeuser/kaufen\"\n  ],\n  \"maxResults\": 30\n}\n```\n\n### Option 2: Use city and filters\n\n```json\n{\n  \"city\": \"berlin\",\n  \"listingType\": \"mieten\",\n  \"propertyType\": \"wohnung\",\n  \"maxResults\": 30\n}\n```\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/immowelt-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `immowelt-de-scraper` to scrape company data from immowelt de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## What You Get\n\n### Property data\n- Title, headline, description\n- Price (warm rent, cold rent, or purchase price)\n- Rooms, area (m²), floor, plot size\n- Property type and subtype (studio, penthouse, etc.)\n- Energy class, availability date\n- Full address with city and postcode\n- All listing images\n\n### Agent / company data\n- Company name (100% of listings)\n- Contact phone number (80% of listings)\n- Agency website, address, profile URL, imprint URL\n- Publisher type (agency or private owner)\n- Premium partner badge\n\n## Pricing\n\nPay-per-result pricing. You only pay for the data you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Listing scraped | $0.003 | A property listing with all available data |\n\n**Examples:**\n- 30 Berlin apartments = **$0.09**\n- 100 listings = **$0.30**\n\nNo monthly fees. No minimum spend.\n\n## Supported URL Formats\n\n- `https://www.immowelt.de/liste/berlin/wohnungen/mieten` — standard search\n- `https://www.immowelt.de/liste/deutschland/haeuser/kaufen` — all Germany\n- `https://www.immowelt.de/classified-search?distributionTypes=Buy&...` — auto-converted\n\nNote: `/classified-search` URLs are automatically converted to `/liste/` format. For best results with all filters preserved, use `/liste/` URLs directly.\n\n\n## Related Actors\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Oikotie.fi Scraper — Finnish real estate](https://apify.com/santamaria-automations/oikotie-fi-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/9io8vYSKX37vV9slX/issues) and we'll look into it.\n",
+  "readmeSource": "actors/directories/immowelt-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T00:30:11.766Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing scraped",
+        "description": "A real estate listing with price, rooms, area, address, agent contact, images, and energy class",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.00299,
+          "BRONZE": 0.00289,
+          "SILVER": 0.00275,
+          "GOLD": 0.0025,
+          "PLATINUM": 0.0025,
+          "DIAMOND": 0.0025
+        }
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.012Z"
+}

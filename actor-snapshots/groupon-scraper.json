@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/groupon-scraper",
+  "name": "groupon-scraper",
+  "title": "Groupon Deal Scraper (12 Countries)",
+  "description": "Scrape deals from Groupon across DE, US, UK, FR, IT, ES, NL, BE, AT, PL, AU, IE. Extract prices, discounts, merchant info, ratings, locations with GPS coordinates, and images. Optional detail pages for descriptions, options, reviews, and fine print. HTTP-only, ~100MB RAM, fast and lightweight.",
+  "readme": "# Groupon Deal Scraper — International\n\nScrapes deals from Groupon across **12 countries**: DE, US, UK, FR, IT, ES, NL, BE, AT, PL, AU, IE.\n\n## How it works\n\n1. Loads Groupon browse pages which contain `__NEXT_DATA__` with the full Apollo GraphQL cache\n2. Extracts deal cards (9 per page) from the SSR data — no browser needed\n3. **Category fan-out**: Discovers category sub-pages and loads each one to collect ~80 unique deals per city\n4. Deduplicates by UUID across categories\n5. Optionally fetches detail pages for full descriptions, options, locations, and reviews\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/groupon-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `groupon-scraper` to scrape company data from groupon. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `country` | enum | `DE` | Country code (DE, US, UK, FR, IT, ES, NL, BE, AT, PL, AU, IE) |\n| `city` | string | `berlin` | City name for URL path |\n| `category` | string | `\"\"` | Optional category slug filter |\n| `query` | string | `\"\"` | Optional search keyword (overrides browse) |\n| `maxResults` | integer | `100` | Max deals to return |\n| `includeDetails` | boolean | `false` | Fetch detail pages for full data |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output fields\n\n### SERP (always available)\n`title`, `deal_url`, `deal_id`, `deal_slug`, `merchant_name`, `merchant_rating`, `merchant_rating_count`, `price`, `original_price`, `currency`, `discount_percent`, `location_name`, `location_address`, `latitude`, `longitude`, `locations_total`, `image_url`, `category`\n\n### Detail (with `includeDetails: true`)\n`description`, `highlights`, `fine_print`, `sold_quantity`, `expiry_date`, `merchant_website`, `merchant_phone`, `merchant_address`, `opening_hours`, `review_rating`, `review_count`, `options[]`, `locations[]`\n\n## Performance\n\n- **HTTP-only** — CheerioCrawler, ~128MB RAM\n- **~80 deals per city** via category fan-out (no API calls needed)\n- Datacenter proxy works fine\n\n## Enrichment add-ons\n\nAfter the scrape completes, this actor can automatically trigger AI-powered extraction on every merchant website found in the results. Each add-on runs as a separate actor and produces its own dataset.\n\n### Contact extraction\n\nExtracts team member names, email addresses, phone numbers, positions, and departments from merchant websites. Powered by the [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor).\n\nEnable it by setting `enableContactExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `CONTACT_EXTRACTOR_RUN_ID`.\n\n### Job listing extraction\n\nExtracts open positions, job titles, locations, departments, and career page URLs from merchant websites. Powered by the [Website Job Extractor](https://apify.com/santamaria-automations/website-job-extractor).\n\nEnable it by setting `enableJobExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `JOB_EXTRACTOR_RUN_ID`.\n\n### Browser fallback\n\nSome websites are built with JavaScript frameworks (React, Vue, Angular) that require a full browser to render. When `enableBrowserFallback` is set to `true`, the contact/job extractors will automatically re-scrape these sites with Playwright. This catches ~25% more sites but increases cost and runtime. Only applies when contact or job extraction is enabled.\n\n### LLM API keys\n\nBoth add-ons use LLMs to extract structured data. Provide one or more API keys. When multiple keys are provided, the system uses them in priority order with automatic fallback:\n\n1. **Gemini** (recommended) -- Best quality-to-cost ratio. Free tier includes 1M tokens/min. Get a key at [Google AI Studio](https://aistudio.google.com/app/apikey).\n2. **Groq** (optional) -- Ultra-fast inference. Get a key at [Groq Console](https://console.groq.com/keys).\n3. **OpenRouter** (optional) -- Access to 100+ models. Get a key at [OpenRouter](https://openrouter.ai/keys).\n\nOne key is sufficient. With multiple keys, if the primary provider hits a rate limit, the system falls back to the next available provider automatically.\n\n\n## Related Actors\n\n**E-Commerce & Price Comparison**\n\n- [AutoScout24 Scraper — European car listings](https://apify.com/santamaria-automations/autoscout24-scraper)\n- [AliExpress Scraper — Global marketplace](https://apify.com/santamaria-automations/aliexpress-scraper)\n- [Galaxus.ch Scraper — Swiss electronics retailer](https://apify.com/santamaria-automations/galaxus-ch-scraper)\n- [Booking.com Scraper — Hotel listings](https://apify.com/santamaria-automations/booking-com-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Support\n\nFound a bug or have a feature request? [Open an issue](https://console.apify.com/actors/pj5yPSeJ0AyNzXjfj/issues).\n",
+  "readmeSource": "actors/directories/groupon/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-12T11:40:18.020Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Start",
+        "description": "Charged once per actor run when scraping begins",
+        "isPrimary": false,
+        "priceUsd": 0.05,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Search Result",
+        "description": "Charged per deal extracted from browse/category pages (title, price, merchant, location, image)",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Detail Result",
+        "description": "Charged per deal enriched with detail page data (description, options, all locations, reviews, fine print)",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.669Z"
+}

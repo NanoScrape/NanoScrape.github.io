@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/kompass-scraper",
+  "name": "kompass-scraper",
+  "title": "Kompass Scraper - Global B2B Company Directory",
+  "description": "Scrape company data from Kompass.com, a global B2B directory with 60M+ companies across 70+ countries. Extract names, websites, phone numbers, emails, addresses, employee counts, certifications, and more.",
+  "readme": "# Kompass Scraper - Global B2B Company Directory\n\nScrape company data from [Kompass.com](https://www.kompass.com), a global B2B directory with 60M+ companies across 70+ countries.\n\n## Anti-Bot Protection Note\n\nKompass.com uses DataDome anti-bot protection. For best results, use residential proxies (`RESIDENTIAL` group) with country matching enabled (e.g., `countryCode: \"DE\"` for German results). If you experience empty results, try running again — a fresh residential IP often passes the challenge.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/kompass-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `kompass-scraper` to scrape company data from kompass. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## What data do you get?\n\nFor each company, the scraper extracts:\n\n- **Company name** and description\n- **Website URL**, phone number, and email\n- **Full address** (street, postal code, city, country)\n- **GPS coordinates** (latitude/longitude)\n- **Employee count** (e.g., \"Von 20 bis 49 Mitarbeiter\")\n- **Year founded**\n- **Revenue/turnover**\n- **Supplier type** (Exporter, Manufacturer, Service provider, etc.)\n- **Product categories** and certifications (ISO, etc.)\n- **Company logo**\n\n## How to use\n\n### Option 1: Paste a search URL\n\n1. Go to any Kompass country site (e.g., [de.kompass.com](https://de.kompass.com)) and search for companies\n2. Copy the search results URL\n3. Paste it into the **Search URLs** field\n\nWorks with all Kompass country domains: `de.kompass.com`, `fr.kompass.com`, `gb.kompass.com`, `it.kompass.com`, `es.kompass.com`, and 70+ more.\n\n### Option 2: Use search query + country\n\nSet the **Search Query** (e.g., \"software\") and **Country** code (e.g., \"DE\") fields. The scraper builds the URL automatically.\n\n### Option 3: Paste company profile URLs directly\n\nYou can also paste company profile URLs (e.g., `https://in.kompass.com/c/rolex-rings-private-limited/in774979/`) into **Search URLs** to fetch a single company's full profile without paginating. Ideal for dedupe workflows: run a search-only pass first, dedupe against your database, then pay for detail only on the new companies.\n\n### Country filter for long searches\n\nKompass sometimes returns off-target results at the tail of long queries (e.g., a \"forged components India\" search may leak UAE companies beyond page 10). Setting the **Country** field alongside `searchUrls` enables a post-filter that drops non-matching results before the paid detail fetch.\n\n### Input example\n\n```json\n{\n  \"searchUrls\": [\"https://de.kompass.com/searchCompanies?text=software\"],\n  \"maxResults\": 100,\n  \"includeDetails\": true,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true,\n    \"apifyProxyGroups\": [\"RESIDENTIAL\"],\n    \"countryCode\": \"DE\"\n  }\n}\n```\n\n### Input parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `searchUrls` | array | Kompass search result URLs |\n| `searchQuery` | string | Search keyword (alternative to searchUrls) |\n| `country` | string | ISO country code for domain (default: \"DE\") |\n| `maxResults` | integer | Maximum companies to scrape (default: 100) |\n| `includeDetails` | boolean | Fetch detail pages for full data (default: true) |\n| `fetchCatalogueLinks` | boolean | Fetch media page to extract `catalogue_pdf` and `catalogue_video` (default: false) |\n| `proxyConfiguration` | object | Proxy settings (RESIDENTIAL recommended) |\n\n## Output example\n\n```json\n{\n  \"id\": \"DENKC00033877\",\n  \"name\": \"RLS Wacon analytics GmbH\",\n  \"description\": \"Die RLS Wacon analytics GmbH ist ein Familienunternehmen mit Sitz in Hildesheim...\",\n  \"website\": \"https://www.rls-wacon.de\",\n  \"phone\": \"+49 5121 28 126 0\",\n  \"email\": \"info@rls-wacon.de\",\n  \"address\": \"Gropiusstrasse 12, 31137 Hildesheim\",\n  \"city\": \"Hildesheim\",\n  \"postal_code\": \"31137\",\n  \"country\": \"Germany\",\n  \"country_code\": \"DE\",\n  \"latitude\": 52.16463,\n  \"longitude\": 9.92306,\n  \"logo_url\": \"https://img.kompass.com/sys-master-images/...\",\n  \"employee_count\": \"Von 20 bis 49 Mitarbeiter\",\n  \"year_founded\": \"2005\",\n  \"supplier_type\": \"Exporteur\",\n  \"categories\": [\"Elektrische Messgeraete und Steuergeraete\", \"Analysegeraete fuer Fluessigkeiten\"],\n  \"certifications\": [\"ISO 9001\"],\n  \"vat_number\": \"DE124391220\",\n  \"catalogue_url\": \"https://de.kompass.com/c/cv/rls-wacon-analytics-gmbh/denkc00033877/\",\n  \"catalogue_pdf\": \"https://prokcssmedia.blob.core.windows.net/sys-master-images/.../Wasserkatalog.pdf\",\n  \"catalogue_video\": \"https://www.youtube.com/watch?v=vpS9_St3K6s\",\n  \"source_url\": \"https://de.kompass.com/c/rls-wacon-analytics-gmbh/denkc00033877/\",\n  \"source_platform\": \"kompass.com\",\n  \"scraped_at\": \"2026-03-26T10:30:00Z\"\n}\n```\n\n## Tips\n\n- **Include Details = ON** gives you email, full address, coordinates, employee count, founding year, VAT/GST number, and more. Highly recommended.\n- **`catalogue_url`** is always the Kompass media page (listing brochures and videos). Enable **`fetchCatalogueLinks`** to also get `catalogue_pdf` (direct PDF download) and `catalogue_video` (YouTube/Vimeo link) — this makes one extra request per company.\n- **Include Details = OFF** is faster but only returns name, city, phone, website, and categories from search results.\n- **RESIDENTIAL proxy with country matching** is recommended. Kompass uses DataDome bot protection which may challenge datacenter IPs. Set `countryCode` in proxy config to match the Kompass domain (e.g., \"DE\" for de.kompass.com).\n- The scraper works with all 70+ Kompass country domains.\n- The scraper rotates through multiple Chrome TLS profiles and proxy sessions automatically for best success rates.\n\n## Known limitations\n\nKompass.com uses DataDome bot protection which requires JavaScript execution for initial challenge solving. The success rate depends on the proxy quality and IP reputation. If you consistently get 0 results, try:\n\n1. Using RESIDENTIAL proxy group with country matching\n2. Running at different times of day\n3. Reducing `maxResults` to avoid rate limiting\n\n## Pricing\n\nThis actor uses pay-per-result pricing:\n\n| Event | Price |\n|-------|-------|\n| Per run | $0.005 |\n| Per company (search only) | $0.003 |\n| Per company (with details) | $0.005 |\n\n",
+  "readmeSource": "actors/directories/kompass/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-09T12:31:31.117Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Company found (search)",
+        "description": "Basic company data from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full company profile",
+        "description": "Complete profile with contact details, certifications, products",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.686Z"
+}

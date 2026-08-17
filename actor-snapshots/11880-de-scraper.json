@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/11880-de-scraper",
+  "name": "11880-de-scraper",
+  "title": "11880.com Business Directory Scraper",
+  "description": "Scrape business listings from 11880.com, one of Germany's leading business directories. Extract company names, addresses, phone numbers, ratings, reviews, opening hours, and more. Supports keyword and location-based search with pagination.",
+  "readme": "# 11880.com Business Directory Scraper\n\nScrape business listings from [11880.com](https://www.11880.com), one of Germany's leading business directories with millions of entries.\n\n## Features\n\n- **Keyword + location search** — Find businesses by type and city (e.g., \"Zahnarzt\" in \"Berlin\")\n- **Rich contact data** — Name, address, phone, mobile, email, website, fax\n- **Category & services** — Primary category plus full list of services offered\n- **Company details** — About text, legal form (Rechtsform)\n- **Ratings & reviews** — Star ratings and review counts\n- **Company logos** — Displayed as images in the dataset table\n- **Opening hours** — Business hours when available\n- **GPS coordinates** — Latitude and longitude for mapping\n- **Detail page enrichment** — Optional deep scraping for full profiles\n- **Pagination** — Automatically crawls multiple result pages\n- **Pay-per-result pricing** — Only pay for what you scrape\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/11880-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `11880-de-scraper` to scrape company data from 11880 de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input Example\n\n```json\n{\n  \"searchQuery\": \"Wärmepumpe Installation\",\n  \"location\": \"Hamburg\",\n  \"maxResults\": 50,\n  \"includeDetails\": true\n}\n```\n\n## Output Example\n\n```json\n{\n  \"company_logo_url\": \"https://cdn.11880.com/example_fw280h210bffffff_hamburg.webp\",\n  \"name\": \"Hanse Elektroservice MI.CK UG (haftungsbeschränkt)\",\n  \"description\": \"Mit uns geht Ihnen ein Licht auf 💡\",\n  \"about\": \"Die Hanse Elektroservice MI.CK UG aus Hamburg steht für höchste Qualität und umfassenden Service in der Elektrotechnik...\",\n  \"legal_form\": \"UG (haftungsbeschränkt)\",\n  \"address\": \"Nobleestr. 5, 21075 Hamburg\",\n  \"street\": \"Nobleestr. 5\",\n  \"city\": \"Hamburg\",\n  \"postal_code\": \"21075\",\n  \"country\": \"DE\",\n  \"phone\": \"(01517) 0533854\",\n  \"mobile\": \"(01517) 0533854\",\n  \"fax\": null,\n  \"email\": \"hanseelektroservicemi.ck@web.de\",\n  \"website\": \"https://hanseelektroservicemick.de/\",\n  \"category\": \"Elektriker\",\n  \"subcategories\": [\"Elektriker\", \"Gebäudetechnik\", \"Photovoltaik\", \"Wärmepumpe\", \"Sicherheitstechnik\", \"Elektroinstallation\", \"Wärmepumpen\", \"Solaranlage installieren\", \"Altbauinstallationen\", \"Wallbox\"],\n  \"rating\": null,\n  \"review_count\": null,\n  \"opening_hours\": {\"Montag\": \"08:00-16:00\", \"Dienstag\": \"08:00-16:00\", \"Mittwoch\": \"08:00-16:00\", \"Donnerstag\": \"08:00-16:00\", \"Freitag\": \"08:00-15:00\"},\n  \"latitude\": 53.53616,\n  \"longitude\": 9.962919,\n  \"source_url\": \"https://www.11880.com/branchenbuch/hamburg/060691303B113629950/hanse-elektroservice-mi-ck-ug-haftungsbeschraenkt.html\",\n  \"source_platform\": \"11880.com\",\n  \"scraped_at\": \"2026-04-28T05:53:53Z\"\n}\n```\n\n## Input Parameters\n\n| Parameter | Type | Description | Default |\n|-----------|------|-------------|---------|\n| `searchQuery` | string | Search keyword (e.g., \"Rechtsanwalt\", \"Restaurant\") | Required |\n| `location` | string | City or region (e.g., \"Berlin\", \"München\") | Required |\n| `maxResults` | number | Maximum results to return | 100 |\n| `includeDetails` | boolean | Fetch detail pages for full profiles | true |\n| `proxyConfiguration` | object | Apify proxy settings | Auto |\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| Actor start | $0.005 |\n| Search result (SERP only) | $0.002 / result |\n| Detail result (with full profile) | $0.005 / result |\n\n",
+  "readmeSource": "actors/directories/11880-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T15:31:46.763Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Search result scraped",
+        "description": "A business listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full profile extracted",
+        "description": "Complete business profile from detail page",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.213Z"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/search-ch-scraper",
+  "name": "search-ch-scraper",
+  "title": "search.ch Scraper🇨🇭Swiss Business Directory (2M+ Listings)",
+  "description": "Scrape Swiss business listings from search.ch. Extract names, addresses, phone numbers, emails, websites, opening hours & GPS coordinates. Covers 2M+ entries across all cantons. HTTP-only, fast & lightweight. Pay-per-result pricing.",
+  "readme": "# search.ch Business Scraper\n\nScrapes business listings from [search.ch](https://search.ch/tel/), Switzerland's largest business directory with 2M+ entries.\n\n## Features\n\n- **SERP extraction**: Business name, address, phone, category, website\n- **Detail pages**: Email (decoded from obfuscation), opening hours, coordinates, fax, mobile\n- **Pagination**: Automatically follows all result pages\n- **Low memory**: HTTP-only, ~128MB (no browser)\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/search-ch-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `search-ch-scraper` to scrape company data from search ch. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\n| Field | Type | Default | Description |\n|-------|------|---------|-------------|\n| `query` | string | *required* | Business type / keyword (e.g., \"Zahnarzt\", \"Restaurant\") |\n| `location` | string | - | City or region (e.g., \"Zürich\", \"Bern\") |\n| `maxResults` | integer | 100 | Maximum results to return |\n| `includeDetails` | boolean | true | Fetch detail pages for email, hours, etc. |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output\n\nEach result includes:\n- `name`, `category`, `description`\n- `street`, `zip`, `city`, `canton`, `address`\n- `phone`, `mobile`, `fax`, `email`\n- `website`, `opening_hours`\n- `latitude`, `longitude`\n- `source_url`, `detail_url`, `scraped_at`\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| `directory-start` | Run start |\n| `directory-serp-result` | $0.003/result |\n| `directory-detail-result` | $0.005/result |\n\n## Enrichment add-ons\n\nAfter the scrape completes, this actor can automatically trigger AI-powered extraction on every website found in the results. Each add-on runs as a separate actor and produces its own dataset.\n\n### Contact extraction\n\nExtracts team member names, email addresses, phone numbers, positions, and departments from company websites. Powered by the [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor).\n\nEnable it by setting `enableContactExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `CONTACT_EXTRACTOR_RUN_ID`.\n\n### Job listing extraction\n\nExtracts open positions, job titles, locations, departments, and career page URLs from company websites. Powered by the [Website Job Extractor](https://apify.com/santamaria-automations/website-job-extractor).\n\nEnable it by setting `enableJobExtraction: true` and providing at least one LLM API key. The sub-actor run ID is stored in the key-value store as `JOB_EXTRACTOR_RUN_ID`.\n\n### Browser fallback\n\nSome company websites are built with JavaScript frameworks (React, Vue, Angular) that require a full browser to render. When `enableBrowserFallback` is set to `true`, the contact/job extractors will automatically re-scrape these sites with Playwright. This catches ~25% more sites but increases cost and runtime. Only applies when contact or job extraction is enabled.\n\n### LLM API keys\n\nBoth add-ons use LLMs to extract structured data. Provide one or more API keys. When multiple keys are provided, the system uses them in priority order with automatic fallback:\n\n1. **Gemini** (recommended) -- Best quality-to-cost ratio. Free tier includes 1M tokens/min. Get a key at [Google AI Studio](https://aistudio.google.com/app/apikey).\n2. **Groq** (optional) -- Ultra-fast inference. Get a key at [Groq Console](https://console.groq.com/keys).\n3. **OpenRouter** (optional) -- Access to 100+ models. Get a key at [OpenRouter](https://openrouter.ai/keys).\n\nOne key is sufficient. With multiple keys, if the primary provider hits a rate limit, the system falls back to the next available provider automatically.\n\n## Related Actors\n\n**Swiss Company Data**\n- [Zefix.ch Scraper](https://apify.com/santamaria-automations/zefix-ch-scraper) -- Official Swiss commercial register\n- [Moneyhouse.ch Scraper](https://apify.com/santamaria-automations/moneyhouse-ch-scraper) -- Swiss company registry\n\n**DACH Business Directories**\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Das Oertliche Scraper](https://apify.com/santamaria-automations/dasoertliche-de-scraper) -- German phone directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n\n## Support\n\nFound a bug or have a feature request? [Open an issue](https://console.apify.com/actors/v9ETBrllEEEHuIbJ8/issues).\n",
+  "readmeSource": "actors/directories/search-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-12T12:02:07.094Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Run started",
+        "description": "Charged once when the actor run starts",
+        "isPrimary": false,
+        "priceUsd": 0.05,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Search result scraped",
+        "description": "Charged for each business listing from search results (basic info)",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Detail page scraped",
+        "description": "Charged for each business with full detail page (email, hours, etc.)",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.577Z"
+}

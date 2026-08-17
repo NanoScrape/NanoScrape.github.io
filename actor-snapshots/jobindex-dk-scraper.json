@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/jobindex-dk-scraper",
+  "name": "jobindex-dk-scraper",
+  "title": "Jobindex.dk Job Scraper - Danish Jobs",
+  "description": "Scrapes job listings from Jobindex.dk, Denmark's largest job board. Extract title, company, location, salary, employment type, and full description. Supports multi-query search with deduplication. HTTP-only, 128MB.",
+  "readme": "# Jobindex.dk Scraper - Danish Jobs, Companies & Apply URLs\n\nExtract job listings from [Jobindex.dk](https://www.jobindex.dk) -- Denmark's largest job board with 18,000+ active listings across all industries and regions. Get structured data including job descriptions, company info, apply deadlines, and direct apply URLs. No code needed.\n\n---\n\n## What data can you extract?\n\nEvery job listing includes:\n\n**Job details**\n- Job title and unique ID\n- Full description (plain text + raw HTML)\n- Posting date (ISO 8601)\n- Apply deadline\n- Direct apply URL\n\n**Company details**\n- Company name\n- Company logo URL\n\n**Location**\n- City, area, or region in Denmark\n- Remote / home office indicator\n\n**Meta**\n- Source URL on Jobindex.dk\n- Which search query or URL found the job\n- Scrape timestamp\n\n---\n\n## Pricing\n\n**$3 per 1,000 jobs** -- simple, predictable pricing.\n\n| Jobs | Cost |\n|------|------|\n| 10 jobs | **$0.03** |\n| 100 jobs | **$0.30** |\n| 1,000 jobs | **$3.00** |\n\nEvery job includes the full description, company info, and apply URL. No hidden fees, no monthly subscription.\n\n---\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client -- Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=nanoscrape/jobindex-dk-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `jobindex-dk-scraper` to find IT jobs in Copenhagen. Return the top 20 results as a table with title, company, location, and deadline.\"\n\n> \"Use `jobindex-dk-scraper` to extract all marketing jobs in Denmark with their apply URLs.\"\n\n---\n\n## How to use\n\nThe scraper supports two input modes:\n\n### 1. Search URLs (recommended)\n\nGo to [jobindex.dk/jobsoegning](https://www.jobindex.dk/jobsoegning), set up your filters (category, region, keywords, employment type), and paste the URL. All filters are preserved automatically.\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.jobindex.dk/jobsoegning/it\",\n    \"https://www.jobindex.dk/jobsoegning?q=marketing&geoareaid=2&subid=1\"\n  ]\n}\n```\n\n### 2. Search Keywords\n\nEnter one or more keywords. The scraper searches Jobindex by keyword and returns matching jobs.\n\n```json\n{\n  \"searchQueries\": [\"software engineer\", \"sygeplejerske\", \"marketing\"],\n  \"maxResultsPerQuery\": 50\n}\n```\n\n---\n\n## Input reference\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `searchUrls` | string[] | Pre-filtered search URLs from [jobindex.dk](https://www.jobindex.dk/jobsoegning). |\n| `searchQueries` | string[] | One or more search keywords. |\n| `maxResultsPerQuery` | integer | Max results per keyword/URL (default 100). |\n| `maxResults` | integer | Total cap across all modes (default 10, 0 = unlimited). |\n| `proxyConfiguration` | object | Proxy settings. Datacenter proxies work great. |\n\n---\n\n## Output example\n\n```json\n{\n  \"id\": \"h1660918\",\n  \"title\": \"Senior Software Engineer\",\n  \"company\": \"Novo Nordisk\",\n  \"company_logo_url\": \"https://www.jobindex.dk/img/logo/novo_nordisk.png\",\n  \"location\": \"Bagsvaerd\",\n  \"tags\": [],\n  \"description_full\": \"We are looking for a Senior Software Engineer to join our digital health team...\",\n  \"description_html\": \"<p>We are looking for a Senior Software Engineer...</p>\",\n  \"salary_min\": null,\n  \"salary_max\": null,\n  \"salary_currency\": null,\n  \"salary_period\": null,\n  \"salary_text\": null,\n  \"posted_at\": \"2026-05-01T00:00:00Z\",\n  \"apply_deadline\": \"2026-05-21T21:59:59Z\",\n  \"source_url\": \"https://www.jobindex.dk/vis-job/h1660918\",\n  \"source_platform\": \"jobindex.dk\",\n  \"apply_url\": \"https://www.jobindex.dk/c?t=h1660918&ctx=w\",\n  \"search_query\": \"https://www.jobindex.dk/jobsoegning/it\",\n  \"scraped_at\": \"2026-05-04T14:30:00Z\"\n}\n```\n\n---\n\n## Speed\n\n| Jobs | ~Time | Memory |\n|------|-------|--------|\n| 10 | **~3 seconds** | ~16 MB |\n| 100 | **~15 seconds** | ~16 MB |\n| 1,000 | **~2 minutes** | ~20 MB |\n\nPagination is automatic. The scraper fetches 20 jobs per page and handles all page navigation.\n\n---\n\n## Integrations\n\nThis actor works with all Apify integrations:\n- **API** -- trigger runs and download results programmatically\n- **Webhooks** -- get notified when a run completes\n- **Zapier & Make** -- connect to 5,000+ apps\n- **Google Sheets** -- export directly to a spreadsheet\n- **Slack, Email** -- get notifications with results\n\n---\n\n## Related actors\n\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper) -- 60+ countries, salary & company enrichment\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-jobs-scraper) -- LinkedIn job listings\n- [StepStone Scraper](https://apify.com/santamaria-automations/stepstone-de-scraper) -- German job market\n- [Jobs.ch Scraper](https://apify.com/santamaria-automations/jobs-ch-scraper) -- Swiss job market\n\n---\n\nSomething not working? [Create an issue](https://console.apify.com/actors/TODO/issues) and we'll fix it fast.\n",
+  "readmeSource": "actors/jobs/jobindex-dk-go/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T13:44:32.056Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Search result scraped",
+        "description": "A job listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job details extracted",
+        "description": "Full job data from detail page including description and requirements",
+        "isPrimary": false,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.242Z"
+}

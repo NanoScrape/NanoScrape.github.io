@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/billiger-de-scraper",
+  "name": "billiger-de-scraper",
+  "title": "Billiger.de Price Comparison Scraper",
+  "description": "Scrape product prices from Billiger.de, Germany's largest price comparison platform with 100M+ offers. Compare prices across thousands of merchants. Extract product details, ratings, specifications, and the best deals.",
+  "readme": "# Billiger.de Price Comparison Scraper\n\nScrape product prices from [Billiger.de](https://www.billiger.de), Germany's largest price comparison platform with over 100 million product offers across 5,000+ categories.\n\n## Features\n\n- **Product search** — Find products by keyword (e.g., \"laptop\", \"smartphone\")\n- **Best prices** — Lowest price across all merchants\n- **Price counts** — Number of merchant offers per product\n- **Product images** — Displayed as images in the dataset table\n- **Ratings & reviews** — Aggregate ratings from verified buyers\n- **Detail enrichment** — Optional: brand, EAN, specs, merchant breakdown\n- **Category browsing** — Scrape entire product categories via URL\n- **Pay-per-result pricing** — Only pay for what you scrape\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/billiger-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `billiger-de-scraper` to scrape product listings from billiger de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output Example\n\n```json\n{\n  \"product_image_url\": \"https://cdn.billiger.com/example.webp\",\n  \"name\": \"Apple MacBook Air M4 2025\",\n  \"best_price\": 629,\n  \"price_currency\": \"EUR\",\n  \"price_count\": 42,\n  \"rating\": 3.9,\n  \"review_count\": 4,\n  \"brand\": \"Apple\",\n  \"ean\": \"1234567890123\",\n  \"source_platform\": \"billiger.de\"\n}\n```\n\n## Input Parameters\n\n| Parameter | Type | Description | Default |\n|-----------|------|-------------|---------|\n| `searchQuery` | string | Product search keyword | Required* |\n| `categoryUrl` | string | Direct category URL from billiger.de | Optional* |\n| `maxResults` | number | Maximum products to return | 50 |\n| `includeDetails` | boolean | Fetch detail pages for specs, brand, EAN | false |\n| `proxyConfiguration` | object | Apify proxy settings | Auto |\n\n*Provide either `searchQuery` or `categoryUrl`.\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| Actor start | $0.005 |\n| Search result (SERP only) | $0.003 / result |\n| Detail result (with specs) | $0.008 / result |\n\n## Use Cases\n\n- **Price monitoring** — Track competitor prices across German e-commerce\n- **Market research** — Analyze pricing trends by category\n- **Dropshipping** — Find products with the best margin potential\n- **Product intelligence** — Compare specs and ratings at scale\n\n",
+  "readmeSource": "actors/ecommerce/billiger-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T15:32:11.385Z",
+    "events": [
+      {
+        "key": "ecommerce-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-serp-result",
+        "title": "Product found",
+        "description": "A product listing with best price from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-detail-result",
+        "title": "Product details extracted",
+        "description": "Full product specs, brand, EAN, merchant breakdown",
+        "isPrimary": false,
+        "priceUsd": 0.008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.588Z"
+}

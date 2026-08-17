@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/arbetsformedlingen-se-scraper",
+  "name": "arbetsformedlingen-se-scraper",
+  "title": "Arbetsformedlingen Job Scraper - Swedish Jobs",
+  "description": "Scrapes Swedish job listings from Arbetsformedlingen (Platsbanken) via the free JobTech API. No authentication required. Returns structured data: title, description, company, location, deadline, logo URL. HTTP-only, 128MB.",
+  "readme": "# Arbetsformedlingen.se Job Scraper\n\nScrape Swedish government job listings from **Arbetsformedlingen** (Platsbanken), Sweden's Public Employment Service, via the free [JobTech Search API](https://jobsearch.api.jobtechdev.se).\n\nNo authentication, no proxy, no browser required. Pure HTTP JSON API calls at 128MB memory.\n\n---\n\n## Arbetsformedlingen.se Jobbskrapare\n\nSkrapa svenska platsannonser fran **Arbetsformedlingen** (Platsbanken), Sveriges offentliga arbetsformedling, via det kostnadsfria [JobTech Search API:et](https://jobsearch.api.jobtechdev.se).\n\nIngen autentisering, ingen proxy, ingen webblasare kravs. Rena HTTP JSON API-anrop med 128MB minne.\n\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/arbetsformedlingen-se-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `arbetsformedlingen-se-scraper` to scrape job listings from arbetsformedlingen se. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Related Actors\n\nLooking for more job data? Check out our other scrapers:\n\n**Global**\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-scraper)\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper)\n\n**DACH Region**\n- [Jobs.ch Scraper](https://apify.com/santamaria-automations/jobs-ch-scraper)\n- [StepStone.de Scraper](https://apify.com/santamaria-automations/stepstone-de-scraper)\n- [Karriere.at Scraper](https://apify.com/santamaria-automations/karriere-at-scraper)\n- [Arbeitsagentur.de Scraper](https://apify.com/santamaria-automations/arbeitsagentur-de-scraper)\n\n**Enrich your job data**\n- [Website Job Extractor](https://apify.com/santamaria-automations/website-job-extractor) -- Extract jobs directly from company career pages\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Get emails and phone numbers from company websites\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Fast email and phone extraction (no AI needed)\n\n---\n\n## Features / Funktioner\n\n- **Free public API** -- no API key or authentication needed\n- **Multi-query support** -- run multiple search keywords in one execution, deduplicated\n- **Rich structured data** -- title, description, company, location (municipality + region), deadline, logo URL, salary info, occupation classification\n- **Pagination** -- automatically pages through all results up to your configured limit\n- **Location filtering** -- filter by Swedish municipality or region\n- **Sort options** -- relevance, newest, oldest, deadline\n- **Low cost** -- 128MB memory, no proxy needed, no browser\n\n## Output Fields / Utdatafalt\n\n| Field | Type | Description |\n|---|---|---|\n| `id` | string | Arbetsformedlingen ad ID |\n| `title` | string | Job title (headline) |\n| `description` | string/null | Full job description (plain text) |\n| `company_name` | string/null | Hiring company name |\n| `company_logo` | string/null | Company logo URL |\n| `location` | string/null | Combined location (city, region) |\n| `municipality` | string/null | Swedish municipality (kommun) |\n| `region` | string/null | Swedish region (lan) |\n| `country` | string | Country (default: Sverige) |\n| `employment_type` | string/null | E.g., \"Vanlig anstallning\" |\n| `working_hours` | string/null | E.g., \"Heltid\", \"Deltid\" |\n| `scope_of_work_min` | number/null | Min work scope % |\n| `scope_of_work_max` | number/null | Max work scope % |\n| `salary_description` | string/null | Salary info text |\n| `occupation` | string/null | Occupation label |\n| `occupation_field` | string/null | Occupation field (e.g., \"Data/IT\") |\n| `experience_required` | boolean/null | Whether experience is required |\n| `number_of_vacancies` | number/null | Number of open positions |\n| `employer_name` | string/null | Employer workplace name |\n| `employer_url` | string/null | Employer website |\n| `employer_org_number` | string/null | Swedish org number |\n| `apply_url` | string/null | Application URL |\n| `posted_at` | string/null | Publication date (ISO 8601) |\n| `expires_at` | string/null | Application deadline (ISO 8601) |\n| `source_url` | string | Platsbanken listing URL |\n| `source_platform` | string | Always \"arbetsformedlingen.se\" |\n| `search_query` | string/null | The search keyword that found this job |\n| `scraped_at` | string | Scrape timestamp (ISO 8601) |\n\n## Input Examples / Inmatningsexempel\n\n### Basic search\n```json\n{\n  \"searchQuery\": \"developer\",\n  \"maxResults\": 50\n}\n```\n\n### Multi-query with location\n```json\n{\n  \"searchQueries\": [\"developer\", \"ingenjor\", \"projektledare\"],\n  \"location\": \"Stockholm\",\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 100\n}\n```\n\n### All jobs, newest first\n```json\n{\n  \"searchQuery\": \"\",\n  \"maxResults\": 500,\n  \"sortBy\": \"pubdate-desc\"\n}\n```\n\n## Pricing / Prissattning\n\n| Event | Price (USD) | Description |\n|---|---|---|\n| `job-start` | $0.05 | Per actor run |\n| `job-serp-result` | $0.003 | Per job listing returned |\n",
+  "readmeSource": "actors/jobs/arbetsformedlingen-se/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T11:00:59.806Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Search result scraped",
+        "description": "A job listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job details extracted",
+        "description": "Full job data from detail page including description and requirements",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.484Z"
+}

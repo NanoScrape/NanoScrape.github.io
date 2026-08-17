@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/kleinanzeigen-de-scraper",
+  "name": "kleinanzeigen-de-scraper",
+  "title": "Kleinanzeigen.de Scraper - German Classifieds",
+  "description": "Scrape classified listings from Kleinanzeigen.de (formerly eBay Kleinanzeigen), Germany's largest classifieds platform. Paste any search URL with filters. Extract title, price, description, location, seller info, and images. HTTP-only, low memory, pay-per-result.",
+  "readme": "# Kleinanzeigen.de Scraper\n\nScrape classified listings from [Kleinanzeigen.de](https://www.kleinanzeigen.de) (formerly eBay Kleinanzeigen), Germany's largest classifieds platform with 50M+ monthly visitors.\n\n## How it works\n\n1. Go to [kleinanzeigen.de](https://www.kleinanzeigen.de) and set up your search with all desired filters (category, location, price range, condition, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n\nThat's it. The actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/kleinanzeigen-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `kleinanzeigen-de-scraper` to scrape company data from kleinanzeigen de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** — Whatever you can filter on kleinanzeigen.de, the actor can scrape\n- **All categories** — Electronics, furniture, cars, real estate, fashion, services, and more\n- **Multiple searches** — Paste multiple URLs to run several searches in one run\n- **Detail enrichment** — Get full descriptions, seller info, all images, and categories\n- **Smart price parsing** — Handles VB (negotiable), Zu verschenken (free), and German number formats\n- **Fast & cheap** — HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Description | Source |\n|-------|-------------|--------|\n| `id` | Kleinanzeigen ad ID | Search |\n| `title` | Ad title | Search |\n| `description` | Full ad description | Detail |\n| `price` / `price_type` | Price in EUR + type (festpreis, VB, zu_verschenken) | Search |\n| `location` / `postcode` | Location with postal code | Search |\n| `category` | Listing category | Detail |\n| `seller_name` / `seller_type` | Seller info (private/commercial) | Detail |\n| `image_url` / `image_urls` | Images | Both |\n| `is_top_ad` | Whether this is a promoted ad | Search |\n| `posted_at` | Publication date | Both |\n| `shipping_available` | Whether shipping is offered | Detail |\n| `source_url` | Direct link to listing | Both |\n| `scraped_at` | Scrape timestamp (ISO 8601) | Both |\n\n## Pricing\n\nNo start fee — pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (basic) | $0.003 |\n| Listing (with details) | $0.005 |\n\n**100 listings = $0.30** (basic) or **$0.50** (with details)\n\n## Examples\n\n### VW petrol cars under 10,000 km\n```json\n{\n  \"searchUrls\": [\"https://www.kleinanzeigen.de/s-autos/volkswagen/c216+autos.fuel_s:benzin+autos.km_i:%2C10000+autos.marke_s:volkswagen\"],\n  \"maxResults\": 50,\n  \"includeDetails\": true\n}\n```\n\n### iPhones in Berlin\n```json\n{\n  \"searchUrls\": [\"https://www.kleinanzeigen.de/s-berlin/iphone/k0l3331\"],\n  \"maxResults\": 100\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.kleinanzeigen.de/s-berlin/macbook/k0l3331\",\n    \"https://www.kleinanzeigen.de/s-muenchen/macbook/k0l8861\"\n  ],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 100\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n- [Subito.it Scraper — Italy](https://apify.com/santamaria-automations/subito-it-scraper)\n- [Njuskalo.hr Scraper — Croatia](https://apify.com/santamaria-automations/njuskalo-hr-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/MsyGn2D3xTDy3Akp1/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/kleinanzeigen-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-25T12:37:25.223Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing (basic)",
+        "description": "Per listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Listing (with details)",
+        "description": "Per listing with description, images, etc. from detail page",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.648Z"
+}

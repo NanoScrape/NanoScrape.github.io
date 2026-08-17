@@ -1,0 +1,55 @@
+{
+  "slug": "santamaria-automations/blocket-se-scraper",
+  "name": "blocket-se-scraper",
+  "title": "Blocket.se Scraper - Sweden's Largest Marketplace",
+  "description": "Scrape classified listings from Blocket.se, Sweden's #1 marketplace (Schibsted). Extract title, price, location, coordinates, images, and more. HTTP-only, 128MB, datacenter proxy.",
+  "readme": "# Blocket.se Scraper\n\nScrape classified listings from [blocket.se](https://www.blocket.se), Sweden's largest online marketplace (Schibsted group).\n\n## How it works\n\n1. Go to [blocket.se](https://www.blocket.se) and set up your search with all desired filters (category, price, brand, transmission, location, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n4. Run the actor\n\nThe actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/blocket-se-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `blocket-se-scraper` to scrape company data from blocket se. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** -- Whatever you can filter on blocket.se, the actor can scrape\n- **Multiple searches** -- Paste multiple URLs to run several searches in one run\n- **Detail enrichment** -- Optionally get full description, condition, and brand info\n- **Rich SERP data** -- Title, price, location, GPS coordinates, images already from search results\n- **Fast & cheap** -- HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Description | Source |\n|-------|-------------|--------|\n| `title` | Listing title | Search |\n| `price` / `currency` | Price in SEK | Search |\n| `location` | City/area | Search |\n| `latitude` / `longitude` | GPS coordinates | Search |\n| `brand` | Product brand | Search |\n| `image_url` / `image_urls` | Images | Search |\n| `description` | Full listing description | Detail |\n| `condition` | Item condition (New/Used/etc.) | Detail |\n| `category` | Category path | Detail |\n| `posted_at` | Publication date (ISO 8601) | Search |\n| `source_url` | Link to listing on blocket.se | Both |\n\n## Pricing\n\nNo start fee -- pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (basic) | $0.003 |\n| Listing (with details) | $0.005 |\n\n**100 listings = $0.30** (basic) or **$0.50** (with details)\n\n## Examples\n\n### Cars under 330K SEK with automatic transmission\n```json\n{\n  \"searchUrls\": [\"https://www.blocket.se/mobility/search/car?price_to=330000&transmission=1&variant=0.749\"],\n  \"maxResults\": 50\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.blocket.se/recommerce/forsale/search?q=iphone\",\n    \"https://www.blocket.se/recommerce/forsale/search?q=macbook\",\n    \"https://www.blocket.se/mobility/search/car?price_to=100000\"\n  ],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 80\n}\n```\n\n### With full details\n```json\n{\n  \"searchUrls\": [\"https://www.blocket.se/recommerce/forsale/search?q=cykel\"],\n  \"maxResults\": 100,\n  \"includeDetails\": true\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Finn.no Scraper — Norway](https://apify.com/santamaria-automations/finn-no-scraper)\n- [DBA.dk Scraper — Denmark](https://apify.com/santamaria-automations/dba-dk-scraper)\n- [Tori.fi Scraper — Finland](https://apify.com/santamaria-automations/tori-fi-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/xo9X4b8qC1rNclJH4/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/blocket-se/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-01T22:48:50.914Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing (basic)",
+        "description": "Per result with basic details available in Search Results pages",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.003,
+          "BRONZE": 0.00289,
+          "SILVER": 0.00275,
+          "GOLD": 0.00265,
+          "PLATINUM": 0.00265,
+          "DIAMOND": 0.00265
+        }
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Listing (with details)",
+        "description": "Per result with additional details that are available in the listing result detail page",
+        "isPrimary": false,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.005,
+          "BRONZE": 0.00489,
+          "SILVER": 0.00475,
+          "GOLD": 0.00465,
+          "PLATINUM": 0.00465,
+          "DIAMOND": 0.00465
+        }
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.619Z"
+}

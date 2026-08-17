@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/made-in-china-scraper",
+  "name": "made-in-china-scraper",
+  "title": "Made-in-China Scraper - Manufacturer & Supplier Directory",
+  "description": "Scrape supplier data from Made-in-China.com, one of the largest B2B platforms for Chinese manufacturers. Extract company names, business types, main products, certifications, employee counts, factory sizes, export markets, and more.",
+  "readme": "# Made-in-China Scraper - Chinese Manufacturer & Supplier Directory\n\nScrape supplier data from [Made-in-China.com](https://www.made-in-china.com), one of the world's largest B2B platforms connecting global buyers with Chinese manufacturers and suppliers.\n\n## What data do you get?\n\nFor each supplier, the scraper extracts:\n\n- **Company name** and description\n- **Business type** (Manufacturer/Factory, Trading Company, etc.)\n- **Main products** list\n- **Full address** (street, city, province)\n- **Employee count** and annual revenue\n- **Factory size** (plant area in square meters)\n- **Certifications** (ISO, CE, FCC, RoHS, etc.)\n- **Quality management system**\n- **Export markets** and trade capacity\n- **Company logo**\n- **Year founded**\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/made-in-china-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `made-in-china-scraper` to scrape company data from made in china. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Option 1: Paste a search URL\n\n1. Go to [made-in-china.com](https://www.made-in-china.com)\n2. Search for suppliers using the \"Suppliers\" tab\n3. Copy the search results URL\n4. Paste it into the **Search URLs** field\n\n### Option 2: Use search query\n\nSet the **Search Query** (e.g., \"solar panel\", \"led light\", \"electronics\") field. The scraper builds the URL automatically.\n\n### Input example\n\n```json\n{\n  \"searchUrls\": [\"https://www.made-in-china.com/manufacturers/electronics.html\"],\n  \"maxResults\": 100,\n  \"includeDetails\": true,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  }\n}\n```\n\n### Input parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `searchUrls` | array | Made-in-China.com search result URLs |\n| `searchQuery` | string | Search keyword to build URL automatically |\n| `maxResults` | integer | Maximum number of suppliers (default: 100) |\n| `includeDetails` | boolean | Fetch profile pages for full data (default: true) |\n| `proxyConfiguration` | object | Proxy settings |\n\n## Output example\n\n```json\n{\n  \"id\": \"teFEJlVWAXcd\",\n  \"name\": \"Shenzhen Xingtong IoT Technology Co., Ltd.\",\n  \"description\": \"PDA Data Collector, POS manufacturer / supplier in China...\",\n  \"supplier_type\": \"Manufacturer/Factory & Trading Company\",\n  \"main_products\": [\"Wireless Wired Barcode Scanner\", \"QR Code Module\", \"PDA Data Collector\"],\n  \"address\": \"3rd Floor, Building 6, Zhongsheng Technology Zone, Longgang District, Shenzhen, Guangdong, China\",\n  \"city\": \"Shenzhen\",\n  \"province\": \"Guangdong\",\n  \"country\": \"China\",\n  \"country_code\": \"CN\",\n  \"employee_count\": \"17\",\n  \"factory_size\": \"1461 square meters\",\n  \"certifications\": [\"ISO9001:2015\", \"FCC\", \"RoHS\", \"CE\"],\n  \"quality_system\": \"ISO9001:2015\",\n  \"export_markets\": [\"East Asia\", \"Australia\", \"Domestic\"],\n  \"logo_url\": \"https://image.made-in-china.com/...\",\n  \"source_url\": \"https://xtiot-scanner.en.made-in-china.com\",\n  \"source_platform\": \"made-in-china.com\",\n  \"scraped_at\": \"2026-03-26T10:00:00Z\"\n}\n```\n\n## Performance\n\n- ~30 suppliers per SERP page\n- With details: ~1.5 seconds per supplier (rate limited)\n- SERP only: ~30 suppliers per second\n- Memory: 128 MB (Go binary, ~12MB Docker image)\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| Start | $0.005 |\n| SERP result | $0.003 |\n| Detail result | $0.005 |\n\n## Related Actors\n\n**International B2B Directories**\n- [GlobalSources Scraper](https://apify.com/santamaria-automations/globalsources-scraper) -- Asian manufacturer and supplier directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n- [Clutch.co Scraper](https://apify.com/santamaria-automations/clutch-co-scraper) -- B2B agency reviews and ratings\n\n**DACH Business Directories**\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n",
+  "readmeSource": "actors/directories/made-in-china/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-26T15:08:03.172Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Supplier found",
+        "description": "A manufacturer or supplier was extracted from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Supplier details extracted",
+        "description": "Full supplier profile including factory info, certifications, export markets, and contact details",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.834Z"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/olx-pl-scraper",
+  "name": "olx-pl-scraper",
+  "title": "OLX.pl Scraper - Polish Classifieds",
+  "description": "Scrape classified listings from OLX.pl, Poland's #1 classifieds platform. Extract titles, prices, descriptions, seller info, images, locations, and more. Pure HTTP via public REST API, low memory.",
+  "readme": "# OLX.pl Scraper\n\nScrape classified listings from [OLX.pl](https://www.olx.pl), Poland's largest classifieds platform with millions of active listings.\n\n## How it works\n\n1. Enter a search keyword (e.g., \"iphone\")\n2. Optionally filter by city or category\n3. Run the actor\n\nThe actor uses the public OLX REST API to extract all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/olx-pl-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `olx-pl-scraper` to scrape company data from olx pl. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output\n\n| Field | Description |\n|-------|-------------|\n| `title` | Listing title |\n| `description` | Full description |\n| `price` / `currency` | Price in PLN or EUR |\n| `condition` | Item condition |\n| `city` / `region` | Location details |\n| `latitude` / `longitude` | GPS coordinates |\n| `seller_name` / `seller_type` | Seller info (private/business) |\n| `image_url` / `image_urls` | Images |\n| `posted_at` | Publication date |\n| `source_url` | Link to listing on OLX.pl |\n\n## Pricing\n\n| Event | Cost |\n|-------|------|\n| Start | $0.050 per run |\n| Listing | $0.003 per result |\n\n**100 listings = $0.35** | **1,000 listings = $3.05**\n\n## Examples\n\n### iPhones in Warsaw\n```json\n{\n  \"searchQuery\": \"iphone\",\n  \"location\": \"warszawa\",\n  \"maxResults\": 50,\n  \"sortBy\": \"filter_float_price:asc\"\n}\n```\n\n### Multiple searches\n```json\n{\n  \"searchQueries\": [\"iphone 15\", \"samsung galaxy s24\", \"pixel 8\"],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 80\n}\n```\n\n### Electronics category\n```json\n{\n  \"searchQuery\": \"laptop\",\n  \"category\": 29,\n  \"maxResults\": 100\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Bazos Scraper — SK/CZ/AT/PL](https://apify.com/santamaria-automations/bazos-scraper)\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Subito.it Scraper — Italy](https://apify.com/santamaria-automations/subito-it-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/hw9mhkHXXwgqdakMB/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/olx-pl/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T15:55:10.844Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "A classified listing",
+        "description": "A classified listing",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full listing details",
+        "description": "Full listing details",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.226Z"
+}

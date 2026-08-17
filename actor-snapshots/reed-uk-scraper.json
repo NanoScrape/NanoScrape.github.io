@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/reed-uk-scraper",
+  "name": "reed-uk-scraper",
+  "title": "Reed.co.uk Job Scraper - UK Jobs",
+  "description": "Scrapes job listings from Reed.co.uk, the UK's largest job board with 250,000+ live vacancies. Extract title, company, salary, location, employment type, and full description. Supports multi-query search with deduplication. HTTP-only, 128MB.",
+  "readme": "# Reed.co.uk Scraper\n\nExtract job listings from [Reed.co.uk](https://www.reed.co.uk), the UK's largest job board with 200,000+ live vacancies.\n\n## What data do you get?\n\nEach job listing includes:\n\n| Field | Description |\n|-------|-------------|\n| **Title** | Job title |\n| **Company** | Hiring company name |\n| **Salary** | Min/max salary, currency (GBP), period (year/day/hour) |\n| **Location** | Job location (city, region) |\n| **Country** | Always `GB` |\n| **Employment type** | Permanent, contract, temporary, full-time, part-time |\n| **Remote option** | Remote, hybrid, or on-site |\n| **Description** | Full job description (text + HTML) in full mode |\n| **Posted date** | When the job was posted |\n| **Expiry date** | When the listing expires (full mode) |\n| **Apply URL** | Direct link to apply |\n| **Source URL** | Original Reed.co.uk listing URL |\n\n## How to use\n\n### Option 1: Search URLs\n1. Go to [reed.co.uk](https://www.reed.co.uk)\n2. Search for any job (e.g., \"software engineer in London\")\n3. Copy the URL from your browser\n4. Paste it into the **Search URLs** field\n\n### Option 2: Keywords\nEnter job titles or skills in the **Search Keywords** field:\n- `software engineer`\n- `data analyst`\n- `marketing manager`\n\n### Scraping modes\n\n| Mode | Speed | Data | Cost |\n|------|-------|------|------|\n| **Fast** | ~1 sec/page (25 jobs) | Title, company, salary text, location, type | $3/1K |\n| **Full** | ~5 sec/page + details | Everything above + full description, structured salary, expiry date | $5/1K |\n\n## Input examples\n\n### Basic search\n```json\n{\n  \"searchUrls\": [\"https://www.reed.co.uk/jobs/software-engineer-jobs-in-london\"],\n  \"maxResults\": 100,\n  \"mode\": \"fast\"\n}\n```\n\n### Multiple keywords with location\n```json\n{\n  \"searchQueries\": [\"data scientist\", \"machine learning engineer\"],\n  \"location\": \"Manchester\",\n  \"maxResults\": 200,\n  \"mode\": \"full\"\n}\n```\n\n### Large-scale extraction\n```json\n{\n  \"searchQueries\": [\"nurse\", \"doctor\", \"healthcare\"],\n  \"maxResults\": 1000,\n  \"maxResultsPerQuery\": 500,\n  \"mode\": \"fast\"\n}\n```\n\n## Output example\n\n```json\n{\n  \"id\": \"56619262\",\n  \"title\": \"Senior Software Engineer\",\n  \"company\": \"Tech Corp\",\n  \"location\": \"London\",\n  \"country\": \"GB\",\n  \"employment_type\": \"permanent, full-time\",\n  \"remote_option\": \"hybrid\",\n  \"salary_min\": 65000,\n  \"salary_max\": 85000,\n  \"salary_currency\": \"GBP\",\n  \"salary_period\": \"year\",\n  \"salary_text\": \"GBP 65,000 - 85,000 per year\",\n  \"description_snippet\": \"We are looking for a Senior Software Engineer to join our growing team...\",\n  \"posted_at\": \"2026-05-01\",\n  \"expires_at\": \"2026-06-01\",\n  \"source_url\": \"https://www.reed.co.uk/jobs/senior-software-engineer/56619262\",\n  \"source_platform\": \"reed.co.uk\",\n  \"apply_url\": \"https://www.reed.co.uk/jobs/senior-software-engineer/56619262\",\n  \"search_query\": \"software engineer in london\",\n  \"scraped_at\": \"2026-05-04T10:30:00Z\"\n}\n```\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| Actor start | $0.001 |\n| SERP result (fast mode) | $0.003 |\n| Detail result (full mode) | $0.005 |\n\nTypical cost: **$3 per 1,000 jobs** in fast mode, **$5 per 1,000 jobs** in full mode.\n\n## Tips\n\n- **Start small**: Test with `maxResults: 10` before scaling up\n- **Use fast mode** for bulk data collection where you only need titles, companies, and salary ranges\n- **Use full mode** when you need complete job descriptions or structured salary breakdowns\n- **Combine queries**: Use `searchQueries` with multiple keywords to cover related roles in one run\n- Results are **automatically deduplicated** across queries\n\n## Limitations\n\n- Reed.co.uk shows a maximum of ~1,000 results per search query\n- Some job listings may not include salary information\n- Detail page data (full mode) depends on the employer providing structured data\n\n---\n\nFound a bug? Have a feature request? Open an issue in the [Issues tab](https://console.apify.com/actors/YOUR_ACTOR_ID/issues).\n\nLooking for more job board scrapers? Check out our [Related Actors](https://apify.com/nanoscrape).\n",
+  "readmeSource": "actors/jobs/reed-uk-go/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-08T13:47:24.585Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Search result scraped",
+        "description": "A job listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job details extracted",
+        "description": "Full job data from detail page including description and requirements",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.410Z"
+}

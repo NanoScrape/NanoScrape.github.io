@@ -1,0 +1,40 @@
+{
+  "slug": "santamaria-automations/google-news-scraper",
+  "name": "google-news-scraper",
+  "title": "Google News Scraper",
+  "description": "Scrape Google News search results. Extract article titles, sources, snippets, links, and publication dates for any keyword. Multi-query support.",
+  "readme": "# Google News Scraper\n\nScrape news articles from [Google News](https://news.google.com) for any search query. Extract article titles, publisher names, publication dates, and direct article links.\n\n## What data do you get?\n\nFor each news article, the scraper extracts:\n\n- **Article title** (cleaned, without source suffix)\n- **Source/publisher name** (e.g., \"Reuters\", \"CNN\", \"TechCrunch\")\n- **Publisher URL** (e.g., \"https://www.reuters.com\")\n- **Article URL** (Google News link — click through to reach the publisher's page)\n- **Publication date** (RFC 2822 format)\n- **Search query** that matched the article\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/google-news-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `google-news-scraper` to scrape company data from google news. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Basic usage\n\nSet one or more **Search Queries** and run. The scraper fetches Google News results for each query.\n\n### Input example\n\n```json\n{\n  \"searchQueries\": [\"artificial intelligence\", \"climate change\"],\n  \"language\": \"en\",\n  \"country\": \"US\",\n  \"maxResults\": 100,\n  \"maxResultsPerQuery\": 50,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  }\n}\n```\n\n### Input parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `searchQueries` | array | Search keywords to find news articles (required) |\n| `language` | string | Language code for results (default: \"en\") |\n| `country` | string | Country code for regional results (default: \"US\") |\n| `maxResults` | integer | Maximum total articles to scrape (default: 100) |\n| `maxResultsPerQuery` | integer | Maximum articles per query (default: 50, max ~100) |\n| `proxyConfiguration` | object | Proxy settings |\n\n### Supported languages\n\nUse standard language codes: `en`, `de`, `fr`, `es`, `it`, `pt`, `ja`, `ko`, `zh-CN`, `ar`, `ru`, etc.\n\n### Supported countries\n\nUse ISO country codes: `US`, `GB`, `DE`, `FR`, `CH`, `AT`, `JP`, `KR`, `CN`, `BR`, `IN`, etc.\n\n## Output example\n\n```json\n{\n  \"title\": \"OpenAI launches new reasoning model\",\n  \"source\": \"Reuters\",\n  \"source_url\": \"https://www.reuters.com\",\n  \"url\": \"https://news.google.com/rss/articles/CBMi...\",\n  \"snippet\": null,\n  \"published_at\": \"Mon, 31 Mar 2026 14:30:00 GMT\",\n  \"image_url\": null,\n  \"search_query\": \"artificial intelligence\",\n  \"source_platform\": \"google-news\",\n  \"scraped_at\": \"2026-04-01T10:00:00Z\"\n}\n```\n\n## Tips\n\n- Each query returns up to ~100 articles from the Google News RSS feed.\n- **Datacenter proxy** works fine for Google News RSS feeds.\n- Set `country` and `language` to target specific regional news (e.g., `DE`/`de` for German news).\n- Results are deduplicated across queries by article URL.\n- The `url` field is the Google News link. Click through to reach the publisher's page — Google no longer allows scrapers to follow this redirect without a browser.\n\n## Pricing\n\nThis actor uses pay-per-result pricing:\n\n| Event | Price |\n|-------|-------|\n| Per news article | $0.001 |\n\n## Related Actors\n\n**Related Scrapers**\n\n- [YouTube Scraper — Video & channel data](https://apify.com/santamaria-automations/youtube-scraper)\n- [Eventbrite Scraper — Event listings](https://apify.com/santamaria-automations/eventbrite-scraper)\n- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n",
+  "readmeSource": "actors/directories/google-news/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:08:52.066Z",
+    "events": [
+      {
+        "key": "news-result",
+        "title": "Article found",
+        "description": "A news article with title, source, publication date, and link",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.001,
+          "BRONZE": 0.00097,
+          "SILVER": 0.00093,
+          "GOLD": 0.00087,
+          "PLATINUM": 0.00087,
+          "DIAMOND": 0.00087
+        }
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.544Z"
+}

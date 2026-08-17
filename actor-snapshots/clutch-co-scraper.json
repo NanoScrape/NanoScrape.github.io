@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/clutch-co-scraper",
+  "name": "clutch-co-scraper",
+  "title": "Clutch.co Scraper - B2B Agency Directory",
+  "description": "Scrape company profiles from Clutch.co. Extract ratings, reviews, pricing, services, and contact details for IT agencies, marketing firms, and development companies.",
+  "readme": "# Clutch.co Scraper - B2B Agency Directory\n\nScrape company profiles from [Clutch.co](https://clutch.co), the leading B2B reviews and ratings platform. Extract ratings, reviews, pricing, services, and contact details for IT agencies, marketing firms, and development companies.\n\n## Features\n\n- **SERP scraping**: Extract agency listings from any Clutch.co directory page\n- **Profile details**: Optionally fetch full profile pages for rich data (description, website, tagline, industries, client breakdown)\n- **JSON-LD + HTML parsing**: Combines structured data with HTML scraping for maximum data coverage\n- **Cloudflare bypass**: Uses TLS fingerprinting (Chrome 124 profile) to handle Cloudflare protection\n- **Deduplication**: Automatically deduplicates agencies across pages and URLs\n- **Pagination**: Follows pagination automatically up to your maxResults limit\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/clutch-co-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `clutch-co-scraper` to scrape company data from clutch co. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `searchUrls` | string[] | Clutch.co directory URLs to scrape | `[\"https://clutch.co/developers\"]` |\n| `maxResults` | integer | Maximum agencies to scrape | `100` |\n| `includeDetails` | boolean | Fetch full profile pages | `true` |\n| `proxyConfiguration` | object | Apify proxy settings | `{\"useApifyProxy\": true}` |\n\n### Example Search URLs\n\n- `https://clutch.co/developers` - Software development companies\n- `https://clutch.co/agencies/digital-marketing` - Digital marketing agencies\n- `https://clutch.co/web-developers` - Web development companies\n- `https://clutch.co/it-services/managed-service-providers` - Managed service providers\n- `https://clutch.co/agencies/seo` - SEO agencies\n- `https://clutch.co/developers/artificial-intelligence` - AI development companies\n\n## Output\n\nEach result contains:\n\n| Field | Description |\n|-------|-------------|\n| `id` | Clutch company ID |\n| `name` | Company name |\n| `tagline` | Company tagline/slogan |\n| `description` | Full company description |\n| `website` | Company website URL |\n| `phone` | Phone number |\n| `email` | Email address (when available) |\n| `address` | Street address |\n| `city` | City |\n| `country` | Country name |\n| `logo_url` | Company logo image URL |\n| `rating` | Clutch rating (0-5) |\n| `review_count` | Number of verified reviews |\n| `min_project_size` | Minimum project budget |\n| `hourly_rate` | Average hourly rate range |\n| `employee_count` | Employee count range |\n| `founded_year` | Year the company was founded |\n| `services` | List of services offered |\n| `industries_served` | Industries the company serves |\n| `clients` | Client size breakdown |\n| `clutch_rank` | Position in the directory listing |\n| `verified` | Whether the company is Clutch verified |\n| `source_url` | Clutch profile URL |\n| `source_platform` | Always \"clutch.co\" |\n| `scraped_at` | ISO 8601 timestamp |\n\n## Pricing\n\n- **SERP result**: $0.003 per agency (listing data only)\n- **Detail result**: $0.005 per agency (with full profile data)\n\n## Related Actors\n\n**B2B Directories**\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [Made-in-China Scraper](https://apify.com/santamaria-automations/made-in-china-scraper) -- Chinese manufacturer and supplier directory\n- [GlobalSources Scraper](https://apify.com/santamaria-automations/globalsources-scraper) -- Asian manufacturer and supplier directory\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Company reviews and ratings\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [LinkedIn Company Scraper](https://apify.com/santamaria-automations/linkedin-company-scraper) -- Scrape company profiles from LinkedIn\n",
+  "readmeSource": "actors/directories/clutch-co/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-14T14:57:09.357Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Agency found",
+        "description": "B2B agency listing from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full agency profile",
+        "description": "Complete profile with reviews, portfolio, pricing",
+        "isPrimary": false,
+        "priceUsd": 0.008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:35.769Z"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/kununu-de-scraper",
+  "name": "kununu-de-scraper",
+  "title": "Kununu Employer Reviews Scraper - DACH Region",
+  "description": "Scrape employer reviews, ratings, salaries, benefits, and company profiles from kununu.com. Covers Germany, Austria, and Switzerland (DACH). Extract overall scores, 14-factor breakdowns, salary ranges, benefits, awards, and competitor data. HTTP-only, low memory.",
+  "readme": "# Kununu Employer Reviews Scraper\n\nScrape employer reviews, ratings, salaries, and benefits from [kununu.com](https://www.kununu.com), the largest employer review platform in Germany, Austria, and Switzerland with over 15 million reviews.\n\n## How it works\n\n1. Enter a company name or industry keyword (e.g., \"SAP\", \"Software Zurich\")\n2. Choose a country: Germany (`de`), Austria (`at`), or Switzerland (`ch`)\n3. Run the actor\n\nThe actor finds matching companies and extracts their full employer profile including scores, salary data, benefits, and more.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/kununu-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `kununu-de-scraper` to scrape company data from kununu de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output\n\n| Field | Description |\n|-------|-------------|\n| `name` / `slug` | Company name and URL slug |\n| `logo_url` | Company logo |\n| `score` / `rounded_score` | Overall score (1-5) |\n| `total_reviews` | Number of reviews |\n| `recommendation_rate` | Percentage who recommend the employer |\n| `industry` / `location` | Company industry and location |\n| `score_breakdown` | 14 factor scores (salary, atmosphere, leadership, etc.) |\n| `benefits` | 20+ benefit types with percentages |\n| `salary_ranges` | Per job title: min, max, median, average |\n| `awards` | Top Company badges by year |\n| `competitors` | Related companies with scores |\n| `source_url` | Link to company on kununu.com |\n\n## Pricing\n\n| Event | Cost |\n|-------|------|\n| Start | $0.050 per run |\n| Company (SERP) | $0.003 per result |\n| Company (full profile) | $0.005 per result |\n\n**100 companies = $0.55** (full profile)\n\n## Examples\n\n### Search by company name\n```json\n{\n  \"searchQuery\": \"SAP\",\n  \"country\": \"de\",\n  \"maxResults\": 50\n}\n```\n\n### Multiple searches\n```json\n{\n  \"searchQueries\": [\"Software Zurich\", \"Beratung Berlin\", \"Automotive Munich\"],\n  \"country\": \"de\",\n  \"maxResults\": 100,\n  \"maxResultsPerQuery\": 30\n}\n```\n\n### Direct company URLs\n```json\n{\n  \"directUrls\": [\n    \"https://www.kununu.com/de/sap\",\n    \"https://www.kununu.com/at/sap-oesterreich\",\n    \"https://www.kununu.com/ch/sap-schweiz12\"\n  ]\n}\n```\n\n\n## Related Actors\n\n**Related Scrapers**\n\n- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)\n- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)\n- [Eventbrite Scraper — Event listings](https://apify.com/santamaria-automations/eventbrite-scraper)\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/hn0eQazatusKWl5nb/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/kununu-de-go/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:14:00.964Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Company found",
+        "description": "An employer profile with rating, review count, and basic info",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Reviews extracted",
+        "description": "Full employer data with individual reviews, salary info, and ratings breakdown",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.718Z"
+}

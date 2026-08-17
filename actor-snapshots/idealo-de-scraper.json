@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/idealo-de-scraper",
+  "name": "idealo-de-scraper",
+  "title": "Idealo.de Price Comparison Scraper",
+  "description": "Scrape product prices from Idealo.de, Germany's #1 price comparison platform. Compare prices across thousands of merchants, extract product specs, ratings, and the best deals. Supports DE, FR, ES, IT, UK.",
+  "readme": "# Idealo.de Price Comparison Scraper\n\nScrape product prices from **Idealo.de**, Germany's #1 price comparison platform with millions of offers from thousands of online shops. Compare prices, extract product specs, ratings, and find the best deals.\n\nSupports all Idealo country variants: **Germany (DE)**, **France (FR)**, **Spain (ES)**, **Italy (IT)**, and **United Kingdom (UK)**.\n\n## Features\n\n- Search products by keyword or scrape category pages directly\n- Extract best prices, merchant offers, ratings, and review counts\n- Full product details with specs, EAN/GTIN, brand, and descriptions\n- Multi-country support (DE, FR, ES, IT, UK) with automatic domain/currency handling\n- TLS fingerprinting to bypass Akamai bot protection\n- Lightweight Go binary (~12MB Docker image, 128MB RAM)\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/idealo-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `idealo-de-scraper` to scrape product listings from idealo de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchQuery` | string | - | Product search keyword (e.g., \"laptop\", \"iphone 15\") |\n| `categoryUrl` | string | - | Direct idealo category URL (overrides searchQuery) |\n| `maxResults` | integer | 50 | Maximum products to return (1-1000) |\n| `includeDetails` | boolean | false | Fetch detail pages for full specs and all merchant offers |\n| `country` | enum | \"de\" | Country variant: de, fr, es, it, uk |\n| `proxyConfiguration` | object | RESIDENTIAL | Proxy settings (RESIDENTIAL recommended) |\n\n## Output Example\n\n```json\n{\n  \"product_image_url\": \"https://cdn.idealo.com/folder/Product/1234/image.jpg\",\n  \"name\": \"Apple MacBook Air M3 13\\\" 256GB\",\n  \"description\": \"Apple MacBook Air with M3 chip, 13.6\\\" Liquid Retina display...\",\n  \"brand\": \"Apple\",\n  \"category\": \"Notebooks > MacBook Air\",\n  \"best_price\": 999.00,\n  \"price_currency\": \"EUR\",\n  \"price_count\": 42,\n  \"rating\": 4.7,\n  \"review_count\": 1283,\n  \"ean\": \"0195949179426\",\n  \"product_url\": \"https://www.idealo.de/preisvergleich/OffersOfProduct/202345678_-macbook-air-m3-apple.html\",\n  \"merchant_name\": \"Amazon.de\",\n  \"merchant_price\": 999.00,\n  \"specs\": {\n    \"Prozessor\": \"Apple M3\",\n    \"Arbeitsspeicher\": \"8 GB\",\n    \"Bildschirmdiagonale\": \"13,6 Zoll\",\n    \"SSD-Kapazitat\": \"256 GB\"\n  },\n  \"source_url\": \"https://www.idealo.de/preisvergleich/MainSearchProductCategory.html?q=macbook\",\n  \"source_platform\": \"idealo.de\",\n  \"scraped_at\": \"2026-04-07T12:00:00.000Z\"\n}\n```\n\n## Pricing\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| `ecommerce-start` | $0.005 | Per actor run |\n| `ecommerce-serp-result` | $0.003 | Per product from search results |\n| `ecommerce-detail-result` | $0.008 | Per product detail page fetched |\n\n**Cost examples:**\n- 50 products (SERP only): $0.005 + 50 x $0.003 = **$0.155**\n- 50 products with details: $0.005 + 50 x $0.003 + 50 x $0.008 = **$0.555**\n- 200 products (SERP only): $0.005 + 200 x $0.003 = **$0.605**\n\n## Use Cases\n\n### Price Monitoring\nTrack competitor prices across thousands of German online shops. Set up scheduled runs to monitor price changes for your product catalog.\n\n### Market Research\nAnalyze pricing trends, merchant distribution, and product availability across the DACH region and beyond.\n\n### E-commerce Intelligence\nCompare your prices against the market. Identify pricing opportunities and competitive gaps.\n\n### Product Data Enrichment\nExtract detailed product specifications, EAN codes, brand information, and customer ratings for your product database.\n\n### Deal Hunting\nFind the cheapest offers for specific products across all idealo merchants automatically.\n\n## Supported Countries\n\n| Country | Domain | Currency | Example |\n|---------|--------|----------|---------|\n| Germany | idealo.de | EUR | Largest market, 50K+ shops |\n| France | idealo.fr | EUR | French merchants |\n| Spain | idealo.es | EUR | Spanish merchants |\n| Italy | idealo.it | EUR | Italian merchants |\n| United Kingdom | idealo.co.uk | GBP | UK merchants in GBP |\n\n## Proxy Requirements\n\nIdealo uses **Akamai bot protection** which blocks standard HTTP requests. This scraper uses TLS fingerprinting (Chrome 124 profile) to appear as a real browser.\n\n**Recommended proxy:** `RESIDENTIAL` -- datacenter proxies are typically blocked by Akamai.\n\n## Tips\n\n1. **Start without details** (`includeDetails: false`) for fast bulk price checks\n2. **Use details** for full product data including specs, EAN, and all merchant offers\n3. **Category URLs** are more reliable than search queries for consistent results\n4. **RESIDENTIAL proxy** is essential -- datacenter IPs get blocked by Akamai\n5. **Country selection** automatically adjusts domain, currency, and language headers\n",
+  "readmeSource": "actors/ecommerce/idealo-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-09T17:10:43.534Z",
+    "events": [
+      {
+        "key": "ecommerce-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-serp-result",
+        "title": "Product found",
+        "description": "A product listing with best price",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-detail-result",
+        "title": "Product details extracted",
+        "description": "Full specs, all merchant offers, EAN",
+        "isPrimary": false,
+        "priceUsd": 0.008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.938Z"
+}

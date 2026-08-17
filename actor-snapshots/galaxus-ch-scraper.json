@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/galaxus-ch-scraper",
+  "name": "galaxus-ch-scraper",
+  "title": "Galaxus.ch Scraper - Swiss Online Retailer",
+  "description": "Scrape product data from Galaxus.ch, Switzerland's largest online retailer with 6.3M+ products. Extract prices, ratings, availability, images, and more via their GraphQL API. HTTP-only, low memory.",
+  "readme": "# Galaxus.ch Scraper\n\nExtract product data from [Galaxus.ch](https://www.galaxus.ch), Switzerland's largest online retailer with over 6.3 million products across 3,000+ categories.\n\n## How it works\n\n1. Go to [galaxus.ch](https://www.galaxus.ch) and browse to a product category\n2. Copy the category URL (e.g., `.../producttype/smartphones-24`)\n3. Paste it into the actor input\n4. Run the actor\n\nThe actor extracts all products from the category with full pricing and availability data.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/galaxus-ch-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `galaxus-ch-scraper` to scrape product listings from galaxus ch. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output\n\n| Field | Description |\n|-------|-------------|\n| `name` / `name_full` | Product name (short and full with specs) |\n| `brand` | Brand name |\n| `price` / `price_before` | Current price and original price (sale detection) |\n| `currency` | Currency (CHF) |\n| `rating` / `rating_count` | Average rating (1-5) and number of reviews |\n| `availability` / `in_stock` | Delivery time and stock status |\n| `image_url` / `image_urls` | Product images |\n| `energy_rating` | EU energy efficiency label (A-G) |\n| `source_url` | Link to product on Galaxus.ch |\n\n## Pricing\n\nNo start fee -- pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Product | $0.003 |\n\n**100 products = $0.30** | **1,000 products = $3.00**\n\n## Examples\n\n### Smartphones sorted by bestseller\n```json\n{\n  \"categoryUrl\": \"https://www.galaxus.ch/en/s1/producttype/smartphones-24\",\n  \"maxResults\": 50,\n  \"sortOrder\": \"BESTSELLER\"\n}\n```\n\n### Category by slug\n```json\n{\n  \"categorySlug\": \"headphones-36\",\n  \"maxResults\": 100,\n  \"sortOrder\": \"PRICE_ASC\"\n}\n```\n\n### Large category scan\n```json\n{\n  \"categorySlug\": \"laptops-6\",\n  \"maxResults\": 500,\n  \"sortOrder\": \"RELEVANCE\"\n}\n```\n\n\n## Related Actors\n\n**E-Commerce & Price Comparison**\n\n- [AutoScout24 Scraper — European car listings](https://apify.com/santamaria-automations/autoscout24-scraper)\n- [AliExpress Scraper — Global marketplace](https://apify.com/santamaria-automations/aliexpress-scraper)\n- [Groupon Scraper — Deals in 12 countries](https://apify.com/santamaria-automations/groupon-scraper)\n- [Booking.com Scraper — Hotel listings](https://apify.com/santamaria-automations/booking-com-scraper)\n\n**Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/issues) and we'll fix it.\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/issues) and we'll look into it.\n",
+  "readmeSource": "actors/ecommerce/galaxus-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:13:42.198Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "ecommerce-product-result",
+        "title": "Product scraped",
+        "description": "A product listing with price, rating, specifications, and availability",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.357Z"
+}

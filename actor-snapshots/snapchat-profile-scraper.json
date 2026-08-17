@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/snapchat-profile-scraper",
+  "name": "snapchat-profile-scraper",
+  "title": "Snapchat Profile Scraper — Public Creator Data Without Login",
+  "description": "Scrape public Snapchat creator profiles: display name, bio, subscriber count, avatar, and verification status. No API key or login required. Pay-per-result: $1.00/1,000 profiles.",
+  "readme": "# Snapchat Profile Scraper\n\nExtract public [Snapchat](https://web.snapchat.com/) creator and brand profile data in bulk — no API key, no login. Supply a list of usernames or profile URLs and get structured records back: display name, bio, subscriber count, avatar, verification status, and website.\n\n## Features\n\n- **Core profile data** — display name, bio, subscriber count, avatar URL, and verification badge\n- **Website extraction** — pulls external website URLs embedded in the profile bio\n- **Flexible input** — accepts full URLs, @handles, or bare usernames\n- **Bulk input** — process hundreds of profiles in a single run\n- **No login required** — uses public creator profile pages\n- **Login wall detection** — stops immediately and logs escalation if authentication is required\n- **Challenge detection** — stops if bot protection is encountered\n- **Deduplication** — each profile scraped once per run\n- **Pay-per-result** — only pay for profiles you receive\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/snapchat-profile-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `snapchat-profile-scraper` to extract the display name, subscriber count, and bio for nasa and snapchat. Return the results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Data Extracted\n\n| Field | Example |\n|-------|---------|\n| `profile_url` | `\"https://web.snapchat.com/@nasa\"` |\n| `username` | `\"nasa\"` |\n| `display_name` | `\"NASA\"` |\n| `bio` | `\"Explore the universe and discover our home planet.\"` |\n| `subscriber_count` | `2500000` |\n| `avatar_url` | `\"https://snapchat.com/bitmojis/...\"` |\n| `is_verified` | `true` |\n| `website` | `\"https://www.nasa.gov\"` |\n| `scraped_at` | `\"2026-05-17T10:00:00Z\"` |\n\n## Pricing\n\nPay-per-result pricing. You only pay for profiles you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.25 | One-time container startup fee |\n| Profile scraped | $1.00 / 1,000 | Each profile record returned |\n\n**Examples:**\n- 10 profiles = **$0.26** total ($0.25 start + $0.01 results)\n- 100 profiles = **$0.35** total\n- 1,000 profiles = **$1.25** total\n\nNo monthly fees. No minimum spend.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `profileUrls` | string[] | Snapchat profile URLs or usernames to scrape | — |\n| `maxResults` | integer | Maximum profiles to return (0 = no limit) | `0` |\n| `proxyConfiguration` | object | Apify proxy settings | Auto |\n\n## Usage Examples\n\n### Scrape creator profiles by username\n\n```json\n{\n  \"profileUrls\": [\n    \"nasa\",\n    \"djkhaled\",\n    \"gordonramsay\"\n  ]\n}\n```\n\n### Use @handles or full URLs\n\n```json\n{\n  \"profileUrls\": [\n    \"@snapchat\",\n    \"https://web.snapchat.com/@nasa\"\n  ]\n}\n```\n\n### Bulk brand research\n\n```json\n{\n  \"profileUrls\": [\n    \"cocacola\",\n    \"nike\",\n    \"adidas\",\n    \"apple\"\n  ],\n  \"maxResults\": 100\n}\n```\n\n## Output\n\nResults are exported to the default dataset. Each record contains the full public profile including bio, subscriber count, avatar, and verification status. Export to JSON, CSV, Excel, or connect via the Apify API.\n\n## FAQ\n\n**What does \"public profile\" mean?**\nSnapchat Creator Profiles and Official Stories that are publicly accessible without an account. Private accounts or profiles requiring login will trigger an escalation.\n\n**Can I scrape private Snapchat accounts?**\nNo. This actor only scrapes profiles visible without authentication. Private accounts are not accessible and the actor will stop with an escalation message if a login wall is detected.\n\n**Is subscriber count always available?**\nSubscriber count is returned when Snapchat embeds it in the public page data. For some profiles it may be `null` if not exposed publicly.\n\n**What happens if authentication is required?**\nThe actor stops immediately and logs a needs_human_investigation escalation. The run exits with a non-zero code.\n\n**Are results deduplicated?**\nEach username or URL is scraped once per run regardless of how many times it appears in the input list.\n",
+  "readmeSource": "actors/social-media/snapchat-profile-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-06-01T11:19:54.786Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "Charged once per run when the actor starts.",
+        "isPrimary": false,
+        "priceUsd": 0.25,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "snapchat-profile-result",
+        "title": "Snapchat profile record",
+        "description": "Charged per Snapchat profile returned ($1.00 per 1,000 profiles). Records include display name, bio, subscriber count, avatar, and verification.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.682Z"
+}

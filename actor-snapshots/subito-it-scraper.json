@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/subito-it-scraper",
+  "name": "subito-it-scraper",
+  "title": "Subito.it Scraper - Italian Classifieds & Marketplace",
+  "description": "Scrape classified listings from Subito.it, Italy's #1 classifieds platform with 30M+ monthly visitors. Paste any search URL with filters. Extract title, description, price, condition, location, seller info, and images. HTTP-only, pay-per-result.",
+  "readme": "# Subito.it Scraper\n\nScrape classified listings from [Subito.it](https://www.subito.it), Italy's largest classifieds platform with 30M+ monthly visitors.\n\n## How it works\n\n1. Go to [subito.it](https://www.subito.it) and set up your search with all desired filters (category, region, price range, seller type, condition, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n4. Run the actor\n\nThat's it. The actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/subito-it-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `subito-it-scraper` to scrape company data from subito it. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** -- Whatever you can filter on subito.it, the actor can scrape\n- **Multiple searches** -- Paste multiple URLs to run several searches in one run\n- **All categories** -- Electronics, vehicles, real estate, furniture, fashion, and more\n- **Fast & cheap** -- HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | string | Subito.it numeric ad ID |\n| `title` | string | Ad title |\n| `description` | string | Full ad description text |\n| `price` | number | Price in EUR (null if not listed) |\n| `currency` | string | Always `\"EUR\"` |\n| `condition` | string | Item condition (e.g., \"Come nuovo\", \"Buono stato\", \"Nuovo\") |\n| `category` | string | Listing category label |\n| `region` | string | Italian region (e.g., \"Lombardia\", \"Lazio\") |\n| `city` | string | City name (e.g., \"Milano\", \"Roma\") |\n| `town` | string | Town/municipality name |\n| `seller_name` | string | Seller or shop display name |\n| `seller_type` | string | `\"private\"` or `\"professional\"` |\n| `image_url` | string | Main image URL |\n| `image_urls` | string[] | All image URLs from the listing |\n| `posted_at` | string | Publication date (ISO 8601) |\n| `source_url` | string | Direct link to the listing |\n| `scraped_at` | string | Scrape timestamp (ISO 8601) |\n\n## Pricing\n\nNo start fee -- pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (SERP) | $0.003 |\n\n**100 listings = $0.30** | **1,000 listings = $3.00**\n\n## Examples\n\n### BMW motors, max 10000 EUR, private sellers\n```json\n{\n  \"searchUrls\": [\"https://www.subito.it/annunci-italia/vendita/motori/?q=bmw&pe=10000&advt=0%2C2\"],\n  \"maxResults\": 100\n}\n```\n\n### iPhones in Lombardia\n```json\n{\n  \"searchUrls\": [\"https://www.subito.it/annunci-lombardia/vendita/telefonia/?q=iphone\"],\n  \"maxResults\": 200\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.subito.it/annunci-italia/vendita/informatica/?q=macbook\",\n    \"https://www.subito.it/annunci-italia/vendita/telefonia/?q=samsung+galaxy\"\n  ],\n  \"maxResults\": 500,\n  \"maxResultsPerQuery\": 250\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Njuskalo.hr Scraper — Croatia](https://apify.com/santamaria-automations/njuskalo-hr-scraper)\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/XjU9SRTBeBMVciSe9/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/subito-it/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-25T12:51:39.201Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing",
+        "description": "Per classified listing",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.984Z"
+}

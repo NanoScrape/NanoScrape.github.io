@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/homegate-scraper",
+  "name": "homegate-scraper",
+  "title": "Homegate.ch Swiss Real Estate Scraper",
+  "description": "Scrape Swiss real estate listings for rent and sale from Homegate.ch. Search results and full details in one actor. Extract prices in CHF, rooms, area, GPS coordinates, canton, images,  and features. Pay per result, no monthly fee.",
+  "readme": "# Homegate.ch Scraper\n\nScrape real estate listings from [Homegate.ch](https://www.homegate.ch/) — Switzerland's largest property portal with over 100,000 active listings.\n\n## Anti-Bot Protection Note\n\nHomegate.ch uses DataDome anti-bot protection. Success rates depend on proxy IP reputation — residential proxies (`RESIDENTIAL` group) provide the best results. If you experience empty results, try running again (a fresh residential IP often passes the challenge).\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/homegate-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `homegate-scraper` to scrape property listings from homegate. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## What You Get\n\n- **Prices** in CHF (gross, net, extra costs)\n- **Location** with address, city, postal code, canton, and GPS coordinates\n- **Property details** — rooms, area in m², floor, property type\n- **Features** — balcony, parking, elevator, dishwasher, pets allowed, and more\n- **Images** — all listing photos with full URLs\n- **Listing metadata** — listing date, source URL, platform\n\n## How To Use\n\n### Option 1: Paste a search URL\n\nCopy any Homegate.ch search URL directly from your browser:\n\n```\nhttps://www.homegate.ch/mieten/immobilien/ort-zuerich/trefferliste\nhttps://www.homegate.ch/kaufen/immobilien/ort-bern/trefferliste\nhttps://www.homegate.ch/mieten/immobilien/kanton-zuerich/trefferliste\n```\n\n### Option 2: Use filters\n\nSet the listing type, city, canton, price range, and minimum rooms in the input fields.\n\n## Input Example\n\n```json\n{\n  \"searchUrls\": [\"https://www.homegate.ch/mieten/immobilien/ort-zuerich/trefferliste\"],\n  \"maxResults\": 100,\n  \"includeDetails\": false\n}\n```\n\n## Output Example\n\n```json\n{\n  \"id\": \"4002927362\",\n  \"title\": \"2.5-Zimmer-Wohnung mit Wintergarten\",\n  \"price\": 2225,\n  \"price_net\": 2050,\n  \"price_extra\": 175,\n  \"currency\": \"CHF\",\n  \"price_type\": \"rent\",\n  \"rooms\": 2.5,\n  \"area_sqm\": 60,\n  \"floor\": 4,\n  \"property_type\": \"apartment\",\n  \"listing_type\": \"rent\",\n  \"address\": \"Im Isengrind, 8046 Zürich\",\n  \"city\": \"Zürich\",\n  \"postal_code\": \"8046\",\n  \"canton\": \"ZH\",\n  \"latitude\": 47.42223,\n  \"longitude\": 8.51208,\n  \"features\": [\"balcony\", \"parking\", \"elevator\", \"washing_machine\", \"nice_view\", \"quiet\", \"pets_allowed\"],\n  \"image_url\": \"https://media2.homegate.ch/listings/...\",\n  \"source_url\": \"https://www.homegate.ch/mieten/4002927362\",\n  \"source_platform\": \"homegate.ch\",\n  \"listed_at\": \"2026-02-13T12:45:58.392Z\"\n}\n```\n\n## What You Get Without Detail Pages\n\nThe search results already include rich data for every listing — no need to enable `includeDetails` in most cases:\n\n- Title, price, rooms, area, floor\n- Full address, city, postal code, canton\n- GPS coordinates (latitude/longitude)\n- All listing images (15-20 per listing)\n- Features (balcony, parking, elevator, etc.)\n- Description text\n- Listing date and source URL\n\nEnable `includeDetails` to also get agent contact info (name, company, phone) and price breakdown (net rent, extra costs) from the detail page.\n\n## Pricing\n\nPay-per-result pricing. You only pay for the data you receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Listing scraped | $0.003 | A property listing from search results |\n| Detail page extracted | $0.008 | Agent contact info and price breakdown from a listing page |\n\n**Examples:**\n- 100 rental listings in Zurich = **$0.30**\n- 500 listings across Switzerland = **$1.50**\n- 100 listings with full details = **$1.10**\n\nNo monthly fees. No minimum spend.\n\n## Proxy\n\nResidential proxy with Swiss IP (`countryCode: CH`) is recommended for best results.\n\n\n## Related Actors\n\n**Real Estate**\n\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n- [Oikotie.fi Scraper — Finnish real estate](https://apify.com/santamaria-automations/oikotie-fi-scraper)\n\n**Classifieds**\n\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Subito.it Scraper — Italy](https://apify.com/santamaria-automations/subito-it-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/be3Av24vUFcXX6dfi/issues) and we'll look into it.\n",
+  "readmeSource": "actors/real-estate/homegate/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-25T07:11:40.243Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "realestate-serp-result",
+        "title": "Listing scraped",
+        "description": "A property listing was extracted from search results, including price, rooms, area, address, GPS coordinates, images, and features.",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "realestate-detail-result",
+        "title": "Detail page extracted",
+        "description": "Full description and additional data were extracted from a listing detail page.",
+        "isPrimary": false,
+        "priceUsd": 0.008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.829Z"
+}

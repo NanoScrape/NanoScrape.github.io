@@ -1,0 +1,40 @@
+{
+  "slug": "santamaria-automations/eventbrite-scraper",
+  "name": "eventbrite-scraper",
+  "title": "Eventbrite Scraper - Events & Conferences",
+  "description": "Scrape event data from Eventbrite.com, the world's largest event platform. Extract event titles, dates, venues, prices, organizers, categories, and locations from millions of events worldwide.",
+  "readme": "# Eventbrite Scraper - Events & Conferences\n\nScrape event data from Eventbrite.com, the world's largest event platform with millions of events in 180+ countries.\n\n## What data can you extract?\n\n- **Event details**: title, description, start/end dates, timezone\n- **Venue info**: name, full address, city, country, GPS coordinates\n- **Pricing**: ticket price, currency, free/paid status\n- **Organizer**: name and profile URL\n- **Categories & tags**: event category, subcategory, format, and organizer tags\n- **Media**: event image URL\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/eventbrite-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `eventbrite-scraper` to scrape company data from eventbrite. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Option 1: Search URLs\n\nPaste any Eventbrite search URL directly:\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.eventbrite.com/d/germany/tech/\",\n    \"https://www.eventbrite.com/d/ca--san-francisco/conferences/\"\n  ],\n  \"maxResults\": 100\n}\n```\n\n### Option 2: Search query + location\n\n```json\n{\n  \"searchQuery\": \"tech\",\n  \"location\": \"germany\",\n  \"maxResults\": 50\n}\n```\n\n### Location format\n\nEventbrite uses URL slugs for locations:\n- Countries: `germany`, `united-states`, `france`\n- Regions: `united-states--new-york`, `germany--berlin`\n- Cities: `ca--san-francisco`, `united-kingdom--london`\n- Online: `online`\n\n## Input parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchUrls` | string[] | - | Eventbrite search page URLs |\n| `searchQuery` | string | - | Search keyword |\n| `location` | string | `germany` | Location slug for URL building |\n| `maxResults` | integer | 100 | Maximum events to scrape (1-5000) |\n| `proxyConfiguration` | object | RESIDENTIAL proxy | Proxy settings (residential required) |\n\n## Output example\n\n```json\n{\n  \"id\": \"1982303023706\",\n  \"title\": \"Women in Tech Connect Berlin 2026\",\n  \"description\": \"This event is part of the Women in Tech Global Conference...\",\n  \"start_date\": \"2026-05-12T09:00:00+02:00\",\n  \"end_date\": \"2026-05-12T18:00:00+02:00\",\n  \"timezone\": \"Europe/Berlin\",\n  \"url\": \"https://www.eventbrite.com/e/women-in-tech-connect-berlin-tickets-1980168035900\",\n  \"image_url\": \"https://img.evbuc.com/...\",\n  \"is_free\": false,\n  \"is_online\": false,\n  \"price\": \"49.00\",\n  \"currency\": \"EUR\",\n  \"venue_name\": \"Berlin Conference Center\",\n  \"venue_address\": \"Alexanderplatz 1, 10178 Berlin\",\n  \"venue_city\": \"Berlin\",\n  \"venue_country\": \"DE\",\n  \"latitude\": 52.5200,\n  \"longitude\": 13.4050,\n  \"organizer_name\": \"Women in Tech Network\",\n  \"organizer_url\": \"https://www.eventbrite.com/o/women-in-tech-12345\",\n  \"category\": \"Science & Technology\",\n  \"tags\": [\"High Tech\", \"Conference\", \"Networking\"],\n  \"attendee_count\": null,\n  \"source_url\": \"https://www.eventbrite.com/d/germany/tech/\",\n  \"source_platform\": \"eventbrite.com\",\n  \"scraped_at\": \"2026-03-31T12:00:00Z\"\n}\n```\n\n## Performance\n\n- ~128MB memory (Go binary with TLS fingerprinting)\n- ~20 events per search page\n- Fetches detail pages for price and organizer data\n- RESIDENTIAL proxy required (Eventbrite blocks datacenter IPs)\n\n## Pricing\n\nPay per result: $0.003 per event extracted.\n\n\n## Related Actors\n\n**Related Scrapers**\n\n- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)\n- [YouTube Scraper — Video & channel data](https://apify.com/santamaria-automations/youtube-scraper)\n- [Similarweb Scraper — Website analytics](https://apify.com/santamaria-automations/similarweb-scraper)\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/bn1zqW7IDOoj5evZl/issues) and we'll look into it.\n",
+  "readmeSource": "actors/directories/eventbrite/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:10:32.110Z",
+    "events": [
+      {
+        "key": "event-result",
+        "title": "Event found",
+        "description": "An event with date, venue, price, organizer, and category",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.003,
+          "BRONZE": 0.00297,
+          "SILVER": 0.00293,
+          "GOLD": 0.00287,
+          "PLATINUM": 0.00287,
+          "DIAMOND": 0.00287
+        }
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.076Z"
+}

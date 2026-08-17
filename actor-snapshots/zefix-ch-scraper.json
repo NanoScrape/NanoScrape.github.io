@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/zefix-ch-scraper",
+  "name": "zefix-ch-scraper",
+  "title": "Zefix.ch Scraper - Swiss Commercial Register",
+  "description": "Scrape company data from Zefix (Zentraler Firmenindex), the official Swiss central business name index operated by the Federal Office of Justice. Extract UID numbers, legal forms, company purposes, SOGC publication dates, cantonal registry links, and more from the Swiss commercial register.",
+  "readme": "# Zefix.ch Scraper - Swiss Commercial Register\n\nScrape company data from [Zefix](https://www.zefix.ch) (Zentraler Firmenindex), the official Swiss central business name index operated by the Federal Office of Justice.\n\n## What is Zefix?\n\nZefix is the official Swiss government portal that provides access to the central business name index. It aggregates data from all 26 cantonal commercial registers into a single searchable database. The data is authoritative and legally binding.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/zefix-ch-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `zefix-ch-scraper` to scrape company data from zefix ch. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## What data can you extract?\n\nFor each company, the scraper extracts:\n\n| Field | Description |\n|-------|-------------|\n| `uid` | Swiss company UID (CHE-xxx.xxx.xxx format) |\n| `name` | Official registered company name |\n| `legal_form` | Legal form (AG, GmbH, Verein, Stiftung, etc.) |\n| `legal_seat` | Registered seat (municipality) |\n| `canton` | Canton code (ZH, BE, GE, etc.) |\n| `status` | Company status (active, deleted, in_liquidation, etc.) |\n| `purpose` | Official company purpose text |\n| `address` | Registered address |\n| `postal_code` | Swiss postal code |\n| `city` | City |\n| `sogc_date` | Date of last SOGC (Swiss Official Gazette of Commerce) publication |\n| `register_office` | Cantonal register office name |\n| `registry_href` | Direct link to cantonal registry entry |\n| `source_url` | Zefix or cantonal excerpt URL |\n| `source_platform` | Always \"zefix.ch\" |\n| `scraped_at` | ISO 8601 timestamp |\n\n## Input parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchUrls` | array | - | Zefix search URLs with parameters |\n| `searchQuery` | string | - | Company name or keyword to search |\n| `canton` | string | - | Filter by canton (ZH, BE, GE, etc. or full name) |\n| `legalForm` | string | - | Filter by legal form (AG, GmbH, Verein, etc.) |\n| `activeOnly` | boolean | true | Only active companies |\n| `maxResults` | integer | 100 | Maximum results (1-2000) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Example input\n\n```json\n{\n  \"searchQuery\": \"software\",\n  \"canton\": \"ZH\",\n  \"legalForm\": \"AG\",\n  \"activeOnly\": true,\n  \"maxResults\": 50\n}\n```\n\n## Search URL format\n\nYou can also provide Zefix search URLs directly:\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.zefix.ch/en/search/entity/list?name=consulting&searchType=exact&canton=BE\"\n  ],\n  \"maxResults\": 100\n}\n```\n\n## Canton codes\n\nAll 26 Swiss cantons are supported: AG, AI, AR, BE, BL, BS, FR, GE, GL, GR, JU, LU, NE, NW, OW, SG, SH, SO, SZ, TG, TI, UR, VD, VS, ZG, ZH\n\nYou can use either the 2-letter code or the full name (in German, French, or English).\n\n## Legal forms\n\nCommon legal forms: AG (Aktiengesellschaft/SA), GmbH (SARL), Einzelunternehmen, Kollektivgesellschaft, Kommanditgesellschaft, Genossenschaft, Verein, Stiftung, Zweigniederlassung\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| `directory-serp-result` | $0.002 per company |\n| `directory-detail-result` | $0.005 per detail fetch |\n\n## Data source\n\nAll data comes from the official Swiss Federal Office of Justice via the Zefix portal. This is authoritative government data from the Swiss commercial register system.\n\n## Related Actors\n\n**Swiss Company Data**\n- [Moneyhouse.ch Scraper](https://apify.com/santamaria-automations/moneyhouse-ch-scraper) -- Swiss company registry with 600K+ companies\n\n**Swiss Business Directories**\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory with 2M+ entries\n\n**DACH Business Directories**\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [LinkedIn Company Scraper](https://apify.com/santamaria-automations/linkedin-company-scraper) -- Scrape company profiles from LinkedIn\n\n## Legal notice\n\nThis scraper accesses publicly available data from the Swiss commercial register. The data is published by the Swiss Federal Office of Justice for public information purposes. Users are responsible for complying with applicable laws when using the extracted data.\n",
+  "readmeSource": "actors/directories/zefix-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-26T15:14:24.248Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Company found",
+        "description": "A Swiss company was extracted from the commercial register",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Company details extracted",
+        "description": "Full registry data including UID, legal form, purpose, management, and SOGC publications",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.744Z"
+}

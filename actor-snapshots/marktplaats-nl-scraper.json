@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/marktplaats-nl-scraper",
+  "name": "marktplaats-nl-scraper",
+  "title": "Marktplaats.nl Scraper - Dutch Classifieds & Marketplace",
+  "description": "Scrape classified listings from Marktplaats.nl, the Netherlands' #1 classifieds platform with 10M+ active listings. Paste any search URL with filters. Extract title, price, location, seller info, images, and attributes. Fast and pay-per-result.",
+  "readme": "# Marktplaats.nl Scraper\n\nScrape classified listings from [Marktplaats.nl](https://www.marktplaats.nl), the Netherlands' largest classifieds platform with 10M+ active listings.\n\n## How it works\n\n1. Go to [marktplaats.nl](https://www.marktplaats.nl) and set up your search with all desired filters (category, price range, location, seller type, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n4. Run the actor\n\nThat's it. The actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/marktplaats-nl-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `marktplaats-nl-scraper` to scrape company data from marktplaats nl. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** -- Whatever you can filter on marktplaats.nl, the actor can scrape\n- **Multiple searches** -- Paste multiple URLs to run several searches in one run\n- **JSON API** -- Uses internal API directly, no HTML parsing needed\n- **GPS coordinates** -- Full location data including latitude/longitude\n- **Fast & cheap** -- HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | string | Marktplaats item ID (e.g., `m2380372505`) |\n| `title` | string | Listing title |\n| `description` | string | Full description text |\n| `price` | number | Price in EUR (converted from cents) |\n| `currency` | string | Always `EUR` |\n| `price_type` | string | `FIXED`, `MIN_BID`, `SEE_DESCRIPTION`, etc. |\n| `city` | string | City name |\n| `location` | string | City + country |\n| `latitude` | number | GPS latitude |\n| `longitude` | number | GPS longitude |\n| `category` | string | Category name |\n| `seller_name` | string | Seller display name |\n| `seller_id` | number | Seller numeric ID |\n| `image_url` | string | Primary image URL |\n| `image_urls` | string[] | All image URLs |\n| `posted_at` | string | Posting date |\n| `source_url` | string | Full listing URL |\n| `scraped_at` | string | ISO timestamp |\n\n## Pricing\n\nNo start fee -- pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (SERP) | $0.003 |\n\n**100 listings = $0.30** | **1,000 listings = $3.00**\n\n## Examples\n\n### Opel Astra petrol, max 10000 EUR\n```json\n{\n  \"searchUrls\": [\"https://www.marktplaats.nl/l/auto-s/opel/f/astra+benzine/1064+473/#PriceCentsTo:1000000\"],\n  \"maxResults\": 100\n}\n```\n\n### iPhones under 500 EUR\n```json\n{\n  \"searchUrls\": [\"https://www.marktplaats.nl/q/iphone/#PriceCentsTo:50000\"],\n  \"maxResults\": 200\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.marktplaats.nl/q/fiets/\",\n    \"https://www.marktplaats.nl/l/computers-en-software/\"\n  ],\n  \"maxResults\": 500,\n  \"maxResultsPerQuery\": 250\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Finn.no Scraper — Norway](https://apify.com/santamaria-automations/finn-no-scraper)\n- [Blocket.se Scraper — Sweden](https://apify.com/santamaria-automations/blocket-se-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/aY6hpdhn6aZ7WuTYc/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/marktplaats-nl/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-26T07:08:48.537Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.00005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing",
+        "description": "Per classified listing",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.882Z"
+}

@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/remoteok-scraper",
+  "name": "remoteok-scraper",
+  "title": "RemoteOK Scraper - Remote Jobs & Salaries | $3/1K Jobs",
+  "description": "Extract remote job listings from RemoteOK.com. Returns job title, company, salary (min/max), full description, tags, location, apply URL, and posting date. Covers 1,300+ remote positions across engineering, design, marketing, sales, and more. Pay-per-result: $3 per 1,000 jobs.",
+  "readme": "# RemoteOK Scraper - Remote Jobs, Salaries & Companies\n\nExtract remote job listings from [RemoteOK.com](https://remoteok.com) — one of the most popular remote job boards with 1,300+ active listings across engineering, design, marketing, sales, and more. Get structured data including salaries, full descriptions, company info, and apply URLs. No code needed.\n\n---\n\n## What data can you extract?\n\nEvery job listing includes:\n\n**Job details**\n- Job title and unique ID\n- Full description (plain text + raw HTML)\n- Tags / role categories (e.g. \"senior\", \"engineer\", \"python\")\n- Salary: structured min/max + currency + display text\n- Posting date (ISO 8601)\n- Direct apply URL\n\n**Company details**\n- Company name\n- Company logo URL\n\n**Location**\n- Location field (e.g. \"Worldwide\", \"US\", \"Europe\", or specific regions)\n\n**Meta**\n- Source URL on RemoteOK\n- Which search query or URL found the job\n- Scrape timestamp\n\n---\n\n## Pricing\n\n**$3 per 1,000 jobs** — simple, predictable pricing.\n\n| Jobs | Cost |\n|------|------|\n| 10 jobs | **$0.03** |\n| 100 jobs | **$0.30** |\n| 1,000 jobs | **$3.00** |\n\nEvery job includes the full description, salary, tags, and apply URL. No hidden fees, no monthly subscription.\n\n---\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=nanoscrape/remoteok-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `remoteok-scraper` to find remote engineering jobs. Return the top 20 results as a table with title, company, salary, and tags.\"\n\n> \"Use `remoteok-scraper` to extract all remote senior developer jobs with salary above $100k.\"\n\n---\n\n## How to use\n\nThe scraper supports two input modes:\n\n### 1. Search URLs (recommended)\n\nGo to [remoteok.com](https://remoteok.com), set up your filters (role category, benefits, minimum salary, location), and paste the URL. All filters are preserved automatically.\n\n```json\n{\n  \"searchUrls\": [\n    \"https://remoteok.com/remote-dev-jobs\",\n    \"https://remoteok.com/remote-senior-jobs?benefits=paid_time_off&min_salary=30000&order_by=date\"\n  ]\n}\n```\n\n### 2. Search Keywords\n\nEnter one or more keywords. The scraper searches RemoteOK by tag and returns matching jobs.\n\n```json\n{\n  \"searchQueries\": [\"engineer\", \"design\", \"marketing\"],\n  \"maxResultsPerQuery\": 50\n}\n```\n\n---\n\n## Input reference\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `searchUrls` | string[] | Pre-filtered search URLs from [remoteok.com](https://remoteok.com). |\n| `searchQueries` | string[] | One or more search keywords / tags. |\n| `maxResultsPerQuery` | integer | Max results per keyword/URL (default 100). |\n| `maxResults` | integer | Total cap across all modes (default 10, 0 = unlimited). |\n| `proxyConfiguration` | object | Proxy settings. Datacenter proxies work great. |\n\n---\n\n## Output example\n\n```json\n{\n  \"id\": \"1131415\",\n  \"title\": \"Senior Data Engineer\",\n  \"company\": \"Business Wire\",\n  \"company_logo_url\": null,\n  \"location\": \"Worldwide\",\n  \"tags\": [\"senior\", \"engineer\", \"data\"],\n  \"description_full\": \"About the Role\\nThe Senior Data Engineer plays an integral role in creating and maintaining data pipelines, APIs, and services...\",\n  \"description_html\": \"<p>About the Role</p><p>The Senior Data Engineer plays an integral role...</p>\",\n  \"salary_min\": 120000,\n  \"salary_max\": 180000,\n  \"salary_currency\": \"USD\",\n  \"salary_period\": \"year\",\n  \"salary_text\": \"$120k - $180k/year\",\n  \"posted_at\": \"2026-05-01T08:00:12+00:00\",\n  \"source_url\": \"https://remoteOK.com/remote-jobs/remote-senior-data-engineer-business-wire-1131415\",\n  \"source_platform\": \"remoteok.com\",\n  \"apply_url\": \"https://remoteOK.com/remote-jobs/remote-senior-data-engineer-business-wire-1131415\",\n  \"search_query\": \"https://remoteok.com/remote-dev-jobs\",\n  \"scraped_at\": \"2026-05-04T14:30:00Z\"\n}\n```\n\n---\n\n## Speed\n\n| Jobs | ~Time | Memory |\n|------|-------|--------|\n| 10 | **~5 seconds** | ~16 MB |\n| 100 | **~5 seconds** | ~16 MB |\n| 1,000+ | **~10 seconds** | ~16 MB |\n\nRemoteOK returns all matching jobs in a single API call, so even large result sets complete in seconds.\n\n---\n\n## Integrations\n\nThis actor works with all Apify integrations:\n- **API** — trigger runs and download results programmatically\n- **Webhooks** — get notified when a run completes\n- **Zapier & Make** — connect to 5,000+ apps\n- **Google Sheets** — export directly to a spreadsheet\n- **Slack, Email** — get notifications with results\n\n---\n\n## Related actors\n\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper) — 60+ countries, salary & company enrichment\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-jobs-scraper) — LinkedIn job listings\n- [Welcome to the Jungle Scraper](https://apify.com/santamaria-automations/welcome-to-the-jungle-scraper) — European tech jobs\n- [StepStone Scraper](https://apify.com/santamaria-automations/stepstone-de-scraper) — German job market\n\n---\n\nSomething not working? [Create an issue](https://console.apify.com/actors/TODO/issues) and we'll fix it fast.\n",
+  "readmeSource": "actors/jobs/remoteok/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-05-04T19:37:27.195Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-default-dataset-item",
+        "title": "Job",
+        "description": "Single Job result in the dataset.",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.438Z"
+}

@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/moneyhouse-ch-scraper",
+  "name": "moneyhouse-ch-scraper",
+  "title": "Moneyhouse.ch Scraper - Swiss Company Registry",
+  "description": "Scrape company data from Moneyhouse.ch, Switzerland's leading commercial register platform. Extract UID numbers, legal forms, management boards, share capital, industry sectors, and full company details from the Swiss trade register.",
+  "readme": "# Moneyhouse.ch Scraper - Swiss Company Registry\n\nScrape company data from [Moneyhouse.ch](https://www.moneyhouse.ch), Switzerland's leading commercial register and company information platform with data on 600,000+ Swiss companies.\n\n## What data do you get?\n\nFor each company, the scraper extracts:\n\n- **Company name** and legal name\n- **Swiss UID number** (CHE-xxx.xxx.xxx)\n- **Legal form** (AG, GmbH, Sole proprietorship, etc.)\n- **Company purpose/description** (from commercial register)\n- **Full address** (street, postal code, city, canton)\n- **Company status** (active, dissolved, in liquidation)\n- **Industry sector** and NOGA code\n- **Share capital** (for AG/GmbH)\n- **Year of registration**\n- **Management board members** and authorized signatories\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/moneyhouse-ch-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `moneyhouse-ch-scraper` to scrape company data from moneyhouse ch. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Option 1: Paste a search URL\n\n1. Go to [moneyhouse.ch](https://www.moneyhouse.ch/en/) and search for companies\n2. Copy the search results URL\n3. Paste it into the **Search URLs** field\n\n### Option 2: Use search query + canton\n\nSet the **Search Query** (e.g., \"software\") and optionally a **Canton** (e.g., \"ZH\") to filter results.\n\n### Input example\n\n```json\n{\n  \"searchQuery\": \"software\",\n  \"canton\": \"ZH\",\n  \"maxResults\": 50,\n  \"includeDetails\": true,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  }\n}\n```\n\n### Input parameters\n\n| Parameter | Type | Description |\n|-----------|------|-------------|\n| `searchUrls` | array | Moneyhouse search result URLs |\n| `searchQuery` | string | Search keyword (alternative to searchUrls) |\n| `canton` | string | Swiss canton code filter (e.g., \"ZH\", \"BE\", \"GE\") |\n| `maxResults` | integer | Maximum companies to scrape (default: 50) |\n| `includeDetails` | boolean | Fetch detail pages for full data (default: true) |\n| `proxyConfiguration` | object | Proxy settings |\n\n## Output example\n\n```json\n{\n  \"id\": \"1312690861\",\n  \"uid\": \"CHE-415.291.110\",\n  \"name\": \"Stadler Software\",\n  \"legal_form\": \"Sole proprietorship\",\n  \"description\": \"Software-Consulting.\",\n  \"website\": null,\n  \"phone\": null,\n  \"email\": null,\n  \"address\": \"Buel 23c\",\n  \"city\": \"Eschenbach SG\",\n  \"postal_code\": \"8733\",\n  \"canton\": \"SG\",\n  \"country\": \"Switzerland\",\n  \"country_code\": \"CH\",\n  \"share_capital\": null,\n  \"currency\": null,\n  \"year_founded\": \"2023\",\n  \"status\": \"active\",\n  \"industry\": \"IT services\",\n  \"noga_code\": null,\n  \"employees\": null,\n  \"management\": [\n    { \"name\": \"Ruben Julius Stadler\", \"role\": \"Owner\" }\n  ],\n  \"source_url\": \"https://www.moneyhouse.ch/en/company/stadler-software-1312690861\",\n  \"source_platform\": \"moneyhouse.ch\",\n  \"scraped_at\": \"2026-03-26T10:30:00Z\"\n}\n```\n\n## Swiss-specific data\n\nThis scraper extracts data unique to the Swiss commercial register:\n\n- **UID numbers**: The official Swiss company identification number (CHE-xxx.xxx.xxx)\n- **Legal forms**: AG (corporation), GmbH (LLC), Einzelunternehmen (sole proprietorship), Genossenschaft (cooperative), etc.\n- **NOGA codes**: Swiss industry classification codes\n- **Share capital**: Registered capital for AG and GmbH companies\n- **Canton**: The Swiss canton where the company is legally headquartered\n\n## Tips\n\n- **Include Details = ON** gives you UID, legal form, management, industry, and description. Highly recommended.\n- **Include Details = OFF** is much faster but only returns name, address, and status.\n- **Datacenter proxy** works fine for Moneyhouse, no need for residential.\n- Up to 50 companies per search query from the free tier. Use multiple specific queries for more results.\n\n## Pricing\n\nThis actor uses pay-per-result pricing:\n\n| Event | Price |\n|-------|-------|\n| Per run | $0.005 |\n| Per company (search only) | $0.003 |\n| Per company (with details) | $0.005 |\n\n## Related Actors\n\n**Swiss Company Data**\n- [Zefix.ch Scraper](https://apify.com/santamaria-automations/zefix-ch-scraper) -- Official Swiss commercial register (government data)\n\n**Swiss Business Directories**\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory with 2M+ entries\n\n**DACH Business Directories**\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [LinkedIn Company Scraper](https://apify.com/santamaria-automations/linkedin-company-scraper) -- Scrape company profiles from LinkedIn\n\nIf something is not working or you're missing a feature or data field, please open an issue and we'll look into it.\n",
+  "readmeSource": "actors/directories/moneyhouse-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-26T15:20:55.653Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Company found",
+        "description": "A Swiss company was extracted from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Company details extracted",
+        "description": "Full company data including UID, management board, share capital, industry, and legal form",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:37.944Z"
+}

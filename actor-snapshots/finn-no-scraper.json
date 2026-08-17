@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/finn-no-scraper",
+  "name": "finn-no-scraper",
+  "title": "Finn.no Scraper - Norway's #1 Classifieds & Jobs Platform",
+  "description": "Scrape listings from Finn.no, Norway's largest marketplace and job board (Schibsted). Extract items from marketplace, jobs, real estate, and cars. HTTP-only, low memory, datacenter proxy.",
+  "readme": "# Finn.no Scraper\n\nScrape listings from [finn.no](https://www.finn.no), Norway's largest classifieds platform and job board (Schibsted group). Supports marketplace, jobs, real estate, cars, and mobility.\n\n## How it works\n\n1. Go to [finn.no](https://www.finn.no) and set up your search with all desired filters (category, price, location, make, model, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n4. Run the actor\n\nThe actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/finn-no-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `finn-no-scraper` to scrape company data from finn no. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** -- Whatever you can filter on finn.no, the actor can scrape\n- **Multiple searches** -- Paste multiple URLs to run several searches in one run\n- **Detail enrichment** -- Optionally get full description, company URL, employment type (jobs)\n- **All verticals** -- Marketplace (Torget), Jobs (Jobb), Real Estate (Eiendom), Cars (Bil), Mobility\n- **Fast & cheap** -- HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Description | Source |\n|-------|-------------|--------|\n| `title` | Listing title | Search |\n| `price` / `currency` | Price in NOK | Search |\n| `location` | City or address | Search |\n| `category` | Detected vertical (marketplace/jobs/cars/realestate) | Search |\n| `company_name` | Employer (jobs) or seller | Search |\n| `company_url` | Employer website | Detail |\n| `employment_type` | FULL_TIME, PART_TIME, etc. (jobs) | Detail |\n| `image_url` | Primary image URL | Search |\n| `description` | Full listing description | Detail |\n| `posted_at` / `expires_at` | Publication and expiry dates | Both |\n| `source_url` | Direct link on finn.no | Both |\n\n## Pricing\n\nNo start fee -- pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (basic) | $0.003 |\n| Listing (with details) | $0.005 |\n\n**100 listings = $0.30** (basic) or **$0.50** (with details)\n\n## Examples\n\n### Cars under 200K NOK\n```json\n{\n  \"searchUrls\": [\"https://www.finn.no/mobility/search/car?price_to=200000&registration_class=1&variant=0.801\"],\n  \"maxResults\": 50\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.finn.no/bap/forsale/search.html?q=iphone\",\n    \"https://www.finn.no/job/search?q=utvikler\",\n    \"https://www.finn.no/realestate/homes/search.html?q=leilighet\"\n  ],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 80\n}\n```\n\n### Quick SERP-only scan (fast, less data)\n```json\n{\n  \"searchUrls\": [\"https://www.finn.no/bap/forsale/search.html?q=macbook\"],\n  \"maxResults\": 200,\n  \"includeDetails\": false\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Blocket.se Scraper — Sweden](https://apify.com/santamaria-automations/blocket-se-scraper)\n- [DBA.dk Scraper — Denmark](https://apify.com/santamaria-automations/dba-dk-scraper)\n- [Tori.fi Scraper — Finland](https://apify.com/santamaria-automations/tori-fi-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/It8xIqTEZKIadyNNr/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/finn-no/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-27T12:27:51.951Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Listing Result (basic)",
+        "description": "Per result with basic details available in Search Results pages",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Listing (with details)",
+        "description": "Per result with additional details that are available in the listing result detail page",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.183Z"
+}

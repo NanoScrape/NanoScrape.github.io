@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/wlw-de-scraper",
+  "name": "wlw-de-scraper",
+  "title": "wlw.de Scraper — German B2B Supplier Directory",
+  "description": "Scrape B2B supplier listings from wlw.de (Wer liefert was). Extract contacts, certifications, employee count, products, GPS coordinates & company logos.  625K+ businesses across DE/AT/CH. HTTP-only, low memory. Pay-per-result pricing.",
+  "readme": "# wlw.de Business Scraper (Wer liefert was)\n\nScrapes B2B supplier listings from [wlw.de](https://www.wlw.de/), Germany's leading B2B supplier directory with 625K+ businesses.\n\n## Features\n\n- **SERP extraction**: Company name, country, sell points\n- **Detail pages**: Full profile with address, phone, website, description, employee count, certifications, product categories, founding year, distribution area\n- **Country filter**: DE, AT, CH, or all\n- **Pagination**: Automatically follows all result pages\n- **Ultra-low memory**: HTTP-only, ~20MB RAM (no browser, no Node.js)\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/wlw-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `wlw-de-scraper` to scrape company data from wlw de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\n| Field | Type | Default | Description |\n|-------|------|---------|-------------|\n| `keyword` | string | *required* | Product/service keyword (e.g., \"CNC Fräsen\", \"Metallbau\") |\n| `country` | string | DE | Country filter: DE, AT, CH, or empty for all |\n| `maxResults` | integer | 100 | Maximum results to return |\n| `includeDetails` | boolean | true | Fetch company profiles for full data |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output\n\nEach result includes:\n- `name`, `slug`, `wlw_id`\n- `street`, `zip`, `city`, `country`, `address`\n- `phone`, `website`, `email`, `logo_url`\n- `description`, `employee_count`, `supplier_type`\n- `distribution_area`, `founding_year`\n- `certifications[]`, `product_categories[]`\n- `latitude`, `longitude`\n- `source_url`, `detail_url`, `scraped_at`\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| `directory-start` | Run start |\n| `directory-serp-result` | $0.003/result |\n| `directory-detail-result` | $0.005/result |\n\n## Related Actors\n\n**DACH Business Directories**\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [Das Oertliche Scraper](https://apify.com/santamaria-automations/dasoertliche-de-scraper) -- German phone directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Swiss Company Data**\n- [Zefix.ch Scraper](https://apify.com/santamaria-automations/zefix-ch-scraper) -- Official Swiss commercial register\n- [Moneyhouse.ch Scraper](https://apify.com/santamaria-automations/moneyhouse-ch-scraper) -- Swiss company registry\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n\n## Support\n\nFound a bug or have a feature request? [Open an issue](https://console.apify.com/actors/4igqtmgXzelzQXgJo/issues).\n",
+  "readmeSource": "actors/directories/wlw-de-go/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-12T12:10:48.360Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Run started",
+        "description": "Charged once when the actor starts",
+        "isPrimary": false,
+        "priceUsd": 0.05,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Search result scraped",
+        "description": "Charged for each supplier listing from search results (basic info)",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Detail page scraped",
+        "description": "Charged for each supplier with full company profile (contacts, certs, etc.)",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.681Z"
+}

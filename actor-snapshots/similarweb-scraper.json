@@ -1,0 +1,40 @@
+{
+  "slug": "santamaria-automations/similarweb-scraper",
+  "name": "similarweb-scraper",
+  "title": "Similarweb Scraper",
+  "description": "Scrape website traffic data from Similarweb. Get monthly visits, traffic sources, top keywords, global rankings, and audience insights for any domain.",
+  "readme": "# Similarweb Scraper\n\nScrape website traffic analytics from Similarweb. Get monthly visits, traffic sources, top keywords, global rankings, and audience insights for any domain.\n\n## What data do you get?\n\nFor each domain, the scraper returns:\n\n- **Rankings**: Global rank, country rank, category rank\n- **Traffic**: Total visits, bounce rate, pages per visit, average visit duration\n- **Monthly visits**: Last 3 months of estimated visit data\n- **Traffic sources**: Direct, search, social, referrals, mail, paid referrals (percentages)\n- **Top countries**: Top 5 countries by traffic share\n- **Top keywords**: Top 5 organic keywords with search volume and CPC\n- **Competitors**: Similar websites identified by Similarweb\n- **Metadata**: Site title, description, category, screenshot URL\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/similarweb-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `similarweb-scraper` to scrape company data from similarweb. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input\n\nYou can provide domains in two ways:\n\n### Option 1: Domain names\n```json\n{\n  \"domains\": [\"amazon.com\", \"github.com\", \"netflix.com\"]\n}\n```\n\n### Option 2: Similarweb URLs\n```json\n{\n  \"urls\": [\"https://www.similarweb.com/website/amazon.com/\"]\n}\n```\n\n### Full input example\n```json\n{\n  \"domains\": [\"amazon.com\", \"github.com\"],\n  \"urls\": [\"https://www.similarweb.com/website/netflix.com/\"],\n  \"maxResults\": 50,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true\n  }\n}\n```\n\n## Output example\n\n```json\n{\n  \"domain\": \"amazon.com\",\n  \"title\": \"Amazon Charts Top 20 Books\",\n  \"description\": \"See this week's Top 20 Most Read Fiction books...\",\n  \"global_rank\": 9,\n  \"country_rank\": 4,\n  \"country\": \"United States\",\n  \"country_code\": \"US\",\n  \"category_rank\": 1,\n  \"category\": \"E-commerce and Shopping > Marketplace\",\n  \"total_visits\": 2289218737,\n  \"bounce_rate\": \"30.61%\",\n  \"pages_per_visit\": \"9.06\",\n  \"avg_visit_duration\": \"06:02\",\n  \"monthly_visits\": [\n    { \"date\": \"2025-12\", \"visits\": 3077818349 },\n    { \"date\": \"2026-01\", \"visits\": 2719230286 },\n    { \"date\": \"2026-02\", \"visits\": 2289218737 }\n  ],\n  \"traffic_sources\": {\n    \"direct\": 0.6838,\n    \"search\": 0.2394,\n    \"social\": 0.0141,\n    \"referrals\": 0.0552,\n    \"mail\": 0.0016,\n    \"paid_referrals\": 0.0058\n  },\n  \"top_countries\": [\n    { \"country_code\": \"US\", \"share\": 0.8558 },\n    { \"country_code\": \"IN\", \"share\": 0.012 }\n  ],\n  \"top_keywords\": [\n    { \"keyword\": \"amazon\", \"estimated_value\": 79784590, \"volume\": 71632480, \"cpc\": 0.25 }\n  ],\n  \"competitors\": [],\n  \"source_url\": \"https://www.similarweb.com/website/amazon.com/\",\n  \"source_platform\": \"similarweb.com\",\n  \"scraped_at\": \"2026-04-01T12:00:00Z\"\n}\n```\n\n## Performance\n\n- **Memory**: 128 MB (Go binary, no browser needed)\n- **Speed**: ~1 domain per second (with rate limiting)\n- **Cost**: Very low compute usage (~0.001 CU per domain)\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| website-result | $0.005 per domain |\n\n## Notes\n\n- Data availability depends on the domain's traffic. Very small or new websites may not have data.\n- Similarweb provides estimated traffic data, not exact numbers.\n- The free API returns basic analytics. Some fields (like detailed referral sites) require a paid Similarweb subscription.\n- The scraper includes a 1-second delay between requests to avoid rate limiting.\n\n\n## Related Actors\n\n**Related Scrapers**\n\n- [Google News Scraper — News articles](https://apify.com/santamaria-automations/google-news-scraper)\n- [YouTube Scraper — Video & channel data](https://apify.com/santamaria-automations/youtube-scraper)\n- [Kununu.de Scraper — Employer reviews](https://apify.com/santamaria-automations/kununu-de-scraper)\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Tutti.ch Scraper — Switzerland](https://apify.com/santamaria-automations/tutti-ch-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature or data field, please [open an issue](https://console.apify.com/actors/1254zwvzsmUeahEUs/issues) and we'll look into it.\n",
+  "readmeSource": "actors/directories/similarweb/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T14:04:08.095Z",
+    "events": [
+      {
+        "key": "website-result",
+        "title": "Website analyzed",
+        "description": "Traffic data, global ranking, top keywords, traffic sources, and competitors for one domain",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.005,
+          "BRONZE": 0.00497,
+          "SILVER": 0.00493,
+          "GOLD": 0.00487,
+          "PLATINUM": 0.00487,
+          "DIAMOND": 0.00487
+        }
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.655Z"
+}

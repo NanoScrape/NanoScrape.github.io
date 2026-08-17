@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/tutti-ch-scraper",
+  "name": "tutti-ch-scraper",
+  "title": "Tutti.ch Scraper Swiss Classifieds & Marketplace",
+  "description": "Scrape 2M+ classified listings from tutti.ch, Switzerland's #1 classifieds platform. Extract prices, locations, cantons, seller info, GPS coordinates, images, and contact details. Browse by category (cars, real estate, electronics, furniture, jobs, and 20+ more). HTTP-only, fast, pay-per-result.",
+  "readme": "# Tutti.ch Scraper\n\nScrape 2M+ classified listings from [tutti.ch](https://www.tutti.ch), Switzerland's largest classifieds platform.\n\n## How it works\n\n1. Go to [tutti.ch](https://www.tutti.ch) and set up your search with all desired filters (category, search query, price range, fuel type, body type, location, etc.)\n2. Copy the URL from your browser\n3. Paste it into the **Search URLs** input\n4. Run the actor\n\nThat's it. The actor extracts all listings matching your search, with automatic pagination.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/tutti-ch-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `tutti-ch-scraper` to scrape company data from tutti ch. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Features\n\n- **Any filter combination** — Whatever you can filter on tutti.ch, the actor can scrape\n- **Multiple searches** — Paste multiple URLs to run several searches in one run\n- **Detail enrichment** — Optionally get GPS coordinates, all images, and seller ID\n- **2M+ listings** — Access the entire tutti.ch marketplace\n- **Fast & cheap** — HTTP-only, 128 MB, pay-per-result\n\n## Output\n\n| Field | Description | Source |\n|-------|-------------|--------|\n| `title` | Listing title | Search |\n| `price` / `price_chf` | Price (formatted + numeric) | Search |\n| `category` | Category (e.g., \"cars\", \"electronics\") | Search |\n| `location` / `canton` / `postcode` | Location details | Search |\n| `seller_name` / `seller_type` | Seller info (private/professional) | Search |\n| `image_url` | Main thumbnail | Search |\n| `latitude` / `longitude` | GPS coordinates | Detail |\n| `image_urls` | All listing images | Detail |\n| `seller_id` | Seller account ID | Detail |\n| `phone` | Phone number (when available) | Detail |\n| `description` | Full listing text | Search |\n| `source_url` | Link to listing on tutti.ch | Both |\n\n## Pricing\n\nNo start fee — pay only for results:\n\n| Event | Cost |\n|-------|------|\n| Listing (basic) | $0.003 |\n| Listing (with details) | $0.005 |\n\n**100 listings = $0.30** (basic) or **$0.50** (with details)\n\n## Examples\n\n### BMW Cabriolets with petrol engine\n```json\n{\n  \"searchUrls\": [\"https://www.tutti.ch/de/q/autos/Ak6NibXekY2Fyc5SSkrFjYXJzQXV0b1Njb3V0VHlwZaljYWJyaW9sZXSStWNhcnNBdXRvU2NvdXRGdWVsVHlwZaZwZXRyb2zAwMA?sorting=newest&query=bmw\"],\n  \"maxResults\": 50\n}\n```\n\n### Multiple searches in one run\n```json\n{\n  \"searchUrls\": [\n    \"https://www.tutti.ch/de/q/immobilien/Ak8CuaW1tb2JpbGllbpTAwMDA?query=wohnung\",\n    \"https://www.tutti.ch/de/q/elektronik/Ak8CrGVsZWN0cm9uaWNzlMDAwMA?query=iphone\"\n  ],\n  \"maxResults\": 200,\n  \"maxResultsPerQuery\": 100\n}\n```\n\n### All listings (no filter)\n```json\n{\n  \"maxResults\": 100,\n  \"includeDetails\": true\n}\n```\n\n\n## Related Actors\n\n**European Classifieds**\n\n- [Kleinanzeigen.de Scraper — Germany](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper — Austria](https://apify.com/santamaria-automations/willhaben-at-scraper)\n- [Marktplaats.nl Scraper — Netherlands](https://apify.com/santamaria-automations/marktplaats-nl-scraper)\n- [Subito.it Scraper — Italy](https://apify.com/santamaria-automations/subito-it-scraper)\n- [Njuskalo.hr Scraper — Croatia](https://apify.com/santamaria-automations/njuskalo-hr-scraper)\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/17R2qQVB5Wx6WJ7KY/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/tutti-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-25T09:01:55.712Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Search Result Listing",
+        "description": "Each listing from search results (without details)",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Detail Listing",
+        "description": "Each listing with full detail enrichment",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:39.422Z"
+}

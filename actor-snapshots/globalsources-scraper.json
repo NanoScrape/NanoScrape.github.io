@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/globalsources-scraper",
+  "name": "globalsources-scraper",
+  "title": "GlobalSources Scraper - Asian Manufacturer & Supplier Directory",
+  "description": "Scrape supplier data from GlobalSources.com, one of the world's largest B2B platforms for Asian manufacturers and suppliers. Extract company names, websites, contact details, certifications, product categories, export markets, and more.",
+  "readme": "# GlobalSources Scraper - Asian Manufacturer & Supplier Directory\n\nScrape supplier data from [GlobalSources.com](https://www.globalsources.com), one of the world's largest B2B sourcing platforms connecting buyers with Asian manufacturers and suppliers.\n\n## Important: Imperva/Incapsula Protection\n\nGlobalSources.com uses **Imperva/Incapsula** bot protection with a JavaScript challenge (`reese84`). This requires:\n\n- **Residential proxy** (strongly recommended)\n- The scraper automatically rotates proxy sessions to find clean IPs\n- If blocked, increase `maxSessionRetries` (default: 10) or try a specialized anti-bot proxy\n- Some proxy IPs may already have clearance from previous browser visits\n\nThe scraper uses a dual strategy:\n1. **Internal API** (`/api/agg-search/DESKTOP/supplier`) -- returns structured JSON, fastest\n2. **HTML scraping** -- fallback with goquery parsing of search result pages\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/globalsources-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `globalsources-scraper` to scrape company data from globalsources. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## What data can you extract?\n\n| Field | Description |\n|-------|-------------|\n| Company name | Supplier/manufacturer name |\n| Description | Company profile and introduction |\n| Website | Company's own website URL |\n| Phone | Contact phone number |\n| Email | Contact email address |\n| Address | Full company address |\n| City & Province | Location details |\n| Country | Country with ISO code |\n| Logo | Company logo URL |\n| Employee count | Number of employees |\n| Revenue | Annual revenue range |\n| Year founded | Establishment year |\n| Supplier type | Manufacturer, Trading Company, etc. |\n| Main products | Key product lines |\n| Categories | Product categories |\n| Certifications | ISO, CE, RoHS, etc. |\n| Export markets | Target export regions |\n\n## Input options\n\n- **Search URLs**: Paste one or more GlobalSources search or category URLs\n- **Search Query**: Enter a keyword (e.g., \"solar panel\", \"led light\", \"phone case\")\n- **Maximum Results**: Limit how many suppliers to scrape (default: 100)\n- **Include Full Details**: Fetch each supplier's profile page for complete data\n- **Max Session Retries**: Number of proxy session rotations to attempt (default: 10)\n- **Proxy Configuration**: Residential proxy recommended\n\n## Example input\n\n```json\n{\n  \"searchQuery\": \"solar panel\",\n  \"maxResults\": 50,\n  \"includeDetails\": true,\n  \"maxSessionRetries\": 10,\n  \"proxyConfiguration\": {\n    \"useApifyProxy\": true,\n    \"apifyProxyGroups\": [\"RESIDENTIAL\"]\n  }\n}\n```\n\n## How it works\n\n1. **Session solving**: Rotates proxy sessions to find an IP that clears Imperva challenge\n2. **Cookie acquisition**: Fetches the challenge script to trigger cookie setting\n3. **API-first approach**: Tries the internal search API for structured JSON data\n4. **HTML fallback**: Falls back to HTML parsing if the API is blocked\n5. **Detail enrichment**: Optionally fetches each supplier's profile page\n6. **Deduplication**: Tracks supplier IDs to avoid duplicates across pages\n\n## Pricing\n\n| Event | Cost |\n|-------|------|\n| Actor start | $0.005 |\n| SERP result (basic data) | $0.003 |\n| Detail result (full profile) | $0.005 |\n\n## Output example\n\n```json\n{\n  \"id\": \"6008879979429\",\n  \"name\": \"Shenzhen Solar Tech Co., Ltd.\",\n  \"description\": \"Professional solar panel manufacturer since 2008...\",\n  \"website\": \"https://www.solartech.com\",\n  \"phone\": \"+86-755-12345678\",\n  \"email\": \"sales@solartech.com\",\n  \"address\": \"Building A, Industrial Park, Baoan District\",\n  \"city\": \"Shenzhen\",\n  \"province\": \"Guangdong\",\n  \"country\": \"China\",\n  \"country_code\": \"CN\",\n  \"logo_url\": \"https://img.globalsources.com/...\",\n  \"employee_count\": \"201-500\",\n  \"revenue\": \"US$10 Million - US$50 Million\",\n  \"year_founded\": \"2008\",\n  \"categories\": [\"Solar Panels\", \"Renewable Energy\"],\n  \"certifications\": [\"ISO 9001\", \"CE\", \"TUV\"],\n  \"supplier_type\": \"Manufacturer\",\n  \"main_products\": [\"Monocrystalline Solar Panels\", \"Polycrystalline Solar Panels\"],\n  \"export_markets\": [\"North America\", \"Western Europe\", \"Southeast Asia\"],\n  \"source_url\": \"https://www.globalsources.com/si/AS/Shenzhen-Solar-Tech/6008879979429/Homepage.htm\",\n  \"source_platform\": \"globalsources.com\",\n  \"scraped_at\": \"2026-03-26T10:00:00Z\"\n}\n```\n\n## Troubleshooting\n\n- **\"Imperva challenge detected\"**: All proxy sessions were blocked. Try increasing `maxSessionRetries` to 30-50, or use a specialized anti-bot proxy service.\n- **0 results**: The Imperva challenge could not be solved. This is expected with standard proxies -- GlobalSources has one of the strictest Imperva configurations.\n- **Partial results**: Some pages were blocked mid-scraping. The scraper saves what it can before stopping.\n\n## Related Actors\n\n**International B2B Directories**\n- [Made-in-China Scraper](https://apify.com/santamaria-automations/made-in-china-scraper) -- Chinese manufacturer and supplier directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n- [Clutch.co Scraper](https://apify.com/santamaria-automations/clutch-co-scraper) -- B2B agency reviews and ratings\n\n**DACH Business Directories**\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Gelbe Seiten Scraper](https://apify.com/santamaria-automations/gelbeseiten-de-scraper) -- German Yellow Pages\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n",
+  "readmeSource": "actors/directories/globalsources/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-09T12:31:31.826Z",
+    "events": [
+      {
+        "key": "directory-start",
+        "title": "Actor run started",
+        "description": "Charged once per actor run",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Supplier found (search)",
+        "description": "Basic supplier data from search results",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full supplier profile",
+        "description": "Complete profile with products, certifications, contact info",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.511Z"
+}

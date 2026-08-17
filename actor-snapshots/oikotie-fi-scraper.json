@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/oikotie-fi-scraper",
+  "name": "oikotie-fi-scraper",
+  "title": "Oikotie.fi Scraper - Finnish Real Estate Listings",
+  "description": "Scrape property listings from Oikotie.fi, Finland's largest real estate portal with 55,000+ active listings. Extract price, rooms, area, address, building type, images, and coordinates. Supports buy and rent categories. HTTP-only, 128MB.",
+  "readme": "# Oikotie.fi Scraper\n\nScrape property listings from [Oikotie.fi](https://asunnot.oikotie.fi), Finland's largest and most popular real estate portal (Sanoma Group).\n\n## How it works\n\n1. Choose a category: `buy` (properties for sale) or `rent` (rental properties)\n2. Optionally filter by city (50+ Finnish cities supported)\n3. Set the maximum number of listings\n4. Run the actor\n\nThe actor extracts all matching property listings with full details.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/oikotie-fi-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `oikotie-fi-scraper` to scrape company data from oikotie fi. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Output\n\n| Field | Description |\n|-------|-------------|\n| `title` | Room configuration or description |\n| `address` / `city` / `district` | Location details |\n| `price` / `price_numeric` | Price in EUR |\n| `rooms` / `room_configuration` | Room layout (e.g., \"2h, k, kph\") |\n| `area_sqm` | Living area in m2 |\n| `building_type` | Apartment, row house, detached house, etc. |\n| `building_year` | Year built |\n| `floor` / `floor_count` | Floor details |\n| `image_url` | Main listing image |\n| `broker_name` / `realtor_name` | Agent details |\n| `source_url` | Link to listing on Oikotie.fi |\n\n## Pricing\n\n| Event | Cost |\n|-------|------|\n| Start | $0.050 per run |\n| Listing | $0.003 per result |\n\n**100 listings = $0.35** | **1,000 listings = $3.05**\n\n## Examples\n\n### Buy in Helsinki\n```json\n{\n  \"category\": \"buy\",\n  \"location\": \"Helsinki\",\n  \"maxResults\": 50\n}\n```\n\n### Rent in Tampere\n```json\n{\n  \"category\": \"rent\",\n  \"location\": \"Tampere\",\n  \"maxResults\": 100\n}\n```\n\n### All Finland, for sale\n```json\n{\n  \"category\": \"buy\",\n  \"maxResults\": 200\n}\n```\n\n\n## Related Actors\n\n**Real Estate**\n\n- [Homegate.ch Scraper — Swiss real estate](https://apify.com/santamaria-automations/homegate-scraper)\n- [Immowelt.de Scraper — German real estate](https://apify.com/santamaria-automations/immowelt-de-scraper)\n\n**Classifieds**\n\n- [Tori.fi Scraper — Finland](https://apify.com/santamaria-automations/tori-fi-scraper)\n- [Blocket.se Scraper — Sweden](https://apify.com/santamaria-automations/blocket-se-scraper)\n- [Finn.no Scraper — Norway](https://apify.com/santamaria-automations/finn-no-scraper)\n- [DBA.dk Scraper — Denmark](https://apify.com/santamaria-automations/dba-dk-scraper)\n\n**Enrich your data**\n\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper)\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper)\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor)\n\n\n## Issues & Feedback\n\nMissing something or not working as expected? [Open an issue](https://console.apify.com/actors/EKil5xePhou85oNGq/issues) and we'll fix it.\n",
+  "readmeSource": "actors/directories/oikotie-fi/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-04-02T15:55:13.046Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "A real estate listing",
+        "description": "A real estate listing",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Full property details",
+        "description": "Full property details",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:38.184Z"
+}

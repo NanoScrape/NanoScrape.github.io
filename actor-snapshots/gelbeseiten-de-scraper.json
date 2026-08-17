@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/gelbeseiten-de-scraper",
+  "name": "gelbeseiten-de-scraper",
+  "title": "Gelbe Seiten Scraper - German Business Directory",
+  "description": "Scrape business data from Gelbe Seiten (gelbeseiten.de), Germany's Yellow Pages directory. Extract names, addresses, phone numbers, emails, websites, opening hours, ratings, and categories from millions of German businesses.",
+  "readme": "# Gelbe Seiten Scraper - German Business Directory\n\nScrape business data from [Gelbe Seiten](https://www.gelbeseiten.de) (German Yellow Pages), one of Germany's largest business directories with millions of listings across all industries and regions.\n\n## What data can you extract?\n\nFor each business listing, the scraper extracts:\n\n- **Business name** and categories\n- **Phone number**, fax, and email\n- **Full address** with street, postal code, and city\n- **Website URL**\n- **GPS coordinates** (latitude/longitude)\n- **Opening hours**\n- **Ratings and review counts** (from golocal.de integration)\n- **Logo image URL**\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/gelbeseiten-de-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `gelbeseiten-de-scraper` to scrape company data from gelbeseiten de. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## How to use\n\n### Option 1: Search URL\n\nPaste a Gelbe Seiten search URL directly:\n\n```json\n{\n  \"searchUrls\": [\"https://www.gelbeseiten.de/suche/zahnarzt/muenchen\"],\n  \"maxResults\": 100,\n  \"includeDetails\": true\n}\n```\n\n### Option 2: Search query + location\n\nProvide a search term and city:\n\n```json\n{\n  \"searchQuery\": \"restaurant\",\n  \"location\": \"hamburg\",\n  \"maxResults\": 50,\n  \"includeDetails\": true\n}\n```\n\n## Input parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchUrls` | array | - | Gelbe Seiten search result URLs |\n| `searchQuery` | string | - | Search keyword (used if searchUrls is empty) |\n| `location` | string | `berlin` | City or region name |\n| `maxResults` | integer | `100` | Maximum businesses to scrape (1-10,000) |\n| `includeDetails` | boolean | `true` | Fetch detail pages for full data (coordinates, hours, etc.) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output example\n\n```json\n{\n  \"id\": \"76c6287c-fd53-42c9-b378-6ead68a639ad\",\n  \"name\": \"GFAD Softwarehaus GmbH\",\n  \"website\": \"https://itservice.gfad.de/\",\n  \"phone\": \"030 26 91 11\",\n  \"email\": \"info@gfad.de\",\n  \"address\": \"Huttenstr. 34 -35, 10553 Berlin\",\n  \"city\": \"Berlin\",\n  \"postal_code\": \"10553\",\n  \"country\": \"Germany\",\n  \"country_code\": \"DE\",\n  \"latitude\": 52.529408,\n  \"longitude\": 13.314976,\n  \"categories\": [\"Software\"],\n  \"opening_hours\": [\"Mo-Fr 09:00-18:00\"],\n  \"rating\": 4.5,\n  \"review_count\": 12,\n  \"source_url\": \"https://www.gelbeseiten.de/gsbiz/76c6287c-fd53-42c9-b378-6ead68a639ad\",\n  \"source_platform\": \"gelbeseiten.de\",\n  \"scraped_at\": \"2026-03-26T10:00:00Z\"\n}\n```\n\n## Performance\n\n- **Memory**: 128 MB (Go binary with TLS fingerprinting)\n- **Speed**: ~50 businesses/page, ~1.5s delay between requests\n- **SERP only mode**: Set `includeDetails: false` for faster scraping with basic data\n- **Detail mode**: Full data including coordinates, opening hours, fax, and categories\n\n## Tips\n\n- Use German search terms for best results (e.g., \"Zahnarzt\" instead of \"dentist\")\n- Location names work in German (e.g., \"Muenchen\", \"Koeln\", \"Nuernberg\")\n- Datacenter proxy works well -- no residential proxy needed\n- The scraper extracts email from embedded chat widget data, even when not visually displayed\n\n## Related Actors\n\n**DACH Business Directories**\n- [wlw.de Scraper](https://apify.com/santamaria-automations/wlw-de-scraper) -- German B2B supplier directory\n- [Das Oertliche Scraper](https://apify.com/santamaria-automations/dasoertliche-de-scraper) -- German phone directory\n- [Herold.at Scraper](https://apify.com/santamaria-automations/herold-at-scraper) -- Austrian Yellow Pages\n- [FirmenABC.at Scraper](https://apify.com/santamaria-automations/firmenabc-at-scraper) -- Austrian business directory\n- [search.ch Scraper](https://apify.com/santamaria-automations/search-ch-scraper) -- Swiss business directory\n- [Europages Scraper](https://apify.com/santamaria-automations/europages-scraper) -- 30+ European countries\n\n**Swiss Company Data**\n- [Zefix.ch Scraper](https://apify.com/santamaria-automations/zefix-ch-scraper) -- Official Swiss commercial register\n- [Moneyhouse.ch Scraper](https://apify.com/santamaria-automations/moneyhouse-ch-scraper) -- Swiss company registry\n\n**Enrich your leads**\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) -- Extract emails and phones from company websites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) -- Extract team members and decision-makers\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) -- Find businesses by location\n- [Trustpilot Reviews Scraper](https://apify.com/santamaria-automations/trustpilot-scraper) -- Get company reviews and ratings\n",
+  "readmeSource": "actors/directories/gelbeseiten-de/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-03-26T14:59:30.178Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.0005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-serp-result",
+        "title": "Business found",
+        "description": "A business listing was extracted from search results",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "directory-detail-result",
+        "title": "Business details extracted",
+        "description": "Full details extracted including phone, email, website, opening hours, and GPS coordinates",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-08-16T03:51:36.443Z"
+}
