@@ -1,34 +1,42 @@
 {
   "slug": "santamaria-automations/glassdoor-scraper",
   "name": "glassdoor-scraper",
-  "title": "Glassdoor Scraper - Reviews, Jobs & Salaries",
-  "description": "Scrape Glassdoor company reviews, ratings, salaries, jobs, and interview experiences. Extract pros, cons, CEO approval, and more. Multi-mode: reviews, jobs, interviews, salaries, overview, benefits. Pay-per-result pricing.",
+  "title": "Glassdoor Scraper: Jobs, Salaries, Ratings & Companies",
+  "description": "Extract Glassdoor jobs across 20+ countries. Returns title, company, rating (1-5), review count, salary (min/max/currency + estimated flag), location, employment type, workplace type, description, apply URL, easy_apply. Optional employer profile: about, HQ, size, industry, CEO.",
   "readme": "# Glassdoor Scraper - Reviews, Jobs & Salaries\n\nScrape company data from [Glassdoor](https://www.glassdoor.com) — the world's largest employer review platform. Extract reviews, ratings, salaries, jobs, interview experiences, and company overviews.\n\n## Features\n\n- **Multi-mode scraping** — Reviews, Jobs, Salaries, Interviews, Overview, Benefits\n- **Company ratings** — Overall rating, CEO approval, recommend to friend %\n- **Review details** — Pros, cons, job title, employment status, rating breakdown\n- **Salary data** — Salary ranges by job title and location\n- **Job listings** — Open positions with descriptions and salary estimates\n- **Interview experiences** — Questions, difficulty, outcomes\n- **Pay-per-result pricing** — No monthly subscription, only pay for what you scrape\n- **Ultra-efficient** — Go/TLS, ~12MB Docker image, 128MB memory\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `glassdoor-scraper` to scrape company data from glassdoor. Return results as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Scraping Modes\n\n| Mode | Description | Output |\n|------|-------------|--------|\n| `reviews` | Company reviews with ratings | Title, pros, cons, rating, job title, date |\n| `jobs` | Open positions | Title, location, salary estimate, description |\n| `salaries` | Salary data by role | Job title, base pay, total pay, count |\n| `interviews` | Interview experiences | Questions, difficulty, outcome, process |\n| `overview` | Company overview | Rating, size, industry, CEO, headquarters |\n| `benefits` | Employee benefits | Benefit name, rating, description |\n\n## Input Parameters\n\n| Parameter | Type | Description | Default |\n|-----------|------|-------------|---------|\n| `startUrls` | string[] | Glassdoor company URLs | Required |\n| `mode` | enum | Scraping mode (see table above) | \"reviews\" |\n| `maxResults` | number | Maximum results per company | 50 |\n| `proxyConfiguration` | object | Proxy settings (residential recommended) | Auto |\n\n## Output Example (Reviews Mode)\n\n```json\n{\n  \"company_name\": \"SAP\",\n  \"company_logo_url\": \"https://media.glassdoor.com/sql/...\",\n  \"review_title\": \"Great work-life balance\",\n  \"rating\": 4,\n  \"pros\": \"Flexible hours, good benefits, international teams\",\n  \"cons\": \"Slow decision making, bureaucracy\",\n  \"job_title\": \"Software Engineer\",\n  \"employment_status\": \"Current Employee\",\n  \"review_date\": \"2026-03-15\",\n  \"recommend\": true,\n  \"ceo_approval\": true,\n  \"source_platform\": \"glassdoor.com\"\n}\n```\n\n## Pricing\n\n| Event | Price |\n|-------|-------|\n| Actor start | $0.005 |\n| Result scraped (review/job/salary) | $0.003 |\n| Company overview extracted | $0.005 |\n\n## Supported URL Formats\n\n- Reviews: `glassdoor.com/Reviews/{Company}-Reviews-E{id}.htm`\n- Jobs: `glassdoor.com/Jobs/{Company}-Jobs-E{id}.htm`\n- Salaries: `glassdoor.com/Salary/{Company}-Salaries-E{id}.htm`\n- Interviews: `glassdoor.com/Interview/{Company}-Interview-Questions-E{id}.htm`\n- Overview: `glassdoor.com/Overview/Working-at-{Company}-EI_IE{id}.htm`\n\n",
   "readmeSource": "actors/directories/glassdoor/README.md",
   "pricing": {
     "model": "PAY_PER_EVENT",
-    "effectiveSince": "2026-04-09T17:10:44.231Z",
+    "effectiveSince": "2026-08-20T20:10:46.414Z",
     "events": [
       {
-        "key": "directory-start",
-        "title": "Actor run started",
-        "description": "Charged once per actor run",
+        "key": "job-start",
+        "title": "Actor start",
+        "description": "Once per run",
         "isPrimary": false,
-        "priceUsd": 0.005,
+        "priceUsd": 0.001,
         "tieredPriceUsd": null
       },
       {
-        "key": "directory-serp-result",
-        "title": "Result scraped",
-        "description": "A review, job, salary, or interview entry",
+        "key": "job-serp-result",
+        "title": "SERP result",
+        "description": "Job from search page (Camoufox required)",
         "isPrimary": true,
-        "priceUsd": 0.003,
+        "priceUsd": 0.01,
         "tieredPriceUsd": null
       },
       {
-        "key": "directory-detail-result",
-        "title": "Company overview extracted",
-        "description": "Full company profile with ratings and details",
+        "key": "job-detail-result",
+        "title": "Detail result",
+        "description": "Job with PDP enrichment",
+        "isPrimary": false,
+        "priceUsd": 0.01,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "company-detail-result",
+        "title": "Company detail",
+        "description": "Per unique employer resolved",
         "isPrimary": false,
         "priceUsd": 0.005,
         "tieredPriceUsd": null
@@ -37,5 +45,5 @@
     "upcomingChange": false
   },
   "inputSchema": null,
-  "fetchedAt": "2026-08-16T03:51:36.472Z"
+  "fetchedAt": "2026-08-30T09:02:46.860Z"
 }
