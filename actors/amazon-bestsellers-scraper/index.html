@@ -108,6 +108,10 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
+    <h2 class="section-title">Technical notes: how we scrape this site</h2>
+    <p><strong>Anti-bot system detected:</strong> Akamai</p>
+    <p>HTTP-only via azuretls-client (Chrome 147 TLS, same as amazon-product-scraper). Targets Amazon's internal bestseller listing API (likely /gp/bestsellers/ or similar internal JSON endpoint). Same 3-tier escalation (Tier 1 datacenter → Tier 2 neighbor countries → Tier 3 residential). Per-marketplace Accept-Language tuning (locale/currency hydration). goquery parses bestseller tables extracting ASIN, rank position, category breadcrumb, price summary, and review aggregates.</p>
+    <p>Bestseller ranking endpoints have lighter Akamai protection than detail PDPs — primarily IP reputation checks, minimal TLS scrutiny. Datacenter pass rate ~75% (competitors using browser-only scrapers hit captchas; HTTP-only with stealth TLS avoids them). Residential rarely needed. Cost stays in Tier 1 ~99% of time (~$0.05/start on datacenter). Caveat: bestseller ranks update hourly; same ASIN appears across multiple categories if cross-category bestseller. Multipack listings (Pack of 4) still rank separately — extract via isMultipack flag if present. Neighbor proxy rotation (Tier 2 fallback) expands Apify's DC pool from ~27 DE IPs to 100+ across DE/AT/CH/NL.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>

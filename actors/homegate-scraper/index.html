@@ -108,6 +108,10 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
+    <h2 class="section-title">Technical notes: how we scrape this site</h2>
+    <p><strong>Anti-bot system detected:</strong> DataDome</p>
+    <p>Swiss real estate portal (Homegate.ch) uses azuretls-client with Chrome 146 TLS profile + `ApplyJa3()` + `ApplyHTTP2()` fingerprinting. Implements double-POST DataDome interstitial solver via `datadome.go`: first POST to `/js/` with `jsType=ch`, second with `jsType=le` to obtain `view:redirect` token and DataDome challenge cookie. Session pooling (30-req/session limit) with 1500ms inter-request delay.</p>
+    <p>Homegate was blocked 2026-05-25 after Chrome 133→146 rebuild fixed the issue — CRITICAL insight: DataDome interstitial solvers are tightly coupled to TLS profile Chrome version. Competitors using outdated bogdanfinn (Chrome 124/133) profiles are permanently blocked; azuretls + Chrome 146 combination is currently working. Cookie lifetime: high trust score allows 4-6 hours reuse on same proxy session. PLAYBOOK documents this as 'proven working 2026-05-25' with reference implementation in `actors/real-estate/homegate/datadome.go`.</p>
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
       <li>**Prices** in CHF (gross, net, extra costs)</li>

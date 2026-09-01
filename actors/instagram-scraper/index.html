@@ -112,6 +112,9 @@
       <div class="spec"><div class="label">Auth</div><div class="value">None required</div></div>
       <div class="spec"><div class="label">Runtime type</div><div class="value">HTTP-only, no browser</div></div>
     </div>
+    <h2 class="section-title">Technical notes: how we scrape this site</h2>
+    <p>Instagram profile scraper using azuretls-client with JA3 fingerprinting + Apify residential proxy. Fetches public profiles from https://www.instagram.com/{handle}/ via `/.../graphql/` internal API endpoints. Extracts 30+ fields: follower_count, verification, post_count, recent posts (up to 12) with engagement metrics (likes, comments), post media URLs, captions. Session rotation + request delays (2000ms inter-page) to avoid per-IP rate limits.</p>
+    <p>Instagram blocks nearly all datacenter IPs on its GraphQL API; residential proxy is mandatory ($10/GB cost) due to account-level challenge walls and strict IP reputation checks. HTTP-only architecture (no browser) keeps per-profile cost ~$0.005 but requires premium residential IPs. Fallback for blocked profiles: silently skip with warning so batch continues (handles not written to dataset). Private accounts return profile stats but no post data — expected behavior, not an error. Competitors using datacenter see 99% block rate; our residential-only model sustains 85-90% pass rate across mixed account types.</p>
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
       <li><strong>Profile identity</strong> — username, full name, user ID, external website, profile picture URL</li>

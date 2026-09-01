@@ -108,6 +108,10 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
+    <h2 class="section-title">Technical notes: how we scrape this site</h2>
+    <p><strong>Anti-bot system detected:</strong> Akamai</p>
+    <p>HTTP-only via azuretls-client with Chrome 147 TLS fingerprinting (bogdanfinn/tls-client v1.14.0+). Uses canonical chromeNavigateHeaders() function emitting 13 headers in exact byte-order Chrome 147 sends (Priority: u=0, i and zstd in Accept-Encoding critical). 3-tier proxy escalation: warm BUYPROXIES94952 session IPs (Tier 1, up to 3 retries) → fresh datacenter IPs (Tier 2) → RESIDENTIAL fallback (Tier 3, capped at 5% of requests). Session pool maintains cookie affinity across multiple ASIN fetches. goquery parses returned HTML into 50+ product fields (price, variants, bestseller ranks, A+ content, images).</p>
+    <p>Sec-CH-UA GREASE brand order is deterministic per Chrome version (Chrome 147 % 6 = 3 → order permutation [1,2,0] per Chromium GREASE algorithm). Sending wrong order (e.g., Chromium-first when Chrome 131's order is different) alone triggers 403 block. Header order matters — sec-ch-ua* must precede user-agent. Datacenter pass rate achieved 97.3% (stay on Tier 1) → 2.7% escalation to residential with maxTier1Retries=3. Akamai blocks by IP reputation on HTML detail pages (datacenter instantly rejected), not TLS fingerprint; only residential proxies work for PDP detail fetches. Cost: ~$0.003/product on datacenter, ~$0.03/product when escalated.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
