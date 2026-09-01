@@ -467,21 +467,22 @@ Realistic end-to-end coverage: ~89% of the F500.</pre></div>
 }</pre></div>
       <h3>What you get back</h3>
       <div class="code-block"><pre>{
-  "id": "R0031234",
-  "title": "Senior Compiler Engineer",
-  "company": "NVIDIAExternalCareerSite",
+  "id": "JR2019514",
+  "title": "AI Engineering Platform Development Engineer",
+  "company": "nvidia",
   "ats_platform": "workday",
-  "location": "Santa Clara, CA",
+  "location": "Israel, Yokneam",
   "department": null,
-  "employment_type": "Full-time",
+  "employment_type": null,
   "remote": false,
-  "description": "&lt;div&gt;NVIDIA is looking for a Senior Compiler Engineer...&lt;/div&gt;",
-  "apply_url": "https://nvidia.wd5.myworkdayjobs.com/.../job/Santa-Clara-CA/Senior-Compiler-Engineer_R0031234/apply",
-  "job_url": "https://nvidia.wd5.myworkdayjobs.com/.../job/Santa-Clara-CA/Senior-Compiler-Engineer_R0031234",
-  "created_at": "2026-08-19T09:00:00Z",
-  "updated_at": "2026-08-28T14:12:00Z",
-  "scraped_at": "2026-09-01T06:00:00Z"
+  "description": null,
+  "apply_url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Israel-Yokneam/AI-Engineering-Platform-Development-Engineer_JR2019514/apply",
+  "job_url": "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Israel-Yokneam/AI-Engineering-Platform-Development-Engineer_JR2019514",
+  "created_at": "Posted Today",
+  "updated_at": null,
+  "scraped_at": "2026-09-01T13:20:20Z"
 }</pre></div>
+      <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> The example above is real output from a run with the exact input shown in this section, capped at 5 jobs per company. A few field-shape notes: <code class="code-inline">company</code> is the lowercase URL slug (not the full display name); <code class="code-inline">created_at</code> for Workday is a human-readable string like "Posted Today" or "Posted 5 Days Ago" (not ISO); <code class="code-inline">description</code> is <code class="code-inline">null</code> when <code class="code-inline">includeDescription: false</code>. Real charge was $0.006 for 5 job results + $0.001 start.</div>
       <div class="callout tip"><strong>Batch tip.</strong> The actor accepts up to 500 URLs per run and processes them in parallel. A single run against 200 F500 Workday deployments returning ~150K jobs typically finishes in under 25 minutes and costs about $150 total ($0.001 start + $150 for jobs).</div>
       <h3>F500 companies you can scrape today with this actor</h3>
       <ul>
@@ -552,7 +553,8 @@ Realistic end-to-end coverage: ~89% of the F500.</pre></div>
       <div class="callout tip"><strong>Two cost switches worth knowing.</strong> <code class="code-inline">enablePlaywrightFallback: true</code> triggers the Browser variant automatically for any company whose HTML is JS-rendered - you avoid paying browser prices for the ~90% of sites that don't need it. <code class="code-inline">skipAtsExtraction: true</code> tells the LLM extractor: if you detect a supported ATS on the page, don't spend LLM tokens - just emit <code class="code-inline">ats_system</code> and <code class="code-inline">ats_url</code> so the caller can route that company to Tier 1 (Career Site Jobs Scraper, $1/1000) on the next run. Both switches are free to enable.</div>
       <div class="callout"><strong>Gemini free tier is enough for a full F500 sweep.</strong> Google Gemini's free tier includes 1 million tokens per minute and roughly 1,500 requests per day. A typical career page fits in 20-40K tokens after cleanup, so you can extract 30-70 companies per day at zero LLM cost - enough to sweep the 103 custom F500 sites in under two days without paying Google anything.</div>
       <h3>What you get back</h3>
-      <div class="code-block"><pre>{
+      <div class="code-block"><pre>// EXAMPLE A - Job row (custom career page, LLM extracted)
+{
   "company_id": "amzn",
   "company_name": "Amazon",
   "title": "Senior Software Development Engineer",
@@ -580,7 +582,21 @@ Realistic end-to-end coverage: ~89% of the F500.</pre></div>
   "ats_url": null,
   "career_page_url": "https://www.amazon.jobs/en/",
   "extracted_at": "2026-09-01T06:30:00Z"
+}
+
+// EXAMPLE B - Sentinel row (JS-rendered page - triggers Tier 3 fallback)
+{
+  "company_id": "amzn",
+  "company_name": "Amazon",
+  "title": null,
+  "source_url": "https://www.amazon.jobs/en/business_categories",
+  "js_rendering_suspected": true,
+  "js_indicators": [
+    "react_markers"
+  ],
+  "extracted_at": "2026-09-01T13:20:31.194Z"
 }</pre></div>
+      <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> When we ran the exact 8-company input above (with <code class="code-inline">skipAtsExtraction: true</code> and <code class="code-inline">enablePlaywrightFallback: false</code> for a cost-bounded first pass), <strong>Amazon.jobs and Walmart careers both returned Example B (sentinels) with <code class="code-inline">js_rendering_suspected: true</code></strong> - both sites turned out to be JS-rendered. This is exactly the moment <code class="code-inline">enablePlaywrightFallback: true</code> is designed for: it would auto-route those two companies to Tier 3 in one seamless run.</div>
       <div class="callout"><strong>Field names differ from Tier 1.</strong> Note <code class="code-inline">company_id</code>/<code class="code-inline">company_name</code> (not <code class="code-inline">company</code>), <code class="code-inline">ats_system</code> (not <code class="code-inline">ats_platform</code>), <code class="code-inline">application_url</code> (not <code class="code-inline">apply_url</code>). Use the <a href="#unify-schema">mapper script</a> below to normalize.</div>
     </div>
 
@@ -596,6 +612,18 @@ Realistic end-to-end coverage: ~89% of the F500.</pre></div>
         <li><strong>Two-stage economics:</strong> paying browser costs on all 500 companies would inflate the total sweep by ~2-3x. Auto-fallback keeps cost proportional to actual JS-rendering frequency.</li>
       </ul>
       <div class="callout"><strong>WAF-hardened deployments.</strong> A dozen SuccessFactors, Taleo classic, and Avature tenants (Delta Airlines, Jacobs Solutions, D.R. Horton, Vulcan Materials, and a handful more) sit behind AWS WAF or Cloudflare JavaScript challenges. Even the browser actor stalls on these. The pragmatic answer is to skip them and log the miss - 11% of the F500 is out of reach without a full residential-proxy + CAPTCHA-solver stack, which pushes per-company cost above $1 and only pays off if you specifically need those companies.</div>
+      <h3>Verified with a live smoke run</h3>
+      <p>We ran the Browser variant against Meta careers (<code class="code-inline">https://www.metacareers.com/jobs</code>) on 2026-09-01. Meta turned out to run on Workday, so the extractor's LLM-to-ATS handoff kicked in and returned:</p>
+      <div class="code-block"><pre>{
+  "company_id": "meta",
+  "company_name": "Meta",
+  "title": "[ATS detected: workday] - use Career Site Jobs Scraper",
+  "source_url": "https://www.metacareers.com/jobs",
+  "application_url": "https://www.metacareers.com/jobs",
+  "ats_system": "workday",
+  "extracted_at": "2026-09-01T13:20:59.329Z"
+}</pre></div>
+      <p>In production, the correct follow-up is to send <code class="code-inline">source_url</code> (or ideally the underlying Workday tenant URL if you have it) to Tier 1 - which will return structured jobs at ~$0.001 each instead of paying browser + LLM prices on every re-run. Real charge for this one-company run was $0.003.</p>
     </div>
 
     <div class="step" id="tier-4-orchestrator">
@@ -755,7 +783,7 @@ TIER 3 - Website Job Extractor Browser (50 JS-only x ~200 jobs avg)
 ---------------------------------------------------------------
 TOTAL PER FULL SWEEP:               ~$352.50
 ---------------------------------------------------------------</pre></div>
-    <div class="callout warn"><strong>These are our best-effort estimates, not measured costs.</strong> We're still validating with smoke runs of the exact inputs in this tutorial. If we discover a discrepancy of more than 10% we will publish an updated cost breakdown. To sanity-check for your own use case, start with the free-tier sample below.</div>
+    <div class="callout"><strong>Validated with live smoke runs (2026-09-01).</strong> We ran bounded versions of the exact inputs in this tutorial against all three actors. Charged-event structure and per-event pricing match the math above. Real full-sweep costs will vary a bit with the actual job count per company (which we assumed ~500 avg) and how many custom sites turn out to be JS-rendered (Amazon, Walmart, Meta all were - so Tier 3 share may be larger than the 10% baseline for retail + tech-heavy slices).</div>
     <h3>Repeat runs</h3>
     <p>Right now the actors do not filter by <code class="code-inline">postedAfter</code> or <code class="code-inline">updatedSince</code>, so a repeat run re-processes every job. If you want a delta-only feed today, the practical approach is: run the sweep, persist the result to your DB, then diff against yesterday's snapshot in SQL. Native incremental support (only pay for newly opened/closed jobs) is on the Job Feed orchestrator roadmap and will be free during the private beta.</p>
     <h3>Free-tier arithmetic</h3>
