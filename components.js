@@ -296,7 +296,7 @@
             '<a href="/templates/#zapier">Zapier</a>' +
           '</div>' +
           '<div class="ns-footer-col"><h4>' + esc(t.colCompany) + '</h4>' +
-            '<a href="' + APIFY_PROFILES.main + '" target="_blank" rel="noopener">Apify Store \u2197</a>' +
+            '<a href="' + APIFY_PROFILES.main + '" target="_blank" rel="sponsored noopener">Apify Store \u2197</a>' +
             '<a href="' + APIFY_PROFILES.org + '" target="_blank" rel="noopener">NanoScrape Org \u2197</a>' +
             '<a href="https://github.com/NanoScrape" target="_blank" rel="noopener">GitHub \u2197</a>' +
             '<a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>' +
