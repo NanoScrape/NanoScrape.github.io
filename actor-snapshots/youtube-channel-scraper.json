@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/youtube-channel-scraper",
+  "name": "youtube-channel-scraper",
+  "title": "YouTube Channel Scraper",
+  "description": "Scrape videos from any public YouTube channel: title, view count, duration, thumbnail, published date, plus channel name, handle, and subscriber count. Accepts @handle, full URL, or /channel/UCxxx. Detects Shorts. RSS fallback. Pay-per-result.",
+  "readme": "# YouTube Channel Scraper\n\nExtract videos from any public YouTube channel: titles, view counts, durations, thumbnails, published dates, plus channel metadata (name, handle, subscriber count). No API key required.\n\n## What It Does\n\n- Accepts `@handle`, full channel URLs, or `/channel/UCxxx` URLs (legacy `/c/name` and `/user/name` also work)\n- Extracts channel identity: name, handle, canonical URL, subscriber count, channel ID\n- Extracts per-video data: title, views, duration, thumbnail, publication date, Shorts flag\n- Detects YouTube Shorts automatically (flagged with `is_short: true`)\n- RSS feed fallback if the channel page is temporarily unavailable\n- HTTP-only Go actor, runs on 128 MB RAM\n\n## Input\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `channelUrls` | array | required | YouTube channel URLs or @handles to scrape |\n| `maxVideos` | integer | 200 | Maximum videos per channel (0 = unlimited) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings (datacenter works fine) |\n\n### Example Input\n\n```json\n{\n  \"channelUrls\": [\n    \"https://www.youtube.com/@example_channel\",\n    \"@another_example\"\n  ],\n  \"maxVideos\": 100\n}\n```\n\n## Output\n\nEach row is one video with channel context embedded:\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `channel_id` | string | YouTube channel ID (UCxxx format) |\n| `channel_name` | string | Channel display name |\n| `channel_handle` | string | Channel @handle |\n| `channel_url` | string | Canonical channel URL |\n| `channel_subscribers` | string | Subscriber count as YouTube displays it |\n| `video_id` | string | YouTube video ID |\n| `title` | string | Video title |\n| `published_at` | string | Publication time (relative, e.g. \"2 years ago\") |\n| `duration` | string | MM:SS or H:MM:SS |\n| `view_count` | integer | View count (null if unavailable) |\n| `thumbnail_url` | string | Thumbnail URL (highest resolution) |\n| `video_url` | string | Full video URL (uses `/shorts/` for Shorts) |\n| `is_short` | boolean | Whether this is a YouTube Short |\n| `scraped_at` | string | ISO 8601 scrape timestamp |\n\n### Example Output\n\n```json\n{\n  \"channel_id\": \"UCxxxxxxxxxxxxxxxxxxxxxx\",\n  \"channel_name\": \"Example Channel\",\n  \"channel_handle\": \"@example_channel\",\n  \"channel_url\": \"https://www.youtube.com/@example_channel\",\n  \"channel_subscribers\": \"1.2M subscribers\",\n  \"video_id\": \"abcDEF12345\",\n  \"title\": \"Example Video Title\",\n  \"published_at\": \"3 months ago\",\n  \"duration\": \"12:34\",\n  \"view_count\": 154000,\n  \"thumbnail_url\": \"https://i.ytimg.com/vi/abcDEF12345/hqdefault.jpg\",\n  \"video_url\": \"https://www.youtube.com/watch?v=abcDEF12345\",\n  \"is_short\": false,\n  \"scraped_at\": \"2026-07-18T09:00:00Z\"\n}\n```\n\n## Pricing\n\nPay-per-result: you only pay for videos actually returned.\n\n| Event | Suggested price |\n|-------|-----------------|\n| Actor start | $0.001 (one-time per run) |\n| Per video result | $0.0008 |\n\nFinal prices are set in the Apify Console before publish.\n\n## Notes\n\n- The scraper reads the `/videos` tab of each channel. Shorts appearing in that tab are flagged with `is_short: true`; the `/shorts/` and `/live/` tabs are not scraped separately.\n- Pagination is handled automatically via YouTube's internal InnerTube API for channels with hundreds of videos.\n- `published_at` is the relative time string YouTube displays (e.g. \"2 years ago\"), not an absolute timestamp.\n- `view_count` is parsed to an integer where possible; live streams and some Shorts may return null.\n- Age-restricted or region-blocked channels may return partial results.\n\n## Related Actors\n\n- [Instagram Scraper](https://apify.com/santamaria-automations/instagram-scraper) - profiles and recent posts\n- [Twitter Profile Scraper](https://apify.com/santamaria-automations/twitter-profile-scraper) - profile stats and recent tweets\n- [TikTok Profile Scraper](https://apify.com/santamaria-automations/tiktok-profile-scraper) - profile stats and recent videos\n- [Social Media Email Scraper](https://apify.com/santamaria-automations/social-media-email-scraper) - discover social URLs from a company website\n\nFor bug reports or feature requests, open an issue on the actor's Issues tab.\n",
+  "readmeSource": "actors/social-media/youtube-channel-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-07-22T11:52:07.209Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-default-dataset-item",
+        "title": "result",
+        "description": "Single video result in the default dataset.",
+        "isPrimary": true,
+        "priceUsd": 0.0008,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:44:32.057Z"
+}

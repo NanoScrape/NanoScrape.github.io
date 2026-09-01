@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/irishjobs-ie-scraper",
+  "name": "irishjobs-ie-scraper",
+  "title": "IrishJobs.ie Scraper: Ireland Jobs, Salaries & Employers",
+  "description": "Extract job listings from IrishJobs.ie, Ireland's largest job board. Returns title, company, location, county, salary, employment type, sector, work type (remote/hybrid/on-site), full description and contact details.",
+  "readme": "# IrishJobs.ie Scraper: Ireland Jobs, Salaries and Employers\n\nScrape live job listings from [IrishJobs.ie](https://www.irishjobs.ie), Ireland's largest job board covering all 26 counties and every major sector. Paste a keyword or search URL; get structured JSON back with company, salary, county, sector, employment type, full description and contact details.\n\n## What it does\n\nPulls live Irish vacancies from IrishJobs.ie search results, deduplicates them and pushes them to your Apify dataset. Handles pagination automatically up to your result cap. Optionally opens each job's detail page for ISO posted dates, full description, salary ranges and experience level from the JSON-LD JobPosting schema embedded in every listing.\n\nFields you get per job:\n\n- Job title, company name, company logo\n- Location, country (IE), county (Dublin, Cork, Galway, Limerick, etc.)\n- Salary min, max, currency (EUR), period, salary text\n- Employment type (Permanent, Contract, Temporary, Internship)\n- Sector (IT, Finance, Healthcare, Engineering, Retail, etc.)\n- Work type (fully-remote, hybrid, on-site)\n- Experience level (Junior, Mid-level, Senior, Lead, Graduate)\n- Posted date (text and ISO datetime)\n- Full description in plain text, HTML and Markdown\n- Contact emails, phones and URLs extracted from description\n- Apply URL, search query, scraped timestamp\n\n## Sample output\n\n```json\n{\n  \"_type\": \"job\",\n  \"id\": \"107764802\",\n  \"title\": \"Software Engineer III, WAN Core, Network Engineering\",\n  \"job_url\": \"https://www.irishjobs.ie/job/software-engineer/google-ireland-ltd-job107764802\",\n  \"source_platform\": \"irishjobs.ie\",\n  \"company_name\": \"Google Ireland Ltd\",\n  \"company_logo_url\": \"https://www.irishjobs.ie/CompanyLogos/248541f1-5a04-4f0e-a85e-60061eead084.png\",\n  \"location\": \"Dublin, County Dublin\",\n  \"country\": \"IE\",\n  \"county\": \"Dublin\",\n  \"posted_at_text\": \"2026-07-29\",\n  \"posted_at_datetime\": \"2026-07-29T11:08:07Z\",\n  \"employment_type\": \"Permanent\",\n  \"salary_min\": null,\n  \"salary_max\": null,\n  \"salary_currency\": null,\n  \"salary_period\": null,\n  \"salary_text\": null,\n  \"sector\": \"IT, IT-Software Development\",\n  \"work_type\": \"on-site\",\n  \"experience_level\": \"Mid-level\",\n  \"description\": \"Minimum qualifications: Bachelor's degree or equivalent practical experience. 2 years of experience with software development...\",\n  \"apply_url\": \"https://www.irishjobs.ie/job/software-engineer/google-ireland-ltd-job107764802\",\n  \"contact_emails\": [],\n  \"contact_phones\": [],\n  \"contact_urls\": [],\n  \"scraped_at\": \"2026-08-25T10:00:00Z\"\n}\n```\n\n## Pricing\n\nPay-per-event, so you only pay for what you use.\n\n| Event | Rate |\n|---|---:|\n| Actor start | $0.001 per run |\n| Job from search page | $0.003 per job |\n| Job with detail-page enrichment | $0.005 per job |\n\n**New to Apify?** Every account gets a $5 free monthly platform credit, enough for around 1,000 enriched Irish jobs on this actor before you commit to paying anything. Test extensively first.\n\n## Input\n\n| Field | Type | Notes |\n|---|---|---|\n| `searchQueries` | array | Keyword queries (for example `software engineer`, `accountant Dublin`, `nurse`). |\n| `searchUrls` | array | Copy any IrishJobs.ie search URL. Filters are preserved. |\n| `startUrls` | array | Direct job detail page URLs to scrape. |\n| `location` | string | Irish city or county (for example `Dublin`, `Cork`, `Galway`, `Limerick`). |\n| `sector` | string | Industry sector filter (for example `IT`, `Finance`, `Healthcare`). |\n| `remoteOnly` | boolean | Return only remote or fully remote jobs. |\n| `includeJobDetails` | boolean | Open each detail page for full description, salary and sector. |\n| `includeCompanyDetails` | boolean | Also attempt to extract company website. Implies `includeJobDetails=true`. |\n| `maxResults` | integer | Total cap across all queries. Default 5. |\n| `maxResultsPerQuery` | integer | Cap per individual query. Default 5. |\n| `maxConcurrency` | integer | Concurrent detail-page requests. Default 5. |\n\n## Related actors\n\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper) - Scrape jobs from Indeed\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-go) - Scrape LinkedIn job listings\n- [Reed UK Scraper](https://apify.com/santamaria-automations/reed-uk-go) - UK jobs from Reed.co.uk (IE-adjacent market)\n- [TargetJobs UK Scraper](https://apify.com/santamaria-automations/targetjobs-uk-scraper) - UK graduate jobs\n- [Milkround UK Scraper](https://apify.com/santamaria-automations/milkround-uk-scraper) - UK graduate schemes and placements\n\n## Support\n\nQuestions or issues? Open the [Issues tab](https://github.com/apify/apify-issues/issues) or email [contact@nanoscrape.com](mailto:contact@nanoscrape.com).\n",
+  "readmeSource": "actors/jobs/irishjobs-ie/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-08-25T09:26:05.455Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "One-time charge when the actor run begins.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-serp-result",
+        "title": "SERP result",
+        "description": "Charged per job returned in fast SERP-only mode.",
+        "isPrimary": false,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Detail result",
+        "description": "Charged per job returned in full-detail mode.",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:43:54.157Z"
+}

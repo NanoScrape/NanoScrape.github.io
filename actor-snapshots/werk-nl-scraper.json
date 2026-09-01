@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/werk-nl-scraper",
+  "name": "werk-nl-scraper",
+  "title": "Werk.nl Scraper: Netherlands UWV Government Jobs & Vacatures",
+  "description": "Extract job listings from werk.nl, the Netherlands' national government employment service (UWV Werkbedrijf). Returns title, company, location, province, employment type, salary, full description and contact details. Covers all 12 Dutch provinces.",
+  "readme": "# Werk.nl Scraper: Netherlands UWV Government Jobs\n\nExtract job listings from **werk.nl**, the Netherlands' national government employment service operated by UWV (Uitvoeringsinstituut Werknemersverzekeringen). Covers all **12 Dutch provinces** and returns rich structured data including salary, employment type, full description, and contact details.\n\n## What you get\n\nEach job listing includes:\n\n| Field | Description |\n|-------|-------------|\n| `id` | UWV reference number |\n| `title` | Job title |\n| `company_name` | Employer name |\n| `company_website` | Employer website (when available) |\n| `location` | City name |\n| `country` | Always `NL` |\n| `region` | Dutch province (Noord-Holland, Zuid-Holland, Utrecht, etc.) |\n| `employment_type` | permanent, temporary, internship, volunteer, secondment |\n| `workplace_type` | on-site, hybrid, or remote |\n| `min_hours` / `max_hours` | Weekly hours range |\n| `study_level` | Required education level (MBO, HBO/bachelor, WO/master) |\n| `salary_min` / `salary_max` | Parsed EUR amounts |\n| `salary_period` | month, year, week, hour |\n| `salary_text` | Raw salary text as advertised |\n| `description` | 500-character snippet |\n| `description_full` | Full plain-text description |\n| `apply_url` | Direct application link |\n| `contact_emails` / `contact_phones` | Contact details |\n| `posted_at_datetime` | ISO 8601 publication date |\n| `search_query` | The query that matched this listing |\n\n## Sample output\n\n```json\n{\n  \"_type\": \"job\",\n  \"id\": \"70659580\",\n  \"title\": \".NET Software Engineer\",\n  \"company_name\": \"Noir\",\n  \"location\": \"Amsterdam\",\n  \"country\": \"NL\",\n  \"region\": \"Noord-Holland\",\n  \"employment_type\": \"temporary\",\n  \"salary_min\": 5400,\n  \"salary_currency\": \"EUR\",\n  \"salary_period\": \"month\",\n  \"salary_text\": \"EUR 5400 per month\",\n  \"min_hours\": null,\n  \"max_hours\": null,\n  \"study_level\": \"HBO/bachelor\",\n  \"description\": \"Location: Amsterdam, Netherlands. Rate: EUR 5000-6000 per month + Bonus. Type: Permanent. Global Fitness Movement needs a .NET Software Engineer...\",\n  \"description_full\": \"Job Highlights\\nLocation: Amsterdam, Netherlands\\nRate: EUR 5000-6000 per month\\nType: Permanent\\n...\",\n  \"apply_url\": \"https://careers4a.com/search/jobs/5553514/NET-Software-Engineer.html\",\n  \"contact_emails\": [],\n  \"contact_phones\": [],\n  \"contact_urls\": [\"https://careers4a.com/...\"],\n  \"posted_at_text\": \"26 August 2026\",\n  \"posted_at_datetime\": \"2026-08-26T00:00:00Z\",\n  \"job_url\": \"https://www.werk.nl/nl/vacatures/70659580\",\n  \"source_platform\": \"werk.nl\",\n  \"scraped_at\": \"2026-08-25T07:00:00Z\"\n}\n```\n\n## Input configuration\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchQueries` | string[] | - | Keywords in Dutch or English. Each runs as a separate search. |\n| `location` | string | - | City or region filter (Amsterdam, Rotterdam, Utrecht, etc.) |\n| `searchUrls` | string[] | - | Direct werk.nl search URLs |\n| `maxResults` | integer | 100 | Global cap across all queries |\n| `maxResultsPerQuery` | integer | 100 | Per-query cap |\n| `includeJobDetails` | boolean | true | Fetch full description, salary and contact details per listing |\n| `includeCompanyDetails` | boolean | false | Include company website (implies includeJobDetails) |\n| `maxConcurrency` | integer | 5 | Max concurrent detail requests |\n\n## Netherlands employment types\n\nwerk.nl uses Dutch contract terminology mapped to English:\n\n| Dutch | English |\n|-------|---------|\n| Vast | permanent |\n| Tijdelijk | temporary |\n| Stage | internship |\n| Vrijwilligerswerk | volunteer |\n| Detachering | secondment |\n| Leerbaan | apprenticeship |\n\n## 12 Dutch provinces\n\nThe `region` field maps city names to provinces: Noord-Holland, Zuid-Holland, Utrecht, Noord-Brabant, Gelderland, Overijssel, Flevoland, Friesland, Groningen, Drenthe, Zeeland, Limburg.\n\n## Pricing\n\nThis actor uses Pay Per Event (PPE) billing:\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| `actor-start` | $0.001 | Charged once per run |\n| `job-serp-result` | $0.003 | Job listing from search results (SERP only) |\n| `job-detail-result` | $0.005 | Full job with description, salary and contacts |\n\n**Example costs:**\n- 1,000 jobs (SERP only): ~$3.00 + $0.001 start\n- 1,000 jobs (with details): ~$5.00 + $0.001 start\n\nNew Apify accounts get a $5 free monthly credit to test actors at no cost.\n\n## Technical notes\n\nThe scraper uses a two-step anonymous session bootstrap with werk.nl's public vacancy API (no account required). All data is fetched via JSON API calls. The actor uses 128 MB RAM and requires no browser.\n\n## Related actors\n\n- [job-feed](https://apify.com/nanoscrape/job-feed) - Aggregate jobs from 20+ platforms\n- [career-site-jobs-scraper](https://apify.com/nanoscrape/career-site-jobs-scraper) - Extract from company career pages\n- [website-job-extractor](https://apify.com/nanoscrape/website-job-extractor) - Jobs from any website\n- [indeed-scraper](https://apify.com/nanoscrape/indeed-scraper) - Indeed Netherlands jobs\n- [vdab-be-scraper](https://apify.com/nanoscrape/vdab-be-scraper) - Belgium Flanders jobs\n- [forem-be-scraper](https://apify.com/nanoscrape/forem-be-scraper) - Belgium Wallonia jobs\n\n## Support\n\nQuestions? Open an [issue](../../issues) or email contact@nanoscrape.com\n",
+  "readmeSource": "actors/jobs/werk-nl/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-08-26T07:10:32.560Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-serp-result",
+        "title": "Job SERP Result",
+        "description": "Job listing from search results page (title, company, location, employment type, posted date).",
+        "isPrimary": true,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job Detail Result",
+        "description": "Full job with description, salary, contact details and apply URL from the UWV detail API.",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:44:28.892Z"
+}

@@ -1,0 +1,49 @@
+{
+  "slug": "santamaria-automations/wellfound-jobs-scraper",
+  "name": "wellfound-jobs-scraper",
+  "title": "Wellfound Jobs Scraper: Startup, Tech & Equity",
+  "description": "Extract US startup job listings from Wellfound.com (formerly AngelList Talent). Returns 25+ fields: title, company, salary + equity range, location, remote, tech stack, company stage, funding, founders, industry, description. Rich company page enrichment.",
+  "readme": "# Wellfound Jobs Scraper\n\nExtract startup and tech job listings from Wellfound.com (formerly AngelList Talent): the world's largest startup job platform with over 300,000 active listings from 100,000+ startups. Search by role keyword or location, get structured job data delivered instantly. No login required.\n\n## How It Works\n\n1. Provide one or more job role keywords (e.g. \"Software Engineer\") and an optional location or remote filter\n2. The scraper searches Wellfound.com and collects all matching job listings\n3. For each job you receive: title, company, location, remote status, salary range, market tags, and a direct link to apply\n4. Results are paginated automatically: no need to copy page URLs manually\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client: Claude Desktop, Claude.ai, Cursor, VS Code, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=nanoscrape/wellfound-jobs-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `wellfound-jobs-scraper` to find remote Software Engineer jobs and return the top 30 results with company names and salary ranges.\"\n\n## Input Example\n\n```json\n{\n  \"searchQueries\": [\"Software Engineer\", \"Product Manager\"],\n  \"remote\": true,\n  \"maxResultsPerQuery\": 50\n}\n```\n\nPaste a direct Wellfound search URL to preserve all filters:\n\n```json\n{\n  \"searchUrls\": [\"https://wellfound.com/jobs?q[role_names][]=Backend+Engineer&q[remote]=true\"],\n  \"maxResultsPerQuery\": 100\n}\n```\n\nFilter by location:\n\n```json\n{\n  \"searchQueries\": [\"Data Scientist\"],\n  \"location\": \"San Francisco\",\n  \"maxResultsPerQuery\": 50\n}\n```\n\n## Output Example\n\n```json\n[\n  {\n    \"id\": \"12345678\",\n    \"title\": \"Senior Software Engineer\",\n    \"company\": \"Stripe\",\n    \"company_url\": \"https://wellfound.com/company/stripe\",\n    \"location\": \"San Francisco, CA\",\n    \"remote\": true,\n    \"employment_type\": \"full-time\",\n    \"salary\": \"$120,000 - $160,000 USD\",\n    \"description\": \"We are looking for a Senior Software Engineer to lead our payments infrastructure team...\",\n    \"tags\": [\"Fintech\", \"SaaS\", \"B2B\"],\n    \"posted_at\": \"2026-05-01T00:00:00Z\",\n    \"source_url\": \"https://wellfound.com/jobs/12345678-senior-software-engineer-at-stripe\",\n    \"source_platform\": \"wellfound.com\",\n    \"search_query\": \"Software Engineer\",\n    \"serp_page\": 1,\n    \"scraped_at\": \"2026-05-04T10:00:00Z\"\n  }\n]\n```\n\n## Pricing\n\nPay only for results. No monthly fees, no minimum spend. Apify's $5 free monthly credit applies.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| `job-start` | $0.001 | Once per run |\n| `job-serp-result` | $0.006 | Per job row from search |\n| `job-detail-result` | $0.010 | Per job with detail-page enrichment |\n| `company-detail-result` | $0.005 | Per unique employer resolved |\n\n**Example costs (SERP only):**\n\n| Jobs | Cost |\n|------|------|\n| 100 jobs | $0.60 |\n| 1,000 jobs | $6.00 |\n\n## Input Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `searchQueries` | string[] | [\"Software Engineer\"] | Job role keywords to search (e.g. \"Data Engineer\") |\n| `startUrls` | string[] | [] | Direct Wellfound search URLs with pre-set filters |\n| `location` | string | \"\" | City or region (e.g. \"San Francisco\", \"New York\") |\n| `remote` | boolean | false | When true, return only remote-friendly listings |\n| `includeJobDetails` | boolean | false | Fetch each PDP for full description, salary, apply URL |\n| `includeCompanyDetails` | boolean | false | Fetch each employer's company page (about, funding, active jobs) |\n| `maxResults` | integer | 5 | Hard cap across all queries |\n| `maxResultsPerQuery` | integer | 5 | Max jobs per keyword or URL |\n\n## Output Fields\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `id` | string | Unique job listing ID from Wellfound |\n| `title` | string | Job title |\n| `company` | string | Hiring startup or company name |\n| `company_url` | string | Link to the company profile on Wellfound |\n| `location` | string | City and state, or \"Remote\" |\n| `remote` | boolean | Whether the role allows remote work |\n| `employment_type` | string | Full-time, part-time, contract, or internship |\n| `salary` | string | Compensation range (null if not disclosed) |\n| `description` | string | Job description (up to 2,000 chars) |\n| `tags` | string[] | Market or industry tags (e.g. SaaS, Fintech, B2B) |\n| `posted_at` | string | ISO 8601 date/time when the job was posted |\n| `source_url` | string | Direct link to the Wellfound job listing |\n| `source_platform` | string | Always \"wellfound.com\" |\n| `search_query` | string | Keyword that returned this job |\n| `serp_page` | integer | Page number the job was found on |\n| `scraped_at` | string | ISO 8601 UTC timestamp |\n\n## Tips\n\n- **Startup-focused**: Wellfound specialises in early-stage and growth-stage startup jobs, from seed to Series C+\n- **Remote filter**: set `remote: true` to see only remote-friendly roles across all startups\n- **Market tags**: use the `tags` field to filter results by industry (SaaS, Fintech, Healthcare, AI/ML)\n- **Combine with contact-details-scraper**: use `company_url` as input to extract recruiter emails and phone numbers\n- **Direct URL**: use Wellfound's search UI to apply filters (funding stage, team size, equity), then copy the URL to `searchUrls`\n\n## Related Actors\n\n- [Contact Details Scraper](https://apify.com/nanoscrape/contact-details-scraper): extract emails and phones from company websites\n- [SEEK Job Scraper](https://apify.com/nanoscrape/seek-job-scraper): Australia & New Zealand's largest job board\n- [Career Site Scraper](https://apify.com/nanoscrape/career-site-scraper): scrape Greenhouse, Lever, Workday career pages\n\n## Issues & Feature Requests\n\nOpen an issue at [console.apify.com/actors/nanoscrape/wellfound-jobs-scraper/issues](https://console.apify.com/actors/nanoscrape/wellfound-jobs-scraper/issues).\n",
+  "readmeSource": "actors/jobs/wellfound-jobs-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-08-21T14:05:46.714Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Job SERP result",
+        "description": "Job row extracted from search results page",
+        "isPrimary": true,
+        "priceUsd": 0.006,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-start",
+        "title": "Actor start",
+        "description": "Once per run",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job detail-page enrichment",
+        "description": "Full description + industry + structured address from the PDP",
+        "isPrimary": false,
+        "priceUsd": 0.01,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "company-detail-result",
+        "title": "Company-page enrichment",
+        "description": "Rich company profile (about + funding + founders + tech stack). Deduplicated by company slug",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:44:27.449Z"
+}

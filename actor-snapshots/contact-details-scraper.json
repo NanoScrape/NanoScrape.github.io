@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/contact-details-scraper",
+  "name": "contact-details-scraper",
+  "title": "Contact Details Scraper",
+  "description": "DEPRECATED — please use santamaria-automations/website-email-scraper, which provides the same multi-page contact extraction with a more battle-tested codebase (1100+ runs, 35+ users).",
+  "readme": "# Contact Details Scraper\n\nExtract contact information from any website — emails, phone numbers, and social media links — in a single run. Give it a list of URLs and get back one consolidated contact record per site. No API keys needed.\n\n## How It Works\n\nFor each URL you provide, the scraper:\n\n1. Visits the homepage\n2. Discovers internal links — contact, about, impressum, and privacy pages are always crawled first\n3. Extracts email addresses from page text and `mailto:` links\n4. Extracts phone numbers from `tel:` links and international-format text\n5. Finds social media profile links (LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing)\n6. Returns one record per website with all contact details consolidated\n\nChallenge pages (bot-protection walls) are skipped automatically so the run keeps going.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/contact-details-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `contact-details-scraper` to extract all contact details from acme-corp.com and return the emails and LinkedIn profile.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input Example\n\n```json\n{\n  \"urls\": [\n    \"acme-corp.com\",\n    \"https://www.another-company.de\",\n    \"https://startup.io/contact\"\n  ],\n  \"maxPagesPerUrl\": 10\n}\n```\n\nBare domains (`acme-corp.com`) and full URLs are both accepted.\n\n## Output Example\n\n```json\n[\n  {\n    \"url\": \"https://acme-corp.com\",\n    \"domain\": \"acme-corp.com\",\n    \"emails\": [\"info@acme-corp.com\", \"sales@acme-corp.com\"],\n    \"phones\": [\"+1 555 123 4567\"],\n    \"social_links\": {\n      \"linkedin\": \"https://linkedin.com/company/acme-corp\",\n      \"twitter\": \"https://twitter.com/acmecorp\",\n      \"facebook\": \"https://facebook.com/acmecorp\"\n    },\n    \"pages_crawled\": 7,\n    \"scraped_at\": \"2026-04-29T10:00:00Z\"\n  }\n]\n```\n\n## Pricing\n\nYou pay per website processed — one charge per contact record regardless of how many emails or phone numbers were found.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.25 | Covers container startup |\n| Contact result | $0.0005 | Per website contact record produced ($0.50/1k) |\n\n**Example costs:**\n\n| Websites | Cost |\n|----------|------|\n| 1 website | $0.2505 |\n| 100 websites | $0.30 |\n| 1,000 websites | $0.75 |\n| 10,000 websites | $5.25 |\n\nNo monthly fees. No minimum spend.\n\n## Input Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `urls` | string[] | required | Website URLs or bare domains to scrape |\n| `maxPagesPerUrl` | integer | 10 | Max pages to crawl per site (1–50) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output Fields\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `url` | string | Input URL that was scraped |\n| `domain` | string | Normalized domain name |\n| `emails` | string[] | All unique email addresses found (lowercase) |\n| `phones` | string[] | Phone numbers from tel: links and international-format text |\n| `social_links` | object | Social media profiles found (linkedin, twitter, facebook, instagram, youtube, xing) |\n| `pages_crawled` | integer | Number of pages visited |\n| `scraped_at` | string | ISO timestamp of when the record was produced |\n\n## Tips\n\n- **Contact and impressum pages are checked first** — the scraper prioritizes `/contact`, `/kontakt`, `/impressum`, `/about`, and similar paths\n- **10 pages covers most SMB sites** — most business sites expose all contact info within the first 10 pages\n- **Increase to 20–50 pages** for large corporate sites or to find role-specific emails (hr@, press@)\n- **One record per website** — all emails, phones, and social links from a site are consolidated into a single row, making it easy to use in spreadsheets or CRMs\n\n## Related Actors\n\n**Enrich with more data**\n\n- [Free Email Domain Scraper](https://apify.com/santamaria-automations/free-email-domain-scraper) — one record per email address found (not per website)\n- [Website Email & Phone Scraper](https://apify.com/santamaria-automations/website-email-scraper) — targeted email + phone extraction\n\n**Lead generation sources**\n\n- [Shopify Store Scraper](https://apify.com/santamaria-automations/shopify-store-scraper)\n- [Kleinanzeigen.de Scraper](https://apify.com/santamaria-automations/kleinanzeigen-de-scraper)\n- [Willhaben.at Scraper](https://apify.com/santamaria-automations/willhaben-at-scraper)\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature, please [open an issue](https://console.apify.com/actors/contact-details-scraper/issues) and we'll look into it.\n",
+  "readmeSource": "actors/enrichment/contact-details-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-06-01T16:01:32.555Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "Charged once per run when the actor starts.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "contact-result",
+        "title": "Website contact record",
+        "description": "Charged per website successfully crawled and returned as one consolidated contact record ($2.00 per 1,000 websites). Records include emails, phones, and social profiles aggregated across all crawled pages.",
+        "isPrimary": false,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:43:37.404Z"
+}

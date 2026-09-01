@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/deep-website-crawler",
+  "name": "deep-website-crawler",
+  "title": "Deep Website Crawler (DEPRECATED)",
+  "description": "DEPRECATED — use santamaria-automations/website-content-crawler instead. Same crawl behavior, richer output (clean AI/RAG-ready Markdown vs plain text).",
+  "readme": "# Deep Website Crawler\n\nCrawl any website to configurable depth and extract the title and full text content of every page. Give it a list of start URLs — it follows links level by level and returns one record per page. No API keys or login required.\n\n## How It Works\n\nFor each start URL you provide, the crawler:\n\n1. Fetches the start page\n2. Extracts all internal links from that page\n3. Follows those links to the next depth level\n4. Repeats until the configured depth or page limit is reached\n5. Returns one record per crawled page with its title, text content, and crawl depth\n\nChallenge pages (bot-protection walls) are skipped automatically so the run keeps going. Pages that return errors are logged and skipped.\n\n## Use with AI Agents (MCP)\n\nConnect this actor to any MCP-compatible AI client — Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents.\n\n**Apify MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/deep-website-crawler\n```\n\n**Example prompt once connected:**\n\n> \"Use `deep-website-crawler` to crawl https://example.com to depth 2 and return all page titles and text as a table.\"\n\nClients that support dynamic tool discovery (Claude.ai, VS Code) will receive the full input schema automatically via `add-actor`.\n\n## Input Example\n\n```json\n{\n  \"startUrls\": [\n    \"https://acme-corp.com\",\n    \"https://www.another-company.de/blog\"\n  ],\n  \"maxDepth\": 2,\n  \"maxPagesPerCrawl\": 100,\n  \"maxPagesPerDomain\": 50\n}\n```\n\nBoth bare domains (`acme-corp.com`) and full URLs (`https://acme-corp.com/about`) are accepted.\n\n## Output Example\n\n```json\n[\n  {\n    \"url\": \"https://acme-corp.com\",\n    \"title\": \"Acme Corp - Industrial Solutions\",\n    \"text\": \"Acme Corp is a global leader in industrial solutions. Since 1950 we have...\",\n    \"depth\": 0,\n    \"start_url\": \"https://acme-corp.com\",\n    \"links_found\": 14,\n    \"status_code\": 200,\n    \"content_length\": 3842,\n    \"scraped_at\": \"2026-04-29T10:00:00Z\"\n  },\n  {\n    \"url\": \"https://acme-corp.com/about\",\n    \"title\": \"About Us - Acme Corp\",\n    \"text\": \"Founded in 1950, Acme Corp has grown from a small family workshop into...\",\n    \"depth\": 1,\n    \"start_url\": \"https://acme-corp.com\",\n    \"links_found\": 8,\n    \"status_code\": 200,\n    \"content_length\": 2190,\n    \"scraped_at\": \"2026-04-29T10:00:01Z\"\n  }\n]\n```\n\n## Pricing\n\nYou pay per page crawled — only charged for pages you actually receive.\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.25 | Covers container startup |\n| Page result | $0.0005 | Per page crawled and returned |\n\n**Example costs:**\n\n| Pages crawled | Cost |\n|--------------|------|\n| 0 pages | $0.25 |\n| 100 pages | $0.30 |\n| 1,000 pages | $0.75 |\n| 10,000 pages | $5.25 |\n\nNo monthly fees. No minimum spend.\n\n## Input Parameters\n\n| Parameter | Type | Default | Description |\n|-----------|------|---------|-------------|\n| `startUrls` | string[] | required | URLs to start crawling from |\n| `maxDepth` | integer | 2 | Link levels deep to follow (0–5) |\n| `maxPagesPerCrawl` | integer | 100 | Max total pages across all start URLs (1–500) |\n| `maxPagesPerDomain` | integer | 50 | Max pages per unique domain (1–250) |\n| `proxyConfiguration` | object | Apify proxy | Proxy settings |\n\n## Output Fields\n\n| Field | Type | Description |\n|-------|------|-------------|\n| `url` | string | Canonical URL of the crawled page |\n| `title` | string | HTML title tag content |\n| `text` | string | Visible plain text (truncated at 10,000 characters) |\n| `depth` | integer | Crawl depth (0 = start URL, 1 = one link away, etc.) |\n| `start_url` | string | The start URL that initiated this crawl path |\n| `links_found` | integer | Internal links discovered on this page |\n| `status_code` | integer | HTTP status code |\n| `content_length` | integer | Characters in extracted text (before truncation) |\n| `scraped_at` | string | ISO 8601 UTC timestamp |\n\n## Tips\n\n- **Depth 2 covers most websites** — homepage → section pages → detail pages is typically enough for site audits and content extraction\n- **Use maxPagesPerCrawl for budget control** — set this lower than the theoretical maximum to cap spend on large sites\n- **Depth 0 is just the start page** — useful when you have a precise list of URLs and only need content extraction without following links\n- **One record per page** — each unique URL gets its own row, making it easy to filter, sort, or feed into downstream processing\n\n## Related Actors\n\n- [Free Email Domain Scraper](https://apify.com/santamaria-automations/free-email-domain-scraper) — extract email addresses from any domain\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) — extract full contact records (email + phone + social + address)\n- [SEO Metadata Extractor](https://apify.com/santamaria-automations/seo-metadata-extractor) — extract meta title, description, canonical, and OG tags\n\n## Issues & Feature Requests\n\nIf something is not working or you're missing a feature, please [open an issue](https://console.apify.com/actors/deep-website-crawler/issues) and we'll look into it.\n",
+  "readmeSource": "actors/enrichment/deep-website-crawler/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-06-01T16:01:35.190Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "Charged once per run when the actor starts.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "page-result",
+        "title": "Page record",
+        "description": "Charged per page crawled and returned ($1.00 per 1,000 pages). Records include URL, title, plain text content, depth, and HTTP status.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:43:40.924Z"
+}

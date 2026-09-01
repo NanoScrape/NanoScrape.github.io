@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/gbp-completeness-audit",
+  "name": "gbp-completeness-audit",
+  "title": "GBP Completeness Audit - Score Google Business Profiles",
+  "description": "Score any Google Business Profile against an 8-signal completeness rubric. Flags profiles missing a website or ownership claim as HIGH-priority leads for local SEO agencies. Zero-fetch, zero-LLM. Pay-per-result.",
+  "readme": "# GBP Completeness Audit\n\nScore any Google Business Profile against an 8-signal completeness rubric. Surfaces high-priority local SEO leads: profiles with no website or an unclaimed listing. Zero fetches, zero LLM, zero API keys.\n\nFeed it the output of the [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) and get one score row per business, ready to sort in a sheet or push into a CRM.\n\n## What It Does\n\nFor every input place record the actor evaluates 8 signals:\n\n| Signal | Weight | Full credit when |\n|--------|--------|------------------|\n| Website | 1 pt | `website` is set |\n| Phone | 1 pt | `phone` is set |\n| Hours | 1 pt | `open_hours` is populated |\n| Description | 1 pt | `description` is set |\n| Category | 1 pt | `category` or `categories` is set |\n| Photos | 0 / 0.5 / 1 pt | 0 / 1-4 / 5+ photos |\n| Reviews | 0 / 0.5 / 1 pt | 0 / 1-9 / 10+ reviews |\n| Claimed | 1 pt | `owner` object present |\n\nTotal points are scaled to a 0-100 `gbp_completeness_score`. The actor also returns:\n\n- `sub_scores` - per-signal raw score, so you can rebuild your own weighting\n- `missing_fields[]` - the field names that scored 0, ready to hand to the business owner\n- `lead_priority_flag` - `HIGH` when the profile has no website OR is unclaimed, `NORMAL` otherwise\n\n`HIGH` profiles are the sweet spot for local SEO agencies: the business exists on Google Maps but has not claimed its listing or built a website.\n\n## Input\n\nTwo shapes are accepted, and you can mix them in a single run.\n\nFlat places list (natural shape, just pipe the google-maps-scraper output):\n\n```json\n{\n  \"places\": [\n    { \"place_id\": \"ChIJN1t_tDeuEmsRUsoyG83frY4\", \"title\": \"Example Restaurant Ltd.\", \"website\": \"...\" }\n  ]\n}\n```\n\nCompanies shape (with a `company_id` passthrough for join-back to your CRM):\n\n```json\n{\n  \"companies\": [\n    { \"company_id\": \"acme-42\", \"place\": { \"place_id\": \"ChIJ...\", \"title\": \"Acme Widgets GmbH\" } }\n  ]\n}\n```\n\n## Output\n\nOne row per input place:\n\n```json\n{\n  \"company_id\": \"acme-42\",\n  \"place_id\": \"ChIJN1t_tDeuEmsRUsoyG83frY4\",\n  \"cid\": \"10281019595535971924\",\n  \"name\": \"Example Restaurant Ltd.\",\n  \"gbp_completeness_score\": 88,\n  \"sub_scores\": {\n    \"has_website\": 1, \"has_phone\": 1, \"has_hours\": 1, \"has_description\": 0,\n    \"has_category\": 1, \"photo_count\": 0.5, \"review_count\": 1, \"is_claimed\": 1\n  },\n  \"missing_fields\": [\"description\"],\n  \"lead_priority_flag\": \"NORMAL\",\n  \"scraped_at\": \"2026-07-17T10:30:00Z\"\n}\n```\n\n## How To Use It\n\n1. Run [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) to collect places for a niche and city.\n2. Feed the dataset into this actor as `places`.\n3. Sort the output by `lead_priority_flag = HIGH` and `gbp_completeness_score` ascending.\n4. Pitch those businesses first. They have the most room to improve, which makes them the easiest to close.\n\n## Pricing\n\nPay-per-result via Apify Pay-Per-Event billing:\n\n| Event | Price | Description |\n|-------|-------|-------------|\n| Actor start | $0.001 | Charged once per run |\n| Place audited | $0.003 | Charged per scored place |\n\nAuditing 1,000 places costs about $3. No monthly fees, no minimums.\n\n## Related Actors\n\nDiscovery:\n\n- [Google Maps Scraper](https://apify.com/santamaria-automations/google-maps-scraper) - collect places in bulk\n\nEnrichment:\n\n- [AI Icebreaker Generator](https://apify.com/santamaria-automations/ai-icebreaker) - one personalized cold-outreach line per business\n- [Website Email Scraper](https://apify.com/santamaria-automations/website-email-scraper) - pull emails and phones from company sites\n- [Website Contact Extractor](https://apify.com/santamaria-automations/website-contact-extractor) - LLM-powered people extraction\n\n## Issues & Feature Requests\n\nIf a signal is missing or you would score things differently, open an issue on the actor's Issues tab and we will take a look.\n",
+  "readmeSource": "actors/enrichment/gbp-completeness-audit/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-07-21T08:05:18.912Z",
+    "events": [
+      {
+        "key": "apify-default-dataset-item",
+        "title": "result",
+        "description": "Single result in the default dataset.",
+        "isPrimary": true,
+        "priceUsd": 0.0005,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-01T11:43:47.817Z"
+}
