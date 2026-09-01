@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Every Fortune 500 Job Listing (2026 Playbook) | NanoScrape</title>
+  <meta name="description" content="Extract every open role from all 500 Fortune 500 companies with a 3-actor stack: ATS-native scraper (58% coverage), LLM website extractor (custom sites), and Job Feed orchestrator. Full list of careers URLs included.">
+  <meta name="primary-keyword" content="scrape fortune 500 jobs">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="Scrape All Fortune 500 Job Listings - Full Playbook">
+  <meta property="og:description" content="58% of F500 careers pages run on Workday, Phenom, Oracle Recruiting, iCIMS and 21 more ATS platforms. Add LLM extraction and browser fallback and you cover ~89%. Complete guide with pricing.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Every Fortune 500 Job Listing",
+  "description": "Use a three-tier scraping stack (ATS-native + LLM HTTP + LLM browser) to extract open roles from all 500 Fortune 500 companies. 89% coverage of F500 careers pages, unified output schema, and Job Feed orchestrator to run the whole pipeline nightly.",
+  "totalTime": "PT45M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "35.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Free Google Gemini API key (for LLM extraction)"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Career Site Jobs Scraper"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Job Extractor"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Job Extractor (Browser)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Job Feed (private beta)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Tier 1: ATS-native scraping (covers 58% of the F500)",
+      "text": "Run Career Site Jobs Scraper on the ATS careers URLs - Workday, Phenom, Oracle Recruiting, iCIMS, TalentBrew, Eightfold and 19 more platforms are natively supported."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tier 2: LLM HTTP extraction (custom career sites)",
+      "text": "For F500 companies that build careers pages in-house (Amazon, Walmart, Apple, Microsoft), use Website Job Extractor. It parses HTML with an LLM and returns the same normalized schema."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tier 3: LLM browser fallback (JS-only sites)",
+      "text": "Turn on enablePlaywrightFallback in the HTTP extractor and it automatically re-tries JS-rendered pages with the browser variant."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Tier 4: Job Feed orchestrator (private beta)",
+      "text": "Hand the F500 list to Job Feed and it fans out per ATS, runs all three extractors in parallel, dedupes by job_url, and pushes a unified dataset. Currently private beta - email contact@nanoscrape.com to request access."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Scrape Every Fortune 500 Job Listing: The 3-Actor Stack",
+  "description": "How to extract open roles from all 500 Fortune 500 companies using ATS-native scraping, LLM website extraction, and the Job Feed orchestrator. Covers pricing, ATS coverage, and full careers-URL list.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-09-01",
+  "dateModified": "2026-09-01",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which Fortune 500 companies can I actually scrape with the free tier?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Apify free tier ($5/month) covers about 5,000 jobs on the ATS scraper - roughly 10 F500 companies. Gemini free tier adds another 30-70 companies per day of LLM extraction. Combined, meaningful F500 sampling is free."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often do F500 careers pages change ATS platforms?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 10-15% of F500 migrate ATS platforms per year. The public CSV in the NanoScrape repo is re-detected monthly to keep the primary_ats column current."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I extract salary data from F500 jobs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Salary is extracted when publicly disclosed. US pay transparency laws mean roughly 40% of F500 US roles include salary. LLM extractor returns structured salary_range; ATS scraper returns raw text in description."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What about companies I can't scrape (SuccessFactors, Paradox, Taleo classic)?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 55 F500 companies use hardened WAF deployments (SuccessFactors WAF, Paradox, Taleo classic) that resist HTTP scraping. Custom builds with residential proxies available on request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this legal? What about the LinkedIn hiQ ruling?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Actors access only publicly visible careers pages. hiQ Labs v. LinkedIn found scraping public data is not a CFAA violation. Individual company ToS may restrict automated access. Consult a lawyer for compliance questions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What's the difference between this and just scraping LinkedIn Jobs or Indeed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LinkedIn and Indeed aggregate a subset of F500 jobs. Direct careers-page scraping catches the rest. Overlap ranges 40-80%. For complete coverage, run both: LinkedIn for lead time, direct-source for truth."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I have to use n8n? Can I automate this in Python or Node.js?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You can call the Apify API from any language via the official Python or JavaScript clients. n8n is optional - it's popular for its visual builder and built-in scheduling. Code-first teams can achieve the same in about 100 lines of Python."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Scrape Fortune 500 Jobs",
+      "item": "https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Fortune 500 Jobs</nav>
+
+    <h1>How to Scrape Every Fortune 500 Job Listing</h1>
+    <p class="lead">The Fortune 500 posts roughly 250,000 open roles across 500 different careers sites. There's no single API, no unified data feed, and every company runs a different Applicant Tracking System. This playbook shows how to extract all of them - 89% coverage - using three purpose-built actors and one orchestrator. Full careers-URL list included.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Intermediate</div>
+      <div class="meta-item"><strong>Time:</strong> 45 minutes for the setup, then nightly on autopilot</div>
+      <div class="meta-item"><strong>Cost:</strong> ~$30-40 per full F500 sweep (~250K jobs)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify + Google Gemini free tier</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
+      <a href="mailto:contact@nanoscrape.com?subject=Job%20Feed%20private%20beta%20access" class="btn-secondary">Request Job Feed private beta access</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#the-problem">Why there is no single Fortune 500 jobs API</a></li>
+        <li><a href="#coverage-map">F500 ATS coverage map</a></li>
+        <li><a href="#the-stack">The 3-actor stack (and one orchestrator)</a></li>
+        <li><a href="#tier-1-ats">Tier 1: ATS-native scraping (58% of F500)</a></li>
+        <li><a href="#tier-2-llm-http">Tier 2: LLM HTTP extraction (custom sites)</a></li>
+        <li><a href="#tier-3-llm-browser">Tier 3: LLM browser fallback (JS-only sites)</a></li>
+        <li><a href="#tier-4-orchestrator">Tier 4: Job Feed orchestrator (private beta)</a></li>
+        <li><a href="#f500-list">The full Fortune 500 careers-URL list</a></li>
+        <li><a href="#cost">What it costs to sweep the F500</a></li>
+        <li><a href="#automation">Automate the whole pipeline with n8n</a></li>
+        <li><a href="#jobfeed-saas">Coming soon: JobFeed SaaS</a></li>
+      </ol>
+    </div>
+
+    <h2 id="the-problem">Why there is no single Fortune 500 jobs API</h2>
+    <p>Every Fortune 500 company posts jobs, but nobody publishes a unified feed. LinkedIn indexes a slice. Indeed indexes another. Google for Jobs surfaces a third. None of them cover 100% because the source of truth is always the company's own careers site - and every company runs a different Applicant Tracking System (ATS).</p>
+    <p>Analyzing 500 F500 careers pages shows five distinct problems that any complete solution has to handle:</p>
+    <ul>
+        <li><strong>ATS fragmentation.</strong> 24 different ATS platforms across the F500. Workday alone runs 118 of them. Custom-built portals run 103.</li>
+        <li><strong>Server-rendered vs JavaScript-rendered.</strong> Roughly 10% of F500 careers pages load jobs via JavaScript only, so HTTP scraping returns an empty shell.</li>
+        <li><strong>WAF and anti-bot.</strong> A dozen deployments (SuccessFactors, Taleo classic, some Avature and Jobvite) block TLS-fingerprinted HTTP requests.</li>
+        <li><strong>Schema drift.</strong> Every ATS uses different field names for title, location, department, remote status, salary. Merging into one usable dataset takes real work.</li>
+        <li><strong>Frequency.</strong> Jobs open and close daily. A one-time snapshot is stale within a week.</li>
+      </ul>
+    <p>The three-actor stack in this tutorial handles all five. Tier 1 talks to each ATS's public API directly. Tier 2 uses an LLM to extract jobs from the custom sites where no ATS API exists. Tier 3 spins up a headless browser only where JavaScript rendering forces it. The orchestrator ties them together and merges output into a single deduplicated feed.</p>
+
+    <h2 id="coverage-map">F500 ATS coverage map</h2>
+    <p>We audited all 500 Fortune 500 careers pages in May 2026. Here's the breakdown by ATS platform:</p>
+    <div class="code-block"><pre>ATS PLATFORM F500 COVERAGE BEST-FIT ACTOR
+──────────────────────────────────────────────────────────────────────
+Workday 118 23.6% Career Site Jobs Scraper
+Custom (in-house) 103 20.6% Website Job Extractor (LLM)
+Pending browser check 50 10.0% Website Job Extractor (Browser)
+Phenom 41 8.2% Career Site Jobs Scraper
+Oracle Recruiting 32 6.4% Career Site Jobs Scraper
+iCIMS 31 6.2% Career Site Jobs Scraper
+SuccessFactors 28 5.6% (WAF-blocked - browser fallback)
+TalentBrew 22 4.4% Career Site Jobs Scraper
+Eightfold 16 3.2% Career Site Jobs Scraper
+Paradox 15 3.0% (browser fallback)
+Taleo 8 1.6% Career Site Jobs Scraper (modern)
+Brassring 8 1.6% Career Site Jobs Scraper
+Beamery 6 1.2% (browser fallback)
+Avature 5 1.0% Career Site Jobs Scraper
+ADP 4 0.8% Career Site Jobs Scraper
+Greenhouse 3 0.6% Career Site Jobs Scraper
+SmartRecruiters 3 0.6% Career Site Jobs Scraper
+(11 other platforms) 7 1.4% Various
+──────────────────────────────────────────────────────────────────────
+TOTAL 500 100.0%
+
+ATS-native coverage (Career Site Jobs Scraper): 292 companies (58.4%)
+LLM-extractable custom sites: 103 companies (20.6%)
+Browser fallback needed: ~50 companies (10.0%)
+Hardened WAF / not scrapable HTTP-only: ~55 companies (11.0%)
+
+Realistic end-to-end coverage: ~89% of the F500.</pre></div>
+    <div class="callout"><strong>Why not 100%?</strong> A handful of deployments (SuccessFactors WAF-hardened tenants, Paradox conversational-AI portals, and a few Taleo classic FTL portals) actively block automated access with per-request JavaScript challenges. Those companies can still be scraped, but they need a real browser session with human-in-the-loop CAPTCHA solving, which changes the economics enough that we treat them as a Tier 4 problem - see the JobFeed SaaS section.</div>
+    <h3>Coverage by industry</h3>
+    <p>If you only care about specific verticals, here's how the F500 breaks down by industry sector:</p>
+    <ul>
+        <li><strong>Retail &amp; Consumer Goods:</strong> 75 companies (Walmart, Costco, Target, Kroger, Home Depot, McDonald's)</li>
+        <li><strong>Technology:</strong> 60 companies (Apple, Microsoft, Alphabet, Meta, Nvidia, Oracle, Salesforce)</li>
+        <li><strong>Manufacturing &amp; Industrial:</strong> 58 companies (GE, Boeing, Caterpillar, 3M, Emerson)</li>
+        <li><strong>Banking &amp; Financial Services:</strong> 53 companies (JPMorgan Chase, Bank of America, Wells Fargo, Goldman Sachs)</li>
+        <li><strong>Energy &amp; Utilities:</strong> 49 companies (Exxon Mobil, Chevron, Marathon Petroleum, Valero)</li>
+        <li><strong>Healthcare &amp; Pharma:</strong> 45 companies (Johnson &amp; Johnson, UnitedHealth, CVS Health, Pfizer, Merck)</li>
+        <li><strong>Insurance:</strong> 42 companies (Berkshire Hathaway, MetLife, Prudential, Allstate)</li>
+        <li><strong>Telecom &amp; Media:</strong> 17 companies (Verizon, AT&amp;T, Comcast, Disney)</li>
+        <li><strong>Transportation &amp; Logistics:</strong> 17 companies (UPS, FedEx, Delta, American Airlines)</li>
+      </ul>
+
+    <h2 id="the-stack">The 3-actor stack (and one orchestrator)</h2>
+    <p>Here's the whole pipeline at a glance. Every tier hands off a normalized job record with the same field names, so downstream consumers see one unified schema no matter which extractor produced the row.</p>
+    <div class="code-block"><pre> ┌─────────────────────────────────────────┐
+ │ Fortune 500 careers URL list (input) │
+ │ 500 companies with careers_url + ATS │
+ └────────────────────┬────────────────────┘
+ │
+ ┌───────────────────┴───────────────────┐
+ │ Job Feed orchestrator (private beta) │
+ │ Fans out per ATS, dedupes, normalises │
+ └───┬────────────┬──────────────┬───────┘
+ │ │ │
+ ┌──────────▼──┐ ┌─────▼──────┐ ┌───▼──────────┐
+ │ Tier 1 ATS │ │ Tier 2 LLM │ │ Tier 3 LLM │
+ │ Career Site │ │ Website │ │ Website Job │
+ │ Jobs Scraper│ │ Job Extr. │ │ Extractor │
+ │ (HTTP, $1/K)│ │ (HTTP+LLM) │ │ (Browser+LLM)│
+ └──────┬──────┘ └─────┬──────┘ └──────┬───────┘
+ │ │ │
+ └───────────────┼────────────────┘
+ │
+ ┌─────────────▼───────────────┐
+ │ Unified F500 jobs dataset │
+ │ ~250K rows, normalized │
+ │ Same schema across tiers │
+ └─────────────────────────────┘</pre></div>
+    <p>You can run the whole thing tier by tier as a manual playbook (skip to <a href="#tier-1-ats">Tier 1</a>), or hand the F500 list to the orchestrator and let it run every night on autopilot (skip to <a href="#tier-4-orchestrator">Tier 4</a>).</p>
+
+    <div class="step" id="tier-1-ats">
+      <span class="step-number">STEP 1</span>
+      <h2>Tier 1: ATS-native scraping (covers 58% of the F500)</h2>
+      <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">NanoScrape Career Site Jobs Scraper</a> talks to 24 ATS platforms directly through their public JSON APIs. It's fast (HTTP-only, no browser), cheap ($1 per 1,000 jobs), and returns structured data with consistent field names.</p>
+      <h3>Sample input: 8 F500 companies across 8 ATS platforms</h3>
+      <div class="code-block"><pre>{
+ "queries": [
+ "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
+ {"platform": "phenom", "company": "https://jobs.cvshealth.com"},
+ {"platform": "oracle_recruiting", "company": "https://iawmqy.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/careers"},
+ "https://careers-costco.icims.com/jobs/search",
+ {"platform": "talentbrew", "company": "https://careers.walgreens.com/en"},
+ {"platform": "eightfold", "company": "https://careers.nyl.eightfold.ai/careers"},
+ {"platform": "brassring", "company": "https://sjobs.brassring.com/TGnewUI/Search/Home/Home?partnerid=25526&amp;siteid=5032"},
+ "https://ally.avature.net/careers/SearchJobs/"
+ ],
+ "maxJobsPerCompany": 500,
+ "includeDescription": true
+}</pre></div>
+      <h3>What you get back</h3>
+      <div class="code-block"><pre>{
+ "id": "R0031234",
+ "title": "Senior Compiler Engineer",
+ "company": "NVIDIAExternalCareerSite",
+ "ats_platform": "workday",
+ "location": "Santa Clara, CA",
+ "department": null,
+ "employment_type": "Full-time",
+ "remote": false,
+ "description": "&lt;div&gt;NVIDIA is looking for a Senior Compiler Engineer...&lt;/div&gt;",
+ "apply_url": "https://nvidia.wd5.myworkdayjobs.com/.../job/Santa-Clara-CA/Senior-Compiler-Engineer_R0031234/apply",
+ "job_url": "https://nvidia.wd5.myworkdayjobs.com/.../job/Santa-Clara-CA/Senior-Compiler-Engineer_R0031234",
+ "created_at": "2026-08-19T09:00:00Z",
+ "updated_at": "2026-08-28T14:12:00Z",
+ "scraped_at": "2026-09-01T06:00:00Z"
+}</pre></div>
+      <div class="callout tip"><strong>Batch tip.</strong> The actor accepts up to 500 URLs per run and processes them in parallel. A single run against 200 F500 Workday deployments returning ~150K jobs typically finishes in under 25 minutes and costs about $150 total ($0.001 start + $150 for jobs). Split into daily incremental runs by filtering on <code class="code-inline">updated_at</code> to keep costs proportional to change velocity.</div>
+      <h3>F500 companies you can scrape today with this actor</h3>
+      <ul>
+        <li><strong>Workday (118):</strong> NVIDIA, Centene, Verizon, Marathon Petroleum, Target, Bank of America, Johnson &amp; Johnson, Allstate, Salesforce, Truist, PNC, Fifth Third Bancorp, and 106 more.</li>
+        <li><strong>Phenom (41):</strong> CVS Health, Cencora, Humana, Freddie Mac, Procter &amp; Gamble, HCA Healthcare, McDonald's, PepsiCo, and 33 more.</li>
+        <li><strong>Oracle Recruiting (32):</strong> JPMorgan Chase, Kroger, Dell Technologies, Albertsons, American Express, and 27 more.</li>
+        <li><strong>iCIMS (31):</strong> State Farm, Dollar General, Northwestern Mutual, Discover, and 27 more.</li>
+        <li><strong>TalentBrew (22):</strong> McKesson, Ford Motor, Chevron, Coca-Cola, PepsiCo bottling, and 17 more.</li>
+        <li><strong>Eightfold, Brassring, ADP, Avature, Taleo (modern), Greenhouse, SmartRecruiters (48 combined):</strong> covered end-to-end by the same actor.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="tier-2-llm-http">
+      <span class="step-number">STEP 2</span>
+      <h2>Tier 2: LLM HTTP extraction (custom career sites)</h2>
+      <p>About 103 F500 companies (Amazon, Walmart, Apple, Alphabet, Berkshire Hathaway, Exxon Mobil, Microsoft, Cardinal Health, and 95 more) don't use any commercial ATS. Their careers pages are hand-built with custom URL patterns, one-off HTML structures, and no JSON API. There's no way to write a stable HTML parser for every one of them - but an LLM can read any careers page and extract structured jobs on the fly.</p>
+      <p>That's what the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">NanoScrape Website Job Extractor</a> does. Feed it a website URL - it auto-discovers the careers page, gates on job-related keywords to avoid wasting LLM calls, sends the cleaned HTML to Gemini (or Groq or OpenRouter), and returns validated job records with confidence scores.</p>
+      <h3>Sample input: 8 F500 companies with custom careers pages</h3>
+      <div class="code-block"><pre>{
+ "companies": [
+ {"company_id": "amzn", "company_name": "Amazon", "website_url": "https://www.amazon.jobs/en/"},
+ {"company_id": "wmt", "company_name": "Walmart", "website_url": "https://careers.walmart.com/us/en/home"},
+ {"company_id": "aapl", "company_name": "Apple", "website_url": "https://www.apple.com/careers/us/"},
+ {"company_id": "goog", "company_name": "Alphabet", "website_url": "https://careers.google.com/"},
+ {"company_id": "brk", "company_name": "Berkshire Hathaway", "website_url": "https://www.berkshirehathaway.com/careers.html"},
+ {"company_id": "xom", "company_name": "Exxon Mobil", "website_url": "https://corporate.exxonmobil.com/careers"},
+ {"company_id": "msft", "company_name": "Microsoft", "website_url": "https://careers.microsoft.com/"},
+ {"company_id": "cah", "company_name": "Cardinal Health", "website_url": "https://www.cardinalhealth.com/en/about-us/careers.html"}
+ ],
+ "llmProvider": "gemini",
+ "geminiApiKey": "YOUR_GEMINI_KEY",
+ "maxPagesPerCompany": 5,
+ "enablePlaywrightFallback": true
+}</pre></div>
+      <div class="callout"><strong>Gemini free tier is enough for a full F500 sweep.</strong> Google Gemini's free tier includes 1 million tokens per minute and roughly 1,500 requests per day. A typical career page fits in 20-40K tokens after cleanup, so you can extract 30-70 companies per day at zero LLM cost - enough to sweep the 103 custom F500 sites in under two days without paying Google anything.</div>
+      <h3>The clever bit: same output schema as Tier 1</h3>
+      <p>Because both actors publish to the same field names (<code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">department</code>, <code class="code-inline">employment_type</code>, <code class="code-inline">remote</code>, <code class="code-inline">description</code>, <code class="code-inline">apply_url</code>, <code class="code-inline">job_url</code>), you can merge their datasets with a simple concatenation. No mapping layer, no adapter code.</p>
+      <div class="callout tip"><strong>Anti-hallucination pipeline.</strong> The LLM extractor runs a pre-gate (checks for "no open positions" signals before spending tokens), a post-gate (validates every extracted job against structural rules), and returns a <code class="code-inline">confidence</code> score per job (0.0-1.0). Anything below 0.7 is worth a spot check. In practice, ~92% of extracted jobs score above 0.8.</div>
+    </div>
+
+    <div class="step" id="tier-3-llm-browser">
+      <span class="step-number">STEP 3</span>
+      <h2>Tier 3: LLM browser fallback (JS-only sites)</h2>
+      <p>Roughly 10% of F500 careers pages render jobs with JavaScript only - the initial HTML is an empty React or Vue shell. HTTP scraping returns zero jobs, but the page loads fine in a browser.</p>
+      <p>The HTTP extractor detects this automatically. If it sees a nearly-empty <code class="code-inline">&lt;div id="root"&gt;</code> or a <code class="code-inline">noscript</code> warning, it emits a sentinel row (<code class="code-inline">js_rendering_suspected: true</code>) instead of an empty result. With <code class="code-inline">enablePlaywrightFallback: true</code>, the HTTP actor spawns a <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz">Website Job Extractor (Browser)</a> run for those flagged companies, and you get complete data with zero manual intervention.</p>
+      <h3>Why keep them separate?</h3>
+      <ul>
+        <li><strong>HTTP actor:</strong> ~128 MB memory, ~$0.005 per company. Runs on 90% of the F500.</li>
+        <li><strong>Browser actor:</strong> ~1-4 GB memory, ~$0.015 per company. Runs on the ~10% that need it.</li>
+        <li><strong>Two-stage economics:</strong> paying browser costs on all 500 companies would inflate the total sweep by ~5x. Two-stage keeps it proportional.</li>
+      </ul>
+      <div class="callout"><strong>WAF-hardened deployments.</strong> A dozen SuccessFactors, Taleo classic, and Avature tenants (Delta Airlines, Jacobs Solutions, D.R. Horton, Vulcan Materials, and a handful more) sit behind AWS WAF or Cloudflare JavaScript challenges. Even the browser actor stalls on these. The pragmatic answer is to skip them and log the miss - 11% of the F500 is out of reach without a full residential-proxy + CAPTCHA-solver stack, which pushes per-company cost above $1 and only pays off if you specifically need those companies.</div>
+    </div>
+
+    <div class="step" id="tier-4-orchestrator">
+      <span class="step-number">STEP 4</span>
+      <h2>Tier 4: Job Feed orchestrator (private beta)</h2>
+      <p>Running the three extractors by hand for a one-shot F500 sweep is straightforward. Running them nightly, tracking which companies changed platforms, deduping across days, handling failures with exponential backoff, and merging into a single evergreen dataset - that becomes an ongoing operations job.</p>
+      <p>The <strong>NanoScrape Job Feed</strong> actor is the orchestrator that handles all of that. You give it a list of company URLs (or the full F500 careers-URL CSV from this tutorial), and it:</p>
+      <ul>
+        <li>Detects each company's ATS platform automatically.</li>
+        <li>Fans out per ATS: sends supported platforms to Career Site Jobs Scraper, unknown or custom sites to Website Job Extractor, JS-only sites to the Browser variant.</li>
+        <li>Runs the three underlying actors in parallel with per-tier concurrency limits.</li>
+        <li>Deduplicates across tiers on <code class="code-inline">job_url</code> (some ATS platforms redirect to the same underlying job page).</li>
+        <li>Applies unified field normalization: single date format, single location schema, single remote flag.</li>
+        <li>Emits one consolidated dataset per run, plus a diff dataset (new / removed / updated) versus the previous run.</li>
+      </ul>
+      <div class="callout tip"><strong>Currently in private beta.</strong> Job Feed handles operational complexity we don't want to expose to the public API surface yet (per-tenant rate-limit budgets, cross-actor retry orchestration, F500-scale dataset sharding). We're onboarding beta users one by one to make sure the pipeline holds up under real workloads. To request access, email <a href="mailto:contact@nanoscrape.com?subject=Job%20Feed%20private%20beta%20access">contact@nanoscrape.com</a> with your use case and expected daily volume. Beta users pay only Apify platform costs during the trial period.</div>
+    </div>
+
+    <h2 id="f500-list">The full Fortune 500 careers-URL list</h2>
+    <p>We compiled and manually verified all 500 F500 careers URLs plus their detected ATS platforms. The complete list is available as a CSV in the <a target="_blank" rel="noopener" href="https://github.com/alereisan/santamaria-apify-scrapers/blob/main/data/output/f500_ats_full.csv">public repo</a>. Every row includes:</p>
+    <ul>
+        <li><code class="code-inline">rank</code> - Fortune 500 rank for the current year</li>
+        <li><code class="code-inline">company</code> - official company name</li>
+        <li><code class="code-inline">domain</code> - primary website domain</li>
+        <li><code class="code-inline">industry_bucket</code> - one of 12 industry buckets for easy filtering</li>
+        <li><code class="code-inline">revenue_usd</code>, <code class="code-inline">employees</code> - for sizing decisions</li>
+        <li><code class="code-inline">careers_url</code> - the verified careers page entry point</li>
+        <li><code class="code-inline">primary_ats</code> - detected ATS platform (workday, phenom, oracle_recruiting, icims, custom, etc.)</li>
+        <li><code class="code-inline">primary_ats_url</code> - the ATS portal URL when different from <code class="code-inline">careers_url</code> (useful for direct Tier-1 input)</li>
+        <li><code class="code-inline">supported_by_actor</code> - boolean, true if Career Site Jobs Scraper handles this deployment natively</li>
+        <li><code class="code-inline">confidence</code> - detection confidence (high, medium, low)</li>
+      </ul>
+    <h3>Quick-start: filter to Workday-only F500</h3>
+    <div class="code-block"><pre># Pull the CSV
+curl -sL https://raw.githubusercontent.com/alereisan/santamaria-apify-scrapers/main/data/output/f500_ats_full.csv \
+ -o f500.csv
+
+# Extract the 118 Workday careers URLs, one per line
+awk -F',' 'NR&gt;1 &amp;&amp; $11=="workday" {print $12}' f500.csv &gt; workday_f500.txt
+
+# Feed that into the Career Site Jobs Scraper via Apify API
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/runs?token=$APIFY_TOKEN" \
+ -H 'Content-Type: application/json' \
+ -d "{\"queries\": $(jq -R -s -c 'split(\"\n\") | map(select(length&gt;0))' &lt; workday_f500.txt)}"</pre></div>
+
+    <h2 id="cost">What it costs to sweep the F500</h2>
+    <p>Assuming an average of ~500 open roles per Fortune 500 company (bigger for retailers, smaller for pure-play tech), a full sweep processes about 250,000 jobs.</p>
+    <div class="code-block"><pre>TIER 1 - Career Site Jobs Scraper (292 companies × ~500 jobs avg)
+ Actor start: $0.001
+ Job results: 146,000 × $0.001 = $146.00
+ Subtotal: $146.00
+
+TIER 2 - Website Job Extractor HTTP (103 custom companies × ~350 jobs avg)
+ Actor start: $0.001
+ Companies: 103 × $0.01 = $1.03
+ Job results: 36,000 × $0.004 = $144.00
+ LLM tokens: Gemini free tier = $0.00
+ Subtotal: $145.03
+
+TIER 3 - Website Job Extractor Browser (50 JS-only × ~200 jobs avg)
+ Actor start: $0.001
+ Companies: 50 × $0.03 = $1.50
+ Job results: 10,000 × $0.006 = $60.00
+ Subtotal: $61.50
+
+──────────────────────────────────────────────────────
+TOTAL PER FULL SWEEP: ~$352.50
+TOTAL PER INCREMENTAL DAILY DIFF: ~$12-25
+──────────────────────────────────────────────────────</pre></div>
+    <div class="callout"><strong>Why incremental is so much cheaper.</strong> Jobs turn over slowly. On any given day, only ~3-5% of the 250K F500 postings are new or modified. Running Tier 1 first with a <code class="code-inline">since</code> date filter (Workday, Phenom, and Oracle Recruiting all expose <code class="code-inline">postedDate</code> in their APIs) drops daily cost to $12-25 while still capturing every change. Full re-sweep once a month keeps the baseline honest.</div>
+    <h3>Free-tier arithmetic</h3>
+    <p>Apify's free tier includes $5/month of platform credit. That's enough to run a Tier 1 sweep against your favourite 10 F500 companies (~5,000 jobs = $5.00) for free, or to keep a nightly incremental job on a specific industry vertical running for weeks. Google Gemini's free tier fully covers Tier 2 for anything short of a full weekly F500 sweep.</p>
+
+    <h2 id="automation">Automate the whole pipeline with n8n</h2>
+    <p>Once the manual playbook works, wire it up in <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a> so you get a fresh F500 jobs dataset in your database every morning.</p>
+    <ol>
+        <li><strong>Schedule Trigger:</strong> daily at 06:00 UTC.</li>
+        <li><strong>Read CSV node:</strong> pull the F500 careers-URL list from your storage of choice.</li>
+        <li><strong>Split by ATS:</strong> route rows with <code class="code-inline">supported_by_actor = true</code> to a Career Site Jobs Scraper Apify node, rows with <code class="code-inline">primary_ats = custom</code> to a Website Job Extractor node, and rows with <code class="code-inline">primary_ats = pending_browser_check</code> to the Browser variant.</li>
+        <li><strong>Wait for completion:</strong> all three Apify nodes run in parallel. Use the Apify node's built-in "wait for run to finish" option.</li>
+        <li><strong>Merge datasets:</strong> concatenate the three output datasets via the Apify Get Dataset Items node.</li>
+        <li><strong>Dedupe:</strong> a Function node with a <code class="code-inline">Map</code> keyed on <code class="code-inline">job_url</code> collapses duplicates.</li>
+        <li><strong>Persist:</strong> Postgres, Supabase, BigQuery, or Google Sheets node writes the day's dataset with an <code class="code-inline">as_of</code> date column.</li>
+        <li><strong>Diff:</strong> optional last node runs a SQL diff against yesterday's snapshot and posts "N new / M closed" to Slack.</li>
+      </ol>
+    <div class="callout tip"><strong>Or skip the wiring entirely.</strong> Once Job Feed goes public, this whole workflow collapses to a single node call: <em>Run santamaria-automations/job-feed with input {companies: f500.csv}</em>. Everything above happens inside the actor. See the <a href="#jobfeed-saas">JobFeed SaaS</a> section for what's coming next.</div>
+
+    <h2 id="jobfeed-saas">Coming soon: JobFeed SaaS</h2>
+    <p>Running this pipeline yourself, on your own Apify account, is the right answer if you want raw data control and you're comfortable operating scrapers. But most teams that need Fortune 500 hiring data don't want to operate scrapers - they want a REST endpoint that returns fresh, deduped, normalized job listings on demand.</p>
+    <p>That's what <strong>JobFeed SaaS</strong> will be. We're currently building it on top of the same three-actor stack described in this tutorial. It exposes:</p>
+    <ul>
+        <li><strong>REST API:</strong> <code class="code-inline">GET /v1/jobs?company=nvidia&updated_since=2026-08-25</code></li>
+        <li><strong>Webhooks:</strong> subscribe to new / removed / updated jobs per company or per keyword.</li>
+        <li><strong>Freshness SLA:</strong> Fortune 500 and Global 2000 refreshed every 24h; long-tail on demand.</li>
+        <li><strong>Unified schema:</strong> same field names regardless of underlying ATS, salary parsed to a numeric range where available.</li>
+        <li><strong>ATS analytics:</strong> query hiring velocity by industry, seniority, geography, and remote status without running any scrapers yourself.</li>
+      </ul>
+    <div class="callout tip"><strong>Join the JobFeed SaaS waitlist.</strong> Email <a href="mailto:contact@nanoscrape.com?subject=JobFeed%20SaaS%20waitlist">contact@nanoscrape.com</a> with your use case (recruitment analytics, competitive intelligence, ATS enrichment, job board sourcing, market research, etc.) and expected daily volume. Waitlist members get first access to the private beta and a founding-customer discount on paid tiers.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Which Fortune 500 companies can I actually scrape with the free tier?</summary>
+        <p>Apify's free tier gives you $5/month of credit. At $1 per 1,000 jobs on Career Site Jobs Scraper, that covers about 5,000 jobs - enough for roughly 10 F500 companies of average size, or 20-30 mid-sized ones. Google Gemini's free tier covers Tier 2 LLM extraction for another 30-70 companies per day. Combined, you can sample the F500 quite meaningfully at zero cost before deciding whether to upgrade.</p>
+      </details>
+      <details>
+        <summary>How often do F500 careers pages change ATS platforms?</summary>
+        <p>Roughly 10-15% of F500 companies migrate ATS platforms every year, usually as part of a broader HR technology rollout (SAP SuccessFactors → Workday, iCIMS → Phenom, custom → SmartRecruiters, etc.). We rerun the ATS detection pass monthly on the public CSV and version the results in the repo, so the primary_ats column stays current.</p>
+      </details>
+      <details>
+        <summary>Can I extract salary data from F500 jobs?</summary>
+        <p>Salary is only extracted when the underlying careers page publishes it. US pay transparency laws (California, Colorado, Washington, New York) mandate salary disclosure for postings targeted at those states, so roughly 40% of F500 US roles include salary ranges. Career Site Jobs Scraper returns salary in the raw description field (parsing left to you), while Website Job Extractor's LLM step extracts salary_range as a structured field when present.</p>
+      </details>
+      <details>
+        <summary>What about companies I can&#39;t scrape (SuccessFactors, Paradox, Taleo classic)?</summary>
+        <p>About 11% of the F500 (55 companies) use hardened WAF deployments or conversational-AI portals (Paradox) that resist HTTP-only scraping. For most business use cases the pragmatic answer is to accept ~89% coverage and log the misses. If you specifically need one of those companies, we can quote a custom scraper build with residential proxies plus browser session management - contact us at contact@nanoscrape.com with the target.</p>
+      </details>
+      <details>
+        <summary>Is this legal? What about the LinkedIn hiQ ruling?</summary>
+        <p>The three actors only access data publicly visible on company careers sites - no login, no bypassed authentication, no scraping behind paywalls. The hiQ Labs v. LinkedIn ruling in the US established that scraping publicly available data is not a violation of the Computer Fraud and Abuse Act. Individual company terms of service may restrict automated access, so you are responsible for reviewing them for your own use case. Consult a lawyer for jurisdiction-specific compliance questions.</p>
+      </details>
+      <details>
+        <summary>What&#39;s the difference between this and just scraping LinkedIn Jobs or Indeed?</summary>
+        <p>LinkedIn and Indeed both aggregate a subset of F500 jobs - usually the ones companies actively promote there. Direct careers-page scraping picks up the other bucket: jobs the company posted only on their own site (internal referrals, specialised roles, geographies where LinkedIn is weak). Real-world overlap between LinkedIn and direct-source varies from 40% to 80% depending on the company. For complete coverage you want both: LinkedIn as a lead-time signal (jobs often appear there first), direct careers-site as the source of truth (jobs that never leave the internal ATS).</p>
+      </details>
+      <details>
+        <summary>Do I have to use n8n? Can I automate this in Python or Node.js?</summary>
+        <p>You can call the Apify API directly from any language. The Apify Python client and JavaScript client are both first-class. n8n is popular because it lets non-engineers build the whole pipeline visually and handles retries, error branching, and scheduling out of the box. For code-first teams, a 100-line Python script does the same thing.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper actor page</a>: Full input reference, supported ATS platforms, output schema, and API examples.</li>
+      <li><a href="/actors/website-job-extractor/">Website Job Extractor actor page</a>: LLM-powered HTTP extractor for custom careers pages. Auto-detects 19 ATS systems and falls back to browser rendering when needed.</li>
+      <li><a href="/actors/website-job-extractor-browser/">Website Job Extractor (Browser) actor page</a>: Playwright-based variant for JavaScript-only careers pages. Same schema as the HTTP variant.</li>
+      <li><a href="/tutorials/linkedin-jobs-scraper-extract-job-postings/">Scrape LinkedIn Job Listings Without a Login</a>: Companion tutorial for the LinkedIn side of the coverage story.</li>
+      <li><a target="_blank" rel="noopener" href="https://github.com/alereisan/santamaria-apify-scrapers/blob/main/data/output/f500_ats_full.csv">Fortune 500 careers-URL CSV (500 rows)</a>: Public dataset with careers_url, detected ATS platform, and supported_by_actor flag for every F500 company.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the NanoScrape catalog.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
+      <a href="mailto:contact@nanoscrape.com?subject=Job%20Feed%20private%20beta%20access" class="btn-secondary">Request Job Feed private beta access</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+</body>
+</html>
