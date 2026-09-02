@@ -108,17 +108,14 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p>HTTP-only implementation. Go binary using azuretls-client, ~10MB Docker image and 128MB RAM footprint per Apify run.</p>
-    <p>**Impressum, privacy policy, cookie consent. One HTTP probe, one risk flag.**</p>
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
-      <li>**Impressum detection.** Anchor-text scan on the homepage plus targeted probes of `/impressum`, `/legal-notice`, `/imprint`, `/mentions-legales`, `/note-legali`, `/aviso-legal`, `/juridische-informatie`.</li>
-      <li>**Privacy policy detection.** Same shape: anchor-text scan plus path probes for `/datenschutz`, `/privacy`, `/privacy-policy`, `/politique-confidentialite`, and equivalents.</li>
-      <li>**Cookie consent detection.** Identifies Cookiebot, Usercentrics, OneTrust, Iubenda, TrustArc, Consentmanager, Complianz, Borlabs, Klaro, Termly, and Quantcast. Falls back to a generic banner marker when the vendor cannot be identified.</li>
-      <li>**Language detection.** Reads `<html lang>` first, falls back to a German stopword count for sites without a language attribute. Emits a two-letter code.</li>
-      <li>**Risk flag.** HIGH when a German-language site is missing an Impressum (Abmahnung exposure). MEDIUM on softer gaps. LOW when all three markers are present. UNKNOWN when the homepage cannot be fetched.</li>
-      <li>**Tracking detection.** Flags the presence of Google Analytics, GTM, Meta Pixel, Hotjar, LinkedIn Insight, TikTok Pixel, Matomo, and others so you can spot "tracking without consent" cases.</li>
+      <li><strong>Impressum detection.</strong> Anchor-text scan on the homepage plus targeted probes of `/impressum`, `/legal-notice`, `/imprint`, `/mentions-legales`, `/note-legali`, `/aviso-legal`, `/juridische-informatie`.</li>
+      <li><strong>Privacy policy detection.</strong> Same shape: anchor-text scan plus path probes for `/datenschutz`, `/privacy`, `/privacy-policy`, `/politique-confidentialite`, and equivalents.</li>
+      <li><strong>Cookie consent detection.</strong> Identifies Cookiebot, Usercentrics, OneTrust, Iubenda, TrustArc, Consentmanager, Complianz, Borlabs, Klaro, Termly, and Quantcast. Falls back to a generic banner marker when the vendor cannot be identified.</li>
+      <li><strong>Language detection.</strong> Reads `<html lang>` first, falls back to a German stopword count for sites without a language attribute. Emits a two-letter code.</li>
+      <li><strong>Risk flag.</strong> HIGH when a German-language site is missing an Impressum (Abmahnung exposure). MEDIUM on softer gaps. LOW when all three markers are present. UNKNOWN when the homepage cannot be fetched.</li>
+      <li><strong>Tracking detection.</strong> Flags the presence of Google Analytics, GTM, Meta Pixel, Hotjar, LinkedIn Insight, TikTok Pixel, Matomo, and others so you can spot "tracking without consent" cases.</li>
     </ul>
     <h2 class="section-title">Integrations</h2>
     <ul>

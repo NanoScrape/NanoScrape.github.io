@@ -108,9 +108,6 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p>HTTP-only via got-scraping with Chrome TLS fingerprinting (HTTP/2 + complete header set, no browser needed). Reverse-engineered Booking.com's internal GraphQL endpoint (https://www.booking.com/dml/graphql). Posts SearchQueryInput mutations encoding destination metadata, check-in/check-out dates, occupancy, currency, sort order. Required hardcoded headers: x-booking-context-aid: 356980, x-booking-context-action-name: searchresults, x-booking-et-serialized-state (gzip blob). Pagination via nbResultsTotal/nbResultsPerPage; PAGE_SIZE=25 per request with 500ms delay. GraphQL response directly yields 34 output fields per hotel (basicPropertyData, reviews, pricing, location).</p>
-    <p>Booking.com GraphQL API has zero bot protection — datacenter IPs work, no CAPTCHA, no rate limiting. Required header x-booking-context-aid=356980 and state blob are discovered once via DevTools probe and hardcoded; competitors reverse-engineering from scratch waste weeks. 34+ output fields include GPS coordinates (latitude/longitude), star ratings, guest review scores (0–10), cancellation policies with deadlines, discount badges (Getaway Deal, Limited-time Deal), sold-out flags per date, and high-res photos (600px square). HTTP-only approach is 50-100x cheaper than Playwright/Puppeteer and completes searches in seconds. No session affinity required — each request is stateless; perfect for massive scale (1000 hotels scraped in ~40 seconds on single core).</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>

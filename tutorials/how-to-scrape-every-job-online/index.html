@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Every Job Online: The Complete Jobs Scraper Guide (2026) | NanoScrape</title>
+  <meta name="description" content="Scrape jobs from 60+ platforms across 25 countries. ATS-native, LLM HTTP, browser fallback, and Job Feed orchestrator. One guide, full global coverage.">
+  <meta name="primary-keyword" content="jobs scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape Every Job Online - Full Global Playbook 2026">
+  <meta property="og:description" content="62 job scrapers across 25 countries. ATS-native + LLM extraction + browser fallback + Job Feed orchestrator. Complete jobs scraper guide with country and vertical breakdowns.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Every Job Online",
+  "description": "Use the NanoScrape three-tier stack plus Job Feed orchestrator to scrape jobs from 60+ platforms in 25 countries.",
+  "totalTime": "PT30M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Free Google Gemini API key (for LLM extraction)"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Career Site Jobs Scraper"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Job Extractor"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Job Extractor (Browser)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Job Feed (private beta)"
+    }
+  ],
+  "step": []
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Scrape Every Job Online: 62 Scrapers, 25 Countries, One Unified Feed",
+  "description": "Complete guide to scraping jobs from every major platform globally.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which jobs scraper should I use if I don't know which platform a company uses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use Website Job Extractor with skipAtsExtraction: false. It auto-detects ATS platforms and returns the ATS URL for cheaper follow-up runs."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do these job scrapers work on LinkedIn and Indeed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes: linkedin-scraper and indeed-scraper are both in the catalog. Country and vertical actors also cover roles LinkedIn/Indeed don't index."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I combine output from multiple job scrapers into one dataset?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the 50-line Python mapper script (from the Fortune 500 tutorial) for manual merging, or the Job Feed orchestrator (private beta) for automated routing and deduplication."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape jobs in multiple countries at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Some actors are multi-country by design (Welcome to the Jungle, Seek APAC, Computrabajo LATAM, HH.ru CIS). Or run multiple actors in parallel and merge."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a free way to test these scrapers before committing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Apify's free plan ($5/month) covers about 5,000 jobs on Career Site Jobs Scraper. Gemini free tier covers LLM extraction for up to 70 companies per day."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Scrape Every Job Online",
+      "item": "https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; How to Scrape Every Job Online</nav>
+
+    <h1>How to Scrape Every Job Online</h1>
+    <p class="lead">There are 300+ job platforms globally. LinkedIn and Indeed index a slice. ATS scraping catches the rest. But no single tool covers all of them - until now. This guide maps every NanoScrape jobs scraper to the platform it covers: <strong>62 actors across 25 countries</strong>, organized by country and vertical, plus the three-tier technical stack and the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz">Job Feed orchestrator</a> that ties it all together.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner to Advanced</div>
+      <div class="meta-item"><strong>Actors covered:</strong> 62 across 25 countries</div>
+      <div class="meta-item"><strong>Cost:</strong> From $1 per 1,000 jobs (ATS-native)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify + NanoScrape catalog + optional Gemini free tier</div>
+    </div>
+
+    <div class="ctas">
+      <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#intro">The fragmentation problem</a></li>
+        <li><a href="#three-tier-stack">The 3-tier stack + Job Feed orchestrator</a></li>
+        <li><a href="#by-country">Scrapers by country</a></li>
+        <li><a href="#by-vertical">Scrapers by vertical</a></li>
+        <li><a href="#head-term-strategy">Jobs scraper query strategy: 100% coverage</a></li>
+        <li><a href="#pricing-comparison">Pricing comparison</a></li>
+        <li><a href="#cta">Get access to Job Feed private beta</a></li>
+      </ol>
+    </div>
+
+    <h2 id="intro">The fragmentation problem: 300+ job platforms, no unified feed</h2>
+    <p><em>By the NanoScrape team - Published 2026-09-02 - Updated 2026-09-02</em></p>
+    <p>Every recruiter, talent intelligence team, and job aggregator hits the same wall eventually: the jobs data you need is not in one place. It never has been. The global job market is fragmented across hundreds of platforms, and the fragmentation runs three layers deep.</p>
+    <h3>Layer 1: Aggregators cover only what employers choose to post</h3>
+    <p>LinkedIn and Indeed are the most-cited sources for job data, and for good reason: between them they index tens of millions of active listings. But both are opt-in platforms. Employers post there deliberately, often paying per-click or per-application. Thousands of companies, particularly mid-size enterprises, government bodies, and specialist employers, post exclusively on their own careers site or on niche vertical boards. Those roles never appear on LinkedIn or Indeed.</p>
+    <h3>Layer 2: Careers sites are not standardized</h3>
+    <p>The 500 largest US companies alone run 24 different Applicant Tracking Systems. Workday, Phenom, Oracle Recruiting, iCIMS, TalentBrew, SuccessFactors, Taleo, Greenhouse, SmartRecruiters, Avature, Brassring, Paradox, Eightfold, Beamery, Jobvite, BambooHR, PageUp, UKG, ADP: each has a different API shape, different field names, different pagination, and different anti-bot posture. Scraping even one ATS reliably is a month of engineering. Scraping all of them is a product.</p>
+    <h3>Layer 3: Geography adds a multiplier</h3>
+    <p>Job search is local. A candidate in Warsaw uses Pracuj.pl. A hiring manager in Dublin posts on IrishJobs.ie. A public-sector employer in France lists on HelloWork. A tech company in Poland mandates salary on NoFluffJobs. None of those surfaces appear in a US-centric jobs scraper. Truly global coverage means 25+ country-specific platforms on top of the cross-border ones.</p>
+    <div class="callout"><strong>The result:</strong> any team trying to build a jobs data pipeline from scratch has to solve ATS fragmentation, custom-site extraction, JS rendering, anti-bot, and geography, all at once, in every market they care about. This guide shows how the NanoScrape catalog handles all of it.</div>
+
+    <h2 id="three-tier-stack">The 3-tier stack and the Job Feed orchestrator</h2>
+    <p>Before diving into the country and vertical catalog, here is the technical architecture that makes complete coverage possible. Every NanoScrape jobs scraper fits into one of three tiers based on how the target site serves its data. The <strong>Job Feed orchestrator</strong> sits above all three and handles routing, retries, deduplication, and schema unification automatically.</p>
+    <ul>
+        <li><strong>Tier 1 - Career Site Jobs Scraper (<a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">santamaria-automations/career-site-jobs-scraper</a>):</strong> Talks directly to the JSON APIs of 24+ Applicant Tracking Systems (Workday, Phenom, Oracle Recruiting, iCIMS, TalentBrew, Eightfold, Brassring, Avature, Taleo modern, Greenhouse, SmartRecruiters, ADP, and more). HTTP-only, no browser, fast and cheap at $1 per 1,000 jobs.</li>
+        <li><strong>Tier 2 - Website Job Extractor (<a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">santamaria-automations/website-job-extractor</a>):</strong> LLM-powered HTTP scraper for any careers page with no supported ATS API. Auto-discovers the careers page, cleans the HTML, sends it to Gemini (or Groq/OpenRouter), and returns validated job records with confidence scores. Also auto-detects ATS platforms on the way in.</li>
+        <li><strong>Tier 3 - Website Job Extractor Browser (<a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz">santamaria-automations/website-job-extractor-browser</a>):</strong> Playwright-powered variant for sites that render jobs exclusively in JavaScript (React, Vue, Angular SPAs). Automatically spawned by Tier 2 when JS rendering is detected.</li>
+        <li><strong>Job Feed orchestrator (<a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz">santamaria-automations/job-feed</a>) - private beta:</strong> Give it a list of company URLs or platform URLs. It detects each site's ATS, fans out to the right tier actor, runs all three in parallel, deduplicates on <code>job_url</code>, unifies the schema across tiers, and emits one clean dataset.</li>
+      </ul>
+    <div class="callout tip"><strong>For the full technical playbook,</strong> input examples, output schemas, mapper script, cost math, and n8n automation, see the companion tutorial: <a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>. This guide focuses on the catalog: which actors cover which platforms, in which countries and verticals.</div>
+
+    <h2 id="by-country">Every jobs scraper by country</h2>
+    <p>The tables below map every shipped NanoScrape jobs scraper to its country. English-speaking markets are listed first, then Europe region by region, then APAC and other markets. Each actor links directly to its Apify page.</p>
+    <h3>United States</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-us-scraper?fpr=0khfbz"><strong>glassdoor-us-scraper</strong></a> - Glassdoor US job listings with employer ratings, salary estimates, and company reviews. Camoufox-powered to handle Glassdoor's strong anti-bot.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ziprecruiter-scraper?fpr=0khfbz"><strong>ziprecruiter-scraper</strong></a> - ZipRecruiter SERP with real salary data. Camoufox-powered.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wellfound-jobs-scraper?fpr=0khfbz"><strong>wellfound-jobs-scraper</strong></a> - Wellfound (AngelList Talent) startup and tech roles.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snagajob-us-scraper?fpr=0khfbz"><strong>snagajob-us-scraper</strong></a> - SnagAJob hourly and gig roles with real hourly wages.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/levels-fyi-scraper?fpr=0khfbz"><strong>levels-fyi-scraper</strong></a> - Levels.fyi tech compensation data by level.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/usajobs-federal-scraper?fpr=0khfbz"><strong>usajobs-federal-scraper</strong></a> - USAJobs.gov official REST API. GS pay grade and clearance-level fields.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/craigslist-jobs-scraper?fpr=0khfbz"><strong>craigslist-jobs-scraper</strong></a> - Craigslist jobs across ~430 US city subdomains.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dribbble-jobs-scraper?fpr=0khfbz"><strong>dribbble-jobs-scraper</strong></a> - Dribbble design and creative jobs.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rigzone-us-scraper?fpr=0khfbz"><strong>rigzone-us-scraper</strong></a> - Rigzone oil, gas, and energy engineering roles.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/workatastartup-scraper?fpr=0khfbz"><strong>workatastartup-scraper</strong></a> - Work at a Startup (Y Combinator). YC-only corpus with equity and visa fields.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/healthecareers-scraper?fpr=0khfbz"><strong>healthecareers-scraper</strong></a> - HealtheCareers US healthcare and clinical roles.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wayup-us-scraper?fpr=0khfbz"><strong>wayup-us-scraper</strong></a> - WayUp US entry-level and graduate jobs.</li>
+      </ul>
+    <h3>United Kingdom</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/totaljobs-scraper?fpr=0khfbz"><strong>totaljobs-scraper</strong></a> - Totaljobs (StepStone Group UK).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/guardianjobs-scraper?fpr=0khfbz"><strong>guardianjobs-scraper</strong></a> - Guardian Jobs with full company info and employer page extraction.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobserve-uk-scraper?fpr=0khfbz"><strong>jobserve-uk-scraper</strong></a> - JobServe UK tech contractor and permanent roles.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/targetjobs-uk-scraper?fpr=0khfbz"><strong>targetjobs-uk-scraper</strong></a> - TargetJobs UK graduate and early-career roles.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tes-uk-scraper?fpr=0khfbz"><strong>tes-uk-scraper</strong></a> - TES UK education and teaching jobs (international + UK).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/teaching-vacancies-uk-scraper?fpr=0khfbz"><strong>teaching-vacancies-uk-scraper</strong></a> - UK DfE state school teaching vacancies.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobs-ac-uk-scraper?fpr=0khfbz"><strong>jobs-ac-uk-scraper</strong></a> - Jobs.ac.uk UK and international academic research.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/escape-the-city-scraper?fpr=0khfbz"><strong>escape-the-city-scraper</strong></a> - Escape the City purpose-driven and BCorp jobs.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/charityjob-uk-scraper?fpr=0khfbz"><strong>charityjob-uk-scraper</strong></a> - CharityJob UK nonprofit and social sector roles.</li>
+      </ul>
+    <h3>Canada and Ireland</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz"><strong>jobbank-ca-scraper</strong></a> - Canada federal Job Bank (jobbank.gc.ca). NOC codes, bilingual flag, provincial mapping.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/irishjobs-ie-scraper?fpr=0khfbz"><strong>irishjobs-ie-scraper</strong></a> - IrishJobs.ie, Ireland's flagship general job board.</li>
+      </ul>
+    <h3>DACH (Germany, Austria, Switzerland)</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz"><strong>karriere-at-scraper</strong></a> - Karriere.at Austria's #1 general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stepstone-at-scraper?fpr=0khfbz"><strong>stepstone-at-scraper</strong></a> - StepStone Austria (Axel Springer Group).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz"><strong>arbeitsagentur-de-scraper</strong></a> - Bundesagentur fur Arbeit Germany, official public employment service.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz"><strong>stepstone-de-scraper</strong></a> - StepStone.de Germany's leading general job board (Akamai-protected, HTTP-only bypass).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stellenmarkt-de-scraper?fpr=0khfbz"><strong>stellenmarkt-de-scraper</strong></a> - Stellenmarkt.de Germany.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz"><strong>jobs-ch-scraper</strong></a> - Jobs.ch Switzerland's #1 general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz"><strong>arbeit-swiss-scraper</strong></a> - Arbeit.swiss Switzerland federal public employment service.</li>
+      </ul>
+    <h3>France, Spain, Italy, Portugal</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/hellowork-fr-scraper?fpr=0khfbz"><strong>hellowork-fr-scraper</strong></a> - HelloWork France's leading general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/france-travail-scraper?fpr=0khfbz"><strong>france-travail-scraper</strong></a> - France Travail (formerly Pole Emploi), public employment service. CDI/CDD detection.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sepe-es-scraper?fpr=0khfbz"><strong>sepe-es-scraper</strong></a> - SEPE Spain (empleate.gob.es) national public employment service. 28K+ listings across all 19 CCAA.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/subito-it-jobs-scraper?fpr=0khfbz"><strong>subito-it-jobs-scraper</strong></a> - Subito.it Italian classifieds jobs. 170K+ listings.</li>
+      </ul>
+    <h3>Benelux and Nordic</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/werk-nl-scraper?fpr=0khfbz"><strong>werk-nl-scraper</strong></a> - Werk.nl Netherlands (UWV WERKbedrijf) public employment service.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobindex-dk-scraper?fpr=0khfbz"><strong>jobindex-dk-scraper</strong></a> - Jobindex.dk Denmark's #1 general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbetsformedlingen-se-scraper?fpr=0khfbz"><strong>arbetsformedlingen-se-scraper</strong></a> - Arbetsformedlingen Sweden public employment service (JobTech API).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz"><strong>finn-no-scraper</strong></a> - Finn.no Norway's dominant classifieds and job board.</li>
+      </ul>
+    <h3>Central and Eastern Europe</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pracuj-pl-scraper?fpr=0khfbz"><strong>pracuj-pl-scraper</strong></a> - Pracuj.pl Poland's largest general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/praca-gov-pl-scraper?fpr=0khfbz"><strong>praca-gov-pl-scraper</strong></a> - Praca.gov.pl Poland's national public employment service (CBOP). 40K+ listings including EURES.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/prace-cz-scraper?fpr=0khfbz"><strong>prace-cz-scraper</strong></a> - Prace.cz Czech Republic general job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/anofm-ro-scraper?fpr=0khfbz"><strong>anofm-ro-scraper</strong></a> - ANOFM Romania's national agency for employment. Nationwide COR codes.</li>
+      </ul>
+    <h3>Ukraine, Russia (CIS)</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/work-ua-scraper?fpr=0khfbz"><strong>work-ua-scraper</strong></a> - Work.ua Ukraine's largest private job board.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dcz-gov-ua-scraper?fpr=0khfbz"><strong>dcz-gov-ua-scraper</strong></a> - DCZ Ukraine (State Employment Service). 230K+ active listings.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/hh-ru-scraper?fpr=0khfbz"><strong>hh-ru-scraper</strong></a> - HH.ru Russia's dominant job board (90M monthly visits). Multi-region.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trudvsem-ru-scraper?fpr=0khfbz"><strong>trudvsem-ru-scraper</strong></a> - TrudVsem.ru Russia's national employment database. 500K+ listings across 89 federal subjects.</li>
+      </ul>
+    <h3>Global aggregators and vertical boards</h3>
+    <ul>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz"><strong>linkedin-scraper</strong></a> - LinkedIn Jobs guest API, no login required. Global coverage in 30+ countries.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz"><strong>indeed-scraper</strong></a> - Indeed 60+ countries, HTTP-only via Camoufox residential.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/welcome-to-the-jungle-scraper?fpr=0khfbz"><strong>welcome-to-the-jungle-scraper</strong></a> - Welcome to the Jungle FR/UK/DE/ES/CZ.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz"><strong>naukri-scraper</strong></a> - Naukri India + Gulf. 49 fields incl. AmbitionBox rating.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/computrabajo-scraper?fpr=0khfbz"><strong>computrabajo-scraper</strong></a> - Computrabajo 19 LATAM countries.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/seek-scraper?fpr=0khfbz"><strong>seek-scraper</strong></a> - Seek 8 APAC countries (Seek, JobStreet, JobsDB).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobrapido-scraper?fpr=0khfbz"><strong>jobrapido-scraper</strong></a> - Jobrapido 50+ countries with ATS deep-links.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/idealist-scraper?fpr=0khfbz"><strong>idealist-scraper</strong></a> - Idealist global nonprofit and social impact jobs.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/cryptojobslist-scraper?fpr=0khfbz"><strong>cryptojobslist-scraper</strong></a> - CryptoJobsList crypto/Web3 (35 fields, skills + benefits).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/web3career-scraper?fpr=0khfbz"><strong>web3career-scraper</strong></a> - Web3.career blockchain jobs (25 fields, company socials).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dice-scraper?fpr=0khfbz"><strong>dice-scraper</strong></a> - Dice US tech (50,000+ jobs, 68 fields incl. recruiters).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/builtin-scraper?fpr=0khfbz"><strong>builtin-scraper</strong></a> - Built In US tech startups with tech stack + year founded.</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz"><strong>remotive-scraper</strong></a> - Remotive global remote (25 fields, salary + employer enrichment).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/weworkremotely-scraper?fpr=0khfbz"><strong>weworkremotely-scraper</strong></a> - WeWorkRemotely global remote (26 fields, HQ + country signals).</li>
+        <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ycombinator-scraper?fpr=0khfbz"><strong>ycombinator-scraper</strong></a> - Hacker News stories, jobs, comments, users.</li>
+      </ul>
+
+    <h2 id="by-vertical">Every jobs scraper by vertical</h2>
+    <p>Cross-cutting by industry vertical. The same actor can appear in multiple verticals where the platform serves more than one segment.</p>
+    <h3>Tech and software</h3>
+    <ul>
+        <li><strong>wellfound-jobs-scraper</strong> - US startup and tech roles (equity + visa fields).</li>
+        <li><strong>levels-fyi-scraper</strong> - US tech compensation by level and company.</li>
+        <li><strong>workatastartup-scraper</strong> - YC-backed startup jobs with equity ranges.</li>
+        <li><strong>dribbble-jobs-scraper</strong> - Design, UX, and creative tech roles.</li>
+        <li><strong>dice-scraper</strong> - US tech: 50K+ jobs, 68 fields including recruiters.</li>
+        <li><strong>builtin-scraper</strong> - US tech startups with tech stack + funding data.</li>
+        <li><strong>jobserve-uk-scraper</strong> - UK tech contractor and permanent roles.</li>
+        <li><strong>welcome-to-the-jungle-scraper</strong> - Modern employer branding across FR/UK/DE/ES/CZ.</li>
+        <li><strong>cryptojobslist-scraper / web3career-scraper</strong> - Crypto and Web3 verticals.</li>
+      </ul>
+    <h3>Healthcare, engineering, and specialist</h3>
+    <ul>
+        <li><strong>healthecareers-scraper</strong> - US healthcare: RN, physician, allied health, locum tenens.</li>
+        <li><strong>rigzone-us-scraper</strong> - Oil, gas, offshore engineering with rotational pattern + certifications.</li>
+        <li><strong>usajobs-federal-scraper</strong> - US federal including DoD, DoE, VA, CDC, NIH.</li>
+      </ul>
+    <h3>Hourly, gig, and classifieds</h3>
+    <ul>
+        <li><strong>snagajob-us-scraper</strong> - US hourly and shift work with real hourly wages.</li>
+        <li><strong>craigslist-jobs-scraper</strong> - US local jobs across 430+ city subdomains.</li>
+        <li><strong>subito-it-jobs-scraper</strong> - Italy local classifieds jobs (170K+ listings).</li>
+      </ul>
+    <h3>Government and public sector</h3>
+    <ul>
+        <li><strong>usajobs-federal-scraper</strong> - US federal (GS pay grade, clearance level).</li>
+        <li><strong>jobbank-ca-scraper</strong> - Canada federal (NOC codes, bilingual flag).</li>
+        <li><strong>france-travail-scraper</strong> - France public (CDI/CDD detection).</li>
+        <li><strong>sepe-es-scraper</strong> - Spain SEPE (28K+ across 19 CCAA).</li>
+        <li><strong>arbeitsagentur-de-scraper</strong> - Germany Bundesagentur fur Arbeit.</li>
+        <li><strong>arbeit-swiss-scraper</strong> - Switzerland federal.</li>
+        <li><strong>praca-gov-pl-scraper</strong> - Poland CBOP (40K+ incl. EURES).</li>
+        <li><strong>anofm-ro-scraper</strong> - Romania ANOFM (nationwide COR codes).</li>
+        <li><strong>werk-nl-scraper</strong> - Netherlands UWV WERKbedrijf.</li>
+        <li><strong>arbetsformedlingen-se-scraper</strong> - Sweden JobTech API.</li>
+        <li><strong>dcz-gov-ua-scraper</strong> - Ukraine DCZ (230K+ listings).</li>
+        <li><strong>trudvsem-ru-scraper</strong> - Russia national database (500K+ across 89 subjects).</li>
+      </ul>
+    <h3>Academic and graduate</h3>
+    <ul>
+        <li><strong>jobs-ac-uk-scraper</strong> - UK and international academic research + postdoc.</li>
+        <li><strong>tes-uk-scraper</strong> - Teaching and education leadership (UK + international).</li>
+        <li><strong>teaching-vacancies-uk-scraper</strong> - UK state schools (DfE official).</li>
+        <li><strong>targetjobs-uk-scraper</strong> - UK graduate schemes.</li>
+        <li><strong>wayup-us-scraper</strong> - US entry-level and college.</li>
+      </ul>
+    <h3>Nonprofit and purpose-driven</h3>
+    <ul>
+        <li><strong>charityjob-uk-scraper</strong> - UK charity and social enterprise.</li>
+        <li><strong>escape-the-city-scraper</strong> - Global BCorp and purpose-driven (BCorp flag + cause taxonomy).</li>
+        <li><strong>idealist-scraper</strong> - Global nonprofit and social impact.</li>
+      </ul>
+    <h3>Remote-first</h3>
+    <ul>
+        <li><strong>remotive-scraper</strong> - Global remote (25 fields, salary + employer enrichment).</li>
+        <li><strong>weworkremotely-scraper</strong> - Global remote (26 fields, HQ + country signals).</li>
+      </ul>
+
+    <h2 id="head-term-strategy">Jobs scraper query strategy: how our catalog achieves 100% coverage attempted</h2>
+    <p>Someone searching for a "jobs scraper" has one of four underlying needs. Understanding which one they have determines which tool in the stack to reach for.</p>
+    <h3>Need 1: Scrape a known job board or platform</h3>
+    <p>The searcher knows the platform - Glassdoor, ZipRecruiter, LinkedIn, Totaljobs, InfoJobs, etc. - and wants a reliable, maintained scraper for it. This is the catalog use case: find the right actor in the country and vertical tables above, run it against the platform, get structured output. Every actor is purpose-built for its platform with maintained selectors, anti-bot handling, and fleet-standard output fields.</p>
+    <h3>Need 2: Scrape a company&#39;s careers site (ATS-native)</h3>
+    <p>The searcher wants jobs from a specific company, and that company runs Workday, Phenom, Oracle Recruiting, iCIMS, or one of 20+ other supported ATS platforms. The right tool is the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a>: it talks to the ATS's JSON API directly, returning structured data at $1 per 1,000 jobs with no LLM cost and no browser overhead.</p>
+    <h3>Need 3: Scrape any careers site with no known ATS</h3>
+    <p>The searcher has a list of company URLs, some on supported ATS platforms, some with custom-built careers sites. For the custom sites, there is no stable HTML parser: every site is structured differently. The right tool is the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a> (Tier 2). When it detects a supported ATS on the way in, it emits the ATS URL so you can switch to Tier 1 on the next run and cut costs by 10x.</p>
+    <h3>Need 4: Unified multi-source jobs feed at scale</h3>
+    <p>The searcher wants a single deduplicated, normalized feed of jobs from dozens of sources refreshed daily. This is the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz">Job Feed orchestrator</a> use case. Give it a list of URLs, and it routes each one to the correct tier actor, runs them in parallel, deduplicates on <code>job_url</code>, unifies the schema across tiers, and emits one clean dataset per run. Currently in private beta.</p>
+    <div class="callout"><strong>The coverage math:</strong> ATS-native (Tier 1) covers companies running supported ATS platforms - historically 58%+ of large enterprises. LLM HTTP extraction (Tier 2) covers custom careers sites and smaller companies - another 27%+. Browser fallback (Tier 3) covers JS-only rendered sites - another 10%+. Across the platform catalog (job boards, not just company careers sites), the 62 actors in this guide cover the dominant surfaces for 25 countries - representing the majority of publicly accessible job postings worldwide.</div>
+
+    <h2 id="pricing-comparison">Pricing at a glance</h2>
+    <p>All NanoScrape actors use Apify's pay-per-event (PPE) model. You pay only for what you actually scrape - no monthly seat fees, no minimum commitments, and Apify's $5/month free tier is enough to test any actor meaningfully.</p>
+    <div class="code-block"><pre>TIER                                    SERP        DETAIL      TOTAL
+---------------------------------------------------------------------
+Tier 1 Career Site Jobs Scraper         $0.001      n/a         $1/1K jobs
+Tier 2 Website Job Extractor HTTP+LLM   $0.004      $0.004      $4/1K jobs
+Tier 3 Website Job Extractor Browser    $0.006      $0.006      $6/1K jobs
+---------------------------------------------------------------------
+Platform-specific (typical):
+Glassdoor US / ZipRecruiter             $0.006      $0.008      ~$8/1K
+Guardian Jobs / Totaljobs UK            $0.003      $0.005      ~$5/1K
+Government boards (SEPE/CBOP/ANOFM/DCZ) $0.003      $0.005      ~$5/1K</pre></div>
+    <div class="callout tip"><strong>Free tier math:</strong> Apify's free plan includes $5/month of platform credit. At $1 per 1,000 jobs on Career Site Jobs Scraper, that is 5,000 jobs/month at zero cost - enough for a daily pulse on 10-20 companies. Google Gemini's free tier fully covers LLM extraction costs for up to 70 careers pages per day.</div>
+
+    <h2 id="cta">Get access to Job Feed private beta</h2>
+    <p>The 62 actors in this catalog give you the building blocks. But if you want a single REST endpoint returning fresh, deduplicated, normalized jobs from every source in the list above - refreshed daily, unified schema, no scraper operations burden - that is what <strong>Job Feed</strong> is built to be.</p>
+    <p>Job Feed is currently in private beta. We are onboarding teams one by one to validate the pipeline at real workloads. Beta users get:</p>
+    <ul>
+        <li>Early access to the unified jobs API before public launch.</li>
+        <li>Direct input into which platforms and countries get prioritized next.</li>
+        <li>Founding-customer pricing locked in at beta rates.</li>
+        <li>Zero orchestration overhead: send us a list of sources, get back a clean dataset.</li>
+      </ul>
+    <div class="callout tip"><strong>To request access:</strong> visit the <a href="/jobfeed/#signup">Job Feed landing page</a> and fill in the signup form with your use case (recruitment analytics, competitive intelligence, ATS enrichment, job board sourcing, market research) and expected daily job volume.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Which jobs scraper should I use if I don&#39;t know which platform a company uses?</summary>
+        <p>Start with the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a> with <code>skipAtsExtraction: false</code>. It auto-discovers the careers page and, if it detects a supported ATS platform, returns the ATS URL so you can switch to the cheaper Career Site Jobs Scraper on the next run.</p>
+      </details>
+      <details>
+        <summary>Do these job scrapers work on LinkedIn and Indeed?</summary>
+        <p>Yes: LinkedIn (linkedin-scraper) uses the guest-view API which requires no login, and Indeed (indeed-scraper) is HTTP-only via Camoufox residential. Both are in the Global aggregators section above. For the majority of job data use cases, however, our country and vertical actors cover many roles LinkedIn and Indeed never index (particularly company ATS pages and government boards).</p>
+      </details>
+      <details>
+        <summary>How do I combine output from multiple job scrapers into one dataset?</summary>
+        <p>Two options. Manual: use the mapper script from the <a href="/tutorials/scrape-fortune-500-company-jobs/#unify-schema">Fortune 500 tutorial</a> - a 50-line Python normalizer. Automated: use the <a href="/jobfeed/#signup">Job Feed orchestrator (private beta)</a>, which handles routing, normalization, and deduplication internally.</p>
+      </details>
+      <details>
+        <summary>Can I scrape jobs in multiple countries at once?</summary>
+        <p>Yes. Some actors are inherently multi-country: welcome-to-the-jungle-scraper covers FR/UK/DE/ES/CZ; seek-scraper covers 8 APAC countries; computrabajo-scraper covers 19 LATAM countries; hh-ru-scraper covers RU/KZ/UZ/BY. You can also run multiple single-country actors in parallel on Apify and merge datasets - the Job Feed orchestrator does this automatically.</p>
+      </details>
+      <details>
+        <summary>Is there a free way to test these scrapers before committing?</summary>
+        <p>Yes. Every actor on Apify has a free trial built in via Apify's $5/month free plan. At $1 per 1,000 jobs on the ATS scraper, $5 runs about 5,000 jobs. Google Gemini's free tier covers the LLM extraction cost for Website Job Extractor on up to 70 companies per day. No credit card is required to start.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>: The full technical playbook: ATS distribution analysis, input examples, output schemas, mapper script, cost math, and n8n automation.</li>
+      <li><a href="/tutorials/fortune-500-ats-market-share-2026/">Fortune 500 ATS Market Share 2026</a>: Data study of ATS platforms across the F500. Workday leads with 126 deployments.</li>
+      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper on Apify</a>: ATS-native HTTP scraper for 24+ platforms.</li>
+      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor on Apify</a>: LLM-powered HTTP extractor for any careers page.</li>
+      <li><a href="/jobfeed/">Job Feed - private beta landing page</a>: The orchestrator that ties the three-tier stack into a unified, deduplicated, daily-refreshed jobs feed.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the NanoScrape catalog.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+</body>
+</html>

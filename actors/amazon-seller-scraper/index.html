@@ -108,10 +108,6 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p><strong>Anti-bot system detected:</strong> Akamai</p>
-    <p>HTTP-only via azuretls-client (Chrome 147 TLS). Targets seller storefronts (/sp/{seller-id} or /s?i={seller-id}) and seller product catalogs via pagination. Same 3-tier escalation. goquery extracts: seller name, business address, rating (0–5 stars), review count, response time, response rate, Prime-eligible flag, and product catalog (ASIN list with counts). Seller detail pages load seller summary widgets via initial HTML; full catalog requires pagination traversal.</p>
-    <p>Seller storefronts are less protected than product PDPs (Amazon's Akamai sees seller pages as less-valuable targets). Datacenter pass rate ~78%. Seller ID extraction is critical: Amazon obfuscates seller IDs via JavaScript on some pages; reverse-engineering from HTML requires careful regex matching on data-seller-id attributes or URL parsing. Business address is often missing (Amazon hides it to prevent scraping competitor enrichment). Caveat: Fulfilled by Amazon vs. third-party seller markup varies; extract both. Catalog pagination endpoint often different from storefront endpoint — may hit rate limit faster on catalog traversal. Cost stays low: ~$0.05/start + minimal per-seller overhead on datacenter.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>

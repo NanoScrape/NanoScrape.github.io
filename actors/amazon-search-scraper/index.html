@@ -108,10 +108,6 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p><strong>Anti-bot system detected:</strong> Akamai</p>
-    <p>HTTP-only via azuretls-client (Chrome 147 TLS fingerprinting, identical to amazon-product-scraper stack). Targets Amazon search results pages (SERPs) via /s?k={keyword} query parameter. Same 3-tier proxy escalation. goquery parses SERP HTML extracting: ASIN, title, price, star rating, review count, Prime badge, seller info, and estimated delivery date per result card. Pagination via page parameter (1-indexed, typically 10-50 results per page).</p>
-    <p>SERP pages have lower Akamai aggressiveness than detail PDPs (Amazon deprioritizes SERP protection). Datacenter pass rate ~72% (vs 70% for PDPs due to lighter JSON responses). Keyword diversity matters: high-volume searches (laptop, phone) have stricter rate limits than long-tail searches. Session rotation per query keyword recommended (different session ID per search term) to spread load. Caveat: sponsored results intermixed with organic; extract isSponsor flag or filter by ASIN appearance in organic blocks. Multipage crawls require referer chain (homepage → search → page 2) to mimic real browsing. Max 5 concurrent SERP requests per proxy IP recommended.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>

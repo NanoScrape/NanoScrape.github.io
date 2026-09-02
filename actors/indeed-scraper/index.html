@@ -108,10 +108,6 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p><strong>Anti-bot system detected:</strong> Cloudflare</p>
-    <p>Production v4.3 uses Camoufox (Firefox stealth browser at C++ level) + Apify RESIDENTIAL proxy + sticky session pooling. SERP JSON extracted from `window.mosaic.providerData['mosaic-provider-jobcards']` hydration data (no parsing, direct JSON). Homepage warm-walk validates Cloudflare status via body-length check (>50KB = real, <10KB = challenge); if challenged on warm-walk, session is discarded. Detail-page optional enrichment (adds $0.005/job) fetches job description text + requirements bullets + company URL/logo via context.request() without new browser start.</p>
-    <p>Indeed v4.3 (shipped 2026-08) is residential-only due to CF Managed Challenge blocking all HTTP+datacenter since July 2026. Hybrid cookie-mint approach (mint in residential, replay on datacenter) was tested and FAILED — cookies are IP-bound to residential source IP, non-portable. Net cost: ~$2.00/1000 jobs at 90% pass rate + 1.1x retry overhead. Camoufox + datacenter validated at only 10% pass rate (Apify's BUYPROXIES94952 pool exhausts 27 IPs quickly, CF flags them all). CRITICAL for competitors: do not attempt datacenter hybrid — it will waste compute. Residential only is the validated architecture.</p>
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
       <li>Job title + normalized title (Indeed's standardized version)</li>

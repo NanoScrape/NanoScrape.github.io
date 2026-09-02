@@ -108,17 +108,14 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">Technical notes: how we scrape this site</h2>
-    <p>HTTP-only scraper using azuretls-client (JA3 fingerprinting with Chrome 131 profile) to parse public Facebook page metadata from www.facebook.com/{page}/. Extracts 30+ fields including engagement metrics, contact info, and latest post data via OG meta tags and inline JavaScript objects embedded in the page HTML. Uses warm-session pooling with azuretls' explicit `ApplyJa3()` + `ApplyHTTP2()` fingerprint matching for consistent datacenter proxy rotation. No JavaScript execution or browser required.</p>
-    <p>Facebook's public page metadata is unprotected and HTTP-accessible without login, enabling sub-$0.003/1000-pages pricing vs competitors at $12/1000. Session rotation (1500ms inter-request delay, 30 requests per session) prevents per-IP blocking. Critical caveat: Ad Library enrichment (`includeAds: true`) requires separate domain scraping (facebook.com/ads/library) which faces stricter anti-bot checks — adds ~$0.002/page overhead. Pricing model ($0.002/page + $0.002/page ads) ensures pay-per-result transparency; batch sizes >100 pages see <1% failure rate on Apify datacenter.</p>
     <h2 class="section-title">What You Can Scrape</h2>
     <ul>
-      <li>**30+ fields per page** -- contact info, engagement, business details, latest post, ads</li>
-      <li>**Contact extraction** -- phone, email, website, address from page metadata</li>
-      <li>**Ad Library integration** -- active ad count, ad text, links, formats, platforms (optional)</li>
-      <li>**Latest post** -- text, date, and image from the most recent post</li>
-      <li>**Batch processing** -- scrape hundreds of pages in a single run</li>
-      <li>**No login required** -- uses public page metadata only</li>
+      <li><strong>30+ fields per page</strong> -- contact info, engagement, business details, latest post, ads</li>
+      <li><strong>Contact extraction</strong> -- phone, email, website, address from page metadata</li>
+      <li><strong>Ad Library integration</strong> -- active ad count, ad text, links, formats, platforms (optional)</li>
+      <li><strong>Latest post</strong> -- text, date, and image from the most recent post</li>
+      <li><strong>Batch processing</strong> -- scrape hundreds of pages in a single run</li>
+      <li><strong>No login required</strong> -- uses public page metadata only</li>
     </ul>
     <h2 class="section-title">Integrations</h2>
     <ul>

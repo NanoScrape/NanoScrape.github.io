@@ -131,7 +131,7 @@
       list.innerHTML = '<div class="ns-pal-empty"><strong>No match for \u201C' + esc(q.trim()) + '\u201D</strong>' +
         '<span>Need this target scraped? <a href="mailto:contact@nanoscrape.com?subject=Actor%20request">Request an actor</a>.</span></div>';
     } else if (!q.trim()) {
-      list.innerHTML = '<div class="ns-pal-hint">Search 166 actors, tutorials and templates \u2014 try \u201Cinstagram\u201D, \u201Cjobs germany\u201D, \u201Cn8n\u201D.</div>';
+      list.innerHTML = '<div class="ns-pal-hint">Search 131 actors, tutorials and templates \u2014 try \u201Cinstagram\u201D, \u201Cjobs germany\u201D, \u201Cn8n\u201D.</div>';
     } else {
       var html = '', n = 0;
       for (var g = 0; g < results.length; g++) {
