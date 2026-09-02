@@ -250,7 +250,7 @@
 
     <div class="ctas">
       <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
     </div>
 
     <div class="toc">
@@ -258,8 +258,9 @@
       <ol>
         <li><a href="#scale-reality">The real scale of the global job market</a></li>
         <li><a href="#three-tier-stack">The 3-tier stack + Job Feed orchestrator</a></li>
+        <li><a href="#which-scraper">Which scraper do I need? 4 use cases, 4 tools</a></li>
+        <li><a href="#first-run">Your first run in 5 minutes</a></li>
         <li><a href="#catalog">The catalog: 104+ job scrapers by country</a></li>
-        <li><a href="#head-term-strategy">Jobs scraper query strategy: 4 use cases, 4 tools</a></li>
         <li><a href="#pricing">Pricing at a glance</a></li>
         <li><a href="#cta">Get Job Feed private beta access</a></li>
       </ol>
@@ -268,6 +269,10 @@
     <h2 id="scale-reality">The real scale of the global job market</h2>
     <p><em>By the NanoScrape team - Published 2026-09-02 - Updated 2026-09-02</em></p>
     <p>A common misconception is that LinkedIn plus Indeed plus a handful of ATS platforms covers all online jobs. That is nowhere near the truth. The best available triangulation from public directories and editorial estimates puts the count much higher, structured in five tiers of decreasing revenue relevance:</p>
+    <figure>
+      <img src="assets/global-jobs-tier-pyramid.svg" alt="Pyramid diagram showing five tiers of global job platforms from Tier 0 global aggregators at the top (40-60 platforms, 40 percent of employer spend) down to Tier 4 long-tail listings pages at the base (200,000 plus platforms, under 1 percent of spend). A note at the bottom states the NanoScrape catalog covers Tier 0 plus 1 plus a slice of Tier 2 equalling 85 percent or more of employer spend." loading="lazy" width="900" height="520">
+      <figcaption>The global job market tier pyramid. Revenue concentration follows a steep power law: Tier 0 and 1 together represent roughly 85% of employer spend despite being fewer than 1,000 platforms.</figcaption>
+    </figure>
     <ul>
         <li><strong>Tier 0 - Global aggregators and cross-border platforms</strong>: about 40 to 60. Indeed, LinkedIn, Seek, Naukri, StepStone, Adzuna, Jooble, Careerjet.</li>
         <li><strong>Tier 1 - National generalist leaders</strong>: about 500 to 800. Roughly 120 countries times 3 to 6 leader boards per country. Pracuj.pl in Poland, Jobindex.dk in Denmark, HH.ru in Russia, Karriere.at in Austria.</li>
@@ -289,7 +294,72 @@
       </ul>
     <div class="callout tip">For the full technical playbook - input examples, output schemas, mapper script, cost math, n8n automation - see the companion tutorial: <a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>. This guide focuses on the catalog: which actors cover which country and vertical.</div>
 
+    <h2 id="which-scraper">Which scraper do I need? 4 use cases, 4 tools</h2>
+    <figure>
+      <img src="assets/which-scraper-decision-tree.svg" alt="Decision tree diagram asking what you are scraping. Four branches: known platform such as LinkedIn or Glassdoor leads to the catalog; supported ATS careers page leads to Career Site Jobs Scraper at one dollar per thousand jobs; any careers page with unknown ATS leads to Website Job Extractor with LLM auto-detection; multi-source unified feed leads to the Job Feed orchestrator in private beta." loading="lazy" width="900" height="440">
+      <figcaption>Use this tree to pick the right tool before you start. If you are unsure which ATS a target company uses, start with Website Job Extractor - it auto-detects and emits ats_url so future runs can switch to the cheaper Tier 1 path.</figcaption>
+    </figure>
+    <p>Someone searching for a jobs scraper has one of four underlying needs. Match yours to the right tool:</p>
+    <ol>
+        <li><strong>Scrape a known platform (Glassdoor, Indeed, Totaljobs, ...)</strong>: find it in the catalog below, click through, run the actor.</li>
+        <li><strong>Scrape a company's careers page on a supported ATS</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a>. Cheapest option at $1 per 1,000 jobs.</li>
+        <li><strong>Scrape any careers page, ATS unknown</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a>. Auto-detects ATS on the way in; falls back to LLM extraction for custom sites.</li>
+        <li><strong>Unified multi-source feed at scale</strong>: use the <a href="/jobfeed/">Job Feed orchestrator (private beta)</a>. Give it a source list, get one clean, deduplicated, schema-unified feed.</li>
+      </ol>
+
+    <h2 id="first-run">Your first run in 5 minutes</h2>
+    <p>The fastest way to see real job data is with the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">Job Bank Canada Scraper</a>. Job Bank Canada (jobbank.gc.ca) is Canada's official federal government employment board. It has no bot protection, a stable public API, and returns rich structured data including NOC 2021 occupation codes, bilingual flags, hourly wages, and province-level location. It is the ideal starting point for anyone new to the NanoScrape catalog.</p>
+    <h3>Step 1 - Open the actor page</h3>
+    <p>Go to <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">apify.com/santamaria-automations/jobbank-ca-scraper</a> and click <strong>Try for free</strong>. This opens the Apify Console with a pre-configured input form. You do not need a credit card - the Apify free tier ($5/month) is more than enough for a test run.</p>
+    <h3>Step 2 - Paste the input JSON</h3>
+    <p>Switch the input tab from the visual form to <strong>JSON</strong> mode and paste the following:</p>
+    <div class="code-block"><pre>{
+  "keywords": "software developer",
+  "location": "Ontario",
+  "maxItems": 50
+}</pre></div>
+    <p>This searches for software developer roles in Ontario with a limit of 50 results. You can change <code>keywords</code> to any job title and <code>location</code> to any Canadian province or city. Remove <code>location</code> entirely to search across all of Canada.</p>
+    <h3>Step 3 - Click Start and wait</h3>
+    <p>Click <strong>Start</strong>. The run typically finishes in under 30 seconds for 50 results. When the status indicator turns green, click the <strong>Results</strong> tab to see your data.</p>
+    <h3>Step 4 - Inspect the output</h3>
+    <p>Each result row is a structured job object. A typical output item looks like this:</p>
+    <div class="code-block"><pre>[
+  {
+    "job_url": "https://www.jobbank.gc.ca/jobsearch/jobposting/40812345",
+    "title": "Senior Software Developer",
+    "company": "Acme Systems Inc.",
+    "location": "Toronto, Ontario",
+    "salary": "$90,000 to $115,000 per year",
+    "employment_type": "Full-time",
+    "noc_code": "21232",
+    "bilingual": false,
+    "posted_date": "2026-08-30",
+    "closing_date": "2026-09-20",
+    "vacancies": 2,
+    "description": "We are looking for a Senior Software Developer to join our platform team..."
+  },
+  {
+    "job_url": "https://www.jobbank.gc.ca/jobsearch/jobposting/40819988",
+    "title": "Full Stack Developer",
+    "company": "Maple Digital Ltd.",
+    "location": "Ottawa, Ontario",
+    "salary": "$75,000 to $95,000 per year",
+    "employment_type": "Full-time",
+    "noc_code": "21232",
+    "bilingual": true,
+    "posted_date": "2026-08-29",
+    "closing_date": "2026-09-15",
+    "vacancies": 1,
+    "description": "Maple Digital is hiring a Full Stack Developer for our SaaS team..."
+  }
+]</pre></div>
+    <div class="callout tip"><strong>Next steps after your first run:</strong> export the dataset as CSV or JSON from the Results tab, then follow the same four steps with any other actor in the catalog. Every NanoScrape job scraper uses the same Apify Console workflow - only the input fields differ.</div>
+
     <h2 id="catalog">The catalog: 86 job scrapers by country</h2>
+    <figure>
+      <img src="assets/job-scrapers-world-coverage.svg" alt="Horizontal bar chart showing NanoScrape job scraper actor counts by country. Switzerland leads with 14 actors, United Kingdom has 12, Global multi-country actors total 18, United States has 9, Germany has 7, Austria has 4, and 14 other countries each have 1 to 2 actors." loading="lazy" width="900" height="500">
+      <figcaption>NanoScrape job scraper coverage by country. Darker bars indicate 5 or more dedicated actors. Switzerland and the United Kingdom have the deepest regional coverage. 18 global actors cover multiple countries in a single run.</figcaption>
+    </figure>
     <p>All 86 shipped NanoScrape job scrapers grouped by primary country. Each entry summarizes what's unique about the data. Follow any actor link for the full input schema, output examples, and pricing.</p>
     <h3>United States (9 actors)</h3>
     <ul>
@@ -441,29 +511,12 @@
         <li><a href="/actors/weworkremotely-scraper/"><strong>WeWorkRemotely Scraper</strong></a> <em>(Remote-first)</em>: 26 fields including salary min/max, company website, category, and posting date. Covers programming, design, DevOps, marketing, and product remote roles.</li>
       </ul>
 
-    <h2 id="head-term-strategy">Jobs scraper query strategy: 4 use cases, 4 tools</h2>
-    <p>Someone searching for a jobs scraper has one of four underlying needs. Match yours to the right tool:</p>
-    <ol>
-        <li><strong>Scrape a known platform (Glassdoor, Indeed, Totaljobs, ...)</strong>: find it in the catalog above, click through, run the actor.</li>
-        <li><strong>Scrape a company's careers page on a supported ATS</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a>. Cheapest option at $1 per 1,000 jobs.</li>
-        <li><strong>Scrape any careers page, ATS unknown</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a>. Auto-detects ATS on the way in; falls back to LLM extraction for custom sites.</li>
-        <li><strong>Unified multi-source feed at scale</strong>: use the <a href="/jobfeed/">Job Feed orchestrator (private beta)</a>. Give it a source list, get one clean, deduplicated, schema-unified feed.</li>
-      </ol>
-
     <h2 id="pricing">Pricing at a glance</h2>
     <p>All NanoScrape actors use Apify's pay-per-event (PPE) model. No monthly seats, no minimums. Apify's $5/month free tier covers meaningful testing on any actor.</p>
-    <div class="code-block"><pre>TIER                                    SERP        DETAIL      TYPICAL TOTAL
--------------------------------------------------------------------------
-Tier 1 Career Site Jobs Scraper         $0.001      n/a         $1  / 1,000 jobs
-Tier 2 Website Job Extractor HTTP+LLM   $0.004      $0.004      $4  / 1,000 jobs
-Tier 3 Website Job Extractor Browser    $0.006      $0.006      $6  / 1,000 jobs
--------------------------------------------------------------------------
-Country-specific job board scrapers     $0.003      $0.005      ~$5 / 1,000 jobs
-  (Totaljobs, Guardian Jobs, IrishJobs, HelloWork, SEPE, Praca.gov.pl,
-   Karriere.at, ANOFM, DCZ Ukraine, HH.ru, TrudVsem, and more)
-Global aggregators (Glassdoor, ZipRecruiter, LinkedIn Jobs, Indeed)
-                                        $0.006      $0.008      ~$8 / 1,000 jobs
-</pre></div>
+    <figure>
+      <img src="assets/scraper-cost-comparison-bars.svg" alt="Horizontal bar chart comparing cost per 1,000 jobs for five NanoScrape scraper types. Career Site Jobs Scraper costs $1, Website Job Extractor HTTP costs $4, country-specific boards average $5, Website Job Extractor Browser costs $6, and global aggregators such as LinkedIn and Indeed average $8 per 1,000 jobs." loading="lazy" width="900" height="360">
+      <figcaption>Cost per 1,000 jobs by scraper type. The cheapest path is always Tier 1 (ATS-native) when the target company uses a supported ATS. Use Website Job Extractor to auto-detect before committing to a higher tier.</figcaption>
+    </figure>
     <div class="callout tip"><strong>Free tier math:</strong> $5/month Apify credit covers 5,000 jobs on Career Site Jobs Scraper - enough for a daily pulse on 10-20 companies. Gemini free tier fully covers LLM extraction for up to 70 careers pages per day.</div>
 
     <h2 id="cta">Get access to Job Feed private beta</h2>
@@ -511,7 +564,7 @@ Global aggregators (Glassdoor, ZipRecruiter, LinkedIn Jobs, Indeed)
 
     <div class="ctas" style="margin-top:40px">
       <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
     </div>
   </article>
 
