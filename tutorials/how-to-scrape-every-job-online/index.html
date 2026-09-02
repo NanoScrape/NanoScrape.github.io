@@ -124,7 +124,7 @@
       "name": "How often is the catalog updated?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "About 25 new job platform actors per week. Tutorial regenerates from docs/build-queue/pipeline.json on each deploy."
+        "text": "About 25 new job platform actors per week. Tutorial regenerates from internal build queue on each deploy."
       }
     }
   ]
@@ -289,198 +289,156 @@
       </ul>
     <div class="callout tip">For the full technical playbook - input examples, output schemas, mapper script, cost math, n8n automation - see the companion tutorial: <a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>. This guide focuses on the catalog: which actors cover which country and vertical.</div>
 
-    <h2 id="catalog">The catalog: 104+ job scrapers by country</h2>
-    <p>Below are all 104 shipped NanoScrape job scrapers grouped by primary country. Each entry names the actor, its industry vertical, and a one-line notable feature. English-speaking markets first, then Europe region by region, then APAC and other markets, and finally global aggregators + cross-cutting tools that don't belong to a single country.</p>
-    <h3>United States (13 actors)</h3>
+    <h2 id="catalog">The catalog: 86 job scrapers by country</h2>
+    <p><strong>Note (2026-09-02):</strong> This catalog is being rebuilt with buyer-focused summaries per actor. Names + links below; individual actor pages have full input/output docs, pricing, and use-case guidance. Follow any actor link to see the details that matter for your decision.</p>
+    <h3>United States (9 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/higheredjobs-scraper?fpr=0khfbz">Higheredjobs</a></strong> <em>(Academic research)</em>: Camoufox actor - Imperva SWJIYLWA blocked HTTP. 100% pass rate on beta. Not yet promoted / no Phase H yet.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rigzone-us-scraper?fpr=0khfbz">Rigzone Scraper</a></strong> <em>(Engineering)</em>: US oil/gas vertical. Rotational pattern + rig type + certifications (BOSIET/HUET/etc). Phase H full. | promoted latest 2026-08-22 after R2 PASS</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/craigslist-jobs-scraper?fpr=0khfbz">Craigslist Jobs Scraper</a></strong> <em>(General)</em>: US classifieds-format job board. Federated by ~430 city subdomains. Session cookie (cl_b) required. HTML static SERP fallback used (RSS blocked from datacenter IPs). New /view/d/ URL format with alphanumeric IDs. Unique small-biz + gig content. Contact emails in body. | ISPUBLIC 2026-08-25 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-us-scraper?fpr=0khfbz">Glassdoor Us</a></strong> <em>(General)</em>: Camoufox v2.5 live at latest. Phase H eid extraction FIXED - 5/5 employer pages resolved. size+industry+sector 5/5, about+ceo_approval 4/5. Ready for publish.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ziprecruiter-scraper?fpr=0khfbz">Ziprecruiter</a></strong> <em>(General)</em>: Camoufox v1.0.9 live. SERP 5/5 (Capital One + real salaries). Phase H company_about+profile_url 5/5 but structured facts 0/5 - v1.1 patch queued. PDP enrichment silently fails, description/apply_url empty. SERP price bumped $0.006→$0.008.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wayup-us-scraper?fpr=0khfbz">WayUp Scraper</a></strong> <em>(Graduate)</em>: First-mover (mild caveat - WayUp went through 2023 layoffs, verify demand). window.__data hydration. Small corpus for narrow queries. | promoted latest 2026-08-22 after R2 PASS | promoted 2026-08-22 fleet-std | latest promoted 2026-08-22 round 2/3 verified</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/healthecareers-scraper?fpr=0khfbz">HealtheCareers Scraper</a></strong> <em>(Healthcare)</em>: Competitor is unmonetized FREE actor (247 runs, hobby). We keep $3/1k SERP + $5/1k detail, differentiate on reliability + Phase H.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snagajob-us-scraper?fpr=0khfbz">Snagajob Us</a></strong> <em>(Hourly gig)</em>: Camoufox v1.0.8 live, 100% pass rate. Real hourly wages (Fogo de Chao $6.05/hr, warehouse $18-22/hr). 5/5 SERP + company_about. Structured Phase H fields (website/industry) 0/5 - SPA follow-up. Margin 63% net at $0.006 SERP. Architecture: Angular CSR requires warm-walk + form-submit + XHR interception on /api/jobs/v1/p4p.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/usajobs-federal-scraper?fpr=0khfbz">USAJobs Scraper</a></strong> <em>(Public sector)</em>: Official USAJobs REST API. Auth via USAJOBS_API_KEY env var. GS pay grade + security clearance + hiring path. 3-event PPE. Shipped 2026-08-24. | ISPUBLIC 2026-08-24 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dribbble-jobs-scraper?fpr=0khfbz">Dribbble Jobs Scraper</a></strong> <em>(Tech)</em>: HTTP-only net/http. JSON-LD on every PDP. 5/5 smoke passed. Gate passed. Ready for publish. | ISPUBLIC 2026-08-25 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/levels-fyi-scraper?fpr=0khfbz">Levels.fyi Scraper</a></strong> <em>(Tech)</em>: HTTP-only Go via Next.js SSR + __NEXT_DATA__. UNIQUE: company_avg_total_comp_by_level array (Netflix L3-L7 with sample sizes) - no competitor has this. 76-79% net margin all paths. 14/15 Phase H fields. Actor fHuCP5HwRpEbCVvvd. | promoted latest 2026-08-22 after R2 PASS | latest promoted 2026-08-22 round 2/3 verified | ISPUBLIC 2026-08-22 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wellfound-jobs-scraper?fpr=0khfbz">Wellfound Jobs Scraper</a></strong> <em>(Tech)</em>: Camoufox v2.0.8 live. SERP 5/5 via /role/l/{slug}/{loc} SEO pages (query-filter bypass - /jobs?q= ignored). company_stage 4/5 on SERP alone. Company enrichment 11/15 on larger batch (understated at 5-item sample due to CF-blocked companies). Margins: SERP 30%, full 50%, deep 44%. Best-in-class Phase H - Drew Uher founder data on HomeLight. | isPublic=true - retrofit went to beta only</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/workatastartup-scraper?fpr=0khfbz">Work at a Startup (YC) Jobs Scraper</a></strong> <em>(Tech)</em>: LOWERED to SERP $0.0014 / detail $0.003. YC-only corpus ~250 jobs. Phase H rich (name/slug/url/org). Founder+equity+visa data unique. | latest promoted 2026-08-22 round 2/3 verified | ISPUBLIC 2026-08-22 - marketplace live</li>
+        <li><a href="/actors/wellfound-jobs-scraper/"><strong>Wellfound Jobs Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/levels-fyi-scraper/"><strong>Levels.fyi Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/usajobs-federal-scraper/"><strong>USAJobs Scraper</strong></a> - <em>Public sector</em></li>
+        <li><a href="/actors/craigslist-jobs-scraper/"><strong>Craigslist Jobs Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/dribbble-jobs-scraper/"><strong>Dribbble Jobs Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/rigzone-us-scraper/"><strong>Rigzone Scraper</strong></a> - <em>Engineering</em></li>
+        <li><a href="/actors/workatastartup-scraper/"><strong>Work at a Startup (YC) Jobs Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/healthecareers-scraper/"><strong>HealtheCareers Scraper</strong></a> - <em>Healthcare</em></li>
+        <li><a href="/actors/wayup-us-scraper/"><strong>WayUp Scraper</strong></a> - <em>Graduate</em></li>
       </ul>
     <h3>United Kingdom (12 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobs-ac-uk-scraper?fpr=0khfbz">Jobs.ac.uk Scraper</a></strong> <em>(Academic research)</em>: LOWERED to SERP $0.0016 / detail $0.003 (was $0.003/$0.005). 5 competitors so mature market. Phase H /search/employer/{slug}. | promoted latest 2026-08-22 after R2 PASS | promoted 2026-08-22 fleet-std | ISPUBLIC 2026-08-24 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/teaching-vacancies-uk-scraper?fpr=0khfbz">Teaching Vacancies GOV UK Scraper (DfE)</a></strong> <em>(Academic research)</em>: First-mover (UK gov data, unique). Zero anti-bot. Phase H full. | promoted latest 2026-08-22 after R2 PASS | promoted 2026-08-22 fleet-std | ISPUBLIC 2026-08-22 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tes-uk-scraper?fpr=0khfbz">Tes.com UK Education Jobs Scraper</a></strong> <em>(Academic research)</em>: RAISED after competitive audit: SERP $0.004, detail $0.006 (was $0.003/$0.005). Still 20% under sole competitor. Phase H via __NEXT_DATA__ + dual contact popups.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/guardianjobs-scraper?fpr=0khfbz">Guardian Jobs Scraper</a></strong> <em>(General)</em>: Reference impl for Phase H. Full company info + employer page extraction. Competitor: none in Apify Store.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/totaljobs-scraper?fpr=0khfbz">TotalJobs Scraper</a></strong> <em>(General)</em>: Flagship brand of Totaljobs Group (StepStone-Xing). Fleet-standard retrofit 2026-08-24: actor-start PPE, _type, job_url, country=UK, apply_url=null, contact arrays, htmlToMarkdown, CSS-in-JS strip. Akamai detail pages return 403 persistently - SERP mode confirmed working. Awaiting user publish decision. | ISPUBLIC 2026-08-25 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/milkround-uk-scraper?fpr=0khfbz">Milkround Uk</a></strong> <em>(Graduate)</em>: First-mover (no direct competitor). StepStone-Genesis, PDPs on totaljobs. Phase H BROKEN (0/5 rows populate) - patch in flight. | latest promoted 2026-08-22 round 2/3 verified</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/prospects-uk-scraper?fpr=0khfbz">Prospects Uk</a></strong> <em>(Graduate)</em>: First-mover. Discovered public JSON API /api/jobs?keyword=&amp;page=. Phase H partial (4/5 - one row missed). | latest promoted 2026-08-22 round 2/3 verified</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/targetjobs-uk-scraper?fpr=0khfbz">TargetJobs UK Scraper</a></strong> <em>(Graduate)</em>: First-mover. Gatsby SSR (/page-data/{alias}/page-data.json). Phase H PARTIAL (2/5 rows) - patch in flight. | promoted latest 2026-08-22 after R2 PASS | latest promoted 2026-08-22 round 2/3 verified | ISPUBLIC 2026-08-24 - marketplace live</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/cwjobs-uk-scraper?fpr=0khfbz">Cwjobs Uk</a></strong> <em>(Tech)</em>: LOWERED to SERP $0.00124 / detail $0.0025. Akamai edge blocks datacenter - residential required. Phase H SHALLOW (only company_name) - patch in flight. | latest promoted 2026-08-22 round 2/3 verified</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobserve-uk-scraper?fpr=0khfbz">JobServe UK Scraper</a></strong> <em>(Tech)</em>: OK verdict (undercuts by 25%). Residential required (geo-fenced). Phase H /Listings/Recruiters/*/?lid=* extracts email + logo + active_jobs.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/charityjob-uk-scraper?fpr=0khfbz">CharityJob UK Scraper</a></strong> <em>(Volunteer nonprofit)</em>: LOWERED after competitive audit: SERP $0.0014, detail $0.003 (was $0.003/$0.005). Undercuts competitor median 21%. Phase H /organisation/{slug}.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/escape-the-city-scraper?fpr=0khfbz">Escape the City Scraper</a></strong> <em>(Volunteer nonprofit)</em>: First-mover. Algolia-backed SERP (public search key). BCorp flag + cause taxonomy. Phase H 100% fill. | promoted latest 2026-08-22 after R2 PASS | promoted 2026-08-22 fleet-std | ISPUBLIC 2026-08-24 - marketplace live (5/5 daily cap)</li>
+        <li><a href="/actors/tes-uk-scraper/"><strong>Tes.com UK Education Jobs Scraper</strong></a> - <em>Academic research</em></li>
+        <li><a href="/actors/guardianjobs-scraper/"><strong>Guardian Jobs Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/teaching-vacancies-uk-scraper/"><strong>Teaching Vacancies GOV UK Scraper (DfE)</strong></a> - <em>Academic research</em></li>
+        <li><a href="/actors/targetjobs-uk-scraper/"><strong>TargetJobs UK Scraper</strong></a> - <em>Graduate</em></li>
+        <li><a href="/actors/totaljobs-scraper/"><strong>TotalJobs Scraper</strong></a> - <em>General</em></li>
+        <li><strong>Cwjobs Uk</strong> - <em>Tech</em></li>
+        <li><strong>Prospects Uk</strong> - <em>Graduate</em></li>
+        <li><a href="/actors/jobs-ac-uk-scraper/"><strong>Jobs.ac.uk Scraper</strong></a> - <em>Academic research</em></li>
+        <li><a href="/actors/jobserve-uk-scraper/"><strong>JobServe UK Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/escape-the-city-scraper/"><strong>Escape the City Scraper</strong></a> - <em>Volunteer nonprofit</em></li>
+        <li><a href="/actors/charityjob-uk-scraper/"><strong>CharityJob UK Scraper</strong></a> - <em>Volunteer nonprofit</em></li>
+        <li><strong>Milkround Uk</strong> - <em>Graduate</em></li>
       </ul>
     <h3>Canada (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">Job Bank Canada Scraper (jobbank.gc.ca)</a></strong> <em>(General)</em>: HTTP-only Go via RDFa microdata. 3 varied smoke SUCCEEDED. 79% net margin on all 3 paths. Real CA data: NOC codes + bilingual flag + provinces + hourly wages. Actor 8KqVxIig6TX6NbkpO. | latest promoted 2026-08-22 round 2/3 verified | ISPUBLIC 2026-08-22 - marketplace live</li>
+        <li><a href="/actors/jobbank-ca-scraper/"><strong>Job Bank Canada Scraper (jobbank.gc.ca)</strong></a> - <em>General</em></li>
       </ul>
     <h3>Ireland (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/irishjobs-ie-scraper?fpr=0khfbz">IrishJobs.ie Scraper</a></strong> <em>(General)</em>: IE flagship. Stepstone JSON API (siteId=301) for SERP (datacenter, azuretls TLS fingerprint). Detail pages via RESIDENTIAL + azuretls warm-walk (homepage first). PPE: actor-start $0.001 | job-serp-result $0.003 | job-detail-result $0.005.</li>
+        <li><a href="/actors/irishjobs-ie-scraper/"><strong>IrishJobs.ie Scraper</strong></a> - <em>General</em></li>
       </ul>
     <h3>Germany (7 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz">Jobware.de Scraper</a></strong> <em>(General)</em>: Scrape job listings from Jobware.de, Germany&#x27;s premium job portal for professionals</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz">MeineStadt.de Job Scraper</a></strong> <em>(General)</em>: Scrape job listings from MeineStadt.de, Germany&#x27;s largest regional job portal with 900K+ listings across all industries and cities</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/nicejob-de-scraper?fpr=0khfbz">NiceJob.de Scraper</a></strong> <em>(General)</em>: Scrapes job listings from NiceJob.de, a German regional job portal</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz">Stellenanzeigen.de Scraper</a></strong> <em>(General)</em>: Scrapes job listings from Stellenanzeigen.de, one of Germany&#x27;s Top 3 job portals</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stellenmarkt-de-scraper?fpr=0khfbz">Stellenmarkt.de Scraper</a></strong> <em>(General)</em>: Scrape job listings from Stellenmarkt.de, a leading German job board</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz">StepStone.de Scraper</a></strong> <em>(General)</em>: Extract jobs from StepStone.de, Germany&#x27;s largest job portal</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz">Arbeitsagentur.de Scraper</a></strong> <em>(Government)</em>: Extract jobs from Germany&#x27;s official employment agency (Bundesagentur für Arbeit)</li>
+        <li><a href="/actors/arbeitsagentur-de-scraper/"><strong>Arbeitsagentur.de Scraper</strong></a> - <em>Government</em></li>
+        <li><a href="/actors/jobware-de-scraper/"><strong>Jobware.de Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/meinestadt-de-scraper/"><strong>MeineStadt.de Job Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/nicejob-de-scraper/"><strong>NiceJob.de Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/stellenanzeigen-de-scraper/"><strong>Stellenanzeigen.de Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/stellenmarkt-de-scraper/"><strong>Stellenmarkt.de Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/stepstone-de-scraper/"><strong>StepStone.de Scraper</strong></a> - <em>General</em></li>
       </ul>
     <h3>Austria (4 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/westjob-at-scraper?fpr=0khfbz">Westjob.at Scraper</a></strong> <em>(General)</em>: Westjob.at Scraper - Austrian Vorarlberg Job Board</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ams-at-scraper?fpr=0khfbz">AMS Austria Scraper</a></strong> <em>(Government)</em>: Extract job listings from jobs.AMS.at, Austria&#x27;s official public employment service with 100,000+ jobs</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz">Karriere.at Job Scraper</a></strong> <em>(General)</em>: AT jobs; isPublic=true; 35 runs/30d; last run SUCCEEDED 2026-08-25; source: actors/jobs/karriere-at/ (v1.1) + actors/jobs/karriere-at-go/ (v2.1); REVENUE RISK: apify-actor-start=$0.01 (fleet standard=$0.001, 10x overcharge); PPE event &#x27;apify-default-dataset-item&#x27; non-standard (fleet uses job-serp-result/job-detail-result); inserted by audit 2026-08-25</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/stepstone-at-scraper?fpr=0khfbz">StepStone.at Scraper</a></strong> <em>(General)</em>: AT jobs; isPublic=true; 33 runs/30d; last run SUCCEEDED 2026-08-25; source: actors/jobs/stepstone-at/ (v2.0); REVENUE RISK: apify-actor-start=$0.05 (fleet standard=$0.001, 50x overcharge - locked for 30d from last change); PPE: start=$0.05 serp=$0.00375 detail=$0.008; inserted by audit 2026-08-25</li>
+        <li><a href="/actors/karriere-at-scraper/"><strong>Karriere.at Job Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/stepstone-at-scraper/"><strong>StepStone.at Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/ams-at-scraper/"><strong>AMS Austria Scraper</strong></a> - <em>Government</em></li>
+        <li><a href="/actors/westjob-at-scraper/"><strong>Westjob.at Scraper</strong></a> - <em>General</em></li>
       </ul>
     <h3>Switzerland (14 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbasel-ch-scraper?fpr=0khfbz">JobBasel.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from JobBasel.ch, the regional job portal for Basel and Northwestern Switzerland</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbern-ch-scraper?fpr=0khfbz">JobBern.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from JobBern.ch, the regional job portal for Bern and surrounding areas</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobmittelland-ch-scraper?fpr=0khfbz">JobMittelland.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from JobMittelland.ch, the regional job portal for Swiss Mittelland (Solothurn, Olten, Aarau)</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz">Jobs.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from jobs.ch, Switzerland&#x27;s largest job board powered by JobCloud.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobzueri-ch-scraper?fpr=0khfbz">JobZueri.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from JobZueri.ch, the regional job portal for Greater Zurich</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/myjob-ch-scraper?fpr=0khfbz">MyJob.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from MyJob.ch, a Swiss regional job portal</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ostjob-ch-scraper?fpr=0khfbz">Ostjob.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from Ostjob.ch, the leading job portal for Eastern Switzerland (St</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/schaffu-ch-scraper?fpr=0khfbz">Schaffu.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from Schaffu.ch, the regional job portal for Schaffhausen and surrounding areas</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/zentraljob-ch-scraper?fpr=0khfbz">Zentraljob.ch Scraper</a></strong> <em>(General)</em>: Scrapes job listings from Zentraljob.ch, the regional job portal for Central Switzerland (Luzern, Zug, Schwyz, Uri)</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz">Arbeit.Swiss Scraper</a></strong> <em>(Government)</em>: Scrapes job listings from Arbeit.Swiss (Job-Room.ch), Switzerland&#x27;s official public employment service</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz">JobScout24.ch Scraper</a></strong> <em>(Healthcare)</em>: Scrapes job listings from JobScout24.ch, a major Swiss job portal</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sozjobs-ch-scraper?fpr=0khfbz">Sozjobs.ch Scraper</a></strong> <em>(Healthcare)</em>: Scrapes job listings from Sozjobs.ch, the leading portal for social work, healthcare, and education jobs in German-speaking Switzerland</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ictjobs-ch-scraper?fpr=0khfbz">ICTjobs.ch Scraper</a></strong> <em>(Tech)</em>: Scrapes IT and tech job listings from ICTjobs.ch, Switzerland&#x27;s dedicated ICT job board</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/swissdevjobs-ch-scraper?fpr=0khfbz">SwissDevJobs.ch Scraper</a></strong> <em>(Tech)</em>: Scrapes developer and IT job listings from SwissDevJobs.ch</li>
+        <li><a href="/actors/arbeit-swiss-scraper/"><strong>Arbeit.Swiss Scraper</strong></a> - <em>Government</em></li>
+        <li><a href="/actors/ictjobs-ch-scraper/"><strong>ICTjobs.ch Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/jobbasel-ch-scraper/"><strong>JobBasel.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/jobbern-ch-scraper/"><strong>JobBern.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/jobmittelland-ch-scraper/"><strong>JobMittelland.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/jobs-ch-scraper/"><strong>Jobs.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/jobscout24-ch-scraper/"><strong>JobScout24.ch Scraper</strong></a> - <em>Healthcare</em></li>
+        <li><a href="/actors/jobzueri-ch-scraper/"><strong>JobZueri.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/myjob-ch-scraper/"><strong>MyJob.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/ostjob-ch-scraper/"><strong>Ostjob.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/schaffu-ch-scraper/"><strong>Schaffu.ch Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/sozjobs-ch-scraper/"><strong>Sozjobs.ch Scraper</strong></a> - <em>Healthcare</em></li>
+        <li><a href="/actors/swissdevjobs-ch-scraper/"><strong>SwissDevJobs.ch Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/zentraljob-ch-scraper/"><strong>Zentraljob.ch Scraper</strong></a> - <em>General</em></li>
       </ul>
     <h3>France (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/france-travail-scraper?fpr=0khfbz">France Travail Job Scraper</a></strong> <em>(Government)</em>: Scrapes job listings from France Travail (formerly Pole Emploi), France&#x27;s public employment service with 500,000+ active listings</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/hellowork-fr-scraper?fpr=0khfbz">HelloWork FR Scraper</a></strong> <em>(General)</em>: HTTP-only Go v0.1 live at latest. 5/5 fields: title (stripped), company_name, location+departement+region (FR), contract_type_fr (CDI/CDD/etc), salary EUR range, remote_type (hybride/sur site), description_full. PPE 3 events wired. Gate passed.</li>
+        <li><a href="/actors/hellowork-fr-scraper/"><strong>HelloWork FR Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/france-travail-scraper/"><strong>France Travail Job Scraper</strong></a> - <em>Government</em></li>
       </ul>
-    <h3>Spain (2 actors)</h3>
+    <h3>Spain (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/infojobs-scraper?fpr=0khfbz">Infojobs</a></strong> <em>(General)</em>: InfoJobs.net Spain flagship. API-based (official REST API, free creds from developer.infojobs.net). Fleet-standard retrofit v2.0 completed 2026-08-25. gate PASSED. Pending live smoke (needs clientId/clientSecret credentials).</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sepe-es-scraper?fpr=0khfbz">SEPE Spain Jobs Scraper (Empleate.gob.es)</a></strong> <em>(Public-sector)</em>: Spain national PES (SEPE) via empleate.gob.es Solr API. HTTP-only Go. 28K+ active listings. All 19 CCAA. Entrust cert chain incomplete on server - InsecureSkipVerify required. Gate R1+R2+R3 passed 2026-08-26.</li>
+        <li><a href="/actors/sepe-es-scraper/"><strong>SEPE Spain Jobs Scraper (Empleate.gob.es)</strong></a> - <em>Public-sector</em></li>
       </ul>
-    <h3>Italy (3 actors)</h3>
+    <h3>Italy (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/subito-it-scraper?fpr=0khfbz">Subito.it Scraper</a></strong> <em>(Classifieds)</em>: Fixed 2026-08-26. Root cause: items.list -&gt; items.originalList + flat entry structure (no .item wrapper). Build 2.0.7 promoted to latest. R1+R2-00+R2+R3+R4 gate PASSED.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/subito-it-jobs-scraper?fpr=0khfbz">Subito It Jobs</a></strong> <em>(General)</em>: IT Craigslist-equivalent</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/subito-it-jobs-scraper?fpr=0khfbz">Subito It Jobs</a></strong> <em>(Jobs)</em>: NEW 2026-08-26. Go HTTP actor for /annunci-*/vendita/lavoro/. 170k+ listings. Extracts contract type, sector, salary, region, city, description with newlines, contact emails/phones. Build 0.1.5 at beta, gate PASSED. Awaiting publish approval.</li>
-      </ul>
-    <h3>Portugal (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/net-empregos-pt-scraper?fpr=0khfbz">Net Empregos Pt</a></strong> <em>(General)</em>: PT flagship. HTTP-only Go. ISO-8859-1-&gt;UTF-8 decode. PPE 3 events. Shipped 2026-08-25.</li>
+        <li><strong>Subito It Jobs</strong> - <em>Jobs</em></li>
+        <li><a href="/actors/subito-it-scraper/"><strong>Subito.it Scraper</strong></a> - <em>Classifieds</em></li>
       </ul>
     <h3>Netherlands (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/werk-nl-scraper?fpr=0khfbz">Werk.nl Scraper</a></strong> <em>(Public sector)</em>: Go HTTP-only stdlib, two-step OAM cookie bootstrap. PPE: start $0.001 + SERP $0.003 + detail $0.005. Gate passed 2026-08-25.</li>
-      </ul>
-    <h3>Belgium (2 actors)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/forem-be-scraper?fpr=0khfbz">Forem Be</a></strong> <em>(General)</em>: HTTP-only Go, JSON API (POST /Recherches/Search + GET /Diffusion/DetailOffre). Location resolved via GUFID nomenclature. No anti-bot. 3 PPE events.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/vdab-be-scraper?fpr=0khfbz">Vdab Be</a></strong> <em>(Public sector)</em>: HTTP-only Go. Verbolia static SERP pages (/vindeenjob/jobs/{kw}). Detail pages are Angular SPA shells - SERP snippet only. Dutch employment type + Flemish province mapping. Gate passed 2026-08-25.</li>
+        <li><a href="/actors/werk-nl-scraper/"><strong>Werk.nl Scraper</strong></a> - <em>Public sector</em></li>
       </ul>
     <h3>Denmark (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dba-dk-scraper?fpr=0khfbz">DBA.dk Scraper</a></strong> <em>(Classifieds)</em>: Source: actors/directories/dba-dk-go/ (classifieds directory with jobs section). Previously mis-flagged as orphan 2026-08-25 - scan only checked actors/jobs/.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobindex-dk-scraper?fpr=0khfbz">Jobindex.dk Job Scraper</a></strong> <em>(General)</em>: DK #1 job board; isPublic=true; 31 runs/30d; last run SUCCEEDED 2026-08-25; source: actors/jobs/jobindex-dk-go/ (v1.0); REVENUE RISK: active PPE tier has job-serp-result=$0.005 &gt; job-detail-result=$0.003 (inverted - detail should cost more than SERP); PPE: start=$0.001 serp=$0.005 detail=$0.003; inserted by audit 2026-08-25</li>
+        <li><a href="/actors/jobindex-dk-scraper/"><strong>Jobindex.dk Job Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/dba-dk-scraper/"><strong>DBA.dk Scraper</strong></a> - <em>Classifieds</em></li>
       </ul>
     <h3>Sweden (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/blocket-se-scraper?fpr=0khfbz">Blocket.se Scraper</a></strong> <em>(Classifieds)</em>: Source: actors/directories/blocket-se/ (classifieds directory with jobs section). Previously mis-flagged as orphan 2026-08-25 - scan only checked actors/jobs/.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbetsformedlingen-se-scraper?fpr=0khfbz">Arbetsformedlingen Job Scraper</a></strong> <em>(Public sector)</em>: SE public employment service; isPublic=true; 31 runs/30d; last run SUCCEEDED 2026-08-25; source: actors/jobs/arbetsformedlingen-se/; PPE: start=$0.001 serp=$0.003 detail=$0.005</li>
+        <li><a href="/actors/arbetsformedlingen-se-scraper/"><strong>Arbetsformedlingen Job Scraper</strong></a> - <em>Public sector</em></li>
+        <li><a href="/actors/blocket-se-scraper/"><strong>Blocket.se Scraper</strong></a> - <em>Classifieds</em></li>
       </ul>
     <h3>Norway (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz">Finn.no Scraper</a></strong> <em>(Jobs+general)</em>: PUBLISHED ACTOR (id It8xIqTEZKIadyNNr, isPublic=true since March 2026). 2026-08-25: recovered from sub-agent pricing incident. latest=1.1.2 (was 1.0.10). pricingInfos v1 event names (actor-start/job-serp-result/job-detail-result) aligned in 1.0.11, promoted to latest 1.0.11 then immediately superseded by 1.1.2. v1.1 dual-charter: jobs URLs emit fleet-standard fields (_type, job_url, country=NO, municipality, working_time, description_full/html/md, contact_emails, apply_url, deadline_datetime, sector, industry). Classifieds (marketplace/cars/realestate) unchanged. RED FLAG: article.sf-search-ad selector broken for marketplace SERP (pre-existing, not 1.1 regression). Needs selector fix separately.</li>
+        <li><a href="/actors/finn-no-scraper/"><strong>Finn.no Scraper</strong></a> - <em>Jobs+general</em></li>
       </ul>
     <h3>Finland (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz">Oikotie.fi Scraper</a></strong> <em>(General)</em>: Source: actors/directories/oikotie-fi/ (classifieds directory with jobs section). Previously mis-flagged as orphan 2026-08-25 - scan only checked actors/jobs/.</li>
+        <li><a href="/actors/oikotie-fi-scraper/"><strong>Oikotie.fi Scraper</strong></a> - <em>General</em></li>
       </ul>
-    <h3>Poland (4 actors)</h3>
+    <h3>Poland (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pracuj-pl-scraper?fpr=0khfbz">Pracuj.pl Job Scraper</a></strong> <em>(General)</em>: Already exists on santamaria-automations (built pre-session). Verify status + Phase H. | isPublic=true - retrofit went to beta only</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/praca-gov-pl-scraper?fpr=0khfbz">Praca.gov.pl Scraper</a></strong> <em>(Public-sector)</em>: Poland national PES (CBOP) via oferty.praca.gov.pl REST API. HTTP-only Go. 40K+ active listings. All 16 voivodeships + EU/EURES. Certum OV TLS G2 R39 CA intermediate bundled in Docker (server omits chain). Gate R1+R2+R3 passed 2026-08-26.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/justjoinit-scraper?fpr=0khfbz">Justjoinit</a></strong> <em>(Tech)</em>: PL #2 IT job board. Sitemap + JSON-LD approach. Salary on every row from schema.org. HTTP-only Go. PPE wired. Gate passed 2026-08-25.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/nofluffjobs-eu-scraper?fpr=0khfbz">Nofluffjobs Eu</a></strong> <em>(Tech)</em>: HTTP-only Go actor. API 200 clean. Streaming JSON parser (160MB SERP response). Mandatory salary on every row. PL/CZ/SK/DE/AT/CH. PPE wired. Gate passed 2026-08-25.</li>
+        <li><a href="/actors/pracuj-pl-scraper/"><strong>Pracuj.pl Job Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/praca-gov-pl-scraper/"><strong>Praca.gov.pl Scraper</strong></a> - <em>Public-sector</em></li>
       </ul>
     <h3>Czech Republic (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/prace-cz-scraper?fpr=0khfbz">Prace.cz Scraper</a></strong> <em>(General)</em>: v0.1 HTTP-only Go. Next.js SSR + JSON-LD JobPosting. CZK salary, region map, contract_type_cz. External listings (jobs.cz partner) skipped. Gate PASSED 2026-08-25.</li>
+        <li><a href="/actors/prace-cz-scraper/"><strong>Prace.cz Scraper</strong></a> - <em>General</em></li>
       </ul>
-    <h3>Slovakia (1 actor)</h3>
+    <h3>Romania (1 actor)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/profesia-sk-scraper?fpr=0khfbz">Profesia Sk</a></strong> <em>(General)</em>: Go HTTP-only actor, no bot protection on profesia.sk. PPE: actor-start $0.001, job-serp-result $0.003, job-detail-result $0.005. Gate passed 2026-08-25.</li>
-      </ul>
-    <h3>Hungary (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/profession-hu-scraper?fpr=0khfbz">Profession Hu</a></strong> <em>(General)</em>: HTTP-only Go actor. No bot protection. HU-specific fields: county/megye, experience_level, remote_type, education_level, foreign_languages, HUF salary.</li>
-      </ul>
-    <h3>Romania (2 actors)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ejobs-ro-scraper?fpr=0khfbz">Ejobs Ro</a></strong> <em>(General)</em>: Go HTTP-only. Nuxt SSR payload parsing for all 39 SERP cards. RON/EUR salary, county (judet), career level, languages_required. Gate passed 2026-08-25. PPE: actor-start $0.001, job-serp-result $0.003, job-detail-result $0.005.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/anofm-ro-scraper?fpr=0khfbz">ANOFM.ro Scraper</a></strong> <em>(Public sector)</em>: HTTP-only Go. Session-bootstrap + JSON API (POST /api/entity/vw_public_job_posting). 7953 jobs/31894 positions nationwide. COR codes + judet + RON salary + contact name/email/phone. EURES EU-citizen flag. No anti-bot (gov portal). PPE: actor-start $0.001 job-serp-result $0.003 job-detail-result $0.005. Smoke 4/4 Bucharest programator 2026-08-26.</li>
-      </ul>
-    <h3>Bulgaria (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobs-bg-scraper?fpr=0khfbz">Jobs Bg</a></strong> <em>(General)</em>: Camoufox residential v0.1 live at latest. CF Managed Challenge bypassed. Warm-walk + sequential SERP pagination. Bulgarian Cyrillic UTF-8. 4 PPE events. Gate PASSED.</li>
-      </ul>
-    <h3>Greece (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/kariera-gr-scraper?fpr=0khfbz">Kariera Gr</a></strong> <em>(General)</em>: Greece #1 job board. HTTP-only Go, RSC Next.js payload extraction. 4,600+ listings, 50/page, 93 pages. Gate passed R1+R2+R3. Build 0.1.6 at latest.</li>
-      </ul>
-    <h3>Croatia (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/mojposao-hr?fpr=0khfbz">Mojposao Hr</a></strong> <em>(General)</em>: Vue 3 SSR JSON payload extraction. EUR-native (Croatia Eurozone since 2023). Gate PASSED R1+R2+R3. Build 0.1.3 promoted to latest.</li>
+        <li><a href="/actors/anofm-ro-scraper/"><strong>ANOFM.ro Scraper</strong></a> - <em>Public sector</em></li>
       </ul>
     <h3>Ukraine (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/work-ua-scraper?fpr=0khfbz">Work Ua</a></strong> <em>(Jobs)</em>: Camoufox v1.1.3 live. 8 new fields: experience_years_min (93%+), education_level_required (40-60%), company_verified (71%), is_hot_job (21%), salary_above_average (35%), suitable_for_students/disabilities/pensioners. Bug fix: company_name now anchored to glyphicon-company (salary no longer misidentified as company ~35% of cases). Dual-format parser handles both old ellipsis-p and new glyphicon-list/tick SERP layouts. 6/6 R2-00 smoke runs SUCCEEDED. latest=1.1.3, beta=1.1.2. Ready for publish.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dcz-gov-ua-scraper?fpr=0khfbz">Dcz Gov Ua</a></strong> <em>(Public sector)</em>: Ukraine State Employment Service (Державна служба зайнятості). JSON API on dczworknowbot.dcz.gov.ua:334 discovered from Angular SPA bundle. HTTP-only Go. 230K+ active listings. All 25 oblasts + Kyiv city. UAH salary + industry branch + veteran/IDP/housing flags. No anti-bot. Gate R1+R2+R3 passed 2026-08-26.</li>
+        <li><strong>Dcz Gov Ua</strong> - <em>Public sector</em></li>
+        <li><strong>Work Ua</strong> - <em>Jobs</em></li>
       </ul>
     <h3>Russia (2 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/hh-ru-scraper?fpr=0khfbz">Hh Ru</a></strong> <em>(General)</em>: HTTP-only Go. HH website shards API (/shards/vacancy/search) + HTML detail pages. No auth, no bot protection. 90M monthly visits. Multi-region: ru/kz/uz/by via hostRegion. 15333 area entries. Areas dict from api.hh.ru/areas. PPE: actor-start $0.001 job-serp-result $0.003 job-detail-result $0.005 company-detail-result $0.005. Smoke 15/15 Moscow programist 2026-08-26.</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trudvsem-ru-scraper?fpr=0khfbz">Trudvsem Ru</a></strong> <em>(Public sector)</em>: Russia national employment DB (Работа России) via opendata.trudvsem.ru REST API. HTTP-only Go. 500K+ active listings. All 89 federal subjects. RUB salary + OKPDTR codes + geo coords + recruiter contacts. No anti-bot (open gov API). Gate R1+R2+R3 passed 2026-08-26.</li>
-      </ul>
-    <h3>South Korea (1 actor)</h3>
-    <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobkorea-kr-scraper?fpr=0khfbz">Jobkorea Kr</a></strong> <em>(General)</em>: KR flagship</li>
+        <li><strong>Hh Ru</strong> - <em>General</em></li>
+        <li><strong>Trudvsem Ru</strong> - <em>Public sector</em></li>
       </ul>
     <h3>Global (18 actors)</h3>
     <ul>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/computrabajo-scraper?fpr=0khfbz">Computrabajo Scraper</a></strong> <em>(Aggregator (global))</em>: Extract jobs from Computrabajo across 19 LATAM countries (MX, CO, PE, AR, CL and more)</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz">Glassdoor Scraper</a></strong> <em>(Aggregator (global))</em>: Extract Glassdoor jobs across 20+ countries</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz">Indeed Scraper Job Board Data Extraction</a></strong> <em>(Aggregator (global))</em>: Scrape job listings from Indeed across 60+ countries including Switzerland, Germany, Austria, USA, UK, and more</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobrapido-scraper?fpr=0khfbz">Jobrapido Scraper</a></strong> <em>(Aggregator (global))</em>: Scrape job listings from Jobrapido.com - a multi-country job aggregator covering Germany, Austria, Switzerland, and 50+ other countries</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/linkedin-company-scraper?fpr=0khfbz">LinkedIn Company Scraper</a></strong> <em>(Aggregator (global))</em>: Extract companies from LinkedIn</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz">Naukri Scraper</a></strong> <em>(Aggregator (global))</em>: Scrape job listings from Naukri.com (India) and NaukriGulf.com (Middle East)</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/seek-scraper?fpr=0khfbz">Seek, JobStreet &amp; JobsDB Scraper</a></strong> <em>(Aggregator (global))</em>: Extract jobs from Seek (🇦🇺AU/🇳🇿NZ), JobStreet (🇸🇬SG/🇲🇾MY/🇮🇩ID/🇵🇭 PH), and JobsDB (🇭🇰HK/🇹🇭TH)</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/welcome-to-the-jungle-scraper?fpr=0khfbz">Welcome to the Jungle Scraper</a></strong> <em>(Aggregator (global))</em>: Extract job listings from welcometothejungle.com including job title, company, location, salary, contract type, tech stack, and full descriptions</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/cryptojobslist-scraper?fpr=0khfbz">CryptoJobsList Scraper</a></strong> <em>(Engineering / energy)</em>: Extract crypto and Web3 jobs from CryptoJobsList.com</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a></strong> <em>(General)</em>: Extract job listings from 25 ATS &amp; RMP Platforms</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor (HTTP)</a></strong> <em>(General)</em>: Scrape job listings directly from company websites / career pages / ATS systems</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/idealist-scraper?fpr=0khfbz">Idealist Scraper</a></strong> <em>(Nonprofit / impact)</em>: Extract nonprofit job listings from Idealist.org</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/linkedin-scraper?fpr=0khfbz">LinkedIn Jobs Scraper</a></strong> <em>(Remote-first)</em>: Scrapes public job listings from LinkedIn&#x27;s job board</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz">Remotive Scraper</a></strong> <em>(Remote-first)</em>: Extract remote jobs from Remotive.com</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/web3career-scraper?fpr=0khfbz">Web3.career Scraper</a></strong> <em>(Remote-first)</em>: Extract Web3, crypto, and blockchain job listings from web3.career</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/weworkremotely-scraper?fpr=0khfbz">WeWorkRemotely Scraper</a></strong> <em>(Remote-first)</em>: Extract remote job listings from WeWorkRemotely.com</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/builtin-scraper?fpr=0khfbz">Built In Scraper</a></strong> <em>(Tech)</em>: Extract tech job listings from BuiltIn.com</li>
-        <li><strong><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/dice-scraper?fpr=0khfbz">Dice Scraper</a></strong> <em>(Tech)</em>: Extract 50,000+ tech jobs from Dice.com with 68 fields: salary (min/max), skills, full description, company HQ/employees/website/industry/recruiters, </li>
+        <li><a href="/actors/builtin-scraper/"><strong>Built In Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/career-site-jobs-scraper/"><strong>Career Site Jobs Scraper</strong></a> - <em>General</em></li>
+        <li><a href="/actors/computrabajo-scraper/"><strong>Computrabajo Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/cryptojobslist-scraper/"><strong>CryptoJobsList Scraper</strong></a> - <em>Engineering / energy</em></li>
+        <li><a href="/actors/dice-scraper/"><strong>Dice Scraper</strong></a> - <em>Tech</em></li>
+        <li><a href="/actors/glassdoor-scraper/"><strong>Glassdoor Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/idealist-scraper/"><strong>Idealist Scraper</strong></a> - <em>Nonprofit / impact</em></li>
+        <li><a href="/actors/indeed-scraper/"><strong>Indeed Scraper Job Board Data Extraction</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/jobrapido-scraper/"><strong>Jobrapido Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/linkedin-company-scraper/"><strong>LinkedIn Company Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/linkedin-scraper/"><strong>LinkedIn Jobs Scraper</strong></a> - <em>Remote-first</em></li>
+        <li><a href="/actors/naukri-scraper/"><strong>Naukri Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/remotive-scraper/"><strong>Remotive Scraper</strong></a> - <em>Remote-first</em></li>
+        <li><a href="/actors/seek-scraper/"><strong>Seek, JobStreet &amp; JobsDB Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/web3career-scraper/"><strong>Web3.career Scraper</strong></a> - <em>Remote-first</em></li>
+        <li><a href="/actors/website-job-extractor/"><strong>Website Job Extractor (HTTP)</strong></a> - <em>General</em></li>
+        <li><a href="/actors/welcome-to-the-jungle-scraper/"><strong>Welcome to the Jungle Scraper</strong></a> - <em>Aggregator (global)</em></li>
+        <li><a href="/actors/weworkremotely-scraper/"><strong>WeWorkRemotely Scraper</strong></a> - <em>Remote-first</em></li>
       </ul>
 
     <h2 id="head-term-strategy">Jobs scraper query strategy: 4 use cases, 4 tools</h2>
@@ -526,7 +484,7 @@ Global aggregators (Glassdoor, ZipRecruiter, LinkedIn Jobs, Indeed)
       </details>
       <details>
         <summary>Why doesn&#39;t your catalog include LinkedIn or Indeed?</summary>
-        <p>It does - see the Global aggregators section. LinkedIn (linkedin-scraper) uses the guest-view API which requires no login. Indeed (indeed-scraper) is HTTP-only via Camoufox residential. Both are subject to platform terms; use responsibly and consult your legal team for scaled commercial use.</p>
+        <p>It does - see the Global aggregators section. LinkedIn (linkedin-scraper) reads public job data. Indeed (indeed-scraper) is available and returns structured job listings for public queries. Both are subject to platform terms; use responsibly and consult your legal team for scaled commercial use.</p>
       </details>
       <details>
         <summary>Which is cheaper: ATS-native scraping or LLM extraction?</summary>
@@ -538,7 +496,7 @@ Global aggregators (Glassdoor, ZipRecruiter, LinkedIn Jobs, Indeed)
       </details>
       <details>
         <summary>How often is the catalog updated?</summary>
-        <p>We ship approximately 25 new job platform actors per week from our build queue. Published actors appear in this catalog immediately; the build queue file (docs/build-queue/pipeline.json) tracks shipped-unpublished (in testing) and queued (upcoming). This tutorial regenerates from the same source so new actors show up on the next deploy.</p>
+        <p>We ship approximately 25 new job platform actors per week from our build queue. Published actors appear in this catalog immediately; the build queue file (our internal build queue) tracks shipped-unpublished (in testing) and queued (upcoming). This tutorial regenerates from the same source so new actors show up on the next deploy.</p>
       </details>
     </div>
 
