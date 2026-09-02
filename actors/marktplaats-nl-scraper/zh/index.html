@@ -1,189 +1,189 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Marktplaats.nl 抓取器：荷兰第一分类广告，$3/1k | NanoScrape</title>
-  <meta name="description" content="抓取 Marktplaats.nl，荷兰最大的市场，10M+ 在线广告。返回标题、EUR 价格、价格类型、GPS、卖家 ID、图片、类目。内部 JSON API，无需 HTML 解析。基于 URL、多搜索。">
-  <meta property="og:title" content="Marktplaats.nl 抓取器：荷兰第一分类广告 | NanoScrape">
-  <meta property="og:description" content="抓取荷兰最大分类广告。JSON API、EUR 价格、GPS、卖家 ID。多搜索。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Marktplaats.nl Classifieds Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Marktplaats.nl 分类广告抓取器，覆盖荷兰第一的市场，10M+ 在线广告。返回标题、描述、EUR 价格 (从分换算)、价格类型 (FIXED、MIN_BID、SEE_DESCRIPTION)、城市与国家、GPS 坐标、类目、卖家名与数字 ID、所有图片、日期与源 URL。使用内部 JSON API。基于 URL、多搜索。128MB 内存，仅 HTTP。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Marktplaats.nl 抓取器：荷兰第一分类广告，$3/1k | NanoScrape</title>
+ <meta name="description" content="抓取 Marktplaats.nl，荷兰最大的市场，10M+ 在线广告。返回标题、EUR 价格、价格类型、GPS、卖家 ID、图片、类目。内部 JSON API，无需 HTML 解析。基于 URL、多搜索。">
+ <meta property="og:title" content="Marktplaats.nl 抓取器：荷兰第一分类广告 | NanoScrape">
+ <meta property="og:description" content="抓取荷兰最大分类广告。JSON API、EUR 价格、GPS、卖家 ID。多搜索。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/marktplaats-nl-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Marktplaats.nl Classifieds Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Marktplaats.nl 分类广告抓取器，覆盖荷兰第一的市场，10M+ 在线广告。返回标题、描述、EUR 价格 (从分换算)、价格类型 (FIXED、MIN_BID、SEE_DESCRIPTION)、城市与国家、GPS 坐标、类目、卖家名与数字 ID、所有图片、日期与源 URL。使用内部 JSON API。基于 URL、多搜索。128MB 内存，仅 HTTP。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Marktplaats.nl 抓取器：荷兰第一的分类广告 (10M+ 广告)</h1>
-    <p class="lead">抓取 marktplaats.nl 分类广告，这是荷兰最大的在线市场，含 10M+ 活跃广告。返回标题、完整描述、EUR 价格 (从分换算)、价格类型 (FIXED、MIN_BID、SEE_DESCRIPTION)、城市、国家、GPS 坐标、类目、卖家名与数字 ID、主图与所有图片 URL、发布日期与源 URL。Actor 直接使用站点内部 JSON API，无需 HTML 解析。粘贴任意 marktplaats.nl 搜索 URL，Actor 自动处理分页。</p>
+ <div class="detail">
+ <h1>Marktplaats.nl 抓取器：荷兰第一的分类广告 (10M+ 广告)</h1>
+ <p class="lead">抓取 marktplaats.nl 分类广告，这是荷兰最大的在线市场，含 10M+ 活跃广告。返回标题、完整描述、EUR 价格 (从分换算)、价格类型 (FIXED、MIN_BID、SEE_DESCRIPTION)、城市、国家、GPS 坐标、类目、卖家名与数字 ID、主图与所有图片 URL、发布日期与源 URL。Actor 直接使用站点内部 JSON API，无需 HTML 解析。粘贴任意 marktplaats.nl 搜索 URL，Actor 自动处理分页。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/aY6hpdhn6aZ7WuTYc/source?addFromActorId=aY6hpdhn6aZ7WuTYc&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/aY6hpdhn6aZ7WuTYc/source?addFromActorId=aY6hpdhn6aZ7WuTYc&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$0.003/条</div></div>
-      <div class="spec"><div class="label">每 1k</div><div class="value">$3.00</div></div>
-      <div class="spec"><div class="label">国家</div><div class="value">荷兰</div></div>
-      <div class="spec"><div class="label">货币</div><div class="value">EUR</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
-      <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP JSON</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$0.003/条</div></div>
+ <div class="spec"><div class="label">每 1k</div><div class="value">$3.00</div></div>
+ <div class="spec"><div class="label">国家</div><div class="value">荷兰</div></div>
+ <div class="spec"><div class="label">货币</div><div class="value">EUR</div></div>
+ <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
+ <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP JSON</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>所有类目：</strong>汽车 (auto-s)、自行车、电脑、手机、家具、时尚、房产、招聘</li>
-      <li><strong>搜索：</strong>任意带筛选的 marktplaats.nl URL (类目、邮编半径、价格、状态、卖家类型)</li>
-      <li><strong>JSON API：</strong>直接命中内部端点，无 HTML 解析，比爬取快很多</li>
-      <li><strong>GPS 坐标：</strong>每条广告都含完整经纬度</li>
-      <li><strong>多搜索：</strong>一次运行粘贴多个 URL 并行处理</li>
-      <li><strong>卖家 ID：</strong>数字 seller_id 可按卖家跨广告聚合</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>所有类目：</strong>汽车 (auto-s)、自行车、电脑、手机、家具、时尚、房产、招聘</li>
+ <li><strong>搜索：</strong>任意带筛选的 marktplaats.nl URL (类目、邮编半径、价格、状态、卖家类型)</li>
+ <li><strong>JSON API：</strong>直接命中内部端点，无 HTML 解析，比爬取快很多</li>
+ <li><strong>GPS 坐标：</strong>每条广告都含完整经纬度</li>
+ <li><strong>多搜索：</strong>一次运行粘贴多个 URL 并行处理</li>
+ <li><strong>卖家 ID：</strong>数字 seller_id 可按卖家跨广告聚合</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>二手车套利。</strong>监控阿姆斯特丹、鹿特丹或乌得勒支价格上限以下的 Opel、VW 或 Peugeot 广告</li>
-      <li><strong>二手价格情报。</strong>追踪荷兰市场 iPhone、MacBook 或 fietsen 的平均 EUR 价格</li>
-      <li><strong>卖家组合分析。</strong>按 seller_id 分组广告以映射高频卖家的完整库存</li>
-      <li><strong>跨境套利。</strong>将荷兰广告与邻近市场的比利时或德国对等商品比较</li>
-      <li><strong>线索生成。</strong>提取在多个荷兰城市活跃的手机店或二手电子产品经销商</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>二手车套利。</strong>监控阿姆斯特丹、鹿特丹或乌得勒支价格上限以下的 Opel、VW 或 Peugeot 广告</li>
+ <li><strong>二手价格情报。</strong>追踪荷兰市场 iPhone、MacBook 或 fietsen 的平均 EUR 价格</li>
+ <li><strong>卖家组合分析。</strong>按 seller_id 分组广告以映射高频卖家的完整库存</li>
+ <li><strong>跨境套利。</strong>将荷兰广告与邻近市场的比利时或德国对等商品比较</li>
+ <li><strong>线索生成。</strong>提取在多个荷兰城市活跃的手机店或二手电子产品经销商</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~marktplaats-nl-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": [
-      "https://www.marktplaats.nl/l/auto-s/opel/f/astra+benzine/1064+473/",
-      "https://www.marktplaats.nl/q/iphone/"
-    ],
-    "maxResults": 200
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchUrls": [
+ "https://www.marktplaats.nl/l/auto-s/opel/f/astra+benzine/1064+473/",
+ "https://www.marktplaats.nl/q/iphone/"
+ ],
+ "maxResults": 200
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/marktplaats-nl-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>搜索 URL 输入，广告输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>搜索 URL 输入，广告输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>id</td><td>string</td><td>m2380372505</td></tr>
-      <tr><td>title</td><td>string</td><td>Opel Astra 1.6 Edition</td></tr>
-      <tr><td>price</td><td>number</td><td>8500</td></tr>
-      <tr><td>currency</td><td>string</td><td>EUR</td></tr>
-      <tr><td>price_type</td><td>string</td><td>FIXED</td></tr>
-      <tr><td>city</td><td>string</td><td>Amsterdam</td></tr>
-      <tr><td>latitude</td><td>number</td><td>52.3676</td></tr>
-      <tr><td>longitude</td><td>number</td><td>4.9041</td></tr>
-      <tr><td>category</td><td>string</td><td>Auto's</td></tr>
-      <tr><td>seller_id</td><td>number</td><td>12345678</td></tr>
-      <tr><td>seller_name</td><td>string</td><td>AutoHouse BV</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
-      <tr><td>source_url</td><td>string</td><td>https://www.marktplaats.nl/a/...</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>id</td><td>string</td><td>m2380372505</td></tr>
+ <tr><td>title</td><td>string</td><td>Opel Astra 1.6 Edition</td></tr>
+ <tr><td>price</td><td>number</td><td>8500</td></tr>
+ <tr><td>currency</td><td>string</td><td>EUR</td></tr>
+ <tr><td>price_type</td><td>string</td><td>FIXED</td></tr>
+ <tr><td>city</td><td>string</td><td>Amsterdam</td></tr>
+ <tr><td>latitude</td><td>number</td><td>52.3676</td></tr>
+ <tr><td>longitude</td><td>number</td><td>4.9041</td></tr>
+ <tr><td>category</td><td>string</td><td>Auto's</td></tr>
+ <tr><td>seller_id</td><td>number</td><td>12345678</td></tr>
+ <tr><td>seller_name</td><td>string</td><td>AutoHouse BV</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
+ <tr><td>source_url</td><td>string</td><td>https://www.marktplaats.nl/a/...</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de 抓取器</a>: 德国第一的分类广告</li>
-      <li><a href="/actors/willhaben-at-scraper/">Willhaben.at 抓取器</a>: 奥地利第一的分类广告</li>
-      <li><a href="/actors/blocket-se-scraper/">Blocket.se 抓取器</a>: 瑞典第一的分类广告</li>
-      <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>: 荷兰房产 koop 与 huur</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de 抓取器</a>: 德国第一的分类广告</li>
+ <li><a href="/actors/willhaben-at-scraper/">Willhaben.at 抓取器</a>: 奥地利第一的分类广告</li>
+ <li><a href="/actors/blocket-se-scraper/">Blocket.se 抓取器</a>: 瑞典第一的分类广告</li>
+ <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>: 荷兰房产 koop 与 huur</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/aY6hpdhn6aZ7WuTYc/source?addFromActorId=aY6hpdhn6aZ7WuTYc&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/marktplaats-nl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/aY6hpdhn6aZ7WuTYc/source?addFromActorId=aY6hpdhn6aZ7WuTYc&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

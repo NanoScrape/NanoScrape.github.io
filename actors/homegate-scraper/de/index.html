@@ -1,193 +1,193 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Homegate.ch Scraper: Schweizer Immobilien, CHF-Preise | NanoScrape</title>
-  <meta name="description" content="Miet- und Kaufinserate aus allen 26 Kantonen von Homegate.ch scrapen. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmerzahl (Halbzimmer-System), Flaeche, Kanton, GPS, Ausstattung, Maklerkontakt. Ohne Login. Ab $3 pro 1.000 Inseraten.">
-  <meta property="og:title" content="Homegate.ch Scraper: Schweizer Immobilien | NanoScrape">
-  <meta property="og:description" content="Schweizer Immobilieninserate von Homegate.ch extrahieren. CHF-Preise, Zimmer, Flaeche, Kanton, GPS, Maklerkontakt. Pay-per-Result. Ohne Login.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/homegate-scraper/de/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/homegate-scraper/de/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/homegate-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/homegate-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/homegate-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/homegate-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/homegate-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Homegate.ch Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Schweizer Immobilien-Scraper fuer Homegate.ch, das groesste Immobilienportal der Schweiz mit ueber 100.000 aktiven Inseraten in allen 26 Kantonen. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmer mit Schweizer Halbzimmer-System, Flaeche in m2, PLZ, Kanton, GPS-Koordinaten, Ausstattung (Balkon, Lift, Minergie), alle Fotos und Maklerkontakt. HTTP-only, 128MB RAM.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Homegate.ch Scraper: Schweizer Immobilien, CHF-Preise | NanoScrape</title>
+ <meta name="description" content="Miet- und Kaufinserate aus allen 26 Kantonen von Homegate.ch scrapen. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmerzahl (Halbzimmer-System), Flaeche, Kanton, GPS, Ausstattung, Maklerkontakt. Ohne Login. Ab $3 pro 1.000 Inseraten.">
+ <meta property="og:title" content="Homegate.ch Scraper: Schweizer Immobilien | NanoScrape">
+ <meta property="og:description" content="Schweizer Immobilieninserate von Homegate.ch extrahieren. CHF-Preise, Zimmer, Flaeche, Kanton, GPS, Maklerkontakt. Pay-per-Result. Ohne Login.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/homegate-scraper/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/homegate-scraper/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/homegate-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/homegate-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/homegate-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/homegate-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/homegate-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Homegate.ch Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Schweizer Immobilien-Scraper fuer Homegate.ch, das groesste Immobilienportal der Schweiz mit ueber 100.000 aktiven Inseraten in allen 26 Kantonen. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmer mit Schweizer Halbzimmer-System, Flaeche in m2, PLZ, Kanton, GPS-Koordinaten, Ausstattung (Balkon, Lift, Minergie), alle Fotos und Maklerkontakt. HTTP-only, 128MB RAM.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Homegate.ch Scraper: Schweizer Immobilien, CHF-Preise, 26 Kantone</h1>
-    <p class="lead">Jedes Miet- und Kaufinserat auf Homegate.ch scrapen, dem groessten Immobilienportal der Schweiz mit ueber 100.000 aktiven Objekten. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmer mit korrekter Schweizer Halbzimmer-Handhabung (z.B. 3.5-Zimmer), Flaeche in m2, PLZ, Kanton, GPS-Koordinaten, vollstaendige Ausstattung (Balkon, Lift, Minergie, Waschmaschine), jedes Foto und Maklerkontakt (Name, Agentur, Telefon, Website). Funktioniert mit jeder Suchanfrage, die Sie im Browser zusammenbauen.</p>
+ <div class="detail">
+ <h1>Homegate.ch Scraper: Schweizer Immobilien, CHF-Preise, 26 Kantone</h1>
+ <p class="lead">Jedes Miet- und Kaufinserat auf Homegate.ch scrapen, dem groessten Immobilienportal der Schweiz mit ueber 100.000 aktiven Objekten. Liefert CHF-Bruttomiete, Nettomiete, Nebenkosten, Zimmer mit korrekter Schweizer Halbzimmer-Handhabung (z.B. 3.5-Zimmer), Flaeche in m2, PLZ, Kanton, GPS-Koordinaten, vollstaendige Ausstattung (Balkon, Lift, Minergie, Waschmaschine), jedes Foto und Maklerkontakt (Name, Agentur, Telefon, Website). Funktioniert mit jeder Suchanfrage, die Sie im Browser zusammenbauen.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Preis</div><div class="value">$3 / 1k SERP</div></div>
-      <div class="spec"><div class="label">Detailpreis</div><div class="value">$8 / 1k</div></div>
-      <div class="spec"><div class="label">Abdeckung</div><div class="value">Alle 26 Kantone</div></div>
-      <div class="spec"><div class="label">Inserate-Pool</div><div class="value">100k+ aktiv</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">DataDome-aware</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Preis</div><div class="value">$3 / 1k SERP</div></div>
+ <div class="spec"><div class="label">Detailpreis</div><div class="value">$8 / 1k</div></div>
+ <div class="spec"><div class="label">Abdeckung</div><div class="value">Alle 26 Kantone</div></div>
+ <div class="spec"><div class="label">Inserate-Pool</div><div class="value">100k+ aktiv</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Anti-Bot</div><div class="value">well-protected</div></div>
+ </div>
 
-    <h2 class="section-title">Was Sie scrapen koennen</h2>
-    <ul>
-      <li><strong>Preise:</strong> price (CHF Bruttomiete oder Kaufpreis), price_net (Nettomiete), price_extra (Nebenkosten), currency, price_type</li>
-      <li><strong>Grundriss:</strong> rooms (Schweizer Halbzimmer-System 1.5, 2.5, 3.5), area_sqm, floor, property_type, listing_type</li>
-      <li><strong>Standort:</strong> address, city, postal_code, canton (ZH, BE, VD, GE, TI, ...), latitude, longitude</li>
-      <li><strong>Ausstattung:</strong> Array (Balkon, Lift, Minergie, Waschmaschine, Parkplatz, Haustiere, ruhig, schoene Aussicht)</li>
-      <li><strong>Medien:</strong> image_url (primaer), image_urls (volle Galerie, typischerweise 15-20 Fotos), description</li>
-      <li><strong>Makler:</strong> agent_name, agent_company, agent_phone, agent_logo_url, agent_url</li>
-      <li><strong>Metadaten:</strong> listed_at, available_from, source_url, source_platform, scraped_at</li>
-    </ul>
+ <h2 class="section-title">Was Sie scrapen koennen</h2>
+ <ul>
+ <li><strong>Preise:</strong> price (CHF Bruttomiete oder Kaufpreis), price_net (Nettomiete), price_extra (Nebenkosten), currency, price_type</li>
+ <li><strong>Grundriss:</strong> rooms (Schweizer Halbzimmer-System 1.5, 2.5, 3.5), area_sqm, floor, property_type, listing_type</li>
+ <li><strong>Standort:</strong> address, city, postal_code, canton (ZH, BE, VD, GE, TI, ...), latitude, longitude</li>
+ <li><strong>Ausstattung:</strong> Array (Balkon, Lift, Minergie, Waschmaschine, Parkplatz, Haustiere, ruhig, schoene Aussicht)</li>
+ <li><strong>Medien:</strong> image_url (primaer), image_urls (volle Galerie, typischerweise 15-20 Fotos), description</li>
+ <li><strong>Makler:</strong> agent_name, agent_company, agent_phone, agent_logo_url, agent_url</li>
+ <li><strong>Metadaten:</strong> listed_at, available_from, source_url, source_platform, scraped_at</li>
+ </ul>
 
-    <h2 class="section-title">Typische Anwendungsfaelle</h2>
-    <ul>
-      <li><strong>Schweizer Marktanalyse.</strong> Mediane Angebotsmieten pro Kanton tracken und Monat-zu-Monat-Deltas fuer Zuerich, Genf, Bern, Lausanne, Basel berechnen</li>
-      <li><strong>Investment-Screening.</strong> Kaufinserate mit Mietrenditen derselben PLZ kreuzen, um unterbewertete Kantone zu finden</li>
-      <li><strong>Umzugs-Tools.</strong> Eine Consumer-App nach Kanton, Zimmerzahl und Minergie-Zertifizierung filtern</li>
-      <li><strong>Maklerakquise.</strong> Kontaktliste aller aktiven Makler und Agenturen in der Schweiz mit Telefon und Website aufbauen</li>
-      <li><strong>Vergleichende Marktanalyse.</strong> Taegliche Snapshots speisen Preisaenderungs- und Days-on-Market-Datensaetze fuer Bewertungsmodelle</li>
-    </ul>
+ <h2 class="section-title">Typische Anwendungsfaelle</h2>
+ <ul>
+ <li><strong>Schweizer Marktanalyse.</strong> Mediane Angebotsmieten pro Kanton tracken und Monat-zu-Monat-Deltas fuer Zuerich, Genf, Bern, Lausanne, Basel berechnen</li>
+ <li><strong>Investment-Screening.</strong> Kaufinserate mit Mietrenditen derselben PLZ kreuzen, um unterbewertete Kantone zu finden</li>
+ <li><strong>Umzugs-Tools.</strong> Eine Consumer-App nach Kanton, Zimmerzahl und Minergie-Zertifizierung filtern</li>
+ <li><strong>Maklerakquise.</strong> Kontaktliste aller aktiven Makler und Agenturen in der Schweiz mit Telefon und Website aufbauen</li>
+ <li><strong>Vergleichende Marktanalyse.</strong> Taegliche Snapshots speisen Preisaenderungs- und Days-on-Market-Datensaetze fuer Bewertungsmodelle</li>
+ </ul>
 
-    <h2 class="section-title">Preise</h2>
-    <ul>
-      <li><strong>Actor-Start:</strong> $0,001 pro Lauf</li>
-      <li><strong>Inserat gescrapt (SERP):</strong> $0,003 pro Ergebnis</li>
-      <li><strong>Detailseite (Maklerkontakte, Preis-Aufschluesselung):</strong> $0,008 pro Ergebnis</li>
-    </ul>
-    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Neu bei Apify?</strong> Jedes Konto erhaelt $5 monatliches Gratis-Plattformguthaben, genug fuer rund 1.600 SERP-Inserate oder 600 angereicherte Detail-Inserate, bevor Sie sich auf eine Zahlung festlegen.</p>
+ <h2 class="section-title">Preise</h2>
+ <ul>
+ <li><strong>Actor-Start:</strong> $0,001 pro Lauf</li>
+ <li><strong>Inserat gescrapt (SERP):</strong> $0,003 pro Ergebnis</li>
+ <li><strong>Detailseite (Maklerkontakte, Preis-Aufschluesselung):</strong> $0,008 pro Ergebnis</li>
+ </ul>
+ <p style="color:var(--muted); margin-bottom: 24px;"><strong>Neu bei Apify?</strong> Jedes Konto erhaelt $5 monatliches Gratis-Plattformguthaben, genug fuer rund 1.600 SERP-Inserate oder 600 angereicherte Detail-Inserate, bevor Sie sich auf eine Zahlung festlegen.</p>
 
-    <h2 class="section-title">API-Beispiel</h2>
-    <div class="code-block"><pre><span class="comment"># Einen Lauf ueber die Apify-API starten</span>
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf ueber die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~homegate-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": ["https://www.homegate.ch/mieten/immobilien/ort-zuerich/trefferliste"],
-    "maxResults": 100,
-    "includeDetails": false
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchUrls": ["https://www.homegate.ch/mieten/immobilien/ort-zuerich/trefferliste"],
+ "maxResults": 100,
+ "includeDetails": false
+ }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/homegate-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrationen</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier:</strong> Laeufe ausloesen und Inserate in Google Sheets, Airtable oder Ihr CRM uebergeben</li>
-      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js:</strong> Apify SDK fuer programmatischen Zugriff</li>
-      <li><strong>BI &amp; Warehouses:</strong> JSON in BigQuery, Postgres, Snowflake pushen fuer Bewertungspipelines</li>
-    </ul>
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier:</strong> Laeufe ausloesen und Inserate in Google Sheets, Airtable oder Ihr CRM uebergeben</li>
+ <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js:</strong> Apify SDK fuer programmatischen Zugriff</li>
+ <li><strong>BI &amp; Warehouses:</strong> JSON in BigQuery, Postgres, Snowflake pushen fuer Bewertungspipelines</li>
+ </ul>
 
-    <h2 class="section-title">Ausgabefelder (Beispiel)</h2>
-    <table class="compare-table">
-      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
-      <tr><td>title</td><td>string</td><td>3.5-Zimmer-Wohnung in Zuerich Enge</td></tr>
-      <tr><td>price</td><td>number</td><td>2225 (CHF)</td></tr>
-      <tr><td>price_net</td><td>number</td><td>2050</td></tr>
-      <tr><td>price_extra</td><td>number</td><td>175</td></tr>
-      <tr><td>rooms</td><td>number</td><td>3.5</td></tr>
-      <tr><td>area_sqm</td><td>number</td><td>78</td></tr>
-      <tr><td>canton</td><td>string</td><td>ZH</td></tr>
-      <tr><td>postal_code</td><td>string</td><td>8002</td></tr>
-      <tr><td>features</td><td>array</td><td>["Balkon", "Lift", "Minergie"]</td></tr>
-      <tr><td>agent_company</td><td>string</td><td>Walde &amp; Partner Immobilien AG</td></tr>
-    </table>
+ <h2 class="section-title">Ausgabefelder (Beispiel)</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+ <tr><td>title</td><td>string</td><td>3.5-Zimmer-Wohnung in Zuerich Enge</td></tr>
+ <tr><td>price</td><td>number</td><td>2225 (CHF)</td></tr>
+ <tr><td>price_net</td><td>number</td><td>2050</td></tr>
+ <tr><td>price_extra</td><td>number</td><td>175</td></tr>
+ <tr><td>rooms</td><td>number</td><td>3.5</td></tr>
+ <tr><td>area_sqm</td><td>number</td><td>78</td></tr>
+ <tr><td>canton</td><td>string</td><td>ZH</td></tr>
+ <tr><td>postal_code</td><td>string</td><td>8002</td></tr>
+ <tr><td>features</td><td>array</td><td>["Balkon", "Lift", "Minergie"]</td></tr>
+ <tr><td>agent_company</td><td>string</td><td>Walde &amp; Partner Immobilien AG</td></tr>
+ </table>
 
-    <h2 class="section-title">Verwandte Scraper</h2>
-    <ul>
-      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de Scraper</a>: deutsche Immobilien mit Warm-/Kaltmiete und Energieklasse</li>
-      <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a>: Niederlands Immobilienportal Nr. 1 mit energielabel</li>
-      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a>: belgische Immobilieninserate mit PEB-Energielabel</li>
-      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: finnische Immobilieninserate mit Zimmer-Konfiguration</li>
-      <li><a href="/actors/tutti-ch-scraper/">Tutti.ch Scraper</a>: Schweizer Kleinanzeigen fuer kanalueber greifende Marktsignale</li>
-    </ul>
+ <h2 class="section-title">Verwandte Scraper</h2>
+ <ul>
+ <li><a href="/actors/immowelt-de-scraper/">Immowelt.de Scraper</a>: deutsche Immobilien mit Warm-/Kaltmiete und Energieklasse</li>
+ <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a>: Niederlands Immobilienportal Nr. 1 mit energielabel</li>
+ <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a>: belgische Immobilieninserate mit PEB-Energielabel</li>
+ <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: finnische Immobilieninserate mit Zimmer-Konfiguration</li>
+ <li><a href="/actors/tutti-ch-scraper/">Tutti.ch Scraper</a>: Schweizer Kleinanzeigen fuer kanalueber greifende Marktsignale</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfuegbar)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/be3Av24vUFcXX6dfi/source?addFromActorId=be3Av24vUFcXX6dfi&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfuegbar)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

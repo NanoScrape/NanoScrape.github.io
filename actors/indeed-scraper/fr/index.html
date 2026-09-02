@@ -1,182 +1,182 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Indeed Scraper : 60+ pays, sans connexion | NanoScrape</title>
-  <meta name="description" content="Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entrepri">
-  <meta property="og:title" content="Indeed Scraper: 60+ pays, sans connexion | NanoScrape">
-  <meta property="og:description" content="Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entreprise, lieu, fourchette de salaire avec dev">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/indeed-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/indeed-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/indeed-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Indeed Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Scrape Indeed job listings across 60+ countries from indeed.com, indeed.de, indeed.co.uk, indeed.fr and more. Returns 50+ fields per job including title, company, location, salary range with currency, employment type, remote option, full description in text and HTML, company benefits, posted date, expiry date and apply URL. Two modes: Fast pulls the search list in 25 seconds for 100 jobs, Full enriches every job with company rating, CEO, industry, revenue, headquarters and happiness score.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.001",
-      "priceCurrency": "USD",
-      "description": "per job scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Indeed Scraper : 60+ pays, sans connexion | NanoScrape</title>
+ <meta name="description" content="Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entrepri">
+ <meta property="og:title" content="Indeed Scraper: 60+ pays, sans connexion | NanoScrape">
+ <meta property="og:description" content="Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entreprise, lieu, fourchette de salaire avec dev">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/indeed-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/indeed-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/indeed-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/indeed-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/indeed-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Indeed Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Scrape Indeed job listings across 60+ countries from indeed.com, indeed.de, indeed.co.uk, indeed.fr and more. Returns 50+ fields per job including title, company, location, salary range with currency, employment type, remote option, full description in text and HTML, company benefits, posted date, expiry date and apply URL. Two modes: Fast pulls the search list in 25 seconds for 100 jobs, Full enriches every job with company rating, CEO, industry, revenue, headquarters and happiness score.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.001",
+ "priceCurrency": "USD",
+ "description": "per job scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Indeed Scraper : 60+ pays, sans connexion</h1>
-    <p class="lead">Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entreprise, lieu, fourchette de salaire avec devise, type de contrat, option remote, description compl&egrave;te en texte et HTML, avantages, date de publication, date d'expiration et URL de candidature. Deux modes : Fast r&eacute;cup&egrave;re la liste de recherche en 25 secondes pour 100 offres, Full enrichit chaque offre avec note d'entreprise, CEO, secteur, chiffre d'affaires, si&egrave;ge et score de satisfaction.</p>
+ <div class="detail">
+ <h1>Indeed Scraper : 60+ pays, sans connexion</h1>
+ <p class="lead">Extrayez les offres d'emploi Indeed dans 60+ pays depuis indeed.com, indeed.de, indeed.co.uk, indeed.fr et plus. Retourne 50+ champs par offre : titre, entreprise, lieu, fourchette de salaire avec devise, type de contrat, option remote, description compl&egrave;te en texte et HTML, avantages, date de publication, date d'expiration et URL de candidature. Deux modes : Fast r&eacute;cup&egrave;re la liste de recherche en 25 secondes pour 100 offres, Full enrichit chaque offre avec note d'entreprise, CEO, secteur, chiffre d'affaires, si&egrave;ge et score de satisfaction.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Tarif</div><div class="value">$0.001/job</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Couverture</div><div class="value">60+ countries</div></div>
-      <div class="spec"><div class="label">Champs par offre</div><div class="value">10+</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS + IP rotation</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Tarif</div><div class="value">$0.001/job</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">60+ countries</div></div>
+ <div class="spec"><div class="label">Champs par offre</div><div class="value">10+</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div>
+ <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS + IP rotation</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous pouvez extraire</h2>
-    <ul>
-      <li><strong>Offres d'emploi :</strong> title, company, location, country, employment_type, remote_option, posted_at, expires_at</li>
-      <li><strong>Donn&eacute;es salariales :</strong> salary_min, salary_max, salary_currency, salary_period, salary_text</li>
-      <li><strong>Contenu complet de l'offre :</strong> description_full, description_html, description_snippet, requirements, company_benefits</li>
-      <li><strong>Enrichissement entreprise (mode Full) :</strong> note d'entreprise, CEO, secteur, chiffre d'affaires, si&egrave;ge, score de satisfaction, comp&eacute;tences</li>
-      <li><strong>Signaux de confiance :</strong> indicateur top_listing, job_status, company_logo_url, source_url, apply_url</li>
-    </ul>
+ <h2 class="section-title">Ce que vous pouvez extraire</h2>
+ <ul>
+ <li><strong>Offres d'emploi :</strong> title, company, location, country, employment_type, remote_option, posted_at, expires_at</li>
+ <li><strong>Donn&eacute;es salariales :</strong> salary_min, salary_max, salary_currency, salary_period, salary_text</li>
+ <li><strong>Contenu complet de l'offre :</strong> description_full, description_html, description_snippet, requirements, company_benefits</li>
+ <li><strong>Enrichissement entreprise (mode Full) :</strong> note d'entreprise, CEO, secteur, chiffre d'affaires, si&egrave;ge, score de satisfaction, comp&eacute;tences</li>
+ <li><strong>Signaux de confiance :</strong> indicateur top_listing, job_status, company_logo_url, source_url, apply_url</li>
+ </ul>
 
-    <h2 class="section-title">Cas d'usage principaux</h2>
-    <ul>
-      <li><strong>Cartographie du march&eacute; des talents.</strong> R&eacute;cup&eacute;rer 60+ pays de donn&eacute;es Indeed chaque semaine pour cartographier le volume de recrutement par ville, r&ocirc;le et senorit&eacute;</li>
-      <li><strong>G&eacute;n&eacute;ration de leads commerciaux.</strong> D&eacute;tecter les entreprises qui recrutent activement (signal fort de croissance) et alimenter le CRM</li>
-      <li><strong>Benchmark salarial.</strong> Agr&eacute;ger salary_min et salary_max par r&eacute;gion pour calibrer les offres par rapport au march&eacute;</li>
-      <li><strong>Alimentation d'agr&eacute;gateur ATS.</strong> Utiliser le mode Full pour importer description_html et l'enrichissement entreprise dans votre propre job board</li>
-    </ul>
+ <h2 class="section-title">Cas d'usage principaux</h2>
+ <ul>
+ <li><strong>Cartographie du march&eacute; des talents.</strong> R&eacute;cup&eacute;rer 60+ pays de donn&eacute;es Indeed chaque semaine pour cartographier le volume de recrutement par ville, r&ocirc;le et senorit&eacute;</li>
+ <li><strong>G&eacute;n&eacute;ration de leads commerciaux.</strong> D&eacute;tecter les entreprises qui recrutent activement (signal fort de croissance) et alimenter le CRM</li>
+ <li><strong>Benchmark salarial.</strong> Agr&eacute;ger salary_min et salary_max par r&eacute;gion pour calibrer les offres par rapport au march&eacute;</li>
+ <li><strong>Alimentation d'agr&eacute;gateur ATS.</strong> Utiliser le mode Full pour importer description_html et l'enrichissement entreprise dans votre propre job board</li>
+ </ul>
 
-    <h2 class="section-title">Exemple d'API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer une ex&eacute;cution via l'API Apify</span>
+ <h2 class="section-title">Exemple d'API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer une ex&eacute;cution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~indeed-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["software engineer"],
-    "country": "de",
-    "maxResultsPerQuery": 50,
-    "mode": "fast"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["software engineer"],
+ "country": "de",
+ "maxResultsPerQuery": 50,
+ "mode": "fast"
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/indeed-scraper</span></pre></div>
 
-    <h2 class="section-title">Int&eacute;grations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> d&eacute;clencher des ex&eacute;cutions et traiter les offres via webhook</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'acc&egrave;s programmatique</li>
-      <li><strong>Google Sheets, Airtable :</strong> requ&ecirc;tes en entr&eacute;e, offres structur&eacute;es en sortie</li>
-    </ul>
+ <h2 class="section-title">Int&eacute;grations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> d&eacute;clencher des ex&eacute;cutions et traiter les offres via webhook</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'acc&egrave;s programmatique</li>
+ <li><strong>Google Sheets, Airtable :</strong> requ&ecirc;tes en entr&eacute;e, offres structur&eacute;es en sortie</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>title</td><td>string</td><td>Senior Software Engineer</td></tr>
-      <tr><td>company</td><td>string</td><td>Zalando SE</td></tr>
-      <tr><td>location</td><td>string</td><td>Berlin, Germany</td></tr>
-      <tr><td>salary_text</td><td>string</td><td>60.000 - 80.000 EUR per year</td></tr>
-      <tr><td>employment_type</td><td>string</td><td>Full-time</td></tr>
-      <tr><td>remote_option</td><td>string</td><td>Hybrid</td></tr>
-      <tr><td>description_full</td><td>string</td><td>We are looking for...</td></tr>
-      <tr><td>company_benefits</td><td>string[]</td><td>["Health insurance","Stock options"]</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-06-10</td></tr>
-      <tr><td>apply_url</td><td>string</td><td>https://indeed.com/viewjob?jk=...</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>title</td><td>string</td><td>Senior Software Engineer</td></tr>
+ <tr><td>company</td><td>string</td><td>Zalando SE</td></tr>
+ <tr><td>location</td><td>string</td><td>Berlin, Germany</td></tr>
+ <tr><td>salary_text</td><td>string</td><td>60.000 - 80.000 EUR per year</td></tr>
+ <tr><td>employment_type</td><td>string</td><td>Full-time</td></tr>
+ <tr><td>remote_option</td><td>string</td><td>Hybrid</td></tr>
+ <tr><td>description_full</td><td>string</td><td>We are looking for...</td></tr>
+ <tr><td>company_benefits</td><td>string[]</td><td>["Health insurance","Stock options"]</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-06-10</td></tr>
+ <tr><td>apply_url</td><td>string</td><td>https://indeed.com/viewjob?jk=...</td></tr>
+ </table>
 
-    <h2 class="section-title">Scrapers associ&eacute;s</h2>
-    <ul>
-      <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper</a>: offres globales via l'API invit&eacute; LinkedIn, sans connexion</li>
-      <li><a href="/actors/stepstone-de-scraper/">StepStone.de Scraper</a>: le job board leader en Allemagne avec salaire et avantages</li>
-      <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: directement depuis 16 ATS (Lever, Greenhouse, Workday)</li>
-    </ul>
+ <h2 class="section-title">Scrapers associ&eacute;s</h2>
+ <ul>
+ <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper</a>: offres globales via l'API invit&eacute; LinkedIn, sans connexion</li>
+ <li><a href="/actors/stepstone-de-scraper/">StepStone.de Scraper</a>: le job board leader en Allemagne avec salaire et avantages</li>
+ <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: directement depuis 16 ATS (Lever, Greenhouse, Workday)</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/indeed-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/DcNRjqpfo7uDHUnwh/source?addFromActorId=DcNRjqpfo7uDHUnwh&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

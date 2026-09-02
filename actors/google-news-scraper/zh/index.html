@@ -1,155 +1,155 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Google News 抓取器：文章、来源、发布日期 $1/千 | NanoScrape</title>
-  <meta name="description" content="按任意搜索查询抓取 Google News 新闻文章。返回文章标题、出版商名称、出版商 URL、文章直链、发布日期与搜索查询。按国家与语言过滤。$0.001/文章。HTTP-only Go。">
-  <meta property="og:title" content="Google News 抓取器：文章 + 来源 + 日期 | NanoScrape">
-  <meta property="og:description" content="Google News 文章抓取器。标题、出版商、URL、发布日期、国家与语言过滤。$0.001/文章。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-news-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-news-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-news-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Google News 抓取器：文章、来源、发布日期 $1/千","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"HTTP-only Google News 抓取器。返回文章标题、出版商名称、出版商 URL、文章直链、RFC 2822 发布日期、搜索查询。按国家与语言过滤。支持多查询。","offers":{"@type":"Offer","price":"0.001","priceCurrency":"USD","description":"每文章"},"url":"https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Google News 抓取器：文章、来源、发布日期 $1/千 | NanoScrape</title>
+ <meta name="description" content="按任意搜索查询抓取 Google News 新闻文章。返回文章标题、出版商名称、出版商 URL、文章直链、发布日期与搜索查询。按国家与语言过滤。$0.001/文章。HTTP-only Go。">
+ <meta property="og:title" content="Google News 抓取器：文章 + 来源 + 日期 | NanoScrape">
+ <meta property="og:description" content="Google News 文章抓取器。标题、出版商、URL、发布日期、国家与语言过滤。$0.001/文章。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-news-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-news-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-news-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/google-news-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-news-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Google News 抓取器：文章、来源、发布日期 $1/千","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"HTTP-only Google News 抓取器。返回文章标题、出版商名称、出版商 URL、文章直链、RFC 2822 发布日期、搜索查询。按国家与语言过滤。支持多查询。","offers":{"@type":"Offer","price":"0.001","priceCurrency":"USD","description":"每文章"},"url":"https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Google News 抓取器：文章、来源与发布日期</h1>
-    <p class="lead">按任意搜索查询抓取 Google News 新闻文章。返回干净结构化数据：文章标题（去除来源后缀）、出版商名称、出版商 URL、文章直链、RFC 2822 格式发布日期，以及匹配该文章的搜索查询。按国家与语言过滤。HTTP-only Go 二进制，无浏览器。</p>
+ <div class="detail">
+ <h1>Google News 抓取器：文章、来源与发布日期</h1>
+ <p class="lead">按任意搜索查询抓取 Google News 新闻文章。返回干净结构化数据：文章标题（去除来源后缀）、出版商名称、出版商 URL、文章直链、RFC 2822 格式发布日期，以及匹配该文章的搜索查询。按国家与语言过滤。HTTP-only Go 二进制，无浏览器。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">定价</div><div class="value">$0.001/文章</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">引擎</div><div class="value">HTTP-only Go</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">全球 100+ 国家</div></div>
-      <div class="spec"><div class="label">语言</div><div class="value">Google News 全部</div></div>
-      <div class="spec"><div class="label">格式</div><div class="value">RFC 2822 日期</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">定价</div><div class="value">$0.001/文章</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">引擎</div><div class="value">HTTP-only Go</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">全球 100+ 国家</div></div>
+ <div class="spec"><div class="label">语言</div><div class="value">Google News 全部</div></div>
+ <div class="spec"><div class="label">格式</div><div class="value">RFC 2822 日期</div></div>
+ </div>
 
-    <h2 class="section-title">可提取内容</h2>
-    <ul>
-      <li><strong>文章标题：</strong>已清理，去除 Google News 附加的来源后缀</li>
-      <li><strong>出版商：</strong>来源名称（Reuters、CNN、TechCrunch 等）与 publisher_url</li>
-      <li><strong>文章 URL：</strong>已发布文章的直链（非 Google News 重定向）</li>
-      <li><strong>发布日期：</strong>RFC 2822 格式，可直接由任何 datetime 库解析</li>
-      <li><strong>搜索查询：</strong>命中的查询，多查询批处理时有用</li>
-      <li><strong>过滤：</strong>语言代码（en、de、fr 等）与国家代码用于区域结果</li>
-    </ul>
+ <h2 class="section-title">可提取内容</h2>
+ <ul>
+ <li><strong>文章标题：</strong>已清理，去除 Google News 附加的来源后缀</li>
+ <li><strong>出版商：</strong>来源名称（Reuters、CNN、TechCrunch 等）与 publisher_url</li>
+ <li><strong>文章 URL：</strong>已发布文章的直链（非 Google News 重定向）</li>
+ <li><strong>发布日期：</strong>RFC 2822 格式，可直接由任何 datetime 库解析</li>
+ <li><strong>搜索查询：</strong>命中的查询，多查询批处理时有用</li>
+ <li><strong>过滤：</strong>语言代码（en、de、fr 等）与国家代码用于区域结果</li>
+ </ul>
 
-    <h2 class="section-title">主要用例</h2>
-    <ul>
-      <li><strong>媒体监控。</strong>跨出版商跟踪品牌提及、竞品新闻与行业发展</li>
-      <li><strong>情感分析。</strong>将干净标题送入 NLP 管线进行市场情感评分</li>
-      <li><strong>趋势检测。</strong>通过每周文章计数在主流化之前识别新兴话题</li>
-      <li><strong>内容聚合。</strong>构建新闻源、高管摘要或话题仪表板</li>
-      <li><strong>学术研究。</strong>跨国分析媒体报道模式与新闻框架</li>
-      <li><strong>SEO 与 AEO 研究。</strong>查看 Google 新闻生态中哪些来源为您的目标话题排名</li>
-    </ul>
+ <h2 class="section-title">主要用例</h2>
+ <ul>
+ <li><strong>媒体监控。</strong>跨出版商跟踪品牌提及、竞品新闻与行业发展</li>
+ <li><strong>情感分析。</strong>将干净标题送入 NLP 管线进行市场情感评分</li>
+ <li><strong>趋势检测。</strong>通过每周文章计数在主流化之前识别新兴话题</li>
+ <li><strong>内容聚合。</strong>构建新闻源、高管摘要或话题仪表板</li>
+ <li><strong>学术研究。</strong>跨国分析媒体报道模式与新闻框架</li>
+ <li><strong>SEO 与 AEO 研究。</strong>查看 Google 新闻生态中哪些来源为您的目标话题排名</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># Search Google News for any keyword</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># Search Google News for any keyword</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-news-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["artificial intelligence", "climate change"],
-    "language": "en",
-    "country": "US",
-    "maxResults": 100,
-    "maxResultsPerQuery": 50
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["artificial intelligence", "climate change"],
+ "language": "en",
+ "country": "US",
+ "maxResults": 100,
+ "maxResultsPerQuery": 50
+ }'
 
 <span class="comment"># Or use with AI agents via MCP:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/google-news-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>触发搜索并将文章路由至 Slack、邮件或 BI</li>
-      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
-      <li><strong>Google Sheets、Airtable、BigQuery：</strong>查询列表输入，文章记录输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>触发搜索并将文章路由至 Slack、邮件或 BI</li>
+ <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
+ <li><strong>Google Sheets、Airtable、BigQuery：</strong>查询列表输入，文章记录输出</li>
+ </ul>
 
-    <h2 class="section-title">输出示例</h2>
-    <div class="code-block"><pre>{
-  "title": "OpenAI Announces New GPT Model with Multimodal Capabilities",
-  "source": "Reuters",
-  "publisher_url": "https://www.reuters.com",
-  "url": "https://www.reuters.com/technology/openai-announces-new-gpt-model-...",
-  "published_at": "Thu, 12 Jun 2026 14:30:00 +0000",
-  "search_query": "artificial intelligence"
+ <h2 class="section-title">输出示例</h2>
+ <div class="code-block"><pre>{
+ "title": "OpenAI Announces New GPT Model with Multimodal Capabilities",
+ "source": "Reuters",
+ "publisher_url": "https://www.reuters.com",
+ "url": "https://www.reuters.com/technology/openai-announces-new-gpt-model-...",
+ "published_at": "Thu, 12 Jun 2026 14:30:00 +0000",
+ "search_query": "artificial intelligence"
 }</pre></div>
 
-    <h2 class="section-title">相关 Actor</h2>
-    <ul>
-      <li><a href="/actors/google-search-scraper/zh/">Google 搜索抓取器</a>：完整 SERP，含自然结果、广告、PAA 与 AI Overview</li>
-      <li><a href="/actors/rss-feed-reader/zh/">RSS Feed Reader</a>：补充性 RSS/Atom/JSON Feed 收集</li>
-      <li><a href="/actors/wikipedia-scraper/zh/">Wikipedia 抓取器</a>：在突发新闻旁提供百科上下文</li>
-    </ul>
+ <h2 class="section-title">相关 Actor</h2>
+ <ul>
+ <li><a href="/actors/google-search-scraper/zh/">Google 搜索抓取器</a>：完整 SERP，含自然结果、广告、PAA 与 AI Overview</li>
+ <li><a href="/actors/rss-feed-reader/zh/">RSS Feed Reader</a>：补充性 RSS/Atom/JSON Feed 收集</li>
+ <li><a href="/actors/wikipedia-scraper/zh/">Wikipedia 抓取器</a>：在突发新闻旁提供百科上下文</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/jLdZ9aDCz8EEqMxLi/source?addFromActorId=jLdZ9aDCz8EEqMxLi&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

@@ -1,196 +1,196 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Immoweb.be 抓取器：比利时房产，PEB 能源 | NanoScrape</title>
-  <meta name="description" content="抓取 Immoweb.be 在弗拉芒大区、瓦隆大区与布鲁塞尔的房源。返回 EUR 价格、地址、GPS、卧室、居住面积、PEB 能源等级（A++ 至 G）、供暖方式、建造年份、中介电话与邮箱。EN、FR、NL。无需登录。每 1,000 条 $3 起。">
-  <meta property="og:title" content="Immoweb.be 抓取器：比利时房产 | NanoScrape">
-  <meta property="og:description" content="从 Immoweb.be 提取比利时房产数据。EUR 价格、地址、PEB 标签、地区、中介电话/邮箱。按结果付费。无需登录。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Immoweb.be Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "针对 Immoweb.be 的比利时房产抓取器，比利时头号门户，覆盖弗拉芒大区、瓦隆大区与布鲁塞尔的 30 万+ 活跃房源。返回 EUR 价格、price_per_m2、含 4 位邮编的完整地址、GPS 坐标、卧室数、浴室数、居住面积、土地面积、建造年份、PEB 能源等级（A++ 至 G）、供暖方式、建造状况、中介联系方式（电话、邮箱、网站）以及完整图片库。多语言（EN、FR、NL）。HTTP-only，128MB 内存。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Immoweb.be 抓取器：比利时房产，PEB 能源 | NanoScrape</title>
+ <meta name="description" content="抓取 Immoweb.be 在弗拉芒大区、瓦隆大区与布鲁塞尔的房源。返回 EUR 价格、地址、GPS、卧室、居住面积、PEB 能源等级（A++ 至 G）、供暖方式、建造年份、中介电话与邮箱。EN、FR、NL。无需登录。每 1,000 条 $3 起。">
+ <meta property="og:title" content="Immoweb.be 抓取器：比利时房产 | NanoScrape">
+ <meta property="og:description" content="从 Immoweb.be 提取比利时房产数据。EUR 价格、地址、PEB 标签、地区、中介电话/邮箱。按结果付费。无需登录。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Immoweb.be Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "针对 Immoweb.be 的比利时房产抓取器，比利时头号门户，覆盖弗拉芒大区、瓦隆大区与布鲁塞尔的 30 万+ 活跃房源。返回 EUR 价格、price_per_m2、含 4 位邮编的完整地址、GPS 坐标、卧室数、浴室数、居住面积、土地面积、建造年份、PEB 能源等级（A++ 至 G）、供暖方式、建造状况、中介联系方式（电话、邮箱、网站）以及完整图片库。多语言（EN、FR、NL）。HTTP-only，128MB 内存。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Immoweb.be 抓取器：比利时房产，PEB 能源，3 大区</h1>
-    <p class="lead">抓取 Immoweb.be 上的每一条房源，比利时头号房产门户，覆盖弗拉芒大区、瓦隆大区与布鲁塞尔的 30 万+ 活跃房源。返回 EUR 挂牌价、price_per_m2、含 4 位邮编的完整地址、GPS 坐标、卧室数、浴室数、居住面积、土地面积、建造年份、PEB 能源等级（A++ 至 G）、供暖方式、建造状况、中介联系方式（电话、邮箱、网站）以及原分辨率完整图片库。可按 EN、FR、NL 三种语言抓取。</p>
+ <div class="detail">
+ <h1>Immoweb.be 抓取器：比利时房产，PEB 能源，3 大区</h1>
+ <p class="lead">抓取 Immoweb.be 上的每一条房源，比利时头号房产门户，覆盖弗拉芒大区、瓦隆大区与布鲁塞尔的 30 万+ 活跃房源。返回 EUR 挂牌价、price_per_m2、含 4 位邮编的完整地址、GPS 坐标、卧室数、浴室数、居住面积、土地面积、建造年份、PEB 能源等级（A++ 至 G）、供暖方式、建造状况、中介联系方式（电话、邮箱、网站）以及原分辨率完整图片库。可按 EN、FR、NL 三种语言抓取。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k SERP</div></div>
-      <div class="spec"><div class="label">详情价</div><div class="value">$8 / 1k</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">全比利时</div></div>
-      <div class="spec"><div class="label">房源池</div><div class="value">30万+</div></div>
-      <div class="spec"><div class="label">语言</div><div class="value">EN / FR / NL</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k SERP</div></div>
+ <div class="spec"><div class="label">详情价</div><div class="value">$8 / 1k</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">全比利时</div></div>
+ <div class="spec"><div class="label">房源池</div><div class="value">30万+</div></div>
+ <div class="spec"><div class="label">语言</div><div class="value">EN / FR / NL</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>价格：</strong>price（EUR 挂牌价或租金）、price_per_m2、price_currency、transaction_type（出售或出租）</li>
-      <li><strong>户型：</strong>bedrooms、bathrooms、rooms、living_area_m2、plot_size_m2、year_built、property_type</li>
-      <li><strong>位置：</strong>address、street、city、postal_code（4 位）、region（弗拉芒、瓦隆、布鲁塞尔）、latitude、longitude</li>
-      <li><strong>比利时能源：</strong>energy_label（PEB A++ 至 G）、heating_type（燃气、柴油、电力、热泵）、construction_type</li>
-      <li><strong>设施：</strong>数组（花园、露台、泳池、电梯、地下室、双层玻璃、热泵、光伏）</li>
-      <li><strong>中介：</strong>agent_name、agent_phone、agent_email、agent_url、agency_name</li>
-      <li><strong>媒体：</strong>property_image_url、photos（完整画廊，30+ 张）、完整 description</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>价格：</strong>price（EUR 挂牌价或租金）、price_per_m2、price_currency、transaction_type（出售或出租）</li>
+ <li><strong>户型：</strong>bedrooms、bathrooms、rooms、living_area_m2、plot_size_m2、year_built、property_type</li>
+ <li><strong>位置：</strong>address、street、city、postal_code（4 位）、region（弗拉芒、瓦隆、布鲁塞尔）、latitude、longitude</li>
+ <li><strong>比利时能源：</strong>energy_label（PEB A++ 至 G）、heating_type（燃气、柴油、电力、热泵）、construction_type</li>
+ <li><strong>设施：</strong>数组（花园、露台、泳池、电梯、地下室、双层玻璃、热泵、光伏）</li>
+ <li><strong>中介：</strong>agent_name、agent_phone、agent_email、agent_url、agency_name</li>
+ <li><strong>媒体：</strong>property_image_url、photos（完整画廊，30+ 张）、完整 description</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>比利时市场分析。</strong>按大区追踪布鲁塞尔、安特卫普、根特、列日、沙勒罗瓦的中位挂牌价</li>
-      <li><strong>租金回报率计算。</strong>对同一邮编下的售/租房源做交叉，计算资本化率</li>
-      <li><strong>PEB 感知估值。</strong>按 PEB 等级计算每平米价差，是比利时绿色贷款与可持续性研究的关键</li>
-      <li><strong>机构拓客。</strong>提取每家比利时活跃机构的电话与邮箱，用于 B2B 触达</li>
-      <li><strong>搬迁工具。</strong>为多语言（EN/FR/NL）消费者应用按地区和设施过滤提供数据</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>比利时市场分析。</strong>按大区追踪布鲁塞尔、安特卫普、根特、列日、沙勒罗瓦的中位挂牌价</li>
+ <li><strong>租金回报率计算。</strong>对同一邮编下的售/租房源做交叉，计算资本化率</li>
+ <li><strong>PEB 感知估值。</strong>按 PEB 等级计算每平米价差，是比利时绿色贷款与可持续性研究的关键</li>
+ <li><strong>机构拓客。</strong>提取每家比利时活跃机构的电话与邮箱，用于 B2B 触达</li>
+ <li><strong>搬迁工具。</strong>为多语言（EN/FR/NL）消费者应用按地区和设施过滤提供数据</li>
+ </ul>
 
-    <h2 class="section-title">定价</h2>
-    <ul>
-      <li><strong>Actor 启动：</strong>每次运行 $0.001</li>
-      <li><strong>搜索结果（SERP）：</strong>每条房源 $0.003</li>
-      <li><strong>完整详情（描述、全部图片、PEB、中介联系方式）：</strong>每条房源 $0.008</li>
-    </ul>
-    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度，相当于在付费之前可抓取约 1,600 条 SERP 房源或 600 条带详情的房源。</p>
+ <h2 class="section-title">定价</h2>
+ <ul>
+ <li><strong>Actor 启动：</strong>每次运行 $0.001</li>
+ <li><strong>搜索结果（SERP）：</strong>每条房源 $0.003</li>
+ <li><strong>完整详情（描述、全部图片、PEB、中介联系方式）：</strong>每条房源 $0.008</li>
+ </ul>
+ <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度，相当于在付费之前可抓取约 1,600 条 SERP 房源或 600 条带详情的房源。</p>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~immoweb-be-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "propertyType": "house",
-    "transactionType": "for-sale",
-    "city": "brussels",
-    "language": "en",
-    "maxResults": 100,
-    "includeDetails": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "propertyType": "house",
+ "transactionType": "for-sale",
+ "city": "brussels",
+ "language": "en",
+ "maxResults": 100,
+ "includeDetails": true
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/immoweb-be-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>触发运行并将比利时房源送入 Google Sheets、Airtable 或您的 CRM</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 PEB 感知的估值流水线</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>触发运行并将比利时房源送入 Google Sheets、Airtable 或您的 CRM</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 PEB 感知的估值流水线</li>
+ </ul>
 
-    <h2 class="section-title">输出字段（示例）</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>VILLA 4F - 3CH - PISCINE</td></tr>
-      <tr><td>price</td><td>number</td><td>549000 (EUR)</td></tr>
-      <tr><td>price_per_m2</td><td>number</td><td>3155</td></tr>
-      <tr><td>bedrooms</td><td>integer</td><td>3</td></tr>
-      <tr><td>living_area_m2</td><td>number</td><td>174</td></tr>
-      <tr><td>plot_size_m2</td><td>number</td><td>845</td></tr>
-      <tr><td>postal_code</td><td>string</td><td>4450</td></tr>
-      <tr><td>region</td><td>string</td><td>Wallonie</td></tr>
-      <tr><td>energy_label</td><td>string</td><td>C</td></tr>
-      <tr><td>agent_email</td><td>string</td><td>roufousse@example.be</td></tr>
-    </table>
+ <h2 class="section-title">输出字段（示例）</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>title</td><td>string</td><td>VILLA 4F - 3CH - PISCINE</td></tr>
+ <tr><td>price</td><td>number</td><td>549000 (EUR)</td></tr>
+ <tr><td>price_per_m2</td><td>number</td><td>3155</td></tr>
+ <tr><td>bedrooms</td><td>integer</td><td>3</td></tr>
+ <tr><td>living_area_m2</td><td>number</td><td>174</td></tr>
+ <tr><td>plot_size_m2</td><td>number</td><td>845</td></tr>
+ <tr><td>postal_code</td><td>string</td><td>4450</td></tr>
+ <tr><td>region</td><td>string</td><td>Wallonie</td></tr>
+ <tr><td>energy_label</td><td>string</td><td>C</td></tr>
+ <tr><td>agent_email</td><td>string</td><td>roufousse@example.be</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与 Minergie</li>
-      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含 Warmmiete 与能源等级</li>
-      <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号门户，含 energielabel</li>
-      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi 抓取器</a>：芬兰房产，含房间配置</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与 Minergie</li>
+ <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含 Warmmiete 与能源等级</li>
+ <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号门户，含 energielabel</li>
+ <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi 抓取器</a>：芬兰房产，含房间配置</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

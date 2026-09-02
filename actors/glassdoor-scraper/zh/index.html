@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glassdoor 抓取器：评价、职位、薪资、面试 | NanoScrape</title>
-  <meta name="description" content="抓取 Glassdoor 评价、职位、薪资、面试体验、概览和福利。返回评分、CEO 批准率、优点、缺点、按岗位薪资、面试难度。按结果付费。">
-  <meta property="og:title" content="Glassdoor 抓取器：评价 + 职位 + 薪资 | NanoScrape">
-  <meta property="og:description" content="从 Glassdoor 提取雇主评价、职位、薪资和面试数据。6 种抓取模式。每条结果起价 $0.003。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/glassdoor-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Glassdoor Scraper",
-    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
-    "description": "Glassdoor 雇主评价抓取器。6 种模式：评价、职位、薪资、面试、概览、福利。返回评分、CEO 批准率、优点、缺点、按岗位薪资、面试难度。",
-    "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per result" },
-    "url": "https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Glassdoor 抓取器：评价、职位、薪资、面试 | NanoScrape</title>
+ <meta name="description" content="抓取 Glassdoor 评价、职位、薪资、面试体验、概览和福利。返回评分、CEO 批准率、优点、缺点、按岗位薪资、面试难度。按结果付费。">
+ <meta property="og:title" content="Glassdoor 抓取器：评价 + 职位 + 薪资 | NanoScrape">
+ <meta property="og:description" content="从 Glassdoor 提取雇主评价、职位、薪资和面试数据。6 种抓取模式。每条结果起价 $0.003。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/glassdoor-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Glassdoor Scraper",
+ "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+ "description": "Glassdoor 雇主评价抓取器。6 种模式：评价、职位、薪资、面试、概览、福利。返回评分、CEO 批准率、优点、缺点、按岗位薪资、面试难度。",
+ "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per result" },
+ "url": "https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Glassdoor 抓取器：评价、职位、薪资、面试</h1>
-    <p class="lead">从 Glassdoor 提取雇主数据，这是全球最大的雇主评价平台，覆盖美国、欧洲及全球。一个 Actor 内置六种抓取模式：评价（评分、优点、缺点、雇佣状态、岗位、日期）、职位（开放岗位、薪资估算、描述）、薪资（按岗位基本与总薪）、面试（问题、难度、结果）、概览（评分、规模、CEO、总部）和福利（按评分的员工福利）。我们只提取公开可见的 Glassdoor 页面，不绕过登录。</p>
+ <div class="detail">
+ <h1>Glassdoor 抓取器：评价、职位、薪资、面试</h1>
+ <p class="lead">从 Glassdoor 提取雇主数据，这是全球最大的雇主评价平台，覆盖美国、欧洲及全球。一个 Actor 内置六种抓取模式：评价（评分、优点、缺点、雇佣状态、岗位、日期）、职位（开放岗位、薪资估算、描述）、薪资（按岗位基本与总薪）、面试（问题、难度、结果）、概览（评分、规模、CEO、总部）和福利（按评分的员工福利）。我们只提取公开可见的 Glassdoor 页面，不绕过登录。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$3/1000 结果</div></div>
-      <div class="spec"><div class="label">概览</div><div class="value">$5/1000 家</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
-      <div class="spec"><div class="label">模式</div><div class="value">6 种（评价、职位等）</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">住宅代理</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$3/1000 结果</div></div>
+ <div class="spec"><div class="label">概览</div><div class="value">$5/1000 家</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+ <div class="spec"><div class="label">模式</div><div class="value">6 种（评价、职位等）</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">代理</div><div class="value">住宅代理</div></div>
+ </div>
 
-    <h2 class="section-title">可以抓取的内容</h2>
-    <ul>
-      <li><strong>评价：</strong>review_title、rating、pros、cons、job_title、employment_status、review_date、recommend、ceo_approval</li>
-      <li><strong>职位：</strong>title、location、salary_estimate、description、posted_date</li>
-      <li><strong>薪资：</strong>job_title、base_pay、total_pay、count</li>
-      <li><strong>面试：</strong>问题、难度、结果、流程</li>
-      <li><strong>概览：</strong>rating、规模、行业、CEO、headquarters、成立年份</li>
-      <li><strong>福利：</strong>福利名称、评分、描述</li>
-    </ul>
+ <h2 class="section-title">可以抓取的内容</h2>
+ <ul>
+ <li><strong>评价：</strong>review_title、rating、pros、cons、job_title、employment_status、review_date、recommend、ceo_approval</li>
+ <li><strong>职位：</strong>title、location、salary_estimate、description、posted_date</li>
+ <li><strong>薪资：</strong>job_title、base_pay、total_pay、count</li>
+ <li><strong>面试：</strong>问题、难度、结果、流程</li>
+ <li><strong>概览：</strong>rating、规模、行业、CEO、headquarters、成立年份</li>
+ <li><strong>福利：</strong>福利名称、评分、描述</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>HR 基准。</strong>追踪竞争对手薪酬、评分和 CEO 批准率随时间的变化，以指导留任策略</li>
-      <li><strong>竞争情报。</strong>按竞争对手和市场映射开放岗位、薪资和评价情绪</li>
-      <li><strong>并购尽调。</strong>对目标提取聚合员工情绪、领导力信号和薪资区间数据</li>
-      <li><strong>人才寻源。</strong>查找在特定城市招聘特定岗位的公司，附带薪资估算</li>
-      <li><strong>投资人研究。</strong>使用评价数量漂移和 CEO 批准率作为组织健康的代理信号</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>HR 基准。</strong>追踪竞争对手薪酬、评分和 CEO 批准率随时间的变化，以指导留任策略</li>
+ <li><strong>竞争情报。</strong>按竞争对手和市场映射开放岗位、薪资和评价情绪</li>
+ <li><strong>并购尽调。</strong>对目标提取聚合员工情绪、领导力信号和薪资区间数据</li>
+ <li><strong>人才寻源。</strong>查找在特定城市招聘特定岗位的公司，附带薪资估算</li>
+ <li><strong>投资人研究。</strong>使用评价数量漂移和 CEO 批准率作为组织健康的代理信号</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动任务</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动任务</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "startUrls": ["https://www.glassdoor.com/Reviews/SAP-Reviews-E10471.htm"],
-    "mode": "reviews",
-    "maxResults": 100
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "startUrls": ["https://www.glassdoor.com/Reviews/SAP-Reviews-E10471.htm"],
+ "mode": "reviews",
+ "maxResults": 100
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 智能体一起使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 webhook 触发任务并处理评价或薪资记录</li>
-      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行程序化访问</li>
-      <li><strong>BigQuery、Snowflake、Tableau：</strong>将评价和薪资数据集推入分析仓库</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 webhook 触发任务并处理评价或薪资记录</li>
+ <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行程序化访问</li>
+ <li><strong>BigQuery、Snowflake、Tableau：</strong>将评价和薪资数据集推入分析仓库</li>
+ </ul>
 
-    <h2 class="section-title">输出字段（评价模式）</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>company_name</td><td>string</td><td>SAP</td></tr>
-      <tr><td>review_title</td><td>string</td><td>Great work-life balance</td></tr>
-      <tr><td>rating</td><td>integer</td><td>4</td></tr>
-      <tr><td>pros</td><td>string</td><td>Flexible hours, good benefits</td></tr>
-      <tr><td>cons</td><td>string</td><td>Slow decision making</td></tr>
-      <tr><td>job_title</td><td>string</td><td>Software Engineer</td></tr>
-      <tr><td>employment_status</td><td>string</td><td>Current Employee</td></tr>
-      <tr><td>review_date</td><td>string</td><td>2026-03-15</td></tr>
-      <tr><td>recommend</td><td>boolean</td><td>true</td></tr>
-      <tr><td>ceo_approval</td><td>boolean</td><td>true</td></tr>
-    </table>
+ <h2 class="section-title">输出字段（评价模式）</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>company_name</td><td>string</td><td>SAP</td></tr>
+ <tr><td>review_title</td><td>string</td><td>Great work-life balance</td></tr>
+ <tr><td>rating</td><td>integer</td><td>4</td></tr>
+ <tr><td>pros</td><td>string</td><td>Flexible hours, good benefits</td></tr>
+ <tr><td>cons</td><td>string</td><td>Slow decision making</td></tr>
+ <tr><td>job_title</td><td>string</td><td>Software Engineer</td></tr>
+ <tr><td>employment_status</td><td>string</td><td>Current Employee</td></tr>
+ <tr><td>review_date</td><td>string</td><td>2026-03-15</td></tr>
+ <tr><td>recommend</td><td>boolean</td><td>true</td></tr>
+ <tr><td>ceo_approval</td><td>boolean</td><td>true</td></tr>
+ </table>
 
-    <h2 class="section-title">注意与限制</h2>
-    <ul>
-      <li><strong>仅公开数据。</strong>Glassdoor 在条款中包含反抓取声明。我们只提取公开可见的评价、职位和薪资页面，不绕过登录，不访问私有数据</li>
-      <li><strong>推荐使用住宅代理。</strong>Glassdoor 会激进限速数据中心 IP。Actor 默认使用 Apify 住宅代理并匹配国家</li>
-      <li><strong>URL 格式重要。</strong>每种模式需要对应的 Glassdoor URL 模板（Reviews-E{id}、Jobs-E{id}、Salary-E{id}、Interview-Questions-E{id}、EI_IE{id}）</li>
-    </ul>
+ <h2 class="section-title">注意与限制</h2>
+ <ul>
+ <li><strong>仅公开数据。</strong>Glassdoor 在条款中包含反抓取声明。我们只提取公开可见的评价、职位和薪资页面，不绕过登录，不访问私有数据</li>
+ <li><strong>推荐使用住宅代理。</strong>Glassdoor 会激进限速数据中心 IP。Actor 默认使用 Apify 住宅代理并匹配国家</li>
+ <li><strong>URL 格式重要。</strong>每种模式需要对应的 Glassdoor URL 模板（Reviews-E{id}、Jobs-E{id}、Salary-E{id}、Interview-Questions-E{id}、EI_IE{id}）</li>
+ </ul>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/kununu-de-scraper/">Kununu 抓取器</a>：DACH 雇主评价 + 薪资</li>
-      <li><a href="/actors/trustpilot-scraper/">Trustpilot 抓取器</a>：全球消费者商家评价</li>
-      <li><a href="/actors/linkedin-scraper/">LinkedIn 抓取器</a>：公司资料字段与人数</li>
-      <li><a href="/actors/indeed-scraper/">Indeed 抓取器</a>：补充 Glassdoor 职位的求职广告</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/kununu-de-scraper/">Kununu 抓取器</a>：DACH 雇主评价 + 薪资</li>
+ <li><a href="/actors/trustpilot-scraper/">Trustpilot 抓取器</a>：全球消费者商家评价</li>
+ <li><a href="/actors/linkedin-scraper/">LinkedIn 抓取器</a>：公司资料字段与人数</li>
+ <li><a href="/actors/indeed-scraper/">Indeed 抓取器</a>：补充 Glassdoor 职位的求职广告</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">立即试用（有免费额度）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">立即试用（有免费额度）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

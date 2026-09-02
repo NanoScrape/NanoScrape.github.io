@@ -1,187 +1,187 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Finn.no 抓取器：挪威第一分类广告，$3/1k | NanoScrape</title>
-  <meta name="description" content="抓取 Finn.no，挪威第一的分类广告与招聘平台 (Schibsted 集团)。市场、招聘、房产、汽车。返回标题、NOK 价格、位置、类目、company_name、employment_type。基于 URL、多搜索、详情增强。">
-  <meta property="og:title" content="Finn.no 抓取器：挪威第一分类广告 | NanoScrape">
-  <meta property="og:description" content="抓取挪威最大的分类广告与招聘平台。NOK 价格，全垂类。基于 URL、多搜索。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/finn-no-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/finn-no-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/finn-no-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/finn-no-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Finn.no Classifieds + Jobs Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Finn.no 抓取器，覆盖挪威第一的分类广告平台 (Schibsted 集团)。涵盖市场 (Torget)、招聘 (Jobb)、房产 (Eiendom)、汽车 (Bil) 和 Mobility。返回标题、NOK 价格、位置、类目、company_name、employment_type (招聘)、图片、发布/到期日期。仅 HTTP，128MB 内存。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Finn.no 抓取器：挪威第一分类广告，$3/1k | NanoScrape</title>
+ <meta name="description" content="抓取 Finn.no，挪威第一的分类广告与招聘平台 (Schibsted 集团)。市场、招聘、房产、汽车。返回标题、NOK 价格、位置、类目、company_name、employment_type。基于 URL、多搜索、详情增强。">
+ <meta property="og:title" content="Finn.no 抓取器：挪威第一分类广告 | NanoScrape">
+ <meta property="og:description" content="抓取挪威最大的分类广告与招聘平台。NOK 价格，全垂类。基于 URL、多搜索。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/finn-no-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/finn-no-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/finn-no-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/finn-no-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/finn-no-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Finn.no Classifieds + Jobs Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Finn.no 抓取器，覆盖挪威第一的分类广告平台 (Schibsted 集团)。涵盖市场 (Torget)、招聘 (Jobb)、房产 (Eiendom)、汽车 (Bil) 和 Mobility。返回标题、NOK 价格、位置、类目、company_name、employment_type (招聘)、图片、发布/到期日期。仅 HTTP，128MB 内存。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Finn.no 抓取器：挪威第一的分类广告 + 招聘平台</h1>
-    <p class="lead">抓取 finn.no 的广告，这是挪威最大的分类广告与招聘平台 (Schibsted 集团)。覆盖全部五大垂类：市场 (Torget)、招聘 (Jobb)、房产 (Eiendom)、汽车 (Bil) 和 Mobility。从搜索结果返回标题、NOK 价格、位置、识别出的垂类、公司名称、图片 URL、发布与到期日期。可选详情增强补充完整描述、公司 URL 及招聘岗位的 employment_type。</p>
+ <div class="detail">
+ <h1>Finn.no 抓取器：挪威第一的分类广告 + 招聘平台</h1>
+ <p class="lead">抓取 finn.no 的广告，这是挪威最大的分类广告与招聘平台 (Schibsted 集团)。覆盖全部五大垂类：市场 (Torget)、招聘 (Jobb)、房产 (Eiendom)、汽车 (Bil) 和 Mobility。从搜索结果返回标题、NOK 价格、位置、识别出的垂类、公司名称、图片 URL、发布与到期日期。可选详情增强补充完整描述、公司 URL 及招聘岗位的 employment_type。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/It8xIqTEZKIadyNNr/source?addFromActorId=It8xIqTEZKIadyNNr&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/It8xIqTEZKIadyNNr/source?addFromActorId=It8xIqTEZKIadyNNr&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$0.003/条</div></div>
-      <div class="spec"><div class="label">带详情</div><div class="value">$0.005/条</div></div>
-      <div class="spec"><div class="label">国家</div><div class="value">挪威</div></div>
-      <div class="spec"><div class="label">货币</div><div class="value">NOK</div></div>
-      <div class="spec"><div class="label">垂类</div><div class="value">5 (Torget, Jobb, Eiendom, Bil, Mobility)</div></div>
-      <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$0.003/条</div></div>
+ <div class="spec"><div class="label">带详情</div><div class="value">$0.005/条</div></div>
+ <div class="spec"><div class="label">国家</div><div class="value">挪威</div></div>
+ <div class="spec"><div class="label">货币</div><div class="value">NOK</div></div>
+ <div class="spec"><div class="label">垂类</div><div class="value">5 (Torget, Jobb, Eiendom, Bil, Mobility)</div></div>
+ <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>Torget (市场)：</strong>普通售卖物品，含品牌、状态、图片</li>
-      <li><strong>Jobb (招聘)：</strong>职位，含 company_name、employment_type (FULL_TIME、PART_TIME、CONTRACT)、company_url</li>
-      <li><strong>Eiendom (房产)：</strong>公寓、住宅、土地，含 NOK 价格与地址</li>
-      <li><strong>Bil (汽车)：</strong>二手车，含品牌、型号、登记年份筛选</li>
-      <li><strong>搜索：</strong>任意带筛选条件的 finn.no URL (价格区间、位置、登记类别)</li>
-      <li><strong>详情增强：</strong>完整描述、公司 URL、employment_type</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>Torget (市场)：</strong>普通售卖物品，含品牌、状态、图片</li>
+ <li><strong>Jobb (招聘)：</strong>职位，含 company_name、employment_type (FULL_TIME、PART_TIME、CONTRACT)、company_url</li>
+ <li><strong>Eiendom (房产)：</strong>公寓、住宅、土地，含 NOK 价格与地址</li>
+ <li><strong>Bil (汽车)：</strong>二手车，含品牌、型号、登记年份筛选</li>
+ <li><strong>搜索：</strong>任意带筛选条件的 finn.no URL (价格区间、位置、登记类别)</li>
+ <li><strong>详情增强：</strong>完整描述、公司 URL、employment_type</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>挪威就业市场情报。</strong>每日抓取所有奥斯陆开发者岗位，按 employment_type 分类，追踪描述中提到的薪酬</li>
-      <li><strong>房产价格追踪。</strong>快照卵尔根或特隆赫姆的 leilighet (公寓) 广告，完整保留筛选</li>
-      <li><strong>二手车套利。</strong>监控 NOK 上限以下的 BMW、Tesla 或 Volvo 广告，几分钟内作出反应</li>
-      <li><strong>跨垂类搜索。</strong>一次运行多个 URL，同一关键词同时覆盖招聘与市场</li>
-      <li><strong>猎头线索。</strong>按 employment_type 与公司筛选 Jobb 广告，构建目标列表</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>挪威就业市场情报。</strong>每日抓取所有奥斯陆开发者岗位，按 employment_type 分类，追踪描述中提到的薪酬</li>
+ <li><strong>房产价格追踪。</strong>快照卵尔根或特隆赫姆的 leilighet (公寓) 广告，完整保留筛选</li>
+ <li><strong>二手车套利。</strong>监控 NOK 上限以下的 BMW、Tesla 或 Volvo 广告，几分钟内作出反应</li>
+ <li><strong>跨垂类搜索。</strong>一次运行多个 URL，同一关键词同时覆盖招聘与市场</li>
+ <li><strong>猎头线索。</strong>按 employment_type 与公司筛选 Jobb 广告，构建目标列表</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~finn-no-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": [
-      "https://www.finn.no/bap/forsale/search.html?q=iphone",
-      "https://www.finn.no/job/search?q=utvikler"
-    ],
-    "maxResults": 200,
-    "includeDetails": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchUrls": [
+ "https://www.finn.no/bap/forsale/search.html?q=iphone",
+ "https://www.finn.no/job/search?q=utvikler"
+ ],
+ "maxResults": 200,
+ "includeDetails": true
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/finn-no-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>搜索 URL 输入，广告输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>搜索 URL 输入，广告输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>Senior Backend Developer</td></tr>
-      <tr><td>price</td><td>number</td><td>0</td></tr>
-      <tr><td>currency</td><td>string</td><td>NOK</td></tr>
-      <tr><td>location</td><td>string</td><td>Oslo</td></tr>
-      <tr><td>category</td><td>string</td><td>jobs</td></tr>
-      <tr><td>company_name</td><td>string</td><td>Schibsted ASA</td></tr>
-      <tr><td>employment_type</td><td>string</td><td>FULL_TIME</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-06-10</td></tr>
-      <tr><td>expires_at</td><td>string</td><td>2026-07-10</td></tr>
-      <tr><td>source_url</td><td>string</td><td>https://www.finn.no/job/...</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>title</td><td>string</td><td>Senior Backend Developer</td></tr>
+ <tr><td>price</td><td>number</td><td>0</td></tr>
+ <tr><td>currency</td><td>string</td><td>NOK</td></tr>
+ <tr><td>location</td><td>string</td><td>Oslo</td></tr>
+ <tr><td>category</td><td>string</td><td>jobs</td></tr>
+ <tr><td>company_name</td><td>string</td><td>Schibsted ASA</td></tr>
+ <tr><td>employment_type</td><td>string</td><td>FULL_TIME</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-06-10</td></tr>
+ <tr><td>expires_at</td><td>string</td><td>2026-07-10</td></tr>
+ <tr><td>source_url</td><td>string</td><td>https://www.finn.no/job/...</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/blocket-se-scraper/">Blocket.se 抓取器</a>: 瑞典第一的分类广告 (Schibsted 集团)</li>
-      <li><a href="/actors/dba-dk-scraper/">DBA.dk 抓取器</a>: 丹麦第一的分类广告 (Schibsted 集团)</li>
-      <li><a href="/actors/tori-fi-scraper/">Tori.fi 抓取器</a>: 芬兰第一的分类广告 (Schibsted 集团)</li>
-      <li><a href="/actors/marktplaats-nl-scraper/">Marktplaats.nl 抓取器</a>: 荷兰第一的分类广告</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/blocket-se-scraper/">Blocket.se 抓取器</a>: 瑞典第一的分类广告 (Schibsted 集团)</li>
+ <li><a href="/actors/dba-dk-scraper/">DBA.dk 抓取器</a>: 丹麦第一的分类广告 (Schibsted 集团)</li>
+ <li><a href="/actors/tori-fi-scraper/">Tori.fi 抓取器</a>: 芬兰第一的分类广告 (Schibsted 集团)</li>
+ <li><a href="/actors/marktplaats-nl-scraper/">Marktplaats.nl 抓取器</a>: 荷兰第一的分类广告</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/It8xIqTEZKIadyNNr/source?addFromActorId=It8xIqTEZKIadyNNr&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/finn-no-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/It8xIqTEZKIadyNNr/source?addFromActorId=It8xIqTEZKIadyNNr&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

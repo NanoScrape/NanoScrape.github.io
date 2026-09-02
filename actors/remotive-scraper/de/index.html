@@ -1,181 +1,181 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Remotive Scraper: Remote-Jobs + Gehalt, 25 Felder, $3/1k | NanoScrape</title>
-  <meta name="description" content="Remotive.com Remote-Jobs scrapen mit strukturiertem Gehalt, Anstellungsart, Kategorie, Firmendaten, vollständiger Beschreibung und Apply-URL. 25 Felder pro Job. Ohne Login. $3 pro 1.000 Jobs.">
-  <meta property="og:title" content="Remotive Scraper: Remote-Jobs + Gehalt, 25 Felder | NanoScrape">
-  <meta property="og:description" content="Remotive Remote-Jobs extrahieren mit 25 Feldern inkl. Gehalt, Firmen-Website, Tagline und Anzahl offener Stellen. Pay-per-Result.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/remotive-scraper/de/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/remotive-scraper/de/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/remotive-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/remotive-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/remotive-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/remotive-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/remotive-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Remotive Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Remotive.com kuratierte Remote-Jobs scrapen mit 25 Feldern pro Job: strukturiertes Gehalt (min, max, Währung), Job-Typ (Vollzeit, Vertrag, freelance), Kategorie, Tags, vollständige Beschreibung in Text und HTML, Posting-Datum, geforderte Kandidaten-Region, Firmenname, Firmen-Logo, plus optionales Arbeitgeber-Enrichment (Website, Tagline, Anzahl offener Stellen, Profil-URL). Pay-per-Result.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per job scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Remotive Scraper: Remote-Jobs + Gehalt, 25 Felder, $3/1k | NanoScrape</title>
+ <meta name="description" content="Remotive.com Remote-Jobs scrapen mit strukturiertem Gehalt, Anstellungsart, Kategorie, Firmendaten, vollständiger Beschreibung und Apply-URL. 25 Felder pro Job. Ohne Login. $3 pro 1.000 Jobs.">
+ <meta property="og:title" content="Remotive Scraper: Remote-Jobs + Gehalt, 25 Felder | NanoScrape">
+ <meta property="og:description" content="Remotive Remote-Jobs extrahieren mit 25 Feldern inkl. Gehalt, Firmen-Website, Tagline und Anzahl offener Stellen. Pay-per-Result.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/remotive-scraper/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/remotive-scraper/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/remotive-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/remotive-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/remotive-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/remotive-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/remotive-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Remotive Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Remotive.com kuratierte Remote-Jobs scrapen mit 25 Feldern pro Job: strukturiertes Gehalt (min, max, Währung), Job-Typ (Vollzeit, Vertrag, freelance), Kategorie, Tags, vollständige Beschreibung in Text und HTML, Posting-Datum, geforderte Kandidaten-Region, Firmenname, Firmen-Logo, plus optionales Arbeitgeber-Enrichment (Website, Tagline, Anzahl offener Stellen, Profil-URL). Pay-per-Result.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per job scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Remotive Scraper: 25 Felder, Gehalt und Arbeitgeber-Enrichment</h1>
-    <p class="lead">Remotive.com kuratierte Remote-Jobs scrapen mit 25 Feldern pro Job. Inkl. strukturiertem Gehalt (min, max, Währung), Job-Typ (Vollzeit, Vertrag, freelance), Kategorie, Tags, vollständiger Beschreibung in Text und HTML, Posting-Datum, geforderter Kandidaten-Region, Firmenname und Logo. Arbeitgeber-Enrichment für Firmen-Website, Tagline, Anzahl offener Stellen und Profil-URL aktivierbar. Pay-per-Result, $3 pro 1.000 Jobs.</p>
+ <div class="detail">
+ <h1>Remotive Scraper: 25 Felder, Gehalt und Arbeitgeber-Enrichment</h1>
+ <p class="lead">Remotive.com kuratierte Remote-Jobs scrapen mit 25 Feldern pro Job. Inkl. strukturiertem Gehalt (min, max, Währung), Job-Typ (Vollzeit, Vertrag, freelance), Kategorie, Tags, vollständiger Beschreibung in Text und HTML, Posting-Datum, geforderter Kandidaten-Region, Firmenname und Logo. Arbeitgeber-Enrichment für Firmen-Website, Tagline, Anzahl offener Stellen und Profil-URL aktivierbar. Pay-per-Result, $3 pro 1.000 Jobs.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Preise</div><div class="value">$3/1k Jobs</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global remote</div></div>
-      <div class="spec"><div class="label">Felder pro Job</div><div class="value">25</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS + IP-Rotation</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Preise</div><div class="value">$3/1k Jobs</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Abdeckung</div><div class="value">Global remote</div></div>
+ <div class="spec"><div class="label">Felder pro Job</div><div class="value">25</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
+ <div class="spec"><div class="label">Anti-Bot</div><div class="value">TLS + IP-Rotation</div></div>
+ </div>
 
-    <h2 class="section-title">Was Sie scrapen können</h2>
-    <ul>
-      <li><strong>Job-Details:</strong> Titel, id, vollständige Beschreibung (Text + HTML), Kategorie, Tags, job_type (Vollzeit, Teilzeit, Vertrag, freelance), Posting-Datum, Apply-URL</li>
-      <li><strong>Gehalts-Intelligenz:</strong> salary_min, salary_max, salary_currency, salary_text</li>
-      <li><strong>Geforderte Region:</strong> candidate_location (z.B. "Worldwide", "USA Only", "Europe")</li>
-      <li><strong>Firmen-Infos:</strong> Firmenname, Firmen-Logo-URL</li>
-      <li><strong>Arbeitgeber-Enrichment:</strong> company_website, company_tagline, open_positions_count, company_profile_url</li>
-      <li><strong>Meta:</strong> Quell-URL, Suchanfrage, scraped_at-Zeitstempel</li>
-    </ul>
+ <h2 class="section-title">Was Sie scrapen können</h2>
+ <ul>
+ <li><strong>Job-Details:</strong> Titel, id, vollständige Beschreibung (Text + HTML), Kategorie, Tags, job_type (Vollzeit, Teilzeit, Vertrag, freelance), Posting-Datum, Apply-URL</li>
+ <li><strong>Gehalts-Intelligenz:</strong> salary_min, salary_max, salary_currency, salary_text</li>
+ <li><strong>Geforderte Region:</strong> candidate_location (z.B. "Worldwide", "USA Only", "Europe")</li>
+ <li><strong>Firmen-Infos:</strong> Firmenname, Firmen-Logo-URL</li>
+ <li><strong>Arbeitgeber-Enrichment:</strong> company_website, company_tagline, open_positions_count, company_profile_url</li>
+ <li><strong>Meta:</strong> Quell-URL, Suchanfrage, scraped_at-Zeitstempel</li>
+ </ul>
 
-    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
-    <ul>
-      <li><strong>Remote-Talent-Sourcing.</strong> Nach Kategorie filtern (software-dev, design, marketing) und strukturierte Records ins Recruiting-CRM speisen</li>
-      <li><strong>Gehalts-Benchmarking.</strong> salary_min und salary_max für Remote-Rollen aggregieren, um wettbewerbsfähige Angebote zu setzen</li>
-      <li><strong>Remote-friendly Firmenlisten.</strong> Arbeitgeber-Enrichment nutzen, um global vs. regional eingeschränkt einstellende Firmen zu identifizieren</li>
-      <li><strong>Nischen-ATS-Backfill.</strong> description_html in eigenes Jobboard ingestieren, nur passende Kategorien anzeigen</li>
-    </ul>
+ <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+ <ul>
+ <li><strong>Remote-Talent-Sourcing.</strong> Nach Kategorie filtern (software-dev, design, marketing) und strukturierte Records ins Recruiting-CRM speisen</li>
+ <li><strong>Gehalts-Benchmarking.</strong> salary_min und salary_max für Remote-Rollen aggregieren, um wettbewerbsfähige Angebote zu setzen</li>
+ <li><strong>Remote-friendly Firmenlisten.</strong> Arbeitgeber-Enrichment nutzen, um global vs. regional eingeschränkt einstellende Firmen zu identifizieren</li>
+ <li><strong>Nischen-ATS-Backfill.</strong> description_html in eigenes Jobboard ingestieren, nur passende Kategorien anzeigen</li>
+ </ul>
 
-    <h2 class="section-title">API-Beispiel</h2>
-    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~remotive-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": ["https://remotive.com/remote-jobs/software-dev"],
-    "includeCompanyInfo": true,
-    "maxResults": 100
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchUrls": ["https://remotive.com/remote-jobs/software-dev"],
+ "includeCompanyInfo": true,
+ "maxResults": 100
+ }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/remotive-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrationen</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Job-Records per Webhook verarbeiten</li>
-      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
-      <li><strong>Google Sheets, Airtable:</strong> Suchanfragen rein, strukturierte Jobs raus</li>
-    </ul>
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Job-Records per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+ <li><strong>Google Sheets, Airtable:</strong> Suchanfragen rein, strukturierte Jobs raus</li>
+ </ul>
 
-    <h2 class="section-title">Ausgabefelder</h2>
-    <table class="compare-table">
-      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
-      <tr><td>title</td><td>string</td><td>Senior Python Engineer</td></tr>
-      <tr><td>company</td><td>string</td><td>GitLab</td></tr>
-      <tr><td>category</td><td>string</td><td>Software Development</td></tr>
-      <tr><td>job_type</td><td>string</td><td>full-time</td></tr>
-      <tr><td>candidate_location</td><td>string</td><td>Worldwide</td></tr>
-      <tr><td>salary_min</td><td>integer</td><td>110000</td></tr>
-      <tr><td>salary_max</td><td>integer</td><td>160000</td></tr>
-      <tr><td>company_website</td><td>string</td><td>https://about.gitlab.com</td></tr>
-      <tr><td>open_positions_count</td><td>integer</td><td>42</td></tr>
-      <tr><td>apply_url</td><td>string</td><td>https://remotive.com/...</td></tr>
-    </table>
+ <h2 class="section-title">Ausgabefelder</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+ <tr><td>title</td><td>string</td><td>Senior Python Engineer</td></tr>
+ <tr><td>company</td><td>string</td><td>GitLab</td></tr>
+ <tr><td>category</td><td>string</td><td>Software Development</td></tr>
+ <tr><td>job_type</td><td>string</td><td>full-time</td></tr>
+ <tr><td>candidate_location</td><td>string</td><td>Worldwide</td></tr>
+ <tr><td>salary_min</td><td>integer</td><td>110000</td></tr>
+ <tr><td>salary_max</td><td>integer</td><td>160000</td></tr>
+ <tr><td>company_website</td><td>string</td><td>https://about.gitlab.com</td></tr>
+ <tr><td>open_positions_count</td><td>integer</td><td>42</td></tr>
+ <tr><td>apply_url</td><td>string</td><td>https://remotive.com/...</td></tr>
+ </table>
 
-    <h2 class="section-title">Verwandte Scraper</h2>
-    <ul>
-      <li><a href="/actors/remoteok-scraper/">RemoteOK Scraper</a>: 1.300+ Remote-Jobs mit Gehalt und Tags</li>
-      <li><a href="/actors/weworkremotely-scraper/">WeWorkRemotely Scraper</a>: größtes Remote-Board mit HQ- und Länder-Signalen</li>
-      <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: direkt von 16 ATS-Systemen (Lever, Greenhouse, Workday)</li>
-    </ul>
+ <h2 class="section-title">Verwandte Scraper</h2>
+ <ul>
+ <li><a href="/actors/remoteok-scraper/">RemoteOK Scraper</a>: 1.300+ Remote-Jobs mit Gehalt und Tags</li>
+ <li><a href="/actors/weworkremotely-scraper/">WeWorkRemotely Scraper</a>: größtes Remote-Board mit HQ- und Länder-Signalen</li>
+ <li><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: direkt von 16 ATS-Systemen (Lever, Greenhouse, Workday)</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/remotive-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/MPMOIReTpYaynzqq8/source?addFromActorId=MPMOIReTpYaynzqq8&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

@@ -1,183 +1,183 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RSS 订阅源阅读器：批量解析 RSS、Atom 与 JSON Feed，$0.50/1k | NanoScrape</title>
-  <meta name="description" content="批量解析和监控 RSS 2.0、Atom 1.0 和 JSON Feed 源。返回标题、作者、内容、图片、类目和发布日期。按日期范围过滤。每 1,000 订阅源 $0.50。">
-  <meta property="og:title" content="RSS 阅读器：批量解析 RSS、Atom & JSON Feed API | NanoScrape">
-  <meta property="og:description" content="大规模解析 RSS、Atom 和 JSON 订阅源。返回标题、作者、内容、日期。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/rss-feed-reader/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/rss-feed-reader/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "RSS Feed Reader",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "批量解析 RSS 2.0、Atom 1.0 和 JSON Feed 源。返回条目标题、作者、内容、日期、类目、附件和内嵌图片。按日期范围过滤。128MB 内存，每订阅源 $0.0005。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.0005",
-      "priceCurrency": "USD",
-      "description": "per feed parsed"
-    },
-    "url": "https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>RSS 订阅源阅读器：批量解析 RSS、Atom 与 JSON Feed，$0.50/1k | NanoScrape</title>
+ <meta name="description" content="批量解析和监控 RSS 2.0、Atom 1.0 和 JSON Feed 源。返回标题、作者、内容、图片、类目和发布日期。按日期范围过滤。每 1,000 订阅源 $0.50。">
+ <meta property="og:title" content="RSS 阅读器：批量解析 RSS、Atom & JSON Feed API | NanoScrape">
+ <meta property="og:description" content="大规模解析 RSS、Atom 和 JSON 订阅源。返回标题、作者、内容、日期。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/rss-feed-reader/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/rss-feed-reader/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/rss-feed-reader/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/rss-feed-reader/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "RSS Feed Reader",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "批量解析 RSS 2.0、Atom 1.0 和 JSON Feed 源。返回条目标题、作者、内容、日期、类目、附件和内嵌图片。按日期范围过滤。128MB 内存，每订阅源 $0.0005。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.0005",
+ "priceCurrency": "USD",
+ "description": "per feed parsed"
+ },
+ "url": "https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>RSS 阅读器：大规模监控任意订阅源，每 1,000 订阅源 $0.50</h1>
-    <p class="lead">从任意订阅源 URL 解析 RSS 2.0、Atom 1.0 和 JSON Feed。返回每个条目的标题、作者、链接、发布日期、内容、摘要、类目、附件和内嵌图片。按日期范围或类目过滤。为监控而生：按小时调度以喂入新闻聚合器、告警管道或内容数据库。适用于新闻监控、播客索引、博客追踪和品牌提及告警。</p>
+ <div class="detail">
+ <h1>RSS 阅读器：大规模监控任意订阅源，每 1,000 订阅源 $0.50</h1>
+ <p class="lead">从任意订阅源 URL 解析 RSS 2.0、Atom 1.0 和 JSON Feed。返回每个条目的标题、作者、链接、发布日期、内容、摘要、类目、附件和内嵌图片。按日期范围或类目过滤。为监控而生：按小时调度以喂入新闻聚合器、告警管道或内容数据库。适用于新闻监控、播客索引、博客追踪和品牌提及告警。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$0.0005/订阅源</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">RSS、Atom、JSON Feed</div></div><div class="spec"><div class="label">输出字段</div><div class="value">15+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">HTTP + XML/JSON 解析器</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$0.0005/订阅源</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">RSS、Atom、JSON Feed</div></div><div class="spec"><div class="label">输出字段</div><div class="value">15+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">HTTP + XML/JSON 解析器</div></div>
+ </div>
 
-    <h2 class="section-title">您能获得什么</h2>
-    <ul>
-      <li><strong>每条目：</strong>title、link、author、published_at、updated_at、content_html、summary</li>
-      <li><strong>分类：</strong>categories[]、tags[]、language</li>
-      <li><strong>媒体：</strong>enclosures[]（播客、附件）、inline_images[]、featured_image</li>
-      <li><strong>订阅源元数据：</strong>feed_title、feed_description、feed_link、feed_updated_at、total_items</li>
-      <li><strong>过滤：</strong>max_age_days、since_date、category_filter、keyword_filter</li>
-    </ul>
+ <h2 class="section-title">您能获得什么</h2>
+ <ul>
+ <li><strong>每条目：</strong>title、link、author、published_at、updated_at、content_html、summary</li>
+ <li><strong>分类：</strong>categories[]、tags[]、language</li>
+ <li><strong>媒体：</strong>enclosures[]（播客、附件）、inline_images[]、featured_image</li>
+ <li><strong>订阅源元数据：</strong>feed_title、feed_description、feed_link、feed_updated_at、total_items</li>
+ <li><strong>过滤：</strong>max_age_days、since_date、category_filter、keyword_filter</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>新闻监控。</strong>将数百个行业源聚合到单一订阅源提及管道</li>
-      <li><strong>播客索引。</strong>从播客目录提取每个剧集及其元数据和音频 URL</li>
-      <li><strong>博客追踪。</strong>每天 diff 竞争对手订阅源以检测新文章和主题</li>
-      <li><strong>品牌提及告警。</strong>按关键词过滤订阅源并触发 Slack 或 webhook 通知</li>
-      <li><strong>内容数据库填充。</strong>从发行商 RSS 存档回填编辑数据库</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>新闻监控。</strong>将数百个行业源聚合到单一订阅源提及管道</li>
+ <li><strong>播客索引。</strong>从播客目录提取每个剧集及其元数据和音频 URL</li>
+ <li><strong>博客追踪。</strong>每天 diff 竞争对手订阅源以检测新文章和主题</li>
+ <li><strong>品牌提及告警。</strong>按关键词过滤订阅源并触发 Slack 或 webhook 通知</li>
+ <li><strong>内容数据库填充。</strong>从发行商 RSS 存档回填编辑数据库</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~rss-feed-reader/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "feedUrls": [
-      "https://techcrunch.com/feed/",
-      "https://feeds.feedburner.com/feedburner/Techcrunch",
-      "https://www.theverge.com/rss/index.xml",
-      "https://hnrss.org/frontpage",
-      "https://example-podcast.com/rss"
-    ],
-    "maxAgeDays": 7,
-    "extractFullContent": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "feedUrls": [
+ "https://techcrunch.com/feed/",
+ "https://feeds.feedburner.com/feedburner/Techcrunch",
+ "https://www.theverge.com/rss/index.xml",
+ "https://hnrss.org/frontpage",
+ "https://example-podcast.com/rss"
+ ],
+ "maxAgeDays": 7,
+ "extractFullContent": true
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/rss-feed-reader</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>feed_url</td><td>string</td><td>https://techcrunch.com/feed/</td></tr>
-      <tr><td>feed_title</td><td>string</td><td>TechCrunch</td></tr>
-      <tr><td>total_items</td><td>integer</td><td>42</td></tr>
-      <tr><td>item_title</td><td>string</td><td>Acme 完成 5000 万美元 B 轮</td></tr>
-      <tr><td>author</td><td>string</td><td>记者姓名</td></tr>
-      <tr><td>published_at</td><td>string</td><td>2026-06-13T08:42:00Z</td></tr>
-      <tr><td>link</td><td>string</td><td>https://techcrunch.com/2026/06/13/acme-series-b/</td></tr>
-      <tr><td>content_html</td><td>string</td><td><p>Acme 这家领先的...</p></td></tr>
-      <tr><td>categories</td><td>array</td><td>["startups","funding"]</td></tr>
-      <tr><td>featured_image</td><td>string</td><td>https://techcrunch.com/images/acme.jpg</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>feed_url</td><td>string</td><td>https://techcrunch.com/feed/</td></tr>
+ <tr><td>feed_title</td><td>string</td><td>TechCrunch</td></tr>
+ <tr><td>total_items</td><td>integer</td><td>42</td></tr>
+ <tr><td>item_title</td><td>string</td><td>Acme 完成 5000 万美元 B 轮</td></tr>
+ <tr><td>author</td><td>string</td><td>记者姓名</td></tr>
+ <tr><td>published_at</td><td>string</td><td>2026-06-13T08:42:00Z</td></tr>
+ <tr><td>link</td><td>string</td><td>https://techcrunch.com/2026/06/13/acme-series-b/</td></tr>
+ <tr><td>content_html</td><td>string</td><td><p>Acme 这家领先的...</p></td></tr>
+ <tr><td>categories</td><td>array</td><td>["startups","funding"]</td></tr>
+ <tr><td>featured_image</td><td>string</td><td>https://techcrunch.com/images/acme.jpg</td></tr>
+ </table>
 
-    <h2 class="section-title">相关 Actor</h2>
-    <ul>
-      <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将每个订阅条目的 HTML 内容转换为干净 markdown</li>
-      <li><a href="/actors/wikipedia-scraper/">Wikipedia Scraper</a>: 用维基百科摘要富化新闻实体</li>
-      <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: 从每个条目 URL 提取 canonical 和 OG 元数据</li>
-    </ul>
+ <h2 class="section-title">相关 Actor</h2>
+ <ul>
+ <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将每个订阅条目的 HTML 内容转换为干净 markdown</li>
+ <li><a href="/actors/wikipedia-scraper/">Wikipedia Scraper</a>: 用维基百科摘要富化新闻实体</li>
+ <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: 从每个条目 URL 提取 canonical 和 OG 元数据</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NidfICHJMoodOqCg2/source?addFromActorId=NidfICHJMoodOqCg2&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

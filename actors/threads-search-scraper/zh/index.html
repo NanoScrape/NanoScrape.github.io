@@ -1,183 +1,183 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Threads 搜索抓取器：关键词 + 主页帖子，$0.50/1k | NanoScrape</title>
-  <meta name="description" content="按关键词搜索 Threads.net，或抓取任意公开主页的帖子。返回帖子文本、作者用户名、认证徽章、点赞、回复、转发计数、发布时间和帖子直链。无需登录。每条帖子 $0.0005。">
-  <meta property="og:title" content="Threads 搜索抓取器：关键词 + 主页帖子 | NanoScrape">
-  <meta property="og:description" content="按关键词搜索或按主页提取 Threads.net 帖子。文本、作者、点赞、回复、转发、时间戳。无需登录。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/threads-search-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/threads-search-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Threads Search Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Threads.net 搜索与主页帖子抓取器。将关键词查询与主页 URL 组合，收集帖子。返回 post_id、text、author_username、author_verified、like_count、reply_count、repost_count、quote_count、posted_at、post_url、has_media。无需登录或 API 密钥。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.0005",
-      "priceCurrency": "USD",
-      "description": "per post scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Threads 搜索抓取器：关键词 + 主页帖子，$0.50/1k | NanoScrape</title>
+ <meta name="description" content="按关键词搜索 Threads.net，或抓取任意公开主页的帖子。返回帖子文本、作者用户名、认证徽章、点赞、回复、转发计数、发布时间和帖子直链。无需登录。每条帖子 $0.0005。">
+ <meta property="og:title" content="Threads 搜索抓取器：关键词 + 主页帖子 | NanoScrape">
+ <meta property="og:description" content="按关键词搜索或按主页提取 Threads.net 帖子。文本、作者、点赞、回复、转发、时间戳。无需登录。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/threads-search-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/threads-search-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/threads-search-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/threads-search-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Threads Search Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Threads.net 搜索与主页帖子抓取器。将关键词查询与主页 URL 组合，收集帖子。返回 post_id、text、author_username、author_verified、like_count、reply_count、repost_count、quote_count、posted_at、post_url、has_media。无需登录或 API 密钥。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.0005",
+ "priceCurrency": "USD",
+ "description": "per post scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Threads 搜索抓取器：关键词 + 主页帖子，每 1,000 条帖子 $0.50</h1>
-    <p class="lead">按关键词搜索 Threads.net，或抓取任意公开主页的最近帖子。每条帖子包含正文、作者用户名、认证徽章、like_count、reply_count、repost_count、quote_count、posted_at 时间戳、has_media 标记以及帖子直链。在同一次运行中混合关键词与主页 URL，结果跨输入自动去重。无需登录。</p>
+ <div class="detail">
+ <h1>Threads 搜索抓取器：关键词 + 主页帖子，每 1,000 条帖子 $0.50</h1>
+ <p class="lead">按关键词搜索 Threads.net，或抓取任意公开主页的最近帖子。每条帖子包含正文、作者用户名、认证徽章、like_count、reply_count、repost_count、quote_count、posted_at 时间戳、has_media 标记以及帖子直链。在同一次运行中混合关键词与主页 URL，结果跨输入自动去重。无需登录。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$0.0005/帖</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
-      <div class="spec"><div class="label">每帖字段数</div><div class="value">15</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">直连或 Apify 代理</div></div>
-      <div class="spec"><div class="label">反爬虫</div><div class="value">SSR 重水合</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$0.0005/帖</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+ <div class="spec"><div class="label">每帖字段数</div><div class="value">15</div></div>
+ <div class="spec"><div class="label">代理</div><div class="value">直连或 Apify 代理</div></div>
+ <div class="spec"><div class="label">反爬虫</div><div class="value">SSR 重水合</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>帖子标识：</strong>post_id、post_url、author_username、author_name、author_verified</li>
-      <li><strong>内容：</strong>text（最多 2,000 字符）、has_media 标记、posted_at 时间戳</li>
-      <li><strong>互动数据：</strong>like_count、reply_count、repost_count、quote_count</li>
-      <li><strong>来源：</strong>search_query（产出该帖的关键词）、source_platform、scraped_at</li>
-      <li><strong>输入灵活：</strong>同一次运行混合 searchQueries 与 profileUrls，自动去重</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>帖子标识：</strong>post_id、post_url、author_username、author_name、author_verified</li>
+ <li><strong>内容：</strong>text（最多 2,000 字符）、has_media 标记、posted_at 时间戳</li>
+ <li><strong>互动数据：</strong>like_count、reply_count、repost_count、quote_count</li>
+ <li><strong>来源：</strong>search_query（产出该帖的关键词）、source_platform、scraped_at</li>
+ <li><strong>输入灵活：</strong>同一次运行混合 searchQueries 与 profileUrls，自动去重</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>Threads 趋势监控。</strong>每小时轮询 "AI art" 或 "iOS 18" 等关键词，追踪 Threads 与其他平台的叙事差异</li>
-      <li><strong>品牌提及监控。</strong>搜索品牌名与竞品名，结果经 Webhook 推送到 Slack</li>
-      <li><strong>认证创作者发现。</strong>按 author_verified 过滤，找到您垂类内的蓝标创作者</li>
-      <li><strong>互动基准。</strong>对比关键词或账号间的 like_count 与 reply_count 分布</li>
-      <li><strong>跨平台内容审计。</strong>配合 Twitter 抓取器，对比同一作者在 X 与 Threads 的表现</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>Threads 趋势监控。</strong>每小时轮询 "AI art" 或 "iOS 18" 等关键词，追踪 Threads 与其他平台的叙事差异</li>
+ <li><strong>品牌提及监控。</strong>搜索品牌名与竞品名，结果经 Webhook 推送到 Slack</li>
+ <li><strong>认证创作者发现。</strong>按 author_verified 过滤，找到您垂类内的蓝标创作者</li>
+ <li><strong>互动基准。</strong>对比关键词或账号间的 like_count 与 reply_count 分布</li>
+ <li><strong>跨平台内容审计。</strong>配合 Twitter 抓取器，对比同一作者在 X 与 Threads 的表现</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~threads-search-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["AI art", "travel photography"],
-    "profileUrls": ["https://www.threads.net/@zuck"],
-    "maxPostsPerQuery": 50,
-    "maxResults": 0
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["AI art", "travel photography"],
+ "profileUrls": ["https://www.threads.net/@zuck"],
+ "maxPostsPerQuery": 50,
+ "maxResults": 0
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/threads-search-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行，将帖子路由到 Slack、Notion 或 CRM</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>关键词输入，含互动数据的帖子流输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行，将帖子路由到 Slack、Notion 或 CRM</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>关键词输入，含互动数据的帖子流输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>post_id</td><td>string</td><td>3368741234567890123</td></tr>
-      <tr><td>text</td><td>string</td><td>Just launched our new AI feature</td></tr>
-      <tr><td>author_username</td><td>string</td><td>zuck</td></tr>
-      <tr><td>author_name</td><td>string</td><td>Mark Zuckerberg</td></tr>
-      <tr><td>author_verified</td><td>boolean</td><td>true</td></tr>
-      <tr><td>like_count</td><td>integer</td><td>42,500</td></tr>
-      <tr><td>reply_count</td><td>integer</td><td>1,230</td></tr>
-      <tr><td>repost_count</td><td>integer</td><td>870</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-05-01T14:30:00Z</td></tr>
-      <tr><td>post_url</td><td>string</td><td>https://www.threads.net/@zuck/post/C6abc123xyz</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>post_id</td><td>string</td><td>3368741234567890123</td></tr>
+ <tr><td>text</td><td>string</td><td>Just launched our new AI feature</td></tr>
+ <tr><td>author_username</td><td>string</td><td>zuck</td></tr>
+ <tr><td>author_name</td><td>string</td><td>Mark Zuckerberg</td></tr>
+ <tr><td>author_verified</td><td>boolean</td><td>true</td></tr>
+ <tr><td>like_count</td><td>integer</td><td>42,500</td></tr>
+ <tr><td>reply_count</td><td>integer</td><td>1,230</td></tr>
+ <tr><td>repost_count</td><td>integer</td><td>870</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-05-01T14:30:00Z</td></tr>
+ <tr><td>post_url</td><td>string</td><td>https://www.threads.net/@zuck/post/C6abc123xyz</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X 主页 + 推文抓取器</a>：在 X / Twitter 上做相同的内容审计</li>
-      <li><a href="/actors/reddit-scraper/">Reddit 抓取器</a>：子版块的帖子、评论、搜索与用户</li>
-      <li><a href="/actors/tiktok-profile-scraper/">TikTok 个人主页抓取器</a>：同一批创作者的 TikTok 主页数据</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X 主页 + 推文抓取器</a>：在 X / Twitter 上做相同的内容审计</li>
+ <li><a href="/actors/reddit-scraper/">Reddit 抓取器</a>：子版块的帖子、评论、搜索与用户</li>
+ <li><a href="/actors/tiktok-profile-scraper/">TikTok 个人主页抓取器</a>：同一批创作者的 TikTok 主页数据</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/threads-search-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/7ecybZ3hmB8upbZWM/source?addFromActorId=7ecybZ3hmB8upbZWM&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

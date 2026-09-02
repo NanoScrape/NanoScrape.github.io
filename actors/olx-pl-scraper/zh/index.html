@@ -1,187 +1,187 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>OLX.pl 抓取器：波兰第一分类广告，$3/1k | NanoScrape</title>
-  <meta name="description" content="抓取 OLX.pl，波兰最大的市场，数百万条广告。返回标题、PLN 价格、状态、城市、省、GPS、卖家类型、图片、日期。官方 REST API。关键词搜索、城市/类目过滤、多搜索。">
-  <meta property="og:title" content="OLX.pl 抓取器：波兰第一分类广告 | NanoScrape">
-  <meta property="og:description" content="通过官方 REST API 抓取波兰最大分类广告。PLN 价格、GPS、卖家类型。多搜索。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/olx-pl-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/olx-pl-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/olx-pl-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/olx-pl-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "OLX.pl Classifieds Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "OLX.pl 分类广告抓取器，覆盖波兰第一的市场。使用 OLX 官方 REST API 返回标题、完整描述、PLN 或 EUR 价格、状态、城市与省、GPS 坐标、卖家名与类型 (私人或商家)、所有图片、日期与源 URL。关键词搜索、单城市过滤、类目过滤、多搜索。128MB 内存，仅 HTTP。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>OLX.pl 抓取器：波兰第一分类广告，$3/1k | NanoScrape</title>
+ <meta name="description" content="抓取 OLX.pl，波兰最大的市场，数百万条广告。返回标题、PLN 价格、状态、城市、省、GPS、卖家类型、图片、日期。官方 REST API。关键词搜索、城市/类目过滤、多搜索。">
+ <meta property="og:title" content="OLX.pl 抓取器：波兰第一分类广告 | NanoScrape">
+ <meta property="og:description" content="通过官方 REST API 抓取波兰最大分类广告。PLN 价格、GPS、卖家类型。多搜索。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/olx-pl-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/olx-pl-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/olx-pl-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/olx-pl-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/olx-pl-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "OLX.pl Classifieds Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "OLX.pl 分类广告抓取器，覆盖波兰第一的市场。使用 OLX 官方 REST API 返回标题、完整描述、PLN 或 EUR 价格、状态、城市与省、GPS 坐标、卖家名与类型 (私人或商家)、所有图片、日期与源 URL。关键词搜索、单城市过滤、类目过滤、多搜索。128MB 内存，仅 HTTP。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>OLX.pl 抓取器：波兰第一的分类广告市场</h1>
-    <p class="lead">抓取 olx.pl 分类广告，这是波兰最大的在线市场。Actor 使用 OLX 公开 REST API 返回标题、完整描述、PLN 或 EUR 价格、状态、城市与省、GPS 坐标、卖家名与类型 (私人或商家)、所有图片 URL、发布日期与源 URL。按关键词搜索，按波兰城市 (warszawa、krakow、wroclaw) 或类目 ID 过滤，多查询并行运行。自动分页。</p>
+ <div class="detail">
+ <h1>OLX.pl 抓取器：波兰第一的分类广告市场</h1>
+ <p class="lead">抓取 olx.pl 分类广告，这是波兰最大的在线市场。Actor 使用 OLX 公开 REST API 返回标题、完整描述、PLN 或 EUR 价格、状态、城市与省、GPS 坐标、卖家名与类型 (私人或商家)、所有图片 URL、发布日期与源 URL。按关键词搜索，按波兰城市 (warszawa、krakow、wroclaw) 或类目 ID 过滤，多查询并行运行。自动分页。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">每条</div><div class="value">$0.003/条</div></div>
-      <div class="spec"><div class="label">运行启动</div><div class="value">$0.05</div></div>
-      <div class="spec"><div class="label">国家</div><div class="value">波兰</div></div>
-      <div class="spec"><div class="label">货币</div><div class="value">PLN / EUR</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
-      <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP API</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">每条</div><div class="value">$0.003/条</div></div>
+ <div class="spec"><div class="label">运行启动</div><div class="value">$0.05</div></div>
+ <div class="spec"><div class="label">国家</div><div class="value">波兰</div></div>
+ <div class="spec"><div class="label">货币</div><div class="value">PLN / EUR</div></div>
+ <div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div>
+ <div class="spec"><div class="label">模式</div><div class="value">仅 HTTP API</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>所有类目：</strong>手机、电子产品、时尚、房产 (nieruchomosci)、汽车、招聘、服务</li>
-      <li><strong>搜索：</strong>关键词 + 可选城市 slug (warszawa、krakow、wroclaw) + 可选类目 ID</li>
-      <li><strong>REST API：</strong>直接命中 OLX 公开 listings 端点，无 HTML 解析</li>
-      <li><strong>排序：</strong>filter_float_price:asc、filter_float_price:desc、created_at:desc</li>
-      <li><strong>多搜索：</strong>一次运行多个查询，含按查询的结果上限</li>
-      <li><strong>卖家区分：</strong>保留私人 vs 商家标志</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>所有类目：</strong>手机、电子产品、时尚、房产 (nieruchomosci)、汽车、招聘、服务</li>
+ <li><strong>搜索：</strong>关键词 + 可选城市 slug (warszawa、krakow、wroclaw) + 可选类目 ID</li>
+ <li><strong>REST API：</strong>直接命中 OLX 公开 listings 端点，无 HTML 解析</li>
+ <li><strong>排序：</strong>filter_float_price:asc、filter_float_price:desc、created_at:desc</li>
+ <li><strong>多搜索：</strong>一次运行多个查询，含按查询的结果上限</li>
+ <li><strong>卖家区分：</strong>保留私人 vs 商家标志</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>二手手机套利。</strong>监控华沙、克拉科夫或弗罗茨瓦夫 PLN 上限以下的 iPhone 15、Samsung Galaxy S24 或 Pixel 8</li>
-      <li><strong>二手价格情报。</strong>追踪波兰各地笔记本、自行车或 PlayStation 的平均 PLN 价格</li>
-      <li><strong>经销商竞品监控。</strong>每日快照商家门店，发现价格变化</li>
-      <li><strong>中欧跨境套利。</strong>将波兰广告与邻近市场 Bazos.sk 或 Bazos.cz 的对等商品比较</li>
-      <li><strong>就业市场映射。</strong>按类目获取任意波兰城市的开放岗位</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>二手手机套利。</strong>监控华沙、克拉科夫或弗罗茨瓦夫 PLN 上限以下的 iPhone 15、Samsung Galaxy S24 或 Pixel 8</li>
+ <li><strong>二手价格情报。</strong>追踪波兰各地笔记本、自行车或 PlayStation 的平均 PLN 价格</li>
+ <li><strong>经销商竞品监控。</strong>每日快照商家门店，发现价格变化</li>
+ <li><strong>中欧跨境套利。</strong>将波兰广告与邻近市场 Bazos.sk 或 Bazos.cz 的对等商品比较</li>
+ <li><strong>就业市场映射。</strong>按类目获取任意波兰城市的开放岗位</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~olx-pl-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["iphone 15", "samsung galaxy s24", "pixel 8"],
-    "location": "warszawa",
-    "maxResults": 200,
-    "maxResultsPerQuery": 80,
-    "sortBy": "filter_float_price:asc"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["iphone 15", "samsung galaxy s24", "pixel 8"],
+ "location": "warszawa",
+ "maxResults": 200,
+ "maxResultsPerQuery": 80,
+ "sortBy": "filter_float_price:asc"
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/olx-pl-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>查询输入，广告输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>查询输入，广告输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>iPhone 15 Pro 256GB</td></tr>
-      <tr><td>price</td><td>number</td><td>4200</td></tr>
-      <tr><td>currency</td><td>string</td><td>PLN</td></tr>
-      <tr><td>condition</td><td>string</td><td>used</td></tr>
-      <tr><td>city</td><td>string</td><td>Warszawa</td></tr>
-      <tr><td>region</td><td>string</td><td>mazowieckie</td></tr>
-      <tr><td>latitude</td><td>number</td><td>52.2297</td></tr>
-      <tr><td>longitude</td><td>number</td><td>21.0122</td></tr>
-      <tr><td>seller_type</td><td>string</td><td>business</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
-      <tr><td>source_url</td><td>string</td><td>https://www.olx.pl/d/oferta/...</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>title</td><td>string</td><td>iPhone 15 Pro 256GB</td></tr>
+ <tr><td>price</td><td>number</td><td>4200</td></tr>
+ <tr><td>currency</td><td>string</td><td>PLN</td></tr>
+ <tr><td>condition</td><td>string</td><td>used</td></tr>
+ <tr><td>city</td><td>string</td><td>Warszawa</td></tr>
+ <tr><td>region</td><td>string</td><td>mazowieckie</td></tr>
+ <tr><td>latitude</td><td>number</td><td>52.2297</td></tr>
+ <tr><td>longitude</td><td>number</td><td>21.0122</td></tr>
+ <tr><td>seller_type</td><td>string</td><td>business</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
+ <tr><td>source_url</td><td>string</td><td>https://www.olx.pl/d/oferta/...</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/bazos-scraper/">Bazos 抓取器</a>: 覆盖 SK、CZ、AT、PL 的分类广告</li>
-      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de 抓取器</a>: 德国第一的分类广告</li>
-      <li><a href="/actors/willhaben-at-scraper/">Willhaben.at 抓取器</a>: 奥地利第一的分类广告</li>
-      <li><a href="/actors/njuskalo-hr-scraper/">Njuskalo.hr 抓取器</a>: 克罗地亚第一的分类广告</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/bazos-scraper/">Bazos 抓取器</a>: 覆盖 SK、CZ、AT、PL 的分类广告</li>
+ <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de 抓取器</a>: 德国第一的分类广告</li>
+ <li><a href="/actors/willhaben-at-scraper/">Willhaben.at 抓取器</a>: 奥地利第一的分类广告</li>
+ <li><a href="/actors/njuskalo-hr-scraper/">Njuskalo.hr 抓取器</a>: 克罗地亚第一的分类广告</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

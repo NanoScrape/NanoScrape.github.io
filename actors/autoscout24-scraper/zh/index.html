@@ -1,189 +1,189 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AutoScout24 爬虫:欧洲汽车,$3/1k SERP | NanoScrape</title>
-  <meta name="description" content="抓取 AutoScout24,欧洲最大的在线汽车交易平台。返回品牌、车型、版本、里程、燃料类型、变速箱、功率、价格、经销商名称、地址、电话、图片和国家代码。覆盖 10 个欧洲国家。SERP $0.003,详情 $0.005。">
-  <meta property="og:title" content="AutoScout24 爬虫:欧洲汽车,$3/1k | NanoScrape">
-  <meta property="og:description" content="提取欧洲汽车信息:BMW、VW、Mercedes 等。10 国、经销商详情、完整规格。按结果付费。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/autoscout24-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/autoscout24-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/autoscout24-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/autoscout24-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "AutoScout24 Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "AutoScout24 汽车交易信息爬虫,覆盖欧洲最大的在线汽车交易平台。覆盖 10 个国家(DE、AT、CH、FR、IT、ES、NL、BE、LU、SE)。返回品牌、车型、版本、车身、颜色、里程、燃料类型、变速箱、功率(马力/千瓦)、车门、座椅、驱动方式、价格、币种、首次登记、经销商名称、地址、电话、卖家类型及图片 URL。支持按 URL 或品牌/车型过滤检索。",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per SERP result"
-    },
-    "url": "https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AutoScout24 爬虫:欧洲汽车,$3/1k SERP | NanoScrape</title>
+ <meta name="description" content="抓取 AutoScout24,欧洲最大的在线汽车交易平台。返回品牌、车型、版本、里程、燃料类型、变速箱、功率、价格、经销商名称、地址、电话、图片和国家代码。覆盖 10 个欧洲国家。SERP $0.003,详情 $0.005。">
+ <meta property="og:title" content="AutoScout24 爬虫:欧洲汽车,$3/1k | NanoScrape">
+ <meta property="og:description" content="提取欧洲汽车信息:BMW、VW、Mercedes 等。10 国、经销商详情、完整规格。按结果付费。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/autoscout24-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/autoscout24-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/autoscout24-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/autoscout24-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/autoscout24-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "AutoScout24 Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "AutoScout24 汽车交易信息爬虫,覆盖欧洲最大的在线汽车交易平台。覆盖 10 个国家(DE、AT、CH、FR、IT、ES、NL、BE、LU、SE)。返回品牌、车型、版本、车身、颜色、里程、燃料类型、变速箱、功率(马力/千瓦)、车门、座椅、驱动方式、价格、币种、首次登记、经销商名称、地址、电话、卖家类型及图片 URL。支持按 URL 或品牌/车型过滤检索。",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per SERP result"
+ },
+ "url": "https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>AutoScout24 爬虫:欧洲汽车,每 1,000 条 SERP 结果 $3</h1>
-    <p class="lead">抓取 AutoScout24,欧洲最大的在线汽车交易平台,拥有数百万条车源。覆盖 10 个国家:DE、AT、CH、FR、IT、ES、NL、BE、LU 和 SE。返回品牌、车型、版本、车身、颜色、里程、燃料类型、变速箱、功率(马力/千瓦)、车门、座椅、驱动、价格、首次登记日期、经销商名称、地址、电话、卖家类型及完整图片画廊。支持按 URL 或带价格、年份、燃料类型、国家等过滤条件的品牌/车型搜索。</p>
+ <div class="detail">
+ <h1>AutoScout24 爬虫:欧洲汽车,每 1,000 条 SERP 结果 $3</h1>
+ <p class="lead">抓取 AutoScout24,欧洲最大的在线汽车交易平台,拥有数百万条车源。覆盖 10 个国家:DE、AT、CH、FR、IT、ES、NL、BE、LU 和 SE。返回品牌、车型、版本、车身、颜色、里程、燃料类型、变速箱、功率(马力/千瓦)、车门、座椅、驱动、价格、首次登记日期、经销商名称、地址、电话、卖家类型及完整图片画廊。支持按 URL 或带价格、年份、燃料类型、国家等过滤条件的品牌/车型搜索。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/b3v3e29Sms7JRUvab/source?addFromActorId=b3v3e29Sms7JRUvab&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/b3v3e29Sms7JRUvab/source?addFromActorId=b3v3e29Sms7JRUvab&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">SERP 价格</div><div class="value">$0.003/条</div></div>
-      <div class="spec"><div class="label">详情价格</div><div class="value">$0.005/条</div></div>
-      <div class="spec"><div class="label">国家数</div><div class="value">10</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">吞吐</div><div class="value">20 条/页</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">欧洲</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">SERP 价格</div><div class="value">$0.003/条</div></div>
+ <div class="spec"><div class="label">详情价格</div><div class="value">$0.005/条</div></div>
+ <div class="spec"><div class="label">国家数</div><div class="value">10</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">吞吐</div><div class="value">20 条/页</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">欧洲</div></div>
+ </div>
 
-    <h2 class="section-title">可抓取的字段</h2>
-    <ul>
-      <li><strong>车辆身份:</strong> id, title, make, model, model_version, body_type, color</li>
-      <li><strong>规格:</strong> mileage_km, fuel_type, transmission, power_hp, power_kw, num_doors, num_seats, drive_train, first_registration</li>
-      <li><strong>价格:</strong> price, currency</li>
-      <li><strong>经销商:</strong> dealer_name, dealer_location, dealer_phone, seller_type(经销商/个人)</li>
-      <li><strong>媒体:</strong> image_url, image_urls(完整画廊)</li>
-      <li><strong>元数据:</strong> source_url, source_platform, country_code, scraped_at</li>
-    </ul>
+ <h2 class="section-title">可抓取的字段</h2>
+ <ul>
+ <li><strong>车辆身份:</strong> id, title, make, model, model_version, body_type, color</li>
+ <li><strong>规格:</strong> mileage_km, fuel_type, transmission, power_hp, power_kw, num_doors, num_seats, drive_train, first_registration</li>
+ <li><strong>价格:</strong> price, currency</li>
+ <li><strong>经销商:</strong> dealer_name, dealer_location, dealer_phone, seller_type(经销商/个人)</li>
+ <li><strong>媒体:</strong> image_url, image_urls(完整画廊)</li>
+ <li><strong>元数据:</strong> source_url, source_platform, country_code, scraped_at</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>经销商监控。</strong> 按周追踪某经销商的库存周转</li>
-      <li><strong>二手车定价。</strong> 按品牌/车型/年份/里程元组在跨国维度构建定价模型</li>
-      <li><strong>跨国套利。</strong> 比较 BMW 3 系在 .de 与 .ch 之间的价差以发现进口机会</li>
-      <li><strong>EV 市场情报。</strong> 按 fuel_type=electric 筛选,按国家和价格区间评估 BEV 车源量</li>
-      <li><strong>潜在客户增强。</strong> 将 dealer_phone 和 dealer_location 导入销售 CRM</li>
-      <li><strong>市场调研。</strong> 聚合里程与价格分布以支持车队残值模型</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>经销商监控。</strong> 按周追踪某经销商的库存周转</li>
+ <li><strong>二手车定价。</strong> 按品牌/车型/年份/里程元组在跨国维度构建定价模型</li>
+ <li><strong>跨国套利。</strong> 比较 BMW 3 系在 .de 与 .ch 之间的价差以发现进口机会</li>
+ <li><strong>EV 市场情报。</strong> 按 fuel_type=electric 筛选,按国家和价格区间评估 BEV 车源量</li>
+ <li><strong>潜在客户增强。</strong> 将 dealer_phone 和 dealer_location 导入销售 CRM</li>
+ <li><strong>市场调研。</strong> 聚合里程与价格分布以支持车队残值模型</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~autoscout24-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "make": "BMW",
-    "model": "3er",
-    "country": "DE",
-    "priceFrom": 10000,
-    "priceTo": 30000,
-    "maxResults": 100,
-    "includeDetails": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "make": "BMW",
+ "model": "3er",
+ "country": "DE",
+ "priceFrom": 10000,
+ "priceTo": 30000,
+ "maxResults": 100,
+ "includeDetails": true
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 智能体配合使用:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/autoscout24-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier:</strong> 触发运行并将车源路由到经销商 CRM 或 Slack</li>
-      <li><strong>AI 智能体 (MCP):</strong> Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js:</strong> 通过 Apify SDK 编程访问</li>
-      <li><strong>Google Sheets、Airtable:</strong> 品牌/车型过滤输入,车辆记录输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier:</strong> 触发运行并将车源路由到经销商 CRM 或 Slack</li>
+ <li><strong>AI 智能体 (MCP):</strong> Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js:</strong> 通过 Apify SDK 编程访问</li>
+ <li><strong>Google Sheets、Airtable:</strong> 品牌/车型过滤输入,车辆记录输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>BMW 320d M Sport</td></tr>
-      <tr><td>make</td><td>string</td><td>BMW</td></tr>
-      <tr><td>model</td><td>string</td><td>320d</td></tr>
-      <tr><td>price</td><td>number</td><td>28900</td></tr>
-      <tr><td>currency</td><td>string</td><td>EUR</td></tr>
-      <tr><td>mileage_km</td><td>integer</td><td>45000</td></tr>
-      <tr><td>fuel_type</td><td>string</td><td>Diesel</td></tr>
-      <tr><td>power_hp</td><td>integer</td><td>190</td></tr>
-      <tr><td>dealer_name</td><td>string</td><td>BMW Niederlassung Berlin</td></tr>
-      <tr><td>country_code</td><td>string</td><td>DE</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>title</td><td>string</td><td>BMW 320d M Sport</td></tr>
+ <tr><td>make</td><td>string</td><td>BMW</td></tr>
+ <tr><td>model</td><td>string</td><td>320d</td></tr>
+ <tr><td>price</td><td>number</td><td>28900</td></tr>
+ <tr><td>currency</td><td>string</td><td>EUR</td></tr>
+ <tr><td>mileage_km</td><td>integer</td><td>45000</td></tr>
+ <tr><td>fuel_type</td><td>string</td><td>Diesel</td></tr>
+ <tr><td>power_hp</td><td>integer</td><td>190</td></tr>
+ <tr><td>dealer_name</td><td>string</td><td>BMW Niederlassung Berlin</td></tr>
+ <tr><td>country_code</td><td>string</td><td>DE</td></tr>
+ </table>
 
-    <h2 class="section-title">相关爬虫</h2>
-    <ul>
-      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a>:德国分类信息(含私人车源)</li>
-      <li><a href="/actors/willhaben-at-scraper/">Willhaben.at Scraper</a>:奥地利分类信息</li>
-      <li><a href="/actors/marktplaats-nl-scraper/">Marktplaats.nl Scraper</a>:荷兰分类信息</li>
-      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a>:用商家档案丰富经销商信息</li>
-    </ul>
+ <h2 class="section-title">相关爬虫</h2>
+ <ul>
+ <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a>:德国分类信息(含私人车源)</li>
+ <li><a href="/actors/willhaben-at-scraper/">Willhaben.at Scraper</a>:奥地利分类信息</li>
+ <li><a href="/actors/marktplaats-nl-scraper/">Marktplaats.nl Scraper</a>:荷兰分类信息</li>
+ <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a>:用商家档案丰富经销商信息</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/b3v3e29Sms7JRUvab/source?addFromActorId=b3v3e29Sms7JRUvab&fpr=0khfbz" class="btn-secondary">立即试用(提供免费额度)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/b3v3e29Sms7JRUvab/source?addFromActorId=b3v3e29Sms7JRUvab&fpr=0khfbz" class="btn-secondary">立即试用(提供免费额度)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

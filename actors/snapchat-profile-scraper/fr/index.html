@@ -1,180 +1,180 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Snapchat Profile Scraper : données créateurs, sans connexion, 1$/1k | NanoScrape</title>
-  <meta name="description" content="Extrayez les profils Snapchat publics de créateurs. Retourne nom affiché, bio, nombre d'abonnés, URL d'avatar, statut vérifié et lien vers le site web. Sans compte Snapchat ni clé API. Entrée en masse de noms d'utilisateur. 0,001$ par profil.">
-  <meta property="og:title" content="Snapchat Profile Scraper : données créateurs, sans connexion | NanoScrape">
-  <meta property="og:description" content="Extrayez les données de profil créateur Snapchat : nom affiché, bio, abonnés, avatar, statut vérifié, site web. Sans connexion. Paiement au résultat.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Snapchat Profile Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Scraper de profils créateurs Snapchat. Passez des noms d'utilisateur ou des URLs de profil Snapchat complètes et récupérez nom affiché, bio, nombre d'abonnés, URL Bitmoji / avatar, badge vérifié Official Story et le lien externe extrait de la bio. Sans connexion ni clé API. Entrée en masse via stringList.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.001",
-      "priceCurrency": "USD",
-      "description": "per profile scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Snapchat Profile Scraper : données créateurs, sans connexion, 1$/1k | NanoScrape</title>
+ <meta name="description" content="Extrayez les profils Snapchat publics de créateurs. Retourne nom affiché, bio, nombre d'abonnés, URL d'avatar, statut vérifié et lien vers le site web. Sans compte Snapchat ni clé API. Entrée en masse de noms d'utilisateur. 0,001$ par profil.">
+ <meta property="og:title" content="Snapchat Profile Scraper : données créateurs, sans connexion | NanoScrape">
+ <meta property="og:description" content="Extrayez les données de profil créateur Snapchat : nom affiché, bio, abonnés, avatar, statut vérifié, site web. Sans connexion. Paiement au résultat.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/snapchat-profile-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Snapchat Profile Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Scraper de profils créateurs Snapchat. Passez des noms d'utilisateur ou des URLs de profil Snapchat complètes et récupérez nom affiché, bio, nombre d'abonnés, URL Bitmoji / avatar, badge vérifié Official Story et le lien externe extrait de la bio. Sans connexion ni clé API. Entrée en masse via stringList.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.001",
+ "priceCurrency": "USD",
+ "description": "per profile scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Snapchat Profile Scraper : données créateurs, sans connexion, 1$ pour 1 000 profils</h1>
-    <p class="lead">Extrayez en masse les profils Snapchat publics de créateurs. Retourne display_name, bio (jusqu'à 500 caractères), subscriber_count, URL avatar / Bitmoji, indicateur vérifié Official Story et URL de site web parsée depuis la bio. Acceptez noms d'utilisateur, @handles ou URLs web.snapchat.com complètes dans la même liste d'entrée. Sans compte Snapchat ni clé API.</p>
+ <div class="detail">
+ <h1>Snapchat Profile Scraper : données créateurs, sans connexion, 1$ pour 1 000 profils</h1>
+ <p class="lead">Extrayez en masse les profils Snapchat publics de créateurs. Retourne display_name, bio (jusqu'à 500 caractères), subscriber_count, URL avatar / Bitmoji, indicateur vérifié Official Story et URL de site web parsée depuis la bio. Acceptez noms d'utilisateur, @handles ou URLs web.snapchat.com complètes dans la même liste d'entrée. Sans compte Snapchat ni clé API.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/profil</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Couverture</div><div class="value">Mondiale</div></div>
-      <div class="spec"><div class="label">Champs par profil</div><div class="value">9</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Direct ou proxy Apify</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">Réhydratation SSR</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/profil</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">Mondiale</div></div>
+ <div class="spec"><div class="label">Champs par profil</div><div class="value">9</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Direct ou proxy Apify</div></div>
+ <div class="spec"><div class="label">Anti-Bot</div><div class="value">Réhydratation SSR</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous pouvez extraire</h2>
-    <ul>
-      <li><strong>Identité :</strong> username, display_name, profile_url (URL canonique web.snapchat.com)</li>
-      <li><strong>Bloc bio :</strong> texte bio (jusqu'à 500 caractères), URL de site web extraite de la bio</li>
-      <li><strong>Audience :</strong> subscriber_count (null si Snapchat le masque)</li>
-      <li><strong>Confiance :</strong> indicateur is_verified (badge Official Story)</li>
-      <li><strong>Médias :</strong> avatar_url (Bitmoji ou image téléversée), horodatage scraped_at</li>
-    </ul>
+ <h2 class="section-title">Ce que vous pouvez extraire</h2>
+ <ul>
+ <li><strong>Identité :</strong> username, display_name, profile_url (URL canonique web.snapchat.com)</li>
+ <li><strong>Bloc bio :</strong> texte bio (jusqu'à 500 caractères), URL de site web extraite de la bio</li>
+ <li><strong>Audience :</strong> subscriber_count (null si Snapchat le masque)</li>
+ <li><strong>Confiance :</strong> indicateur is_verified (badge Official Story)</li>
+ <li><strong>Médias :</strong> avatar_url (Bitmoji ou image téléversée), horodatage scraped_at</li>
+ </ul>
 
-    <h2 class="section-title">Cas d'usage principaux</h2>
-    <ul>
-      <li><strong>Prospection de créateurs.</strong> Extraire l'URL du site web depuis une liste de créateurs Snapchat pour trouver landing pages et emails d'outreach</li>
-      <li><strong>Rafraîchissement de base influenceurs.</strong> Re-snapshotter subscriber_count et statut vérifié pour tenir à jour les bases agence</li>
-      <li><strong>Audit de comptes de marque.</strong> Récupérer display_name et bio pour votre roster de handles de marque afin de vérifier un positionnement cohérent</li>
-      <li><strong>Sourcing lookalike.</strong> Croiser les handles Snapchat avec les profils TikTok et Twitter de la même personne</li>
-      <li><strong>Filtre badge vérifié.</strong> Filtrer is_verified=true pour constituer une liste curated de créateurs Official Story dans une niche</li>
-    </ul>
+ <h2 class="section-title">Cas d'usage principaux</h2>
+ <ul>
+ <li><strong>Prospection de créateurs.</strong> Extraire l'URL du site web depuis une liste de créateurs Snapchat pour trouver landing pages et emails d'outreach</li>
+ <li><strong>Rafraîchissement de base influenceurs.</strong> Re-snapshotter subscriber_count et statut vérifié pour tenir à jour les bases agence</li>
+ <li><strong>Audit de comptes de marque.</strong> Récupérer display_name et bio pour votre roster de handles de marque afin de vérifier un positionnement cohérent</li>
+ <li><strong>Sourcing lookalike.</strong> Croiser les handles Snapchat avec les profils TikTok et Twitter de la même personne</li>
+ <li><strong>Filtre badge vérifié.</strong> Filtrer is_verified=true pour constituer une liste curated de créateurs Official Story dans une niche</li>
+ </ul>
 
-    <h2 class="section-title">Exemple d'API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
+ <h2 class="section-title">Exemple d'API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~snapchat-profile-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "profileUrls": ["nasa", "@snapchat", "https://web.snapchat.com/@gucci"],
-    "maxResults": 0
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "profileUrls": ["nasa", "@snapchat", "https://web.snapchat.com/@gucci"],
+ "maxResults": 0
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/snapchat-profile-scraper</span></pre></div>
 
-    <h2 class="section-title">Intégrations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et router les lignes de profil via webhook</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
-      <li><strong>Google Sheets, Airtable :</strong> noms d'utilisateur en entrée, CSV complet de profils créateurs en sortie</li>
-    </ul>
+ <h2 class="section-title">Intégrations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et router les lignes de profil via webhook</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+ <li><strong>Google Sheets, Airtable :</strong> noms d'utilisateur en entrée, CSV complet de profils créateurs en sortie</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>username</td><td>string</td><td>nasa</td></tr>
-      <tr><td>display_name</td><td>string</td><td>NASA</td></tr>
-      <tr><td>bio</td><td>string</td><td>Explore the universe and discover our home planet.</td></tr>
-      <tr><td>subscriber_count</td><td>integer</td><td>2 500 000</td></tr>
-      <tr><td>avatar_url</td><td>string</td><td>https://snapchat.com/bitmojis/...</td></tr>
-      <tr><td>is_verified</td><td>boolean</td><td>true</td></tr>
-      <tr><td>website</td><td>string</td><td>https://www.nasa.gov</td></tr>
-      <tr><td>profile_url</td><td>string</td><td>https://web.snapchat.com/@nasa</td></tr>
-      <tr><td>scraped_at</td><td>string</td><td>2026-05-17T10:00:00Z</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>username</td><td>string</td><td>nasa</td></tr>
+ <tr><td>display_name</td><td>string</td><td>NASA</td></tr>
+ <tr><td>bio</td><td>string</td><td>Explore the universe and discover our home planet.</td></tr>
+ <tr><td>subscriber_count</td><td>integer</td><td>2 500 000</td></tr>
+ <tr><td>avatar_url</td><td>string</td><td>https://snapchat.com/bitmojis/...</td></tr>
+ <tr><td>is_verified</td><td>boolean</td><td>true</td></tr>
+ <tr><td>website</td><td>string</td><td>https://www.nasa.gov</td></tr>
+ <tr><td>profile_url</td><td>string</td><td>https://web.snapchat.com/@nasa</td></tr>
+ <tr><td>scraped_at</td><td>string</td><td>2026-05-17T10:00:00Z</td></tr>
+ </table>
 
-    <h2 class="section-title">Scrapers associés</h2>
-    <ul>
-      <li><a href="/actors/tiktok-profile-scraper/">TikTok Profile Scraper</a> : même couverture créateur sur TikTok avec indicateur vendeur TikTok Shop</li>
-      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a> : intelligence créateurs multi-plateformes</li>
-      <li><a href="/actors/youtube-scraper/">YouTube Scraper</a> : données de chaîne du même créateur multi-plateformes</li>
-    </ul>
+ <h2 class="section-title">Scrapers associés</h2>
+ <ul>
+ <li><a href="/actors/tiktok-profile-scraper/">TikTok Profile Scraper</a> : même couverture créateur sur TikTok avec indicateur vendeur TikTok Shop</li>
+ <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a> : intelligence créateurs multi-plateformes</li>
+ <li><a href="/actors/youtube-scraper/">YouTube Scraper</a> : données de chaîne du même créateur multi-plateformes</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/snapchat-profile-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/NCttWnTjbIjXIIONj/source?addFromActorId=NCttWnTjbIjXIIONj&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

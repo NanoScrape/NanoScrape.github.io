@@ -1,463 +1,463 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Scrape Google Maps with n8n (Free Template, Google Sheets Ready) | NanoScrape</title>
-  <meta name="description" content="Step-by-step guide to scraping Google Maps in n8n and sending results straight into Google Sheets. Free workflow template, no code, runs in under 10 minutes for about $1 per 1,000 places.">
-  <meta name="primary-keyword" content="scrape google maps with n8n">
-  <meta property="og:title" content="How to Scrape Google Maps with n8n (Free Template) | NanoScrape">
-  <meta property="og:description" content="Connect n8n to a lightweight Apify actor, drop Google Maps results into a Google Sheet. Free workflow template included.">
-  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
-  <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>How to Scrape Google Maps with n8n (Free Template, Google Sheets Ready) | NanoScrape</title>
+ <meta name="description" content="Step-by-step guide to scraping Google Maps in n8n and sending results straight into Google Sheets. Free workflow template, no code, runs in under 10 minutes for about $1 per 1,000 places.">
+ <meta name="primary-keyword" content="scrape google maps with n8n">
+ <meta property="og:title" content="How to Scrape Google Maps with n8n (Free Template) | NanoScrape">
+ <meta property="og:description" content="Connect n8n to a lightweight Apify actor, drop Google Maps results into a Google Sheet. Free workflow template included.">
+ <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
+ <meta property="og:type" content="article">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "HowTo",
-    "name": "How to Scrape Google Maps with n8n",
-    "description": "Connect n8n to the Apify Google Maps Scraper and push results into a Google Sheet with a downloadable template.",
-    "totalTime": "PT10M",
-    "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "1.00" },
-    "supply": [
-      {"@type": "HowToSupply", "name": "n8n instance (Cloud, self-hosted, or Desktop)"},
-      {"@type": "HowToSupply", "name": "Free Apify account"},
-      {"@type": "HowToSupply", "name": "Google account with a Google Sheet"}
-    ],
-    "tool": [
-      {"@type": "HowToTool", "name": "n8n"},
-      {"@type": "HowToTool", "name": "Apify Google Maps Scraper"},
-      {"@type": "HowToTool", "name": "Google Sheets"}
-    ],
-    "step": [
-      {"@type": "HowToStep", "name": "Get your Apify API token", "text": "Sign up for a free Apify account, open Settings then Integrations, and copy the Personal API token."},
-      {"@type": "HowToStep", "name": "Download and import the n8n template", "text": "Download the workflow JSON from NanoScrape and import it into n8n via the Import from File menu."},
-      {"@type": "HowToStep", "name": "Add your Apify credential and review the input", "text": "Open the Run an Actor and get dataset node, add a new Apify credential with your Personal API token, then edit the Input JSON to set your search strings and options."},
-      {"@type": "HowToStep", "name": "Create a Google Sheet and connect it", "text": "Create an empty Google Sheet, copy its ID from the URL, and paste it into the Append to Google Sheet node. Connect your Google account via the credential dropdown."},
-      {"@type": "HowToStep", "name": "Run the workflow", "text": "Click Test Workflow. Within about ten seconds, one row per business will appear in your Google Sheet."}
-    ]
-  }
-  </script>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "HowTo",
+ "name": "How to Scrape Google Maps with n8n",
+ "description": "Connect n8n to the Apify Google Maps Scraper and push results into a Google Sheet with a downloadable template.",
+ "totalTime": "PT10M",
+ "estimatedCost": { "@type": "MonetaryAmount", "currency": "USD", "value": "1.00" },
+ "supply": [
+ {"@type": "HowToSupply", "name": "n8n instance (Cloud, self-hosted, or Desktop)"},
+ {"@type": "HowToSupply", "name": "Free Apify account"},
+ {"@type": "HowToSupply", "name": "Google account with a Google Sheet"}
+ ],
+ "tool": [
+ {"@type": "HowToTool", "name": "n8n"},
+ {"@type": "HowToTool", "name": "Apify Google Maps Scraper"},
+ {"@type": "HowToTool", "name": "Google Sheets"}
+ ],
+ "step": [
+ {"@type": "HowToStep", "name": "Get your Apify API token", "text": "Sign up for a free Apify account, open Settings then Integrations, and copy the Personal API token."},
+ {"@type": "HowToStep", "name": "Download and import the n8n template", "text": "Download the workflow JSON from NanoScrape and import it into n8n via the Import from File menu."},
+ {"@type": "HowToStep", "name": "Add your Apify credential and review the input", "text": "Open the Run an Actor and get dataset node, add a new Apify credential with your Personal API token, then edit the Input JSON to set your search strings and options."},
+ {"@type": "HowToStep", "name": "Create a Google Sheet and connect it", "text": "Create an empty Google Sheet, copy its ID from the URL, and paste it into the Append to Google Sheet node. Connect your Google account via the credential dropdown."},
+ {"@type": "HowToStep", "name": "Run the workflow", "text": "Click Test Workflow. Within about ten seconds, one row per business will appear in your Google Sheet."}
+ ]
+ }
+ </script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    "headline": "How to Scrape Google Maps with n8n",
-    "description": "Step-by-step tutorial for scraping Google Maps in n8n and pushing results into a Google Sheet, with a free workflow template.",
-    "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"},
-    "publisher": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com", "logo": {"@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"}},
-    "datePublished": "2026-07-14",
-    "dateModified": "2026-07-14",
-    "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/"
-  }
-  </script>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "Article",
+ "headline": "How to Scrape Google Maps with n8n",
+ "description": "Step-by-step tutorial for scraping Google Maps in n8n and pushing results into a Google Sheet, with a free workflow template.",
+ "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"},
+ "publisher": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com", "logo": {"@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"}},
+ "datePublished": "2026-07-14",
+ "dateModified": "2026-07-14",
+ "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/"
+ }
+ </script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {"@type": "Question", "name": "Do I need a paid Apify plan to run this?", "acceptedAnswer": {"@type": "Answer", "text": "No. The free tier includes $5 of usage credit each month, which covers about 5,000 places from this actor."}},
-      {"@type": "Question", "name": "Does the template work with n8n Cloud, self-hosted, and Desktop?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It uses n8n's core Manual Trigger and Google Sheets nodes plus the verified Apify node. On n8n Cloud the Apify node is pre-installed. On self-hosted or Desktop, install it once via Settings > Community Nodes with the package name @apify/n8n-nodes-apify."}},
-      {"@type": "Question", "name": "Can I send results to Airtable, PostgreSQL, or Notion instead?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Swap the Google Sheets node for the destination of your choice. Incoming fields are auto-mapped."}},
-      {"@type": "Question", "name": "How do I search multiple queries in one run?", "acceptedAnswer": {"@type": "Answer", "text": "Add more strings to the searchStrings array, or switch to the structured queries parameter with per-query location and country codes."}},
-      {"@type": "Question", "name": "Can I collect email addresses too?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits each business website and extracts team contacts."}},
-      {"@type": "Question", "name": "What if I want to scrape more than 500 places in one query?", "acceptedAnswer": {"@type": "Answer", "text": "Google Maps returns at most about 120 results per single query. For broader coverage, split the search by neighborhood or category and run each as a separate search string."}},
-      {"@type": "Question", "name": "How fresh is the data?", "acceptedAnswer": {"@type": "Answer", "text": "Every scrape hits Google Maps live. There is no cached data. Whatever Google shows at the moment of the run is what you get in your sheet."}},
-      {"@type": "Question", "name": "Is scraping Google Maps legal?", "acceptedAnswer": {"@type": "Answer", "text": "Scraping publicly available data is generally permitted in most jurisdictions, but the specifics depend on where you and your users are located and what you do with the data. The hiQ Labs v. LinkedIn ruling in the US established that scraping public data is not a violation of the Computer Fraud and Abuse Act. GDPR still applies to any personal data you collect. Consult a lawyer if you have specific compliance questions."}}
-    ]
-  }
-  </script>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+ {"@type": "Question", "name": "Do I need a paid Apify plan to run this?", "acceptedAnswer": {"@type": "Answer", "text": "No. The free tier includes $5 of usage credit each month, which covers about 5,000 places from this actor."}},
+ {"@type": "Question", "name": "Does the template work with n8n Cloud, self-hosted, and Desktop?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. It uses n8n's core Manual Trigger and Google Sheets nodes plus the verified Apify node. On n8n Cloud the Apify node is pre-installed. On self-hosted or Desktop, install it once via Settings > Community Nodes with the package name @apify/n8n-nodes-apify."}},
+ {"@type": "Question", "name": "Can I send results to Airtable, PostgreSQL, or Notion instead?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Swap the Google Sheets node for the destination of your choice. Incoming fields are auto-mapped."}},
+ {"@type": "Question", "name": "How do I search multiple queries in one run?", "acceptedAnswer": {"@type": "Answer", "text": "Add more strings to the searchStrings array, or switch to the structured queries parameter with per-query location and country codes."}},
+ {"@type": "Question", "name": "Can I collect email addresses too?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits each business website and extracts team contacts."}},
+ {"@type": "Question", "name": "What if I want to scrape more than 500 places in one query?", "acceptedAnswer": {"@type": "Answer", "text": "Google Maps returns at most about 120 results per single query. For broader coverage, split the search by neighborhood or category and run each as a separate search string."}},
+ {"@type": "Question", "name": "How fresh is the data?", "acceptedAnswer": {"@type": "Answer", "text": "Every scrape hits Google Maps live. There is no cached data. Whatever Google shows at the moment of the run is what you get in your sheet."}},
+ {"@type": "Question", "name": "Is scraping Google Maps legal?", "acceptedAnswer": {"@type": "Answer", "text": "Scraping publicly available data is generally permitted in most jurisdictions, but the specifics depend on where you and your users are located and what you do with the data. The hiQ Labs v. LinkedIn ruling in the US established that scraping public data is not a violation of the Computer Fraud and Abuse Act. GDPR still applies to any personal data you collect. Consult a lawyer if you have specific compliance questions."}}
+ ]
+ }
+ </script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/"},
-      {"@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/tutorials/"},
-      {"@type": "ListItem", "position": 3, "name": "Scrape Google Maps with n8n", "item": "https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/"}
-    ]
-  }
-  </script>
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "BreadcrumbList",
+ "itemListElement": [
+ {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/"},
+ {"@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/tutorials/"},
+ {"@type": "ListItem", "position": 3, "name": "Scrape Google Maps with n8n", "item": "https://www.nanoscrape.com/tutorials/scrape-google-maps-with-n8n/"}
+ ]
+ }
+ </script>
 
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
 
-    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
-    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
-    .breadcrumb a { color: var(--muted); }
-    .breadcrumb a:hover { color: var(--accent); }
-    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
-    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
-    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+ .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+ .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+ .breadcrumb a { color: var(--muted); }
+ .breadcrumb a:hover { color: var(--accent); }
+ .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+ .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+ .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
-    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
-    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
-    .article p { margin-bottom: 16px; }
-    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
-    .article li { margin-bottom: 6px; color: var(--text); }
-    .article li strong { color: var(--white); }
+ .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+ .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+ .article p { margin-bottom: 16px; }
+ .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+ .article li { margin-bottom: 6px; color: var(--text); }
+ .article li strong { color: var(--white); }
 
-    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
-    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
-    .toc ol { margin: 0; padding-left: 20px; }
-    .toc li { margin-bottom: 4px; }
-    .toc a { color: var(--text); }
-    .toc a:hover { color: var(--accent); }
+ .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+ .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+ .toc ol { margin: 0; padding-left: 20px; }
+ .toc li { margin-bottom: 4px; }
+ .toc a { color: var(--text); }
+ .toc a:hover { color: var(--accent); }
 
-    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
-    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+ .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
-    .article figure { margin: 24px 0 28px; }
-    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
-    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
-    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
-    .article .figure-group figure { margin: 0; }
-    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+ .article figure { margin: 24px 0 28px; }
+ .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+ .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+ .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+ .article .figure-group figure { margin: 0; }
+ @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
-    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
-    .callout strong { color: var(--white); }
-    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
-    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+ .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+ .callout strong { color: var(--white); }
+ .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+ .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
-    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
-    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+ .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+ .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
-    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
-    .faq details[open] { border-color: var(--accent); }
-    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
-    .faq summary::marker { color: var(--muted); }
-    .faq details p { margin: 10px 0 4px; color: var(--text); }
+ .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+ .faq details[open] { border-color: var(--accent); }
+ .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+ .faq summary::marker { color: var(--muted); }
+ .faq details p { margin: 10px 0 4px; color: var(--text); }
 
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .article h1 { font-size: 1.55rem; }
-      .article h2 { font-size: 1.25rem; }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .article h1 { font-size: 1.55rem; }
+ .article h2 { font-size: 1.25rem; }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <article class="article">
-    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Google Maps with n8n</nav>
+ <article class="article">
+ <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Google Maps with n8n</nav>
 
-    <h1>How to Scrape Google Maps with n8n (and Send Results to Google Sheets)</h1>
-    <p class="lead">A working n8n workflow that pulls Google Maps business data into a Google Sheet on demand or on a schedule. No code, no browser automation, no proxy configuration. The template is free, the actor bills about a dollar per thousand places, and the whole thing sets up in under ten minutes.</p>
+ <h1>How to Scrape Google Maps with n8n (and Send Results to Google Sheets)</h1>
+ <p class="lead">A working n8n workflow that pulls Google Maps business data into a Google Sheet on demand or on a schedule. No code, no browser automation, no proxy configuration. The template is free, the actor bills about a dollar per thousand places, and the whole thing sets up in under ten minutes.</p>
 
-    <figure>
-      <img src="assets/01-hero-google-sheet-result.png" alt="Google Sheet populated with Google Maps results: title, category, address, phone, website, rating, review count and other fields across many rows" loading="lazy" width="3200" height="1842">
-      <figcaption>What you end up with: 30+ fields per business, straight into your Google Sheet.</figcaption>
-    </figure>
+ <figure>
+ <img src="assets/01-hero-google-sheet-result.png" alt="Google Sheet populated with Google Maps results: title, category, address, phone, website, rating, review count and other fields across many rows" loading="lazy" width="3200" height="1842">
+ <figcaption>What you end up with: 30+ fields per business, straight into your Google Sheet.</figcaption>
+ </figure>
 
-    <div class="meta-row">
-      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
-      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
-      <div class="meta-item"><strong>Cost:</strong> ~$1 per 1,000 places (free Apify tier covers ~5,000/month)</div>
-      <div class="meta-item"><strong>Tools:</strong> n8n, Apify, Google Sheets</div>
-    </div>
+ <div class="meta-row">
+ <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+ <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+ <div class="meta-item"><strong>Cost:</strong> ~$1 per 1,000 places (free Apify tier covers ~5,000/month)</div>
+ <div class="meta-item"><strong>Tools:</strong> n8n, Apify, Google Sheets</div>
+ </div>
 
-    <div class="ctas">
-      <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download class="btn-primary">Download the n8n template &darr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-secondary">Open the actor on Apify</a>
-    </div>
+ <div class="ctas">
+ <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download class="btn-primary">Download the n8n template &darr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-secondary">Open the actor on Apify</a>
+ </div>
 
-    <div class="toc">
-      <h2>In this tutorial</h2>
-      <ol>
-        <li><a href="#what-you-build">What you will build</a></li>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#step-1">Step 1: Get your Apify API token</a></li>
-        <li><a href="#step-2">Step 2: Import the n8n template</a></li>
-        <li><a href="#step-3">Step 3: Paste your token and search query</a></li>
-        <li><a href="#step-4">Step 4: Connect Google Sheets</a></li>
-        <li><a href="#step-5">Step 5: Run it</a></li>
-        <li><a href="#schedule">Schedule daily runs</a></li>
-        <li><a href="#enrichment">Add reviews, popular times, or contact emails</a></li>
-        <li><a href="#duplicates">Skip places you have already scraped</a></li>
-        <li><a href="#large-runs">Handling large runs</a></li>
-        <li><a href="#cost">What it costs</a></li>
-        <li><a href="#faq">FAQ</a></li>
-      </ol>
-    </div>
+ <div class="toc">
+ <h2>In this tutorial</h2>
+ <ol>
+ <li><a href="#what-you-build">What you will build</a></li>
+ <li><a href="#prerequisites">Prerequisites</a></li>
+ <li><a href="#step-1">Step 1: Get your Apify API token</a></li>
+ <li><a href="#step-2">Step 2: Import the n8n template</a></li>
+ <li><a href="#step-3">Step 3: Paste your token and search query</a></li>
+ <li><a href="#step-4">Step 4: Connect Google Sheets</a></li>
+ <li><a href="#step-5">Step 5: Run it</a></li>
+ <li><a href="#schedule">Schedule daily runs</a></li>
+ <li><a href="#enrichment">Add reviews, popular times, or contact emails</a></li>
+ <li><a href="#duplicates">Skip places you have already scraped</a></li>
+ <li><a href="#large-runs">Handling large runs</a></li>
+ <li><a href="#cost">What it costs</a></li>
+ <li><a href="#faq">FAQ</a></li>
+ </ol>
+ </div>
 
-    <h2 id="what-you-build">What you will build</h2>
-    <p>A four-node n8n workflow. Click Run, and about ten seconds later a fresh batch of businesses lands in your Google Sheet with 30-plus fields per row: business name, category, full address with parsed city and postal code, phone, website, GPS coordinates, rating, review count, opening hours, price range, photos, and more.</p>
+ <h2 id="what-you-build">What you will build</h2>
+ <p>A four-node n8n workflow. Click Run, and about ten seconds later a fresh batch of businesses lands in your Google Sheet with 30-plus fields per row: business name, category, full address with parsed city and postal code, phone, website, GPS coordinates, rating, review count, opening hours, price range, photos, and more.</p>
 
-    <p>The workflow calls the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">NanoScrape Google Maps Scraper</a> under the hood. That actor is a lightweight Go binary running on Apify, roughly 80 MB in size, uses datacenter proxies, and returns results in seconds. All the field extraction, geocoding, and pagination is handled for you.</p>
+ <p>The workflow calls the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">NanoScrape Google Maps Scraper</a> under the hood. That actor is a lightweight Go binary running on Apify, roughly 80 MB in size, uses datacenter proxies, and returns results in seconds. All the field extraction, geocoding, and pagination is handled for you.</p>
 
-    <h2 id="prerequisites">Prerequisites</h2>
-    <ul>
-      <li>An n8n instance. Cloud, self-hosted, or Desktop all work. If you do not have one, <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and n8n Desktop is free forever.</li>
-      <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, which covers about 5,000 places from this scraper.</li>
-      <li>A Google account with a fresh Google Sheet ready to receive data.</li>
-    </ul>
+ <h2 id="prerequisites">Prerequisites</h2>
+ <ul>
+ <li>An n8n instance. Cloud, self-hosted, or Desktop all work. If you do not have one, <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and n8n Desktop is free forever.</li>
+ <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, which covers about 5,000 places from this scraper.</li>
+ <li>A Google account with a fresh Google Sheet ready to receive data.</li>
+ </ul>
 
-    <div class="step" id="step-1">
-      <span class="step-number">STEP 1</span>
-      <h2>Get your Apify API token</h2>
-      <ol>
-        <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper</a> and click <strong>Try for free</strong>.</li>
-        <li>Sign up with Google or email. It takes about a minute.</li>
-        <li>Once signed in, click your avatar (top right), open <strong>Settings</strong>, then <strong>Integrations</strong>.</li>
-        <li>Copy the <strong>Personal API token</strong>. Keep the tab open, you will paste it in a moment.</li>
-      </ol>
-      <figure>
-        <img src="assets/02-apify-personal-api-token.png" alt="Apify Console Settings page showing the Integrations tab with the Personal API token field" loading="lazy" width="3200" height="1846">
-        <figcaption>Apify Console &rsaquo; Settings &rsaquo; Integrations. Copy the Personal API token.</figcaption>
-      </figure>
-      <div class="callout tip"><strong>Tip:</strong> the free tier is more than enough to complete this tutorial. You only pay if you exceed $5 in usage in a given month.</div>
-    </div>
+ <div class="step" id="step-1">
+ <span class="step-number">STEP 1</span>
+ <h2>Get your Apify API token</h2>
+ <ol>
+ <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper</a> and click <strong>Try for free</strong>.</li>
+ <li>Sign up with Google or email. It takes about a minute.</li>
+ <li>Once signed in, click your avatar (top right), open <strong>Settings</strong>, then <strong>Integrations</strong>.</li>
+ <li>Copy the <strong>Personal API token</strong>. Keep the tab open, you will paste it in a moment.</li>
+ </ol>
+ <figure>
+ <img src="assets/02-apify-personal-api-token.png" alt="Apify Console Settings page showing the Integrations tab with the Personal API token field" loading="lazy" width="3200" height="1846">
+ <figcaption>Apify Console &rsaquo; Settings &rsaquo; Integrations. Copy the Personal API token.</figcaption>
+ </figure>
+ <div class="callout tip"><strong>Tip:</strong> the free tier is more than enough to complete this tutorial. You only pay if you exceed $5 in usage in a given month.</div>
+ </div>
 
-    <div class="step" id="step-2">
-      <span class="step-number">STEP 2</span>
-      <h2>Import the n8n template</h2>
-      <ol>
-        <li>Download the workflow: <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download><strong>scrape-google-maps-to-google-sheets.json</strong></a></li>
-        <li>In n8n, open the workflows list. Click the three-dot menu at the top right and choose <strong>Import from File</strong>.</li>
-        <li>Select the JSON you just downloaded.</li>
-      </ol>
-      <figure>
-        <img src="assets/03-n8n-import-menu.png" alt="n8n workflows list with the top-right three-dot menu open, highlighting the Import from File option" loading="lazy" width="3200" height="1846">
-        <figcaption>Top-right menu in the n8n workflows list. Choose "Import from File".</figcaption>
-      </figure>
-      <p>You will see three nodes wired left to right:</p>
-      <ol>
-        <li><strong>Manual Trigger</strong> starts the run when you click a button.</li>
-        <li><strong>Run an Actor and get dataset</strong> calls the Google Maps Scraper via the verified <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a>. It handles the run, waits for completion, and returns the dataset items.</li>
-        <li><strong>Append to Google Sheet</strong> writes one row per business.</li>
-      </ol>
-      <figure>
-        <img src="assets/04-workflow-canvas-imported.png" alt="n8n canvas after import showing three nodes wired left to right: Manual Trigger, Run an Actor and get dataset, Append to Google Sheet" loading="lazy" width="3200" height="1842">
-        <figcaption>The imported workflow: three nodes, no code, no HTTP wiring.</figcaption>
-      </figure>
-      <div class="callout"><strong>Self-hosted or n8n Desktop?</strong> If the Apify node is missing after import, install it once from <strong>Settings &rsaquo; Community Nodes &rsaquo; Install</strong> with the package name <code class="code-inline">@apify/n8n-nodes-apify</code>. On n8n Cloud it is pre-installed.</div>
-    </div>
+ <div class="step" id="step-2">
+ <span class="step-number">STEP 2</span>
+ <h2>Import the n8n template</h2>
+ <ol>
+ <li>Download the workflow: <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download><strong>scrape-google-maps-to-google-sheets.json</strong></a></li>
+ <li>In n8n, open the workflows list. Click the three-dot menu at the top right and choose <strong>Import from File</strong>.</li>
+ <li>Select the JSON you just downloaded.</li>
+ </ol>
+ <figure>
+ <img src="assets/03-n8n-import-menu.png" alt="n8n workflows list with the top-right three-dot menu open, highlighting the Import from File option" loading="lazy" width="3200" height="1846">
+ <figcaption>Top-right menu in the n8n workflows list. Choose "Import from File".</figcaption>
+ </figure>
+ <p>You will see three nodes wired left to right:</p>
+ <ol>
+ <li><strong>Manual Trigger</strong> starts the run when you click a button.</li>
+ <li><strong>Run an Actor and get dataset</strong> calls the Google Maps Scraper via the verified <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a>. It handles the run, waits for completion, and returns the dataset items.</li>
+ <li><strong>Append to Google Sheet</strong> writes one row per business.</li>
+ </ol>
+ <figure>
+ <img src="assets/04-workflow-canvas-imported.png" alt="n8n canvas after import showing three nodes wired left to right: Manual Trigger, Run an Actor and get dataset, Append to Google Sheet" loading="lazy" width="3200" height="1842">
+ <figcaption>The imported workflow: three nodes, no code, no HTTP wiring.</figcaption>
+ </figure>
+ <div class="callout"><strong>Self-hosted or n8n Desktop?</strong> If the Apify node is missing after import, install it once from <strong>Settings &rsaquo; Community Nodes &rsaquo; Install</strong> with the package name <code class="code-inline">@apify/n8n-nodes-apify</code>. On n8n Cloud it is pre-installed.</div>
+ </div>
 
-    <div class="step" id="step-3">
-      <span class="step-number">STEP 3</span>
-      <h2>Add your Apify credential and review the input</h2>
-      <p>Open the <strong>Run an Actor and get dataset</strong> node. At the top, click the <strong>Credential to connect with</strong> dropdown and choose <strong>Create new credential</strong>. Paste the Personal API token you copied in step 1, name it something like "Apify account", and save.</p>
-      <div class="figure-group">
-        <figure>
-          <img src="assets/05-set-apify-token-in-n8n-credential-step1.png" alt="n8n Apify node with the Credential to connect with dropdown expanded, showing Create new credential" loading="lazy" width="3200" height="1842">
-          <figcaption>Step 3a: open the credential dropdown, choose Create new.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/05-set-apify-token-in-n8n-credential-step2.png" alt="n8n credential creation panel for Apify with the API token field ready to paste" loading="lazy" width="3200" height="1846">
-          <figcaption>Step 3b: paste the Apify Personal API token, save.</figcaption>
-        </figure>
-      </div>
+ <div class="step" id="step-3">
+ <span class="step-number">STEP 3</span>
+ <h2>Add your Apify credential and review the input</h2>
+ <p>Open the <strong>Run an Actor and get dataset</strong> node. At the top, click the <strong>Credential to connect with</strong> dropdown and choose <strong>Create new credential</strong>. Paste the Personal API token you copied in step 1, name it something like "Apify account", and save.</p>
+ <div class="figure-group">
+ <figure>
+ <img src="assets/05-set-apify-token-in-n8n-credential-step1.png" alt="n8n Apify node with the Credential to connect with dropdown expanded, showing Create new credential" loading="lazy" width="3200" height="1842">
+ <figcaption>Step 3a: open the credential dropdown, choose Create new.</figcaption>
+ </figure>
+ <figure>
+ <img src="assets/05-set-apify-token-in-n8n-credential-step2.png" alt="n8n credential creation panel for Apify with the API token field ready to paste" loading="lazy" width="3200" height="1846">
+ <figcaption>Step 3b: paste the Apify Personal API token, save.</figcaption>
+ </figure>
+ </div>
 
-      <p>Below the credential, the template pre-fills the <strong>Input JSON</strong> with a working configuration. This is the same JSON you would paste into the actor's <em>Input</em> tab on Apify Console:</p>
-      <div class="code-block"><pre>{
-  "searchStrings": [
-    "pizza restaurant new york",
-    "coffee shop new york"
-  ],
-  "maxResultsPerQuery": 50,
-  "language": "en",
-  "includeReviews": true,
-  "maxReviewsPerPlace": 10,
-  "outputLanguage": "en",
-  "proxyConfiguration": { "useApifyProxy": true },
-  "maxConcurrency": 10,
-  "requestDelay": 300
+ <p>Below the credential, the template pre-fills the <strong>Input JSON</strong> with a working configuration. This is the same JSON you would paste into the actor's <em>Input</em> tab on Apify Console:</p>
+ <div class="code-block"><pre>{
+ "searchStrings": [
+ "pizza restaurant new york",
+ "coffee shop new york"
+ ],
+ "maxResultsPerQuery": 50,
+ "language": "en",
+ "includeReviews": true,
+ "maxReviewsPerPlace": 10,
+ "outputLanguage": "en",
+ "proxyConfiguration": { "useApifyProxy": true },
+ "maxConcurrency": 10,
+ "requestDelay": 300
 }</pre></div>
-      <p>Adjust the fields you care about and leave the rest at their defaults:</p>
-      <ul>
-        <li><code class="code-inline">searchStrings</code>: an array of one or more queries. Include the location in each string. Examples: <em>coffee shops in Berlin</em>, <em>Zahnarzt Zurich</em>, <em>law firms Manhattan</em>. Every query runs in parallel.</li>
-        <li><code class="code-inline">maxResultsPerQuery</code>: how many places per query, up to 120 (Google Maps page limit).</li>
-        <li><code class="code-inline">language</code>: ISO 639-1 code (<code class="code-inline">en</code>, <code class="code-inline">de</code>, <code class="code-inline">fr</code>, <code class="code-inline">ja</code>, <code class="code-inline">es</code>, ...). Use the local language for best results in non-English regions.</li>
-        <li><code class="code-inline">includeReviews</code>: keep this on to get featured reviews with each place. See the <a href="#enrichment">enrichment section</a> below for the full list of add-ons.</li>
-      </ul>
-      <div class="callout"><strong>Why include the location in the query string?</strong> Google Maps ranks results by relevance to the whole search string. <em>plumber Berlin</em> returns better results than <em>plumber</em> with a separate location filter.</div>
-    </div>
+ <p>Adjust the fields you care about and leave the rest at their defaults:</p>
+ <ul>
+ <li><code class="code-inline">searchStrings</code>: an array of one or more queries. Include the location in each string. Examples: <em>coffee shops in Berlin</em>, <em>Zahnarzt Zurich</em>, <em>law firms Manhattan</em>. Every query runs in parallel.</li>
+ <li><code class="code-inline">maxResultsPerQuery</code>: how many places per query, up to 120 (Google Maps page limit).</li>
+ <li><code class="code-inline">language</code>: ISO 639-1 code (<code class="code-inline">en</code>, <code class="code-inline">de</code>, <code class="code-inline">fr</code>, <code class="code-inline">ja</code>, <code class="code-inline">es</code>, ...). Use the local language for best results in non-English regions.</li>
+ <li><code class="code-inline">includeReviews</code>: keep this on to get featured reviews with each place. See the <a href="#enrichment">enrichment section</a> below for the full list of add-ons.</li>
+ </ul>
+ <div class="callout"><strong>Why include the location in the query string?</strong> Google Maps ranks results by relevance to the whole search string. <em>plumber Berlin</em> returns better results than <em>plumber</em> with a separate location filter.</div>
+ </div>
 
-    <div class="step" id="step-4">
-      <span class="step-number">STEP 4</span>
-      <h2>Create a Google Sheet and connect it</h2>
-      <ol>
-        <li>Go to Google Sheets and create a new blank spreadsheet. Leave the first row empty. The n8n node handles headers automatically.</li>
-        <li>Copy the spreadsheet ID from the URL. It is the long string between <code class="code-inline">/d/</code> and <code class="code-inline">/edit</code>.</li>
-      </ol>
-      <figure>
-        <img src="assets/06-google-sheet-id-in-url.png" alt="Google Sheets URL in a browser address bar with the spreadsheet ID portion highlighted" loading="lazy" width="1600" height="475">
-        <figcaption>The spreadsheet ID is the long string between <code>/d/</code> and <code>/edit</code>.</figcaption>
-      </figure>
-      <ol start="3">
-        <li>In n8n, open the <strong>Append to Google Sheet</strong> node.</li>
-        <li>Paste the spreadsheet ID into the Document ID field.</li>
-        <li>Leave the sheet name as <code class="code-inline">Sheet1</code> if that is what your tab is called, otherwise update it.</li>
-        <li>Click the <strong>Credential to connect with</strong> dropdown at the top of the node. Pick an existing Google Sheets credential or click <strong>Create New</strong> to walk through the Google OAuth flow.</li>
-      </ol>
-      <div class="figure-group">
-        <figure>
-          <img src="assets/06-setup-google-sheet-credential-1.png" alt="n8n Google Sheets credential creation panel with Sign in with Google button" loading="lazy" width="3200" height="1846">
-          <figcaption>Step 4a: create a new Google Sheets credential.</figcaption>
-        </figure>
-        <figure>
-          <img src="assets/06-setup-google-sheet-credential-2-sign-in-with-google.png" alt="Google OAuth consent screen granting n8n access to Google Sheets" loading="lazy" width="3200" height="1846">
-          <figcaption>Step 4b: sign in and grant access. One-time setup.</figcaption>
-        </figure>
-      </div>
-      <p>Back in the node, confirm the Document ID and Sheet Name are set, and save.</p>
-      <figure>
-        <img src="assets/07-google-sheets-node-config.png" alt="Configured Append to Google Sheet node with Document ID and sheet name filled" loading="lazy" width="3200" height="1846">
-        <figcaption>Final configuration of the Append to Google Sheet node.</figcaption>
-      </figure>
-      <div class="callout tip"><strong>Tip for self-hosted n8n:</strong> if you have not set up Google credentials before, follow n8n's <a target="_blank" rel="noopener" href="https://docs.n8n.io/integrations/builtin/credentials/google/oauth-single-service/">OAuth setup guide</a>. It takes about five minutes.</div>
-    </div>
+ <div class="step" id="step-4">
+ <span class="step-number">STEP 4</span>
+ <h2>Create a Google Sheet and connect it</h2>
+ <ol>
+ <li>Go to Google Sheets and create a new blank spreadsheet. Leave the first row empty. The n8n node handles headers automatically.</li>
+ <li>Copy the spreadsheet ID from the URL. It is the long string between <code class="code-inline">/d/</code> and <code class="code-inline">/edit</code>.</li>
+ </ol>
+ <figure>
+ <img src="assets/06-google-sheet-id-in-url.png" alt="Google Sheets URL in a browser address bar with the spreadsheet ID portion highlighted" loading="lazy" width="1600" height="475">
+ <figcaption>The spreadsheet ID is the long string between <code>/d/</code> and <code>/edit</code>.</figcaption>
+ </figure>
+ <ol start="3">
+ <li>In n8n, open the <strong>Append to Google Sheet</strong> node.</li>
+ <li>Paste the spreadsheet ID into the Document ID field.</li>
+ <li>Leave the sheet name as <code class="code-inline">Sheet1</code> if that is what your tab is called, otherwise update it.</li>
+ <li>Click the <strong>Credential to connect with</strong> dropdown at the top of the node. Pick an existing Google Sheets credential or click <strong>Create New</strong> to walk through the Google OAuth flow.</li>
+ </ol>
+ <div class="figure-group">
+ <figure>
+ <img src="assets/06-setup-google-sheet-credential-1.png" alt="n8n Google Sheets credential creation panel with Sign in with Google button" loading="lazy" width="3200" height="1846">
+ <figcaption>Step 4a: create a new Google Sheets credential.</figcaption>
+ </figure>
+ <figure>
+ <img src="assets/06-setup-google-sheet-credential-2-sign-in-with-google.png" alt="Google OAuth consent screen granting n8n access to Google Sheets" loading="lazy" width="3200" height="1846">
+ <figcaption>Step 4b: sign in and grant access. One-time setup.</figcaption>
+ </figure>
+ </div>
+ <p>Back in the node, confirm the Document ID and Sheet Name are set, and save.</p>
+ <figure>
+ <img src="assets/07-google-sheets-node-config.png" alt="Configured Append to Google Sheet node with Document ID and sheet name filled" loading="lazy" width="3200" height="1846">
+ <figcaption>Final configuration of the Append to Google Sheet node.</figcaption>
+ </figure>
+ <div class="callout tip"><strong>Tip for self-hosted n8n:</strong> if you have not set up Google credentials before, follow n8n's <a target="_blank" rel="noopener" href="https://docs.n8n.io/integrations/builtin/credentials/google/oauth-single-service/">OAuth setup guide</a>. It takes about five minutes.</div>
+ </div>
 
-    <div class="step" id="step-5">
-      <span class="step-number">STEP 5</span>
-      <h2>Run it</h2>
-      <p>Click <strong>Test Workflow</strong> at the bottom left. Each node lights up green as it runs. Depending on <code class="code-inline">maxResultsPerQuery</code> and how many search strings you added, the run finishes in roughly ten to sixty seconds. Open your Google Sheet: one row per business, with columns for name, address, phone, website, rating, review count, opening hours, GPS coordinates, and around 25 other fields.</p>
-      <figure>
-        <img src="assets/08-successful-run-and-sheet.png" alt="n8n canvas after a successful run showing all nodes with green checkmarks, next to the populated Google Sheet" loading="lazy" width="3200" height="1842">
-        <figcaption>Successful run. Green checkmarks on every node, rows in the sheet.</figcaption>
-      </figure>
+ <div class="step" id="step-5">
+ <span class="step-number">STEP 5</span>
+ <h2>Run it</h2>
+ <p>Click <strong>Test Workflow</strong> at the bottom left. Each node lights up green as it runs. Depending on <code class="code-inline">maxResultsPerQuery</code> and how many search strings you added, the run finishes in roughly ten to sixty seconds. Open your Google Sheet: one row per business, with columns for name, address, phone, website, rating, review count, opening hours, GPS coordinates, and around 25 other fields.</p>
+ <figure>
+ <img src="assets/08-successful-run-and-sheet.png" alt="n8n canvas after a successful run showing all nodes with green checkmarks, next to the populated Google Sheet" loading="lazy" width="3200" height="1842">
+ <figcaption>Successful run. Green checkmarks on every node, rows in the sheet.</figcaption>
+ </figure>
 
-      <p>If something goes wrong, click the node with the red icon and read the error panel on the right:</p>
-      <ul>
-        <li><strong>Apify credential errors</strong>: your token is wrong, has a trailing space, or was revoked. Recreate the credential and paste it again.</li>
-        <li><strong>Not enough credit</strong>: your Apify account has exhausted its free-tier balance. Check <a target="_blank" rel="noopener" href="https://console.apify.com/billing">Apify Console &rsaquo; Billing</a>.</li>
-        <li><strong>Empty output</strong>: the search query returned no results. Try something less specific, or check that the location in the query string exists on Google Maps.</li>
-        <li><strong>Google Sheets error</strong>: the spreadsheet ID is wrong or the sheet name does not match a tab in the file.</li>
-      </ul>
-    </div>
+ <p>If something goes wrong, click the node with the red icon and read the error panel on the right:</p>
+ <ul>
+ <li><strong>Apify credential errors</strong>: your token is wrong, has a trailing space, or was revoked. Recreate the credential and paste it again.</li>
+ <li><strong>Not enough credit</strong>: your Apify account has exhausted its free-tier balance. Check <a target="_blank" rel="noopener" href="https://console.apify.com/billing">Apify Console &rsaquo; Billing</a>.</li>
+ <li><strong>Empty output</strong>: the search query returned no results. Try something less specific, or check that the location in the query string exists on Google Maps.</li>
+ <li><strong>Google Sheets error</strong>: the spreadsheet ID is wrong or the sheet name does not match a tab in the file.</li>
+ </ul>
+ </div>
 
-    <h2 id="schedule">Schedule daily runs</h2>
-    <p>Replace the Manual Trigger with a <strong>Schedule Trigger</strong> node. Set the interval to once a day, once a week, or a cron expression of your choice. Every morning your sheet will grow with fresh data for the search terms you configured.</p>
-    <p>To keep the sheet clean, either clear it at the start of each run (add a Google Sheets "Clear" node before the Append), or skip already-scraped places (see the next section).</p>
+ <h2 id="schedule">Schedule daily runs</h2>
+ <p>Replace the Manual Trigger with a <strong>Schedule Trigger</strong> node. Set the interval to once a day, once a week, or a cron expression of your choice. Every morning your sheet will grow with fresh data for the search terms you configured.</p>
+ <p>To keep the sheet clean, either clear it at the start of each run (add a Google Sheets "Clear" node before the Append), or skip already-scraped places (see the next section).</p>
 
-    <h2 id="enrichment">Add reviews, popular times, or contact emails</h2>
-    <p>The Google Maps Scraper has several optional enrichments that stack on top of the basic scrape. Enable them by editing the <strong>Input JSON</strong> field of the <em>Run an Actor and get dataset</em> node.</p>
-    <figure>
-      <img src="assets/09-enrichment-json-body.png" alt="Input JSON field of the Apify node with includeReviews, maxReviewsPerPlace, includePopularTimes and other enrichment options set" loading="lazy" width="3200" height="1842">
-      <figcaption>All enrichments are just fields in the Input JSON. Toggle them per run.</figcaption>
-    </figure>
+ <h2 id="enrichment">Add reviews, popular times, or contact emails</h2>
+ <p>The Google Maps Scraper has several optional enrichments that stack on top of the basic scrape. Enable them by editing the <strong>Input JSON</strong> field of the <em>Run an Actor and get dataset</em> node.</p>
+ <figure>
+ <img src="assets/09-enrichment-json-body.png" alt="Input JSON field of the Apify node with includeReviews, maxReviewsPerPlace, includePopularTimes and other enrichment options set" loading="lazy" width="3200" height="1842">
+ <figcaption>All enrichments are just fields in the Input JSON. Toggle them per run.</figcaption>
+ </figure>
 
-    <h3>Featured reviews</h3>
-    <p>Set <code class="code-inline">"includeReviews": true</code> (it is already enabled in the default template) and each place gets a <code class="code-inline">user_reviews</code> array with author name, star rating, publication date, and review text. Adds about 300 ms per place.</p>
-    <div class="code-block"><pre>{
-  "searchStrings": ["restaurants in Paris"],
-  "maxResultsPerQuery": 20,
-  "includeReviews": true,
-  "maxReviewsPerPlace": 10,
-  "reviewsSort": "newest"
+ <h3>Featured reviews</h3>
+ <p>Set <code class="code-inline">"includeReviews": true</code> (it is already enabled in the default template) and each place gets a <code class="code-inline">user_reviews</code> array with author name, star rating, publication date, and review text. Adds about 300 ms per place.</p>
+ <div class="code-block"><pre>{
+ "searchStrings": ["restaurants in Paris"],
+ "maxResultsPerQuery": 20,
+ "includeReviews": true,
+ "maxReviewsPerPlace": 10,
+ "reviewsSort": "newest"
 }</pre></div>
-    <p>Sort options: <code class="code-inline">most_relevant</code> (default), <code class="code-inline">newest</code>, <code class="code-inline">highest_rating</code>, <code class="code-inline">lowest_rating</code>. To only pull reviews from the last month, add <code class="code-inline">"reviewsNewerThan": "2026-06-14"</code>.</p>
+ <p>Sort options: <code class="code-inline">most_relevant</code> (default), <code class="code-inline">newest</code>, <code class="code-inline">highest_rating</code>, <code class="code-inline">lowest_rating</code>. To only pull reviews from the last month, add <code class="code-inline">"reviewsNewerThan": "2026-06-14"</code>.</p>
 
-    <h3>Popular times histogram</h3>
-    <p>Add <code class="code-inline">"includePopularTimes": true</code> and each place gets a <code class="code-inline">popular_times</code> object with visitor-traffic scores by weekday and hour (0 to 100). Great for finding low-traffic time slots. Adds about 1.5 seconds per place.</p>
+ <h3>Popular times histogram</h3>
+ <p>Add <code class="code-inline">"includePopularTimes": true</code> and each place gets a <code class="code-inline">popular_times</code> object with visitor-traffic scores by weekday and hour (0 to 100). Great for finding low-traffic time slots. Adds about 1.5 seconds per place.</p>
 
-    <h3>Contact email extraction</h3>
-    <p>Add <code class="code-inline">"enableContactExtraction": true</code> and <code class="code-inline">"geminiApiKey": "your-gemini-key"</code>. After the Maps scrape completes, an AI-powered add-on visits every business website found in the results and extracts team member names, emails, phone numbers, and departments. Great for turning a lead list into a contact list in one step. Get a free Gemini API key at <a target="_blank" rel="noopener" href="https://aistudio.google.com/app/apikey">Google AI Studio</a>.</p>
+ <h3>Contact email extraction</h3>
+ <p>Add <code class="code-inline">"enableContactExtraction": true</code> and <code class="code-inline">"geminiApiKey": "your-gemini-key"</code>. After the Maps scrape completes, an AI-powered add-on visits every business website found in the results and extracts team member names, emails, phone numbers, and departments. Great for turning a lead list into a contact list in one step. Get a free Gemini API key at <a target="_blank" rel="noopener" href="https://aistudio.google.com/app/apikey">Google AI Studio</a>.</p>
 
-    <div class="callout"><strong>How the add-ons are billed:</strong> the base Google Maps scrape stays at $1 per 1,000 places regardless of which enrichments you enable. Contact extraction is billed separately by the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>. Reviews and popular times are free.</div>
+ <div class="callout"><strong>How the add-ons are billed:</strong> the base Google Maps scrape stays at $1 per 1,000 places regardless of which enrichments you enable. Contact extraction is billed separately by the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>. Reviews and popular times are free.</div>
 
-    <h2 id="duplicates">Skip places you have already scraped</h2>
-    <p>Every place on Google Maps has a stable identifier called a CID. It does not change even if the business renames or moves. To avoid re-collecting places on scheduled runs, pass an array of CIDs in the <code class="code-inline">excludeCids</code> parameter.</p>
-    <div class="code-block"><pre>{
-  "searchStrings": ["cafes in Zurich"],
-  "maxResultsPerQuery": 100,
-  "excludeCids": ["12345678901234567", "98765432109876543"]
+ <h2 id="duplicates">Skip places you have already scraped</h2>
+ <p>Every place on Google Maps has a stable identifier called a CID. It does not change even if the business renames or moves. To avoid re-collecting places on scheduled runs, pass an array of CIDs in the <code class="code-inline">excludeCids</code> parameter.</p>
+ <div class="code-block"><pre>{
+ "searchStrings": ["cafes in Zurich"],
+ "maxResultsPerQuery": 100,
+ "excludeCids": ["12345678901234567", "98765432109876543"]
 }</pre></div>
-    <p>A common pattern in n8n: read the CID column from your existing sheet with a Google Sheets "Read" node, feed it into a Set node that builds the array, then reference that array in the Apify node's Input JSON via an expression.</p>
+ <p>A common pattern in n8n: read the CID column from your existing sheet with a Google Sheets "Read" node, feed it into a Set node that builds the array, then reference that array in the Apify node's Input JSON via an expression.</p>
 
-    <h2 id="large-runs">Handling large runs</h2>
-    <p>The Apify n8n node manages the run lifecycle for you: it starts the actor, waits for completion, and returns the dataset items. For big jobs, just bump the <strong>Timeout</strong> field in the node's options (defaults to 3000 seconds, plenty for tens of thousands of places).</p>
-    <p>If you want to run a very long job in the background and check on it later, switch the operation to <em>Run Actor</em> (without <em>and get dataset</em>) to start the run without waiting, then add a second node with <em>Get dataset items</em> that runs on a schedule.</p>
+ <h2 id="large-runs">Handling large runs</h2>
+ <p>The Apify n8n node manages the run lifecycle for you: it starts the actor, waits for completion, and returns the dataset items. For big jobs, just bump the <strong>Timeout</strong> field in the node's options (defaults to 3000 seconds, plenty for tens of thousands of places).</p>
+ <p>If you want to run a very long job in the background and check on it later, switch the operation to <em>Run Actor</em> (without <em>and get dataset</em>) to start the run without waiting, then add a second node with <em>Get dataset items</em> that runs on a schedule.</p>
 
-    <h2 id="cost">What it costs</h2>
-    <ul>
-      <li><strong>Apify actor:</strong> $1.00 per 1,000 places. All 30-plus fields included. Reviews and popular times are free add-ons. Contact extraction is billed separately by the sub-actor.</li>
-      <li><strong>n8n:</strong> free on Desktop and self-hosted. n8n Cloud starts at $20/month.</li>
-      <li><strong>Google Sheets:</strong> free.</li>
-    </ul>
-    <p>A daily workflow that pulls 100 new places every morning runs at about $3 per month. A weekly workflow that pulls 1,000 places every Monday runs at $4 per month.</p>
+ <h2 id="cost">What it costs</h2>
+ <ul>
+ <li><strong>Apify actor:</strong> $1.00 per 1,000 places. All 30-plus fields included. Reviews and popular times are free add-ons. Contact extraction is billed separately by the sub-actor.</li>
+ <li><strong>n8n:</strong> free on Desktop and self-hosted. n8n Cloud starts at $20/month.</li>
+ <li><strong>Google Sheets:</strong> free.</li>
+ </ul>
+ <p>A daily workflow that pulls 100 new places every morning runs at about $3 per month. A weekly workflow that pulls 1,000 places every Monday runs at $4 per month.</p>
 
-    <h2 id="faq">FAQ</h2>
-    <div class="faq">
-      <details>
-        <summary>Do I need a paid Apify plan to run this?</summary>
-        <p>No. The free tier includes $5 of usage credit every month, enough for around 5,000 places from this actor. You only pay if you go over.</p>
-      </details>
-      <details>
-        <summary>Does the template work with n8n Cloud, self-hosted, and Desktop?</summary>
-        <p>Yes, all three. It uses n8n's core Manual Trigger and Google Sheets nodes plus the verified Apify node. On n8n Cloud the Apify node is available immediately. On self-hosted or Desktop, install it once from <strong>Settings &rsaquo; Community Nodes &rsaquo; Install</strong> with the package name <code>@apify/n8n-nodes-apify</code>.</p>
-      </details>
-      <details>
-        <summary>Can I send results to Airtable, PostgreSQL, or Notion instead?</summary>
-        <p>Yes. Replace the Google Sheets node at the end of the workflow with whatever destination you prefer. All incoming fields are auto-mapped, so you just need to point the new node at your target and pick which fields to keep.</p>
-      </details>
-      <details>
-        <summary>How do I search multiple queries in one run?</summary>
-        <p>Two options. Simple approach: add more strings to the searchStrings array in the Apify node's Input JSON (the template already ships with two example queries). Advanced approach: use the structured queries parameter, which lets you attach your own company_id per query and separate the search term from the location and country code. The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">actor README</a> has examples.</p>
-      </details>
-      <details>
-        <summary>Can I collect email addresses too?</summary>
-        <p>Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits every business website found in the results and extracts team member emails, names, positions, and phone numbers using AI.</p>
-      </details>
-      <details>
-        <summary>What if I want to scrape more than 500 places in one query?</summary>
-        <p>Google Maps returns at most about 120 results per single query. For broader coverage, split the search by neighborhood, category, or sub-region and run each as a separate search string. For example, instead of "restaurants in London", try "restaurants in Shoreditch", "restaurants in Camden", "restaurants in Notting Hill".</p>
-      </details>
-      <details>
-        <summary>How fresh is the data?</summary>
-        <p>Every scrape hits Google Maps live. There is no cached data. Whatever Google shows at the moment of the run is what you get in your sheet.</p>
-      </details>
-      <details>
-        <summary>Is scraping Google Maps legal?</summary>
-        <p>Scraping publicly available data is generally permitted in most jurisdictions, but the specifics depend on where you and your users are located and what you do with the data. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping public data is not a violation of the Computer Fraud and Abuse Act. GDPR still applies to any personal data you collect. Consult a lawyer if you have specific compliance questions.</p>
-      </details>
-    </div>
+ <h2 id="faq">FAQ</h2>
+ <div class="faq">
+ <details>
+ <summary>Do I need a paid Apify plan to run this?</summary>
+ <p>No. The free tier includes $5 of usage credit every month, enough for around 5,000 places from this actor. You only pay if you go over.</p>
+ </details>
+ <details>
+ <summary>Does the template work with n8n Cloud, self-hosted, and Desktop?</summary>
+ <p>Yes, all three. It uses n8n's core Manual Trigger and Google Sheets nodes plus the verified Apify node. On n8n Cloud the Apify node is available immediately. On self-hosted or Desktop, install it once from <strong>Settings &rsaquo; Community Nodes &rsaquo; Install</strong> with the package name <code>@apify/n8n-nodes-apify</code>.</p>
+ </details>
+ <details>
+ <summary>Can I send results to Airtable, PostgreSQL, or Notion instead?</summary>
+ <p>Yes. Replace the Google Sheets node at the end of the workflow with whatever destination you prefer. All incoming fields are auto-mapped, so you just need to point the new node at your target and pick which fields to keep.</p>
+ </details>
+ <details>
+ <summary>How do I search multiple queries in one run?</summary>
+ <p>Two options. Simple approach: add more strings to the searchStrings array in the Apify node's Input JSON (the template already ships with two example queries). Advanced approach: use the structured queries parameter, which lets you attach your own company_id per query and separate the search term from the location and country code. The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">actor README</a> has examples.</p>
+ </details>
+ <details>
+ <summary>Can I collect email addresses too?</summary>
+ <p>Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits every business website found in the results and extracts team member emails, names, positions, and phone numbers using AI.</p>
+ </details>
+ <details>
+ <summary>What if I want to scrape more than 500 places in one query?</summary>
+ <p>Google Maps returns at most about 120 results per single query. For broader coverage, split the search by neighborhood, category, or sub-region and run each as a separate search string. For example, instead of "restaurants in London", try "restaurants in Shoreditch", "restaurants in Camden", "restaurants in Notting Hill".</p>
+ </details>
+ <details>
+ <summary>How fresh is the data?</summary>
+ <p>Every scrape hits Google Maps live. There is no cached data. Whatever Google shows at the moment of the run is what you get in your sheet.</p>
+ </details>
+ <details>
+ <summary>Is scraping Google Maps legal?</summary>
+ <p>Scraping publicly available data is generally permitted in most jurisdictions, but the specifics depend on where you and your users are located and what you do with the data. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping public data is not a violation of the Computer Fraud and Abuse Act. GDPR still applies to any personal data you collect. Consult a lawyer if you have specific compliance questions.</p>
+ </details>
+ </div>
 
-    <h2>Related resources</h2>
-    <ul>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: full actor documentation, all input parameters, complete field reference.</li>
-      <li><a href="/actors/google-maps-scraper/">NanoScrape actor page</a>: quick-reference specs, pricing, use cases.</li>
-      <li><a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download>Download the n8n template</a> used in this tutorial.</li>
-      <li><a href="/templates/">All templates</a>: n8n, Make, and Zapier workflows for other NanoScrape actors.</li>
-    </ul>
+ <h2>Related resources</h2>
+ <ul>
+ <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: full actor documentation, all input parameters, complete field reference.</li>
+ <li><a href="/actors/google-maps-scraper/">NanoScrape actor page</a>: quick-reference specs, pricing, use cases.</li>
+ <li><a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download>Download the n8n template</a> used in this tutorial.</li>
+ <li><a href="/templates/">All templates</a>: n8n, Make, and Zapier workflows for other NanoScrape actors.</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download class="btn-primary">Download the template &darr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-secondary">Open the actor on Apify</a>
-    </div>
-  </article>
+ <div class="ctas" style="margin-top:40px">
+ <a href="/templates/n8n/scrape-google-maps-to-google-sheets.json" download class="btn-primary">Download the template &darr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-secondary">Open the actor on Apify</a>
+ </div>
+ </article>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

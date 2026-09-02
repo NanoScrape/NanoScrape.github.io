@@ -1,184 +1,184 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tori.fi Scraper: Finnlands #1 Kleinanzeigen, $3/1k | NanoScrape</title>
-  <meta name="description" content="Tori.fi scrapen, Finnlands größter Marktplatz (Schibsted-Gruppe). Liefert Titel, EUR-Preis, Standort, Marke, Zustand, Verkäufer, alle Bilder, Datum. Keyword-Suche, Multi-Search, optionale Detail-Anreicherung.">
-  <meta property="og:title" content="Tori.fi Scraper: Finnlands #1 Marktplatz | NanoScrape">
-  <meta property="og:description" content="Finnlands größte Kleinanzeigen scrapen (Schibsted). EUR-Preis, Marke, Zustand, Verkäufer. Multi-Search. Pay-per-Result.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/tori-fi-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/tori-fi-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Tori.fi Classifieds Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Tori.fi-Kleinanzeigen-Scraper für Finnlands #1 Marktplatz (Schibsted-Gruppe). Liefert Titel, Preis in EUR, Standort (Stadt, Gebiet oder Region), Marke, Zustand, Verkäufername, alle Bild-URLs, Datum und Quell-URL. Keyword-Suche, Multi-Search, optionale Detail-Anreicherung. 128MB RAM, HTTP-only.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Tori.fi Scraper: Finnlands #1 Kleinanzeigen, $3/1k | NanoScrape</title>
+ <meta name="description" content="Tori.fi scrapen, Finnlands größter Marktplatz (Schibsted-Gruppe). Liefert Titel, EUR-Preis, Standort, Marke, Zustand, Verkäufer, alle Bilder, Datum. Keyword-Suche, Multi-Search, optionale Detail-Anreicherung.">
+ <meta property="og:title" content="Tori.fi Scraper: Finnlands #1 Marktplatz | NanoScrape">
+ <meta property="og:description" content="Finnlands größte Kleinanzeigen scrapen (Schibsted). EUR-Preis, Marke, Zustand, Verkäufer. Multi-Search. Pay-per-Result.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/tori-fi-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/tori-fi-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Tori.fi Classifieds Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Tori.fi-Kleinanzeigen-Scraper für Finnlands #1 Marktplatz (Schibsted-Gruppe). Liefert Titel, Preis in EUR, Standort (Stadt, Gebiet oder Region), Marke, Zustand, Verkäufername, alle Bild-URLs, Datum und Quell-URL. Keyword-Suche, Multi-Search, optionale Detail-Anreicherung. 128MB RAM, HTTP-only.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Tori.fi Scraper: Finnlands #1 Kleinanzeigen (Schibsted-Gruppe)</h1>
-    <p class="lead">Scrapen Sie Kleinanzeigen von tori.fi, Finnlands größtem Online-Marktplatz (Schibsted-Gruppe). Liefert Titel, Preis in EUR, Standort (Stadt, Gebiet oder Region), Marke, Zustand, Verkäufername, alle Bild-URLs, Datum und Quell-URL. Per Keyword suchen (polkupyora, iPhone, MacBook), mehrere Keyword-Queries parallel ausführen und optional mit vollständigen Detail-Seiten-Daten anreichern. Paginierung erfolgt automatisch.</p>
+ <div class="detail">
+ <h1>Tori.fi Scraper: Finnlands #1 Kleinanzeigen (Schibsted-Gruppe)</h1>
+ <p class="lead">Scrapen Sie Kleinanzeigen von tori.fi, Finnlands größtem Online-Marktplatz (Schibsted-Gruppe). Liefert Titel, Preis in EUR, Standort (Stadt, Gebiet oder Region), Marke, Zustand, Verkäufername, alle Bild-URLs, Datum und Quell-URL. Per Keyword suchen (polkupyora, iPhone, MacBook), mehrere Keyword-Queries parallel ausführen und optional mit vollständigen Detail-Seiten-Daten anreichern. Paginierung erfolgt automatisch.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tqZCdbYvYkVlYHZlT/source?addFromActorId=tqZCdbYvYkVlYHZlT&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tqZCdbYvYkVlYHZlT/source?addFromActorId=tqZCdbYvYkVlYHZlT&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Preise</div><div class="value">$0,003/Anzeige</div></div>
-      <div class="spec"><div class="label">Mit Details</div><div class="value">$0,005/Anzeige</div></div>
-      <div class="spec"><div class="label">Land</div><div class="value">Finnland</div></div>
-      <div class="spec"><div class="label">Währung</div><div class="value">EUR</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
-      <div class="spec"><div class="label">Modus</div><div class="value">HTTP-only</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Preise</div><div class="value">$0,003/Anzeige</div></div>
+ <div class="spec"><div class="label">Mit Details</div><div class="value">$0,005/Anzeige</div></div>
+ <div class="spec"><div class="label">Land</div><div class="value">Finnland</div></div>
+ <div class="spec"><div class="label">Währung</div><div class="value">EUR</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
+ <div class="spec"><div class="label">Modus</div><div class="value">HTTP-only</div></div>
+ </div>
 
-    <h2 class="section-title">Was Sie scrapen können</h2>
-    <ul>
-      <li><strong>Vertikale:</strong> allgemeine Verkäufe, Elektronik, Fahrzeuge, Mode, Haus und Garten, Sport</li>
-      <li><strong>Suche:</strong> beliebiges Keyword auf Finnisch oder Englisch, optional Multi-Query in einem Lauf</li>
-      <li><strong>SERP-Daten:</strong> Titel, EUR-Preis, Standort, Marke, alle Bilder, Datum</li>
-      <li><strong>Detail-Anreicherung:</strong> Zustand, Verkäufername, vollständige Beschreibung von der Listing-Seite</li>
-      <li><strong>Multi-Search:</strong> mehrere Queries gleichzeitig mit Pro-Query-Ergebnislimits</li>
-      <li><strong>Quell-Link:</strong> direkte URL zu jeder tori.fi-Anzeige</li>
-    </ul>
+ <h2 class="section-title">Was Sie scrapen können</h2>
+ <ul>
+ <li><strong>Vertikale:</strong> allgemeine Verkäufe, Elektronik, Fahrzeuge, Mode, Haus und Garten, Sport</li>
+ <li><strong>Suche:</strong> beliebiges Keyword auf Finnisch oder Englisch, optional Multi-Query in einem Lauf</li>
+ <li><strong>SERP-Daten:</strong> Titel, EUR-Preis, Standort, Marke, alle Bilder, Datum</li>
+ <li><strong>Detail-Anreicherung:</strong> Zustand, Verkäufername, vollständige Beschreibung von der Listing-Seite</li>
+ <li><strong>Multi-Search:</strong> mehrere Queries gleichzeitig mit Pro-Query-Ergebnislimits</li>
+ <li><strong>Quell-Link:</strong> direkte URL zu jeder tori.fi-Anzeige</li>
+ </ul>
 
-    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
-    <ul>
-      <li><strong>Gebraucht-Fahrrad (polkupyora) Arbitrage.</strong> Fahrrad-Anzeigen in Helsinki, Tampere oder Turku unter einer Preisgrenze beobachten und in Minuten auf frische Inventur reagieren</li>
-      <li><strong>Second-Hand-Preisanalyse.</strong> Durchschnittliche EUR-Preise für iPhones, MacBooks oder Winterausrüstung im finnischen Markt verfolgen</li>
-      <li><strong>Nordischer Preisvergleich.</strong> Tori.fi-Preise mit Blocket.se (Schweden), Finn.no (Norwegen), DBA.dk (Dänemark) für dieselbe Marke vergleichen</li>
-      <li><strong>Händler-Konkurrenzbeobachtung.</strong> Snapshot eines Power-Sellers täglich, um Preisänderungen zu erkennen</li>
-      <li><strong>Marken-Reputations-Tracking.</strong> Zählen, wie oft eine Marke in Kleinanzeigen vs. Neu-Retail-Kanälen erscheint</li>
-    </ul>
+ <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+ <ul>
+ <li><strong>Gebraucht-Fahrrad (polkupyora) Arbitrage.</strong> Fahrrad-Anzeigen in Helsinki, Tampere oder Turku unter einer Preisgrenze beobachten und in Minuten auf frische Inventur reagieren</li>
+ <li><strong>Second-Hand-Preisanalyse.</strong> Durchschnittliche EUR-Preise für iPhones, MacBooks oder Winterausrüstung im finnischen Markt verfolgen</li>
+ <li><strong>Nordischer Preisvergleich.</strong> Tori.fi-Preise mit Blocket.se (Schweden), Finn.no (Norwegen), DBA.dk (Dänemark) für dieselbe Marke vergleichen</li>
+ <li><strong>Händler-Konkurrenzbeobachtung.</strong> Snapshot eines Power-Sellers täglich, um Preisänderungen zu erkennen</li>
+ <li><strong>Marken-Reputations-Tracking.</strong> Zählen, wie oft eine Marke in Kleinanzeigen vs. Neu-Retail-Kanälen erscheint</li>
+ </ul>
 
-    <h2 class="section-title">API-Beispiel</h2>
-    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["polkupyora", "iphone", "macbook"],
-    "maxResults": 200,
-    "maxResultsPerQuery": 80,
-    "includeDetails": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["polkupyora", "iphone", "macbook"],
+ "maxResults": 200,
+ "maxResultsPerQuery": 80,
+ "includeDetails": true
+ }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/tori-fi-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrationen</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und neue Anzeigen per Webhook verarbeiten</li>
-      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
-      <li><strong>Google Sheets, Airtable:</strong> Queries rein, Anzeigen raus</li>
-    </ul>
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und neue Anzeigen per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+ <li><strong>Google Sheets, Airtable:</strong> Queries rein, Anzeigen raus</li>
+ </ul>
 
-    <h2 class="section-title">Ausgabefelder</h2>
-    <table class="compare-table">
-      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
-      <tr><td>title</td><td>string</td><td>Polkupyora Helkama</td></tr>
-      <tr><td>price</td><td>number</td><td>180</td></tr>
-      <tr><td>currency</td><td>string</td><td>EUR</td></tr>
-      <tr><td>location</td><td>string</td><td>Helsinki</td></tr>
-      <tr><td>brand</td><td>string</td><td>Helkama</td></tr>
-      <tr><td>condition</td><td>string</td><td>Used</td></tr>
-      <tr><td>seller</td><td>string</td><td>Matti K.</td></tr>
-      <tr><td>image_url</td><td>string</td><td>https://images.tori.fi/...</td></tr>
-      <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
-      <tr><td>source_url</td><td>string</td><td>https://www.tori.fi/...</td></tr>
-    </table>
+ <h2 class="section-title">Ausgabefelder</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+ <tr><td>title</td><td>string</td><td>Polkupyora Helkama</td></tr>
+ <tr><td>price</td><td>number</td><td>180</td></tr>
+ <tr><td>currency</td><td>string</td><td>EUR</td></tr>
+ <tr><td>location</td><td>string</td><td>Helsinki</td></tr>
+ <tr><td>brand</td><td>string</td><td>Helkama</td></tr>
+ <tr><td>condition</td><td>string</td><td>Used</td></tr>
+ <tr><td>seller</td><td>string</td><td>Matti K.</td></tr>
+ <tr><td>image_url</td><td>string</td><td>https://images.tori.fi/...</td></tr>
+ <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
+ <tr><td>source_url</td><td>string</td><td>https://www.tori.fi/...</td></tr>
+ </table>
 
-    <h2 class="section-title">Verwandte Scraper</h2>
-    <ul>
-      <li><a href="/actors/finn-no-scraper/">Finn.no Scraper</a>: Norwegens #1 Kleinanzeigen (Schibsted-Gruppe)</li>
-      <li><a href="/actors/blocket-se-scraper/">Blocket.se Scraper</a>: Schwedens #1 Kleinanzeigen (Schibsted-Gruppe)</li>
-      <li><a href="/actors/dba-dk-scraper/">DBA.dk Scraper</a>: Dänemarks #1 Kleinanzeigen (Schibsted-Gruppe)</li>
-      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: Finnische Immobilien, neliohinta + Raumkonfiguration</li>
-    </ul>
+ <h2 class="section-title">Verwandte Scraper</h2>
+ <ul>
+ <li><a href="/actors/finn-no-scraper/">Finn.no Scraper</a>: Norwegens #1 Kleinanzeigen (Schibsted-Gruppe)</li>
+ <li><a href="/actors/blocket-se-scraper/">Blocket.se Scraper</a>: Schwedens #1 Kleinanzeigen (Schibsted-Gruppe)</li>
+ <li><a href="/actors/dba-dk-scraper/">DBA.dk Scraper</a>: Dänemarks #1 Kleinanzeigen (Schibsted-Gruppe)</li>
+ <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: Finnische Immobilien, neliohinta + Raumkonfiguration</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tqZCdbYvYkVlYHZlT/source?addFromActorId=tqZCdbYvYkVlYHZlT&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tqZCdbYvYkVlYHZlT/source?addFromActorId=tqZCdbYvYkVlYHZlT&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

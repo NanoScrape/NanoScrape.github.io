@@ -1,194 +1,194 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Immowelt.de Scraper : Immobilier allemand, loyer chaud/froid | NanoScrape</title>
-  <meta name="description" content="Extrayez les annonces de location et de vente de Immowelt.de partout en Allemagne. Retourne Warmmiete, Kaltmiete, pieces, surface, PLZ, classe energetique (A+ a H), societe d'agence, telephone, indicateur de commission. Sans connexion. A partir de 3$ pour 1 000 annonces.">
-  <meta property="og:title" content="Immowelt.de Scraper : Immobilier allemand | NanoScrape">
-  <meta property="og:description" content="Extrayez les annonces immobilieres allemandes de Immowelt.de. Loyer chaud/froid, classe energetique, contact agent, PLZ, indicateur de commission. Paiement au resultat. Sans connexion.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Immowelt.de Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Scraper immobilier allemand pour Immowelt.de, l'une des plus grandes plateformes immobilieres d'Allemagne. Retourne prix, Warmmiete (loyer chaud), Kaltmiete (loyer froid), pieces, surface en m2, taille du terrain, etage, adresse complete avec PLZ, quartier, classe energetique (A+ a H), indicateur de commission, societe d'agence, telephone, site agence et scenes d'images taggees. HTTP-only, 128MB RAM.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.003",
-      "priceCurrency": "USD",
-      "description": "per listing scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Immowelt.de Scraper : Immobilier allemand, loyer chaud/froid | NanoScrape</title>
+ <meta name="description" content="Extrayez les annonces de location et de vente de Immowelt.de partout en Allemagne. Retourne Warmmiete, Kaltmiete, pieces, surface, PLZ, classe energetique (A+ a H), societe d'agence, telephone, indicateur de commission. Sans connexion. A partir de 3$ pour 1 000 annonces.">
+ <meta property="og:title" content="Immowelt.de Scraper : Immobilier allemand | NanoScrape">
+ <meta property="og:description" content="Extrayez les annonces immobilieres allemandes de Immowelt.de. Loyer chaud/froid, classe energetique, contact agent, PLZ, indicateur de commission. Paiement au resultat. Sans connexion.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Immowelt.de Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Scraper immobilier allemand pour Immowelt.de, l'une des plus grandes plateformes immobilieres d'Allemagne. Retourne prix, Warmmiete (loyer chaud), Kaltmiete (loyer froid), pieces, surface en m2, taille du terrain, etage, adresse complete avec PLZ, quartier, classe energetique (A+ a H), indicateur de commission, societe d'agence, telephone, site agence et scenes d'images taggees. HTTP-only, 128MB RAM.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.003",
+ "priceCurrency": "USD",
+ "description": "per listing scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Immowelt.de Scraper : immobilier allemand, Warmmiete et classe energetique</h1>
-    <p class="lead">Extrayez chaque annonce de location et de vente sur Immowelt.de, l'une des plus grandes plateformes immobilieres d'Allemagne. Retourne Warmmiete (loyer chaud, charges comprises), Kaltmiete (loyer froid), pieces, surface en m2, taille du terrain pour maisons, etage (par exemple 2. OG), adresse complete avec PLZ, quartier, classe energetique de A+ a H, indicateur de commission (Provisionspflichtig), societe d'agence (couverture 100%), telephone d'agence (couverture 80%), site web et mentions legales. Compatible avec toute URL de recherche /liste/ assemblee dans le navigateur.</p>
+ <div class="detail">
+ <h1>Immowelt.de Scraper : immobilier allemand, Warmmiete et classe energetique</h1>
+ <p class="lead">Extrayez chaque annonce de location et de vente sur Immowelt.de, l'une des plus grandes plateformes immobilieres d'Allemagne. Retourne Warmmiete (loyer chaud, charges comprises), Kaltmiete (loyer froid), pieces, surface en m2, taille du terrain pour maisons, etage (par exemple 2. OG), adresse complete avec PLZ, quartier, classe energetique de A+ a H, indicateur de commission (Provisionspflichtig), societe d'agence (couverture 100%), telephone d'agence (couverture 80%), site web et mentions legales. Compatible avec toute URL de recherche /liste/ assemblee dans le navigateur.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Tarif</div><div class="value">3$ / 1k annonces</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Couverture</div><div class="value">Toute l'Allemagne</div></div>
-      <div class="spec"><div class="label">Champs par annonce</div><div class="value">40+</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Apify par defaut</div></div>
-      <div class="spec"><div class="label">Anti-Bot</div><div class="value">HTTP-only</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Tarif</div><div class="value">3$ / 1k annonces</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">Toute l'Allemagne</div></div>
+ <div class="spec"><div class="label">Champs par annonce</div><div class="value">40+</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Apify par defaut</div></div>
+ <div class="spec"><div class="label">Anti-Bot</div><div class="value">HTTP-only</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous pouvez extraire</h2>
-    <ul>
-      <li><strong>Decomposition du loyer allemand :</strong> price, price_label, price_warm (Warmmiete), price_cold (Kaltmiete), price_raw</li>
-      <li><strong>Configuration :</strong> rooms, area_sqm, plot_size (terrain pour maisons), floor, property_type (FLAT, HOUSE, ...), property_subtype</li>
-      <li><strong>Localisation :</strong> address, neighborhood, city, postcode (PLZ), availability_date</li>
-      <li><strong>Energie :</strong> energy_class (Energieausweis A+ a H), type de chauffage via description</li>
-      <li><strong>Agent :</strong> publisher_name, publisher_type (AGENT ou PRIVATE), is_premium_partner, agent_company, agent_name, agent_phone, agent_website, agent_address, agent_profile_url, agent_imprint_url</li>
-      <li><strong>Medias :</strong> image_url, image_urls (galerie complete), image_tags (scenes par photo comme "living_room" avec descriptions allemandes)</li>
-      <li><strong>Indicateurs :</strong> is_new, is_exclusive, has_3d_tour, has_brokerage_fee (Provisionspflichtig), is_private_owner</li>
-    </ul>
+ <h2 class="section-title">Ce que vous pouvez extraire</h2>
+ <ul>
+ <li><strong>Decomposition du loyer allemand :</strong> price, price_label, price_warm (Warmmiete), price_cold (Kaltmiete), price_raw</li>
+ <li><strong>Configuration :</strong> rooms, area_sqm, plot_size (terrain pour maisons), floor, property_type (FLAT, HOUSE, ...), property_subtype</li>
+ <li><strong>Localisation :</strong> address, neighborhood, city, postcode (PLZ), availability_date</li>
+ <li><strong>Energie :</strong> energy_class (Energieausweis A+ a H), type de chauffage via description</li>
+ <li><strong>Agent :</strong> publisher_name, publisher_type (AGENT ou PRIVATE), is_premium_partner, agent_company, agent_name, agent_phone, agent_website, agent_address, agent_profile_url, agent_imprint_url</li>
+ <li><strong>Medias :</strong> image_url, image_urls (galerie complete), image_tags (scenes par photo comme "living_room" avec descriptions allemandes)</li>
+ <li><strong>Indicateurs :</strong> is_new, is_exclusive, has_3d_tour, has_brokerage_fee (Provisionspflichtig), is_private_owner</li>
+ </ul>
 
-    <h2 class="section-title">Cas d'usage courants</h2>
-    <ul>
-      <li><strong>Recherche Mietspiegel.</strong> Construire un Mietspiegel prive par ville et PLZ a partir des donnees live de Warmmiete et Kaltmiete</li>
-      <li><strong>Benchmarking Energieausweis.</strong> Calculer le loyer median demande par classe energetique A a H et par Bundesland pour la recherche batiment vert</li>
-      <li><strong>Listes provisionsfrei.</strong> Filtrer has_brokerage_fee=false pour trouver les annonces directes de proprietaires</li>
-      <li><strong>Screening d'investissement Berlin / Munich / Hambourg.</strong> Comparer le prix au m2 entre quartiers et classer les Kieze sous-evalues</li>
-      <li><strong>Prospection d'agents.</strong> Construire une liste CRM de chaque agence allemande active avec nom, telephone, site et mentions legales</li>
-    </ul>
+ <h2 class="section-title">Cas d'usage courants</h2>
+ <ul>
+ <li><strong>Recherche Mietspiegel.</strong> Construire un Mietspiegel prive par ville et PLZ a partir des donnees live de Warmmiete et Kaltmiete</li>
+ <li><strong>Benchmarking Energieausweis.</strong> Calculer le loyer median demande par classe energetique A a H et par Bundesland pour la recherche batiment vert</li>
+ <li><strong>Listes provisionsfrei.</strong> Filtrer has_brokerage_fee=false pour trouver les annonces directes de proprietaires</li>
+ <li><strong>Screening d'investissement Berlin / Munich / Hambourg.</strong> Comparer le prix au m2 entre quartiers et classer les Kieze sous-evalues</li>
+ <li><strong>Prospection d'agents.</strong> Construire une liste CRM de chaque agence allemande active avec nom, telephone, site et mentions legales</li>
+ </ul>
 
-    <h2 class="section-title">Tarification</h2>
-    <ul>
-      <li><strong>Annonce extraite :</strong> 0,003$ par resultat, plus de 40 champs renseignes</li>
-    </ul>
-    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Nouveau sur Apify ?</strong> Chaque compte recoit 5$ de credit plateforme mensuel gratuit, suffisant pour environ 1 600 annonces Immowelt avant de vous engager a payer.</p>
+ <h2 class="section-title">Tarification</h2>
+ <ul>
+ <li><strong>Annonce extraite :</strong> 0,003$ par resultat, plus de 40 champs renseignes</li>
+ </ul>
+ <p style="color:var(--muted); margin-bottom: 24px;"><strong>Nouveau sur Apify ?</strong> Chaque compte recoit 5$ de credit plateforme mensuel gratuit, suffisant pour environ 1 600 annonces Immowelt avant de vous engager a payer.</p>
 
-    <h2 class="section-title">Exemple d'API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer une execution via l'API Apify</span>
+ <h2 class="section-title">Exemple d'API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer une execution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~immowelt-de-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": [
-      "https://www.immowelt.de/liste/berlin/wohnungen/mieten",
-      "https://www.immowelt.de/liste/muenchen/haeuser/kaufen"
-    ],
-    "maxResults": 100
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchUrls": [
+ "https://www.immowelt.de/liste/berlin/wohnungen/mieten",
+ "https://www.immowelt.de/liste/muenchen/haeuser/kaufen"
+ ],
+ "maxResults": 100
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/immowelt-de-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> declencher des executions et piper les annonces Immowelt vers Google Sheets, Airtable ou votre CRM</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'acces programmatique</li>
-      <li><strong>BI et entrepots :</strong> pousser le JSON vers BigQuery, Postgres, Snowflake pour les pipelines Mietspiegel</li>
-    </ul>
+ <h2 class="section-title">Integrations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> declencher des executions et piper les annonces Immowelt vers Google Sheets, Airtable ou votre CRM</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'acces programmatique</li>
+ <li><strong>BI et entrepots :</strong> pousser le JSON vers BigQuery, Postgres, Snowflake pour les pipelines Mietspiegel</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie (exemple)</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>title</td><td>string</td><td>3-Zimmer-Wohnung in Berlin Kreuzberg</td></tr>
-      <tr><td>price_warm</td><td>number</td><td>1200 (EUR)</td></tr>
-      <tr><td>price_cold</td><td>number</td><td>950</td></tr>
-      <tr><td>rooms</td><td>number</td><td>3</td></tr>
-      <tr><td>area_sqm</td><td>number</td><td>78,5</td></tr>
-      <tr><td>postcode</td><td>string</td><td>10969</td></tr>
-      <tr><td>neighborhood</td><td>string</td><td>Kreuzberg</td></tr>
-      <tr><td>energy_class</td><td>string</td><td>C</td></tr>
-      <tr><td>has_brokerage_fee</td><td>boolean</td><td>true</td></tr>
-      <tr><td>agent_company</td><td>string</td><td>Immobilien Schmidt GmbH</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie (exemple)</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>title</td><td>string</td><td>3-Zimmer-Wohnung in Berlin Kreuzberg</td></tr>
+ <tr><td>price_warm</td><td>number</td><td>1200 (EUR)</td></tr>
+ <tr><td>price_cold</td><td>number</td><td>950</td></tr>
+ <tr><td>rooms</td><td>number</td><td>3</td></tr>
+ <tr><td>area_sqm</td><td>number</td><td>78,5</td></tr>
+ <tr><td>postcode</td><td>string</td><td>10969</td></tr>
+ <tr><td>neighborhood</td><td>string</td><td>Kreuzberg</td></tr>
+ <tr><td>energy_class</td><td>string</td><td>C</td></tr>
+ <tr><td>has_brokerage_fee</td><td>boolean</td><td>true</td></tr>
+ <tr><td>agent_company</td><td>string</td><td>Immobilien Schmidt GmbH</td></tr>
+ </table>
 
-    <h2 class="section-title">Scrapers associes</h2>
-    <ul>
-      <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a> : immobilier suisse avec prix CHF et systeme demi-piece</li>
-      <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a> : portail immobilier numero 1 des Pays-Bas avec energielabel</li>
-      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a> : immobilier belge avec note energetique PEB</li>
-      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a> : annonces immobilieres finlandaises</li>
-      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a> : petites annonces allemandes pour signal transversal</li>
-    </ul>
+ <h2 class="section-title">Scrapers associes</h2>
+ <ul>
+ <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a> : immobilier suisse avec prix CHF et systeme demi-piece</li>
+ <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a> : portail immobilier numero 1 des Pays-Bas avec energielabel</li>
+ <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a> : immobilier belge avec note energetique PEB</li>
+ <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a> : annonces immobilieres finlandaises</li>
+ <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a> : petites annonces allemandes pour signal transversal</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

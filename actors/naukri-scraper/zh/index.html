@@ -1,181 +1,181 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Naukri Scraper：印度与海湾职位，45+ 字段 | NanoScrape</title>
-  <meta name="description" content="抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海">
-  <meta property="og:title" content="Naukri Scraper: 印度与海湾职位，45+ 字段 | NanoScrape">
-  <meta property="og:description" content="抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海湾合作委员会地区按关键词和地点搜索。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/naukri-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/naukri-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/naukri-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/naukri-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Naukri Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Scrape Naukri.com (India) and NaukriGulf.com (Middle East) job listings. Returns 49 fields per job including title, company, AmbitionBox rating, follower_count, skill tags, full description, min and max experience years, salary range with currency, founded year, company size, headquarters, website, benefits and similar companies. Search by keyword and location across India's largest job board and the GCC region.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.00099",
-      "priceCurrency": "USD",
-      "description": "per job scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Naukri Scraper：印度与海湾职位，45+ 字段 | NanoScrape</title>
+ <meta name="description" content="抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海">
+ <meta property="og:title" content="Naukri Scraper: 印度与海湾职位，45+ 字段 | NanoScrape">
+ <meta property="og:description" content="抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海湾合作委员会地区按关键词和地点搜索。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/naukri-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/naukri-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/naukri-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/naukri-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/naukri-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Naukri Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Scrape Naukri.com (India) and NaukriGulf.com (Middle East) job listings. Returns 49 fields per job including title, company, AmbitionBox rating, follower_count, skill tags, full description, min and max experience years, salary range with currency, founded year, company size, headquarters, website, benefits and similar companies. Search by keyword and location across India's largest job board and the GCC region.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.00099",
+ "priceCurrency": "USD",
+ "description": "per job scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Naukri Scraper：印度与海湾职位，45+ 字段</h1>
-    <p class="lead">抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海湾合作委员会地区按关键词和地点搜索。</p>
+ <div class="detail">
+ <h1>Naukri Scraper：印度与海湾职位，45+ 字段</h1>
+ <p class="lead">抓取 Naukri.com（印度）与 NaukriGulf.com（中东）的招聘信息。每个职位返回 49 个字段：标题、公司、AmbitionBox 评分、follower_count、技能标签、完整描述、最低与最高工作经验年数、含币种的薪资范围、成立年份、公司规模、总部、官网、福利及相似公司。可在印度最大招聘网站与海湾合作委员会地区按关键词和地点搜索。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/ggiV1FXbYy0aA0bfu/source?addFromActorId=ggiV1FXbYy0aA0bfu&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/ggiV1FXbYy0aA0bfu/source?addFromActorId=ggiV1FXbYy0aA0bfu&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$0.00099/job</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">India + Gulf (UAE, KSA, Qatar)</div></div>
-      <div class="spec"><div class="label">每个职位字段数</div><div class="value">10+</div></div>
-      <div class="spec"><div class="label">代理</div><div class="value">Apify datacenter</div></div>
-      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS + IP rotation</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$0.00099/job</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">India + Gulf (UAE, KSA, Qatar)</div></div>
+ <div class="spec"><div class="label">每个职位字段数</div><div class="value">10+</div></div>
+ <div class="spec"><div class="label">代理</div><div class="value">Apify datacenter</div></div>
+ <div class="spec"><div class="label">反爬虫</div><div class="value">TLS + IP rotation</div></div>
+ </div>
 
-    <h2 class="section-title">您可以抓取的内容</h2>
-    <ul>
-      <li><strong>职位信息：</strong> title、company、company_id、location、localities、posted_at、employment_type</li>
-      <li><strong>经验与薪资：</strong> min_experience_years、max_experience_years、experience_text、min_salary、max_salary、salary_text、currency、is_salary_hidden</li>
-      <li><strong>完整内容：</strong> description、description_html、description_snippet、skills (标签数组)</li>
-      <li><strong>公司情报：</strong> company_logo、AmbitionBox 评分、follower_count、成立年份、规模、总部、官网、福利、similar_companies</li>
-      <li><strong>覆盖平台：</strong> naukri.com（印度）、naukrigulf.com（阿联酋、沙特、卡塔尔等）</li>
-    </ul>
+ <h2 class="section-title">您可以抓取的内容</h2>
+ <ul>
+ <li><strong>职位信息：</strong> title、company、company_id、location、localities、posted_at、employment_type</li>
+ <li><strong>经验与薪资：</strong> min_experience_years、max_experience_years、experience_text、min_salary、max_salary、salary_text、currency、is_salary_hidden</li>
+ <li><strong>完整内容：</strong> description、description_html、description_snippet、skills (标签数组)</li>
+ <li><strong>公司情报：</strong> company_logo、AmbitionBox 评分、follower_count、成立年份、规模、总部、官网、福利、similar_companies</li>
+ <li><strong>覆盖平台：</strong> naukri.com（印度）、naukrigulf.com（阿联酋、沙特、卡塔尔等）</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>印度技术招聘。</strong> 一次运行抓取班加罗尔、海得拉巴和浦那所有相关技术栈职位，按 min_experience_years 筛选</li>
-      <li><strong>海湾搬迁通道。</strong> 采集对工签友好的雇主在阿联酋与沙特的职位，薪资以 AED 或 SAR 表示</li>
-      <li><strong>技能需求追踪。</strong> 聚合 10,000+ 职位的 skills 数组，逐月查看哪些技术栈热度上升</li>
-      <li><strong>AmbitionBox 评分过滤。</strong> 仅保留评分 4.0+ 的公司，将高质量线索喂入招聘工作流</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>印度技术招聘。</strong> 一次运行抓取班加罗尔、海得拉巴和浦那所有相关技术栈职位，按 min_experience_years 筛选</li>
+ <li><strong>海湾搬迁通道。</strong> 采集对工签友好的雇主在阿联酋与沙特的职位，薪资以 AED 或 SAR 表示</li>
+ <li><strong>技能需求追踪。</strong> 聚合 10,000+ 职位的 skills 数组，逐月查看哪些技术栈热度上升</li>
+ <li><strong>AmbitionBox 评分过滤。</strong> 仅保留评分 4.0+ 的公司，将高质量线索喂入招聘工作流</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~naukri-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["software engineer"],
-    "location": "Bangalore",
-    "platform": "naukri",
-    "maxResultsPerQuery": 50
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["software engineer"],
+ "location": "Bangalore",
+ "platform": "naukri",
+ "maxResultsPerQuery": 50
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/naukri-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理职位记录</li>
-      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
-      <li><strong>Google Sheets、Airtable：</strong>搜索词输入，结构化职位数据输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理职位记录</li>
+ <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+ <li><strong>Google Sheets、Airtable：</strong>搜索词输入，结构化职位数据输出</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>title</td><td>string</td><td>Senior Software Engineer</td></tr>
-      <tr><td>company</td><td>string</td><td>Infosys</td></tr>
-      <tr><td>location</td><td>string</td><td>Bangalore</td></tr>
-      <tr><td>min_experience_years</td><td>integer</td><td>5</td></tr>
-      <tr><td>max_experience_years</td><td>integer</td><td>8</td></tr>
-      <tr><td>min_salary</td><td>integer</td><td>2000000</td></tr>
-      <tr><td>max_salary</td><td>integer</td><td>3500000</td></tr>
-      <tr><td>currency</td><td>string</td><td>INR</td></tr>
-      <tr><td>skills</td><td>string[]</td><td>["Java","Spring Boot","AWS"]</td></tr>
-      <tr><td>description</td><td>string</td><td>Job description text...</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>title</td><td>string</td><td>Senior Software Engineer</td></tr>
+ <tr><td>company</td><td>string</td><td>Infosys</td></tr>
+ <tr><td>location</td><td>string</td><td>Bangalore</td></tr>
+ <tr><td>min_experience_years</td><td>integer</td><td>5</td></tr>
+ <tr><td>max_experience_years</td><td>integer</td><td>8</td></tr>
+ <tr><td>min_salary</td><td>integer</td><td>2000000</td></tr>
+ <tr><td>max_salary</td><td>integer</td><td>3500000</td></tr>
+ <tr><td>currency</td><td>string</td><td>INR</td></tr>
+ <tr><td>skills</td><td>string[]</td><td>["Java","Spring Boot","AWS"]</td></tr>
+ <tr><td>description</td><td>string</td><td>Job description text...</td></tr>
+ </table>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/indeed-scraper/">Indeed Scraper</a>: 60+ 国家，包含 Indeed India 与 Indeed 阿联酋</li>
-      <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper</a>: 印度技术职位的 LinkedIn 互补覆盖</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/indeed-scraper/">Indeed Scraper</a>: 60+ 国家，包含 Indeed India 与 Indeed 阿联酋</li>
+ <li><a href="/actors/linkedin-scraper/">LinkedIn Jobs Scraper</a>: 印度技术职位的 LinkedIn 互补覆盖</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/ggiV1FXbYy0aA0bfu/source?addFromActorId=ggiV1FXbYy0aA0bfu&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/naukri-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/ggiV1FXbYy0aA0bfu/source?addFromActorId=ggiV1FXbYy0aA0bfu&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>
