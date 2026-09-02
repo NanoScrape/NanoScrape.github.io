@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,47 +134,38 @@
       <li><strong>salary_description</strong>: Free-text salary description when disclosed (Swedish boards rarely post structured salary ranges)</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["developer", "ingenjor", "projektledare"],
-  "location": "Stockholm",
-  "maxResults": 200,
-  "maxResultsPerQuery": 100,
-  "sortBy": "pubdate-desc"
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;developer&quot;, &quot;ingenjor&quot;, &quot;projektledare&quot;],
+  &quot;location&quot;: &quot;Stockholm&quot;,
+  &quot;maxResults&quot;: 200,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;sortBy&quot;: &quot;pubdate-desc&quot;
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "24561234",
-  "title": "Backend Developer (Python)",
-  "company_name": "Klarna Bank AB",
-  "company_logo": "https://platsbanken-api.arbetsformedlingen.se/logos/klarna.png",
-  "location": "Stockholm, Stockholms lan",
-  "municipality": "Stockholm",
-  "region": "Stockholms lan",
-  "country": "Sverige",
-  "employment_type": "Vanlig anstallning",
-  "working_hours": "Heltid",
-  "occupation": "Programmerare",
-  "occupation_field": "Data/IT",
-  "employer_org_number": "556737-0431",
-  "experience_required": true,
-  "number_of_vacancies": 2,
-  "apply_url": "https://careers.klarna.com/apply/backend-dev",
-  "posted_at": "2026-08-20T08:00:00Z",
-  "expires_at": "2026-09-15T23:59:59Z",
-  "source_url": "https://arbetsformedlingen.se/platsbanken/annonser/24561234",
-  "source_platform": "arbetsformedlingen.se",
-  "search_query": "developer",
-  "scraped_at": "2026-08-25T10:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbetsformedlingen-se-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["developer"],
-    "location": "Stockholm",
-    "maxResults": 200,
-    "sortBy": "pubdate-desc"
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;24561234&quot;,
+  &quot;title&quot;: &quot;Backend Developer (Python)&quot;,
+  &quot;company_name&quot;: &quot;Klarna Bank AB&quot;,
+  &quot;company_logo&quot;: &quot;https://platsbanken-api.arbetsformedlingen.se/logos/klarna.png&quot;,
+  &quot;location&quot;: &quot;Stockholm, Stockholms lan&quot;,
+  &quot;municipality&quot;: &quot;Stockholm&quot;,
+  &quot;region&quot;: &quot;Stockholms lan&quot;,
+  &quot;country&quot;: &quot;Sverige&quot;,
+  &quot;employment_type&quot;: &quot;Vanlig anstallning&quot;,
+  &quot;working_hours&quot;: &quot;Heltid&quot;,
+  &quot;occupation&quot;: &quot;Programmerare&quot;,
+  &quot;occupation_field&quot;: &quot;Data/IT&quot;,
+  &quot;employer_org_number&quot;: &quot;556737-0431&quot;,
+  &quot;experience_required&quot;: true,
+  &quot;number_of_vacancies&quot;: 2,
+  &quot;apply_url&quot;: &quot;https://careers.klarna.com/apply/backend-dev&quot;,
+  &quot;posted_at&quot;: &quot;2026-08-20T08:00:00Z&quot;,
+  &quot;expires_at&quot;: &quot;2026-09-15T23:59:59Z&quot;,
+  &quot;source_url&quot;: &quot;https://arbetsformedlingen.se/platsbanken/annonser/24561234&quot;,
+  &quot;source_platform&quot;: &quot;arbetsformedlingen.se&quot;,
+  &quot;search_query&quot;: &quot;developer&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-25T10:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor suits <strong>Nordic job aggregators, Swedish HR analytics vendors, and EU labour market researchers</strong>. Because Arbetsformedlingen's JobTech API is free and requires no authentication, it is the lowest-cost way to access Sweden's official government job listings at scale. The <code>employer_org_number</code> field is uniquely useful for B2B sales teams who want to cross-reference hiring companies with the Swedish Bolagsverket business registry. Compared to scraping LinkedIn Sweden or commercial boards, Arbetsformedlingen data covers small Swedish employers who post exclusively via the public employment service.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -196,7 +191,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -205,42 +200,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbetsformedlingen-se-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbetsformedlingen-se-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/arbetsformedlingen-se-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/arbetsformedlingen-se-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/arbetsformedlingen-se-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/arbetsformedlingen-se-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/arbetsformedlingen-se-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/arbetsformedlingen-se-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>arbetsformedlingen-se-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;arbetsformedlingen-se-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -297,6 +292,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

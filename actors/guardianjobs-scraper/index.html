@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,55 +134,45 @@
       <li><strong>company_active_jobs / company_active_jobs_count</strong>: All other currently-open roles at the same employer (deep employer mode) -- deduplicated per employer within a run</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["charity manager", "science teacher", "communications officer"],
-  "location": "London",
-  "sector": "charities",
-  "contractType": "permanent",
-  "salaryMin": 35000,
-  "maxResults": 100,
-  "maxResultsPerQuery": 200,
-  "includeJobDetails": true,
-  "includeCompanyDetails": false,
-  "maxConcurrency": 4
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;charity manager&quot;, &quot;science teacher&quot;, &quot;communications officer&quot;],
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;sector&quot;: &quot;charities&quot;,
+  &quot;contractType&quot;: &quot;permanent&quot;,
+  &quot;salaryMin&quot;: 35000,
+  &quot;maxResults&quot;: 100,
+  &quot;maxResultsPerQuery&quot;: 200,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: false,
+  &quot;maxConcurrency&quot;: 4
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "_type": "job",
-  "id": "10160808",
-  "title": "Head of Finance",
-  "company": "PERIDOT PARTNERS",
-  "location": "Remote, UK-based",
-  "country": "GB",
-  "sector": "Charities, Community & Social Care, Executive Management",
-  "contract_type": "Permanent",
-  "hours": "Full time",
-  "employment_type": "full-time, permanent",
-  "experience_level": "director",
-  "remote_option": "remote",
-  "salary_min": 60000,
-  "salary_max": 65000,
-  "salary_currency": "GBP",
-  "salary_period": "year",
-  "posted_at": "2026-08-11",
-  "closing_date": "2026-08-27",
-  "apply_url": "https://jobs.theguardian.com/job/10160808/head-of-finance/",
-  "company_phone": "0203 0360 623",
-  "company_website": "http://www.peridotpartners.co.uk",
-  "company_address_city": "LONDON",
-  "source_platform": "jobs.theguardian.com",
-  "scraped_at": "2026-08-20T09:08:29Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["charity manager"],
-    "location": "London",
-    "salaryMin": 40000,
-    "maxResults": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;10160808&quot;,
+  &quot;title&quot;: &quot;Head of Finance&quot;,
+  &quot;company&quot;: &quot;PERIDOT PARTNERS&quot;,
+  &quot;location&quot;: &quot;Remote, UK-based&quot;,
+  &quot;country&quot;: &quot;GB&quot;,
+  &quot;sector&quot;: &quot;Charities, Community &amp; Social Care, Executive Management&quot;,
+  &quot;contract_type&quot;: &quot;Permanent&quot;,
+  &quot;hours&quot;: &quot;Full time&quot;,
+  &quot;employment_type&quot;: &quot;full-time, permanent&quot;,
+  &quot;experience_level&quot;: &quot;director&quot;,
+  &quot;remote_option&quot;: &quot;remote&quot;,
+  &quot;salary_min&quot;: 60000,
+  &quot;salary_max&quot;: 65000,
+  &quot;salary_currency&quot;: &quot;GBP&quot;,
+  &quot;salary_period&quot;: &quot;year&quot;,
+  &quot;posted_at&quot;: &quot;2026-08-11&quot;,
+  &quot;closing_date&quot;: &quot;2026-08-27&quot;,
+  &quot;apply_url&quot;: &quot;https://jobs.theguardian.com/job/10160808/head-of-finance/&quot;,
+  &quot;company_phone&quot;: &quot;0203 0360 623&quot;,
+  &quot;company_website&quot;: &quot;http://www.peridotpartners.co.uk&quot;,
+  &quot;company_address_city&quot;: &quot;LONDON&quot;,
+  &quot;source_platform&quot;: &quot;jobs.theguardian.com&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-20T09:08:29Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the specialist tool for <strong>UK third-sector recruiters, public-sector job aggregators, and outbound charity-sector sales teams</strong>. Guardian Jobs is a hand-curated board with far higher signal-to-noise for charity, media, education, and public-sector roles than any generalist aggregator. The employer phone and postal address fields -- retrieved from Guardian's own employer profile pages -- are genuinely rare in job data and turn this into a lead-generation feed as much as a job listing source. Outreach teams combine the employer contact fields with the deep-employer mode to get every open role at a target organisation in a single query.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -204,7 +198,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -213,42 +207,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/guardianjobs-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/guardianjobs-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/guardianjobs-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/guardianjobs-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/guardianjobs-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/guardianjobs-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>guardianjobs-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;guardianjobs-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -305,6 +299,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

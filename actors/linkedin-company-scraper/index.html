@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,56 +140,46 @@
       <li><strong>Domain validation</strong> — cross-checks the company website domain so mismatched profiles are flagged and excluded automatically</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "companies": [
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;companies&quot;: [
     {
-      "company_id": "acme-1",
-      "company_name": "Example Company Ltd.",
-      "linkedin_url": "https://www.linkedin.com/company/example-company"
+      &quot;company_id&quot;: &quot;acme-1&quot;,
+      &quot;company_name&quot;: &quot;Example Company Ltd.&quot;,
+      &quot;linkedin_url&quot;: &quot;https://www.linkedin.com/company/example-company&quot;
     },
     {
-      "company_id": "acme-2",
-      "company_name": "Sample Widgets GmbH",
-      "website_domain": "sample-widgets.example"
+      &quot;company_id&quot;: &quot;acme-2&quot;,
+      &quot;company_name&quot;: &quot;Sample Widgets GmbH&quot;,
+      &quot;website_domain&quot;: &quot;sample-widgets.example&quot;
     }
   ],
-  "includeEmployees": true,
-  "maxEmployeesPerCompany": 10,
-  "employeeTitleFilters": ["HR", "CEO", "CTO"]
-}</pre></div>
+  &quot;includeEmployees&quot;: true,
+  &quot;maxEmployeesPerCompany&quot;: 10,
+  &quot;employeeTitleFilters&quot;: [&quot;HR&quot;, &quot;CEO&quot;, &quot;CTO&quot;]
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "company_id": "acme-1",
-  "company_name": "Example Company Ltd.",
-  "linkedin_url": "https://www.linkedin.com/company/example-company",
-  "employee_count": 5000,
-  "employee_count_range": "1,001-5,000",
-  "industry": "Software Development",
-  "headquarters": "Munich, Bavaria",
-  "description": "Example Company Ltd. builds sample software for demo purposes.",
-  "specialties": ["Sample Product", "Demo Service", "Widget Manufacturing"],
-  "website": "https://www.example.com",
-  "founded": "2015",
-  "company_type": "Privately Held",
-  "follower_count": 182760,
-  "employees": [
-    { "name": "Jane Doe", "title": "Head of People", "linkedin_url": "https://www.linkedin.com/in/jane-doe-example" }
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;company_id&quot;: &quot;acme-1&quot;,
+  &quot;company_name&quot;: &quot;Example Company Ltd.&quot;,
+  &quot;linkedin_url&quot;: &quot;https://www.linkedin.com/company/example-company&quot;,
+  &quot;employee_count&quot;: 5000,
+  &quot;employee_count_range&quot;: &quot;1,001-5,000&quot;,
+  &quot;industry&quot;: &quot;Software Development&quot;,
+  &quot;headquarters&quot;: &quot;Munich, Bavaria&quot;,
+  &quot;description&quot;: &quot;Example Company Ltd. builds sample software for demo purposes.&quot;,
+  &quot;specialties&quot;: [&quot;Sample Product&quot;, &quot;Demo Service&quot;, &quot;Widget Manufacturing&quot;],
+  &quot;website&quot;: &quot;https://www.example.com&quot;,
+  &quot;founded&quot;: &quot;2015&quot;,
+  &quot;company_type&quot;: &quot;Privately Held&quot;,
+  &quot;follower_count&quot;: 182760,
+  &quot;employees&quot;: [
+    { &quot;name&quot;: &quot;Jane Doe&quot;, &quot;title&quot;: &quot;Head of People&quot;, &quot;linkedin_url&quot;: &quot;https://www.linkedin.com/in/jane-doe-example&quot; }
   ],
-  "posts": [
-    { "text": "We are hiring across our engineering teams.", "posted_at": "2d" }
+  &quot;posts&quot;: [
+    { &quot;text&quot;: &quot;We are hiring across our engineering teams.&quot;, &quot;posted_at&quot;: &quot;2d&quot; }
   ],
-  "error": null
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># Sync endpoint — returns results directly, no polling needed.
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~linkedin-company-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "companies": [
-      { "company_id": "stripe", "company_name": "Stripe", "linkedin_url": "https://www.linkedin.com/company/stripe/" },
-      { "company_id": "notion", "company_name": "Notion", "linkedin_url": "https://www.linkedin.com/company/notion/" }
-    ]
-  }'</pre></div>
+  &quot;error&quot;: null
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>CRM enrichment teams</strong> bulk-enrich prospect lists with headcount, industry, and HQ location from LinkedIn at a fraction of the cost of dedicated data providers. <strong>Sales teams doing ICP scoring</strong> filter a prospect list by company size range or industry vertical before outreach, removing the manual lookup step entirely. <strong>Market researchers</strong> map competitive landscapes by pulling all companies in a niche along with their specialties and follower counts. <strong>HR and people teams</strong> track headcount changes over time as a hiring or growth signal. The optional <code>includeEmployees</code> mode adds name and LinkedIn URL for key contacts filtered by job title, making this actor a two-in-one company enrichment and contact-discovery tool.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -212,7 +206,7 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~linkedin-comp
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -221,42 +215,42 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~linkedin-comp
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~linkedin-company-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~linkedin-company-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/linkedin-company-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/linkedin-company-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/linkedin-company-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/linkedin-company-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/linkedin-company-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/linkedin-company-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>linkedin-company-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;linkedin-company-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -318,6 +312,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

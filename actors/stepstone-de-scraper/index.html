@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -140,46 +144,35 @@
       <li><strong>company_website + company_job_count</strong> — employer website and active listing count</li>
     </ul>
     <h2 class="section-title">Input example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Softwareentwickler", "Backend Developer"],
-  "location": "München",
-  "radius": 50,
-  "employmentType": "FULL_TIME",
-  "datePosted": "7",
-  "maxResultsPerQuery": 100,
-  "includeJobDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Softwareentwickler&quot;, &quot;Backend Developer&quot;],
+  &quot;location&quot;: &quot;München&quot;,
+  &quot;radius&quot;: 50,
+  &quot;employmentType&quot;: &quot;FULL_TIME&quot;,
+  &quot;datePosted&quot;: &quot;7&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;includeJobDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "job-12345",
-  "title": "Senior Softwareentwickler (m/w/d)",
-  "company": "Tech GmbH",
-  "location": "Berlin",
-  "canton": "BE",
-  "salary_text": "EUR 60,000 - 80,000 per year",
-  "salary_min": 60000,
-  "salary_max": 80000,
-  "employment_type": "full-time",
-  "remote_option": "remote",
-  "requirements": ["5+ Jahre Java/Python", "AWS", "Teamfaehigkeit"],
-  "company_benefits": ["Homeoffice", "30 Tage Urlaub", "Altersvorsorge"],
-  "contact_email": "jobs@tech-gmbh.de",
-  "company_website": "https://www.tech-gmbh.de",
-  "posted_at": "2026-09-01T10:00:00Z",
-  "source_platform": "stepstone.de",
-  "scraped_at": "2026-09-02T12:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/runs" \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["Softwareentwickler", "Backend Developer"],
-    "location": "München",
-    "radius": 50,
-    "maxResultsPerQuery": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;job-12345&quot;,
+  &quot;title&quot;: &quot;Senior Softwareentwickler (m/w/d)&quot;,
+  &quot;company&quot;: &quot;Tech GmbH&quot;,
+  &quot;location&quot;: &quot;Berlin&quot;,
+  &quot;canton&quot;: &quot;BE&quot;,
+  &quot;salary_text&quot;: &quot;EUR 60,000 - 80,000 per year&quot;,
+  &quot;salary_min&quot;: 60000,
+  &quot;salary_max&quot;: 80000,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;remote_option&quot;: &quot;remote&quot;,
+  &quot;requirements&quot;: [&quot;5+ Jahre Java/Python&quot;, &quot;AWS&quot;, &quot;Teamfaehigkeit&quot;],
+  &quot;company_benefits&quot;: [&quot;Homeoffice&quot;, &quot;30 Tage Urlaub&quot;, &quot;Altersvorsorge&quot;],
+  &quot;contact_email&quot;: &quot;jobs@tech-gmbh.de&quot;,
+  &quot;company_website&quot;: &quot;https://www.tech-gmbh.de&quot;,
+  &quot;posted_at&quot;: &quot;2026-09-01T10:00:00Z&quot;,
+  &quot;source_platform&quot;: &quot;stepstone.de&quot;,
+  &quot;scraped_at&quot;: &quot;2026-09-02T12:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who should use this</h2>
     <p><p><strong>German staffing agencies and HR consultancies</strong> use this actor to monitor the full 200,000+ StepStone.de inventory by Bundesland, role, and experience level without manual search sessions.</p><p><strong>Job board operators</strong> building DACH-specific platforms rely on the standardized JobListing schema and multi-keyword deduplication to ingest German listings alongside Swiss and Austrian sources.</p><p><strong>Compensation analysts</strong> tracking German salary benchmarks by city and seniority level extract structured salary ranges from detail pages to feed compensation dashboards.</p></p>
     <h2 class="section-title">Integrations</h2>
@@ -201,7 +194,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -210,42 +203,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/stepstone-de-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/stepstone-de-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/stepstone-de-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/stepstone-de-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>stepstone-de-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;stepstone-de-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -306,6 +299,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

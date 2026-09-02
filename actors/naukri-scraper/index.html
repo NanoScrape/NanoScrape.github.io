@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,55 +140,44 @@
       <li><strong>skills, employment_type, walk-in flag, expired flag</strong> — full job-level metadata for filtering and routing</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Software Engineer", "Data Analyst"],
-  "location": "Bangalore",
-  "platform": "naukri",
-  "maxResultsPerQuery": 40,
-  "includeCompanyDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Software Engineer&quot;, &quot;Data Analyst&quot;],
+  &quot;location&quot;: &quot;Bangalore&quot;,
+  &quot;platform&quot;: &quot;naukri&quot;,
+  &quot;maxResultsPerQuery&quot;: 40,
+  &quot;includeCompanyDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "100626500857",
-  "title": "Software Engineer",
-  "company": "Texas Instruments",
-  "location": "Bengaluru",
-  "min_experience_years": 0,
-  "max_experience_years": 3,
-  "experience_text": "0-3 Yrs",
-  "currency": "INR",
-  "is_salary_hidden": true,
-  "skills": ["Computer science", "Software design", "Machine learning"],
-  "employment_type": "Full Time, Permanent",
-  "ambition_box_rating": "3.7",
-  "ambition_box_reviews": 225,
-  "company_followers_count": 30118,
-  "company_tags": ["Electronic Components / Semiconductors", "Forbes Global 2000", "Foreign MNC"],
-  "company_founded_year": "1951",
-  "company_size": "10001-50000",
-  "company_website": "http://www.ti.com",
-  "company_benefits": [
-    { "name": "Free meal", "employee_reports": 113 },
-    { "name": "Health insurance", "employee_reports": 91 }
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;100626500857&quot;,
+  &quot;title&quot;: &quot;Software Engineer&quot;,
+  &quot;company&quot;: &quot;Texas Instruments&quot;,
+  &quot;location&quot;: &quot;Bengaluru&quot;,
+  &quot;min_experience_years&quot;: 0,
+  &quot;max_experience_years&quot;: 3,
+  &quot;experience_text&quot;: &quot;0-3 Yrs&quot;,
+  &quot;currency&quot;: &quot;INR&quot;,
+  &quot;is_salary_hidden&quot;: true,
+  &quot;skills&quot;: [&quot;Computer science&quot;, &quot;Software design&quot;, &quot;Machine learning&quot;],
+  &quot;employment_type&quot;: &quot;Full Time, Permanent&quot;,
+  &quot;ambition_box_rating&quot;: &quot;3.7&quot;,
+  &quot;ambition_box_reviews&quot;: 225,
+  &quot;company_followers_count&quot;: 30118,
+  &quot;company_tags&quot;: [&quot;Electronic Components / Semiconductors&quot;, &quot;Forbes Global 2000&quot;, &quot;Foreign MNC&quot;],
+  &quot;company_founded_year&quot;: &quot;1951&quot;,
+  &quot;company_size&quot;: &quot;10001-50000&quot;,
+  &quot;company_website&quot;: &quot;http://www.ti.com&quot;,
+  &quot;company_benefits&quot;: [
+    { &quot;name&quot;: &quot;Free meal&quot;, &quot;employee_reports&quot;: 113 },
+    { &quot;name&quot;: &quot;Health insurance&quot;, &quot;employee_reports&quot;: 91 }
   ],
-  "company_similar_companies": [
-    { "name": "Infineon", "rating": "3.6", "reviews_count": 286 }
+  &quot;company_similar_companies&quot;: [
+    { &quot;name&quot;: &quot;Infineon&quot;, &quot;rating&quot;: &quot;3.6&quot;, &quot;reviews_count&quot;: 286 }
   ],
-  "source_platform": "naukri",
-  "search_query": "Software Engineer",
-  "scraped_at": "2026-06-10T09:46:48Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST \
-  "https://api.apify.com/v2/acts/santamaria-automations~naukri-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["DevOps Engineer"],
-    "location": "Pune",
-    "platform": "naukri",
-    "maxResultsPerQuery": 50,
-    "includeCompanyDetails": true
-  }'</pre></div>
+  &quot;source_platform&quot;: &quot;naukri&quot;,
+  &quot;search_query&quot;: &quot;Software Engineer&quot;,
+  &quot;scraped_at&quot;: &quot;2026-06-10T09:46:48Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>Recruitment agencies and HR tech platforms</strong> covering the Indian and Gulf markets need AmbitionBox ratings and company tags to help candidates evaluate employers — data that Naukri's own export feature does not include. <strong>Sales teams targeting Indian enterprises</strong> use company_tags (Forbes Global 2000, Foreign MNC) and company_similar_companies to build segmented prospect lists directly from job data. <strong>Compensation benchmarking tools</strong> value the ISO 4217 currency normalization across INR, USD, and AED, which makes cross-platform salary analysis possible without manual currency mapping. <strong>Job aggregators</strong> serving the India and MENA region get a deduplicated, 45-field feed from a single actor call across both Naukri and NaukriGulf.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -211,7 +204,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -220,42 +213,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~naukri-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~naukri-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/naukri-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/naukri-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/naukri-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/naukri-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/naukri-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/naukri-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>naukri-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;naukri-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -318,6 +311,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,45 +140,35 @@
       <li><strong>multi-query deduplication</strong> — run Informatiker, Softwareentwickler, and Programmierer in one call; duplicates removed automatically</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Informatiker", "Softwareentwickler"],
-  "location": "St. Gallen",
-  "maxResultsPerQuery": 100,
-  "workloadMin": 80,
-  "sortBy": "by_date",
-  "companyFilter": "exclude-hr"
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Informatiker&quot;, &quot;Softwareentwickler&quot;],
+  &quot;location&quot;: &quot;St. Gallen&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;workloadMin&quot;: 80,
+  &quot;sortBy&quot;: &quot;by_date&quot;,
+  &quot;companyFilter&quot;: &quot;exclude-hr&quot;
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "nicejob-98765",
-  "title": "IT-Systemadministrator (m/w/d) 80-100%",
-  "company": "Musterfirma GmbH",
-  "location": "Konstanz",
-  "country": "DE",
-  "workload_min": 80,
-  "workload_max": 100,
-  "salary_text": "60.000 - 75.000 EUR / Jahr",
-  "employment_type": "full-time",
-  "contact_person": "Maria Weber",
-  "contact_email": "jobs@musterfirma.de",
-  "company_description": "Wir sind ein mittelstandisches IT-Unternehmen...",
-  "company_benefits": ["Homeoffice", "Weiterbildungsbudget", "Firmenfahrzeug"],
-  "job_status": "online",
-  "posted_at": "2026-08-29T00:00:00Z",
-  "source_platform": "nicejob.de",
-  "search_query": "Informatiker",
-  "scraped_at": "2026-09-01T08:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST \
-  "https://api.apify.com/v2/acts/santamaria-automations~nicejob-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["Pflege", "Altenpfleger"],
-    "location": "Thurgau",
-    "maxResultsPerQuery": 100,
-    "companyFilter": "exclude-hr"
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;nicejob-98765&quot;,
+  &quot;title&quot;: &quot;IT-Systemadministrator (m/w/d) 80-100%&quot;,
+  &quot;company&quot;: &quot;Musterfirma GmbH&quot;,
+  &quot;location&quot;: &quot;Konstanz&quot;,
+  &quot;country&quot;: &quot;DE&quot;,
+  &quot;workload_min&quot;: 80,
+  &quot;workload_max&quot;: 100,
+  &quot;salary_text&quot;: &quot;60.000 - 75.000 EUR / Jahr&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;contact_person&quot;: &quot;Maria Weber&quot;,
+  &quot;contact_email&quot;: &quot;jobs@musterfirma.de&quot;,
+  &quot;company_description&quot;: &quot;Wir sind ein mittelstandisches IT-Unternehmen...&quot;,
+  &quot;company_benefits&quot;: [&quot;Homeoffice&quot;, &quot;Weiterbildungsbudget&quot;, &quot;Firmenfahrzeug&quot;],
+  &quot;job_status&quot;: &quot;online&quot;,
+  &quot;posted_at&quot;: &quot;2026-08-29T00:00:00Z&quot;,
+  &quot;source_platform&quot;: &quot;nicejob.de&quot;,
+  &quot;search_query&quot;: &quot;Informatiker&quot;,
+  &quot;scraped_at&quot;: &quot;2026-09-01T08:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>Regional recruitment agencies and job boards</strong> covering the German-speaking border region between Baden-Wurttemberg and Switzerland rely on NiceJob.de for localized postings that larger national boards do not surface. The <strong>Pensum workload filter</strong> matches the German part-time employment market, where many Teilzeit postings state a percentage range rather than hours per week. <strong>Direct employer outreach teams</strong> use <code>companyFilter: exclude-hr</code> to strip competing staffing agencies from results, leaving only contacts at hiring companies. <strong>Job monitoring pipelines</strong> use direct URL mode to verify whether previously scraped listings are still active, keeping downstream databases clean without re-crawling the full site.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -201,7 +195,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -210,42 +204,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~nicejob-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~nicejob-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/nicejob-de-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/nicejob-de-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/nicejob-de-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/nicejob-de-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/nicejob-de-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/nicejob-de-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>nicejob-de-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;nicejob-de-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -308,6 +302,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

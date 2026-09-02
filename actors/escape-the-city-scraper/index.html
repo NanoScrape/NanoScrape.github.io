@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,50 +134,41 @@
       <li><strong>company_about / company_website / company_active_jobs</strong>: Employer profile data from Escape's organisation pages when <code>includeCompanyDetails: true</code></li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["sustainability", "climate", "social impact"],
-  "location": "London",
-  "bcorp": true,
-  "maxResults": 100,
-  "maxResultsPerQuery": 200,
-  "includeJobDetails": true,
-  "includeCompanyDetails": true,
-  "maxConcurrency": 4
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;sustainability&quot;, &quot;climate&quot;, &quot;social impact&quot;],
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;bcorp&quot;: true,
+  &quot;maxResults&quot;: 100,
+  &quot;maxResultsPerQuery&quot;: 200,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: true,
+  &quot;maxConcurrency&quot;: 4
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "_type": "job",
-  "id": "1785895249629x380953201525951360",
-  "title": "Sustainability Consultant",
-  "employer_name": "Seismic",
-  "location": "London, United Kingdom",
-  "country": "GB",
-  "cause": "Sustainable consumption",
-  "industry": "Consulting, Environment and Conservation",
-  "employment_type": "full-time",
-  "experience_level": "mid",
-  "workplace_type": "hybrid",
-  "bcorp": true,
-  "top1percent_employer": true,
-  "visa_sponsor": false,
-  "employer_size": "11-50",
-  "escape_factor": ["Socially impactful", "People-first culture", "Small & unique"],
-  "benefits": ["Pet friendly", "Paid sabbatical", "Enhanced maternity", "Home office budget"],
-  "apply_url": "https://careers.seismic.com/jobs/8167280?utm_source=escape-the-city",
-  "company_website": "https://seismic.eco",
-  "company_active_jobs_count": 3,
-  "source_platform": "escapethecity.org",
-  "scraped_at": "2026-08-20T18:30:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~escape-the-city-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["sustainability", "climate"],
-    "bcorp": true,
-    "maxResults": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;1785895249629x380953201525951360&quot;,
+  &quot;title&quot;: &quot;Sustainability Consultant&quot;,
+  &quot;employer_name&quot;: &quot;Seismic&quot;,
+  &quot;location&quot;: &quot;London, United Kingdom&quot;,
+  &quot;country&quot;: &quot;GB&quot;,
+  &quot;cause&quot;: &quot;Sustainable consumption&quot;,
+  &quot;industry&quot;: &quot;Consulting, Environment and Conservation&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;experience_level&quot;: &quot;mid&quot;,
+  &quot;workplace_type&quot;: &quot;hybrid&quot;,
+  &quot;bcorp&quot;: true,
+  &quot;top1percent_employer&quot;: true,
+  &quot;visa_sponsor&quot;: false,
+  &quot;employer_size&quot;: &quot;11-50&quot;,
+  &quot;escape_factor&quot;: [&quot;Socially impactful&quot;, &quot;People-first culture&quot;, &quot;Small &amp; unique&quot;],
+  &quot;benefits&quot;: [&quot;Pet friendly&quot;, &quot;Paid sabbatical&quot;, &quot;Enhanced maternity&quot;, &quot;Home office budget&quot;],
+  &quot;apply_url&quot;: &quot;https://careers.seismic.com/jobs/8167280?utm_source=escape-the-city&quot;,
+  &quot;company_website&quot;: &quot;https://seismic.eco&quot;,
+  &quot;company_active_jobs_count&quot;: 3,
+  &quot;source_platform&quot;: &quot;escapethecity.org&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-20T18:30:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the specialist tool for <strong>ESG-focused recruiters, ethical job aggregators, and B-Corp ecosystem researchers</strong>. Escape the City is one of the few boards where every listing is vetted for mission alignment -- the B-Corp flag, Top-1% Employer certification, cause taxonomy, and benefits list are editorial signals applied by Escape's team and cannot be reproduced from generalist boards. Sustainability-sector HR teams use the <code>visa_sponsor</code> flag to surface roles open to international candidates. Employer-brand researchers use the deep employer mode to map every Escape-certified company's website, about text, and full open-role list in a single run.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -199,7 +194,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -208,42 +203,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~escape-the-city-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~escape-the-city-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/escape-the-city-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/escape-the-city-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/escape-the-city-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/escape-the-city-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/escape-the-city-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/escape-the-city-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>escape-the-city-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;escape-the-city-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -300,6 +295,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

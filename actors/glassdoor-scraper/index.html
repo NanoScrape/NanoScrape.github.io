@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,51 +134,40 @@
       <li><strong>workplace_type</strong>: Remote, Hybrid, or In-person from Glassdoor's own listing metadata -- consistent across all 20+ country domains</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["software engineer", "product manager"],
-  "location": "London",
-  "country": "gb",
-  "sortBy": "date",
-  "includeJobDetails": true,
-  "includeCompanyDetails": false,
-  "maxResults": 100,
-  "maxResultsPerQuery": 200
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;software engineer&quot;, &quot;product manager&quot;],
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;country&quot;: &quot;gb&quot;,
+  &quot;sortBy&quot;: &quot;date&quot;,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: false,
+  &quot;maxResults&quot;: 100,
+  &quot;maxResultsPerQuery&quot;: 200
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "_type": "job",
-  "id": "1009123456",
-  "title": "Senior Software Engineer",
-  "company_name": "Acme Corp",
-  "company_rating": 4.2,
-  "review_count": 1284,
-  "location": "New York, NY",
-  "salary_min": 145000,
-  "salary_max": 205000,
-  "salary_currency": "USD",
-  "salary_period": "year",
-  "salary_estimated": true,
-  "salary_source": "employer",
-  "employment_type": "full-time",
-  "workplace_type": "hybrid",
-  "easy_apply": false,
-  "posted_at": "2026-08-19",
-  "age_days": 1,
-  "apply_url": "https://boards.greenhouse.io/acme/jobs/1234",
-  "employer_profile_url": "https://www.glassdoor.com/Overview/Working-at-Acme-Corp-EI_IE12345.htm",
-  "source_platform": "glassdoor.com"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["software engineer"],
-    "location": "New York",
-    "country": "us",
-    "sortBy": "date",
-    "includeJobDetails": true,
-    "maxResults": 100
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;1009123456&quot;,
+  &quot;title&quot;: &quot;Senior Software Engineer&quot;,
+  &quot;company_name&quot;: &quot;Acme Corp&quot;,
+  &quot;company_rating&quot;: 4.2,
+  &quot;review_count&quot;: 1284,
+  &quot;location&quot;: &quot;New York, NY&quot;,
+  &quot;salary_min&quot;: 145000,
+  &quot;salary_max&quot;: 205000,
+  &quot;salary_currency&quot;: &quot;USD&quot;,
+  &quot;salary_period&quot;: &quot;year&quot;,
+  &quot;salary_estimated&quot;: true,
+  &quot;salary_source&quot;: &quot;employer&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;workplace_type&quot;: &quot;hybrid&quot;,
+  &quot;easy_apply&quot;: false,
+  &quot;posted_at&quot;: &quot;2026-08-19&quot;,
+  &quot;age_days&quot;: 1,
+  &quot;apply_url&quot;: &quot;https://boards.greenhouse.io/acme/jobs/1234&quot;,
+  &quot;employer_profile_url&quot;: &quot;https://www.glassdoor.com/Overview/Working-at-Acme-Corp-EI_IE12345.htm&quot;,
+  &quot;source_platform&quot;: &quot;glassdoor.com&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the go-to source for <strong>recruiter lead-gen platforms, employer-brand analytics vendors, and compensation benchmarking services</strong>. Glassdoor is unique in attaching company ratings and salary data to every job listing SERP row -- no other major job board exposes the employer's reputation score alongside the job card. Talent analytics teams use the CEO approval, culture rating, and recommend percentage from the employer profile pass to build employer quality scores for candidate-facing platforms. Sales teams targeting HR departments use the company_size_range, industry, and active_jobs_count to score and prioritise outbound accounts across 20+ country domains in a single run.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -200,7 +193,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -209,42 +202,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/glassdoor-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/glassdoor-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/glassdoor-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/glassdoor-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>glassdoor-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;glassdoor-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -301,6 +294,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

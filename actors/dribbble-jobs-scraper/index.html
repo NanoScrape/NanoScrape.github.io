@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,46 +134,38 @@
       <li><strong>contact_emails / contact_phones / contact_urls</strong>: Contact details and external links extracted from the posting body for direct outreach</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["product designer", "brand designer", "motion designer"],
-  "location": "Remote",
-  "remoteOnly": false,
-  "includeJobDetails": true,
-  "maxResults": 200,
-  "maxResultsPerQuery": 100,
-  "maxConcurrency": 3
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;product designer&quot;, &quot;brand designer&quot;, &quot;motion designer&quot;],
+  &quot;location&quot;: &quot;Remote&quot;,
+  &quot;remoteOnly&quot;: false,
+  &quot;includeJobDetails&quot;: true,
+  &quot;maxResults&quot;: 200,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;maxConcurrency&quot;: 3
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "_type": "job",
-  "id": "309416-Senior-Product-Designer",
-  "title": "Senior Product Designer",
-  "company_name": "CashCow",
-  "company_website": "https://www.cashcow.com",
-  "company_logo_url": "https://cdn.dribbble.com/userupload/12345/file/logo.png",
-  "location": "Remote",
-  "remote_type": "fully-remote",
-  "employment_type": "full-time",
-  "job_category": "Product Design",
-  "experience_level": "Senior",
-  "salary_min": 120000,
-  "salary_max": 160000,
-  "salary_currency": "USD",
-  "salary_period": "year",
-  "description_full": "Full-time, Remote, 5+ years experience. CashCow lives at the intersection of mobile gaming...",
-  "contact_urls": ["https://www.cashcow.com/careers"],
-  "posted_at_datetime": "2026-08-20T13:00:00Z",
-  "source_platform": "dribbble.com",
-  "scraped_at": "2026-08-24T10:30:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~dribbble-jobs-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["product designer"],
-    "includeJobDetails": true,
-    "maxResults": 200
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;309416-Senior-Product-Designer&quot;,
+  &quot;title&quot;: &quot;Senior Product Designer&quot;,
+  &quot;company_name&quot;: &quot;CashCow&quot;,
+  &quot;company_website&quot;: &quot;https://www.cashcow.com&quot;,
+  &quot;company_logo_url&quot;: &quot;https://cdn.dribbble.com/userupload/12345/file/logo.png&quot;,
+  &quot;location&quot;: &quot;Remote&quot;,
+  &quot;remote_type&quot;: &quot;fully-remote&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;job_category&quot;: &quot;Product Design&quot;,
+  &quot;experience_level&quot;: &quot;Senior&quot;,
+  &quot;salary_min&quot;: 120000,
+  &quot;salary_max&quot;: 160000,
+  &quot;salary_currency&quot;: &quot;USD&quot;,
+  &quot;salary_period&quot;: &quot;year&quot;,
+  &quot;description_full&quot;: &quot;Full-time, Remote, 5+ years experience. CashCow lives at the intersection of mobile gaming...&quot;,
+  &quot;contact_urls&quot;: [&quot;https://www.cashcow.com/careers&quot;],
+  &quot;posted_at_datetime&quot;: &quot;2026-08-20T13:00:00Z&quot;,
+  &quot;source_platform&quot;: &quot;dribbble.com&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-24T10:30:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the specialist tool for <strong>design talent agencies, portfolio-driven recruiting platforms, and salary benchmarking services</strong> covering the creative industry. Dribbble Jobs is purpose-built for the design community -- every listing is a design role (UI/UX, product, brand, motion, illustration) with no generalist noise. The <code>job_category</code> and <code>experience_level</code> fields normalise role classification across the entire board without any LLM guessing. Companies hiring from Dribbble value portfolio quality over credentials, making this the right source for creative agencies that want to identify and engage design-led hiring teams directly.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -195,7 +191,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -204,42 +200,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~dribbble-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~dribbble-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/dribbble-jobs-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/dribbble-jobs-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/dribbble-jobs-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/dribbble-jobs-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/dribbble-jobs-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/dribbble-jobs-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>dribbble-jobs-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;dribbble-jobs-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -296,6 +292,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

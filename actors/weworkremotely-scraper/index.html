@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -141,45 +145,35 @@
       <li><strong>apply_url + posted_at</strong> — direct apply link and ISO posting date</li>
     </ul>
     <h2 class="section-title">Input example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchUrls": [
-    "https://weworkremotely.com/categories/remote-programming-jobs",
-    "https://weworkremotely.com/remote-jobs/search?term=python"
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchUrls&quot;: [
+    &quot;https://weworkremotely.com/categories/remote-programming-jobs&quot;,
+    &quot;https://weworkremotely.com/remote-jobs/search?term=python&quot;
   ],
-  "includeCompanyInfo": true,
-  "maxResults": 200,
-  "mode": "full"
-}</pre></div>
+  &quot;includeCompanyInfo&quot;: true,
+  &quot;maxResults&quot;: 200,
+  &quot;mode&quot;: &quot;full&quot;
+}</code></pre></div>
     <h2 class="section-title">Output example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "titan-ai-full-stack-developer-ai-applications",
-  "title": "Full-Stack Developer, AI Applications",
-  "company": "Titan Ai",
-  "company_logo_url": "https://we-work-remotely.imgix.net/logos/0001/example.png",
-  "company_hq": "San Francisco, CA",
-  "company_website": "https://titan.ai",
-  "company_total_jobs": 5,
-  "location": "Anywhere in the World",
-  "category": "Full-Stack Programming",
-  "employment_type": "Full-Time",
-  "countries": ["United States", "Canada"],
-  "salary_min": 120000,
-  "salary_max": 180000,
-  "salary_currency": "USD",
-  "posted_at": "2026-04-08T20:32:08Z",
-  "source_platform": "weworkremotely.com",
-  "scraped_at": "2026-09-02T14:30:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~weworkremotely-scraper/runs" \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchUrls": ["https://weworkremotely.com/categories/remote-programming-jobs"],
-    "includeCompanyInfo": true,
-    "maxResults": 200,
-    "mode": "full"
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;titan-ai-full-stack-developer-ai-applications&quot;,
+  &quot;title&quot;: &quot;Full-Stack Developer, AI Applications&quot;,
+  &quot;company&quot;: &quot;Titan Ai&quot;,
+  &quot;company_logo_url&quot;: &quot;https://we-work-remotely.imgix.net/logos/0001/example.png&quot;,
+  &quot;company_hq&quot;: &quot;San Francisco, CA&quot;,
+  &quot;company_website&quot;: &quot;https://titan.ai&quot;,
+  &quot;company_total_jobs&quot;: 5,
+  &quot;location&quot;: &quot;Anywhere in the World&quot;,
+  &quot;category&quot;: &quot;Full-Stack Programming&quot;,
+  &quot;employment_type&quot;: &quot;Full-Time&quot;,
+  &quot;countries&quot;: [&quot;United States&quot;, &quot;Canada&quot;],
+  &quot;salary_min&quot;: 120000,
+  &quot;salary_max&quot;: 180000,
+  &quot;salary_currency&quot;: &quot;USD&quot;,
+  &quot;posted_at&quot;: &quot;2026-04-08T20:32:08Z&quot;,
+  &quot;source_platform&quot;: &quot;weworkremotely.com&quot;,
+  &quot;scraped_at&quot;: &quot;2026-09-02T14:30:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who should use this</h2>
     <p><p><strong>Remote job board operators</strong> use WeWorkRemotely as one of their primary sources because the RSS category feeds are comprehensive, predictable, and fast. The <code>countries</code> field enables geographic filtering without parsing description text.</p><p><strong>Salary benchmarking and compensation analysts</strong> focused on remote tech roles use the structured <code>salary_min</code> / <code>salary_max</code> fields, which WWR actively encourages employers to publish, making it one of the better remote-salary data sources.</p><p><strong>Lead generation teams</strong> targeting growing remote-first companies use <code>includeCompanyInfo: true</code> to surface employer HQ, website, and total open positions, identifying which companies are scaling quickly.</p></p>
     <h2 class="section-title">Integrations</h2>
@@ -201,7 +195,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -210,42 +204,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~weworkremotely-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~weworkremotely-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/weworkremotely-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/weworkremotely-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/weworkremotely-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/weworkremotely-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/weworkremotely-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/weworkremotely-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>weworkremotely-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;weworkremotely-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -306,6 +300,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -132,57 +136,48 @@
       <li><strong>work_regime</strong>: Workplace arrangement in Romanian (Hibrid, Telemunca, Sediu) -- normalised output alongside <code>employment_type</code></li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["programator", "contabil", "sudor"],
-  "location": "Bucuresti",
-  "contractTypeId": 2,
-  "minimumSalary": 4000,
-  "availableForEUCitizens": false,
-  "maxResults": 100,
-  "maxResultsPerQuery": 50,
-  "includeJobDetails": true,
-  "maxConcurrency": 3
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;programator&quot;, &quot;contabil&quot;, &quot;sudor&quot;],
+  &quot;location&quot;: &quot;Bucuresti&quot;,
+  &quot;contractTypeId&quot;: 2,
+  &quot;minimumSalary&quot;: 4000,
+  &quot;availableForEUCitizens&quot;: false,
+  &quot;maxResults&quot;: 100,
+  &quot;maxResultsPerQuery&quot;: 50,
+  &quot;includeJobDetails&quot;: true,
+  &quot;maxConcurrency&quot;: 3
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "_type": "job",
-  "id": "3360005",
-  "title": "PROGRAMATOR",
-  "job_url": "https://mediere.anofm.ro/app/module/mediere/job/3360005",
-  "source_platform": "anofm.ro",
-  "company_name": "AllCloud Romania SRL",
-  "company_tax_code": "36215728",
-  "location": "BUCURESTI SECTORUL 4, Municipiul Bucuresti",
-  "country": "RO",
-  "county": "Municipiul Bucuresti",
-  "employment_type": "Full-time",
-  "work_regime": "Hibrid - sediu + telemunca",
-  "contract_type": "Cu durata nedeterminata",
-  "cor_code": "251202",
-  "cor_name": "PROGRAMATOR",
-  "salary_min": 15000,
-  "salary_max": 17400,
-  "salary_currency": "RON",
-  "salary_period": "month",
-  "salary_type": "gross",
-  "open_positions_new": 1,
-  "open_positions_freed": 0,
-  "available_for_eu_citizens": false,
-  "target_group": "PCLM",
-  "contact_name": "Diana Teashala",
-  "contact_emails": ["diana.teashala@allcloud.io"],
-  "contact_phones": ["0752088232"],
-  "scraped_at": "2026-08-25T10:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~anofm-ro-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["programator", "contabil"],
-    "location": "Bucuresti",
-    "maxResults": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;3360005&quot;,
+  &quot;title&quot;: &quot;PROGRAMATOR&quot;,
+  &quot;job_url&quot;: &quot;https://mediere.anofm.ro/app/module/mediere/job/3360005&quot;,
+  &quot;source_platform&quot;: &quot;anofm.ro&quot;,
+  &quot;company_name&quot;: &quot;AllCloud Romania SRL&quot;,
+  &quot;company_tax_code&quot;: &quot;36215728&quot;,
+  &quot;location&quot;: &quot;BUCURESTI SECTORUL 4, Municipiul Bucuresti&quot;,
+  &quot;country&quot;: &quot;RO&quot;,
+  &quot;county&quot;: &quot;Municipiul Bucuresti&quot;,
+  &quot;employment_type&quot;: &quot;Full-time&quot;,
+  &quot;work_regime&quot;: &quot;Hibrid - sediu + telemunca&quot;,
+  &quot;contract_type&quot;: &quot;Cu durata nedeterminata&quot;,
+  &quot;cor_code&quot;: &quot;251202&quot;,
+  &quot;cor_name&quot;: &quot;PROGRAMATOR&quot;,
+  &quot;salary_min&quot;: 15000,
+  &quot;salary_max&quot;: 17400,
+  &quot;salary_currency&quot;: &quot;RON&quot;,
+  &quot;salary_period&quot;: &quot;month&quot;,
+  &quot;salary_type&quot;: &quot;gross&quot;,
+  &quot;open_positions_new&quot;: 1,
+  &quot;open_positions_freed&quot;: 0,
+  &quot;available_for_eu_citizens&quot;: false,
+  &quot;target_group&quot;: &quot;PCLM&quot;,
+  &quot;contact_name&quot;: &quot;Diana Teashala&quot;,
+  &quot;contact_emails&quot;: [&quot;diana.teashala@allcloud.io&quot;],
+  &quot;contact_phones&quot;: [&quot;0752088232&quot;],
+  &quot;scraped_at&quot;: &quot;2026-08-25T10:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the go-to source for <strong>Romanian labour market researchers, EU cross-border recruiters, and job aggregators</strong> covering Eastern Europe. Because Romanian law requires every employer to register vacancies with ANOFM before filling them, the dataset is more complete than any commercial board. HR analytics vendors use the COR occupation codes to cross-reference with National Institute of Statistics data. Recruiters serving the EU cross-border market filter on the <code>available_for_eu_citizens</code> flag to surface EURES-published positions instantly, without manual review of each posting.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -208,7 +203,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -217,42 +212,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~anofm-ro-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~anofm-ro-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/anofm-ro-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/anofm-ro-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/anofm-ro-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/anofm-ro-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/anofm-ro-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/anofm-ro-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>anofm-ro-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;anofm-ro-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -309,6 +304,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

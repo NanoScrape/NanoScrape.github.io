@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,52 +134,42 @@
       <li><strong>company_phone / company_address_* / company_website</strong>: Employer contact data from the schema.org hiringOrganization block on the detail page</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["nurse practitioner", "cardiologist"],
-  "specialty": "nurse",
-  "state": "California",
-  "maxResults": 200,
-  "maxResultsPerQuery": 200,
-  "includeJobDetails": true,
-  "includeCompanyDetails": false,
-  "maxConcurrency": 5
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;nurse practitioner&quot;, &quot;cardiologist&quot;],
+  &quot;specialty&quot;: &quot;nurse&quot;,
+  &quot;state&quot;: &quot;California&quot;,
+  &quot;maxResults&quot;: 200,
+  &quot;maxResultsPerQuery&quot;: 200,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: false,
+  &quot;maxConcurrency&quot;: 5
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "13617612",
-  "guid": "6f162a0d-be8a-47c6-894f-ff22cd950a7c",
-  "title": "Care Partner - Medical Surgical Unit - FT Days",
-  "company": "Wellstar Health System",
-  "location": "Austell, Georgia",
-  "country": "US",
-  "employment_type": "full-time",
-  "specialty": "nurse",
-  "subspecialty": "Medical / Surgical",
-  "profession": "Nursing",
-  "credentials_required": "RN",
-  "employer_type": "health-system",
-  "shift_type": "day",
-  "experience_level": "mid",
-  "apply_url": "https://www.healthecareers.com/job/care-partner-medical-surgical-unit/13617612",
-  "apply_type": "Resume",
-  "company_phone": "(585) 922-9348",
-  "company_address_street": "1425 Portland Avenue",
-  "company_address_city": "Rochester",
-  "company_address_country": "US",
-  "source_platform": "healthecareers.com",
-  "search_query": "nurse",
-  "scraped_at": "2026-08-18T19:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~healthecareers-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["nurse practitioner"],
-    "specialty": "nurse",
-    "state": "Texas",
-    "maxResults": 200,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;13617612&quot;,
+  &quot;guid&quot;: &quot;6f162a0d-be8a-47c6-894f-ff22cd950a7c&quot;,
+  &quot;title&quot;: &quot;Care Partner - Medical Surgical Unit - FT Days&quot;,
+  &quot;company&quot;: &quot;Wellstar Health System&quot;,
+  &quot;location&quot;: &quot;Austell, Georgia&quot;,
+  &quot;country&quot;: &quot;US&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;specialty&quot;: &quot;nurse&quot;,
+  &quot;subspecialty&quot;: &quot;Medical / Surgical&quot;,
+  &quot;profession&quot;: &quot;Nursing&quot;,
+  &quot;credentials_required&quot;: &quot;RN&quot;,
+  &quot;employer_type&quot;: &quot;health-system&quot;,
+  &quot;shift_type&quot;: &quot;day&quot;,
+  &quot;experience_level&quot;: &quot;mid&quot;,
+  &quot;apply_url&quot;: &quot;https://www.healthecareers.com/job/care-partner-medical-surgical-unit/13617612&quot;,
+  &quot;apply_type&quot;: &quot;Resume&quot;,
+  &quot;company_phone&quot;: &quot;(585) 922-9348&quot;,
+  &quot;company_address_street&quot;: &quot;1425 Portland Avenue&quot;,
+  &quot;company_address_city&quot;: &quot;Rochester&quot;,
+  &quot;company_address_country&quot;: &quot;US&quot;,
+  &quot;source_platform&quot;: &quot;healthecareers.com&quot;,
+  &quot;search_query&quot;: &quot;nurse&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-18T19:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is the specialist tool for <strong>US physician and nurse recruitment firms, healthcare staffing agencies, and clinical workforce analytics platforms</strong>. HealtheCareers is the leading clinical job board covering physicians, nurses, allied health, pharmacy, and dentistry -- and crucially, the SERP cards already carry 20+ healthcare-native fields (credentials, specialty, subspecialty, employer type, shift type) that generalist boards like Indeed or LinkedIn require multiple API calls or LLM parsing to recover. A hospital staffing agency can filter for night-shift RNs at academic health systems in California in a single query without any post-processing. The structured employer contact data (phone, address) from the schema.org detail page supplements outreach when the employer's HR email is not visible.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -201,7 +195,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -210,42 +204,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~healthecareers-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~healthecareers-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/healthecareers-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/healthecareers-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/healthecareers-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/healthecareers-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/healthecareers-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/healthecareers-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>healthecareers-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;healthecareers-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -302,6 +296,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,53 +140,43 @@
       <li><strong>contact_person / contact_emails / contact_phones / application_method</strong> — all application channels including direct employer contact</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["programista", "inzynier"],
-  "location": "Warszawa",
-  "maxResultsPerQuery": 100,
-  "includeJobDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;programista&quot;, &quot;inzynier&quot;],
+  &quot;location&quot;: &quot;Warszawa&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;includeJobDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "f57e5fa80ecce8d705c29fdff9d7eece",
-  "title": "Automatyk / Programista (K/M)",
-  "company_name": "AROTECH Sp. z o.o.",
-  "company_nip": "7441818928",
-  "location": "Fijewo",
-  "country": "PL",
-  "region": "Warminsko-Mazurskie",
-  "voivodeship": "Warminsko-Mazurskie",
-  "powiat": "ilawski",
-  "address_full": "14-260 Fijewo 55, powiat: ilawski, woj: warminsko-mazurskie",
-  "latitude": 53.4930419,
-  "longitude": 19.7688672,
-  "pup": "PUP w Ilawie",
-  "pup_email": "olil@praca.gov.pl",
-  "job_number": "StPr/26/0659",
-  "salary_min": 4200,
-  "salary_max": 6500,
-  "salary_currency": "PLN",
-  "salary_period": "month",
-  "employment_type": "permanent",
-  "disability_accessible": false,
-  "positions_for_disabled": 0,
-  "pfron_funded": false,
-  "contact_person": "Jan Kowalski",
-  "contact_phones": ["+48 89 644 0700"],
-  "posted_at_datetime": "2026-08-15T00:00:00Z",
-  "source_platform": "praca.gov.pl",
-  "scraped_at": "2026-09-01T10:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST \
-  "https://api.apify.com/v2/acts/santamaria-automations~praca-gov-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["ksiegowy", "ksiegowa"],
-    "location": "Krakow",
-    "maxResultsPerQuery": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;f57e5fa80ecce8d705c29fdff9d7eece&quot;,
+  &quot;title&quot;: &quot;Automatyk / Programista (K/M)&quot;,
+  &quot;company_name&quot;: &quot;AROTECH Sp. z o.o.&quot;,
+  &quot;company_nip&quot;: &quot;7441818928&quot;,
+  &quot;location&quot;: &quot;Fijewo&quot;,
+  &quot;country&quot;: &quot;PL&quot;,
+  &quot;region&quot;: &quot;Warminsko-Mazurskie&quot;,
+  &quot;voivodeship&quot;: &quot;Warminsko-Mazurskie&quot;,
+  &quot;powiat&quot;: &quot;ilawski&quot;,
+  &quot;address_full&quot;: &quot;14-260 Fijewo 55, powiat: ilawski, woj: warminsko-mazurskie&quot;,
+  &quot;latitude&quot;: 53.4930419,
+  &quot;longitude&quot;: 19.7688672,
+  &quot;pup&quot;: &quot;PUP w Ilawie&quot;,
+  &quot;pup_email&quot;: &quot;olil@praca.gov.pl&quot;,
+  &quot;job_number&quot;: &quot;StPr/26/0659&quot;,
+  &quot;salary_min&quot;: 4200,
+  &quot;salary_max&quot;: 6500,
+  &quot;salary_currency&quot;: &quot;PLN&quot;,
+  &quot;salary_period&quot;: &quot;month&quot;,
+  &quot;employment_type&quot;: &quot;permanent&quot;,
+  &quot;disability_accessible&quot;: false,
+  &quot;positions_for_disabled&quot;: 0,
+  &quot;pfron_funded&quot;: false,
+  &quot;contact_person&quot;: &quot;Jan Kowalski&quot;,
+  &quot;contact_phones&quot;: [&quot;+48 89 644 0700&quot;],
+  &quot;posted_at_datetime&quot;: &quot;2026-08-15T00:00:00Z&quot;,
+  &quot;source_platform&quot;: &quot;praca.gov.pl&quot;,
+  &quot;scraped_at&quot;: &quot;2026-09-01T10:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>Polish HR tech platforms and compliance-focused aggregators</strong> need CBOP data because it is the only job source in Poland that carries verified company NIP numbers, enabling cross-reference with the KRS company register and VAT database. <strong>Disability employment services and PFRON partners</strong> use the <code>pfron_funded</code>, <code>disability_accessible</code>, and <code>positions_for_disabled</code> fields, which exist nowhere else in the Polish job market. <strong>Labour-market researchers and government analytics teams</strong> use voivodeship and powiat geography plus GPS coordinates to build regional employment heatmaps at the county level. <strong>EU mobility programs and EURES partners</strong> filter for <code>job_scope: UE</code> to surface the cross-border listings contributed by partner employment offices across Europe.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -209,7 +203,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -218,42 +212,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~praca-gov-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~praca-gov-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/praca-gov-pl-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/praca-gov-pl-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/praca-gov-pl-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/praca-gov-pl-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/praca-gov-pl-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/praca-gov-pl-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>praca-gov-pl-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;praca-gov-pl-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -316,6 +310,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

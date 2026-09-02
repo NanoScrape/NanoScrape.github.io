@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -132,53 +136,43 @@
       <li><strong>career_page_url + application_url</strong> — discovered career page and apply link</li>
     </ul>
     <h2 class="section-title">Input example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "companies": [
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;companies&quot;: [
     {
-      "company_id": "example-ag",
-      "company_name": "Example AG",
-      "website_url": "https://example.ch"
+      &quot;company_id&quot;: &quot;example-ag&quot;,
+      &quot;company_name&quot;: &quot;Example AG&quot;,
+      &quot;website_url&quot;: &quot;https://example.ch&quot;
     },
     {
-      "company_id": "another-gmbh",
-      "company_name": "Another GmbH",
-      "career_urls": ["https://another-gmbh.personio.de/"]
+      &quot;company_id&quot;: &quot;another-gmbh&quot;,
+      &quot;company_name&quot;: &quot;Another GmbH&quot;,
+      &quot;career_urls&quot;: [&quot;https://another-gmbh.personio.de/&quot;]
     }
   ],
-  "jobKeywords": ["Software Engineer", "DevOps", "Backend"],
-  "llmProvider": "gemini",
-  "geminiApiKey": "YOUR_GEMINI_API_KEY",
-  "maxPagesPerCompany": 5
-}</pre></div>
+  &quot;jobKeywords&quot;: [&quot;Software Engineer&quot;, &quot;DevOps&quot;, &quot;Backend&quot;],
+  &quot;llmProvider&quot;: &quot;gemini&quot;,
+  &quot;geminiApiKey&quot;: &quot;YOUR_GEMINI_API_KEY&quot;,
+  &quot;maxPagesPerCompany&quot;: 5
+}</code></pre></div>
     <h2 class="section-title">Output example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "company_id": "example-ag",
-  "company_name": "Example AG",
-  "title": "Senior Software Engineer (m/w/d)",
-  "location": "Zurich",
-  "employment_type": "Full-time",
-  "experience_level": "Senior",
-  "salary_range": "100,000-130,000 CHF",
-  "requirements": ["5+ years experience", "React", "Node.js", "TypeScript"],
-  "benefits": ["Remote work", "Training budget", "Flexible hours"],
-  "ats_system": "personio",
-  "ats_url": "https://example-ag.jobs.personio.de/",
-  "confidence": 0.95,
-  "relevance": "high",
-  "job_url": "https://example.ch/karriere/senior-swe",
-  "application_url": "https://example.ch/apply/senior-swe",
-  "extracted_at": "2026-09-02T10:30:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/runs" \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "companies": [{"company_id": "acme", "company_name": "Acme AG", "website_url": "https://acme.ch"}],
-    "llmProvider": "gemini",
-    "geminiApiKey": "YOUR_GEMINI_API_KEY",
-    "jobKeywords": ["Software Engineer"]
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;company_id&quot;: &quot;example-ag&quot;,
+  &quot;company_name&quot;: &quot;Example AG&quot;,
+  &quot;title&quot;: &quot;Senior Software Engineer (m/w/d)&quot;,
+  &quot;location&quot;: &quot;Zurich&quot;,
+  &quot;employment_type&quot;: &quot;Full-time&quot;,
+  &quot;experience_level&quot;: &quot;Senior&quot;,
+  &quot;salary_range&quot;: &quot;100,000-130,000 CHF&quot;,
+  &quot;requirements&quot;: [&quot;5+ years experience&quot;, &quot;React&quot;, &quot;Node.js&quot;, &quot;TypeScript&quot;],
+  &quot;benefits&quot;: [&quot;Remote work&quot;, &quot;Training budget&quot;, &quot;Flexible hours&quot;],
+  &quot;ats_system&quot;: &quot;personio&quot;,
+  &quot;ats_url&quot;: &quot;https://example-ag.jobs.personio.de/&quot;,
+  &quot;confidence&quot;: 0.95,
+  &quot;relevance&quot;: &quot;high&quot;,
+  &quot;job_url&quot;: &quot;https://example.ch/karriere/senior-swe&quot;,
+  &quot;application_url&quot;: &quot;https://example.ch/apply/senior-swe&quot;,
+  &quot;extracted_at&quot;: &quot;2026-09-02T10:30:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who should use this</h2>
     <p><p><strong>B2B sales and lead generation teams</strong> use this actor to detect hiring intent at the exact moment a company posts a new role. A company posting 5 new sales engineer roles is a live buying signal for CRM, HR tech, and benefits vendors, and this actor surfaces it directly from the company's own website before it appears on public job boards.</p><p><strong>Recruitment analytics platforms</strong> building competitive intelligence feeds combine this actor with the Google Maps Scraper to discover companies by location, then automatically extract their open jobs for sector-level hiring trend dashboards.</p><p><strong>Niche job board operators</strong> covering specific industries use the <code>skipAtsExtraction: true</code> mode to route Personio, Greenhouse, and Lever portals into the Career Site Jobs Scraper for structured API-level extraction, while the LLM handles the remaining custom career pages, all in one pipeline.</p></p>
     <h2 class="section-title">Integrations</h2>
@@ -200,7 +194,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -209,42 +203,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/website-job-extractor').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/website-job-extractor').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/website-job-extractor").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/website-job-extractor").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/website-job-extractor</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/website-job-extractor</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>website-job-extractor</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;website-job-extractor&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -307,6 +301,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -141,47 +145,36 @@
       <li><strong>facebook_url + linkedin_url + twitter_url</strong> — company social media links</li>
     </ul>
     <h2 class="section-title">Input example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Software Engineer", "Data Scientist"],
-  "country": "fr",
-  "language": "en",
-  "location": "Paris",
-  "contractType": "cdi",
-  "maxResultsPerQuery": 100,
-  "includeJobDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Software Engineer&quot;, &quot;Data Scientist&quot;],
+  &quot;country&quot;: &quot;fr&quot;,
+  &quot;language&quot;: &quot;en&quot;,
+  &quot;location&quot;: &quot;Paris&quot;,
+  &quot;contractType&quot;: &quot;cdi&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;includeJobDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "22ac4cb5-69a6-4f42-9bea-045e3acdea58",
-  "title": "Software Engineer (ESG)",
-  "company": "Greenly",
-  "company_size": "210 employees",
-  "company_sector": "SocialTech / GreenTech",
-  "location": "Paris, Ile-de-France, France",
-  "salary_min": 45000,
-  "salary_max": 50000,
-  "salary_currency": "EUR",
-  "employment_type": "CDI",
-  "work_mode": "remote",
-  "starting_date": "September 1, 2026",
-  "tech_stack": ["React", "Typescript"],
-  "company_benefits": ["Flexible working hours", "Open to full remote", "RTT"],
-  "company_website": "https://www.greenly.earth",
-  "linkedin_url": "https://www.linkedin.com/company/greenly-earth",
-  "source_platform": "welcometothejungle.com",
-  "scraped_at": "2026-09-02T13:40:44Z"
-}</pre></div>
-    <h2 class="section-title">Call from code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~welcome-to-the-jungle-scraper/runs" \
-  -H "Authorization: Bearer YOUR_API_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["Software Engineer"],
-    "country": "fr",
-    "location": "Paris",
-    "maxResultsPerQuery": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;22ac4cb5-69a6-4f42-9bea-045e3acdea58&quot;,
+  &quot;title&quot;: &quot;Software Engineer (ESG)&quot;,
+  &quot;company&quot;: &quot;Greenly&quot;,
+  &quot;company_size&quot;: &quot;210 employees&quot;,
+  &quot;company_sector&quot;: &quot;SocialTech / GreenTech&quot;,
+  &quot;location&quot;: &quot;Paris, Ile-de-France, France&quot;,
+  &quot;salary_min&quot;: 45000,
+  &quot;salary_max&quot;: 50000,
+  &quot;salary_currency&quot;: &quot;EUR&quot;,
+  &quot;employment_type&quot;: &quot;CDI&quot;,
+  &quot;work_mode&quot;: &quot;remote&quot;,
+  &quot;starting_date&quot;: &quot;September 1, 2026&quot;,
+  &quot;tech_stack&quot;: [&quot;React&quot;, &quot;Typescript&quot;],
+  &quot;company_benefits&quot;: [&quot;Flexible working hours&quot;, &quot;Open to full remote&quot;, &quot;RTT&quot;],
+  &quot;company_website&quot;: &quot;https://www.greenly.earth&quot;,
+  &quot;linkedin_url&quot;: &quot;https://www.linkedin.com/company/greenly-earth&quot;,
+  &quot;source_platform&quot;: &quot;welcometothejungle.com&quot;,
+  &quot;scraped_at&quot;: &quot;2026-09-02T13:40:44Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who should use this</h2>
     <p><p><strong>European tech and startup recruiters</strong> use this actor because Welcome to the Jungle is the dominant modern job board across France, Germany, and Spain, with richer company branding and salary transparency than traditional boards. At $1 per 1,000 jobs it is the most cost-effective route into this inventory.</p><p><strong>Employer branding analysts</strong> use the <code>company_benefits</code>, <code>company_size</code>, and <code>company_sector</code> fields to benchmark culture signals across startup competitors in their market.</p><p><strong>Salary benchmarking teams</strong> covering the French and Spanish markets value the structured <code>salary_min</code> / <code>salary_max</code> fields, which WTTJ encourages employers to publish, making it one of the best sources of disclosed compensation data in Europe.</p></p>
     <h2 class="section-title">Integrations</h2>
@@ -203,7 +196,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -212,42 +205,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~welcome-to-the-jungle-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~welcome-to-the-jungle-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/welcome-to-the-jungle-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/welcome-to-the-jungle-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/welcome-to-the-jungle-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/welcome-to-the-jungle-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/welcome-to-the-jungle-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/welcome-to-the-jungle-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>welcome-to-the-jungle-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;welcome-to-the-jungle-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -308,6 +301,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -130,49 +134,40 @@
       <li><strong>expires_at</strong>: Application deadline in ISO 8601 -- present on most Swiss government postings unlike most commercial boards</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Pflege", "IT", "Buchhaltung"],
-  "cantonCodes": ["ZH", "BE"],
-  "sortBy": "date_desc",
-  "workloadMin": 80,
-  "workloadMax": 100,
-  "onlineSinceDays": 30,
-  "maxResultsPerQuery": 50,
-  "includeJobDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Pflege&quot;, &quot;IT&quot;, &quot;Buchhaltung&quot;],
+  &quot;cantonCodes&quot;: [&quot;ZH&quot;, &quot;BE&quot;],
+  &quot;sortBy&quot;: &quot;date_desc&quot;,
+  &quot;workloadMin&quot;: 80,
+  &quot;workloadMax&quot;: 100,
+  &quot;onlineSinceDays&quot;: 30,
+  &quot;maxResultsPerQuery&quot;: 50,
+  &quot;includeJobDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "abc123-def456",
-  "title": "Dipl. Pflegefachperson HF/FH",
-  "company": "Universitatsspital Zurich",
-  "location": "Zurich, ZH",
-  "canton": "ZH",
-  "country": "CH",
-  "employment_type": "full-time",
-  "workload_min": 80,
-  "workload_max": 100,
-  "description_full": "Wir suchen eine engagierte Pflegefachperson...",
-  "posted_at": "2024-01-15T00:00:00.000Z",
-  "expires_at": "2024-02-15T00:00:00.000Z",
-  "source_url": "https://www.job-room.ch/job-search/abc123-def456",
-  "source_platform": "arbeit.swiss",
-  "contact_salutation": "Frau",
-  "contact_firstname": "Maria",
-  "contact_lastname": "Mueller",
-  "contact_email": "jobs@usz.ch",
-  "contact_phone": "+41442551111",
-  "apply_url": "https://careers.usz.ch/apply/123",
-  "scraped_at": "2024-01-16T12:00:00.000Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["Software Engineer"],
-    "cantonCodes": ["ZH"],
-    "maxResultsPerQuery": 200,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;abc123-def456&quot;,
+  &quot;title&quot;: &quot;Dipl. Pflegefachperson HF/FH&quot;,
+  &quot;company&quot;: &quot;Universitatsspital Zurich&quot;,
+  &quot;location&quot;: &quot;Zurich, ZH&quot;,
+  &quot;canton&quot;: &quot;ZH&quot;,
+  &quot;country&quot;: &quot;CH&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;workload_min&quot;: 80,
+  &quot;workload_max&quot;: 100,
+  &quot;description_full&quot;: &quot;Wir suchen eine engagierte Pflegefachperson...&quot;,
+  &quot;posted_at&quot;: &quot;2024-01-15T00:00:00.000Z&quot;,
+  &quot;expires_at&quot;: &quot;2024-02-15T00:00:00.000Z&quot;,
+  &quot;source_url&quot;: &quot;https://www.job-room.ch/job-search/abc123-def456&quot;,
+  &quot;source_platform&quot;: &quot;arbeit.swiss&quot;,
+  &quot;contact_salutation&quot;: &quot;Frau&quot;,
+  &quot;contact_firstname&quot;: &quot;Maria&quot;,
+  &quot;contact_lastname&quot;: &quot;Mueller&quot;,
+  &quot;contact_email&quot;: &quot;jobs@usz.ch&quot;,
+  &quot;contact_phone&quot;: &quot;+41442551111&quot;,
+  &quot;apply_url&quot;: &quot;https://careers.usz.ch/apply/123&quot;,
+  &quot;scraped_at&quot;: &quot;2024-01-16T12:00:00.000Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p>This actor is ideal for <strong>Swiss HR platforms, DACH-region staffing agencies, and job aggregators</strong> that need official government vacancy data. The canton and Pensum (workload percentage) fields are unique to the Swiss market and not available on any commercial board -- making this the authoritative source for regional Swiss hiring intelligence. Researchers studying the Swiss labour market can use it to track vacancy rates by canton and sector directly from the SECO (State Secretariat for Economic Affairs) data. Compared to scraping jobs.ch or jobscout24.ch, Arbeit.Swiss listings include roles that employers are legally incentivised to post via RAV (Regional Employment Centres).</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -198,7 +193,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -207,42 +202,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/arbeit-swiss-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/arbeit-swiss-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/arbeit-swiss-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/arbeit-swiss-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/arbeit-swiss-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/arbeit-swiss-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>arbeit-swiss-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;arbeit-swiss-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -299,6 +294,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

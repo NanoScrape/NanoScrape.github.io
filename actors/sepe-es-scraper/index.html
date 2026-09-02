@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,49 +140,39 @@
       <li><strong>source_origin</strong> — identifies whether the listing came from a SEPE partner (TECNO_EMPLEO, InfoJobs, HacesFalta) or directly from a PUP office</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["ingeniero", "programador"],
-  "location": "Madrid",
-  "maxResultsPerQuery": 100,
-  "includeJobDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;ingeniero&quot;, &quot;programador&quot;],
+  &quot;location&quot;: &quot;Madrid&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;includeJobDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "1857143652",
-  "title": "Ingeniero/a de Automatizacion Junior, Valencia",
-  "company_name": "Michael Page",
-  "location": "Valencia",
-  "country": "ES",
-  "region": "Comunidad Valenciana",
-  "province": "Valencia",
-  "community_code": "10",
-  "cno_code": "2461",
-  "employment_type": "permanent",
-  "workplace_type": "on-site",
-  "vacancies": 1,
-  "disability_accessible": false,
-  "latitude": 39.4699075,
-  "longitude": -0.3762881,
-  "salary_min": null,
-  "salary_max": null,
-  "salary_currency": null,
-  "description": "Ingeniero/a de Automatizacion Junior. Las principales funciones que desarrollaras seran...",
-  "source_origin": "TECNO_EMPLEO",
-  "apply_url": "https://www.tecnoempleo.com/...",
-  "posted_at_datetime": "2026-08-31T10:51:49Z",
-  "source_platform": "empleate.gob.es",
-  "scraped_at": "2026-08-31T12:00:00Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST \
-  "https://api.apify.com/v2/acts/santamaria-automations~sepe-es-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["enfermero", "medico"],
-    "location": "Barcelona",
-    "maxResultsPerQuery": 100,
-    "includeJobDetails": true
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;1857143652&quot;,
+  &quot;title&quot;: &quot;Ingeniero/a de Automatizacion Junior, Valencia&quot;,
+  &quot;company_name&quot;: &quot;Michael Page&quot;,
+  &quot;location&quot;: &quot;Valencia&quot;,
+  &quot;country&quot;: &quot;ES&quot;,
+  &quot;region&quot;: &quot;Comunidad Valenciana&quot;,
+  &quot;province&quot;: &quot;Valencia&quot;,
+  &quot;community_code&quot;: &quot;10&quot;,
+  &quot;cno_code&quot;: &quot;2461&quot;,
+  &quot;employment_type&quot;: &quot;permanent&quot;,
+  &quot;workplace_type&quot;: &quot;on-site&quot;,
+  &quot;vacancies&quot;: 1,
+  &quot;disability_accessible&quot;: false,
+  &quot;latitude&quot;: 39.4699075,
+  &quot;longitude&quot;: -0.3762881,
+  &quot;salary_min&quot;: null,
+  &quot;salary_max&quot;: null,
+  &quot;salary_currency&quot;: null,
+  &quot;description&quot;: &quot;Ingeniero/a de Automatizacion Junior. Las principales funciones que desarrollaras seran...&quot;,
+  &quot;source_origin&quot;: &quot;TECNO_EMPLEO&quot;,
+  &quot;apply_url&quot;: &quot;https://www.tecnoempleo.com/...&quot;,
+  &quot;posted_at_datetime&quot;: &quot;2026-08-31T10:51:49Z&quot;,
+  &quot;source_platform&quot;: &quot;empleate.gob.es&quot;,
+  &quot;scraped_at&quot;: &quot;2026-08-31T12:00:00Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>Spanish HR tech platforms and labour-market research institutions</strong> need SEPE data because it is the only job source in Spain that carries CNO occupation codes, GPS workplace coordinates, and disability-accessible flags as structured first-class fields — data that private job boards do not publish. <strong>Disability employment services and foundations</strong> use the <code>disability_accessible</code> flag and <code>vacancies</code> count to surface verified government-listed inclusive positions across all regions. <strong>Regional economic development agencies</strong> use community_code and GPS coordinates to build employment heatmaps at province and municipality level. <strong>EU/EURES mobility programs</strong> benefit from SEPE's unique coverage of public employment office listings that never appear on commercial boards like InfoJobs or Tecnoempleo. Note: SEPE-direct postings often have a null <code>company_name</code> by design; the hiring entity is described in plain text within <code>description</code>.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -205,7 +199,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -214,42 +208,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~sepe-es-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~sepe-es-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/sepe-es-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/sepe-es-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/sepe-es-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/sepe-es-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/sepe-es-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/sepe-es-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>sepe-es-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;sepe-es-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -312,6 +306,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {

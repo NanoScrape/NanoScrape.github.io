@@ -41,6 +41,10 @@
 }
   </script>
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <style>
     :root {
       --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
@@ -136,52 +140,41 @@
       <li><strong>region / city</strong> — Polish voivodeship and city for geo-routing</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "searchQueries": ["Java Developer", "Backend Engineer"],
-  "location": "Warszawa",
-  "remote": false,
-  "employmentType": "b2b",
-  "maxResultsPerQuery": 100,
-  "includeJobDetails": true,
-  "includeCompanyDetails": true
-}</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;Java Developer&quot;, &quot;Backend Engineer&quot;],
+  &quot;location&quot;: &quot;Warszawa&quot;,
+  &quot;remote&quot;: false,
+  &quot;employmentType&quot;: &quot;b2b&quot;,
+  &quot;maxResultsPerQuery&quot;: 100,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: true
+}</code></pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
-  "id": "1004762431",
-  "title": "Senior Java Developer",
-  "company": "Scalo Sp. z o.o.",
-  "company_url": "https://pracodawcy.pracuj.pl/company/20062259",
-  "location": "Katowice",
-  "city": "Katowice",
-  "region": "slaskie",
-  "country": "PL",
-  "salary_min": 110,
-  "salary_max": 140,
-  "salary_currency": "PLN",
-  "salary_period": "hour",
-  "salary_text": "110-140 zl netto (+ VAT) / godz.",
-  "employment_type": "Kontrakt B2B",
-  "work_mode": "Praca zdalna",
-  "requirements": ["Java", "Spring Boot", "PostgreSQL", "Kafka", "Docker"],
-  "responsibilities": ["rozwoj i projektowanie modulow", "code review"],
-  "company_benefits": ["prywatna opieka medyczna", "karta sportowa Multisport"],
-  "posted_at": "2026-04-10T10:10:39Z",
-  "apply_url": "https://www.pracuj.pl/aplikuj/senior-java-developer-katowice,oferta,1004762431",
-  "source_platform": "pracuj.pl",
-  "search_query": "Java Developer",
-  "scraped_at": "2026-04-10T10:15:02Z"
-}</pre></div>
-    <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST \
-  "https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQueries": ["Data Analyst"],
-    "location": "Krakow",
-    "remote": true,
-    "includeJobDetails": true,
-    "maxResultsPerQuery": 100
-  }'</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;1004762431&quot;,
+  &quot;title&quot;: &quot;Senior Java Developer&quot;,
+  &quot;company&quot;: &quot;Scalo Sp. z o.o.&quot;,
+  &quot;company_url&quot;: &quot;https://pracodawcy.pracuj.pl/company/20062259&quot;,
+  &quot;location&quot;: &quot;Katowice&quot;,
+  &quot;city&quot;: &quot;Katowice&quot;,
+  &quot;region&quot;: &quot;slaskie&quot;,
+  &quot;country&quot;: &quot;PL&quot;,
+  &quot;salary_min&quot;: 110,
+  &quot;salary_max&quot;: 140,
+  &quot;salary_currency&quot;: &quot;PLN&quot;,
+  &quot;salary_period&quot;: &quot;hour&quot;,
+  &quot;salary_text&quot;: &quot;110-140 zl netto (+ VAT) / godz.&quot;,
+  &quot;employment_type&quot;: &quot;Kontrakt B2B&quot;,
+  &quot;work_mode&quot;: &quot;Praca zdalna&quot;,
+  &quot;requirements&quot;: [&quot;Java&quot;, &quot;Spring Boot&quot;, &quot;PostgreSQL&quot;, &quot;Kafka&quot;, &quot;Docker&quot;],
+  &quot;responsibilities&quot;: [&quot;rozwoj i projektowanie modulow&quot;, &quot;code review&quot;],
+  &quot;company_benefits&quot;: [&quot;prywatna opieka medyczna&quot;, &quot;karta sportowa Multisport&quot;],
+  &quot;posted_at&quot;: &quot;2026-04-10T10:10:39Z&quot;,
+  &quot;apply_url&quot;: &quot;https://www.pracuj.pl/aplikuj/senior-java-developer-katowice,oferta,1004762431&quot;,
+  &quot;source_platform&quot;: &quot;pracuj.pl&quot;,
+  &quot;search_query&quot;: &quot;Java Developer&quot;,
+  &quot;scraped_at&quot;: &quot;2026-04-10T10:15:02Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Who Should Use This</h2>
     <p><p><strong>Polish and Central European job aggregators</strong> need Pracuj.pl because it is Poland's largest job board by volume (80,000+ listings, 20,000+ employers) and the only source where structured requirements, responsibilities, and benefits arrive as clean arrays rather than free-form HTML. <strong>Compensation research platforms</strong> value the B2B hourly rate field, which captures the PLN contractor market that is invisible on most European job boards. <strong>Recruitment data vendors</strong> use <code>includeCompanyDetails</code> to pull the employer's Pracuj.pl About text and all other open roles at that company, turning a job feed into a full employer intelligence dataset. <strong>Remote work analytics teams</strong> use the <code>remote: true</code> filter to isolate the growing Polish remote market without any post-processing.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
@@ -208,7 +201,7 @@
     <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
     <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code: language switcher</h2>
+    <h2 class="section-title">Call from code</h2>
     <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
     <div class="lang-tabs" data-lang-group="run-actor">
       <button class="tab-btn is-active" data-lang="curl">curl</button>
@@ -217,42 +210,42 @@
       <button class="tab-btn" data-lang="csharp">C#</button>
       <button class="tab-btn" data-lang="java">Java</button>
     </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
   -H "Content-Type: application/json" \
-  -d '{}'</pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
 import { ApifyClient } from 'apify-client';
 
 const client = new ApifyClient({ token: 'YOUR_TOKEN' });
 const run = await client.actor('santamaria-automations/pracuj-pl-scraper').call({});
 const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
 from apify_client import ApifyClient
 
 client = ApifyClient('YOUR_TOKEN')
 run = client.actor('santamaria-automations/pracuj-pl-scraper').call(run_input={})
 items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
 using Apify.Client;
 
 var client = new ApifyClient("YOUR_TOKEN");
 var run = await client.Actor("santamaria-automations/pracuj-pl-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
 import com.apify.client.ApifyClient;
 
 ApifyClient client = new ApifyClient("YOUR_TOKEN");
 ActorRun run = client.actor("santamaria-automations/pracuj-pl-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
     <!-- Auto-injected: Use with AI agents (MCP) -->
     <h2 class="section-title">Use with AI agents (MCP)</h2>
     <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/pracuj-pl-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/pracuj-pl-scraper</code></pre></div>
     <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>pracuj-pl-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;pracuj-pl-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
     <!-- Auto-injected: Use with no-code -->
@@ -315,6 +308,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
   <script>
   // Copy-to-clipboard for all .copy-btn elements in code blocks
   document.addEventListener('click', function(e) {
