@@ -214,9 +214,8 @@
  '<nav class="ns-nav ns-nav-home-bar">' +
  navLinks(ctx, t) +
  '<div class="ns-nav-right">' +
- '<a class="ns-nav-link ns-hide-sm" href="' + APIFY_PROFILES.main + '" target="_blank" rel="noopener">' + esc(t.store) + ' \u2197</a>' +
  langDropdown(ctx, t) +
- '<a class="ns-btn-primary" href="' + APIFY_PROFILES.main + '" target="_blank" rel="noopener">' + esc(t.start) + '</a>' +
+ '<a class="ns-btn-primary" href="/actors/">' + esc(t.actors) + '</a>' +
  '<button class="ns-icon-btn ns-only-sm" data-ns-search-open aria-label="' + esc(t.search) + '">\u2315</button>' +
  '</div>' +
  '</nav>';
@@ -232,7 +231,6 @@
  searchButton(t) +
  '<button class="ns-icon-btn ns-only-sm" data-ns-search-open aria-label="' + esc(t.search) + '">\u2315</button>' +
  langDropdown(ctx, t) +
- '<a class="ns-btn-primary ns-hide-sm" href="' + APIFY_PROFILES.main + '" target="_blank" rel="noopener">' + esc(t.store) + ' \u2197</a>' +
  '</div>' +
  '</nav>' +
  breadcrumb(el, ctx, t);
@@ -296,8 +294,8 @@
  '<a href="/templates/#zapier">Zapier</a>' +
  '</div>' +
  '<div class="ns-footer-col"><h4>' + esc(t.colCompany) + '</h4>' +
- '<a href="' + APIFY_PROFILES.main + '" target="_blank" rel="noopener">Apify Store \u2197</a>' +
- '<a href="' + APIFY_PROFILES.org + '" target="_blank" rel="noopener">NanoScrape Org \u2197</a>' +
+ '<a href="/actors/">All actors</a>' +
+ '<a href="/tutorials/">Tutorials</a>' +
  '<a href="https://github.com/NanoScrape" target="_blank" rel="noopener">GitHub \u2197</a>' +
  '<a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>' +
  '</div>' +
