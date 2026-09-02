@@ -72,8 +72,20 @@
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
     .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .copy-btn { position: absolute; top: 8px; right: 8px; padding: 4px 10px; font-size: 0.72rem; background: var(--bg); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 1; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+    .lang-panel { display: none; }
+    .lang-panel.is-active { display: block; }
+    .detail ol { padding-left: 24px; margin-bottom: 24px; }
+    .detail ol li { margin-bottom: 8px; color: var(--muted); }
+    .detail ol li strong { color: var(--white); }
     .code-block .comment { color: var(--muted); }
 
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
@@ -118,13 +130,57 @@
       <li><strong>company_active_jobs / company_active_jobs_count</strong>: All other currently-open roles at the same employer (deep employer mode) -- deduplicated per employer within a run</li>
     </ul>
     <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><pre></pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
+  "searchQueries": ["charity manager", "science teacher", "communications officer"],
+  "location": "London",
+  "sector": "charities",
+  "contractType": "permanent",
+  "salaryMin": 35000,
+  "maxResults": 100,
+  "maxResultsPerQuery": 200,
+  "includeJobDetails": true,
+  "includeCompanyDetails": false,
+  "maxConcurrency": 4
+}</pre></div>
     <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><pre></pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>{
+  "_type": "job",
+  "id": "10160808",
+  "title": "Head of Finance",
+  "company": "PERIDOT PARTNERS",
+  "location": "Remote, UK-based",
+  "country": "GB",
+  "sector": "Charities, Community & Social Care, Executive Management",
+  "contract_type": "Permanent",
+  "hours": "Full time",
+  "employment_type": "full-time, permanent",
+  "experience_level": "director",
+  "remote_option": "remote",
+  "salary_min": 60000,
+  "salary_max": 65000,
+  "salary_currency": "GBP",
+  "salary_period": "year",
+  "posted_at": "2026-08-11",
+  "closing_date": "2026-08-27",
+  "apply_url": "https://jobs.theguardian.com/job/10160808/head-of-finance/",
+  "company_phone": "0203 0360 623",
+  "company_website": "http://www.peridotpartners.co.uk",
+  "company_address_city": "LONDON",
+  "source_platform": "jobs.theguardian.com",
+  "scraped_at": "2026-08-20T09:08:29Z"
+}</pre></div>
     <h2 class="section-title">Call from Code</h2>
-    <div class="code-block"><pre></pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/runs?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchQueries": ["charity manager"],
+    "location": "London",
+    "salaryMin": 40000,
+    "maxResults": 100,
+    "includeJobDetails": true
+  }'</pre></div>
     <h2 class="section-title">Who Should Use This</h2>
-    <p></p>
+    <p><p>This actor is the specialist tool for <strong>UK third-sector recruiters, public-sector job aggregators, and outbound charity-sector sales teams</strong>. Guardian Jobs is a hand-curated board with far higher signal-to-noise for charity, media, education, and public-sector roles than any generalist aggregator. The employer phone and postal address fields -- retrieved from Guardian's own employer profile pages -- are genuinely rare in job data and turn this into a lead-generation feed as much as a job listing source. Outreach teams combine the employer contact fields with the deep-employer mode to get every open role at a target organisation in a single query.</p></p>
     <h2 class="section-title">Related Tutorials</h2>
     <ul>
       <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a></li>
@@ -137,6 +193,110 @@
       <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
     </ul>
 
+    <!-- Auto-injected: API token guide -->
+    <h2 class="section-title">Get your Apify API token</h2>
+    <p>To run this actor from your own code you need an Apify API token. Get one in about a minute:</p>
+    <ol>
+      <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Sign up for a free Apify account</a> (Google, GitHub, or email).</li>
+      <li>Go to <strong>Settings &rarr; Integrations &rarr; API tokens</strong>.</li>
+      <li>Click <strong>Create a new API token</strong>. Copy it and keep it secret.</li>
+    </ol>
+    <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
+
+    <!-- Auto-injected: Call from code (multi-language switcher) -->
+    <h2 class="section-title">Call from code: language switcher</h2>
+    <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
+    <div class="lang-tabs" data-lang-group="run-actor">
+      <button class="tab-btn is-active" data-lang="curl">curl</button>
+      <button class="tab-btn" data-lang="node">Node.js</button>
+      <button class="tab-btn" data-lang="python">Python</button>
+      <button class="tab-btn" data-lang="csharp">C#</button>
+      <button class="tab-btn" data-lang="java">Java</button>
+    </div>
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/guardianjobs-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/guardianjobs-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/guardianjobs-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre>// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/guardianjobs-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</pre></div>
+
+    <!-- Auto-injected: Use with AI agents (MCP) -->
+    <h2 class="section-title">Use with AI agents (MCP)</h2>
+    <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre>https://mcp.apify.com?tools=santamaria-automations/guardianjobs-scraper</pre></div>
+    <p><strong>Example prompt once connected:</strong></p>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>guardianjobs-scraper</code> to run a scrape and give me the results as a table."</blockquote>
+    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
+
+    <!-- Auto-injected: Use with no-code -->
+    <h2 class="section-title">Use with no-code platforms</h2>
+    <p>Trigger this actor from your favorite automation tool. Every platform below can call the Apify API in a few clicks - no code required.</p>
+    <div class="lang-tabs" data-lang-group="nocode">
+      <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+      <button class="tab-btn" data-lang="zapier">Zapier</button>
+      <button class="tab-btn" data-lang="make">Make</button>
+      <button class="tab-btn" data-lang="pipedream">Pipedream</button>
+      <button class="tab-btn" data-lang="bubble">Bubble</button>
+    </div>
+    <div class="lang-panel is-active" data-lang="n8n">
+      <ol>
+        <li>Add the <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> (installed by default on n8n Cloud; on self-hosted install <code>@apify/n8n-nodes-apify</code>).</li>
+        <li>Set <strong>Actor</strong> to <code>santamaria-automations/guardianjobs-scraper</code>.</li>
+        <li>Choose operation <em>Run Actor and get dataset</em>, paste your input JSON, and connect a downstream node (Google Sheets, Postgres, webhook, ...).</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="zapier">
+      <ol>
+        <li>Create a new Zap with any trigger.</li>
+        <li>Add a <strong>Webhooks by Zapier</strong> POST action to <code>https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Body: your input JSON. Content-Type: <code>application/json</code>.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="make">
+      <ol>
+        <li>Create a new scenario.</li>
+        <li>Add an <strong>HTTP</strong> module: URL <code>https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, method POST, body raw JSON.</li>
+        <li>Parse the response with a <strong>JSON</strong> module to iterate items downstream.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="pipedream">
+      <ol>
+        <li>Create a new workflow.</li>
+        <li>Add an <strong>HTTP Request</strong> step: POST to <code>https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Access <code>steps.http.$return_value</code> in subsequent steps.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="bubble">
+      <ol>
+        <li>Install the <strong>API Connector</strong> plugin.</li>
+        <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~guardianjobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+        <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
+      </ol>
+    </div>
+
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/guardianjobs-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
     </div>
@@ -145,5 +305,56 @@
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.copy-btn')) {
+      var pre = e.target.parentElement.querySelector('pre');
+      if (!pre) return;
+      var text = pre.textContent;
+      var btn = e.target;
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(function() {
+        btn.textContent = 'Copy failed';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+  });
+  // Language / no-code platform tab switcher
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.tab-btn')) return;
+    var btn = e.target;
+    var group = btn.closest('.lang-tabs');
+    if (!group) return;
+    var groupName = group.getAttribute('data-lang-group');
+    var lang = btn.getAttribute('data-lang');
+    // Deactivate siblings
+    group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    // Toggle panels in same scope (siblings of the tabs container's parent)
+    var panels = group.parentElement.querySelectorAll('.lang-panel');
+    panels.forEach(function(p) {
+      // Only toggle panels that were siblings of this tab group (not other tab groups' panels)
+      var prevGroup = p.previousElementSibling;
+      while (prevGroup && !prevGroup.classList.contains('lang-tabs')) {
+        prevGroup = prevGroup.previousElementSibling;
+      }
+      if (prevGroup === group || (prevGroup && prevGroup.getAttribute('data-lang-group') === groupName)) {
+        if (p.getAttribute('data-lang') === lang) {
+          p.classList.add('is-active');
+        } else {
+          p.classList.remove('is-active');
+        }
+      }
+    });
+  });
+  </script>
 </body>
 </html>
