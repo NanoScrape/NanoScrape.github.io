@@ -76,9 +76,24 @@
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
 
-    .code-block { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .copy-btn { position: absolute; top: 8px; right: 8px; padding: 4px 10px; font-size: 0.72rem; background: var(--bg); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 1; transition: color 0.15s, border-color 0.15s; }
+    /* .code-block is just a positioning wrapper — Prism (prism-tomorrow) or the fallback <pre> draws the box */
+    .code-block { position: relative; margin-bottom: 24px; }
+    /* Fallback pre (no Prism language class) — matches site surface */
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto;
+    }
+    /* Prism-styled pre — override margin/radius/border to match site, keep prism-tomorrow bg + tokens */
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5;
+    }
+    .code-block code[class*="language-"] {
+      font-family: inherit; font-size: inherit; text-shadow: none;
+    }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
     .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
     .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
@@ -139,6 +154,18 @@
       <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
       <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
       <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <!-- Auto-injected: Run directly on Apify (no code) -->
+    <h2 class="section-title">Run this actor directly on Apify (no code)</h2>
+    <p>Click <strong>Open on Apify</strong> above to run <code>firmenabc-at-scraper</code> in your browser - no code, no install. In the Apify console you get:</p>
+    <ul>
+      <li><strong>One-click test</strong> - fill in the input form, or paste the JSON example above into the <em>JSON editor</em> tab, then hit <strong>Start</strong>.</li>
+      <li><strong>Live output</strong> - watch rows stream into an interactive <em>Output</em> table as they arrive, or flip to the raw <em>JSON</em> / <em>Log</em> view.</li>
+      <li><strong>Export in any format</strong> - one click to download the dataset as <strong>JSON, CSV, XML, Excel, HTML table, RSS, or JSONL</strong>.</li>
+      <li><strong>Schedules</strong> - run this actor <strong>daily, weekly, hourly, or on a custom cron</strong>. Apify handles timing and stores every dataset run.</li>
+      <li><strong>Integrations &amp; webhooks</strong> - fire a webhook on success/failure, or plug into <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres, and more</strong> from the <em>Actions</em> tab.</li>
+      <li><strong>Transparent cost</strong> - see exact usage against your <strong>$5/month free tier</strong> before you spend a cent.</li>
     </ul>
 
     <!-- Auto-injected: API token guide -->

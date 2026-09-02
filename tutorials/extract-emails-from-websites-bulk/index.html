@@ -1,505 +1,547 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>How to Extract Emails and Contacts from Websites in Bulk (2026 Guide) | NanoScrape</title>
- <meta name="description" content="Step-by-step tutorial for bulk-extracting emails, phone numbers, and social links from company websites. Give it a list of domains, get back structured contact records. No manual searching.">
- <meta name="primary-keyword" content="extract emails from websites">
- <meta property="og:title" content="How to Extract Emails and Contacts from Websites in Bulk | NanoScrape">
- <meta property="og:description" content="Turn a list of company domains into structured contact records: emails, phone numbers, social links, and address. Bulk extraction, no manual searching, no API keys.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
- <meta property="og:type" content="article">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Extract Emails and Contacts from Websites in Bulk (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step tutorial for bulk-extracting emails, phone numbers, and social links from company websites. Give it a list of domains, get back structured contact records. No manual searching.">
+  <meta name="primary-keyword" content="extract emails from websites">
+  <meta property="og:title" content="How to Extract Emails and Contacts from Websites in Bulk | NanoScrape">
+  <meta property="og:description" content="Turn a list of company domains into structured contact records: emails, phone numbers, social links, and address. Bulk extraction, no manual searching, no API keys.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
- <script type="application/ld+json">
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "HowTo",
- "name": "How to Extract Emails and Contacts from Websites in Bulk",
- "description": "Use the NanoScrape Website Contact Extractor on Apify to turn a list of company URLs into structured contact records containing emails, phone numbers, social media links, and company address.",
- "totalTime": "PT5M",
- "estimatedCost": {
- "@type": "MonetaryAmount",
- "currency": "USD",
- "value": "0.01"
- },
- "supply": [
- {
- "@type": "HowToSupply",
- "name": "Free Apify account"
- },
- {
- "@type": "HowToSupply",
- "name": "List of company website URLs or domain names"
- }
- ],
- "tool": [
- {
- "@type": "HowToTool",
- "name": "Apify"
- },
- {
- "@type": "HowToTool",
- "name": "NanoScrape Website Contact Extractor"
- }
- ],
- "step": [
- {
- "@type": "HowToStep",
- "name": "Step 1: Open the actor on Apify",
- "text": "Go to the Website Contact Extractor actor page on Apify and click Try for free to open the input form."
- },
- {
- "@type": "HowToStep",
- "name": "Step 2: Enter your URLs",
- "text": "Paste your list of company domains or URLs into the URLs or Domains field, one per line."
- },
- {
- "@type": "HowToStep",
- "name": "Step 3: Start the run",
- "text": "Click Start to launch the run and watch the log as each site is visited."
- },
- {
- "@type": "HowToStep",
- "name": "Step 4: Export the results",
- "text": "Open the Dataset tab and export to CSV, JSON, Excel, or Google Sheets."
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Extract Emails and Contacts from Websites in Bulk",
+  "description": "Use the NanoScrape Website Contact Extractor on Apify to turn a list of company URLs into structured contact records containing emails, phone numbers, social media links, and company address.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.01"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of company website URLs or domain names"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Contact Extractor"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Step 1: Open the actor on Apify",
+      "text": "Go to the Website Contact Extractor actor page on Apify and click Try for free to open the input form."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 2: Enter your URLs",
+      "text": "Paste your list of company domains or URLs into the URLs or Domains field, one per line."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 3: Start the run",
+      "text": "Click Start to launch the run and watch the log as each site is visited."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Step 4: Export the results",
+      "text": "Open the Dataset tab and export to CSV, JSON, Excel, or Google Sheets."
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "How to Extract Emails and Contacts from Websites in Bulk",
- "description": "Step-by-step tutorial for extracting emails, phone numbers, social links, and addresses from company websites in bulk using the NanoScrape Website Contact Extractor on Apify.",
- "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
- "author": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com"
- },
- "publisher": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com",
- "logo": {
- "@type": "ImageObject",
- "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
- }
- },
- "datePublished": "2026-08-04",
- "dateModified": "2026-08-04",
- "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/"
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Extract Emails and Contacts from Websites in Bulk",
+  "description": "Step-by-step tutorial for extracting emails, phone numbers, social links, and addresses from company websites in bulk using the NanoScrape Website Contact Extractor on Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-04",
+  "dateModified": "2026-08-04",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/"
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
- "@type": "Question",
- "name": "Does it work on sites with bot protection?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Sites that present a challenge page (Cloudflare, reCAPTCHA) are skipped automatically. The actor moves on to the next URL so the run completes cleanly. The skipped site will still appear in the dataset with empty contact arrays."
- }
- },
- {
- "@type": "Question",
- "name": "How many pages should I crawl per site?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "The default of 15 pages covers most small and mid-market business sites. Raise it to 30 or 50 for large corporate sites where the contact page may be many clicks deep, or when you want role-specific email addresses (hr@, press@, legal@) that may appear only on internal pages."
- }
- },
- {
- "@type": "Question",
- "name": "Can I pass my own company IDs through to the output?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Use the companies input instead of urls and include a company_id on each entry. That ID is echoed back on the output row so you can join the enrichment data to your CRM records without relying on domain-name matching."
- }
- },
- {
- "@type": "Question",
- "name": "Does it find contact forms or only email addresses?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "The actor extracts raw email addresses and phone numbers from page text and links, not contact form URLs. If a site hides all contact information behind a form and publishes no mailto: links, the emails array will be empty."
- }
- },
- {
- "@type": "Question",
- "name": "Can I trigger runs from code instead of the UI?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Use the Apify API or the JavaScript/Python SDK to trigger runs programmatically. The actor ID is JmMPJ7zumUfB7p0Kr. Full API documentation is at docs.apify.com/api/v2."
- }
- },
- {
- "@type": "Question",
- "name": "Is scraping publicly available contact information legal?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "The actor only reads publicly accessible pages, the same content anyone can view in a browser. It does not bypass login walls or access private data. That said, how you use scraped contact data for outreach is subject to laws like GDPR, CAN-SPAM, and similar regulations depending on your jurisdiction and the recipients' location. Review the applicable rules before starting an outreach campaign."
- }
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does it work on sites with bot protection?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Sites that present a challenge page (Cloudflare, reCAPTCHA) are skipped automatically. The actor moves on to the next URL so the run completes cleanly. The skipped site will still appear in the dataset with empty contact arrays."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many pages should I crawl per site?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The default of 15 pages covers most small and mid-market business sites. Raise it to 30 or 50 for large corporate sites where the contact page may be many clicks deep, or when you want role-specific email addresses (hr@, press@, legal@) that may appear only on internal pages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I pass my own company IDs through to the output?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the companies input instead of urls and include a company_id on each entry. That ID is echoed back on the output row so you can join the enrichment data to your CRM records without relying on domain-name matching."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it find contact forms or only email addresses?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor extracts raw email addresses and phone numbers from page text and links, not contact form URLs. If a site hides all contact information behind a form and publishes no mailto: links, the emails array will be empty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I trigger runs from code instead of the UI?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use the Apify API or the JavaScript/Python SDK to trigger runs programmatically. The actor ID is JmMPJ7zumUfB7p0Kr. Full API documentation is at docs.apify.com/api/v2."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping publicly available contact information legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor only reads publicly accessible pages, the same content anyone can view in a browser. It does not bypass login walls or access private data. That said, how you use scraped contact data for outreach is subject to laws like GDPR, CAN-SPAM, and similar regulations depending on your jurisdiction and the recipients' location. Review the applicable rules before starting an outreach campaign."
+      }
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
- {
- "@type": "ListItem",
- "position": 1,
- "name": "Home",
- "item": "https://www.nanoscrape.com/"
- },
- {
- "@type": "ListItem",
- "position": 2,
- "name": "Tutorials",
- "item": "https://www.nanoscrape.com/tutorials/"
- },
- {
- "@type": "ListItem",
- "position": 3,
- "name": "How to Extract Emails and Contacts from Websites in Bulk",
- "item": "https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/"
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Extract Emails and Contacts from Websites in Bulk",
+      "item": "https://www.nanoscrape.com/tutorials/extract-emails-from-websites-bulk/"
+    }
+  ]
 }
- </script>
+  </script>
 
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
- .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
- .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
- .breadcrumb a { color: var(--muted); }
- .breadcrumb a:hover { color: var(--accent); }
- .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
- .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
- .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
- .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
- .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
- .article p { margin-bottom: 16px; }
- .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
- .article li { margin-bottom: 6px; color: var(--text); }
- .article li strong { color: var(--white); }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
 
- .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
- .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
- .toc ol { margin: 0; padding-left: 20px; }
- .toc li { margin-bottom: 4px; }
- .toc a { color: var(--text); }
- .toc a:hover { color: var(--accent); }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
 
- .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
- .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
- .article figure { margin: 24px 0 28px; }
- .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
- .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
- .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
- .article .figure-group figure { margin: 0; }
- @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
- .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
- .callout strong { color: var(--white); }
- .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
- .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
- .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
- .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
- .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
- .faq details[open] { border-color: var(--accent); }
- .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
- .faq summary::marker { color: var(--muted); }
- .faq details p { margin: 10px 0 4px; color: var(--text); }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
 
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .article h1 { font-size: 1.55rem; }
- .article h2 { font-size: 1.25rem; }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
- .draft-banner a { color: #0b0e14; text-decoration: underline; }
- </style>
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <article class="article">
- <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Extract Emails from Websites in Bulk</nav>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Extract Emails from Websites in Bulk</nav>
 
- <h1>How to Extract Emails and Contacts from Company Websites in Bulk</h1>
- <p class="lead">Tracking down a contact email for each company on a prospect list is slow work: open the site, click Contact or About, scroll, copy, switch tabs, repeat. The NanoScrape Website Contact Extractor automates that loop. Give it a list of domains or URLs and it visits each site, prioritizes contact and about pages, pulls every email address, phone number, and social profile it finds, then returns one clean record per site. A hundred companies costs about a dollar and finishes in a few minutes.</p>
+    <h1>How to Extract Emails and Contacts from Company Websites in Bulk</h1>
+    <p class="lead">Tracking down a contact email for each company on a prospect list is slow work: open the site, click Contact or About, scroll, copy, switch tabs, repeat. The NanoScrape Website Contact Extractor automates that loop. Give it a list of domains or URLs and it visits each site, prioritizes contact and about pages, pulls every email address, phone number, and social profile it finds, then returns one clean record per site. A hundred companies costs about a dollar and finishes in a few minutes.</p>
 
- <figure>
- <img src="assets/01-extract-emails-websites-dataset-table.png" alt="Apify dataset table view showing extracted contact records for company websites with columns for domain, emails array, phones, social links, and pages crawled" loading="lazy" width="3200" height="2000">
- <figcaption>One row per company with all emails, phone numbers, and social profiles consolidated.</figcaption>
- </figure>
+    <figure>
+      <img src="assets/01-extract-emails-websites-dataset-table.png" alt="Apify dataset table view showing extracted contact records for company websites with columns for domain, emails array, phones, social links, and pages crawled" loading="lazy" width="3200" height="2000">
+      <figcaption>One row per company with all emails, phone numbers, and social profiles consolidated.</figcaption>
+    </figure>
 
- <div class="meta-row">
- <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
- <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
- <div class="meta-item"><strong>Cost:</strong> ~$0.01 per company website processed</div>
- <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Website Contact Extractor</div>
- </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> ~$0.01 per company website processed</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Website Contact Extractor</div>
+    </div>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz" class="btn-primary">Open Website Contact Extractor on Apify</a>
- <a href="#what-you-get" class="btn-secondary">See what you get</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz" class="btn-primary">Open Website Contact Extractor on Apify</a>
+      <a href="#what-you-get" class="btn-secondary">See what you get</a>
+    </div>
 
- <div class="toc">
- <h2>In this tutorial</h2>
- <ol>
- <li><a href="#what-you-get">What you get</a></li>
- <li><a href="#use-cases">Use cases</a></li>
- <li><a href="#prerequisites">Prerequisites</a></li>
- <li><a href="#step-1">Step 1: Open the actor</a></li>
- <li><a href="#step-2">Step 2: Enter your URLs</a></li>
- <li><a href="#step-3">Step 3: Start the run</a></li>
- <li><a href="#step-4">Step 4: Export the results</a></li>
- <li><a href="#input-options">Input options</a></li>
- <li><a href="#how-it-works">How the crawler works</a></li>
- <li><a href="#fields">Output field reference</a></li>
- <li><a href="#cost">What it costs</a></li>
- <li><a href="#schedule">Automate with a schedule</a></li>
- <li><a href="#faq">FAQ</a></li>
- </ol>
- </div>
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Enter your URLs</a></li>
+        <li><a href="#step-3">Step 3: Start the run</a></li>
+        <li><a href="#step-4">Step 4: Export the results</a></li>
+        <li><a href="#input-options">Input options</a></li>
+        <li><a href="#how-it-works">How the crawler works</a></li>
+        <li><a href="#fields">Output field reference</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#schedule">Automate with a schedule</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
 
- <h2 id="what-you-get">What you get</h2>
- <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">NanoScrape Website Contact Extractor</a> crawls each URL you provide, visits contact and about pages first, and returns one record per site containing:</p>
- <ul>
- <li><strong>Email addresses</strong> pulled from page text and <code>mailto:</code> links</li>
- <li><strong>Phone numbers</strong> from <code>tel:</code> links and international-format text (e.g., +44 20 1234 5678)</li>
- <li><strong>Social media profiles</strong>: LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing</li>
- <li><strong>Company address</strong> when the site includes schema.org JSON-LD structured data</li>
- <li><strong>Page title and meta description</strong> for context</li>
- <li><strong>Pages crawled count</strong> so you know how deeply the crawler went</li>
- </ul>
- <p>Everything is consolidated into a single row per website, so the output drops straight into a spreadsheet or CRM without extra cleanup.</p>
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">NanoScrape Website Contact Extractor</a> crawls each URL you provide, visits contact and about pages first, and returns one record per site containing:</p>
+    <ul>
+        <li><strong>Email addresses</strong> pulled from page text and <code>mailto:</code> links</li>
+        <li><strong>Phone numbers</strong> from <code>tel:</code> links and international-format text (e.g., +44 20 1234 5678)</li>
+        <li><strong>Social media profiles</strong>: LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing</li>
+        <li><strong>Company address</strong> when the site includes schema.org JSON-LD structured data</li>
+        <li><strong>Page title and meta description</strong> for context</li>
+        <li><strong>Pages crawled count</strong> so you know how deeply the crawler went</li>
+      </ul>
+    <p>Everything is consolidated into a single row per website, so the output drops straight into a spreadsheet or CRM without extra cleanup.</p>
 
- <h2 id="use-cases">Use cases</h2>
- <ul>
- <li><strong>B2B outreach</strong>: you have a list of target companies from a directory scrape or CSV export and need a contact email for each one before reaching out</li>
- <li><strong>Lead enrichment</strong>: append contact details to an existing CRM export so your sales team has direct emails rather than generic contact forms</li>
- <li><strong>Supplier vetting</strong>: collect phone numbers and addresses for a shortlist of vendors before getting on a call</li>
- <li><strong>Competitive intelligence</strong>: map social presence and PR contacts for competitors in your space</li>
- <li><strong>Partnership outreach</strong>: find the right email at partner companies without paying for a data provider</li>
- </ul>
+    <h2 id="use-cases">Use cases</h2>
+    <ul>
+        <li><strong>B2B outreach</strong>: you have a list of target companies from a directory scrape or CSV export and need a contact email for each one before reaching out</li>
+        <li><strong>Lead enrichment</strong>: append contact details to an existing CRM export so your sales team has direct emails rather than generic contact forms</li>
+        <li><strong>Supplier vetting</strong>: collect phone numbers and addresses for a shortlist of vendors before getting on a call</li>
+        <li><strong>Competitive intelligence</strong>: map social presence and PR contacts for competitors in your space</li>
+        <li><strong>Partnership outreach</strong>: find the right email at partner companies without paying for a data provider</li>
+      </ul>
 
- <h2 id="prerequisites">Prerequisites</h2>
- <ul>
- <li>A free <a target="_blank" rel="sponsored noopener" href="https://apify.com/?fpr=0khfbz">Apify account</a>. New accounts get $5 of free credit, which covers several hundred company websites.</li>
- <li>A list of company website URLs or domain names you want to enrich.</li>
- </ul>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free <a target="_blank" rel="noopener" href="https://apify.com/?fpr=0khfbz">Apify account</a>. New accounts get $5 of free credit, which covers several hundred company websites.</li>
+        <li>A list of company website URLs or domain names you want to enrich.</li>
+      </ul>
 
- <div class="step" id="step-1">
- <span class="step-number">STEP 1</span>
- <h2>Step 1: Open the actor on Apify</h2>
- <p>Go to the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor actor page</a> on Apify. Click <strong>Try for free</strong> to open the input form. If this is your first time on Apify, you will create a free account before landing on the input screen.</p>
- <figure>
- <img src="assets/02-extract-emails-websites-actor-information.png" alt="Apify console showing the Website Contact Extractor actor information page with description, pricing overview, and the Try for free button" loading="lazy" width="3200" height="2000">
- <figcaption>The actor page on Apify. Click Try for free to open the input form.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Step 1: Open the actor on Apify</h2>
+      <p>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor actor page</a> on Apify. Click <strong>Try for free</strong> to open the input form. If this is your first time on Apify, you will create a free account before landing on the input screen.</p>
+      <figure>
+      <img src="assets/02-extract-emails-websites-actor-information.png" alt="Apify console showing the Website Contact Extractor actor information page with description, pricing overview, and the Try for free button" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor page on Apify. Click Try for free to open the input form.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-2">
- <span class="step-number">STEP 2</span>
- <h2>Step 2: Enter your URLs</h2>
- <p>In the <strong>URLs or Domains</strong> field, paste your list of company websites. Both bare domains and full URLs are accepted:</p>
- <div class="code-block"><pre>{
- "urls": [
- "stripe.com",
- "https://www.shopify.com",
- "https://mailchimp.com/contact"
- ],
- "maxPagesPerUrl": 15
-}</pre></div>
- <p>Leave <strong>Max Pages Per URL</strong> at the default of 15 for most cases. This covers the homepage plus contact, about, team, and impressum pages for the vast majority of small and mid-size business sites. Raise it to 30 or 50 for large corporate sites where contact information may be buried deeper.</p>
- <figure>
- <img src="assets/03-extract-emails-websites-input-form.png" alt="Apify input form for the Website Contact Extractor showing the URLs field pre-filled with stripe.com and shopify.com, and the Max Pages Per URL field set to 15" loading="lazy" width="3200" height="2000">
- <figcaption>Paste your target domains into the URLs field and set the page depth limit.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Step 2: Enter your URLs</h2>
+      <p>In the <strong>URLs or Domains</strong> field, paste your list of company websites. Both bare domains and full URLs are accepted:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "urls": [
+    "stripe.com",
+    "https://www.shopify.com",
+    "https://mailchimp.com/contact"
+  ],
+  "maxPagesPerUrl": 15
+}</code></pre></div>
+      <p>Leave <strong>Max Pages Per URL</strong> at the default of 15 for most cases. This covers the homepage plus contact, about, team, and impressum pages for the vast majority of small and mid-size business sites. Raise it to 30 or 50 for large corporate sites where contact information may be buried deeper.</p>
+      <figure>
+      <img src="assets/03-extract-emails-websites-input-form.png" alt="Apify input form for the Website Contact Extractor showing the URLs field pre-filled with stripe.com and shopify.com, and the Max Pages Per URL field set to 15" loading="lazy" width="3200" height="2000">
+      <figcaption>Paste your target domains into the URLs field and set the page depth limit.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-3">
- <span class="step-number">STEP 3</span>
- <h2>Step 3: Start the run</h2>
- <p>Click <strong>Start</strong>. The actor launches immediately. The run console shows a live log as each site is visited. A typical batch of 10 URLs finishes in about 30 seconds; 100 URLs takes a few minutes. Each site is crawled independently, so the run scales automatically.</p>
- <figure>
- <img src="assets/04-extract-emails-websites-run-log.png" alt="Apify run log for the Website Contact Extractor showing INFO messages as it visits each company website and extracts contact information" loading="lazy" width="3200" height="2000">
- <figcaption>The live run log shows which site is being crawled and the contact details found.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Step 3: Start the run</h2>
+      <p>Click <strong>Start</strong>. The actor launches immediately. The run console shows a live log as each site is visited. A typical batch of 10 URLs finishes in about 30 seconds; 100 URLs takes a few minutes. Each site is crawled independently, so the run scales automatically.</p>
+      <figure>
+      <img src="assets/04-extract-emails-websites-run-log.png" alt="Apify run log for the Website Contact Extractor showing INFO messages as it visits each company website and extracts contact information" loading="lazy" width="3200" height="2000">
+      <figcaption>The live run log shows which site is being crawled and the contact details found.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-4">
- <span class="step-number">STEP 4</span>
- <h2>Step 4: Export the results</h2>
- <p>Once the run finishes, open the <strong>Dataset</strong> tab. You will see one row per website with all contact details consolidated. Click <strong>Export</strong> to download as CSV, JSON, Excel, or Google Sheets. Here is what a result record looks like:</p>
- <div class="code-block"><pre>{
- "url": "https://www.stripe.com",
- "domain": "stripe.com",
- "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
- "emails": [
- "sales@stripe.com",
- "complaints-in@stripe.com",
- "dpo@stripe.com",
- "privacy@stripe.com"
- ],
- "phones": ["+1 888 926 2289"],
- "address": null,
- "social_links": {},
- "pages_crawled": 5,
- "scraped_at": "2026-08-04T11:49:55Z"
-}</pre></div>
- <p>This is a real record from a live run on stripe.com, made while writing this tutorial. Sites that do not expose a contact email will have an empty <code>emails</code> array rather than a placeholder address.</p>
- </div>
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Step 4: Export the results</h2>
+      <p>Once the run finishes, open the <strong>Dataset</strong> tab. You will see one row per website with all contact details consolidated. Click <strong>Export</strong> to download as CSV, JSON, Excel, or Google Sheets. Here is what a result record looks like:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "url": "https://www.stripe.com",
+  "domain": "stripe.com",
+  "title": "Stripe | Financial Infrastructure to Grow Your Revenue",
+  "emails": [
+    "sales@stripe.com",
+    "complaints-in@stripe.com",
+    "dpo@stripe.com",
+    "privacy@stripe.com"
+  ],
+  "phones": ["+1 888 926 2289"],
+  "address": null,
+  "social_links": {},
+  "pages_crawled": 5,
+  "scraped_at": "2026-08-04T11:49:55Z"
+}</code></pre></div>
+      <p>This is a real record from a live run on stripe.com, made while writing this tutorial. Sites that do not expose a contact email will have an empty <code>emails</code> array rather than a placeholder address.</p>
+    </div>
 
- <h2 id="input-options">Input options</h2>
- <p>The actor accepts two input modes:</p>
- <ul>
- <li><strong>URLs mode</strong> (<code>urls</code>): a plain list of website addresses. Best for ad-hoc enrichment runs where you just need contact data and do not need to join it back to a specific record.</li>
- <li><strong>Companies mode</strong> (<code>companies</code>): each entry carries a <code>company_id</code> you set. That ID is echoed on the output row, letting you join enrichment results back to your CRM or database by ID without relying on domain-name matching.</li>
- </ul>
- <p>Companies mode example:</p>
- <div class="code-block"><pre>{
- "companies": [
- { "company_id": "CRM-00123", "website_url": "https://acme.com" },
- { "company_id": "CRM-00456", "website_url": "https://example.org" }
- ],
- "maxPagesPerUrl": 15
-}</pre></div>
+    <h2 id="input-options">Input options</h2>
+    <p>The actor accepts two input modes:</p>
+    <ul>
+        <li><strong>URLs mode</strong> (<code>urls</code>): a plain list of website addresses. Best for ad-hoc enrichment runs where you just need contact data and do not need to join it back to a specific record.</li>
+        <li><strong>Companies mode</strong> (<code>companies</code>): each entry carries a <code>company_id</code> you set. That ID is echoed on the output row, letting you join enrichment results back to your CRM or database by ID without relying on domain-name matching.</li>
+      </ul>
+    <p>Companies mode example:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "companies": [
+    { "company_id": "CRM-00123", "website_url": "https://acme.com" },
+    { "company_id": "CRM-00456", "website_url": "https://example.org" }
+  ],
+  "maxPagesPerUrl": 15
+}</code></pre></div>
 
- <h2 id="how-it-works">How the crawler works</h2>
- <p>For each URL, the actor follows a fixed sequence:</p>
- <ol>
- <li>Visits the homepage and reads the page title and meta description</li>
- <li>Parses schema.org JSON-LD structured data to extract a company address if present</li>
- <li>Discovers internal links, giving priority to contact, about, impressum, team, and privacy pages</li>
- <li>Extracts email addresses from visible text and <code>mailto:</code> links</li>
- <li>Extracts phone numbers from <code>tel:</code> links and international-format text strings</li>
- <li>Collects social media profile URLs: LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing</li>
- <li>Returns one consolidated record per website with all data merged</li>
- </ol>
- <div class="callout tip">Sites that trigger bot-protection challenge pages are skipped automatically so the run finishes cleanly even when your list includes a few protected domains.</div>
+    <h2 id="how-it-works">How the crawler works</h2>
+    <p>For each URL, the actor follows a fixed sequence:</p>
+    <ol>
+        <li>Visits the homepage and reads the page title and meta description</li>
+        <li>Parses schema.org JSON-LD structured data to extract a company address if present</li>
+        <li>Discovers internal links, giving priority to contact, about, impressum, team, and privacy pages</li>
+        <li>Extracts email addresses from visible text and <code>mailto:</code> links</li>
+        <li>Extracts phone numbers from <code>tel:</code> links and international-format text strings</li>
+        <li>Collects social media profile URLs: LinkedIn, Twitter/X, Facebook, Instagram, YouTube, Xing</li>
+        <li>Returns one consolidated record per website with all data merged</li>
+      </ol>
+    <div class="callout tip">Sites that trigger bot-protection challenge pages are skipped automatically so the run finishes cleanly even when your list includes a few protected domains.</div>
 
- <h2 id="fields">Output field reference</h2>
- <h3>Per-company record</h3>
- <ul>
- <li><code>url</code> (string) - The input URL that was crawled</li>
- <li><code>domain</code> (string) - Normalized domain name, e.g. stripe.com</li>
- <li><code>title</code> (string) - Page title from the homepage</li>
- <li><code>description</code> (string) - Meta description from the homepage</li>
- <li><code>emails</code> (string[]) - All unique email addresses found, lowercased and deduplicated</li>
- <li><code>phones</code> (string[]) - Phone numbers from tel: links and international-format text</li>
- <li><code>address</code> (string or null) - Company address from schema.org JSON-LD, or null if not present</li>
- <li><code>social_links</code> (object) - Social profiles keyed by platform: linkedin, twitter, facebook, instagram, youtube, xing</li>
- <li><code>pages_crawled</code> (integer) - Number of pages visited on this site</li>
- <li><code>scraped_at</code> (string) - ISO 8601 timestamp when the record was produced</li>
- </ul>
- <h3>Companies-mode passthrough</h3>
- <ul>
- <li><code>company_id</code> (string) - Your internal identifier, echoed from the input so you can join enrichment results back to your source data</li>
- </ul>
+    <h2 id="fields">Output field reference</h2>
+    <h3>Per-company record</h3>
+    <ul>
+        <li><code>url</code> (string) - The input URL that was crawled</li>
+        <li><code>domain</code> (string) - Normalized domain name, e.g. stripe.com</li>
+        <li><code>title</code> (string) - Page title from the homepage</li>
+        <li><code>description</code> (string) - Meta description from the homepage</li>
+        <li><code>emails</code> (string[]) - All unique email addresses found, lowercased and deduplicated</li>
+        <li><code>phones</code> (string[]) - Phone numbers from tel: links and international-format text</li>
+        <li><code>address</code> (string or null) - Company address from schema.org JSON-LD, or null if not present</li>
+        <li><code>social_links</code> (object) - Social profiles keyed by platform: linkedin, twitter, facebook, instagram, youtube, xing</li>
+        <li><code>pages_crawled</code> (integer) - Number of pages visited on this site</li>
+        <li><code>scraped_at</code> (string) - ISO 8601 timestamp when the record was produced</li>
+      </ul>
+    <h3>Companies-mode passthrough</h3>
+    <ul>
+        <li><code>company_id</code> (string) - Your internal identifier, echoed from the input so you can join enrichment results back to your source data</li>
+      </ul>
 
- <h2 id="cost">What it costs</h2>
- <p>The actor uses pay-per-event pricing. Three event types generate charges:</p>
- <ul>
- <li><strong>Actor start</strong>: a small flat fee per run, charged once regardless of list size</li>
- <li><strong>Company processed</strong>: charged once per website crawled</li>
- <li><strong>Contact extracted</strong>: charged per individual contact detail (each email or phone number found)</li>
- </ul>
- <p>Current rates are on the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">actor page</a> (pricing may update over time). A free Apify account includes $5 of credit, covering several hundred company websites before any payment is needed.</p>
- <div class="callout tip">New Apify accounts get $5 free credit. That covers a substantial enrichment run before you need to add a payment method.</div>
+    <h2 id="cost">What it costs</h2>
+    <p>The actor uses pay-per-event pricing. Three event types generate charges:</p>
+    <ul>
+        <li><strong>Actor start</strong>: a small flat fee per run, charged once regardless of list size</li>
+        <li><strong>Company processed</strong>: charged once per website crawled</li>
+        <li><strong>Contact extracted</strong>: charged per individual contact detail (each email or phone number found)</li>
+      </ul>
+    <p>Current rates are on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">actor page</a> (pricing may update over time). A free Apify account includes $5 of credit, covering several hundred company websites before any payment is needed.</p>
+    <div class="callout tip">New Apify accounts get $5 free credit. That covers a substantial enrichment run before you need to add a payment method.</div>
 
- <h2 id="schedule">Automate with a schedule</h2>
- <p>To run the extractor automatically on a recurring basis, open the Apify console, navigate to <strong>Schedules</strong>, and set a CRON interval. A common pattern is to read new company URLs from a Google Sheet each night and write the enriched results back. The <a target="_blank" rel="sponsored noopener" href="https://apify.com/actors/apify/google-sheets-import-to-apify?fpr=0khfbz">Google Sheets integration actor</a> on Apify handles that bridge without any custom code.</p>
+    <h2 id="schedule">Automate with a schedule</h2>
+    <p>To run the extractor automatically on a recurring basis, open the Apify console, navigate to <strong>Schedules</strong>, and set a CRON interval. A common pattern is to read new company URLs from a Google Sheet each night and write the enriched results back. The <a target="_blank" rel="noopener" href="https://apify.com/actors/apify/google-sheets-import-to-apify?fpr=0khfbz">Google Sheets integration actor</a> on Apify handles that bridge without any custom code.</p>
 
- <h2 id="faq">FAQ</h2>
- <div class="faq">
- <details>
- <summary>Does it work on sites with bot protection?</summary>
- <p>Sites that present a challenge page (Cloudflare, reCAPTCHA) are skipped automatically. The actor moves on to the next URL so the run completes cleanly. The skipped site will still appear in the dataset with empty contact arrays.</p>
- </details>
- <details>
- <summary>How many pages should I crawl per site?</summary>
- <p>The default of 15 pages covers most small and mid-market business sites. Raise it to 30 or 50 for large corporate sites where the contact page may be many clicks deep, or when you want role-specific email addresses (hr@, press@, legal@) that may appear only on internal pages.</p>
- </details>
- <details>
- <summary>Can I pass my own company IDs through to the output?</summary>
- <p>Yes. Use the <code>companies</code> input instead of <code>urls</code> and include a <code>company_id</code> on each entry. That ID is echoed back on the output row so you can join the enrichment data to your CRM records without relying on domain-name matching.</p>
- </details>
- <details>
- <summary>Does it find contact forms or only email addresses?</summary>
- <p>The actor extracts raw email addresses and phone numbers from page text and links, not contact form URLs. If a site hides all contact information behind a form and publishes no <code>mailto:</code> links, the emails array will be empty.</p>
- </details>
- <details>
- <summary>Can I trigger runs from code instead of the UI?</summary>
- <p>Yes. Use the Apify API or the JavaScript/Python SDK to trigger runs programmatically. The actor ID is <code>JmMPJ7zumUfB7p0Kr</code>. Full API documentation is at <a target="_blank" rel="sponsored noopener" href="https://docs.apify.com/api/v2?fpr=0khfbz">docs.apify.com/api/v2</a>.</p>
- </details>
- <details>
- <summary>Is scraping publicly available contact information legal?</summary>
- <p>The actor only reads publicly accessible pages, the same content anyone can view in a browser. It does not bypass login walls or access private data. That said, how you <em>use</em> scraped contact data for outreach is subject to laws like GDPR, CAN-SPAM, and similar regulations depending on your jurisdiction and the recipients' location. Review the applicable rules before starting an outreach campaign.</p>
- </details>
- </div>
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Does it work on sites with bot protection?</summary>
+        <p>Sites that present a challenge page (Cloudflare, reCAPTCHA) are skipped automatically. The actor moves on to the next URL so the run completes cleanly. The skipped site will still appear in the dataset with empty contact arrays.</p>
+      </details>
+      <details>
+        <summary>How many pages should I crawl per site?</summary>
+        <p>The default of 15 pages covers most small and mid-market business sites. Raise it to 30 or 50 for large corporate sites where the contact page may be many clicks deep, or when you want role-specific email addresses (hr@, press@, legal@) that may appear only on internal pages.</p>
+      </details>
+      <details>
+        <summary>Can I pass my own company IDs through to the output?</summary>
+        <p>Yes. Use the <code>companies</code> input instead of <code>urls</code> and include a <code>company_id</code> on each entry. That ID is echoed back on the output row so you can join the enrichment data to your CRM records without relying on domain-name matching.</p>
+      </details>
+      <details>
+        <summary>Does it find contact forms or only email addresses?</summary>
+        <p>The actor extracts raw email addresses and phone numbers from page text and links, not contact form URLs. If a site hides all contact information behind a form and publishes no <code>mailto:</code> links, the emails array will be empty.</p>
+      </details>
+      <details>
+        <summary>Can I trigger runs from code instead of the UI?</summary>
+        <p>Yes. Use the Apify API or the JavaScript/Python SDK to trigger runs programmatically. The actor ID is <code>JmMPJ7zumUfB7p0Kr</code>. Full API documentation is at <a target="_blank" rel="noopener" href="https://docs.apify.com/api/v2?fpr=0khfbz">docs.apify.com/api/v2</a>.</p>
+      </details>
+      <details>
+        <summary>Is scraping publicly available contact information legal?</summary>
+        <p>The actor only reads publicly accessible pages, the same content anyone can view in a browser. It does not bypass login walls or access private data. That said, how you <em>use</em> scraped contact data for outreach is subject to laws like GDPR, CAN-SPAM, and similar regulations depending on your jurisdiction and the recipients' location. Review the applicable rules before starting an outreach campaign.</p>
+      </details>
+    </div>
 
- <h2>Related resources</h2>
- <ul>
- <li><a href="/actors/website-contact-extractor/">Website Contact Extractor actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor on Apify</a>: Run the actor directly from the Apify console.</li>
- <li><a href="/tutorials/google-maps-scraper-business-leads-contact-data/">How to scrape business leads from Google Maps</a>: Find businesses by category and location on Maps, then enrich each one with Website Contact Extractor to get direct emails.</li>
- <li><a href="/tutorials/linkedin-company-scraper/">LinkedIn Company Scraper tutorial</a>: Scrape LinkedIn company profiles to build a prospect list, then use Website Contact Extractor to find direct email addresses.</li>
- </ul>
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/website-contact-extractor/">Website Contact Extractor actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor on Apify</a>: Run the actor directly from the Apify console.</li>
+      <li><a href="/tutorials/google-maps-scraper-business-leads-contact-data/">How to scrape business leads from Google Maps</a>: Find businesses by category and location on Maps, then enrich each one with Website Contact Extractor to get direct emails.</li>
+      <li><a href="/tutorials/linkedin-company-scraper/">LinkedIn Company Scraper tutorial</a>: Scrape LinkedIn company profiles to build a prospect list, then use Website Contact Extractor to find direct email addresses.</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz" class="btn-primary">Try Website Contact Extractor for free</a>
- <a href="/tutorials/" class="btn-secondary">Browse all NanoScrape tutorials</a>
- </div>
- </article>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz" class="btn-primary">Try Website Contact Extractor for free</a>
+      <a href="/tutorials/" class="btn-secondary">Browse all NanoScrape tutorials</a>
+    </div>
+  </article>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

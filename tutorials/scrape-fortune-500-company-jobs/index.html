@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -251,8 +255,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -306,7 +324,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
       <a href="/jobfeed/#signup" class="btn-secondary">Request Job Feed private beta access</a>
     </div>
 
@@ -353,7 +371,7 @@
 
     <h2 id="coverage-map">F500 ATS coverage map</h2>
     <p>We audited all 500 Fortune 500 careers pages in May 2026. Here's the breakdown by ATS platform:</p>
-    <div class="code-block"><pre>ATS PLATFORM               F500  SHARE
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">ATS PLATFORM               F500  SHARE
 ----------------------------------------------
 workday                     126   23.6%
 custom                      136   27.2%
@@ -386,7 +404,7 @@ Tier 3 - Website Job Extractor (Browser): 60 companies (12.0%)
 Tier 4 - Custom build (WAF-hardened): 11 companies (2.2%)
 
 Every F500 company gets a recommended scraper - 100% coverage attempted,
-~85-90% expected to actually return jobs on the first run.</pre></div>
+~85-90% expected to actually return jobs on the first run.</code></pre></div>
     <div class="callout"><strong>Why not 100%?</strong> A handful of deployments (SuccessFactors WAF-hardened tenants, Paradox conversational-AI portals, and a few Taleo classic FTL portals) actively block automated access with per-request JavaScript challenges. Those companies can still be scraped, but they need a real browser session with human-in-the-loop CAPTCHA solving, which changes the economics enough that we treat them as a Tier 4 problem - see the JobFeed SaaS section.</div>
     <h3>Coverage by industry</h3>
     <p>If you only care about specific verticals, here's how the F500 breaks down by industry sector:</p>
@@ -417,7 +435,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
       <h2>Tier 1: ATS-native scraping (covers 58% of the F500)</h2>
       <p>The <a target="_blank" rel="sponsored noopener" href="/actors/career-site-jobs-scraper/">NanoScrape Career Site Jobs Scraper</a> talks to 24 ATS platforms directly through their public JSON APIs. It's fast (HTTP-only, no browser), cheap ($1 per 1,000 jobs), and returns structured data with consistent field names within this actor.</p>
       <h3>Sample input: 8 F500 companies across 8 ATS platforms</h3>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "queries": [
     "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite",
     {
@@ -445,9 +463,9 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   ],
   "maxJobsPerCompany": 500,
   "includeDescription": true
-}</pre></div>
+}</code></pre></div>
       <h3>What you get back</h3>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "id": "JR2019514",
   "title": "AI Engineering Platform Development Engineer",
   "company": "nvidia",
@@ -462,7 +480,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   "created_at": "Posted Today",
   "updated_at": null,
   "scraped_at": "2026-09-01T13:20:20Z"
-}</pre></div>
+}</code></pre></div>
       <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> The example above is real output from a run with the exact input shown in this section, capped at 5 jobs per company. A few field-shape notes: <code class="code-inline">company</code> is the lowercase URL slug (not the full display name); <code class="code-inline">created_at</code> for Workday is a human-readable string like "Posted Today" or "Posted 5 Days Ago" (not ISO); <code class="code-inline">description</code> is <code class="code-inline">null</code> when <code class="code-inline">includeDescription: false</code>. Real charge was $0.006 for 5 job results + $0.001 start.</div>
       <div class="callout tip"><strong>Batch tip.</strong> The actor accepts up to 500 URLs per run and processes them in parallel. A single run against 200 F500 Workday deployments returning ~150K jobs typically finishes in under 25 minutes and costs about $150 total ($0.001 start + $150 for jobs).</div>
       <h3>F500 companies you can scrape today with this actor</h3>
@@ -482,7 +500,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
       <p>About 103 F500 companies (Amazon, Walmart, Apple, Alphabet, Berkshire Hathaway, Exxon Mobil, Microsoft, Cardinal Health, and 95 more) don't use any commercial ATS. Their careers pages are hand-built with custom URL patterns, one-off HTML structures, and no JSON API. There is no way to write a stable HTML parser for every one of them - but an LLM can read any careers page and extract structured jobs on the fly.</p>
       <p>That's what the <a target="_blank" rel="sponsored noopener" href="/actors/website-job-extractor/">NanoScrape Website Job Extractor</a> does. Feed it a website URL - it auto-discovers the careers page, gates on job-related keywords to avoid wasting LLM calls, sends the cleaned HTML to Gemini (or Groq or OpenRouter), and returns validated job records with confidence scores.</p>
       <h3>Sample input: 8 F500 companies with custom careers pages</h3>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "companies": [
     {
       "company_id": "amzn",
@@ -530,11 +548,11 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   "maxPagesPerCompany": 5,
   "enablePlaywrightFallback": true,
   "skipAtsExtraction": true
-}</pre></div>
+}</code></pre></div>
       <div class="callout tip"><strong>Two cost switches worth knowing.</strong> <code class="code-inline">enablePlaywrightFallback: true</code> triggers the Browser variant automatically for any company whose HTML is JS-rendered - you avoid paying browser prices for the ~90% of sites that don't need it. <code class="code-inline">skipAtsExtraction: true</code> tells the LLM extractor: if you detect a supported ATS on the page, don't spend LLM tokens - just emit <code class="code-inline">ats_system</code> and <code class="code-inline">ats_url</code> so the caller can route that company to Tier 1 (Career Site Jobs Scraper, $1/1000) on the next run. Both switches are free to enable.</div>
       <div class="callout"><strong>Gemini free tier is enough for a full F500 sweep.</strong> Google Gemini's free tier includes 1 million tokens per minute and roughly 1,500 requests per day. A typical career page fits in 20-40K tokens after cleanup, so you can extract 30-70 companies per day at zero LLM cost - enough to sweep the 103 custom F500 sites in under two days without paying Google anything.</div>
       <h3>What you get back</h3>
-      <div class="code-block"><pre>// EXAMPLE A - Job row (custom career page, LLM extracted)
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">// EXAMPLE A - Job row (custom career page, LLM extracted)
 {
   "company_id": "amzn",
   "company_name": "Amazon",
@@ -576,7 +594,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
     "react_markers"
   ],
   "extracted_at": "2026-09-01T13:20:31.194Z"
-}</pre></div>
+}</code></pre></div>
       <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> When we ran the exact 8-company input above (with <code class="code-inline">skipAtsExtraction: true</code> and <code class="code-inline">enablePlaywrightFallback: false</code> for a cost-bounded first pass), <strong>Amazon.jobs and Walmart careers both returned Example B (sentinels) with <code class="code-inline">js_rendering_suspected: true</code></strong> - both sites turned out to be JS-rendered. This is exactly the moment <code class="code-inline">enablePlaywrightFallback: true</code> is designed for: it would auto-route those two companies to Tier 3 in one seamless run.</div>
       <div class="callout"><strong>Field names differ from Tier 1.</strong> Note <code class="code-inline">company_id</code>/<code class="code-inline">company_name</code> (not <code class="code-inline">company</code>), <code class="code-inline">ats_system</code> (not <code class="code-inline">ats_platform</code>), <code class="code-inline">application_url</code> (not <code class="code-inline">apply_url</code>). Use the <a href="#unify-schema">mapper script</a> below to normalize.</div>
     </div>
@@ -595,7 +613,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
       <div class="callout"><strong>WAF-hardened deployments.</strong> 11 SuccessFactors, Taleo classic, and Avature tenants (Delta Airlines, Jacobs Solutions, D.R. Horton, Vulcan Materials, and a handful more) sit behind AWS WAF or Cloudflare JavaScript challenges. Even the browser actor stalls on these. The pragmatic answer is to skip them and log the miss - 2.2% of the F500 (11 named companies) is out of reach via HTTP scraping without a full residential-proxy + CAPTCHA-solver stack, which pushes per-company cost above $1 and only pays off if you specifically need those companies.</div>
       <h3>Verified with a live smoke run</h3>
       <p>We ran the Browser variant against Meta careers (<code class="code-inline">https://www.metacareers.com/jobs</code>) on 2026-09-01. Meta turned out to run on Workday, so the extractor's LLM-to-ATS handoff kicked in and returned:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "company_id": "meta",
   "company_name": "Meta",
   "title": "[ATS detected: workday] - use Career Site Jobs Scraper",
@@ -603,7 +621,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   "application_url": "https://www.metacareers.com/jobs",
   "ats_system": "workday",
   "extracted_at": "2026-09-01T13:20:59.329Z"
-}</pre></div>
+}</code></pre></div>
       <p>In production, the correct follow-up is to send <code class="code-inline">source_url</code> (or ideally the underlying Workday tenant URL if you have it) to Tier 1 - which will return structured jobs at ~$0.001 each instead of paying browser + LLM prices on every re-run. Real charge for this one-company run was $0.003.</p>
     </div>
 
@@ -625,7 +643,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
 
     <h2 id="unify-schema">Unify output across tiers (mapper script)</h2>
     <p>Career Site Jobs Scraper and Website Job Extractor emit compatible-but-not-identical fields. Until Job Feed goes public (or if you want to keep raw control of your pipeline), here's a ~50-line Python normalizer that flattens both into a single schema and dedupes by <code class="code-inline">job_url</code> preferring Tier 1 (ATS-native, no LLM interpretation) over Tier 2/3 when the same URL appears in both.</p>
-    <div class="code-block"><pre>from typing import Any
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python">from typing import Any
 
 def normalize_career_site_jobs(row: dict[str, Any]) -&gt; dict[str, Any]:
     # Career Site Jobs Scraper (Tier 1) -&gt; unified schema
@@ -679,9 +697,9 @@ def merge_all_tiers(tier1_rows, tier2_rows, tier3_rows):
         if key not in seen or (row["source_tier"] == "ats" and seen[key]["source_tier"] != "ats"):
             seen[key] = row
     return list(seen.values())
-</pre></div>
+</code></pre></div>
     <h3>Unified output schema</h3>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "title": "Senior Compiler Engineer",
   "company": "NVIDIA",
   "location": "Santa Clara, CA",
@@ -696,18 +714,18 @@ def merge_all_tiers(tier1_rows, tier2_rows, tier3_rows):
   "updated_at": "2026-08-28T14:12:00Z",
   "source_tier": "ats",
   "scraped_at": "2026-09-01T06:00:00Z"
-}</pre></div>
+}</code></pre></div>
     <div class="callout tip"><strong>Skip the mapper entirely with Job Feed.</strong> Job Feed does this normalization internally and lets you subscribe to the diff (new / removed / updated jobs) between two runs, without you having to persist raw datasets. Email <a href="/jobfeed/#signup">contact@nanoscrape.com</a> for beta access.</div>
 
     <h2 id="mcp-integration">Run the pipeline from Claude or ChatGPT (MCP)</h2>
     <p>All three actors expose an Apify MCP server URL, so you can drive them from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents - without writing any code.</p>
     <h3>MCP server URLs</h3>
-    <div class="code-block"><pre>Tier 1: https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Tier 1: https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper
 Tier 2: https://mcp.apify.com?tools=santamaria-automations/website-job-extractor
 Tier 3: https://mcp.apify.com?tools=santamaria-automations/website-job-extractor-browser
 
 All three at once (recommended for the F500 pipeline):
-https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper,santamaria-automations/website-job-extractor,santamaria-automations/website-job-extractor-browser</pre></div>
+https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper,santamaria-automations/website-job-extractor,santamaria-automations/website-job-extractor-browser</code></pre></div>
     <h3>Example prompts</h3>
     <p>Once connected, ask the AI to run the pipeline for a specific slice of the F500:</p>
     <ul>
@@ -742,7 +760,7 @@ https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper,sant
 
     <h2 id="cost">What it costs to sweep the F500</h2>
     <p>Assuming an average of ~500 open roles per Fortune 500 company (bigger for retailers, smaller for pure-play tech), a full sweep processes about 250,000 jobs.</p>
-    <div class="code-block"><pre>TIER 1 - Career Site Jobs Scraper (293 companies x ~500 jobs avg)
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">TIER 1 - Career Site Jobs Scraper (293 companies x ~500 jobs avg)
   Actor start:      $0.001
   Job results:      146,500 x $0.001 = $146.50
   Subtotal:                          ~$146.50
@@ -762,7 +780,7 @@ TIER 3 - Website Job Extractor Browser (60 companies x ~200 jobs avg)
 
 ---------------------------------------------------------------
 TOTAL PER FULL SWEEP:               ~$412.06
----------------------------------------------------------------</pre></div>
+---------------------------------------------------------------</code></pre></div>
     <div class="callout"><strong>Validated with live smoke runs (2026-09-01).</strong> We ran bounded versions of the exact inputs in this tutorial against all three actors. Charged-event structure and per-event pricing match the math above. Real full-sweep costs will vary a bit with the actual job count per company (which we assumed ~500 avg) and how many custom sites turn out to be JS-rendered (Amazon, Walmart, Meta all were - so Tier 3 share may be larger than the 10% baseline for retail + tech-heavy slices).</div>
     <h3>Repeat runs</h3>
     <p>Right now the actors do not filter by <code class="code-inline">postedAfter</code> or <code class="code-inline">updatedSince</code>, so a repeat run re-processes every job. If you want a delta-only feed today, the practical approach is: run the sweep, persist the result to your DB, then diff against yesterday's snapshot in SQL. Native incremental support (only pay for newly opened/closed jobs) is on the Job Feed orchestrator roadmap and will be free during the private beta.</p>
@@ -843,7 +861,7 @@ TOTAL PER FULL SWEEP:               ~$412.06
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
       <a href="/jobfeed/#signup" class="btn-secondary">Request Job Feed private beta access</a>
     </div>
   </article>
@@ -852,5 +870,29 @@ TOTAL PER FULL SWEEP:               ~$412.06
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

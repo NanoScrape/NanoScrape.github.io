@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -197,8 +201,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -255,7 +273,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Career Site Jobs Scraper free</a>
       <a href="/tutorials/scrape-fortune-500-company-jobs/#f500-list" class="btn-secondary">See the full F500 careers table</a>
     </div>
 
@@ -279,8 +297,8 @@
 
     <h2 id="api-pattern">Workday URL and API pattern</h2>
     <p>Workday careers pages follow this URL pattern:</p>
-    <div class="code-block"><pre>URL pattern:  https://{tenant}.wd{N}.myworkdayjobs.com/{site}
-API endpoint: /wday/cxs/{tenant}/{site}/jobs</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">URL pattern:  https://{tenant}.wd{N}.myworkdayjobs.com/{site}
+API endpoint: /wday/cxs/{tenant}/{site}/jobs</code></pre></div>
     <div class="callout"><strong>How the actor detects Workday:</strong> pass any known Workday careers URL as a string in the <code>queries</code> array. The actor auto-detects the platform from the URL pattern and calls the correct endpoint. Alternatively, pass an explicit platform object: <code>{"platform": "workday", "company": URL}</code>.</div>
 
     <h2 id="f500-companies">Fortune 500 companies on Workday</h2>
@@ -322,7 +340,7 @@ API endpoint: /wday/cxs/{tenant}/{site}/jobs</pre></div>
       <span class="step-number">STEP 1</span>
       <h2>Example actor run: first 5 Workday F500 companies</h2>
       <p>Copy this input into the actor's <em>Input</em> tab (JSON editor mode) to scrape jobs from the top 5 F500 companies on this ATS:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "queries": [
     "https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/login&amp;#34;,",
     "https://centene.wd5.myworkdayjobs.com/centene_external",
@@ -332,7 +350,7 @@ API endpoint: /wday/cxs/{tenant}/{site}/jobs</pre></div>
   ],
   "maxJobsPerCompany": 500,
   "includeDescription": true
-}</pre></div>
+}</code></pre></div>
       <div class="callout tip"><strong>Batch tip:</strong> the actor accepts up to 500 URLs per run and processes them in parallel. A single run against all 118 F500 Workday deployments typically finishes in under 20 minutes and returns thousands of jobs at $1 per 1,000.</div>
     </div>
 
@@ -396,7 +414,7 @@ API endpoint: /wday/cxs/{tenant}/{site}/jobs</pre></div>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Workday Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Try the Workday Scraper free</a>
       <a href="/tutorials/scrape-fortune-500-company-jobs/#f500-list" class="btn-secondary">View the full F500 careers list</a>
     </div>
   </article>
@@ -405,5 +423,29 @@ API endpoint: /wday/cxs/{tenant}/{site}/jobs</pre></div>
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

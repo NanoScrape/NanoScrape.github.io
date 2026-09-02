@@ -1,511 +1,553 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>How to Scrape Booking.com: Hotels, Prices, and Availability (2026 Guide) | NanoScrape</title>
- <meta name="description" content="Step-by-step guide to scraping Booking.com hotel listings with price, GPS, ratings, cancellation policies, and availability. No browser needed. Export to JSON, CSV, or Google Sheets. About $0.30 per 100 hotels.">
- <meta name="primary-keyword" content="booking.com scraper">
- <meta property="og:title" content="How to Scrape Booking.com: Hotels, Prices, and Availability | NanoScrape">
- <meta property="og:description" content="Pull hotel prices, ratings, addresses, and availability from any Booking.com city search. No browser, no session handling. About $0.003 per hotel.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
- <meta property="og:type" content="article">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Booking.com: Hotels, Prices, and Availability (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping Booking.com hotel listings with price, GPS, ratings, cancellation policies, and availability. No browser needed. Export to JSON, CSV, or Google Sheets. About $0.30 per 100 hotels.">
+  <meta name="primary-keyword" content="booking.com scraper">
+  <meta property="og:title" content="How to Scrape Booking.com: Hotels, Prices, and Availability | NanoScrape">
+  <meta property="og:description" content="Pull hotel prices, ratings, addresses, and availability from any Booking.com city search. No browser, no session handling. About $0.003 per hotel.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
- <script type="application/ld+json">
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "HowTo",
- "name": "How to Scrape Booking.com Hotel Prices and Availability",
- "description": "Use the NanoScrape Booking.com Hotel Scraper on Apify to extract hotel listings including prices, star ratings, guest review scores, GPS coordinates, and cancellation policies from any destination search.",
- "totalTime": "PT5M",
- "estimatedCost": {
- "@type": "MonetaryAmount",
- "currency": "USD",
- "value": "0.003"
- },
- "supply": [
- {
- "@type": "HowToSupply",
- "name": "Free Apify account"
- },
- {
- "@type": "HowToSupply",
- "name": "Destination name and travel dates"
- }
- ],
- "tool": [
- {
- "@type": "HowToTool",
- "name": "Apify"
- },
- {
- "@type": "HowToTool",
- "name": "NanoScrape Booking.com Hotel Scraper"
- }
- ],
- "step": [
- {
- "@type": "HowToStep",
- "name": "Open the actor",
- "text": "Navigate to the Booking.com Hotel Scraper on Apify and sign in or create a free account."
- },
- {
- "@type": "HowToStep",
- "name": "Set destination and dates",
- "text": "In the Input tab, enter your destination, check-in and check-out dates, number of guests, and how many hotels you want."
- },
- {
- "@type": "HowToStep",
- "name": "Run and watch the results",
- "text": "Click Start. The actor queries Booking.com's internal GraphQL API and streams hotel results to the dataset in real time."
- },
- {
- "@type": "HowToStep",
- "name": "Export your results",
- "text": "From the Results tab, click Export to download as JSON or CSV, or push directly to Google Sheets using the Integrations panel."
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Booking.com Hotel Prices and Availability",
+  "description": "Use the NanoScrape Booking.com Hotel Scraper on Apify to extract hotel listings including prices, star ratings, guest review scores, GPS coordinates, and cancellation policies from any destination search.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.003"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Destination name and travel dates"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Booking.com Hotel Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor",
+      "text": "Navigate to the Booking.com Hotel Scraper on Apify and sign in or create a free account."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Set destination and dates",
+      "text": "In the Input tab, enter your destination, check-in and check-out dates, number of guests, and how many hotels you want."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and watch the results",
+      "text": "Click Start. The actor queries Booking.com's internal GraphQL API and streams hotel results to the dataset in real time."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export your results",
+      "text": "From the Results tab, click Export to download as JSON or CSV, or push directly to Google Sheets using the Integrations panel."
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "Booking.com Scraper: Hotels, Prices, and Availability Without an API",
- "description": "How to collect hotel listings from Booking.com at scale -- prices, ratings, GPS, cancellation policies, and discount badges -- using the NanoScrape Booking.com Hotel Scraper on Apify.",
- "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
- "author": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com"
- },
- "publisher": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com",
- "logo": {
- "@type": "ImageObject",
- "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
- }
- },
- "datePublished": "2026-08-04",
- "dateModified": "2026-08-04",
- "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/"
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Booking.com Scraper: Hotels, Prices, and Availability Without an API",
+  "description": "How to collect hotel listings from Booking.com at scale -- prices, ratings, GPS, cancellation policies, and discount badges -- using the NanoScrape Booking.com Hotel Scraper on Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-04",
+  "dateModified": "2026-08-04",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/"
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
- "@type": "Question",
- "name": "Do I need a Booking.com account or API key?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "No. The actor uses Booking.com's internal GraphQL API without authentication. No account or API key is required."
- }
- },
- {
- "@type": "Question",
- "name": "How accurate are the prices?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Prices reflect what Booking.com shows at the time of the run for the exact dates and guest configuration entered. They include taxes and fees when displayed by Booking.com."
- }
- },
- {
- "@type": "Question",
- "name": "Can I scrape hotel reviews?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Not yet. The actor returns aggregate review scores and counts, but not individual review text."
- }
- },
- {
- "@type": "Question",
- "name": "How many hotels can I scrape at once?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Set maxResults to 0 to scrape all available hotels. Booking.com caps its own search results at around 2,000 per city for large destinations."
- }
- },
- {
- "@type": "Question",
- "name": "Can I track prices for a specific hotel over time?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Run the same city search on a schedule and filter by hotel name or hotel ID. The ID field is stable across runs, so you can join datasets to track price changes over time."
- }
- },
- {
- "@type": "Question",
- "name": "What does the free Apify tier cover?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "The free tier includes $5 of compute credit per month, covering around 1,600 hotel results at $0.003 per hotel."
- }
- },
- {
- "@type": "Question",
- "name": "Is the actor blocked by Booking.com?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "The actor mimics a browser network profile transparently and calls Booking.com's internal GraphQL endpoint. Runs are reliable. FAILED runs are usually caused by an invalid destination or past dates."
- }
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need a Booking.com account or API key?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor uses Booking.com's internal GraphQL API without authentication. No account or API key is required."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How accurate are the prices?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prices reflect what Booking.com shows at the time of the run for the exact dates and guest configuration entered. They include taxes and fees when displayed by Booking.com."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape hotel reviews?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not yet. The actor returns aggregate review scores and counts, but not individual review text."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many hotels can I scrape at once?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set maxResults to 0 to scrape all available hotels. Booking.com caps its own search results at around 2,000 per city for large destinations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I track prices for a specific hotel over time?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Run the same city search on a schedule and filter by hotel name or hotel ID. The ID field is stable across runs, so you can join datasets to track price changes over time."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the free Apify tier cover?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The free tier includes $5 of compute credit per month, covering around 1,600 hotel results at $0.003 per hotel."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the actor blocked by Booking.com?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The actor uses TLS fingerprinting to mimic a browser network profile and calls Booking.com's internal GraphQL endpoint. Runs are reliable. FAILED runs are usually caused by an invalid destination or past dates."
+      }
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
- {
- "@type": "ListItem",
- "position": 1,
- "name": "Home",
- "item": "https://www.nanoscrape.com/"
- },
- {
- "@type": "ListItem",
- "position": 2,
- "name": "Tutorials",
- "item": "https://www.nanoscrape.com/tutorials/"
- },
- {
- "@type": "ListItem",
- "position": 3,
- "name": "Booking.com Hotel Scraper",
- "item": "https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/"
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Booking.com Hotel Scraper",
+      "item": "https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/"
+    }
+  ]
 }
- </script>
+  </script>
 
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
- .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
- .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
- .breadcrumb a { color: var(--muted); }
- .breadcrumb a:hover { color: var(--accent); }
- .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
- .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
- .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
- .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
- .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
- .article p { margin-bottom: 16px; }
- .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
- .article li { margin-bottom: 6px; color: var(--text); }
- .article li strong { color: var(--white); }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
 
- .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
- .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
- .toc ol { margin: 0; padding-left: 20px; }
- .toc li { margin-bottom: 4px; }
- .toc a { color: var(--text); }
- .toc a:hover { color: var(--accent); }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
 
- .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
- .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
- .article figure { margin: 24px 0 28px; }
- .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
- .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
- .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
- .article .figure-group figure { margin: 0; }
- @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
- .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
- .callout strong { color: var(--white); }
- .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
- .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
- .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
- .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
- .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
- .faq details[open] { border-color: var(--accent); }
- .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
- .faq summary::marker { color: var(--muted); }
- .faq details p { margin: 10px 0 4px; color: var(--text); }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
 
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .article h1 { font-size: 1.55rem; }
- .article h2 { font-size: 1.25rem; }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
- .draft-banner a { color: #0b0e14; text-decoration: underline; }
- </style>
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <article class="article">
- <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Booking.com Hotel Scraper</nav>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Booking.com Hotel Scraper</nav>
 
- <h1>How to Scrape Booking.com: Hotels, Prices, and Availability</h1>
- <p class="lead">Pull hotel listings from any Booking.com city search -- prices, star ratings, guest scores, GPS coordinates, cancellation policies, and discount badges -- without a browser or session cookies. The actor calls Booking.com's internal API directly, so runs complete in seconds. About $0.003 per hotel on the free tier.</p>
+    <h1>How to Scrape Booking.com: Hotels, Prices, and Availability</h1>
+    <p class="lead">Pull hotel listings from any Booking.com city search -- prices, star ratings, guest scores, GPS coordinates, cancellation policies, and discount badges -- without a browser or session cookies. The actor calls Booking.com's internal API directly, so runs complete in seconds. About $0.003 per hotel on the free tier.</p>
 
- <figure>
- <img src="assets/01-booking-com-scraper-dataset-table.png" alt="Apify dataset table showing scraped Booking.com hotels with columns for name, star rating, review score, price per night, location, and free cancellation status" loading="lazy" width="3200" height="2000">
- <figcaption>One row per hotel. Price, rating, GPS, address, and cancellation policy all in a single dataset.</figcaption>
- </figure>
+    <figure>
+      <img src="assets/01-booking-com-scraper-dataset-table.png" alt="Apify dataset table showing scraped Booking.com hotels with columns for name, star rating, review score, price per night, location, and free cancellation status" loading="lazy" width="3200" height="2000">
+      <figcaption>One row per hotel. Price, rating, GPS, address, and cancellation policy all in a single dataset.</figcaption>
+    </figure>
 
- <div class="meta-row">
- <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
- <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
- <div class="meta-item"><strong>Cost:</strong> $0.003 per hotel (free tier includes $5/month credit)</div>
- <div class="meta-item"><strong>Tools:</strong> Apify</div>
- </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.003 per hotel (free tier includes $5/month credit)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify</div>
+    </div>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">Try the Booking.com Scraper free</a>
- <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">Try the Booking.com Scraper free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
 
- <div class="toc">
- <h2>In this tutorial</h2>
- <ol>
- <li><a href="#what-you-get">What data you get</a></li>
- <li><a href="#prerequisites">Prerequisites</a></li>
- <li><a href="#step-1">Step 1: Open the actor</a></li>
- <li><a href="#step-2">Step 2: Set destination and dates</a></li>
- <li><a href="#step-3">Step 3: Run and watch the results</a></li>
- <li><a href="#step-4">Step 4: Export your results</a></li>
- <li><a href="#pricing">Pricing</a></li>
- <li><a href="#use-cases">Common use cases</a></li>
- <li><a href="#n8n-automation">Automate with n8n</a></li>
- <li><a href="#faq">FAQ</a></li>
- </ol>
- </div>
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What data you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Set destination and dates</a></li>
+        <li><a href="#step-3">Step 3: Run and watch the results</a></li>
+        <li><a href="#step-4">Step 4: Export your results</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#use-cases">Common use cases</a></li>
+        <li><a href="#n8n-automation">Automate with n8n</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
 
- <h2 id="what-you-get">What data you get</h2>
- <p>Each hotel result contains 19+ structured fields. Here is a sample record from a Paris search:</p>
- <div class="code-block"><pre>{
- "name": "Mercure Tour Eiffel Grenelle",
- "url": "https://www.booking.com/hotel/fr/mercure-paris-tour-eiffel-grenelle.html",
- "star_rating": 4,
- "review_score": 8.2,
- "review_count": 1099,
- "review_score_word": "Wonderful",
- "price": 516.56,
- "price_per_night": 258.28,
- "currency": "USD",
- "original_price": 603.00,
- "discount_badge": "Limited-time Deal",
- "free_cancellation": true,
- "free_cancellation_until": "2026-08-20",
- "is_sold_out": false,
- "address": "64, Boulevard de Grenelle",
- "latitude": 48.8503,
- "longitude": 2.2912,
- "distance_from_center": "1.2 miles from downtown",
- "meal_plan": 0
-}</pre></div>
- <h3>Available fields</h3>
- <ul>
- <li><code class="code-inline">name</code>: hotel display name.</li>
- <li><code class="code-inline">url</code>: direct Booking.com link for the property.</li>
- <li><code class="code-inline">star_rating</code>: official star classification (1-5).</li>
- <li><code class="code-inline">review_score</code>: aggregate guest score out of 10.</li>
- <li><code class="code-inline">review_count</code>: total number of guest reviews.</li>
- <li><code class="code-inline">review_score_word</code>: Booking.com label such as Wonderful or Superb.</li>
- <li><code class="code-inline">price</code>: total price for the full stay.</li>
- <li><code class="code-inline">price_per_night</code>: nightly rate.</li>
- <li><code class="code-inline">currency</code>: ISO 4217 currency code.</li>
- <li><code class="code-inline">original_price</code>: pre-discount price when a deal is active.</li>
- <li><code class="code-inline">discount_badge</code>: deal label, for example Limited-time Deal.</li>
- <li><code class="code-inline">free_cancellation</code>: boolean, true when free cancellation is available.</li>
- <li><code class="code-inline">free_cancellation_until</code>: deadline date for free cancellation.</li>
- <li><code class="code-inline">is_sold_out</code>: boolean, true when no rooms are available for the dates.</li>
- <li><code class="code-inline">address</code>: street address.</li>
- <li><code class="code-inline">latitude</code> / <code class="code-inline">longitude</code>: GPS coordinates for mapping.</li>
- <li><code class="code-inline">distance_from_center</code>: distance string as shown by Booking.com.</li>
- <li><code class="code-inline">meal_plan</code>: 0 = room only, 1 = breakfast included.</li>
- </ul>
- <div class="callout tip"><strong>Price tracking tip:</strong> Run the same search weekly and store results in a spreadsheet. The <code class="code-inline">original_price</code> and <code class="code-inline">discount_badge</code> fields let you spot when a hotel's rate drops and whether it's a genuine deal or just marketing.</div>
+    <h2 id="what-you-get">What data you get</h2>
+    <p>Each hotel result contains 19+ structured fields. Here is a sample record from a Paris search:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "name": "Mercure Tour Eiffel Grenelle",
+  "url": "https://www.booking.com/hotel/fr/mercure-paris-tour-eiffel-grenelle.html",
+  "star_rating": 4,
+  "review_score": 8.2,
+  "review_count": 1099,
+  "review_score_word": "Wonderful",
+  "price": 516.56,
+  "price_per_night": 258.28,
+  "currency": "USD",
+  "original_price": 603.00,
+  "discount_badge": "Limited-time Deal",
+  "free_cancellation": true,
+  "free_cancellation_until": "2026-08-20",
+  "is_sold_out": false,
+  "address": "64, Boulevard de Grenelle",
+  "latitude": 48.8503,
+  "longitude": 2.2912,
+  "distance_from_center": "1.2 miles from downtown",
+  "meal_plan": 0
+}</code></pre></div>
+    <h3>Available fields</h3>
+    <ul>
+        <li><code class="code-inline">name</code>: hotel display name.</li>
+        <li><code class="code-inline">url</code>: direct Booking.com link for the property.</li>
+        <li><code class="code-inline">star_rating</code>: official star classification (1-5).</li>
+        <li><code class="code-inline">review_score</code>: aggregate guest score out of 10.</li>
+        <li><code class="code-inline">review_count</code>: total number of guest reviews.</li>
+        <li><code class="code-inline">review_score_word</code>: Booking.com label such as Wonderful or Superb.</li>
+        <li><code class="code-inline">price</code>: total price for the full stay.</li>
+        <li><code class="code-inline">price_per_night</code>: nightly rate.</li>
+        <li><code class="code-inline">currency</code>: ISO 4217 currency code.</li>
+        <li><code class="code-inline">original_price</code>: pre-discount price when a deal is active.</li>
+        <li><code class="code-inline">discount_badge</code>: deal label, for example Limited-time Deal.</li>
+        <li><code class="code-inline">free_cancellation</code>: boolean, true when free cancellation is available.</li>
+        <li><code class="code-inline">free_cancellation_until</code>: deadline date for free cancellation.</li>
+        <li><code class="code-inline">is_sold_out</code>: boolean, true when no rooms are available for the dates.</li>
+        <li><code class="code-inline">address</code>: street address.</li>
+        <li><code class="code-inline">latitude</code> / <code class="code-inline">longitude</code>: GPS coordinates for mapping.</li>
+        <li><code class="code-inline">distance_from_center</code>: distance string as shown by Booking.com.</li>
+        <li><code class="code-inline">meal_plan</code>: 0 = room only, 1 = breakfast included.</li>
+      </ul>
+    <div class="callout tip"><strong>Price tracking tip:</strong> Run the same search weekly and store results in a spreadsheet. The <code class="code-inline">original_price</code> and <code class="code-inline">discount_badge</code> fields let you spot when a hotel's rate drops and whether it's a genuine deal or just marketing.</div>
 
- <h2 id="prerequisites">Prerequisites</h2>
- <ul>
- <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">the actor page</a>. The free tier includes $5 of credit every month -- enough for around 1,600 hotel results.</li>
- <li>A destination and travel date range. The actor accepts city names, regions, or countries in any language Booking.com supports.</li>
- </ul>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">the actor page</a>. The free tier includes $5 of credit every month -- enough for around 1,600 hotel results.</li>
+        <li>A destination and travel date range. The actor accepts city names, regions, or countries in any language Booking.com supports.</li>
+      </ul>
 
- <div class="step" id="step-1">
- <span class="step-number">STEP 1</span>
- <h2>Open the actor</h2>
- <ol>
- <li>Go to the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">Booking.com Hotel Scraper on Apify</a>.</li>
- <li>Click <strong>Try for free</strong> and sign in with Google or email. No credit card required.</li>
- <li>You land on the <strong>Input</strong> tab, ready to configure your search.</li>
- </ol>
- <figure>
- <img src="assets/02-booking-com-scraper-actor-page.png" alt="Apify Console showing the Booking.com Hotel Scraper actor page with the Information tab active, displaying the actor description, pricing, and Try for free button" loading="lazy" width="3200" height="2000">
- <figcaption>The actor page on Apify. Click Try for free to open the input form.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the actor</h2>
+      <ol>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">Booking.com Hotel Scraper on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong> and sign in with Google or email. No credit card required.</li>
+        <li>You land on the <strong>Input</strong> tab, ready to configure your search.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-booking-com-scraper-actor-page.png" alt="Apify Console showing the Booking.com Hotel Scraper actor page with the Information tab active, displaying the actor description, pricing, and Try for free button" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor page on Apify. Click Try for free to open the input form.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-2">
- <span class="step-number">STEP 2</span>
- <h2>Set destination and dates</h2>
- <p>The form has a handful of inputs. Most have sensible defaults -- the only required field is <strong>Destination</strong>.</p>
- <ul>
- <li><strong>Destination</strong> (required): city, region, or country. Examples: <code class="code-inline">Paris</code>, <code class="code-inline">Tuscany</code>, <code class="code-inline">Japan</code>.</li>
- <li><strong>Check-in / Check-out</strong>: dates in YYYY-MM-DD format. Defaults to tomorrow for one night if left empty.</li>
- <li><strong>Adults</strong>: number of adult guests. Default: 2.</li>
- <li><strong>Sort By</strong>: <code class="code-inline">POPULARITY</code> (default), <code class="code-inline">PRICE</code>, <code class="code-inline">REVIEW_SCORE</code>, or <code class="code-inline">DISTANCE</code>.</li>
- <li><strong>Max Results</strong>: how many hotels to scrape. Default: 100. Set to 0 for all available results.</li>
- <li><strong>Currency</strong>: ISO 4217 code. Default: EUR. Use USD, GBP, etc. as needed.</li>
- </ul>
- <p>For programmatic access, switch to the <strong>JSON editor</strong> and paste an input object directly:</p>
- <div class="code-block"><pre>{
- "destination": "Barcelona",
- "checkin": "2026-09-12",
- "checkout": "2026-09-15",
- "adults": 2,
- "currency": "EUR",
- "sortBy": "PRICE",
- "maxResults": 50
-}</pre></div>
- <figure>
- <img src="assets/03-booking-com-scraper-input-form.png" alt="Apify Console showing the Booking.com Hotel Scraper input form with destination set to Barcelona, check-in and check-out dates filled in, and maxResults set to 50" loading="lazy" width="3200" height="2000">
- <figcaption>Input form with a Barcelona weekend search configured. Switch to JSON editor for batch or automated runs.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Set destination and dates</h2>
+      <p>The form has a handful of inputs. Most have sensible defaults -- the only required field is <strong>Destination</strong>.</p>
+      <ul>
+        <li><strong>Destination</strong> (required): city, region, or country. Examples: <code class="code-inline">Paris</code>, <code class="code-inline">Tuscany</code>, <code class="code-inline">Japan</code>.</li>
+        <li><strong>Check-in / Check-out</strong>: dates in YYYY-MM-DD format. Defaults to tomorrow for one night if left empty.</li>
+        <li><strong>Adults</strong>: number of adult guests. Default: 2.</li>
+        <li><strong>Sort By</strong>: <code class="code-inline">POPULARITY</code> (default), <code class="code-inline">PRICE</code>, <code class="code-inline">REVIEW_SCORE</code>, or <code class="code-inline">DISTANCE</code>.</li>
+        <li><strong>Max Results</strong>: how many hotels to scrape. Default: 100. Set to 0 for all available results.</li>
+        <li><strong>Currency</strong>: ISO 4217 code. Default: EUR. Use USD, GBP, etc. as needed.</li>
+      </ul>
+      <p>For programmatic access, switch to the <strong>JSON editor</strong> and paste an input object directly:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "destination": "Barcelona",
+  "checkin": "2026-09-12",
+  "checkout": "2026-09-15",
+  "adults": 2,
+  "currency": "EUR",
+  "sortBy": "PRICE",
+  "maxResults": 50
+}</code></pre></div>
+      <figure>
+      <img src="assets/03-booking-com-scraper-input-form.png" alt="Apify Console showing the Booking.com Hotel Scraper input form with destination set to Barcelona, check-in and check-out dates filled in, and maxResults set to 50" loading="lazy" width="3200" height="2000">
+      <figcaption>Input form with a Barcelona weekend search configured. Switch to JSON editor for batch or automated runs.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-3">
- <span class="step-number">STEP 3</span>
- <h2>Run and watch the results</h2>
- <p>Click <strong>Start</strong> at the top right. Results appear in the <strong>Results</strong> tab within seconds as the actor pages through the search. A run returning 100 hotels typically completes in under 30 seconds.</p>
- <div class="callout tip"><strong>How it works:</strong> The actor uses Booking.com's public GraphQL API with browser-mimic HTTP -- no browser, no cookies, no Selenium. This makes it significantly faster and cheaper than browser-based alternatives, and avoids JavaScript rendering failures.</div>
- <figure>
- <img src="assets/04-booking-com-scraper-run-log.png" alt="Apify Console run log for the Booking.com Hotel Scraper showing successful page fetches and hotel count incrementing in real time" loading="lazy" width="3200" height="2000">
- <figcaption>Live log during a run. Hotel count climbs quickly as pages are fetched from Booking.com's GraphQL endpoint.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and watch the results</h2>
+      <p>Click <strong>Start</strong> at the top right. Results appear in the <strong>Results</strong> tab within seconds as the actor pages through the search. A run returning 100 hotels typically completes in under 30 seconds.</p>
+      <div class="callout tip"><strong>How it works:</strong> The actor uses Booking.com's internal GraphQL API with TLS fingerprinting -- no browser, no cookies, no Selenium. This makes it significantly faster and cheaper than browser-based alternatives, and avoids JavaScript rendering failures.</div>
+      <figure>
+      <img src="assets/04-booking-com-scraper-run-log.png" alt="Apify Console run log for the Booking.com Hotel Scraper showing successful page fetches and hotel count incrementing in real time" loading="lazy" width="3200" height="2000">
+      <figcaption>Live log during a run. Hotel count climbs quickly as pages are fetched from Booking.com's GraphQL endpoint.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-4">
- <span class="step-number">STEP 4</span>
- <h2>Export your results</h2>
- <p>From the <strong>Results</strong> tab, click <strong>Export</strong> to download in JSON, CSV, Excel, or HTML. For automated pipelines, use the Apify API or connect to <strong>Google Sheets</strong>, <strong>Airtable</strong>, or a webhook via the <strong>Integrations</strong> panel.</p>
- <div class="code-block"><pre># Download results as JSON via API
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Export your results</h2>
+      <p>From the <strong>Results</strong> tab, click <strong>Export</strong> to download in JSON, CSV, Excel, or HTML. For automated pipelines, use the Apify API or connect to <strong>Google Sheets</strong>, <strong>Airtable</strong>, or a webhook via the <strong>Integrations</strong> panel.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash"># Download results as JSON via API
 curl "https://api.apify.com/v2/datasets/{DATASET_ID}/items?format=json&amp;token={YOUR_API_TOKEN}" \
- --output hotels.json</pre></div>
- <div class="callout tip"><strong>Google Sheets integration:</strong> In the Integrations panel, click Google Sheets and connect your account. After each run, results append automatically to a sheet you choose -- useful for building a price-tracking dashboard without writing any code.</div>
- </div>
+  --output hotels.json</code></pre></div>
+      <div class="callout tip"><strong>Google Sheets integration:</strong> In the Integrations panel, click Google Sheets and connect your account. After each run, results append automatically to a sheet you choose -- useful for building a price-tracking dashboard without writing any code.</div>
+    </div>
 
- <h2 id="pricing">Pricing</h2>
- <p>The actor uses pay-per-result billing with no monthly fee and no minimum spend.</p>
- <ul>
- <li><strong>Actor start:</strong> $0.001 per run (one-time flat fee regardless of batch size).</li>
- <li><strong>Hotel result:</strong> $0.003 per hotel on the free tier.</li>
- <li>100 hotels costs roughly $0.30 all-in.</li>
- <li>1,000 hotels costs roughly $3.00 all-in.</li>
- </ul>
- <p>The free Apify account includes $5 of credit every month, which covers roughly 1,600 hotel results at no charge. Paid plans get volume discounts -- the cost drops to $0.00287 per hotel on the Gold tier and above.</p>
+    <h2 id="pricing">Pricing</h2>
+    <p>The actor uses pay-per-result billing with no monthly fee and no minimum spend.</p>
+    <ul>
+        <li><strong>Actor start:</strong> $0.001 per run (one-time flat fee regardless of batch size).</li>
+        <li><strong>Hotel result:</strong> $0.003 per hotel on the free tier.</li>
+        <li>100 hotels costs roughly $0.30 all-in.</li>
+        <li>1,000 hotels costs roughly $3.00 all-in.</li>
+      </ul>
+    <p>The free Apify account includes $5 of credit every month, which covers roughly 1,600 hotel results at no charge. Paid plans get volume discounts -- the cost drops to $0.00287 per hotel on the Gold tier and above.</p>
 
- <h2 id="use-cases">Common use cases</h2>
- <h3>Hotel price comparison and tracking</h3>
- <p>Run the same destination and date range on a schedule and store results by timestamp. The <code class="code-inline">price_per_night</code>, <code class="code-inline">original_price</code>, and <code class="code-inline">discount_badge</code> fields give you everything needed to spot price drops and compare deals across properties over time.</p>
- <h3>Competitive pricing intelligence for hotel operators</h3>
- <p>Extract all hotels in your city sorted by <code class="code-inline">REVIEW_SCORE</code> or <code class="code-inline">PRICE</code>. Filter by <code class="code-inline">star_rating</code> to benchmark only direct competitors. The <code class="code-inline">review_score_word</code> and <code class="code-inline">review_count</code> fields help you understand where you stand relative to the market.</p>
- <h3>Travel research and geo-mapping</h3>
- <p>Every result includes <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>, and <code class="code-inline">distance_from_center</code>. Feed these into a mapping tool like Kepler.gl or Google Maps to visualize hotel density, price gradients by neighborhood, or proximity to a venue.</p>
- <h3>Availability monitoring</h3>
- <p>The <code class="code-inline">is_sold_out</code> field tracks when specific hotels sell out for a given date window. Run nightly for a high-demand period (a conference, a public holiday) and you can identify demand peaks and the hotels that fill up first.</p>
+    <h2 id="use-cases">Common use cases</h2>
+    <h3>Hotel price comparison and tracking</h3>
+    <p>Run the same destination and date range on a schedule and store results by timestamp. The <code class="code-inline">price_per_night</code>, <code class="code-inline">original_price</code>, and <code class="code-inline">discount_badge</code> fields give you everything needed to spot price drops and compare deals across properties over time.</p>
+    <h3>Competitive pricing intelligence for hotel operators</h3>
+    <p>Extract all hotels in your city sorted by <code class="code-inline">REVIEW_SCORE</code> or <code class="code-inline">PRICE</code>. Filter by <code class="code-inline">star_rating</code> to benchmark only direct competitors. The <code class="code-inline">review_score_word</code> and <code class="code-inline">review_count</code> fields help you understand where you stand relative to the market.</p>
+    <h3>Travel research and geo-mapping</h3>
+    <p>Every result includes <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>, and <code class="code-inline">distance_from_center</code>. Feed these into a mapping tool like Kepler.gl or Google Maps to visualize hotel density, price gradients by neighborhood, or proximity to a venue.</p>
+    <h3>Availability monitoring</h3>
+    <p>The <code class="code-inline">is_sold_out</code> field tracks when specific hotels sell out for a given date window. Run nightly for a high-demand period (a conference, a public holiday) and you can identify demand peaks and the hotels that fill up first.</p>
 
- <h2 id="n8n-automation">Automate with n8n</h2>
- <p>To track hotel prices on a schedule -- for example, every Monday morning for the following weekend -- connect the actor to <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a> using the Apify node.</p>
- <ol>
- <li>In <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a>, add a <strong>Schedule</strong> trigger set to weekly.</li>
- <li>Add an <strong>Apify</strong> node, select <strong>Run Actor</strong>, and enter <code class="code-inline">santamaria-automations/booking-com-scraper</code> as the actor ID.</li>
- <li>Set the input JSON with your destination and date range.</li>
- <li>Add a <strong>Google Sheets</strong> or <strong>Airtable</strong> node to append each week's results to a tracking spreadsheet.</li>
- <li>Optionally add an <strong>If</strong> node to send an email or Slack notification when <code class="code-inline">price_per_night</code> drops below a threshold.</li>
- </ol>
- <div class="callout tip">n8n's Apify node handles polling automatically -- it starts the actor run and waits for completion before passing results to the next node. No custom API calls needed.</div>
+    <h2 id="n8n-automation">Automate with n8n</h2>
+    <p>To track hotel prices on a schedule -- for example, every Monday morning for the following weekend -- connect the actor to <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a> using the Apify node.</p>
+    <ol>
+        <li>In <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n</a>, add a <strong>Schedule</strong> trigger set to weekly.</li>
+        <li>Add an <strong>Apify</strong> node, select <strong>Run Actor</strong>, and enter <code class="code-inline">santamaria-automations/booking-com-scraper</code> as the actor ID.</li>
+        <li>Set the input JSON with your destination and date range.</li>
+        <li>Add a <strong>Google Sheets</strong> or <strong>Airtable</strong> node to append each week's results to a tracking spreadsheet.</li>
+        <li>Optionally add an <strong>If</strong> node to send an email or Slack notification when <code class="code-inline">price_per_night</code> drops below a threshold.</li>
+      </ol>
+    <div class="callout tip">n8n's Apify node handles polling automatically -- it starts the actor run and waits for completion before passing results to the next node. No custom API calls needed.</div>
 
- <h2 id="faq">FAQ</h2>
- <div class="faq">
- <details>
- <summary>Do I need a Booking.com account or API key?</summary>
- <p>No. The actor uses Booking.com's internal GraphQL API without authentication. No account, no API key, and no session cookies are required.</p>
- </details>
- <details>
- <summary>How accurate are the prices?</summary>
- <p>Prices reflect what Booking.com shows at the moment of the run for the exact dates and guest configuration you entered. They include taxes and fees when Booking.com displays them that way. For the most accurate prices, match the currency and guest count of your actual search.</p>
- </details>
- <details>
- <summary>Can I scrape hotel reviews?</summary>
- <p>Not yet. The current actor returns the aggregate review score and review count per hotel, but not individual review text. If you need review-level data, check the <a target="_blank" rel="noopener" href="/actors/">NanoScrape actor catalog</a> for future additions.</p>
- </details>
- <details>
- <summary>How many hotels can I scrape at once?</summary>
- <p>Set <code class="code-inline">maxResults</code> to <code class="code-inline">0</code> to scrape all hotels Booking.com returns for that search (typically up to a few thousand per city). For very large cities like Paris or New York, Booking.com caps its own search results at around 2,000 per query regardless of your setting.</p>
- </details>
- <details>
- <summary>Can I track prices for a specific hotel over time?</summary>
- <p>Yes. Run the same city search on a schedule and filter results by hotel name or Booking.com hotel ID. Alternatively, sort by <code class="code-inline">PRICE</code> and export to a spreadsheet each time -- the ID field is stable, so you can <code class="code-inline">VLOOKUP</code> or join across runs.</p>
- </details>
- <details>
- <summary>What does the free Apify tier cover?</summary>
- <p>The free tier includes $5 of compute credit per month. At $0.003 per hotel, that covers around 1,600 hotel results before any charges apply. Most single-destination searches (100 to 500 hotels) fit comfortably within the free tier.</p>
- </details>
- <details>
- <summary>Is the actor blocked by Booking.com?</summary>
- <p>The actor mimics a browser's network profile transparently and calls Booking.com's internal GraphQL endpoint rather than scraping rendered HTML. This approach has proven reliable. If you see a FAILED run, check the log -- the most common cause is an invalid destination string or a date in the past.</p>
- </details>
- </div>
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need a Booking.com account or API key?</summary>
+        <p>No. The actor uses Booking.com's internal GraphQL API without authentication. No account, no API key, and no session cookies are required.</p>
+      </details>
+      <details>
+        <summary>How accurate are the prices?</summary>
+        <p>Prices reflect what Booking.com shows at the moment of the run for the exact dates and guest configuration you entered. They include taxes and fees when Booking.com displays them that way. For the most accurate prices, match the currency and guest count of your actual search.</p>
+      </details>
+      <details>
+        <summary>Can I scrape hotel reviews?</summary>
+        <p>Not yet. The current actor returns the aggregate review score and review count per hotel, but not individual review text. If you need review-level data, check the <a target="_blank" rel="noopener" href="/actors/">NanoScrape actor catalog</a> for future additions.</p>
+      </details>
+      <details>
+        <summary>How many hotels can I scrape at once?</summary>
+        <p>Set <code class="code-inline">maxResults</code> to <code class="code-inline">0</code> to scrape all hotels Booking.com returns for that search (typically up to a few thousand per city). For very large cities like Paris or New York, Booking.com caps its own search results at around 2,000 per query regardless of your setting.</p>
+      </details>
+      <details>
+        <summary>Can I track prices for a specific hotel over time?</summary>
+        <p>Yes. Run the same city search on a schedule and filter results by hotel name or Booking.com hotel ID. Alternatively, sort by <code class="code-inline">PRICE</code> and export to a spreadsheet each time -- the ID field is stable, so you can <code class="code-inline">VLOOKUP</code> or join across runs.</p>
+      </details>
+      <details>
+        <summary>What does the free Apify tier cover?</summary>
+        <p>The free tier includes $5 of compute credit per month. At $0.003 per hotel, that covers around 1,600 hotel results before any charges apply. Most single-destination searches (100 to 500 hotels) fit comfortably within the free tier.</p>
+      </details>
+      <details>
+        <summary>Is the actor blocked by Booking.com?</summary>
+        <p>The actor uses TLS fingerprinting to mimic a browser's network profile and calls Booking.com's internal GraphQL endpoint rather than scraping rendered HTML. This approach has proven reliable. If you see a FAILED run, check the log -- the most common cause is an invalid destination string or a date in the past.</p>
+      </details>
+    </div>
 
- <h2>Related resources</h2>
- <ul>
- <li><a href="/actors/booking-com-scraper/">Booking.com Hotel Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">Booking.com Hotel Scraper on Apify</a>: Actor documentation, changelog, and usage statistics.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: Collect local business data including hotels from Google Maps -- useful for cross-referencing with Booking.com results.</li>
- <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the NanoScrape catalog.</li>
- </ul>
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/booking-com-scraper/">Booking.com Hotel Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz">Booking.com Hotel Scraper on Apify</a>: Actor documentation, changelog, and usage statistics.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: Collect local business data including hotels from Google Maps -- useful for cross-referencing with Booking.com results.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the NanoScrape catalog.</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">Try the Booking.com Scraper free</a>
- <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
- </div>
- </article>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">Try the Booking.com Scraper free</a>
+      <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
+    </div>
+  </article>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -182,8 +186,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -271,7 +289,7 @@
       </ul>
 
     <h2 id="top-10">Top 10 ATS platforms by F500 deployment count</h2>
-    <div class="code-block"><pre>Rank  ATS Platform          F500 Companies  Share    Category
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Rank  ATS Platform          F500 Companies  Share    Category
 ----------------------------------------------------------------
   1   Custom (in-house)             136        27.2%  Bespoke
   2   Workday                       118        23.6%  Enterprise SaaS
@@ -282,11 +300,11 @@
   7   TalentBrew (TMP Worldwide)     22         4.4%  Agency platform
   8   Eightfold                      16         3.2%  AI-native
   9   Paradox                         15         3.0%  Conversational AI
- 10   Taleo (Oracle - legacy)          8         1.6%  Legacy enterprise</pre></div>
+ 10   Taleo (Oracle - legacy)          8         1.6%  Legacy enterprise</code></pre></div>
 
     <h2 id="by-industry">ATS distribution by industry</h2>
     <p>Workday dominates in Technology and Banking (highest concentration). Phenom is a retail + healthcare specialist. Oracle Recruiting Cloud is oversized in Banking &amp; Financial Services. Custom sites concentrate in Big Tech and Retail (Amazon, Walmart, Apple).</p>
-    <div class="code-block"><pre>Sector                         Top 3 ATS platforms (companies)
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Sector                         Top 3 ATS platforms (companies)
 ----------------------------------------------------------------
 Retail &amp;amp; Consumer Goods       Phenom (11), Workday (14), Custom (18)
 Technology                     Custom (30), Workday (15), Phenom (3)
@@ -294,7 +312,7 @@ Banking &amp;amp; Financial Services  Workday (18), Oracle Recruiting (12), Phen
 Manufacturing &amp;amp; Industrial    Workday (17), TalentBrew (5), Phenom (5)
 Energy &amp;amp; Utilities            Workday (13), TalentBrew (5), Custom (11)
 Healthcare &amp;amp; Pharma           Phenom (10), Workday (12), Custom (8)
-Insurance                      iCIMS (10), Workday (13), Custom (7)</pre></div>
+Insurance                      iCIMS (10), Workday (13), Custom (7)</code></pre></div>
     <p>(Numbers approximate; based on the September 2026 audit. Full per-company data in the CSV.)</p>
 
     <h2 id="trends">Notable trends</h2>
@@ -363,5 +381,29 @@ Insurance                      iCIMS (10), Workday (13), Custom (7)</pre></div>
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

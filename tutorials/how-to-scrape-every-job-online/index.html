@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -194,8 +198,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -250,7 +268,7 @@
 
     <div class="ctas">
       <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
     </div>
 
     <div class="toc">
@@ -313,17 +331,17 @@
     <p>Go to <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">apify.com/santamaria-automations/jobbank-ca-scraper</a> and click <strong>Try for free</strong>. This opens the Apify Console with a pre-configured input form. You do not need a credit card - the Apify free tier ($5/month) is more than enough for a test run.</p>
     <h3>Step 2 - Paste the input JSON</h3>
     <p>Switch the input tab from the visual form to <strong>JSON</strong> mode and paste the following:</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "keywords": "software developer",
   "location": "Ontario",
   "maxItems": 50
-}</pre></div>
+}</code></pre></div>
     <p>This searches for software developer roles in Ontario with a limit of 50 results. You can change <code>keywords</code> to any job title and <code>location</code> to any Canadian province or city. Remove <code>location</code> entirely to search across all of Canada.</p>
     <h3>Step 3 - Click Start and wait</h3>
     <p>Click <strong>Start</strong>. The run typically finishes in under 30 seconds for 50 results. When the status indicator turns green, click the <strong>Results</strong> tab to see your data.</p>
     <h3>Step 4 - Inspect the output</h3>
     <p>Each result row is a structured job object. A typical output item looks like this:</p>
-    <div class="code-block"><pre>[
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">[
   {
     "job_url": "https://www.jobbank.gc.ca/jobsearch/jobposting/40812345",
     "title": "Senior Software Developer",
@@ -352,7 +370,7 @@
     "vacancies": 1,
     "description": "Maple Digital is hiring a Full Stack Developer for our SaaS team..."
   }
-]</pre></div>
+]</code></pre></div>
     <div class="callout tip"><strong>Next steps after your first run:</strong> export the dataset as CSV or JSON from the Results tab, then follow the same four steps with any other actor in the catalog. Every NanoScrape job scraper uses the same Apify Console workflow - only the input fields differ.</div>
 
     <h2 id="catalog">The catalog: 86 job scrapers by country</h2>
@@ -564,7 +582,7 @@
 
     <div class="ctas" style="margin-top:40px">
       <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
     </div>
   </article>
 
@@ -572,5 +590,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

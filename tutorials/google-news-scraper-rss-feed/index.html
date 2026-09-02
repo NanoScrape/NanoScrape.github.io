@@ -1,556 +1,598 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>How to Turn Google News into an RSS Feed (2026 Guide) | NanoScrape</title>
- <meta name="description" content="Step-by-step guide to scraping Google News articles by keyword and converting them into structured data you can use like an RSS feed. Runs on Apify, costs $0.001 per article, no subscription needed.">
- <meta name="primary-keyword" content="google news to rss">
- <meta name="robots" content="noindex, nofollow">
- <meta property="og:title" content="How to Turn Google News into an RSS Feed | NanoScrape">
- <meta property="og:description" content="Google removed its News RSS feeds years ago. This guide shows how to replace them with a structured keyword scraper that returns titles, sources, publication dates, and article links at $0.001 per result.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
- <meta property="og:type" content="article">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Turn Google News into an RSS Feed (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping Google News articles by keyword and converting them into structured data you can use like an RSS feed. Runs on Apify, costs $0.001 per article, no subscription needed.">
+  <meta name="primary-keyword" content="google news to rss">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Turn Google News into an RSS Feed | NanoScrape">
+  <meta property="og:description" content="Google removed its News RSS feeds years ago. This guide shows how to replace them with a structured keyword scraper that returns titles, sources, publication dates, and article links at $0.001 per result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
- <script type="application/ld+json">
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "HowTo",
- "name": "How to Turn Google News into an RSS Feed",
- "description": "Use the NanoScrape Google News Scraper on Apify to pull structured article data for any search query, replacing the old Google News RSS feeds that were discontinued. Returns titles, sources, publication dates, and direct article links.",
- "totalTime": "PT8M",
- "estimatedCost": {
- "@type": "MonetaryAmount",
- "currency": "USD",
- "value": "0.01"
- },
- "supply": [
- {
- "@type": "HowToSupply",
- "name": "Free Apify account"
- },
- {
- "@type": "HowToSupply",
- "name": "List of topics or keywords to monitor"
- }
- ],
- "tool": [
- {
- "@type": "HowToTool",
- "name": "Apify"
- },
- {
- "@type": "HowToTool",
- "name": "NanoScrape Google News Scraper"
- }
- ],
- "step": [
- {
- "@type": "HowToStep",
- "name": "Create a free Apify account",
- "text": "Sign up for a free Apify account at apify.com. The free tier gives $5 of credit every month."
- },
- {
- "@type": "HowToStep",
- "name": "Open the Google News Scraper",
- "text": "Navigate to the NanoScrape Google News Scraper on Apify and review the Information tab."
- },
- {
- "@type": "HowToStep",
- "name": "Enter your keywords",
- "text": "Click the Input tab and add your search keywords in the Search Queries field."
- },
- {
- "@type": "HowToStep",
- "name": "Run and export the results",
- "text": "Click Start, wait for the run to finish, then open the Dataset tab to download the articles."
- },
- {
- "@type": "HowToStep",
- "name": "Schedule a daily news feed",
- "text": "In Apify Console, set up a scheduled run so your news feed refreshes automatically every day."
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Turn Google News into an RSS Feed",
+  "description": "Use the NanoScrape Google News Scraper on Apify to pull structured article data for any search query, replacing the old Google News RSS feeds that were discontinued. Returns titles, sources, publication dates, and direct article links.",
+  "totalTime": "PT8M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.01"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of topics or keywords to monitor"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Google News Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Create a free Apify account",
+      "text": "Sign up for a free Apify account at apify.com. The free tier gives $5 of credit every month."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Open the Google News Scraper",
+      "text": "Navigate to the NanoScrape Google News Scraper on Apify and review the Information tab."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Enter your keywords",
+      "text": "Click the Input tab and add your search keywords in the Search Queries field."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and export the results",
+      "text": "Click Start, wait for the run to finish, then open the Dataset tab to download the articles."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule a daily news feed",
+      "text": "In Apify Console, set up a scheduled run so your news feed refreshes automatically every day."
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "How to Turn Google News into an RSS Feed",
- "description": "A complete guide to replacing Google News RSS feeds with the NanoScrape Google News Scraper: keyword setup, scheduling for regular pulls, language and country targeting, and exporting structured article data.",
- "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
- "author": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com"
- },
- "publisher": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com",
- "logo": {
- "@type": "ImageObject",
- "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
- }
- },
- "datePublished": "2026-08-11",
- "dateModified": "2026-08-11",
- "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/"
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Turn Google News into an RSS Feed",
+  "description": "A complete guide to replacing Google News RSS feeds with the NanoScrape Google News Scraper: keyword setup, scheduling for regular pulls, language and country targeting, and exporting structured article data.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-11",
+  "dateModified": "2026-08-11",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/"
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
- "@type": "Question",
- "name": "Does Google News still have RSS feeds?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Google removed publicly shareable News RSS feeds from its interface. The RSS endpoint still works internally, but there is no simple subscribe button to get a personal feed URL. This actor fetches the feed on your behalf for any keyword."
- }
- },
- {
- "@type": "Question",
- "name": "How many articles can I get per keyword?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Google News RSS returns up to approximately 100 articles per search query. Set maxResultsPerQuery: 100 to pull the maximum. Niche topics may return fewer."
- }
- },
- {
- "@type": "Question",
- "name": "How recent are the articles?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Google News RSS typically returns articles from the last 30 to 90 days, most recent first. For breaking news topics, articles from the past few hours appear quickly."
- }
- },
- {
- "@type": "Question",
- "name": "Can I get the full article text?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "No. The scraper returns title, source, and URL from the Google News RSS feed. To get full article text you would need to follow the URL and scrape the publisher page separately."
- }
- },
- {
- "@type": "Question",
- "name": "Can I filter results by source or date?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Post-process the exported JSON to filter by source or published_at. Google also supports advanced search syntax in the query string, such as 'brand name' site:reuters.com to restrict to one publisher."
- }
- },
- {
- "@type": "Question",
- "name": "Can I monitor news in languages other than English?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Set language to any ISO 639-1 code and country to the matching ISO 3166-1 alpha-2 code. Google News has distinct regional editions."
- }
- },
- {
- "@type": "Question",
- "name": "Can I run it via the API or automate with n8n?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Use POST /v2/acts/santamaria-automations~google-news-scraper/runs via the Apify REST API or the JavaScript/Python SDKs. For n8n, use the Apify n8n node with the actor ID."
- }
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does Google News still have RSS feeds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google removed publicly shareable News RSS feeds from its interface. The RSS endpoint still works internally, but there is no simple subscribe button to get a personal feed URL. This actor fetches the feed on your behalf for any keyword."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many articles can I get per keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google News RSS returns up to approximately 100 articles per search query. Set maxResultsPerQuery: 100 to pull the maximum. Niche topics may return fewer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How recent are the articles?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google News RSS typically returns articles from the last 30 to 90 days, most recent first. For breaking news topics, articles from the past few hours appear quickly."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I get the full article text?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The scraper returns title, source, and URL from the Google News RSS feed. To get full article text you would need to follow the URL and scrape the publisher page separately."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I filter results by source or date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Post-process the exported JSON to filter by source or published_at. Google also supports advanced search syntax in the query string, such as 'brand name' site:reuters.com to restrict to one publisher."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I monitor news in languages other than English?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Set language to any ISO 639-1 code and country to the matching ISO 3166-1 alpha-2 code. Google News has distinct regional editions."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run it via the API or automate with n8n?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use POST /v2/acts/santamaria-automations~google-news-scraper/runs via the Apify REST API or the JavaScript/Python SDKs. For n8n, use the Apify n8n node with the actor ID."
+      }
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
- {
- "@type": "ListItem",
- "position": 1,
- "name": "Home",
- "item": "https://www.nanoscrape.com/"
- },
- {
- "@type": "ListItem",
- "position": 2,
- "name": "Tutorials",
- "item": "https://www.nanoscrape.com/tutorials/"
- },
- {
- "@type": "ListItem",
- "position": 3,
- "name": "How to Turn Google News into an RSS Feed",
- "item": "https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/"
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Turn Google News into an RSS Feed",
+      "item": "https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/"
+    }
+  ]
 }
- </script>
+  </script>
 
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
- .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
- .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
- .breadcrumb a { color: var(--muted); }
- .breadcrumb a:hover { color: var(--accent); }
- .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
- .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
- .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
- .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
- .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
- .article p { margin-bottom: 16px; }
- .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
- .article li { margin-bottom: 6px; color: var(--text); }
- .article li strong { color: var(--white); }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
 
- .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
- .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
- .toc ol { margin: 0; padding-left: 20px; }
- .toc li { margin-bottom: 4px; }
- .toc a { color: var(--text); }
- .toc a:hover { color: var(--accent); }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
 
- .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
- .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
- .article figure { margin: 24px 0 28px; }
- .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
- .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
- .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
- .article .figure-group figure { margin: 0; }
- @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
- .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
- .callout strong { color: var(--white); }
- .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
- .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
- .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
- .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
- .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
- .faq details[open] { border-color: var(--accent); }
- .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
- .faq summary::marker { color: var(--muted); }
- .faq details p { margin: 10px 0 4px; color: var(--text); }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
 
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .article h1 { font-size: 1.55rem; }
- .article h2 { font-size: 1.25rem; }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
- .draft-banner a { color: #0b0e14; text-decoration: underline; }
- </style>
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
 </head>
 <body>
- <div class="draft-banner">
- DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
- </div>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <article class="article">
- <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google News to RSS Feed</nav>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google News to RSS Feed</nav>
 
- <h1>How to Turn Google News into an RSS Feed</h1>
- <p class="lead">Google killed its News RSS feeds in 2014 and never brought them back. If you relied on those feeds to monitor topics, competitors, or brand mentions, you were left with manual checks or expensive media monitoring subscriptions. The NanoScrape Google News Scraper on Apify gives you a direct replacement: you give it a list of keywords, it pulls the Google News results for each one, and you get back a structured dataset with titles, sources, publication dates, and article URLs. Schedule it to run daily and you have a keyword news feed at $0.001 per article, with no monthly subscription.</p>
+    <h1>How to Turn Google News into an RSS Feed</h1>
+    <p class="lead">Google killed its News RSS feeds in 2014 and never brought them back. If you relied on those feeds to monitor topics, competitors, or brand mentions, you were left with manual checks or expensive media monitoring subscriptions. The NanoScrape Google News Scraper on Apify gives you a direct replacement: you give it a list of keywords, it pulls the Google News results for each one, and you get back a structured dataset with titles, sources, publication dates, and article URLs. Schedule it to run daily and you have a keyword news feed at $0.001 per article, with no monthly subscription.</p>
 
- <figure>
- <img src="assets/01-google-news-scraper-rss-feed-dataset-table.png" alt="Apify dataset table showing Google News articles returned by the Google News Scraper with columns for title, source, publication date, and URL" loading="lazy" width="3200" height="2000">
- <figcaption>The dataset output: one row per article with title, source, publisher URL, publication date, and the Google News article link.</figcaption>
- </figure>
+    <figure>
+      <img src="assets/01-google-news-scraper-rss-feed-dataset-table.png" alt="Apify dataset table showing Google News articles returned by the Google News Scraper with columns for title, source, publication date, and URL" loading="lazy" width="3200" height="2000">
+      <figcaption>The dataset output: one row per article with title, source, publisher URL, publication date, and the Google News article link.</figcaption>
+    </figure>
 
- <div class="meta-row">
- <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
- <div class="meta-item"><strong>Time:</strong> 8 minutes</div>
- <div class="meta-item"><strong>Cost:</strong> $0.001 per article; free tier covers first $5/month (~5,000 articles)</div>
- <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Google News Scraper</div>
- </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 8 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.001 per article; free tier covers first $5/month (~5,000 articles)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Google News Scraper</div>
+    </div>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open the Google News Scraper on Apify</a>
- <a href="#cost" class="btn-secondary">See pricing details</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open the Google News Scraper on Apify</a>
+      <a href="#cost" class="btn-secondary">See pricing details</a>
+    </div>
 
- <div class="toc">
- <h2>In this tutorial</h2>
- <ol>
- <li><a href="#what-you-get">What you get</a></li>
- <li><a href="#prerequisites">Prerequisites</a></li>
- <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
- <li><a href="#step-2">Step 2: Open the Google News Scraper</a></li>
- <li><a href="#step-3">Step 3: Enter your keywords</a></li>
- <li><a href="#step-4">Step 4: Run and export the results</a></li>
- <li><a href="#step-5">Step 5: Schedule a daily news feed</a></li>
- <li><a href="#advanced">Advanced: multi-language and brand monitoring</a></li>
- <li><a href="#mcp">Connect to AI agents via MCP</a></li>
- <li><a href="#fields">Key input and output fields</a></li>
- <li><a href="#cost">What it costs</a></li>
- <li><a href="#faq">FAQ</a></li>
- </ol>
- </div>
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
+        <li><a href="#step-2">Step 2: Open the Google News Scraper</a></li>
+        <li><a href="#step-3">Step 3: Enter your keywords</a></li>
+        <li><a href="#step-4">Step 4: Run and export the results</a></li>
+        <li><a href="#step-5">Step 5: Schedule a daily news feed</a></li>
+        <li><a href="#advanced">Advanced: multi-language and brand monitoring</a></li>
+        <li><a href="#mcp">Connect to AI agents via MCP</a></li>
+        <li><a href="#fields">Key input and output fields</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
 
- <h2 id="what-you-get">What you get</h2>
- <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">NanoScrape Google News Scraper</a> runs on Apify and queries the Google News RSS feed on your behalf. For each keyword you give it, it returns every article Google News surfaces: the cleaned article title, the publisher name, the publisher domain, the publication date in RFC 2822 format, and the Google News link to the article. Results are deduplicated across queries, so if the same article appears for two of your keywords you get one row.</p>
- <ul>
- <li><strong>Article title</strong>: cleaned text without the publisher suffix Google sometimes appends.</li>
- <li><strong>Source name</strong>: the publisher as Google News lists it (e.g. Reuters, TechCrunch, BBC).</li>
- <li><strong>Publisher URL</strong>: the publisher root domain (e.g. <code class="code-inline">https://www.reuters.com</code>).</li>
- <li><strong>Article URL</strong>: the Google News link. Clicking it redirects you to the publisher page.</li>
- <li><strong>Publication date</strong>: the date and time the article was published, in RFC 2822 format (e.g. <code class="code-inline">Mon, 31 Mar 2026 14:30:00 GMT</code>).</li>
- <li><strong>Search query</strong>: which keyword in your list matched this article.</li>
- <li><strong>Scraped at</strong>: ISO 8601 timestamp of when the row was collected.</li>
- </ul>
- <p>One run gives you a snapshot. Schedule the actor to run daily or hourly and you have a rolling news feed for any set of topics, brands, or competitors.</p>
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">NanoScrape Google News Scraper</a> runs on Apify and queries the Google News RSS feed on your behalf. For each keyword you give it, it returns every article Google News surfaces: the cleaned article title, the publisher name, the publisher domain, the publication date in RFC 2822 format, and the Google News link to the article. Results are deduplicated across queries, so if the same article appears for two of your keywords you get one row.</p>
+    <ul>
+        <li><strong>Article title</strong>: cleaned text without the publisher suffix Google sometimes appends.</li>
+        <li><strong>Source name</strong>: the publisher as Google News lists it (e.g. Reuters, TechCrunch, BBC).</li>
+        <li><strong>Publisher URL</strong>: the publisher root domain (e.g. <code class="code-inline">https://www.reuters.com</code>).</li>
+        <li><strong>Article URL</strong>: the Google News link. Clicking it redirects you to the publisher page.</li>
+        <li><strong>Publication date</strong>: the date and time the article was published, in RFC 2822 format (e.g. <code class="code-inline">Mon, 31 Mar 2026 14:30:00 GMT</code>).</li>
+        <li><strong>Search query</strong>: which keyword in your list matched this article.</li>
+        <li><strong>Scraped at</strong>: ISO 8601 timestamp of when the row was collected.</li>
+      </ul>
+    <p>One run gives you a snapshot. Schedule the actor to run daily or hourly and you have a rolling news feed for any set of topics, brands, or competitors.</p>
 
- <h2 id="prerequisites">Prerequisites</h2>
- <ul>
- <li>A free Apify account. The free tier gives $5 of monthly credit, enough for 5,000 article records.</li>
- <li>A list of topics, brand names, or keywords you want to monitor. One keyword per query.</li>
- </ul>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. The free tier gives $5 of monthly credit, enough for 5,000 article records.</li>
+        <li>A list of topics, brand names, or keywords you want to monitor. One keyword per query.</li>
+      </ul>
 
- <div class="step" id="step-1">
- <span class="step-number">STEP 1</span>
- <h2>Create a free Apify account</h2>
- <ol>
- <li>Open <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
- <li>Sign up with Google or email. The form takes about a minute.</li>
- <li>You land on the actor input form. The $5 free credit is added automatically.</li>
- </ol>
- <div class="callout tip"><strong>Already have an account?</strong> Click the actor link above and you land directly on the input form.</div>
- </div>
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create a free Apify account</h2>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Sign up with Google or email. The form takes about a minute.</li>
+        <li>You land on the actor input form. The $5 free credit is added automatically.</li>
+      </ol>
+      <div class="callout tip"><strong>Already have an account?</strong> Click the actor link above and you land directly on the input form.</div>
+    </div>
 
- <div class="step" id="step-2">
- <span class="step-number">STEP 2</span>
- <h2>Open the Google News Scraper</h2>
- <p>After signing in you are on the actor page. The <strong>Information</strong> tab shows the pricing, all input parameters, and example output. The <strong>Input</strong> tab is where you enter your keyword list.</p>
- <figure>
- <img src="assets/02-google-news-scraper-rss-feed-actor-information-tab.png" alt="Apify Console showing the NanoScrape Google News Scraper actor information tab with pricing and description" loading="lazy" width="3200" height="2000">
- <figcaption>The actor's Information tab: pricing per article, description of all output fields, and a quick-start summary.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Open the Google News Scraper</h2>
+      <p>After signing in you are on the actor page. The <strong>Information</strong> tab shows the pricing, all input parameters, and example output. The <strong>Input</strong> tab is where you enter your keyword list.</p>
+      <figure>
+      <img src="assets/02-google-news-scraper-rss-feed-actor-information-tab.png" alt="Apify Console showing the NanoScrape Google News Scraper actor information tab with pricing and description" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor's Information tab: pricing per article, description of all output fields, and a quick-start summary.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-3">
- <span class="step-number">STEP 3</span>
- <h2>Enter your keywords</h2>
- <p>Click <strong>Input</strong> in the left sidebar. Add one keyword per line in the <strong>Search Queries</strong> field. Each keyword runs as a separate Google News search and its results are merged into a single deduplicated dataset.</p>
- <div class="code-block"><pre>{
- "searchQueries": [
- "your brand name",
- "competitor brand name",
- "industry topic you track"
- ],
- "language": "en",
- "country": "US",
- "maxResults": 100,
- "maxResultsPerQuery": 50
-}</pre></div>
- <p>Key input settings:</p>
- <ul>
- <li><code class="code-inline">searchQueries</code>: your keyword list. Use the exact phrases you want Google News to search. Brand names, product names, topic phrases, and competitor names all work.</li>
- <li><code class="code-inline">language</code>: ISO 639-1 language code (default <code class="code-inline">en</code>). Controls which language edition of Google News the scraper reads. Use <code class="code-inline">de</code>, <code class="code-inline">fr</code>, <code class="code-inline">es</code> for non-English markets.</li>
- <li><code class="code-inline">country</code>: ISO 3166-1 alpha-2 country code (default <code class="code-inline">US</code>). Use <code class="code-inline">GB</code>, <code class="code-inline">DE</code>, <code class="code-inline">AU</code> to get regional editions of Google News.</li>
- <li><code class="code-inline">maxResults</code>: total cap across all queries in a single run (default 100).</li>
- <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 50, max approximately 100). Google News RSS returns up to about 100 articles per query.</li>
- </ul>
- <figure>
- <img src="assets/03-google-news-scraper-rss-feed-input-form.png" alt="Apify Console Google News Scraper input form with search queries field showing three brand monitoring keywords" loading="lazy" width="3200" height="2000">
- <figcaption>The Input tab with a keyword list for brand and topic monitoring. Each keyword produces results as separate rows in the dataset.</figcaption>
- </figure>
- <div class="callout tip">Start with 3 to 5 keywords for your first test. A run with 5 keywords at 50 articles each completes in about 30 seconds and uses only $0.005 to $0.25 in credits, depending on how many articles Google returns.</div>
- </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Enter your keywords</h2>
+      <p>Click <strong>Input</strong> in the left sidebar. Add one keyword per line in the <strong>Search Queries</strong> field. Each keyword runs as a separate Google News search and its results are merged into a single deduplicated dataset.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "your brand name",
+    "competitor brand name",
+    "industry topic you track"
+  ],
+  "language": "en",
+  "country": "US",
+  "maxResults": 100,
+  "maxResultsPerQuery": 50
+}</code></pre></div>
+      <p>Key input settings:</p>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: your keyword list. Use the exact phrases you want Google News to search. Brand names, product names, topic phrases, and competitor names all work.</li>
+        <li><code class="code-inline">language</code>: ISO 639-1 language code (default <code class="code-inline">en</code>). Controls which language edition of Google News the scraper reads. Use <code class="code-inline">de</code>, <code class="code-inline">fr</code>, <code class="code-inline">es</code> for non-English markets.</li>
+        <li><code class="code-inline">country</code>: ISO 3166-1 alpha-2 country code (default <code class="code-inline">US</code>). Use <code class="code-inline">GB</code>, <code class="code-inline">DE</code>, <code class="code-inline">AU</code> to get regional editions of Google News.</li>
+        <li><code class="code-inline">maxResults</code>: total cap across all queries in a single run (default 100).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 50, max approximately 100). Google News RSS returns up to about 100 articles per query.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-google-news-scraper-rss-feed-input-form.png" alt="Apify Console Google News Scraper input form with search queries field showing three brand monitoring keywords" loading="lazy" width="3200" height="2000">
+      <figcaption>The Input tab with a keyword list for brand and topic monitoring. Each keyword produces results as separate rows in the dataset.</figcaption>
+    </figure>
+      <div class="callout tip">Start with 3 to 5 keywords for your first test. A run with 5 keywords at 50 articles each completes in about 30 seconds and uses only $0.005 to $0.25 in credits, depending on how many articles Google returns.</div>
+    </div>
 
- <div class="step" id="step-4">
- <span class="step-number">STEP 4</span>
- <h2>Run and export the results</h2>
- <ol>
- <li>Click <strong>Start</strong> at the bottom of the Input tab.</li>
- <li>The run opens automatically. The <strong>Log</strong> tab shows progress as articles are collected.</li>
- <li>When the status bar shows <strong>SUCCEEDED</strong>, click <strong>Dataset</strong> in the left sidebar.</li>
- <li>The table shows one row per article. To download, click <strong>Export</strong> and choose JSON, CSV, or XLSX.</li>
- </ol>
- <figure>
- <img src="assets/04-google-news-scraper-rss-feed-run-log.png" alt="Apify run log for the Google News Scraper showing articles being collected with status SUCCEEDED" loading="lazy" width="3200" height="2000">
- <figcaption>The run log. The status bar updates with the article count as the run progresses.</figcaption>
- </figure>
- <p>Each row in the dataset is one article. To process the results programmatically, download as JSON and filter by date to show only articles from the last 24 hours:</p>
- <div class="code-block"><pre>const articles = require('./dataset.json');
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Run and export the results</h2>
+      <ol>
+        <li>Click <strong>Start</strong> at the bottom of the Input tab.</li>
+        <li>The run opens automatically. The <strong>Log</strong> tab shows progress as articles are collected.</li>
+        <li>When the status bar shows <strong>SUCCEEDED</strong>, click <strong>Dataset</strong> in the left sidebar.</li>
+        <li>The table shows one row per article. To download, click <strong>Export</strong> and choose JSON, CSV, or XLSX.</li>
+      </ol>
+      <figure>
+      <img src="assets/04-google-news-scraper-rss-feed-run-log.png" alt="Apify run log for the Google News Scraper showing articles being collected with status SUCCEEDED" loading="lazy" width="3200" height="2000">
+      <figcaption>The run log. The status bar updates with the article count as the run progresses.</figcaption>
+    </figure>
+      <p>Each row in the dataset is one article. To process the results programmatically, download as JSON and filter by date to show only articles from the last 24 hours:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const articles = require('./dataset.json');
 const yesterday = new Date(Date.now() - 86400000);
 
 const recent = articles.filter(a =&gt; {
- const pub = new Date(a.published_at);
- return pub &gt;= yesterday;
+  const pub = new Date(a.published_at);
+  return pub &gt;= yesterday;
 });
 
 for (const a of recent) {
- console.log(`[${a.source}] ${a.title}`);
- console.log(` ${a.url}`);
-}</pre></div>
- <div class="callout">The <code class="code-inline">url</code> field is a Google News redirect link, not the publisher URL directly. To reach the publisher page you need to follow the redirect. The <code class="code-inline">source_url</code> field gives you the publisher root domain (e.g. <code class="code-inline">https://www.reuters.com</code>) when you want the site without the specific article path.</div>
- </div>
+  console.log(`[${a.source}] ${a.title}`);
+  console.log(`  ${a.url}`);
+}</code></pre></div>
+      <div class="callout">The <code class="code-inline">url</code> field is a Google News redirect link, not the publisher URL directly. To reach the publisher page you need to follow the redirect. The <code class="code-inline">source_url</code> field gives you the publisher root domain (e.g. <code class="code-inline">https://www.reuters.com</code>) when you want the site without the specific article path.</div>
+    </div>
 
- <div class="step" id="step-5">
- <span class="step-number">STEP 5</span>
- <h2>Schedule a daily news feed</h2>
- <p>A one-off run gives you today's articles. To keep the feed current, schedule the actor to run on a regular cadence:</p>
- <ol>
- <li>In Apify Console, open the Google News Scraper actor and click <strong>Schedules</strong> in the left sidebar.</li>
- <li>Click <strong>New schedule</strong>. Give it a name such as "Daily news feed".</li>
- <li>Set the cron expression. For daily at 7 AM UTC: <code class="code-inline">0 7 * * *</code>. For every 6 hours: <code class="code-inline">0 */6 * * *</code>.</li>
- <li>In the <strong>Input</strong> field, paste your keyword list as JSON (the same input from Step 3).</li>
- <li>Click <strong>Save</strong>. Each scheduled run creates its own dataset with a timestamp in the run metadata.</li>
- </ol>
- <p>To fetch the latest dataset via the API after each scheduled run:</p>
- <div class="code-block"><pre># Get the most recent run's dataset
+    <div class="step" id="step-5">
+      <span class="step-number">STEP 5</span>
+      <h2>Schedule a daily news feed</h2>
+      <p>A one-off run gives you today's articles. To keep the feed current, schedule the actor to run on a regular cadence:</p>
+      <ol>
+        <li>In Apify Console, open the Google News Scraper actor and click <strong>Schedules</strong> in the left sidebar.</li>
+        <li>Click <strong>New schedule</strong>. Give it a name such as "Daily news feed".</li>
+        <li>Set the cron expression. For daily at 7 AM UTC: <code class="code-inline">0 7 * * *</code>. For every 6 hours: <code class="code-inline">0 */6 * * *</code>.</li>
+        <li>In the <strong>Input</strong> field, paste your keyword list as JSON (the same input from Step 3).</li>
+        <li>Click <strong>Save</strong>. Each scheduled run creates its own dataset with a timestamp in the run metadata.</li>
+      </ol>
+      <p>To fetch the latest dataset via the API after each scheduled run:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash"># Get the most recent run's dataset
 curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-news-scraper/runs/last/dataset/items?token=YOUR_TOKEN&amp;limit=50" \
- | jq '.[] | {title, source, published_at, url}'</pre></div>
- <div class="callout tip">For a daily news digest covering 10 topics, you pull roughly 50 to 500 articles per day. At $0.001 per article that is $0.05 to $0.50 per day, well within the free tier's $5 monthly credit.</div>
- </div>
+  | jq '.[] | {title, source, published_at, url}'</code></pre></div>
+      <div class="callout tip">For a daily news digest covering 10 topics, you pull roughly 50 to 500 articles per day. At $0.001 per article that is $0.05 to $0.50 per day, well within the free tier's $5 monthly credit.</div>
+    </div>
 
- <h2 id="advanced">Advanced: multi-language and brand monitoring</h2>
- <p>The actor supports two patterns that are especially useful for more targeted news monitoring.</p>
- <p><strong>Multi-language monitoring</strong></p>
- <p>To track the same topic across multiple countries or languages, run the actor once per locale with the appropriate <code class="code-inline">language</code> and <code class="code-inline">country</code> parameters. Google News has separate regional editions, so German news about a topic surfaces under <code class="code-inline">language: "de", country: "DE"</code> while the same topic in the UK surfaces under <code class="code-inline">language: "en", country: "GB"</code>:</p>
- <div class="code-block"><pre>{
- "searchQueries": ["your brand name"],
- "language": "de",
- "country": "DE",
- "maxResults": 50
-}</pre></div>
- <p><strong>Brand mention monitoring</strong></p>
- <p>To monitor press coverage for a brand or product, add the exact brand name as a keyword. You can include common misspellings or alternate names as additional queries. Because results are deduplicated by article URL, an article that mentions both your brand and a competitor only appears once in the dataset:</p>
- <div class="code-block"><pre>{
- "searchQueries": [
- "YourBrandName",
- "Your Brand Name product launch",
- "CompetitorName vs YourBrandName"
- ],
- "language": "en",
- "country": "US",
- "maxResults": 200,
- "maxResultsPerQuery": 100
-}</pre></div>
+    <h2 id="advanced">Advanced: multi-language and brand monitoring</h2>
+    <p>The actor supports two patterns that are especially useful for more targeted news monitoring.</p>
+    <p><strong>Multi-language monitoring</strong></p>
+    <p>To track the same topic across multiple countries or languages, run the actor once per locale with the appropriate <code class="code-inline">language</code> and <code class="code-inline">country</code> parameters. Google News has separate regional editions, so German news about a topic surfaces under <code class="code-inline">language: "de", country: "DE"</code> while the same topic in the UK surfaces under <code class="code-inline">language: "en", country: "GB"</code>:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["your brand name"],
+  "language": "de",
+  "country": "DE",
+  "maxResults": 50
+}</code></pre></div>
+    <p><strong>Brand mention monitoring</strong></p>
+    <p>To monitor press coverage for a brand or product, add the exact brand name as a keyword. You can include common misspellings or alternate names as additional queries. Because results are deduplicated by article URL, an article that mentions both your brand and a competitor only appears once in the dataset:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "YourBrandName",
+    "Your Brand Name product launch",
+    "CompetitorName vs YourBrandName"
+  ],
+  "language": "en",
+  "country": "US",
+  "maxResults": 200,
+  "maxResultsPerQuery": 100
+}</code></pre></div>
 
- <h2 id="mcp">Connect to AI agents via MCP</h2>
- <p>The actor works as a Model Context Protocol (MCP) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code):</p>
- <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/google-news-scraper</pre></div>
- <p>Once connected, your AI agent can pull news on demand from natural language prompts:</p>
- <div class="code-block"><pre>Find the 20 most recent news articles about "open source AI" from Google News and summarize the top themes.</pre></div>
- <p>Clients that support dynamic tool discovery receive the full input schema automatically, so the model fills in all fields without manual parameter setup.</p>
+    <h2 id="mcp">Connect to AI agents via MCP</h2>
+    <p>The actor works as a Model Context Protocol (MCP) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/google-news-scraper</code></pre></div>
+    <p>Once connected, your AI agent can pull news on demand from natural language prompts:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Find the 20 most recent news articles about "open source AI" from Google News and summarize the top themes.</code></pre></div>
+    <p>Clients that support dynamic tool discovery receive the full input schema automatically, so the model fills in all fields without manual parameter setup.</p>
 
- <h2 id="fields">Key input and output fields</h2>
- <p><strong>Input fields</strong></p>
- <ul>
- <li><code class="code-inline">searchQueries</code> (required): array of keyword strings. Each runs as a separate Google News search.</li>
- <li><code class="code-inline">language</code>: ISO 639-1 language code (default <code class="code-inline">en</code>). Determines the Google News edition.</li>
- <li><code class="code-inline">country</code>: ISO 3166-1 alpha-2 country code (default <code class="code-inline">US</code>). Sets the regional edition.</li>
- <li><code class="code-inline">maxResults</code>: total article cap across all queries in a run (default 100).</li>
- <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 50, max approximately 100).</li>
- <li><code class="code-inline">proxyConfiguration</code>: proxy settings. Datacenter proxy (the default) works reliably for Google News RSS.</li>
- </ul>
- <p><strong>Output fields per row</strong></p>
- <ul>
- <li><code class="code-inline">title</code>: the article headline, cleaned (without the publisher suffix Google sometimes adds).</li>
- <li><code class="code-inline">source</code>: the publisher name as listed by Google News.</li>
- <li><code class="code-inline">source_url</code>: the publisher root domain.</li>
- <li><code class="code-inline">url</code>: the Google News article link. Follow the redirect to reach the publisher page.</li>
- <li><code class="code-inline">snippet</code>: a short excerpt when Google News provides one (often <code class="code-inline">null</code>).</li>
- <li><code class="code-inline">published_at</code>: publication date in RFC 2822 format.</li>
- <li><code class="code-inline">image_url</code>: article thumbnail URL when available (often <code class="code-inline">null</code>).</li>
- <li><code class="code-inline">search_query</code>: which keyword in your list returned this article.</li>
- <li><code class="code-inline">scraped_at</code>: ISO 8601 UTC timestamp of when this row was collected.</li>
- </ul>
+    <h2 id="fields">Key input and output fields</h2>
+    <p><strong>Input fields</strong></p>
+    <ul>
+        <li><code class="code-inline">searchQueries</code> (required): array of keyword strings. Each runs as a separate Google News search.</li>
+        <li><code class="code-inline">language</code>: ISO 639-1 language code (default <code class="code-inline">en</code>). Determines the Google News edition.</li>
+        <li><code class="code-inline">country</code>: ISO 3166-1 alpha-2 country code (default <code class="code-inline">US</code>). Sets the regional edition.</li>
+        <li><code class="code-inline">maxResults</code>: total article cap across all queries in a run (default 100).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 50, max approximately 100).</li>
+        <li><code class="code-inline">proxyConfiguration</code>: proxy settings. Datacenter proxy (the default) works reliably for Google News RSS.</li>
+      </ul>
+    <p><strong>Output fields per row</strong></p>
+    <ul>
+        <li><code class="code-inline">title</code>: the article headline, cleaned (without the publisher suffix Google sometimes adds).</li>
+        <li><code class="code-inline">source</code>: the publisher name as listed by Google News.</li>
+        <li><code class="code-inline">source_url</code>: the publisher root domain.</li>
+        <li><code class="code-inline">url</code>: the Google News article link. Follow the redirect to reach the publisher page.</li>
+        <li><code class="code-inline">snippet</code>: a short excerpt when Google News provides one (often <code class="code-inline">null</code>).</li>
+        <li><code class="code-inline">published_at</code>: publication date in RFC 2822 format.</li>
+        <li><code class="code-inline">image_url</code>: article thumbnail URL when available (often <code class="code-inline">null</code>).</li>
+        <li><code class="code-inline">search_query</code>: which keyword in your list returned this article.</li>
+        <li><code class="code-inline">scraped_at</code>: ISO 8601 UTC timestamp of when this row was collected.</li>
+      </ul>
 
- <h2 id="cost">What it costs</h2>
- <p>The actor charges per article returned, not per run or per keyword.</p>
- <ul>
- <li><strong>Per news article</strong>: $0.001 per result ($1.00 per 1,000 articles).</li>
- </ul>
- <p>The Apify free tier gives $5 of monthly credit. At $0.001 per article that covers 5,000 articles at no cost. For a daily news feed covering 10 topics at 50 articles each, you pull about 500 articles per day (15,000/month), which costs about $15/month at full scale. Most users stay well within the free tier in testing.</p>
- <div class="callout">Tracking 10 topics daily with 50 articles per topic runs about $0.50/day or $15/month. Tracking 3 topics daily is under $5/month, within the free tier.</div>
+    <h2 id="cost">What it costs</h2>
+    <p>The actor charges per article returned, not per run or per keyword.</p>
+    <ul>
+        <li><strong>Per news article</strong>: $0.001 per result ($1.00 per 1,000 articles).</li>
+      </ul>
+    <p>The Apify free tier gives $5 of monthly credit. At $0.001 per article that covers 5,000 articles at no cost. For a daily news feed covering 10 topics at 50 articles each, you pull about 500 articles per day (15,000/month), which costs about $15/month at full scale. Most users stay well within the free tier in testing.</p>
+    <div class="callout">Tracking 10 topics daily with 50 articles per topic runs about $0.50/day or $15/month. Tracking 3 topics daily is under $5/month, within the free tier.</div>
 
- <h2 id="faq">FAQ</h2>
- <div class="faq">
- <details>
- <summary>Does Google News still have RSS feeds?</summary>
- <p>Google removed publicly shareable News RSS feeds from its interface years ago. The RSS endpoint still works internally (the actor uses it), but there is no longer a simple "subscribe" button in Google News to get a personal feed URL. This actor fetches the feed on your behalf for any keyword you specify.</p>
- </details>
- <details>
- <summary>How many articles can I get per keyword?</summary>
- <p>Google News RSS returns up to approximately 100 articles per search query. Set <code class="code-inline">maxResultsPerQuery: 100</code> to pull the maximum. In practice the number varies by keyword: broad topics return close to 100 while niche topics may return 10 to 30.</p>
- </details>
- <details>
- <summary>How recent are the articles?</summary>
- <p>Google News RSS typically returns articles published in the last 30 to 90 days, with the most recent articles listed first. The exact date range depends on how much coverage Google News has for the keyword. For breaking news topics, articles from the last few hours appear quickly.</p>
- </details>
- <details>
- <summary>Can I get the full article text?</summary>
- <p>No, not directly. The scraper returns the title, source, and URL from the Google News RSS feed. To get the full article text, you would need to follow the URL and scrape the publisher page. That is out of scope for this actor, which focuses on the news index layer.</p>
- </details>
- <details>
- <summary>Can I filter results by source or date?</summary>
- <p>The actor returns all results Google News includes for your query. Post-processing in your own code is the easiest way to filter by source or date. Export the dataset as JSON and filter the <code class="code-inline">source</code> or <code class="code-inline">published_at</code> fields. Google also supports advanced search syntax in the query string, for example <code class="code-inline">"brand name" site:reuters.com</code> to restrict to a single publisher.</p>
- </details>
- <details>
- <summary>Can I monitor news in languages other than English?</summary>
- <p>Yes. Set the <code class="code-inline">language</code> parameter to any ISO 639-1 code (e.g. <code class="code-inline">de</code> for German, <code class="code-inline">fr</code> for French, <code class="code-inline">es</code> for Spanish) and the <code class="code-inline">country</code> parameter to the matching ISO 3166-1 alpha-2 code. Google News has distinct regional editions, so combining both parameters gives the most accurate regional results.</p>
- </details>
- <details>
- <summary>Can I run it via the API or automate with n8n?</summary>
- <p>Yes. Use Apify's REST API endpoint <code class="code-inline">POST /v2/acts/santamaria-automations~google-news-scraper/runs</code> or the JavaScript/Python SDKs to trigger runs programmatically. For n8n, use the Apify n8n node with the actor ID <code class="code-inline">santamaria-automations/google-news-scraper</code>.</p>
- </details>
- </div>
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Does Google News still have RSS feeds?</summary>
+        <p>Google removed publicly shareable News RSS feeds from its interface years ago. The RSS endpoint still works internally (the actor uses it), but there is no longer a simple "subscribe" button in Google News to get a personal feed URL. This actor fetches the feed on your behalf for any keyword you specify.</p>
+      </details>
+      <details>
+        <summary>How many articles can I get per keyword?</summary>
+        <p>Google News RSS returns up to approximately 100 articles per search query. Set <code class="code-inline">maxResultsPerQuery: 100</code> to pull the maximum. In practice the number varies by keyword: broad topics return close to 100 while niche topics may return 10 to 30.</p>
+      </details>
+      <details>
+        <summary>How recent are the articles?</summary>
+        <p>Google News RSS typically returns articles published in the last 30 to 90 days, with the most recent articles listed first. The exact date range depends on how much coverage Google News has for the keyword. For breaking news topics, articles from the last few hours appear quickly.</p>
+      </details>
+      <details>
+        <summary>Can I get the full article text?</summary>
+        <p>No, not directly. The scraper returns the title, source, and URL from the Google News RSS feed. To get the full article text, you would need to follow the URL and scrape the publisher page. That is out of scope for this actor, which focuses on the news index layer.</p>
+      </details>
+      <details>
+        <summary>Can I filter results by source or date?</summary>
+        <p>The actor returns all results Google News includes for your query. Post-processing in your own code is the easiest way to filter by source or date. Export the dataset as JSON and filter the <code class="code-inline">source</code> or <code class="code-inline">published_at</code> fields. Google also supports advanced search syntax in the query string, for example <code class="code-inline">"brand name" site:reuters.com</code> to restrict to a single publisher.</p>
+      </details>
+      <details>
+        <summary>Can I monitor news in languages other than English?</summary>
+        <p>Yes. Set the <code class="code-inline">language</code> parameter to any ISO 639-1 code (e.g. <code class="code-inline">de</code> for German, <code class="code-inline">fr</code> for French, <code class="code-inline">es</code> for Spanish) and the <code class="code-inline">country</code> parameter to the matching ISO 3166-1 alpha-2 code. Google News has distinct regional editions, so combining both parameters gives the most accurate regional results.</p>
+      </details>
+      <details>
+        <summary>Can I run it via the API or automate with n8n?</summary>
+        <p>Yes. Use Apify's REST API endpoint <code class="code-inline">POST /v2/acts/santamaria-automations~google-news-scraper/runs</code> or the JavaScript/Python SDKs to trigger runs programmatically. For n8n, use the Apify n8n node with the actor ID <code class="code-inline">santamaria-automations/google-news-scraper</code>.</p>
+      </details>
+    </div>
 
- <h2>Related resources</h2>
- <ul>
- <li><a href="/actors/google-news-scraper/">Google News Scraper actor page</a>: Full specs, all input parameters, output field reference, and pricing details.</li>
- <li><a href="/tutorials/reddit-scraper/">Reddit Scraper Tutorial</a>: Monitor public discussion and brand mentions across Reddit communities alongside your news data.</li>
- <li><a href="/tutorials/youtube-scraper/">YouTube Scraper Tutorial</a>: Complement news monitoring with YouTube video data to track how topics are covered in video format.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">Google News Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
- <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google News, Reddit, YouTube, LinkedIn, and more.</li>
- </ul>
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/google-news-scraper/">Google News Scraper actor page</a>: Full specs, all input parameters, output field reference, and pricing details.</li>
+      <li><a href="/tutorials/reddit-scraper/">Reddit Scraper Tutorial</a>: Monitor public discussion and brand mentions across Reddit communities alongside your news data.</li>
+      <li><a href="/tutorials/youtube-scraper/">YouTube Scraper Tutorial</a>: Complement news monitoring with YouTube video data to track how topics are covered in video format.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz">Google News Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google News, Reddit, YouTube, LinkedIn, and more.</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open the Google News Scraper on Apify</a>
- <a href="/actors/" class="btn-secondary">Browse all actors</a>
- </div>
- </article>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-news-scraper?fpr=0khfbz" class="btn-primary">Open the Google News Scraper on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

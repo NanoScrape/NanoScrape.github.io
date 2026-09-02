@@ -1,539 +1,581 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>How to Scrape Instagram Profiles and Posts Without a Login (2026 Guide) | NanoScrape</title>
- <meta name="description" content="Step-by-step tutorial for scraping public Instagram profiles at scale. Get follower counts, bios, and recent posts in JSON at $0.005 per profile. No login, no browser, no Instagram API key.">
- <meta name="primary-keyword" content="instagram scraper">
- <meta property="og:title" content="How to Scrape Instagram Profiles and Posts | NanoScrape">
- <meta property="og:description" content="Pull public Instagram bios, follower counts, and up to 12 recent posts per profile with one Apify actor. No login, no browser, pay-per-result.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/instagram-scraper/">
- <meta property="og:type" content="article">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Instagram Profiles and Posts Without a Login (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step tutorial for scraping public Instagram profiles at scale. Get follower counts, bios, and recent posts in JSON at $0.005 per profile. No login, no browser, no Instagram API key.">
+  <meta name="primary-keyword" content="instagram scraper">
+  <meta property="og:title" content="How to Scrape Instagram Profiles and Posts | NanoScrape">
+  <meta property="og:description" content="Pull public Instagram bios, follower counts, and up to 12 recent posts per profile with one Apify actor. No login, no browser, pay-per-result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/instagram-scraper/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/instagram-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
- <script type="application/ld+json">
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "HowTo",
- "name": "How to Scrape Instagram Public Profiles",
- "description": "Use the NanoScrape Instagram Scraper on Apify to extract public profile data and recent posts in bulk without logging in.",
- "totalTime": "PT5M",
- "estimatedCost": {
- "@type": "MonetaryAmount",
- "currency": "USD",
- "value": "0.50"
- },
- "supply": [
- {
- "@type": "HowToSupply",
- "name": "Free Apify account"
- },
- {
- "@type": "HowToSupply",
- "name": "List of Instagram handles or profile URLs"
- }
- ],
- "tool": [
- {
- "@type": "HowToTool",
- "name": "Apify"
- },
- {
- "@type": "HowToTool",
- "name": "NanoScrape Instagram Scraper"
- }
- ],
- "step": [
- {
- "@type": "HowToStep",
- "name": "Open the actor on Apify",
- "text": "Go to the Instagram Scraper actor page on Apify and click Try for free. Create a free account if you do not have one."
- },
- {
- "@type": "HowToStep",
- "name": "Set your input",
- "text": "Paste your Instagram handles or profile URLs into the input editor. Adjust maxPostsPerProfile if you only need profile stats."
- },
- {
- "@type": "HowToStep",
- "name": "Run and download results",
- "text": "Click Start. When the run finishes, open the dataset to view or export your results as JSON, CSV, or XLSX."
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Instagram Public Profiles",
+  "description": "Use the NanoScrape Instagram Scraper on Apify to extract public profile data and recent posts in bulk without logging in.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.50"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of Instagram handles or profile URLs"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Instagram Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor on Apify",
+      "text": "Go to the Instagram Scraper actor page on Apify and click Try for free. Create a free account if you do not have one."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Set your input",
+      "text": "Paste your Instagram handles or profile URLs into the input editor. Adjust maxPostsPerProfile if you only need profile stats."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and download results",
+      "text": "Click Start. When the run finishes, open the dataset to view or export your results as JSON, CSV, or XLSX."
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "Instagram Scraper: Extract Public Profiles and Posts Without a Login",
- "description": "A practical guide to scraping public Instagram profiles at scale using the NanoScrape Instagram Scraper actor on Apify. No login, no API key, pay-per-result.",
- "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
- "author": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com"
- },
- "publisher": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com",
- "logo": {
- "@type": "ImageObject",
- "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
- }
- },
- "datePublished": "2026-07-24",
- "dateModified": "2026-07-24",
- "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/instagram-scraper/"
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Instagram Scraper: Extract Public Profiles and Posts Without a Login",
+  "description": "A practical guide to scraping public Instagram profiles at scale using the NanoScrape Instagram Scraper actor on Apify. No login, no API key, pay-per-result.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-07-24",
+  "dateModified": "2026-07-24",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/instagram-scraper/"
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
- "@type": "Question",
- "name": "Do I need an Instagram account or API key to use this scraper?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "No. The actor reads publicly available Instagram data over HTTP. You do not need a personal Instagram login, a Meta developer app, or any Instagram-issued credentials."
- }
- },
- {
- "@type": "Question",
- "name": "Can I scrape private Instagram accounts?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "No. Private accounts are accessible only to approved followers. The actor returns the profile row for private accounts but cannot retrieve post details."
- }
- },
- {
- "@type": "Question",
- "name": "How many posts per profile can I get?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Up to 12 recent posts per profile, controlled by the maxPostsPerProfile field (0 to 12)."
- }
- },
- {
- "@type": "Question",
- "name": "What happens if a handle does not exist?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Non-existent handles are logged and skipped. They are not written to the dataset."
- }
- },
- {
- "@type": "Question",
- "name": "What if Instagram shows an auth wall during a run?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "If Instagram serves an auth wall, the actor stops and logs an escalation message rather than silently returning empty data."
- }
- },
- {
- "@type": "Question",
- "name": "Is scraping public Instagram data legal?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Scraping publicly available data is generally permitted in many jurisdictions, but Meta's Terms of Service restrict automated scraping. The legal picture varies by country and use case. Consult a lawyer for commercial or high-volume use."
- }
- },
- {
- "@type": "Question",
- "name": "Can I run this on a schedule?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Use Apify's built-in schedules or replace the Manual Trigger in n8n with a Schedule Trigger to run on a recurring interval."
- }
- },
- {
- "@type": "Question",
- "name": "How do I use the output with Google Sheets?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "In n8n, wire an Append to Google Sheet node after the Apify node. The dataset items flow directly into it. Or download as CSV and import manually."
- }
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need an Instagram account or API key to use this scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor reads publicly available Instagram data over HTTP. You do not need a personal Instagram login, a Meta developer app, or any Instagram-issued credentials."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I scrape private Instagram accounts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Private accounts are accessible only to approved followers. The actor returns the profile row for private accounts but cannot retrieve post details."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many posts per profile can I get?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Up to 12 recent posts per profile, controlled by the maxPostsPerProfile field (0 to 12)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What happens if a handle does not exist?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Non-existent handles are logged and skipped. They are not written to the dataset."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if Instagram shows an auth wall during a run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "If Instagram serves an auth wall, the actor stops and logs an escalation message rather than silently returning empty data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is scraping public Instagram data legal?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Scraping publicly available data is generally permitted in many jurisdictions, but Meta's Terms of Service restrict automated scraping. The legal picture varies by country and use case. Consult a lawyer for commercial or high-volume use."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run this on a schedule?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use Apify's built-in schedules or replace the Manual Trigger in n8n with a Schedule Trigger to run on a recurring interval."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I use the output with Google Sheets?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In n8n, wire an Append to Google Sheet node after the Apify node. The dataset items flow directly into it. Or download as CSV and import manually."
+      }
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
- {
- "@type": "ListItem",
- "position": 1,
- "name": "Home",
- "item": "https://www.nanoscrape.com/"
- },
- {
- "@type": "ListItem",
- "position": 2,
- "name": "Tutorials",
- "item": "https://www.nanoscrape.com/tutorials/"
- },
- {
- "@type": "ListItem",
- "position": 3,
- "name": "Instagram Scraper",
- "item": "https://www.nanoscrape.com/tutorials/instagram-scraper/"
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Instagram Scraper",
+      "item": "https://www.nanoscrape.com/tutorials/instagram-scraper/"
+    }
+  ]
 }
- </script>
+  </script>
 
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
- .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
- .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
- .breadcrumb a { color: var(--muted); }
- .breadcrumb a:hover { color: var(--accent); }
- .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
- .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
- .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
- .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
- .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
- .article p { margin-bottom: 16px; }
- .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
- .article li { margin-bottom: 6px; color: var(--text); }
- .article li strong { color: var(--white); }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
 
- .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
- .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
- .toc ol { margin: 0; padding-left: 20px; }
- .toc li { margin-bottom: 4px; }
- .toc a { color: var(--text); }
- .toc a:hover { color: var(--accent); }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
 
- .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
- .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
- .article figure { margin: 24px 0 28px; }
- .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
- .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
- .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
- .article .figure-group figure { margin: 0; }
- @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
- .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
- .callout strong { color: var(--white); }
- .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
- .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
- .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
- .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
- .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
- .faq details[open] { border-color: var(--accent); }
- .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
- .faq summary::marker { color: var(--muted); }
- .faq details p { margin: 10px 0 4px; color: var(--text); }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
 
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .article h1 { font-size: 1.55rem; }
- .article h2 { font-size: 1.25rem; }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
- .draft-banner a { color: #0b0e14; text-decoration: underline; }
- </style>
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <article class="article">
- <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Instagram Scraper</nav>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Instagram Scraper</nav>
 
- <h1>How to Scrape Instagram: Extract Public Profiles and Posts Without a Login</h1>
- <p class="lead">Supply a list of Instagram handles and get back structured JSON for each one: bio, follower and following counts, verification status, business category, external website, and up to 12 recent posts with captions and engagement metrics. HTTP-only, no browser, no login, no Instagram API key. About $5 per 1,000 profiles.</p>
+    <h1>How to Scrape Instagram: Extract Public Profiles and Posts Without a Login</h1>
+    <p class="lead">Supply a list of Instagram handles and get back structured JSON for each one: bio, follower and following counts, verification status, business category, external website, and up to 12 recent posts with captions and engagement metrics. HTTP-only, no browser, no login, no Instagram API key. About $5 per 1,000 profiles.</p>
 
- <figure>
- <img src="assets/01-instagram-scraper-hero-output.png" alt="Apify dataset view showing Instagram profile records with fields for username, follower count, biography, verification status, and recent posts" loading="lazy" width="6002" height="2304">
- <figcaption>One row per handle: profile stats, bio, and recent posts in one structured record.</figcaption>
- </figure>
+    <figure>
+      <img src="assets/01-instagram-scraper-hero-output.png" alt="Apify dataset view showing Instagram profile records with fields for username, follower count, biography, verification status, and recent posts" loading="lazy" width="6002" height="2304">
+      <figcaption>One row per handle: profile stats, bio, and recent posts in one structured record.</figcaption>
+    </figure>
 
- <div class="meta-row">
- <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
- <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
- <div class="meta-item"><strong>Cost:</strong> ~$5 per 1,000 profiles ($0.005 per profile + $0.001 to start)</div>
- <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Instagram Scraper</div>
- </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> ~$5 per 1,000 profiles ($0.005 per profile + $0.001 to start)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Instagram Scraper</div>
+    </div>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
 
- <div class="toc">
- <h2>In this tutorial</h2>
- <ol>
- <li><a href="#what-you-get">What you get</a></li>
- <li><a href="#prerequisites">Prerequisites</a></li>
- <li><a href="#step-1">Step 1: Open the actor</a></li>
- <li><a href="#step-2">Step 2: Set your input</a></li>
- <li><a href="#step-3">Step 3: Run and download results</a></li>
- <li><a href="#output-fields">Output field reference</a></li>
- <li><a href="#private-accounts">Private accounts and auth walls</a></li>
- <li><a href="#n8n-integration">Use with n8n, Make, or Zapier</a></li>
- <li><a href="#mcp-ai-agents">Use with AI agents via MCP</a></li>
- <li><a href="#cost">What it costs</a></li>
- <li><a href="#faq">FAQ</a></li>
- </ol>
- </div>
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Open the actor</a></li>
+        <li><a href="#step-2">Step 2: Set your input</a></li>
+        <li><a href="#step-3">Step 3: Run and download results</a></li>
+        <li><a href="#output-fields">Output field reference</a></li>
+        <li><a href="#private-accounts">Private accounts and auth walls</a></li>
+        <li><a href="#n8n-integration">Use with n8n, Make, or Zapier</a></li>
+        <li><a href="#mcp-ai-agents">Use with AI agents via MCP</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
 
- <h2 id="what-you-get">What you get</h2>
- <p>For every public Instagram handle you submit, the actor returns one structured record containing:</p>
- <ul>
- <li><strong>Identity:</strong> username, user ID, full name, profile URL, profile picture URL</li>
- <li><strong>Bio:</strong> biography text, external website link</li>
- <li><strong>Stats:</strong> follower count, following count, total post count</li>
- <li><strong>Signals:</strong> verification status, private/public flag, business account flag, business category</li>
- <li><strong>Recent posts:</strong> up to 12 posts per profile, each with shortcode, caption, like count, comment count, media type (image, video, or carousel), media URL, post URL, and posted date</li>
- </ul>
- <p>Private accounts return the profile row (stats and bio) but no post details. Non-existent handles are logged and skipped so your dataset stays clean. The actor is HTTP-only and runs at roughly 128 MB RAM, so it starts in seconds and costs very little at scale.</p>
+    <h2 id="what-you-get">What you get</h2>
+    <p>For every public Instagram handle you submit, the actor returns one structured record containing:</p>
+    <ul>
+        <li><strong>Identity:</strong> username, user ID, full name, profile URL, profile picture URL</li>
+        <li><strong>Bio:</strong> biography text, external website link</li>
+        <li><strong>Stats:</strong> follower count, following count, total post count</li>
+        <li><strong>Signals:</strong> verification status, private/public flag, business account flag, business category</li>
+        <li><strong>Recent posts:</strong> up to 12 posts per profile, each with shortcode, caption, like count, comment count, media type (image, video, or carousel), media URL, post URL, and posted date</li>
+      </ul>
+    <p>Private accounts return the profile row (stats and bio) but no post details. Non-existent handles are logged and skipped so your dataset stays clean. The actor is HTTP-only and runs at roughly 128 MB RAM, so it starts in seconds and costs very little at scale.</p>
 
- <h2 id="prerequisites">Prerequisites</h2>
- <ul>
- <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, enough for around 1,000 profile scrapes.</li>
- <li>A list of Instagram handles, <code class="code-inline">@handle</code> references, or full profile URLs you want to scrape. You can mix and match formats freely.</li>
- </ul>
- <div class="callout"><strong>No Instagram login or API key needed.</strong> The actor reads publicly available data over HTTP. You do not need a personal Instagram account, a Meta developer app, or any special credentials beyond your free Apify account.</div>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">the actor page</a>. The free tier gives you $5 of usage credit every month, enough for around 1,000 profile scrapes.</li>
+        <li>A list of Instagram handles, <code class="code-inline">@handle</code> references, or full profile URLs you want to scrape. You can mix and match formats freely.</li>
+      </ul>
+    <div class="callout"><strong>No Instagram login or API key needed.</strong> The actor reads publicly available data over HTTP. You do not need a personal Instagram account, a Meta developer app, or any special credentials beyond your free Apify account.</div>
 
- <div class="step" id="step-1">
- <span class="step-number">STEP 1</span>
- <h2>Open the actor on Apify</h2>
- <ol>
- <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">NanoScrape Instagram Scraper</a> on Apify.</li>
- <li>Click <strong>Try for free</strong>. Sign up with Google or email if you do not have an account. It takes about a minute.</li>
- <li>Apify redirects you to the actor input page in Apify Console.</li>
- </ol>
- <figure>
- <img src="assets/02-instagram-scraper-apify-page.png" alt="NanoScrape Instagram Scraper actor page on Apify showing the description, pricing, and Try for free button" loading="lazy" width="3200" height="2156">
- <figcaption>The Instagram Scraper actor page on Apify. Click Try for free to open the input editor.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the actor on Apify</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">NanoScrape Instagram Scraper</a> on Apify.</li>
+        <li>Click <strong>Try for free</strong>. Sign up with Google or email if you do not have an account. It takes about a minute.</li>
+        <li>Apify redirects you to the actor input page in Apify Console.</li>
+      </ol>
+      <figure>
+      <img src="assets/02-instagram-scraper-apify-page.png" alt="NanoScrape Instagram Scraper actor page on Apify showing the description, pricing, and Try for free button" loading="lazy" width="3200" height="2156">
+      <figcaption>The Instagram Scraper actor page on Apify. Click Try for free to open the input editor.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-2">
- <span class="step-number">STEP 2</span>
- <h2>Set your input</h2>
- <p>In Apify Console, the actor's <strong>Input</strong> tab shows a JSON editor. Paste your handles in the <code class="code-inline">usernames</code> array. You can use bare handles, <code class="code-inline">@handle</code> format, or full profile URLs. The actor normalizes them all.</p>
- <div class="code-block"><pre>{
- "usernames": [
- "natgeo",
- "@nasa",
- "https://www.instagram.com/bbcnews/"
- ],
- "maxPostsPerProfile": 12,
- "proxyConfiguration": {
- "useApifyProxy": true
- }
-}</pre></div>
- <p>The three fields that matter most:</p>
- <ul>
- <li><code class="code-inline">usernames</code> <em>(required)</em>: an array of handles, @-prefixed handles, or full Instagram profile URLs. Mix and match freely.</li>
- <li><code class="code-inline">maxPostsPerProfile</code>: 0 to 12. Set to <code class="code-inline">0</code> if you only need profile stats and want to skip fetching recent posts entirely. Reducing this number also speeds up large runs.</li>
- <li><code class="code-inline">proxyConfiguration</code>: leave the default (<code class="code-inline">useApifyProxy: true</code>). Datacenter proxies are sufficient for most runs.</li>
- </ul>
- <figure>
- <img src="assets/03-instagram-scraper-input-editor.png" alt="Apify Console input editor for the Instagram Scraper showing the usernames array and maxPostsPerProfile field" loading="lazy" width="3840" height="2160">
- <figcaption>The input editor in Apify Console. Paste your handles into the usernames array.</figcaption>
- </figure>
- <div class="callout tip"><strong>Tip:</strong> set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code> when you only care about follower counts, bios, and profile signals. The run finishes faster and costs the same per profile.</div>
- </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Set your input</h2>
+      <p>In Apify Console, the actor's <strong>Input</strong> tab shows a JSON editor. Paste your handles in the <code class="code-inline">usernames</code> array. You can use bare handles, <code class="code-inline">@handle</code> format, or full profile URLs. The actor normalizes them all.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "usernames": [
+    "natgeo",
+    "@nasa",
+    "https://www.instagram.com/bbcnews/"
+  ],
+  "maxPostsPerProfile": 12,
+  "proxyConfiguration": {
+    "useApifyProxy": true
+  }
+}</code></pre></div>
+      <p>The three fields that matter most:</p>
+      <ul>
+        <li><code class="code-inline">usernames</code> <em>(required)</em>: an array of handles, @-prefixed handles, or full Instagram profile URLs. Mix and match freely.</li>
+        <li><code class="code-inline">maxPostsPerProfile</code>: 0 to 12. Set to <code class="code-inline">0</code> if you only need profile stats and want to skip fetching recent posts entirely. Reducing this number also speeds up large runs.</li>
+        <li><code class="code-inline">proxyConfiguration</code>: leave the default (<code class="code-inline">useApifyProxy: true</code>). Datacenter proxies are sufficient for most runs.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-instagram-scraper-input-editor.png" alt="Apify Console input editor for the Instagram Scraper showing the usernames array and maxPostsPerProfile field" loading="lazy" width="3840" height="2160">
+      <figcaption>The input editor in Apify Console. Paste your handles into the usernames array.</figcaption>
+    </figure>
+      <div class="callout tip"><strong>Tip:</strong> set <code class="code-inline">maxPostsPerProfile</code> to <code class="code-inline">0</code> when you only care about follower counts, bios, and profile signals. The run finishes faster and costs the same per profile.</div>
+    </div>
 
- <div class="step" id="step-3">
- <span class="step-number">STEP 3</span>
- <h2>Run and download results</h2>
- <ol>
- <li>Click <strong>Start</strong> at the bottom of the input page.</li>
- <li>Apify shows a live run log. For a batch of up to 100 handles, the run typically finishes in under two minutes.</li>
- <li>When the status changes to <strong>Succeeded</strong>, click <strong>Results</strong> in the top tab bar to open the dataset.</li>
- <li>Use the <strong>Export</strong> button to download as JSON, JSONL, CSV, or XLSX. You can also read the dataset programmatically via the Apify API or an automation tool like n8n.</li>
- </ol>
- <figure>
- <img src="assets/04-instagram-scraper-dataset-results.png" alt="Apify Console dataset view after a successful run showing rows for each scraped Instagram profile" loading="lazy" width="5538" height="2050">
- <figcaption>The dataset after a run. One row per handle. Export to JSON, CSV, or XLSX.</figcaption>
- </figure>
- <p>Each row is one profile record. Here is an example based on the output format documented in the actor README (no live run was performed; the structure is taken directly from the actor's documented output schema):</p>
- <div class="code-block"><pre>{
- "username": "example_handle",
- "user_id": "1234567890",
- "full_name": "Example Company",
- "biography": "Example bio for a public Instagram profile.",
- "website": "https://example.com",
- "follower_count": 125000,
- "following_count": 420,
- "post_count": 1830,
- "is_verified": true,
- "is_private": false,
- "is_business_account": true,
- "category_name": "Retail Company",
- "profile_pic_url": "https://scontent.cdninstagram.com/example.jpg",
- "posts": [
- {
- "shortcode": "CxAmpleAbc",
- "caption": "Example post caption.",
- "like_count": 1200,
- "comment_count": 34,
- "media_type": "image",
- "media_url": "https://scontent.cdninstagram.com/example_media.jpg",
- "posted_at": "2026-07-01T12:00:00Z",
- "post_url": "https://www.instagram.com/p/CxAmpleAbc/"
- }
- ],
- "profile_url": "https://www.instagram.com/example_handle/",
- "scraped_at": "2026-07-24T09:00:00Z"
-}</pre></div>
- <div class="callout"><strong>Source note:</strong> the example output above is taken from the actor's documented output schema in its README, not from a live run. Field names and structure are accurate; values are illustrative.</div>
- </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and download results</h2>
+      <ol>
+        <li>Click <strong>Start</strong> at the bottom of the input page.</li>
+        <li>Apify shows a live run log. For a batch of up to 100 handles, the run typically finishes in under two minutes.</li>
+        <li>When the status changes to <strong>Succeeded</strong>, click <strong>Results</strong> in the top tab bar to open the dataset.</li>
+        <li>Use the <strong>Export</strong> button to download as JSON, JSONL, CSV, or XLSX. You can also read the dataset programmatically via the Apify API or an automation tool like n8n.</li>
+      </ol>
+      <figure>
+      <img src="assets/04-instagram-scraper-dataset-results.png" alt="Apify Console dataset view after a successful run showing rows for each scraped Instagram profile" loading="lazy" width="5538" height="2050">
+      <figcaption>The dataset after a run. One row per handle. Export to JSON, CSV, or XLSX.</figcaption>
+    </figure>
+      <p>Each row is one profile record. Here is an example based on the output format documented in the actor README (no live run was performed; the structure is taken directly from the actor's documented output schema):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "username": "example_handle",
+  "user_id": "1234567890",
+  "full_name": "Example Company",
+  "biography": "Example bio for a public Instagram profile.",
+  "website": "https://example.com",
+  "follower_count": 125000,
+  "following_count": 420,
+  "post_count": 1830,
+  "is_verified": true,
+  "is_private": false,
+  "is_business_account": true,
+  "category_name": "Retail Company",
+  "profile_pic_url": "https://scontent.cdninstagram.com/example.jpg",
+  "posts": [
+    {
+      "shortcode": "CxAmpleAbc",
+      "caption": "Example post caption.",
+      "like_count": 1200,
+      "comment_count": 34,
+      "media_type": "image",
+      "media_url": "https://scontent.cdninstagram.com/example_media.jpg",
+      "posted_at": "2026-07-01T12:00:00Z",
+      "post_url": "https://www.instagram.com/p/CxAmpleAbc/"
+    }
+  ],
+  "profile_url": "https://www.instagram.com/example_handle/",
+  "scraped_at": "2026-07-24T09:00:00Z"
+}</code></pre></div>
+      <div class="callout"><strong>Source note:</strong> the example output above is taken from the actor's documented output schema in its README, not from a live run. Field names and structure are accurate; values are illustrative.</div>
+    </div>
 
- <h2 id="output-fields">Output field reference</h2>
- <p>Every profile record in the dataset contains these fields:</p>
- <ul>
- <li><code class="code-inline">username</code>: the Instagram handle as scraped</li>
- <li><code class="code-inline">user_id</code>: Instagram's internal numeric user ID. Stable even if the handle changes.</li>
- <li><code class="code-inline">full_name</code>: display name shown on the profile</li>
- <li><code class="code-inline">biography</code>: the text in the bio section</li>
- <li><code class="code-inline">website</code>: the external link in the bio (if set)</li>
- <li><code class="code-inline">follower_count</code>, <code class="code-inline">following_count</code>, <code class="code-inline">post_count</code>: current counts at scrape time</li>
- <li><code class="code-inline">is_verified</code>: <code class="code-inline">true</code> if the blue checkmark badge is present</li>
- <li><code class="code-inline">is_private</code>: <code class="code-inline">true</code> for private accounts (no post details returned)</li>
- <li><code class="code-inline">is_business_account</code>: <code class="code-inline">true</code> for creator or business profiles</li>
- <li><code class="code-inline">category_name</code>: the business category string (e.g. "Retail Company", "Musician/Band")</li>
- <li><code class="code-inline">profile_pic_url</code>: CDN URL for the profile photo</li>
- <li><code class="code-inline">profile_url</code>: canonical Instagram URL for the profile. Use this as a join key.</li>
- <li><code class="code-inline">posts</code>: array of up to <code class="code-inline">maxPostsPerProfile</code> recent posts. Empty array for private accounts or when <code class="code-inline">maxPostsPerProfile</code> is 0.</li>
- <li><code class="code-inline">scraped_at</code>: ISO 8601 timestamp of when this record was written</li>
- </ul>
- <p>Each entry in <code class="code-inline">posts</code> contains: <code class="code-inline">shortcode</code>, <code class="code-inline">caption</code>, <code class="code-inline">like_count</code>, <code class="code-inline">comment_count</code>, <code class="code-inline">media_type</code> (image, video, or carousel), <code class="code-inline">media_url</code>, <code class="code-inline">posted_at</code>, and <code class="code-inline">post_url</code>.</p>
+    <h2 id="output-fields">Output field reference</h2>
+    <p>Every profile record in the dataset contains these fields:</p>
+    <ul>
+        <li><code class="code-inline">username</code>: the Instagram handle as scraped</li>
+        <li><code class="code-inline">user_id</code>: Instagram's internal numeric user ID. Stable even if the handle changes.</li>
+        <li><code class="code-inline">full_name</code>: display name shown on the profile</li>
+        <li><code class="code-inline">biography</code>: the text in the bio section</li>
+        <li><code class="code-inline">website</code>: the external link in the bio (if set)</li>
+        <li><code class="code-inline">follower_count</code>, <code class="code-inline">following_count</code>, <code class="code-inline">post_count</code>: current counts at scrape time</li>
+        <li><code class="code-inline">is_verified</code>: <code class="code-inline">true</code> if the blue checkmark badge is present</li>
+        <li><code class="code-inline">is_private</code>: <code class="code-inline">true</code> for private accounts (no post details returned)</li>
+        <li><code class="code-inline">is_business_account</code>: <code class="code-inline">true</code> for creator or business profiles</li>
+        <li><code class="code-inline">category_name</code>: the business category string (e.g. "Retail Company", "Musician/Band")</li>
+        <li><code class="code-inline">profile_pic_url</code>: CDN URL for the profile photo</li>
+        <li><code class="code-inline">profile_url</code>: canonical Instagram URL for the profile. Use this as a join key.</li>
+        <li><code class="code-inline">posts</code>: array of up to <code class="code-inline">maxPostsPerProfile</code> recent posts. Empty array for private accounts or when <code class="code-inline">maxPostsPerProfile</code> is 0.</li>
+        <li><code class="code-inline">scraped_at</code>: ISO 8601 timestamp of when this record was written</li>
+      </ul>
+    <p>Each entry in <code class="code-inline">posts</code> contains: <code class="code-inline">shortcode</code>, <code class="code-inline">caption</code>, <code class="code-inline">like_count</code>, <code class="code-inline">comment_count</code>, <code class="code-inline">media_type</code> (image, video, or carousel), <code class="code-inline">media_url</code>, <code class="code-inline">posted_at</code>, and <code class="code-inline">post_url</code>.</p>
 
- <h2 id="private-accounts">Private accounts and auth walls</h2>
- <p>The actor can only scrape publicly available data. Two edge cases to be aware of:</p>
- <ul>
- <li><strong>Private accounts:</strong> the actor returns the profile row (follower count, bio, verification) but skips post details. <code class="code-inline">is_private</code> will be <code class="code-inline">true</code> in the record.</li>
- <li><strong>Auth walls:</strong> Instagram occasionally serves a login-required page to unauthenticated traffic at higher volumes. When this happens, the actor stops immediately and logs an escalation message rather than silently returning empty data. If you see this, split your batch into smaller runs or add a delay between runs.</li>
- </ul>
- <div class="callout tip"><strong>Non-existent handles</strong> are not written to the dataset. The actor logs a warning per skipped handle so you can identify typos in your input list.</div>
+    <h2 id="private-accounts">Private accounts and auth walls</h2>
+    <p>The actor can only scrape publicly available data. Two edge cases to be aware of:</p>
+    <ul>
+        <li><strong>Private accounts:</strong> the actor returns the profile row (follower count, bio, verification) but skips post details. <code class="code-inline">is_private</code> will be <code class="code-inline">true</code> in the record.</li>
+        <li><strong>Auth walls:</strong> Instagram occasionally serves a login-required page to unauthenticated traffic at higher volumes. When this happens, the actor stops immediately and logs an escalation message rather than silently returning empty data. If you see this, split your batch into smaller runs or add a delay between runs.</li>
+      </ul>
+    <div class="callout tip"><strong>Non-existent handles</strong> are not written to the dataset. The actor logs a warning per skipped handle so you can identify typos in your input list.</div>
 
- <h2 id="n8n-integration">Use with n8n, Make, or Zapier</h2>
- <p>You can call the Instagram Scraper from any automation tool that supports the Apify API or the official Apify nodes. The approach is the same whether you are using n8n, Make, or Zapier.</p>
- <h3>n8n</h3>
- <p>Install the <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a> (pre-installed on n8n Cloud; available via Community Nodes on self-hosted). Add a <em>Run an Actor and get dataset</em> node, enter your Apify credential, set the Actor ID to <code class="code-inline">santamaria-automations/instagram-scraper</code>, and paste the input JSON. The node waits for the run to finish and returns the dataset items as an array you can pipe into a Google Sheets Append node, a database node, or an HTTP Request.</p>
- <p>Prefer a no-code trigger? Swap the Manual Trigger for a <strong>Schedule Trigger</strong> and n8n will run the scrape on a schedule, keeping your dataset up to date automatically. Use an <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> account if you want a managed, always-on instance with no maintenance overhead.</p>
- <h3>Make (formerly Integromat)</h3>
- <p>Use the <strong>HTTP module</strong> to call the Apify REST API directly. POST to <code class="code-inline">https://api.apify.com/v2/acts/santamaria-automations~instagram-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> with your input JSON as the request body. Make returns the full dataset as a parsed JSON array in one step.</p>
- <h3>Zapier</h3>
- <p>Use a <strong>Webhooks by Zapier</strong> POST action to call the same Apify run-sync endpoint. The JSON response body contains the dataset items, which you can route to a Google Sheet or any other Zap action.</p>
- <div class="callout"><strong>Tip for large batches in automation tools:</strong> the <code class="code-inline">run-sync-get-dataset-items</code> endpoint blocks until the run finishes, which works well for batches up to a few hundred handles. For larger batches, use the async <code class="code-inline">/runs</code> endpoint to start the actor, then poll <code class="code-inline">/datasets/{datasetId}/items</code> once the run status is <code class="code-inline">SUCCEEDED</code>.</div>
+    <h2 id="n8n-integration">Use with n8n, Make, or Zapier</h2>
+    <p>You can call the Instagram Scraper from any automation tool that supports the Apify API or the official Apify nodes. The approach is the same whether you are using n8n, Make, or Zapier.</p>
+    <h3>n8n</h3>
+    <p>Install the <a target="_blank" rel="noopener" href="https://n8n.io/integrations/apify/">Apify n8n node</a> (pre-installed on n8n Cloud; available via Community Nodes on self-hosted). Add a <em>Run an Actor and get dataset</em> node, enter your Apify credential, set the Actor ID to <code class="code-inline">santamaria-automations/instagram-scraper</code>, and paste the input JSON. The node waits for the run to finish and returns the dataset items as an array you can pipe into a Google Sheets Append node, a database node, or an HTTP Request.</p>
+    <p>Prefer a no-code trigger? Swap the Manual Trigger for a <strong>Schedule Trigger</strong> and n8n will run the scrape on a schedule, keeping your dataset up to date automatically. Use an <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> account if you want a managed, always-on instance with no maintenance overhead.</p>
+    <h3>Make (formerly Integromat)</h3>
+    <p>Use the <strong>HTTP module</strong> to call the Apify REST API directly. POST to <code class="code-inline">https://api.apify.com/v2/acts/santamaria-automations~instagram-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> with your input JSON as the request body. Make returns the full dataset as a parsed JSON array in one step.</p>
+    <h3>Zapier</h3>
+    <p>Use a <strong>Webhooks by Zapier</strong> POST action to call the same Apify run-sync endpoint. The JSON response body contains the dataset items, which you can route to a Google Sheet or any other Zap action.</p>
+    <div class="callout"><strong>Tip for large batches in automation tools:</strong> the <code class="code-inline">run-sync-get-dataset-items</code> endpoint blocks until the run finishes, which works well for batches up to a few hundred handles. For larger batches, use the async <code class="code-inline">/runs</code> endpoint to start the actor, then poll <code class="code-inline">/datasets/{datasetId}/items</code> once the run status is <code class="code-inline">SUCCEEDED</code>.</div>
 
- <h2 id="mcp-ai-agents">Use with AI agents via MCP</h2>
- <p>The actor is available as an MCP tool for AI clients that support the Model Context Protocol: Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, and others. Connect it by adding this server URL to your MCP configuration:</p>
- <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/instagram-scraper</pre></div>
- <p>Once connected, you can ask your AI agent things like:</p>
- <ul>
- <li>"Fetch the follower count, bio, and latest 5 posts for these 20 handles and summarize the engagement rate per post."</li>
- <li>"Scrape these competitor Instagram accounts and give me a table of follower counts and verification status."</li>
- <li>"Pull the recent posts for @nasa and tell me which ones got the most likes last week."</li>
- </ul>
- <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code class="code-inline">add-actor</code>, so you do not need to configure anything beyond the server URL.</p>
+    <h2 id="mcp-ai-agents">Use with AI agents via MCP</h2>
+    <p>The actor is available as an MCP tool for AI clients that support the Model Context Protocol: Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, and others. Connect it by adding this server URL to your MCP configuration:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/instagram-scraper</code></pre></div>
+    <p>Once connected, you can ask your AI agent things like:</p>
+    <ul>
+        <li>"Fetch the follower count, bio, and latest 5 posts for these 20 handles and summarize the engagement rate per post."</li>
+        <li>"Scrape these competitor Instagram accounts and give me a table of follower counts and verification status."</li>
+        <li>"Pull the recent posts for @nasa and tell me which ones got the most likes last week."</li>
+      </ul>
+    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code class="code-inline">add-actor</code>, so you do not need to configure anything beyond the server URL.</p>
 
- <h2 id="cost">What it costs</h2>
- <ul>
- <li><strong>Actor start:</strong> $0.001 per run (one charge when the run begins, regardless of batch size).</li>
- <li><strong>Per profile scraped:</strong> $0.005 per profile row written to the dataset. A batch of 100 profiles costs $0.50 plus $0.001 to start.</li>
- <li><strong>Free tier:</strong> Apify gives you $5 of usage credit every month, which covers around 1,000 profile scrapes.</li>
- </ul>
- <p>Pricing is pay-per-event with no monthly minimum. For 1,000 profiles in one run, you pay roughly $0.001 (start) + 1,000 x $0.005 (results) = $5.001. For 100 profiles per day over a month, that works out to about $15 per month.</p>
- <div class="callout"><strong>Pricing source:</strong> these figures are taken from the actor's live pricing configuration (effective 2026-07-18). Apify pricing can change. Always verify on the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">actor page</a> before budgeting a large run.</div>
+    <h2 id="cost">What it costs</h2>
+    <ul>
+        <li><strong>Actor start:</strong> $0.001 per run (one charge when the run begins, regardless of batch size).</li>
+        <li><strong>Per profile scraped:</strong> $0.005 per profile row written to the dataset. A batch of 100 profiles costs $0.50 plus $0.001 to start.</li>
+        <li><strong>Free tier:</strong> Apify gives you $5 of usage credit every month, which covers around 1,000 profile scrapes.</li>
+      </ul>
+    <p>Pricing is pay-per-event with no monthly minimum. For 1,000 profiles in one run, you pay roughly $0.001 (start) + 1,000 x $0.005 (results) = $5.001. For 100 profiles per day over a month, that works out to about $15 per month.</p>
+    <div class="callout"><strong>Pricing source:</strong> these figures are taken from the actor's live pricing configuration (effective 2026-07-18). Apify pricing can change. Always verify on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">actor page</a> before budgeting a large run.</div>
 
- <h2 id="faq">FAQ</h2>
- <div class="faq">
- <details>
- <summary>Do I need an Instagram account or API key to use this scraper?</summary>
- <p>No. The actor reads publicly available Instagram data over HTTP. You do not need a personal Instagram login, a Meta developer app, or any Instagram-issued credentials. A free Apify account is all you need.</p>
- </details>
- <details>
- <summary>Can I scrape private Instagram accounts?</summary>
- <p>No. Private accounts are accessible only to approved followers. The actor returns the profile row (follower count, bio, verification) for private accounts but cannot retrieve post details. The <code>is_private</code> field in the output will be <code>true</code>.</p>
- </details>
- <details>
- <summary>How many posts per profile can I get?</summary>
- <p>Up to 12 recent posts per profile, controlled by the <code>maxPostsPerProfile</code> input field (accepts 0 to 12). Set it to 0 if you only need profile-level stats and want to skip posts.</p>
- </details>
- <details>
- <summary>What happens if a handle does not exist?</summary>
- <p>The actor logs a warning for that handle and continues processing the rest of the batch. Non-existent handles are not written to the dataset, so your output stays clean.</p>
- </details>
- <details>
- <summary>What if Instagram shows an auth wall during a run?</summary>
- <p>If Instagram temporarily requires login for unauthenticated traffic, the actor stops immediately and logs an escalation message. It does not silently return empty data. Try splitting your batch into smaller runs, or wait a few hours and retry.</p>
- </details>
- <details>
- <summary>Is scraping public Instagram data legal?</summary>
- <p>Scraping publicly available data is generally permitted in most jurisdictions. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping public data does not violate the Computer Fraud and Abuse Act. That said, Meta's Terms of Service restrict automated scraping, and the legal picture varies by country and use case. If you plan to use the data commercially or at high volume, consult a lawyer.</p>
- </details>
- <details>
- <summary>Can I run this on a schedule?</summary>
- <p>Yes. In Apify Console, open the actor and click the <strong>Schedules</strong> tab to set up a recurring run. From n8n, replace the Manual Trigger with a Schedule Trigger. The scraper treats duplicate handles in the input the same way every run, so you can re-scrape the same list each day to track changes over time.</p>
- </details>
- <details>
- <summary>How do I use the output with Google Sheets?</summary>
- <p>In n8n, wire an Append to Google Sheet node after the Apify Run an Actor and get dataset node. The dataset items flow directly into it. Alternatively, download the dataset as CSV from the Apify Console and import it into Sheets manually.</p>
- </details>
- </div>
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need an Instagram account or API key to use this scraper?</summary>
+        <p>No. The actor reads publicly available Instagram data over HTTP. You do not need a personal Instagram login, a Meta developer app, or any Instagram-issued credentials. A free Apify account is all you need.</p>
+      </details>
+      <details>
+        <summary>Can I scrape private Instagram accounts?</summary>
+        <p>No. Private accounts are accessible only to approved followers. The actor returns the profile row (follower count, bio, verification) for private accounts but cannot retrieve post details. The <code>is_private</code> field in the output will be <code>true</code>.</p>
+      </details>
+      <details>
+        <summary>How many posts per profile can I get?</summary>
+        <p>Up to 12 recent posts per profile, controlled by the <code>maxPostsPerProfile</code> input field (accepts 0 to 12). Set it to 0 if you only need profile-level stats and want to skip posts.</p>
+      </details>
+      <details>
+        <summary>What happens if a handle does not exist?</summary>
+        <p>The actor logs a warning for that handle and continues processing the rest of the batch. Non-existent handles are not written to the dataset, so your output stays clean.</p>
+      </details>
+      <details>
+        <summary>What if Instagram shows an auth wall during a run?</summary>
+        <p>If Instagram temporarily requires login for unauthenticated traffic, the actor stops immediately and logs an escalation message. It does not silently return empty data. Try splitting your batch into smaller runs, or wait a few hours and retry.</p>
+      </details>
+      <details>
+        <summary>Is scraping public Instagram data legal?</summary>
+        <p>Scraping publicly available data is generally permitted in most jurisdictions. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping public data does not violate the Computer Fraud and Abuse Act. That said, Meta's Terms of Service restrict automated scraping, and the legal picture varies by country and use case. If you plan to use the data commercially or at high volume, consult a lawyer.</p>
+      </details>
+      <details>
+        <summary>Can I run this on a schedule?</summary>
+        <p>Yes. In Apify Console, open the actor and click the <strong>Schedules</strong> tab to set up a recurring run. From n8n, replace the Manual Trigger with a Schedule Trigger. The scraper treats duplicate handles in the input the same way every run, so you can re-scrape the same list each day to track changes over time.</p>
+      </details>
+      <details>
+        <summary>How do I use the output with Google Sheets?</summary>
+        <p>In n8n, wire an Append to Google Sheet node after the Apify Run an Actor and get dataset node. The dataset items flow directly into it. Alternatively, download the dataset as CSV from the Apify Console and import it into Sheets manually.</p>
+      </details>
+    </div>
 
- <h2>Related resources</h2>
- <ul>
- <li><a href="/actors/instagram-scraper/">Instagram Scraper actor page</a>: Full specs, pricing tiers, all fields, and comparison with alternatives.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">Instagram Scraper on Apify</a>: Actor's README, input schema, and complete field reference on Apify Store.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>: Enrich profiles that list an external website by extracting team emails, phones, and names.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/linkedin-company-scraper?fpr=0khfbz">LinkedIn Company Scraper</a>: Add LinkedIn company data to complement your Instagram research.</li>
- <li><a href="/tutorials/scrape-google-maps-with-n8n/">How to Scrape Google Maps with n8n</a>: Build a no-code Google Maps pipeline with a free n8n template.</li>
- </ul>
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/instagram-scraper/">Instagram Scraper actor page</a>: Full specs, pricing tiers, all fields, and comparison with alternatives.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz">Instagram Scraper on Apify</a>: Actor's README, input schema, and complete field reference on Apify Store.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz">Website Contact Extractor</a>: Enrich profiles that list an external website by extracting team emails, phones, and names.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/linkedin-company-scraper?fpr=0khfbz">LinkedIn Company Scraper</a>: Add LinkedIn company data to complement your Instagram research.</li>
+      <li><a href="/tutorials/scrape-google-maps-with-n8n/">How to Scrape Google Maps with n8n</a>: Build a no-code Google Maps pipeline with a free n8n template.</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
- </div>
- </article>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-primary">Open the actor on Apify</a>
+      <a target="_blank" rel="noopener" href="https://console.apify.com/actors/santamaria-automations/instagram-scraper?fpr=0khfbz" class="btn-secondary">View on Apify Console</a>
+    </div>
+  </article>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

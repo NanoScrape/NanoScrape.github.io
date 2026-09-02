@@ -1,570 +1,612 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>How to Scrape Telegram Public Channel Posts Without an API (2026 Guide) | NanoScrape</title>
- <meta name="description" content="Step-by-step guide to scraping Telegram public channel posts at scale. Extracts message text, dates, view counts, media types, and forwarded-from attribution. No login or Telegram account required.">
- <meta name="primary-keyword" content="telegram scraper">
- <meta name="robots" content="noindex, nofollow">
- <meta property="og:title" content="How to Scrape Telegram Public Channel Posts | NanoScrape">
- <meta property="og:description" content="Telegram does not offer a public data API for anonymous access. This guide shows how to extract posts from any public channel using the NanoScrape Telegram Scraper on Apify: multi-channel, paginated, no login required.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
- <meta property="og:type" content="article">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Telegram Public Channel Posts Without an API (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Step-by-step guide to scraping Telegram public channel posts at scale. Extracts message text, dates, view counts, media types, and forwarded-from attribution. No login or Telegram account required.">
+  <meta name="primary-keyword" content="telegram scraper">
+  <meta name="robots" content="noindex, nofollow">
+  <meta property="og:title" content="How to Scrape Telegram Public Channel Posts | NanoScrape">
+  <meta property="og:description" content="Telegram does not offer a public data API for anonymous access. This guide shows how to extract posts from any public channel using the NanoScrape Telegram Scraper on Apify: multi-channel, paginated, no login required.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
- <script type="application/ld+json">
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "HowTo",
- "name": "How to Scrape Telegram Public Channel Posts Without an API",
- "description": "Use the NanoScrape Telegram Channel Scraper on Apify to pull structured post data from any public Telegram channel. Returns message text, publication dates, view counts, media type, and forwarded-from attribution without requiring a Telegram login.",
- "totalTime": "PT7M",
- "estimatedCost": {
- "@type": "MonetaryAmount",
- "currency": "USD",
- "value": "0.25"
- },
- "supply": [
- {
- "@type": "HowToSupply",
- "name": "Free Apify account"
- },
- {
- "@type": "HowToSupply",
- "name": "List of public Telegram channel usernames to scrape"
- }
- ],
- "tool": [
- {
- "@type": "HowToTool",
- "name": "Apify"
- },
- {
- "@type": "HowToTool",
- "name": "NanoScrape Telegram Channel Scraper"
- }
- ],
- "step": [
- {
- "@type": "HowToStep",
- "name": "Create a free Apify account",
- "text": "Sign up for a free Apify account at apify.com. The free tier gives $5 of credit every month."
- },
- {
- "@type": "HowToStep",
- "name": "Open the Telegram Scraper",
- "text": "Navigate to the NanoScrape Telegram Channel Scraper on Apify and review the Information tab."
- },
- {
- "@type": "HowToStep",
- "name": "Enter your channel list",
- "text": "Click the Input tab and enter the channel usernames you want to scrape in the Channels field."
- },
- {
- "@type": "HowToStep",
- "name": "Run and export the results",
- "text": "Click Start, wait for the run to finish, then open the Dataset tab to download the posts."
- },
- {
- "@type": "HowToStep",
- "name": "Schedule ongoing monitoring",
- "text": "In Apify Console, set up a scheduled run so your channel feed updates automatically on a regular cadence."
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Telegram Public Channel Posts Without an API",
+  "description": "Use the NanoScrape Telegram Channel Scraper on Apify to pull structured post data from any public Telegram channel. Returns message text, publication dates, view counts, media type, and forwarded-from attribution without requiring a Telegram login.",
+  "totalTime": "PT7M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.25"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of public Telegram channel usernames to scrape"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Telegram Channel Scraper"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Create a free Apify account",
+      "text": "Sign up for a free Apify account at apify.com. The free tier gives $5 of credit every month."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Open the Telegram Scraper",
+      "text": "Navigate to the NanoScrape Telegram Channel Scraper on Apify and review the Information tab."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Enter your channel list",
+      "text": "Click the Input tab and enter the channel usernames you want to scrape in the Channels field."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and export the results",
+      "text": "Click Start, wait for the run to finish, then open the Dataset tab to download the posts."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule ongoing monitoring",
+      "text": "In Apify Console, set up a scheduled run so your channel feed updates automatically on a regular cadence."
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "Article",
- "headline": "How to Scrape Telegram Public Channel Posts Without an API",
- "description": "A complete guide to extracting posts from public Telegram channels using the NanoScrape Telegram Scraper: channel selection, pagination, scheduling for continuous monitoring, and exporting structured data.",
- "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
- "author": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com"
- },
- "publisher": {
- "@type": "Organization",
- "name": "NanoScrape",
- "url": "https://www.nanoscrape.com",
- "logo": {
- "@type": "ImageObject",
- "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
- }
- },
- "datePublished": "2026-08-19",
- "dateModified": "2026-08-19",
- "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/"
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Scrape Telegram Public Channel Posts Without an API",
+  "description": "A complete guide to extracting posts from public Telegram channels using the NanoScrape Telegram Scraper: channel selection, pagination, scheduling for continuous monitoring, and exporting structured data.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-08-19",
+  "dateModified": "2026-08-19",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/"
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "FAQPage",
- "mainEntity": [
- {
- "@type": "Question",
- "name": "Which Telegram channels can be scraped?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Only public channels with web preview enabled. A channel is eligible if you can open https://t.me/s/channelname in a browser without logging in. Private channels and groups require authentication and cannot be scraped."
- }
- },
- {
- "@type": "Question",
- "name": "How far back does the history go?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Telegram keeps full channel post history on its web preview with no documented cutoff. Set maxResults: 0 to collect the complete history. Very large channels take longer and cost more; test with a limit first."
- }
- },
- {
- "@type": "Question",
- "name": "Does the scraper download images or videos?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "No. The actor captures metadata only: whether the post has media and what type. Actual file downloads are out of scope."
- }
- },
- {
- "@type": "Question",
- "name": "Can I use this for crypto community research?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. You can scrape multiple crypto project channels in one run, filter by view count to surface high-engagement posts, and use forwarded_from to trace content spread between communities."
- }
- },
- {
- "@type": "Question",
- "name": "Can I run it via the API or automate with n8n?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Use POST /v2/acts/santamaria-automations~telegram-scraper/runs via the Apify REST API or the JavaScript/Python SDKs. For n8n, use the Apify n8n node with the actor ID."
- }
- },
- {
- "@type": "Question",
- "name": "How many posts per page does the scraper fetch?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Telegram's web preview returns approximately 20 posts per page. The scraper follows the pagination cursor automatically. Each page fetch is one network request."
- }
- },
- {
- "@type": "Question",
- "name": "Does the actor handle multiple channels in one run?",
- "acceptedAnswer": {
- "@type": "Answer",
- "text": "Yes. Pass multiple usernames in the channels array. Each channel is scraped in sequence and added to the same dataset. The channel field on each row identifies the source."
- }
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which Telegram channels can be scraped?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Only public channels with web preview enabled. A channel is eligible if you can open https://t.me/s/channelname in a browser without logging in. Private channels and groups require authentication and cannot be scraped."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How far back does the history go?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Telegram keeps full channel post history on its web preview with no documented cutoff. Set maxResults: 0 to collect the complete history. Very large channels take longer and cost more; test with a limit first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the scraper download images or videos?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The actor captures metadata only: whether the post has media and what type. Actual file downloads are out of scope."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this for crypto community research?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. You can scrape multiple crypto project channels in one run, filter by view count to surface high-engagement posts, and use forwarded_from to trace content spread between communities."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run it via the API or automate with n8n?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use POST /v2/acts/santamaria-automations~telegram-scraper/runs via the Apify REST API or the JavaScript/Python SDKs. For n8n, use the Apify n8n node with the actor ID."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many posts per page does the scraper fetch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Telegram's web preview returns approximately 20 posts per page. The scraper follows the pagination cursor automatically. Each page fetch is one network request."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the actor handle multiple channels in one run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Pass multiple usernames in the channels array. Each channel is scraped in sequence and added to the same dataset. The channel field on each row identifies the source."
+      }
+    }
+  ]
 }
- </script>
+  </script>
 
- <script type="application/ld+json">
+  <script type="application/ld+json">
 {
- "@context": "https://schema.org",
- "@type": "BreadcrumbList",
- "itemListElement": [
- {
- "@type": "ListItem",
- "position": 1,
- "name": "Home",
- "item": "https://www.nanoscrape.com/"
- },
- {
- "@type": "ListItem",
- "position": 2,
- "name": "Tutorials",
- "item": "https://www.nanoscrape.com/tutorials/"
- },
- {
- "@type": "ListItem",
- "position": 3,
- "name": "How to Scrape Telegram Public Channel Posts Without an API",
- "item": "https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/"
- }
- ]
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Scrape Telegram Public Channel Posts Without an API",
+      "item": "https://www.nanoscrape.com/tutorials/telegram-scraper-public-channel-posts/"
+    }
+  ]
 }
- </script>
+  </script>
 
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
 
- .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
- .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
- .breadcrumb a { color: var(--muted); }
- .breadcrumb a:hover { color: var(--accent); }
- .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
- .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
- .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
 
- .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
- .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
- .article p { margin-bottom: 16px; }
- .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
- .article li { margin-bottom: 6px; color: var(--text); }
- .article li strong { color: var(--white); }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
 
- .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
- .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
- .toc ol { margin: 0; padding-left: 20px; }
- .toc li { margin-bottom: 4px; }
- .toc a { color: var(--text); }
- .toc a:hover { color: var(--accent); }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
 
- .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
- .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
- .article figure { margin: 24px 0 28px; }
- .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
- .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
- .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
- .article .figure-group figure { margin: 0; }
- @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
 
- .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
- .callout strong { color: var(--white); }
- .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
- .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
 
- .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
- .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
 
- .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
- .faq details[open] { border-color: var(--accent); }
- .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
- .faq summary::marker { color: var(--muted); }
- .faq details p { margin: 10px 0 4px; color: var(--text); }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
 
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .article h1 { font-size: 1.55rem; }
- .article h2 { font-size: 1.25rem; }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
- .draft-banner a { color: #0b0e14; text-decoration: underline; }
- </style>
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
 </head>
 <body>
- <div class="draft-banner">
- DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
- </div>
+  <div class="draft-banner">
+    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
+  </div>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <article class="article">
- <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Telegram Scraper: Public Channel Posts</nav>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Telegram Scraper: Public Channel Posts</nav>
 
- <h1>How to Scrape Telegram Public Channel Posts Without an API</h1>
- <p class="lead">Telegram has no public REST API for anonymous data access. To pull posts from a channel you either install the official client library (which requires a phone number and session management) or you do it the hard way. The NanoScrape Telegram Channel Scraper on Apify takes a third path: it reads the public web preview Telegram generates for every public channel at t.me/s/channelname, paginates through the full history, and returns each post as a clean JSON row. You get message text, publication date, view count, media type, and forwarded-from attribution in one dataset, with no login and no bot token required.</p>
+    <h1>How to Scrape Telegram Public Channel Posts Without an API</h1>
+    <p class="lead">Telegram has no public REST API for anonymous data access. To pull posts from a channel you either install the official client library (which requires a phone number and session management) or you do it the hard way. The NanoScrape Telegram Channel Scraper on Apify takes a third path: it reads the public web preview Telegram generates for every public channel at t.me/s/channelname, paginates through the full history, and returns each post as a clean JSON row. You get message text, publication date, view count, media type, and forwarded-from attribution in one dataset, with no login and no bot token required.</p>
 
- <figure>
- <img src="assets/01-telegram-scraper-public-channel-posts-dataset-table.png" alt="Apify dataset table showing Telegram channel posts returned by the Telegram Scraper with columns for channel, message text, date, views, and media type" loading="lazy" width="3200" height="2000">
- <figcaption>The dataset output: one row per post with message ID, channel name, text, publication date, view count, media type, and direct message URL.</figcaption>
- </figure>
+    <figure>
+      <img src="assets/01-telegram-scraper-public-channel-posts-dataset-table.png" alt="Apify dataset table showing Telegram channel posts returned by the Telegram Scraper with columns for channel, message text, date, views, and media type" loading="lazy" width="3200" height="2000">
+      <figcaption>The dataset output: one row per post with message ID, channel name, text, publication date, view count, media type, and direct message URL.</figcaption>
+    </figure>
 
- <div class="meta-row">
- <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
- <div class="meta-item"><strong>Time:</strong> 7 minutes</div>
- <div class="meta-item"><strong>Cost:</strong> $0.15 to start + $0.10 per 1,000 posts; free Apify tier covers first $5/month</div>
- <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Telegram Channel Scraper</div>
- </div>
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 7 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.15 to start + $0.10 per 1,000 posts; free Apify tier covers first $5/month</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Telegram Channel Scraper</div>
+    </div>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz" class="btn-primary">Open the Telegram Scraper on Apify</a>
- <a href="#cost" class="btn-secondary">See pricing details</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz" class="btn-primary">Open the Telegram Scraper on Apify</a>
+      <a href="#cost" class="btn-secondary">See pricing details</a>
+    </div>
 
- <div class="toc">
- <h2>In this tutorial</h2>
- <ol>
- <li><a href="#what-you-get">What you get</a></li>
- <li><a href="#prerequisites">Prerequisites</a></li>
- <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
- <li><a href="#step-2">Step 2: Open the Telegram Scraper</a></li>
- <li><a href="#step-3">Step 3: Enter your channel list</a></li>
- <li><a href="#step-4">Step 4: Run and export the results</a></li>
- <li><a href="#step-5">Step 5: Schedule ongoing monitoring</a></li>
- <li><a href="#advanced">Advanced: multi-channel and AI analysis</a></li>
- <li><a href="#mcp">Connect to AI agents via MCP</a></li>
- <li><a href="#fields">Key input and output fields</a></li>
- <li><a href="#cost">What it costs</a></li>
- <li><a href="#faq">FAQ</a></li>
- </ol>
- </div>
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Create a free Apify account</a></li>
+        <li><a href="#step-2">Step 2: Open the Telegram Scraper</a></li>
+        <li><a href="#step-3">Step 3: Enter your channel list</a></li>
+        <li><a href="#step-4">Step 4: Run and export the results</a></li>
+        <li><a href="#step-5">Step 5: Schedule ongoing monitoring</a></li>
+        <li><a href="#advanced">Advanced: multi-channel and AI analysis</a></li>
+        <li><a href="#mcp">Connect to AI agents via MCP</a></li>
+        <li><a href="#fields">Key input and output fields</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
 
- <h2 id="what-you-get">What you get</h2>
- <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">NanoScrape Telegram Channel Scraper</a> runs on Apify and reads the public web preview Telegram generates for any channel with web preview enabled. For each post in the channel history it returns a structured row with all the metadata that is visible on the public preview page. The scraper paginates automatically, so a single run can collect the full post history of a channel without any manual intervention.</p>
- <ul>
- <li><strong>Message text</strong>: the full post content as plain text.</li>
- <li><strong>Publication date</strong>: ISO 8601 timestamp of when the post was published.</li>
- <li><strong>View count</strong>: the number of views shown on the public channel page.</li>
- <li><strong>Media type</strong>: whether the post includes a photo, video, document, sticker, or poll.</li>
- <li><strong>Forwarded from</strong>: the original channel username when the post is a repost.</li>
- <li><strong>Message URL</strong>: direct link to the post at t.me/channel/messageId.</li>
- <li><strong>Channel URL</strong>: link to the channel's main page.</li>
- <li><strong>Scraped at</strong>: ISO 8601 UTC timestamp of when the row was collected.</li>
- </ul>
- <p>One run gives you a snapshot up to a date limit you set. Remove the limit and the scraper follows pagination back through the full channel history. Schedule it to run daily and you have a continuous feed of new posts from any set of public channels.</p>
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">NanoScrape Telegram Channel Scraper</a> runs on Apify and reads the public web preview Telegram generates for any channel with web preview enabled. For each post in the channel history it returns a structured row with all the metadata that is visible on the public preview page. The scraper paginates automatically, so a single run can collect the full post history of a channel without any manual intervention.</p>
+    <ul>
+        <li><strong>Message text</strong>: the full post content as plain text.</li>
+        <li><strong>Publication date</strong>: ISO 8601 timestamp of when the post was published.</li>
+        <li><strong>View count</strong>: the number of views shown on the public channel page.</li>
+        <li><strong>Media type</strong>: whether the post includes a photo, video, document, sticker, or poll.</li>
+        <li><strong>Forwarded from</strong>: the original channel username when the post is a repost.</li>
+        <li><strong>Message URL</strong>: direct link to the post at t.me/channel/messageId.</li>
+        <li><strong>Channel URL</strong>: link to the channel's main page.</li>
+        <li><strong>Scraped at</strong>: ISO 8601 UTC timestamp of when the row was collected.</li>
+      </ul>
+    <p>One run gives you a snapshot up to a date limit you set. Remove the limit and the scraper follows pagination back through the full channel history. Schedule it to run daily and you have a continuous feed of new posts from any set of public channels.</p>
 
- <h2 id="prerequisites">Prerequisites</h2>
- <ul>
- <li>A free Apify account. The free tier gives $5 of monthly credit.</li>
- <li>The username of at least one public Telegram channel you want to scrape. The channel must be accessible at t.me/channelname with web preview enabled.</li>
- </ul>
- <div class="callout"><strong>What counts as a public channel?</strong> Any channel where you can open <code class="code-inline">https://t.me/s/channelname</code> in a browser without being redirected to the Telegram app or a login page. Private channels, groups, and channels without web preview cannot be scraped without a Telegram account.</div>
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+        <li>A free Apify account. The free tier gives $5 of monthly credit.</li>
+        <li>The username of at least one public Telegram channel you want to scrape. The channel must be accessible at t.me/channelname with web preview enabled.</li>
+      </ul>
+    <div class="callout"><strong>What counts as a public channel?</strong> Any channel where you can open <code class="code-inline">https://t.me/s/channelname</code> in a browser without being redirected to the Telegram app or a login page. Private channels, groups, and channels without web preview cannot be scraped without a Telegram account.</div>
 
- <div class="step" id="step-1">
- <span class="step-number">STEP 1</span>
- <h2>Create a free Apify account</h2>
- <ol>
- <li>Open <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
- <li>Sign up with Google or email. The form takes about a minute.</li>
- <li>You land on the actor input form. The $5 free credit is added automatically.</li>
- </ol>
- <div class="callout tip"><strong>Already have an account?</strong> Click the actor link above and you land directly on the input form.</div>
- </div>
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create a free Apify account</h2>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Sign up with Google or email. The form takes about a minute.</li>
+        <li>You land on the actor input form. The $5 free credit is added automatically.</li>
+      </ol>
+      <div class="callout tip"><strong>Already have an account?</strong> Click the actor link above and you land directly on the input form.</div>
+    </div>
 
- <div class="step" id="step-2">
- <span class="step-number">STEP 2</span>
- <h2>Open the Telegram Scraper</h2>
- <p>After signing in you are on the actor page. The <strong>Information</strong> tab shows the pricing breakdown, all input parameters with descriptions, and a sample output row so you know exactly what fields you will receive. The <strong>Input</strong> tab is where you enter your channel list.</p>
- <figure>
- <img src="assets/02-telegram-scraper-public-channel-posts-actor-information-tab.png" alt="Apify Console showing the NanoScrape Telegram Channel Scraper actor information tab with pricing and output field descriptions" loading="lazy" width="3200" height="2000">
- <figcaption>The actor's Information tab: pricing per post, description of all input and output fields, and example output.</figcaption>
- </figure>
- </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Open the Telegram Scraper</h2>
+      <p>After signing in you are on the actor page. The <strong>Information</strong> tab shows the pricing breakdown, all input parameters with descriptions, and a sample output row so you know exactly what fields you will receive. The <strong>Input</strong> tab is where you enter your channel list.</p>
+      <figure>
+      <img src="assets/02-telegram-scraper-public-channel-posts-actor-information-tab.png" alt="Apify Console showing the NanoScrape Telegram Channel Scraper actor information tab with pricing and output field descriptions" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor's Information tab: pricing per post, description of all input and output fields, and example output.</figcaption>
+    </figure>
+    </div>
 
- <div class="step" id="step-3">
- <span class="step-number">STEP 3</span>
- <h2>Enter your channel list</h2>
- <p>Click <strong>Input</strong> in the left sidebar. Add each channel username as a separate entry in the <strong>Channels</strong> field. You do not need the @ prefix. Set <code class="code-inline">maxResults</code> to control how many posts per channel the scraper collects in a single run.</p>
- <div class="code-block"><pre>{
- "channels": [
- "telegram",
- "durov",
- "techcrunch"
- ],
- "maxResults": 100
-}</pre></div>
- <p>Key input settings:</p>
- <ul>
- <li><code class="code-inline">channels</code>: array of public channel usernames. No @ sign needed. For example, the official Telegram channel is just <code class="code-inline">telegram</code>.</li>
- <li><code class="code-inline">maxResults</code>: maximum posts to return per channel in a single run. Set to <code class="code-inline">0</code> to collect the full available post history with no cap.</li>
- <li><code class="code-inline">proxyConfiguration</code>: proxy settings. The default (auto) works for most channels.</li>
- </ul>
- <figure>
- <img src="assets/03-telegram-scraper-public-channel-posts-input-form.png" alt="Apify Console Telegram Scraper input form showing a channel list with telegram, durov, and techcrunch entered" loading="lazy" width="3200" height="2000">
- <figcaption>The Input tab. Add one channel username per entry and set maxResults to cap the post count per channel.</figcaption>
- </figure>
- <div class="callout tip">Start with a single channel and <code class="code-inline">maxResults: 20</code> for your first test run. It completes in under 30 seconds and uses less than $0.002 in credits, so you can verify the output before scaling up.</div>
- </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Enter your channel list</h2>
+      <p>Click <strong>Input</strong> in the left sidebar. Add each channel username as a separate entry in the <strong>Channels</strong> field. You do not need the @ prefix. Set <code class="code-inline">maxResults</code> to control how many posts per channel the scraper collects in a single run.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "channels": [
+    "telegram",
+    "durov",
+    "techcrunch"
+  ],
+  "maxResults": 100
+}</code></pre></div>
+      <p>Key input settings:</p>
+      <ul>
+        <li><code class="code-inline">channels</code>: array of public channel usernames. No @ sign needed. For example, the official Telegram channel is just <code class="code-inline">telegram</code>.</li>
+        <li><code class="code-inline">maxResults</code>: maximum posts to return per channel in a single run. Set to <code class="code-inline">0</code> to collect the full available post history with no cap.</li>
+        <li><code class="code-inline">proxyConfiguration</code>: proxy settings. The default (auto) works for most channels.</li>
+      </ul>
+      <figure>
+      <img src="assets/03-telegram-scraper-public-channel-posts-input-form.png" alt="Apify Console Telegram Scraper input form showing a channel list with telegram, durov, and techcrunch entered" loading="lazy" width="3200" height="2000">
+      <figcaption>The Input tab. Add one channel username per entry and set maxResults to cap the post count per channel.</figcaption>
+    </figure>
+      <div class="callout tip">Start with a single channel and <code class="code-inline">maxResults: 20</code> for your first test run. It completes in under 30 seconds and uses less than $0.002 in credits, so you can verify the output before scaling up.</div>
+    </div>
 
- <div class="step" id="step-4">
- <span class="step-number">STEP 4</span>
- <h2>Run and export the results</h2>
- <ol>
- <li>Click <strong>Start</strong> at the bottom of the Input tab.</li>
- <li>The run opens automatically. The <strong>Log</strong> tab shows progress as pages are fetched.</li>
- <li>When the status bar shows <strong>SUCCEEDED</strong>, click <strong>Dataset</strong> in the left sidebar.</li>
- <li>The table shows one row per post. To download, click <strong>Export</strong> and choose JSON, CSV, or XLSX.</li>
- </ol>
- <figure>
- <img src="assets/04-telegram-scraper-public-channel-posts-run-log.png" alt="Apify run log for the Telegram Scraper showing posts being collected with status SUCCEEDED" loading="lazy" width="3200" height="2000">
- <figcaption>The run log. Each line represents a page of posts fetched from the channel's web preview.</figcaption>
- </figure>
- <p>Each row in the dataset is one post. Here is what a typical row looks like as JSON:</p>
- <div class="code-block"><pre>{
- "id": 435,
- "channel": "telegram",
- "message_url": "https://t.me/telegram/435",
- "channel_url": "https://t.me/telegram",
- "text": "Big announcement: new features launching today...",
- "date": "2026-04-09T07:01:44+00:00",
- "views": 1570000,
- "has_media": true,
- "media_type": "video",
- "forwarded_from": null,
- "scraped_at": "2026-08-19T06:16:49Z"
-}</pre></div>
- <p>To filter only posts from the last 7 days after downloading as JSON:</p>
- <div class="code-block"><pre>const posts = require('./dataset.json');
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Run and export the results</h2>
+      <ol>
+        <li>Click <strong>Start</strong> at the bottom of the Input tab.</li>
+        <li>The run opens automatically. The <strong>Log</strong> tab shows progress as pages are fetched.</li>
+        <li>When the status bar shows <strong>SUCCEEDED</strong>, click <strong>Dataset</strong> in the left sidebar.</li>
+        <li>The table shows one row per post. To download, click <strong>Export</strong> and choose JSON, CSV, or XLSX.</li>
+      </ol>
+      <figure>
+      <img src="assets/04-telegram-scraper-public-channel-posts-run-log.png" alt="Apify run log for the Telegram Scraper showing posts being collected with status SUCCEEDED" loading="lazy" width="3200" height="2000">
+      <figcaption>The run log. Each line represents a page of posts fetched from the channel's web preview.</figcaption>
+    </figure>
+      <p>Each row in the dataset is one post. Here is what a typical row looks like as JSON:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": 435,
+  "channel": "telegram",
+  "message_url": "https://t.me/telegram/435",
+  "channel_url": "https://t.me/telegram",
+  "text": "Big announcement: new features launching today...",
+  "date": "2026-04-09T07:01:44+00:00",
+  "views": 1570000,
+  "has_media": true,
+  "media_type": "video",
+  "forwarded_from": null,
+  "scraped_at": "2026-08-19T06:16:49Z"
+}</code></pre></div>
+      <p>To filter only posts from the last 7 days after downloading as JSON:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const posts = require('./dataset.json');
 const cutoff = new Date(Date.now() - 7 * 86400000);
 
 const recent = posts.filter(p =&gt; new Date(p.date) &gt;= cutoff);
 
 for (const p of recent) {
- console.log(`[${p.channel}] ${p.views} views - ${p.text.slice(0, 80)}`);
-}</pre></div>
- </div>
+  console.log(`[${p.channel}] ${p.views} views - ${p.text.slice(0, 80)}`);
+}</code></pre></div>
+    </div>
 
- <div class="step" id="step-5">
- <span class="step-number">STEP 5</span>
- <h2>Schedule ongoing monitoring</h2>
- <p>A one-off run captures the current post history. To keep up with new posts, schedule the actor to run on a regular interval:</p>
- <ol>
- <li>In Apify Console, open the Telegram Scraper actor and click <strong>Schedules</strong> in the left sidebar.</li>
- <li>Click <strong>New schedule</strong> and give it a name such as "Daily channel monitor".</li>
- <li>Set the cron expression. For daily at 8 AM UTC: <code class="code-inline">0 8 * * *</code>. For every 4 hours: <code class="code-inline">0 */4 * * *</code>.</li>
- <li>In the <strong>Input</strong> field, paste your channel list as JSON (same as Step 3).</li>
- <li>Click <strong>Save</strong>. Each run creates its own dataset. Fetch the latest via the API.</li>
- </ol>
- <p>To pull new posts since the last run via the Apify API:</p>
- <div class="code-block"><pre># Fetch the most recent run's dataset
+    <div class="step" id="step-5">
+      <span class="step-number">STEP 5</span>
+      <h2>Schedule ongoing monitoring</h2>
+      <p>A one-off run captures the current post history. To keep up with new posts, schedule the actor to run on a regular interval:</p>
+      <ol>
+        <li>In Apify Console, open the Telegram Scraper actor and click <strong>Schedules</strong> in the left sidebar.</li>
+        <li>Click <strong>New schedule</strong> and give it a name such as "Daily channel monitor".</li>
+        <li>Set the cron expression. For daily at 8 AM UTC: <code class="code-inline">0 8 * * *</code>. For every 4 hours: <code class="code-inline">0 */4 * * *</code>.</li>
+        <li>In the <strong>Input</strong> field, paste your channel list as JSON (same as Step 3).</li>
+        <li>Click <strong>Save</strong>. Each run creates its own dataset. Fetch the latest via the API.</li>
+      </ol>
+      <p>To pull new posts since the last run via the Apify API:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash"># Fetch the most recent run's dataset
 curl -s "https://api.apify.com/v2/acts/santamaria-automations~telegram-scraper/runs/last/dataset/items?token=YOUR_TOKEN&amp;limit=200" \
- | jq '.[] | {channel, date, views, text: .text[:80]}'</pre></div>
- <div class="callout tip">For monitoring 5 channels at 100 posts per run, a daily schedule costs about $0.25 per day (one $0.15 start + $0.10 for 500 results). That runs about $7.50/month, comfortably within the Apify Starter plan.</div>
- </div>
+  | jq '.[] | {channel, date, views, text: .text[:80]}'</code></pre></div>
+      <div class="callout tip">For monitoring 5 channels at 100 posts per run, a daily schedule costs about $0.25 per day (one $0.15 start + $0.10 for 500 results). That runs about $7.50/month, comfortably within the Apify Starter plan.</div>
+    </div>
 
- <h2 id="advanced">Advanced: multi-channel monitoring and AI analysis</h2>
- <p>The actor handles two patterns that are especially useful once you move beyond a single channel.</p>
- <p><strong>Monitoring a topic across many channels</strong></p>
- <p>Telegram channels are the main distribution mechanism for many communities, including crypto projects, news outlets, and regional media. To monitor how a topic spreads across multiple channels, run the actor with a list of 10 to 20 channels and set <code class="code-inline">maxResults: 200</code>. The dataset comes back with a <code class="code-inline">channel</code> field on every row, so you can group and compare:</p>
- <div class="code-block"><pre>{
- "channels": [
- "telegram",
- "durov",
- "notcoin",
- "technews"
- ],
- "maxResults": 200
-}</pre></div>
- <p><strong>Tracking forwarded posts</strong></p>
- <p>The <code class="code-inline">forwarded_from</code> field captures the original channel when a post is a repost. This lets you identify which channels act as amplifiers for content that originated elsewhere, which is useful for influence mapping in crypto communities, media monitoring, or political research:</p>
- <div class="code-block"><pre>const posts = require('./dataset.json');
+    <h2 id="advanced">Advanced: multi-channel monitoring and AI analysis</h2>
+    <p>The actor handles two patterns that are especially useful once you move beyond a single channel.</p>
+    <p><strong>Monitoring a topic across many channels</strong></p>
+    <p>Telegram channels are the main distribution mechanism for many communities, including crypto projects, news outlets, and regional media. To monitor how a topic spreads across multiple channels, run the actor with a list of 10 to 20 channels and set <code class="code-inline">maxResults: 200</code>. The dataset comes back with a <code class="code-inline">channel</code> field on every row, so you can group and compare:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "channels": [
+    "telegram",
+    "durov",
+    "notcoin",
+    "technews"
+  ],
+  "maxResults": 200
+}</code></pre></div>
+    <p><strong>Tracking forwarded posts</strong></p>
+    <p>The <code class="code-inline">forwarded_from</code> field captures the original channel when a post is a repost. This lets you identify which channels act as amplifiers for content that originated elsewhere, which is useful for influence mapping in crypto communities, media monitoring, or political research:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const posts = require('./dataset.json');
 const forwarded = posts.filter(p =&gt; p.forwarded_from !== null);
 
 const sources = {};
 for (const p of forwarded) {
- sources[p.forwarded_from] = (sources[p.forwarded_from] || 0) + 1;
+  sources[p.forwarded_from] = (sources[p.forwarded_from] || 0) + 1;
 }
 
 // Sort by repost count
 const ranked = Object.entries(sources).sort((a, b) =&gt; b[1] - a[1]);
-console.log('Top original sources:', ranked.slice(0, 10));</pre></div>
+console.log('Top original sources:', ranked.slice(0, 10));</code></pre></div>
 
- <h2 id="mcp">Connect to AI agents via MCP</h2>
- <p>The actor works as a Model Context Protocol (MCP) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code):</p>
- <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/telegram-scraper</pre></div>
- <p>Once connected, your AI agent can pull Telegram channel data on demand from natural language prompts:</p>
- <div class="code-block"><pre>Get the last 50 posts from the 'telegram' official channel and summarize the main product announcements.</pre></div>
- <p>Clients that support dynamic tool discovery receive the full input schema automatically, so the model fills in channel names and post limits without manual parameter setup.</p>
+    <h2 id="mcp">Connect to AI agents via MCP</h2>
+    <p>The actor works as a Model Context Protocol (MCP) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/telegram-scraper</code></pre></div>
+    <p>Once connected, your AI agent can pull Telegram channel data on demand from natural language prompts:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Get the last 50 posts from the 'telegram' official channel and summarize the main product announcements.</code></pre></div>
+    <p>Clients that support dynamic tool discovery receive the full input schema automatically, so the model fills in channel names and post limits without manual parameter setup.</p>
 
- <h2 id="fields">Key input and output fields</h2>
- <p><strong>Input fields</strong></p>
- <ul>
- <li><code class="code-inline">channels</code> (required): array of public channel usernames without the @ prefix. The channel must have Telegram web preview enabled.</li>
- <li><code class="code-inline">maxResults</code>: maximum posts to return per channel (default 100). Set to <code class="code-inline">0</code> for no cap (full history).</li>
- <li><code class="code-inline">proxyConfiguration</code>: proxy settings. Datacenter proxy works by default.</li>
- </ul>
- <p><strong>Output fields per row</strong></p>
- <ul>
- <li><code class="code-inline">id</code>: the Telegram message ID.</li>
- <li><code class="code-inline">channel</code>: the channel username (without @).</li>
- <li><code class="code-inline">message_url</code>: direct link to the post (e.g. https://t.me/telegram/435).</li>
- <li><code class="code-inline">channel_url</code>: link to the channel page (e.g. https://t.me/telegram).</li>
- <li><code class="code-inline">text</code>: full post text as a plain string.</li>
- <li><code class="code-inline">date</code>: ISO 8601 publication timestamp including timezone offset.</li>
- <li><code class="code-inline">views</code>: number of views as an integer, from the public web preview.</li>
- <li><code class="code-inline">has_media</code>: boolean, whether the post includes any media attachment.</li>
- <li><code class="code-inline">media_type</code>: string identifying the media kind (photo, video, document, sticker, poll, or null).</li>
- <li><code class="code-inline">forwarded_from</code>: original channel username when the post is a repost, otherwise null.</li>
- <li><code class="code-inline">scraped_at</code>: ISO 8601 UTC timestamp of when this row was collected.</li>
- </ul>
+    <h2 id="fields">Key input and output fields</h2>
+    <p><strong>Input fields</strong></p>
+    <ul>
+        <li><code class="code-inline">channels</code> (required): array of public channel usernames without the @ prefix. The channel must have Telegram web preview enabled.</li>
+        <li><code class="code-inline">maxResults</code>: maximum posts to return per channel (default 100). Set to <code class="code-inline">0</code> for no cap (full history).</li>
+        <li><code class="code-inline">proxyConfiguration</code>: proxy settings. Datacenter proxy works by default.</li>
+      </ul>
+    <p><strong>Output fields per row</strong></p>
+    <ul>
+        <li><code class="code-inline">id</code>: the Telegram message ID.</li>
+        <li><code class="code-inline">channel</code>: the channel username (without @).</li>
+        <li><code class="code-inline">message_url</code>: direct link to the post (e.g. https://t.me/telegram/435).</li>
+        <li><code class="code-inline">channel_url</code>: link to the channel page (e.g. https://t.me/telegram).</li>
+        <li><code class="code-inline">text</code>: full post text as a plain string.</li>
+        <li><code class="code-inline">date</code>: ISO 8601 publication timestamp including timezone offset.</li>
+        <li><code class="code-inline">views</code>: number of views as an integer, from the public web preview.</li>
+        <li><code class="code-inline">has_media</code>: boolean, whether the post includes any media attachment.</li>
+        <li><code class="code-inline">media_type</code>: string identifying the media kind (photo, video, document, sticker, poll, or null).</li>
+        <li><code class="code-inline">forwarded_from</code>: original channel username when the post is a repost, otherwise null.</li>
+        <li><code class="code-inline">scraped_at</code>: ISO 8601 UTC timestamp of when this row was collected.</li>
+      </ul>
 
- <h2 id="cost">What it costs</h2>
- <p>The actor uses pay-per-result pricing. You pay a one-time start fee per run and then a small amount per post returned.</p>
- <ul>
- <li><strong>Actor start</strong>: $0.15 per run (one-time container startup fee).</li>
- <li><strong>Per post scraped</strong>: $0.10 per 1,000 posts ($0.0001 per post).</li>
- </ul>
- <p>Example costs:</p>
- <ul>
- <li>1,000 posts from one channel: $0.15 + $0.10 = <strong>$0.25 total</strong>.</li>
- <li>10,000 posts across 5 channels: $0.15 + $1.00 = <strong>$1.15 total</strong>.</li>
- <li>100 posts per day from 3 channels (daily schedule): about <strong>$0.18 per day</strong>.</li>
- </ul>
- <div class="callout">The Apify free tier gives $5 of monthly credit. That covers roughly 48 runs at 1,000 posts each before you pay anything, making it straightforward to test the actor at scale before committing to a paid plan.</div>
+    <h2 id="cost">What it costs</h2>
+    <p>The actor uses pay-per-result pricing. You pay a one-time start fee per run and then a small amount per post returned.</p>
+    <ul>
+        <li><strong>Actor start</strong>: $0.15 per run (one-time container startup fee).</li>
+        <li><strong>Per post scraped</strong>: $0.10 per 1,000 posts ($0.0001 per post).</li>
+      </ul>
+    <p>Example costs:</p>
+    <ul>
+        <li>1,000 posts from one channel: $0.15 + $0.10 = <strong>$0.25 total</strong>.</li>
+        <li>10,000 posts across 5 channels: $0.15 + $1.00 = <strong>$1.15 total</strong>.</li>
+        <li>100 posts per day from 3 channels (daily schedule): about <strong>$0.18 per day</strong>.</li>
+      </ul>
+    <div class="callout">The Apify free tier gives $5 of monthly credit. That covers roughly 48 runs at 1,000 posts each before you pay anything, making it straightforward to test the actor at scale before committing to a paid plan.</div>
 
- <h2 id="faq">FAQ</h2>
- <div class="faq">
- <details>
- <summary>Which Telegram channels can be scraped?</summary>
- <p>Only public channels with Telegram web preview enabled. A channel is eligible if you can open <code class="code-inline">https://t.me/s/channelname</code> in a browser without being asked to log in. Private channels, groups (including supergroups), and channels that have disabled web preview require an authenticated Telegram session and cannot be scraped with this actor.</p>
- </details>
- <details>
- <summary>How far back does the history go?</summary>
- <p>Telegram keeps full channel post history on its web preview with no documented cutoff. In practice the actor can paginate back through thousands of posts by following the cursor. Set <code class="code-inline">maxResults: 0</code> to remove the per-channel cap and collect the complete history. Very large channels with tens of thousands of posts will take longer and cost more; test with a limit first.</p>
- </details>
- <details>
- <summary>Does the scraper download images or videos?</summary>
- <p>No. The actor captures metadata only: whether a post has media and what type it is (photo, video, document, sticker, poll). Actual file downloads are out of scope. If you need the media files themselves, you would need to follow the message URL and download them separately.</p>
- </details>
- <details>
- <summary>Can I use this for crypto community research?</summary>
- <p>Yes. Telegram is a major distribution channel for crypto projects, trading signals, and market commentary. You can scrape multiple project channels in one run, filter posts by view count to surface high-engagement content, and use the <code class="code-inline">forwarded_from</code> field to trace how content spreads between communities.</p>
- </details>
- <details>
- <summary>Can I run it via the API or automate with n8n?</summary>
- <p>Yes. Use the Apify REST API endpoint <code class="code-inline">POST /v2/acts/santamaria-automations~telegram-scraper/runs</code> or the JavaScript/Python SDKs to trigger runs programmatically. For n8n, use the <a target="_blank" rel="sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">Apify n8n node</a> with the actor ID <code class="code-inline">santamaria-automations/telegram-scraper</code>.</p>
- </details>
- <details>
- <summary>How many posts per page does the scraper fetch?</summary>
- <p>Telegram's public web preview returns approximately 20 posts per page. The scraper follows the pagination cursor automatically, so you do not need to manage pagination yourself. Each page fetch is one network request; the number of requests per run is roughly (posts per channel / 20).</p>
- </details>
- <details>
- <summary>Does the actor handle multiple channels in one run?</summary>
- <p>Yes. Pass any number of channel usernames in the <code class="code-inline">channels</code> array. Each channel is scraped in sequence and its posts are added to the same dataset. The <code class="code-inline">channel</code> field on each row tells you which channel the post came from. Deduplication ensures the same post is never returned twice even if you re-run on an overlapping date range.</p>
- </details>
- </div>
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Which Telegram channels can be scraped?</summary>
+        <p>Only public channels with Telegram web preview enabled. A channel is eligible if you can open <code class="code-inline">https://t.me/s/channelname</code> in a browser without being asked to log in. Private channels, groups (including supergroups), and channels that have disabled web preview require an authenticated Telegram session and cannot be scraped with this actor.</p>
+      </details>
+      <details>
+        <summary>How far back does the history go?</summary>
+        <p>Telegram keeps full channel post history on its web preview with no documented cutoff. In practice the actor can paginate back through thousands of posts by following the cursor. Set <code class="code-inline">maxResults: 0</code> to remove the per-channel cap and collect the complete history. Very large channels with tens of thousands of posts will take longer and cost more; test with a limit first.</p>
+      </details>
+      <details>
+        <summary>Does the scraper download images or videos?</summary>
+        <p>No. The actor captures metadata only: whether a post has media and what type it is (photo, video, document, sticker, poll). Actual file downloads are out of scope. If you need the media files themselves, you would need to follow the message URL and download them separately.</p>
+      </details>
+      <details>
+        <summary>Can I use this for crypto community research?</summary>
+        <p>Yes. Telegram is a major distribution channel for crypto projects, trading signals, and market commentary. You can scrape multiple project channels in one run, filter posts by view count to surface high-engagement content, and use the <code class="code-inline">forwarded_from</code> field to trace how content spreads between communities.</p>
+      </details>
+      <details>
+        <summary>Can I run it via the API or automate with n8n?</summary>
+        <p>Yes. Use the Apify REST API endpoint <code class="code-inline">POST /v2/acts/santamaria-automations~telegram-scraper/runs</code> or the JavaScript/Python SDKs to trigger runs programmatically. For n8n, use the <a target="_blank" rel="sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">Apify n8n node</a> with the actor ID <code class="code-inline">santamaria-automations/telegram-scraper</code>.</p>
+      </details>
+      <details>
+        <summary>How many posts per page does the scraper fetch?</summary>
+        <p>Telegram's public web preview returns approximately 20 posts per page. The scraper follows the pagination cursor automatically, so you do not need to manage pagination yourself. Each page fetch is one network request; the number of requests per run is roughly (posts per channel / 20).</p>
+      </details>
+      <details>
+        <summary>Does the actor handle multiple channels in one run?</summary>
+        <p>Yes. Pass any number of channel usernames in the <code class="code-inline">channels</code> array. Each channel is scraped in sequence and its posts are added to the same dataset. The <code class="code-inline">channel</code> field on each row tells you which channel the post came from. Deduplication ensures the same post is never returned twice even if you re-run on an overlapping date range.</p>
+      </details>
+    </div>
 
- <h2>Related resources</h2>
- <ul>
- <li><a href="/actors/telegram-scraper/">Telegram Scraper actor page</a>: Full specs, all input parameters, output field reference, and pricing details.</li>
- <li><a href="/tutorials/reddit-scraper/">Reddit Scraper Tutorial</a>: Scrape public Reddit posts and comments alongside Telegram data for a wider picture of community discussions.</li>
- <li><a href="/tutorials/youtube-scraper/">YouTube Scraper Tutorial</a>: Complement Telegram monitoring with YouTube video and comment data to track the same topics across platforms.</li>
- <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">Telegram Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete output field reference.</li>
- <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Reddit, YouTube, Instagram, LinkedIn, and more.</li>
- </ul>
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/telegram-scraper/">Telegram Scraper actor page</a>: Full specs, all input parameters, output field reference, and pricing details.</li>
+      <li><a href="/tutorials/reddit-scraper/">Reddit Scraper Tutorial</a>: Scrape public Reddit posts and comments alongside Telegram data for a wider picture of community discussions.</li>
+      <li><a href="/tutorials/youtube-scraper/">YouTube Scraper Tutorial</a>: Complement Telegram monitoring with YouTube video and comment data to track the same topics across platforms.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz">Telegram Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete output field reference.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Reddit, YouTube, Instagram, LinkedIn, and more.</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz" class="btn-primary">Open the Telegram Scraper on Apify</a>
- <a href="/actors/" class="btn-secondary">Browse all actors</a>
- </div>
- </article>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telegram-scraper?fpr=0khfbz" class="btn-primary">Open the Telegram Scraper on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>
