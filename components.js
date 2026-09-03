@@ -286,6 +286,7 @@
  '<a href="/tutorials/scrape-google-maps-with-n8n/">Google Maps with n8n</a>' +
  '<a href="/tutorials/instagram-scraper/">Instagram scraping</a>' +
  '<a href="/tutorials/google-maps-reviews-scraper/">Google Maps reviews</a>' +
+ '<a href="/job-market-index/">Job Market Index</a>' +
  '</div>' +
  '<div class="ns-footer-col"><h4>' + esc(t.colBuild) + '</h4>' +
  '<a href="/templates/">' + esc(t.allTemplates) + '</a>' +
