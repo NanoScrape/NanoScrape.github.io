@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -245,8 +249,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -308,7 +326,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Read pricing details below</a>
     </div>
 
@@ -330,7 +348,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">NanoScrape Twitter / X Profiles + Tweets Scraper</a> runs on Apify and accepts a list of usernames. For each account it fetches the full profile block (24 fields) and that user's recent tweet timeline. Each tweet is returned as a separate dataset row with the author profile embedded alongside it. No login, no API key, and no cookies required.</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">NanoScrape Twitter / X Profiles + Tweets Scraper</a> runs on Apify and accepts a list of usernames. For each account it fetches the full profile block (24 fields) and that user's recent tweet timeline. Each tweet is returned as a separate dataset row with the author profile embedded alongside it. No login, no API key, and no cookies required.</p>
     <ul>
         <li><strong>Profile data</strong>: username, display name, bio, location, website, follower count, following count, tweet count, verified status, blue verified badge, profile image URL, banner URL, account creation date, and more.</li>
         <li><strong>Tweet text</strong>: full tweet text without truncation, plus the tweet's URL, creation timestamp, and source app.</li>
@@ -350,7 +368,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Step 1: Create a free Apify account</h2>
       <ol>
-        <li>Go to <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/sign-up?fpr=0khfbz">console.apify.com/sign-up</a> and create an account. Email, Google, and GitHub sign-in are all available.</li>
+        <li>Go to <a target="_blank" rel="noopener" href="https://console.apify.com/sign-up?fpr=0khfbz">console.apify.com/sign-up</a> and create an account. Email, Google, and GitHub sign-in are all available.</li>
         <li>After activating your account, Apify credits $5 to your balance. This covers hundreds of user scrapes before any payment is needed.</li>
         <li>You do not need to enter a credit card to begin.</li>
       </ol>
@@ -371,18 +389,18 @@
       <span class="step-number">STEP 3</span>
       <h2>Step 3: Configure usernames and tweet settings</h2>
       <p>The only required field is <code class="code-inline">usernames</code>. All other fields have sensible defaults. A basic run for three accounts looks like this:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "usernames": ["nasa", "spacex", "esa"],
   "tweetsPerUser": 20
-}</pre></div>
+}</code></pre></div>
       <p>Username formats are flexible. The actor normalises all three of these to the same account:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "usernames": [
     "nasa",
     "@nasa",
     "https://x.com/NASA"
   ]
-}</pre></div>
+}</code></pre></div>
       <p>Key input fields:</p>
       <ul>
         <li><code class="code-inline">usernames</code> (required): usernames, @handles, or full profile URLs. One actor run can process many accounts.</li>
@@ -411,7 +429,7 @@
       <ul>
         <li><strong>Protected account</strong>: the target account has locked tweets. The actor returns the profile row only and skips tweets for that user.</li>
         <li><strong>Suspended or deleted account</strong>: the actor skips these silently. Check for typos in your username list.</li>
-        <li><strong>Credit balance at zero</strong>: top up in <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
+        <li><strong>Credit balance at zero</strong>: top up in <a target="_blank" rel="noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
       </ul>
     </div>
 
@@ -425,7 +443,7 @@
         <li><strong>Excel (XLSX)</strong>: identical to CSV but formatted as an Excel workbook.</li>
         <li><strong>XML / HTML / RSS</strong>: available for integrations that require those formats.</li>
       </ul>
-      <p>For large exports you can also query the dataset via the <a target="_blank" rel="sponsored noopener" href="https://docs.apify.com/api/v2#/reference/datasets/item-collection/get-items?fpr=0khfbz">Apify Datasets API</a>. This lets you paginate through millions of rows or filter by field without downloading the entire file.</p>
+      <p>For large exports you can also query the dataset via the <a target="_blank" rel="noopener" href="https://docs.apify.com/api/v2#/reference/datasets/item-collection/get-items?fpr=0khfbz">Apify Datasets API</a>. This lets you paginate through millions of rows or filter by field without downloading the entire file.</p>
     </div>
 
     <h2 id="use-cases">Common use cases</h2>
@@ -521,12 +539,12 @@
       <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profiles + Tweets Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
       <li><a href="/tutorials/tweet-analysis/">Tweet analysis tutorial</a>: How to run sentiment analysis and topic extraction on the tweets you collect with this scraper.</li>
       <li><a href="/tutorials/instagram-scraper/">Instagram Scraper tutorial</a>: Scrape Instagram profiles, posts, and follower counts in the same pay-per-result pattern.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">Twitter / X Profiles + Tweets Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">Twitter / X Profiles + Tweets Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google Maps, Reddit, YouTube, and more.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>
@@ -535,5 +553,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

@@ -1,182 +1,182 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML vers Markdown : Bulk Web vers MD propre, 1$/1k | NanoScrape</title>
-  <meta name="description" content="Convertir toute page web en Markdown propre. Conserve titres, tableaux, blocs de code, images et liens. Pour entraînement LLM, pipelines RAG et documentation. 1$ pour 1 000 pages.">
-  <meta property="og:title" content="Convertisseur HTML vers Markdown : Bulk Web vers MD pour LLM | NanoScrape">
-  <meta property="og:description" content="Convertir toute URL en Markdown propre avec extraction du contenu principal. Paiement au résultat.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/html-to-markdown/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/html-to-markdown/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/html-to-markdown/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/html-to-markdown/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "HTML to Markdown Converter",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Conversion en masse de HTML vers Markdown avec extraction du contenu principal. Retourne titre, Markdown propre, nombre de mots, images et liens. Pour entraînement LLM et pipelines RAG. 128MB RAM, 0,001$ par page.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.001",
-      "priceCurrency": "USD",
-      "description": "per page converted"
-    },
-    "url": "https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>HTML vers Markdown : Bulk Web vers MD propre, 1$/1k | NanoScrape</title>
+ <meta name="description" content="Convertir toute page web en Markdown propre. Conserve titres, tableaux, blocs de code, images et liens. Pour entraînement LLM, pipelines RAG et documentation. 1$ pour 1 000 pages.">
+ <meta property="og:title" content="Convertisseur HTML vers Markdown : Bulk Web vers MD pour LLM | NanoScrape">
+ <meta property="og:description" content="Convertir toute URL en Markdown propre avec extraction du contenu principal. Paiement au résultat.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/html-to-markdown/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/html-to-markdown/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/html-to-markdown/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/html-to-markdown/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/html-to-markdown/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "HTML to Markdown Converter",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Conversion en masse de HTML vers Markdown avec extraction du contenu principal. Retourne titre, Markdown propre, nombre de mots, images et liens. Pour entraînement LLM et pipelines RAG. 128MB RAM, 0,001$ par page.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.001",
+ "priceCurrency": "USD",
+ "description": "per page converted"
+ },
+ "url": "https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Convertisseur HTML vers Markdown : Bulk pages web vers MD propre, 1$ pour 1 000 pages</h1>
-    <p class="lead">Convertissez toute page HTML en Markdown propre, prêt pour LLM. Supprime le chrome (nav, pubs, barres latérales), conserve titres, tableaux, blocs de code, images avec alt et liens. Retourne titre de page, contenu principal en Markdown, nombre de mots, tableaux d'images et de liens extraits, et l'URL principale inférée. Construit pour le batch : 10 000 URLs d'articles en entrée, une ligne par page en sortie. Parfait pour corpus d'entraînement LLM, ingestion RAG, miroirs de documentation et surveillance de contenu.</p>
+ <div class="detail">
+ <h1>Convertisseur HTML vers Markdown : Bulk pages web vers MD propre, 1$ pour 1 000 pages</h1>
+ <p class="lead">Convertissez toute page HTML en Markdown propre, prêt pour LLM. Supprime le chrome (nav, pubs, barres latérales), conserve titres, tableaux, blocs de code, images avec alt et liens. Retourne titre de page, contenu principal en Markdown, nombre de mots, tableaux d'images et de liens extraits, et l'URL principale inférée. Construit pour le batch : 10 000 URLs d'articles en entrée, une ligne par page en sortie. Parfait pour corpus d'entraînement LLM, ingestion RAG, miroirs de documentation et surveillance de contenu.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yS4rwgGbCN42G8Ypi/source?addFromActorId=yS4rwgGbCN42G8Ypi&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yS4rwgGbCN42G8Ypi/source?addFromActorId=yS4rwgGbCN42G8Ypi&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/page</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Couverture</div><div class="value">Toute URL</div></div><div class="spec"><div class="label">Champs de sortie</div><div class="value">10+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">HTTP + Readability</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/page</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Couverture</div><div class="value">Toute URL</div></div><div class="spec"><div class="label">Champs de sortie</div><div class="value">10+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">HTTP + Readability</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous obtenez</h2>
-    <ul>
-      <li><strong>Markdown propre :</strong> main_content en Markdown GitHub-flavored, sans chrome</li>
-      <li><strong>Structure préservée :</strong> titres, listes, tableaux, blocs de code, citations</li>
-      <li><strong>Assets extraits :</strong> images[] avec alt text, links[] avec anchor et href</li>
-      <li><strong>Statistiques :</strong> word_count, char_count, reading_time_minutes</li>
-      <li><strong>Métadonnées :</strong> title, meta_description, canonical_url, language, scraped_at</li>
-    </ul>
+ <h2 class="section-title">Ce que vous obtenez</h2>
+ <ul>
+ <li><strong>Markdown propre :</strong> main_content en Markdown GitHub-flavored, sans chrome</li>
+ <li><strong>Structure préservée :</strong> titres, listes, tableaux, blocs de code, citations</li>
+ <li><strong>Assets extraits :</strong> images[] avec alt text, links[] avec anchor et href</li>
+ <li><strong>Statistiques :</strong> word_count, char_count, reading_time_minutes</li>
+ <li><strong>Métadonnées :</strong> title, meta_description, canonical_url, language, scraped_at</li>
+ </ul>
 
-    <h2 class="section-title">Cas d'usage principaux</h2>
-    <ul>
-      <li><strong>Corpus d'entraînement LLM.</strong> Convertir des milliers de billets de blog et docs en markdown propre pour le fine-tuning</li>
-      <li><strong>Ingestion RAG.</strong> Envoyer le contenu nettoyé dans des bases vectorielles sans bruit HTML</li>
-      <li><strong>Miroirs de documentation.</strong> Capturer docs concurrents ou bases de connaissances en markdown structuré</li>
-      <li><strong>Surveillance de contenu.</strong> Suivre les changements de pages clés dans le temps avec markdown diff-friendly</li>
-      <li><strong>Contexte pour agents IA.</strong> Donner aux agents un contenu lisible plutôt que du HTML brut pour économiser des tokens</li>
-    </ul>
+ <h2 class="section-title">Cas d'usage principaux</h2>
+ <ul>
+ <li><strong>Corpus d'entraînement LLM.</strong> Convertir des milliers de billets de blog et docs en markdown propre pour le fine-tuning</li>
+ <li><strong>Ingestion RAG.</strong> Envoyer le contenu nettoyé dans des bases vectorielles sans bruit HTML</li>
+ <li><strong>Miroirs de documentation.</strong> Capturer docs concurrents ou bases de connaissances en markdown structuré</li>
+ <li><strong>Surveillance de contenu.</strong> Suivre les changements de pages clés dans le temps avec markdown diff-friendly</li>
+ <li><strong>Contexte pour agents IA.</strong> Donner aux agents un contenu lisible plutôt que du HTML brut pour économiser des tokens</li>
+ </ul>
 
-    <h2 class="section-title">Exemple d'API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
+ <h2 class="section-title">Exemple d'API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~html-to-markdown/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "urls": [
-      "https://blog.example.com/post-1",
-      "https://docs.example.com/getting-started",
-      "https://news.example.com/article-2026"
-    ],
-    "extractImages": true,
-    "extractLinks": true,
-    "mainContentOnly": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "urls": [
+ "https://blog.example.com/post-1",
+ "https://docs.example.com/getting-started",
+ "https://news.example.com/article-2026"
+ ],
+ "extractImages": true,
+ "extractLinks": true,
+ "mainContentOnly": true
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/html-to-markdown</span></pre></div>
 
-    <h2 class="section-title">Intégrations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les enregistrements via webhook</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
-      <li><strong>Google Sheets, Airtable :</strong> entrées en masse, données structurées en sortie</li>
-    </ul>
+ <h2 class="section-title">Intégrations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les enregistrements via webhook</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+ <li><strong>Google Sheets, Airtable :</strong> entrées en masse, données structurées en sortie</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>source_url</td><td>string</td><td>https://blog.example.com/post-1</td></tr>
-      <tr><td>title</td><td>string</td><td>Construire des pipelines RAG</td></tr>
-      <tr><td>main_content</td><td>string</td><td># Construire des pipelines RAG\n\nUn guide pratique...</td></tr>
-      <tr><td>word_count</td><td>integer</td><td>1 842</td></tr>
-      <tr><td>reading_time_minutes</td><td>integer</td><td>8</td></tr>
-      <tr><td>language</td><td>string</td><td>fr</td></tr>
-      <tr><td>canonical_url</td><td>string</td><td>https://blog.example.com/post-1</td></tr>
-      <tr><td>images</td><td>array</td><td>[{"src":"...","alt":"diagramme"}]</td></tr>
-      <tr><td>links</td><td>array</td><td>[{"href":"...","text":"docs"}]</td></tr>
-      <tr><td>scraped_at</td><td>string</td><td>2026-06-13T10:15:42Z</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>source_url</td><td>string</td><td>https://blog.example.com/post-1</td></tr>
+ <tr><td>title</td><td>string</td><td>Construire des pipelines RAG</td></tr>
+ <tr><td>main_content</td><td>string</td><td># Construire des pipelines RAG\n\nUn guide pratique...</td></tr>
+ <tr><td>word_count</td><td>integer</td><td>1 842</td></tr>
+ <tr><td>reading_time_minutes</td><td>integer</td><td>8</td></tr>
+ <tr><td>language</td><td>string</td><td>fr</td></tr>
+ <tr><td>canonical_url</td><td>string</td><td>https://blog.example.com/post-1</td></tr>
+ <tr><td>images</td><td>array</td><td>[{"src":"...","alt":"diagramme"}]</td></tr>
+ <tr><td>links</td><td>array</td><td>[{"href":"...","text":"docs"}]</td></tr>
+ <tr><td>scraped_at</td><td>string</td><td>2026-06-13T10:15:42Z</td></tr>
+ </table>
 
-    <h2 class="section-title">Acteurs associés</h2>
-    <ul>
-      <li><a href="/actors/pdf-extractor/">PDF Text Extractor</a>: complément PDF pour les mêmes pipelines de contenu</li>
-      <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: extraire les métadonnées SEO en parallèle du markdown</li>
-      <li><a href="/actors/sitemap-url-discovery/">Sitemap URL Discovery</a>: énumérer chaque URL d'un site avant la conversion en masse</li>
-    </ul>
+ <h2 class="section-title">Acteurs associés</h2>
+ <ul>
+ <li><a href="/actors/pdf-extractor/">PDF Text Extractor</a>: complément PDF pour les mêmes pipelines de contenu</li>
+ <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: extraire les métadonnées SEO en parallèle du markdown</li>
+ <li><a href="/actors/sitemap-url-discovery/">Sitemap URL Discovery</a>: énumérer chaque URL d'un site avant la conversion en masse</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yS4rwgGbCN42G8Ypi/source?addFromActorId=yS4rwgGbCN42G8Ypi&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/html-to-markdown?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yS4rwgGbCN42G8Ypi/source?addFromActorId=yS4rwgGbCN42G8Ypi&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

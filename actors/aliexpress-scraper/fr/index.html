@@ -1,184 +1,184 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AliExpress Scraper : Produits mondiaux, $2/1k | NanoScrape</title>
-  <meta name="description" content="Scrapez les listings produits AliExpress par mot-clé ou URL de recherche. Renvoie prix, prix d'origine, remise, note, nombre de commandes, images, indicateurs d'expédition et URL produit. Pagination, options de tri. $0,002 par résultat.">
-  <meta property="og:title" content="AliExpress Scraper : Produits mondiaux, $2/1k | NanoScrape">
-  <meta property="og:description" content="Extraire les listings produits AliExpress par mot-clé ou URL. Prix, remise, note, commandes, images. Paiement au résultat.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/aliexpress-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/aliexpress-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/aliexpress-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/aliexpress-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "AliExpress Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Scraper de listings produits AliExpress. Recherche par mot-clé ou URL. Renvoie prix, prix d'origine, pourcentage de remise, note, nombre de commandes, galerie d'images, info d'expédition, indicateur livraison gratuite et URL produit. Pour la recherche dropshipping, l'analyse concurrentielle et le suivi des prix. 128 Mo RAM, proxy résidentiel recommandé.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.002",
-      "priceCurrency": "USD",
-      "description": "per product scraped"
-    },
-    "url": "https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AliExpress Scraper : Produits mondiaux, $2/1k | NanoScrape</title>
+ <meta name="description" content="Scrapez les listings produits AliExpress par mot-clé ou URL de recherche. Renvoie prix, prix d'origine, remise, note, nombre de commandes, images, indicateurs d'expédition et URL produit. Pagination, options de tri. $0,002 par résultat.">
+ <meta property="og:title" content="AliExpress Scraper : Produits mondiaux, $2/1k | NanoScrape">
+ <meta property="og:description" content="Extraire les listings produits AliExpress par mot-clé ou URL. Prix, remise, note, commandes, images. Paiement au résultat.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/aliexpress-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/aliexpress-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/aliexpress-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/aliexpress-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/aliexpress-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "AliExpress Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Scraper de listings produits AliExpress. Recherche par mot-clé ou URL. Renvoie prix, prix d'origine, pourcentage de remise, note, nombre de commandes, galerie d'images, info d'expédition, indicateur livraison gratuite et URL produit. Pour la recherche dropshipping, l'analyse concurrentielle et le suivi des prix. 128 Mo RAM, proxy résidentiel recommandé.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.002",
+ "priceCurrency": "USD",
+ "description": "per product scraped"
+ },
+ "url": "https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>AliExpress Scraper : produits mondiaux, $2 pour 1 000 résultats</h1>
-    <p class="lead">Scrapez les listings produits AliExpress par mot-clé ou URL de recherche. Renvoie prix, prix d'origine, pourcentage de remise, note, nombre de commandes, galerie d'images, info d'expédition, indicateur de livraison gratuite et URL produit. La pagination suit automatiquement les pages de résultats, avec options de tri par pertinence, commandes, prix croissant ou décroissant, et nouveautés. Pour la recherche dropshipping, les prix concurrentiels et l'enrichissement de flux produits.</p>
+ <div class="detail">
+ <h1>AliExpress Scraper : produits mondiaux, $2 pour 1 000 résultats</h1>
+ <p class="lead">Scrapez les listings produits AliExpress par mot-clé ou URL de recherche. Renvoie prix, prix d'origine, pourcentage de remise, note, nombre de commandes, galerie d'images, info d'expédition, indicateur de livraison gratuite et URL produit. La pagination suit automatiquement les pages de résultats, avec options de tri par pertinence, commandes, prix croissant ou décroissant, et nouveautés. Pour la recherche dropshipping, les prix concurrentiels et l'enrichissement de flux produits.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/3ICWv9o93q1F9hHPE/source?addFromActorId=3ICWv9o93q1F9hHPE&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/3ICWv9o93q1F9hHPE/source?addFromActorId=3ICWv9o93q1F9hHPE&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Tarif</div><div class="value">$0,002/résultat</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128 Mo</div></div>
-      <div class="spec"><div class="label">Couverture</div><div class="value">Mondiale</div></div>
-      <div class="spec"><div class="label">Options de tri</div><div class="value">5</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
-      <div class="spec"><div class="label">Anti-bot</div><div class="value">Empreinte TLS</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Tarif</div><div class="value">$0,002/résultat</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128 Mo</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">Mondiale</div></div>
+ <div class="spec"><div class="label">Options de tri</div><div class="value">5</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
+ <div class="spec"><div class="label">Anti-bot</div><div class="value">Empreinte TLS</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous pouvez scraper</h2>
-    <ul>
-      <li><strong>Identité :</strong> id, title, source_url, category</li>
-      <li><strong>Prix :</strong> price, original_price, currency, discount_percent</li>
-      <li><strong>Preuve sociale :</strong> rating, orders_count (ex. "2 000+ vendus")</li>
-      <li><strong>Médias :</strong> image_url, image_urls (galerie complète)</li>
-      <li><strong>Expédition :</strong> shipping_info, indicateur free_shipping</li>
-      <li><strong>Options de tri :</strong> pertinence, commandes, prix croissant, prix décroissant, nouveautés</li>
-    </ul>
+ <h2 class="section-title">Ce que vous pouvez scraper</h2>
+ <ul>
+ <li><strong>Identité :</strong> id, title, source_url, category</li>
+ <li><strong>Prix :</strong> price, original_price, currency, discount_percent</li>
+ <li><strong>Preuve sociale :</strong> rating, orders_count (ex. "2 000+ vendus")</li>
+ <li><strong>Médias :</strong> image_url, image_urls (galerie complète)</li>
+ <li><strong>Expédition :</strong> shipping_info, indicateur free_shipping</li>
+ <li><strong>Options de tri :</strong> pertinence, commandes, prix croissant, prix décroissant, nouveautés</li>
+ </ul>
 
-    <h2 class="section-title">Cas d'usage principaux</h2>
-    <ul>
-      <li><strong>Recherche dropshipping.</strong> Filtrer par orders_count et rating pour repérer les produits gagnants avant d'engager un budget stock</li>
-      <li><strong>Veille tarifaire.</strong> Suivre price et discount_percent pour un catalogue SKU sur plusieurs catégories</li>
-      <li><strong>Enrichissement de flux produits.</strong> Récupérer image_urls, title et category pour les imports catalogue</li>
-      <li><strong>Sourcing fournisseurs.</strong> Comparer des marchands via des recherches par mot-clé à l'échelle</li>
-      <li><strong>Analyse de marge.</strong> Utiliser original_price et discount_percent pour repérer les catégories à forte remise</li>
-    </ul>
+ <h2 class="section-title">Cas d'usage principaux</h2>
+ <ul>
+ <li><strong>Recherche dropshipping.</strong> Filtrer par orders_count et rating pour repérer les produits gagnants avant d'engager un budget stock</li>
+ <li><strong>Veille tarifaire.</strong> Suivre price et discount_percent pour un catalogue SKU sur plusieurs catégories</li>
+ <li><strong>Enrichissement de flux produits.</strong> Récupérer image_urls, title et category pour les imports catalogue</li>
+ <li><strong>Sourcing fournisseurs.</strong> Comparer des marchands via des recherches par mot-clé à l'échelle</li>
+ <li><strong>Analyse de marge.</strong> Utiliser original_price et discount_percent pour repérer les catégories à forte remise</li>
+ </ul>
 
-    <h2 class="section-title">Exemple d'API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
+ <h2 class="section-title">Exemple d'API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~aliexpress-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQuery": "bluetooth speaker",
-    "maxResults": 100,
-    "sortBy": "orders"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQuery": "bluetooth speaker",
+ "maxResults": 100,
+ "sortBy": "orders"
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/aliexpress-scraper</span></pre></div>
 
-    <h2 class="section-title">Intégrations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> déclencher des runs et traiter les enregistrements produit par webhook</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
-      <li><strong>Google Sheets, Airtable :</strong> mots-clés en entrée, données produit en sortie</li>
-    </ul>
+ <h2 class="section-title">Intégrations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> déclencher des runs et traiter les enregistrements produit par webhook</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+ <li><strong>Google Sheets, Airtable :</strong> mots-clés en entrée, données produit en sortie</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>id</td><td>string</td><td>1005006123456789</td></tr>
-      <tr><td>title</td><td>string</td><td>Wireless Bluetooth Speaker, Waterproof</td></tr>
-      <tr><td>price</td><td>number</td><td>15,99</td></tr>
-      <tr><td>original_price</td><td>number</td><td>29,99</td></tr>
-      <tr><td>currency</td><td>string</td><td>USD</td></tr>
-      <tr><td>discount_percent</td><td>number</td><td>47</td></tr>
-      <tr><td>rating</td><td>number</td><td>4,7</td></tr>
-      <tr><td>orders_count</td><td>string</td><td>2 000+ vendus</td></tr>
-      <tr><td>free_shipping</td><td>boolean</td><td>true</td></tr>
-      <tr><td>image_urls</td><td>array</td><td>["https://ae01.alicdn.com/..."]</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>id</td><td>string</td><td>1005006123456789</td></tr>
+ <tr><td>title</td><td>string</td><td>Wireless Bluetooth Speaker, Waterproof</td></tr>
+ <tr><td>price</td><td>number</td><td>15,99</td></tr>
+ <tr><td>original_price</td><td>number</td><td>29,99</td></tr>
+ <tr><td>currency</td><td>string</td><td>USD</td></tr>
+ <tr><td>discount_percent</td><td>number</td><td>47</td></tr>
+ <tr><td>rating</td><td>number</td><td>4,7</td></tr>
+ <tr><td>orders_count</td><td>string</td><td>2 000+ vendus</td></tr>
+ <tr><td>free_shipping</td><td>boolean</td><td>true</td></tr>
+ <tr><td>image_urls</td><td>array</td><td>["https://ae01.alicdn.com/..."]</td></tr>
+ </table>
 
-    <h2 class="section-title">Scrapers liés</h2>
-    <ul>
-      <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a> : 20 places de marché, 50+ champs par produit</li>
-      <li><a href="/actors/galaxus-ch-scraper/">Galaxus.ch Scraper</a> : plus grand e-commerçant suisse</li>
-      <li><a href="/actors/made-in-china-scraper/">Made-in-China Scraper</a> : sourcing B2B</li>
-      <li><a href="/actors/globalsources-scraper/">GlobalSources Scraper</a> : grossistes asiatiques</li>
-    </ul>
+ <h2 class="section-title">Scrapers liés</h2>
+ <ul>
+ <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a> : 20 places de marché, 50+ champs par produit</li>
+ <li><a href="/actors/galaxus-ch-scraper/">Galaxus.ch Scraper</a> : plus grand e-commerçant suisse</li>
+ <li><a href="/actors/made-in-china-scraper/">Made-in-China Scraper</a> : sourcing B2B</li>
+ <li><a href="/actors/globalsources-scraper/">GlobalSources Scraper</a> : grossistes asiatiques</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/3ICWv9o93q1F9hHPE/source?addFromActorId=3ICWv9o93q1F9hHPE&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/3ICWv9o93q1F9hHPE/source?addFromActorId=3ICWv9o93q1F9hHPE&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

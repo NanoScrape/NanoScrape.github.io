@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -229,8 +233,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -289,7 +307,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the Google Maps Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the Google Maps Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">See pricing details</a>
     </div>
 
@@ -313,7 +331,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">NanoScrape Google Maps Scraper</a> runs on Apify and accepts plain search strings (like "coffee shops in Berlin" or "dentists in Chicago") or structured query objects with location, country, and your own internal ID. Each run returns up to 10,000 places by default, works in any country and language, and completes most small batches in under a minute.</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">NanoScrape Google Maps Scraper</a> runs on Apify and accepts plain search strings (like "coffee shops in Berlin" or "dentists in Chicago") or structured query objects with location, country, and your own internal ID. Each run returns up to 10,000 places by default, works in any country and language, and completes most small batches in under a minute.</p>
     <ul>
         <li><strong>30+ fields per place</strong>: business name, category, full address (structured by street/city/postal code/country), phone, website, rating, review count, GPS coordinates, timezone, price range, and operational status.</li>
         <li><strong>Email extraction</strong>: visits each place's website and extracts contact emails, phone numbers, and social links using regex. No API key needed.</li>
@@ -334,7 +352,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Create a free Apify account</h2>
       <ol>
-        <li>Open <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
         <li>Sign up with Google or email. The form takes about a minute.</li>
         <li>You land on the actor's input form inside Apify Console. The $5 free credit is added automatically.</li>
       </ol>
@@ -355,14 +373,14 @@
       <span class="step-number">STEP 3</span>
       <h2>Configure your search</h2>
       <p>Click <strong>Input</strong> in the left sidebar. The simplest setup is a list of search strings. Combine the business type and location inside the same string:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchStrings": [
     "restaurants in Paris",
     "coffee shops in Tokyo",
     "dentists in New York"
   ],
   "maxResultsPerQuery": 20
-}</pre></div>
+}</code></pre></div>
       <p>Key input fields:</p>
       <ul>
         <li><code class="code-inline">searchStrings</code>: an array of plain search queries. Each runs as a separate Google Maps search. Order them however you like.</li>
@@ -411,14 +429,14 @@
     <p>Every place in the dataset includes a <code class="code-inline">website</code> field where Google Maps has one. The scraper can visit those websites and pull additional data, all merged into the same dataset row.</p>
     <p><strong>Email extraction (no API key required)</strong></p>
     <p>Add <code class="code-inline">"enableEmailExtraction": true</code> to your input. The scraper visits each website and extracts emails, phone numbers, and social links via regex. Results appear in <code class="code-inline">emails_from_website</code>, <code class="code-inline">phones_from_website</code>, and <code class="code-inline">social_urls</code>.</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchStrings": ["accountants in Munich"],
   "maxResultsPerQuery": 50,
   "enableEmailExtraction": true
-}</pre></div>
+}</code></pre></div>
     <p><strong>AI contacts and job listings (bring your own API key)</strong></p>
     <p>Pass your own Gemini, Groq, or OpenRouter API key to extract structured contacts (name, position, email, phone) and open job listings from each website. Set <code class="code-inline">"waitForAddOns": true</code> so the results merge into the place row before the run ends.</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchStrings": ["IT companies in Berlin"],
   "maxResultsPerQuery": 20,
   "enableContactExtraction": true,
@@ -426,10 +444,10 @@
   "enableEmailExtraction": true,
   "groqApiKey": "gsk_your_own_key",
   "waitForAddOns": true
-}</pre></div>
+}</code></pre></div>
     <p><strong>AI icebreakers for cold outreach</strong></p>
     <p>Set <code class="code-inline">"enableAiIcebreaker": true</code> along with a tone, a focus note, and an output language to generate one personalized opening line per place. Useful when you want to prep a cold email batch without writing each intro manually.</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchStrings": ["care homes in Zurich"],
   "maxResultsPerQuery": 30,
   "enableEmailExtraction": true,
@@ -439,12 +457,12 @@
   "outputLanguage": "de",
   "geminiApiKey": "your_gemini_key",
   "waitForAddOns": true
-}</pre></div>
+}</code></pre></div>
     <div class="callout">AI enrichment (contacts, job listings, icebreakers) is billed by your LLM provider, not by Apify. The actor passes each website's text to your Gemini, Groq, or OpenRouter key.</div>
 
     <h2 id="advanced-queries">Advanced: structured queries</h2>
     <p>Use the <code class="code-inline">queries</code> field instead of <code class="code-inline">searchStrings</code> when you need to attach your own internal ID per search, split the search term from the location, or specify the country for accurate geo-targeting.</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "queries": [
     {
       "query": "software companies",
@@ -460,14 +478,14 @@
     }
   ],
   "maxResultsPerQuery": 50
-}</pre></div>
+}</code></pre></div>
     <p>The <code class="code-inline">company_id</code> you set on each query flows through to every place row in that query's results as the <code class="code-inline">company_id</code> field. That lets you join the dataset back to your own campaign or client records without a separate lookup step.</p>
 
     <h2 id="mcp">Connect to AI agents via MCP</h2>
     <p>The scraper is available as an MCP (Model Context Protocol) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex):</p>
-    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</code></pre></div>
     <p>Once connected, prompt your AI client in plain English. The client calls the actor with the right input and returns the structured data:</p>
-    <div class="code-block"><pre>Find pediatric dentists in Zurich and put the results in a table.</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Find pediatric dentists in Zurich and put the results in a table.</code></pre></div>
     <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically so the model can fill in any field without you specifying parameters manually.</p>
 
     <h2 id="fields">Key output fields</h2>
@@ -536,12 +554,12 @@
       <li><a href="/tutorials/scrape-google-maps/">How to Scrape Google Maps (quick-start guide)</a>: A shorter step-by-step guide focused on getting your first results in under 5 minutes.</li>
       <li><a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a>: Automate Google Maps data collection into your own n8n workflow with no code.</li>
       <li><a href="/tutorials/google-maps-reviews-scraper/">Google Maps Reviews Scraper</a>: How to extract individual customer reviews from Google Maps at scale.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz">Google Maps Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Instagram, Reddit, YouTube, and more.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the Google Maps Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz" class="btn-primary">Open the Google Maps Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>
@@ -550,5 +568,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

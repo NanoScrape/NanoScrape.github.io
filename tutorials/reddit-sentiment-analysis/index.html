@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -235,8 +239,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -295,7 +313,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz" class="btn-primary">Try the Reddit Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz" class="btn-primary">Try the Reddit Scraper free</a>
       <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
     </div>
 
@@ -317,7 +335,7 @@
     <h2 id="what-you-get">What data you get</h2>
     <p>The actor returns two item types in the same dataset: posts and comments. Both are identified by a <code class="code-inline">type</code> field. For sentiment analysis you mainly care about the text fields, but the metadata around each item (subreddit, timestamps, is_stickied) is useful for filtering and trending.</p>
     <h3>Post fields</h3>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "id": "abc123",
   "type": "post",
   "subreddit": "SaaS",
@@ -331,9 +349,9 @@
   "created_utc": "2026-07-15T10:00:00Z",
   "reddit_url": "https://www.reddit.com/r/SaaS/comments/abc123/",
   "scraped_at": "2026-07-15T10:30:00Z"
-}</pre></div>
+}</code></pre></div>
     <h3>Comment fields</h3>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "id": "xyz789",
   "type": "comment",
   "subreddit": "SaaS",
@@ -347,13 +365,13 @@
   "created_utc": "2026-07-15T11:15:00Z",
   "reddit_url": "https://www.reddit.com/r/SaaS/comments/abc123/.../xyz789/",
   "scraped_at": "2026-07-15T11:30:00Z"
-}</pre></div>
+}</code></pre></div>
     <div class="callout"><strong>Note on <code>score</code> and <code>num_comments</code>:</strong> Reddit removed access to its <code>/.json</code> endpoints in June 2026. The actor now uses Reddit's public Atom (<code>/.rss</code>) feeds. Atom feeds do not expose vote counts or comment counts, so <code>score</code> is always <code>0</code> and <code>num_comments</code> is always <code>null</code>. All other fields, including title, author, full post body text, URLs, and timestamps, are complete.</div>
     <p>For sentiment analysis the fields you will use most are <code class="code-inline">title</code> and <code class="code-inline">text</code> on posts, and <code class="code-inline">text</code> on comments. The <code class="code-inline">created_utc</code> field lets you track sentiment over time. The <code class="code-inline">subreddit</code> field lets you segment results by community.</p>
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
-        <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz">the actor page</a>. No credit card required. The free tier includes $5 of usage credit every month, which covers about 6,600 Reddit items.</li>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz">the actor page</a>. No credit card required. The free tier includes $5 of usage credit every month, which covers about 6,600 Reddit items.</li>
         <li>A list of subreddit names, a search query, or a brand name you want to monitor. No Reddit account or API credentials are needed.</li>
         <li>A way to analyze the text once you have it. Any of these work: a Python script with VADER or TextBlob, a spreadsheet with manual review, an LLM API call, or a no-code tool like n8n.</li>
       </ul>
@@ -362,7 +380,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Step 1: Open the actor</h2>
       <ol>
-        <li>Go to the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz">NanoScrape Reddit Scraper</a> on Apify.</li>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz">NanoScrape Reddit Scraper</a> on Apify.</li>
         <li>Click <strong>Try for free</strong>. Sign in with Google or email. It takes about a minute.</li>
         <li>The actor opens in Apify Console on the <strong>Input</strong> tab.</li>
       </ol>
@@ -379,30 +397,30 @@
       <p>In the <strong>Input</strong> tab, click <strong>JSON editor</strong> at the top right of the panel. The actor supports three collection modes. Pick the one that matches your use case:</p>
       <h3>Mode A: Subreddit monitoring</h3>
       <p>Collect the newest or hottest posts from one or more communities. Useful for tracking conversations in a specific niche over time.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "subreddits": ["SaaS", "startups", "Entrepreneur"],
   "sort": "new",
   "includeComments": true,
   "commentDepth": 2,
   "maxCommentsPerPost": 30,
   "maxResults": 50
-}</pre></div>
+}</code></pre></div>
       <h3>Mode B: Brand and keyword monitoring</h3>
       <p>Search Reddit-wide for any keyword, product name, or competitor. The <code class="code-inline">searchQuery</code> field accepts any search string Reddit's own search would accept.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQuery": "your brand name OR competitor name",
   "sort": "new",
   "includeComments": true,
   "commentDepth": 1,
   "maxCommentsPerPost": 20,
   "maxResults": 100
-}</pre></div>
+}</code></pre></div>
       <h3>Mode C: User activity analysis</h3>
       <p>Pull all posts and comments from a specific Reddit user. Useful for studying an individual's public opinions, or for building training datasets from prolific contributors.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "usernames": ["example_user"],
   "maxResults": 100
-}</pre></div>
+}</code></pre></div>
       <div class="callout tip"><strong>For sentiment analysis, enable <code>includeComments</code>.</strong> Post titles and bodies give you the main opinion signal, but comment threads often contain the most direct positive or negative reactions to a topic. Comments are billed at the same per-item rate as posts.</div>
       <figure>
       <img src="assets/03-reddit-sentiment-input-json.png" alt="Apify Console Input tab in JSON editor mode showing subreddits array, sort set to new, and includeComments set to true for sentiment analysis" loading="lazy" width="1280" height="800">
@@ -440,7 +458,7 @@
     <p>Export to CSV and open in Google Sheets. Add a filter on the <code class="code-inline">type</code> column and set it to <code class="code-inline">post</code> to get a clean list of post titles. Add a column next to <code class="code-inline">title</code> and label each row positive, neutral, or negative by reading the text. This works well for smaller datasets (under 200 posts) where you want human judgment on nuanced topics.</p>
     <h3>2. Python with VADER</h3>
     <p>VADER is a rule-based sentiment analyzer that works well on social media text without any training. It runs locally, is free, and returns a compound score from -1.0 (most negative) to 1.0 (most positive) per text item. After exporting to JSON:</p>
-    <div class="code-block"><pre>import json
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python">import json
 from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 
 analyzer = SentimentIntensityAnalyzer()
@@ -464,11 +482,11 @@ for item in items:
         )
 
 with open("reddit_data_scored.json", "w") as f:
-    json.dump(items, f, indent=2)</pre></div>
+    json.dump(items, f, indent=2)</code></pre></div>
     <p>Install VADER with <code class="code-inline">pip install vaderSentiment</code>. The compound score is the most reliable single number for a simple positive / negative / neutral split.</p>
     <h3>3. LLM-based classification</h3>
     <p>For topics where word-level rules fall short (irony, domain-specific language, mixed opinions), pass the <code class="code-inline">title</code> and <code class="code-inline">text</code> to an LLM and ask it to classify sentiment. You can also prompt the model to extract specific entities (product names, features, competitors) alongside the sentiment label, which VADER cannot do.</p>
-    <div class="code-block"><pre>import json, anthropic
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python">import json, anthropic
 
 client = anthropic.Anthropic()
 
@@ -488,7 +506,7 @@ def classify(item):
             )
         }]
     )
-    return msg.content[0].text.strip().lower()</pre></div>
+    return msg.content[0].text.strip().lower()</code></pre></div>
     <p>Batch in groups of 50-100 to stay within API rate limits. The <code class="code-inline">created_utc</code> field on each item means you can sort the scored results chronologically and plot sentiment over time.</p>
     <h3>4. Tracking sentiment trends over time</h3>
     <p>Set up a daily scheduled run (see the n8n section below) using <code class="code-inline">sort: "new"</code> to always pull the freshest posts. Store each run's results in a database or append to a Google Sheet with a <code class="code-inline">run_date</code> column. Then pivot by week or month to see whether community sentiment around your product, brand, or niche is moving in a positive or negative direction.</p>
@@ -503,14 +521,14 @@ def classify(item):
         <li>Add a <strong>Google Sheets</strong> node to append results. Include columns for <code class="code-inline">type</code>, <code class="code-inline">subreddit</code>, <code class="code-inline">title</code>, <code class="code-inline">text</code>, <code class="code-inline">created_utc</code>, and your <code class="code-inline">sentiment_label</code> computed in step 4.</li>
         <li>Save and activate the workflow.</li>
       </ol>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQuery": "your brand name",
   "sort": "new",
   "includeComments": true,
   "commentDepth": 1,
   "maxCommentsPerPost": 10,
   "maxResults": 50
-}</pre></div>
+}</code></pre></div>
     <p>The <code class="code-inline">run-sync-get-dataset-items</code> endpoint runs the actor and returns results in a single HTTP response, which keeps the n8n workflow simple. A daily run with 50 posts and 10 comments each returns about 550 items and costs roughly $0.42.</p>
     <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and includes the Apify node pre-installed. On self-hosted n8n, install it from <strong>Settings &rsaquo; Community Nodes</strong> with package name <code class="code-inline">@apify/n8n-nodes-apify</code>.</div>
 
@@ -520,10 +538,10 @@ def classify(item):
         <li><strong>Per item:</strong> $0.00075 per post or comment. That is $0.75 per 1,000 items.</li>
         <li><strong>No monthly fees. No minimum spend.</strong></li>
       </ul>
-    <div class="code-block"><pre>50 posts (no comments)                       =  $0.04  ($0.005 + $0.038)
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">50 posts (no comments)                       =  $0.04  ($0.005 + $0.038)
 50 posts + 30 comments each (1,550 items)    =  $1.17  ($0.005 + $1.163)
 Daily brand-monitoring run, ~550 items/day   ~ $12.50/month
-Free-tier allowance ($5/month)               ~  6,600  posts or comments</pre></div>
+Free-tier allowance ($5/month)               ~  6,600  posts or comments</code></pre></div>
     <p>The Apify free tier gives every account $5 of usage credit each month. At $0.00075 per item, that covers about 6,600 Reddit posts or comments per month before you pay anything. A brand-monitoring run pulling 50 new posts every day costs about $0.04 per day for posts only, or about $1.17 per day if you include comments at the settings above.</p>
 
     <h2 id="faq">FAQ</h2>
@@ -567,7 +585,7 @@ Free-tier allowance ($5/month)               ~  6,600  posts or comments</pre></
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz" class="btn-primary">Try the Reddit Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/reddit-scraper?fpr=0khfbz" class="btn-primary">Try the Reddit Scraper free</a>
       <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
     </div>
   </article>
@@ -576,5 +594,29 @@ Free-tier allowance ($5/month)               ~  6,600  posts or comments</pre></
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

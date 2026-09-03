@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -223,8 +227,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -283,7 +301,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Open the AliExpress Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Open the AliExpress Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Read pricing details below</a>
     </div>
 
@@ -304,7 +322,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">NanoScrape AliExpress Scraper</a> runs on Apify and accepts either plain keyword searches or direct AliExpress search page URLs. It paginates automatically and pushes every product it finds to a downloadable dataset. No AliExpress account and no API key required.</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">NanoScrape AliExpress Scraper</a> runs on Apify and accepts either plain keyword searches or direct AliExpress search page URLs. It paginates automatically and pushes every product it finds to a downloadable dataset. No AliExpress account and no API key required.</p>
     <ul>
         <li><strong>Keyword mode</strong>: give it a search term like "bluetooth speaker" and it returns the matching product listings with all available metadata.</li>
         <li><strong>URL mode</strong>: paste an AliExpress search or category page URL to reproduce a specific filtered or sorted view.</li>
@@ -323,7 +341,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Open the actor and sign up</h2>
       <ol>
-        <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">NanoScrape AliExpress Scraper</a> on Apify.</li>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">NanoScrape AliExpress Scraper</a> on Apify.</li>
         <li>Click <strong>Try for free</strong>. Sign up with Google or email. The free tier includes $5 of monthly credit, enough to test without entering a payment method.</li>
         <li>Once signed in, click <strong>Try for free</strong> again on the actor page. The Apify Console opens with the input form ready to configure.</li>
       </ol>
@@ -340,20 +358,20 @@
       <p>The actor accepts two types of input. Use <code class="code-inline">searchQuery</code> for a plain keyword search, or <code class="code-inline">searchUrls</code> for direct AliExpress search and category page URLs. You can supply one or the other, or both at the same time.</p>
       <h3>Keyword search</h3>
       <p>Enter a product category or search term in the <strong>Search Query</strong> field. The actor runs that search on AliExpress and paginates through results until it reaches <code class="code-inline">maxResults</code>.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQuery": "wireless earbuds",
   "maxResults": 100,
   "sortBy": "orders"
-}</pre></div>
+}</code></pre></div>
       <h3>URL search</h3>
       <p>If you already have a filtered AliExpress search URL from a manual browse session, paste it into <strong>Search URLs</strong>. This is useful when you want to preserve a specific category, price range filter, or shipping option.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchUrls": [
     "https://www.aliexpress.com/w/wholesale-solar-panel.html",
     "https://www.aliexpress.com/w/wholesale-usb-cable.html"
   ],
   "maxResults": 200
-}</pre></div>
+}</code></pre></div>
       <figure>
       <img src="assets/03-aliexpress-scraper-input-config.png" alt="Apify Console input form for the AliExpress Scraper with Search Query field filled with wireless earbuds and Max Results set to 100" loading="lazy" width="3200" height="2000">
       <figcaption>The input form with a keyword search configured. Set Max Results to cap your spend.</figcaption>
@@ -365,14 +383,14 @@
       <span class="step-number">STEP 3</span>
       <h2>Configure proxy and options</h2>
       <p>AliExpress has active bot detection. The scraper uses Chrome TLS fingerprinting to mimic a real browser, but <strong>residential proxy is strongly recommended</strong> to avoid CAPTCHAs and intermittent blocks. Datacenter proxies may work in short bursts but tend to fail on sustained runs.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQuery": "bluetooth speaker",
   "maxResults": 100,
   "proxyConfiguration": {
     "useApifyProxy": true,
     "apifyProxyGroups": ["RESIDENTIAL"]
   }
-}</pre></div>
+}</code></pre></div>
       <div class="callout warn">Residential proxy usage is billed separately by Apify at roughly $12 per GB of traffic. A typical 100-product run uses well under 10 MB, so the proxy cost is negligible compared to per-product fees.</div>
       <p>You can also pass a <code class="code-inline">sortBy</code> value to control the order AliExpress returns results in. See the <a href="#sort-options">sort options section</a> below for available values.</p>
     </div>
@@ -405,7 +423,7 @@
         <li><code class="code-inline">"newest"</code>: most recently listed products first. Useful for trend scouting and spotting new supplier additions.</li>
         <li>Omit <code class="code-inline">sortBy</code> entirely (or set it to <code class="code-inline">"default"</code>) to use AliExpress best-match ranking, which blends relevance, sales velocity, and seller rating.</li>
       </ul>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQuery": "phone case",
   "maxResults": 200,
   "sortBy": "orders",
@@ -413,7 +431,7 @@
     "useApifyProxy": true,
     "apifyProxyGroups": ["RESIDENTIAL"]
   }
-}</pre></div>
+}</code></pre></div>
 
     <h2 id="fields">Field reference</h2>
     <p>Every product returned from a search results page includes the following fields. Store-level fields (store name, URL, and rating) are only populated when scraping individual product detail pages.</p>
@@ -494,12 +512,12 @@
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/aliexpress-scraper/">AliExpress Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">AliExpress Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz">AliExpress Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google Maps, Instagram, eBay, and more.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Open the AliExpress Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/aliexpress-scraper?fpr=0khfbz" class="btn-primary">Open the AliExpress Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>
@@ -508,5 +526,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

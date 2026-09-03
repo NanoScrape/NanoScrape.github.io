@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Trustpilot Scraper : avis entreprises + scores de confiance | NanoScrape</title>
-  <meta name="description" content="Extraire les fiches d'entreprises et avis Trustpilot. Retourne score de confiance, note moyenne, total d'avis, texte d'avis, auteur, dates, statut vérifié, réponse de l'entreprise. Paiement au résultat.">
-  <meta property="og:title" content="Trustpilot Scraper : avis + notes | NanoScrape">
-  <meta property="og:description" content="Extraire les fiches d'entreprises et les avis individuels depuis Trustpilot. Filtrer par étoiles, trier par date, chercher ou coller des URLs. Dès 0,001$ par avis.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Trustpilot Scraper",
-    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
-    "description": "Scraper d'avis d'entreprises Trustpilot. Retourne fiche entreprise (score de confiance, note, total d'avis, catégories, pays, logo) plus avis individuels (1 à 5 étoiles, titre, texte, auteur, dates, statut vérifié, réponse entreprise).",
-    "offers": { "@type": "Offer", "price": "0.001", "priceCurrency": "USD", "description": "per review" },
-    "url": "https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Trustpilot Scraper : avis entreprises + scores de confiance | NanoScrape</title>
+ <meta name="description" content="Extraire les fiches d'entreprises et avis Trustpilot. Retourne score de confiance, note moyenne, total d'avis, texte d'avis, auteur, dates, statut vérifié, réponse de l'entreprise. Paiement au résultat.">
+ <meta property="og:title" content="Trustpilot Scraper : avis + notes | NanoScrape">
+ <meta property="og:description" content="Extraire les fiches d'entreprises et les avis individuels depuis Trustpilot. Filtrer par étoiles, trier par date, chercher ou coller des URLs. Dès 0,001$ par avis.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/trustpilot-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/trustpilot-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/trustpilot-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/trustpilot-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Trustpilot Scraper",
+ "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+ "description": "Scraper d'avis d'entreprises Trustpilot. Retourne fiche entreprise (score de confiance, note, total d'avis, catégories, pays, logo) plus avis individuels (1 à 5 étoiles, titre, texte, auteur, dates, statut vérifié, réponse entreprise).",
+ "offers": { "@type": "Offer", "price": "0.001", "priceCurrency": "USD", "description": "per review" },
+ "url": "https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Trustpilot Scraper : avis entreprises et scores de confiance</h1>
-    <p class="lead">Extraire les fiches d'entreprises et avis consommateurs depuis Trustpilot, la plateforme mondiale d'avis couvrant chaque grande industrie. Deux types de sortie dans un run : fiches entreprises (nom, domaine, site web, score de confiance, note moyenne, total d'avis, catégories, pays, logo) et avis individuels (note 1 à 5 étoiles, titre, texte complet, nom de l'auteur, pays de l'auteur, total d'avis de l'auteur, date de publication, date d'expérience, statut d'achat vérifié, texte et date de réponse entreprise, source comme Organic ou Invited). Chercher par mot-clé ou coller des URLs d'entreprise. Filtrer par note d'étoiles, trier par date ou pertinence. Nous extrayons uniquement les pages d'avis publiquement visibles, sans contournement de connexion.</p>
+ <div class="detail">
+ <h1>Trustpilot Scraper : avis entreprises et scores de confiance</h1>
+ <p class="lead">Extraire les fiches d'entreprises et avis consommateurs depuis Trustpilot, la plateforme mondiale d'avis couvrant chaque grande industrie. Deux types de sortie dans un run : fiches entreprises (nom, domaine, site web, score de confiance, note moyenne, total d'avis, catégories, pays, logo) et avis individuels (note 1 à 5 étoiles, titre, texte complet, nom de l'auteur, pays de l'auteur, total d'avis de l'auteur, date de publication, date d'expérience, statut d'achat vérifié, texte et date de réponse entreprise, source comme Organic ou Invited). Chercher par mot-clé ou coller des URLs d'entreprise. Filtrer par note d'étoiles, trier par date ou pertinence. Nous extrayons uniquement les pages d'avis publiquement visibles, sans contournement de connexion.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Entreprise</div><div class="value">3$ pour 1 000 profils</div></div>
-      <div class="spec"><div class="label">Avis</div><div class="value">1$ pour 1 000 avis</div></div>
-      <div class="spec"><div class="label">Couverture</div><div class="value">Global</div></div>
-      <div class="spec"><div class="label">Filtres</div><div class="value">Étoiles + tri</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Entreprise</div><div class="value">3$ pour 1 000 profils</div></div>
+ <div class="spec"><div class="label">Avis</div><div class="value">1$ pour 1 000 avis</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">Global</div></div>
+ <div class="spec"><div class="label">Filtres</div><div class="value">Étoiles + tri</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
+ </div>
 
-    <h2 class="section-title">Ce que vous pouvez extraire</h2>
-    <ul>
-      <li><strong>Fiche entreprise :</strong> company_name, domain, website, trust_score, average_rating, total_reviews, categories, country, logo</li>
-      <li><strong>Avis :</strong> star_rating (1 à 5), titre, texte d'avis complet, source (Organic, Invited, ...)</li>
-      <li><strong>Auteur :</strong> nom, pays, total d'avis de l'auteur</li>
-      <li><strong>Dates :</strong> date de publication et date d'expérience</li>
-      <li><strong>Statut :</strong> booléen d'achat vérifié</li>
-      <li><strong>Réponse entreprise :</strong> texte et date de réponse si présents</li>
-    </ul>
+ <h2 class="section-title">Ce que vous pouvez extraire</h2>
+ <ul>
+ <li><strong>Fiche entreprise :</strong> company_name, domain, website, trust_score, average_rating, total_reviews, categories, country, logo</li>
+ <li><strong>Avis :</strong> star_rating (1 à 5), titre, texte d'avis complet, source (Organic, Invited, ...)</li>
+ <li><strong>Auteur :</strong> nom, pays, total d'avis de l'auteur</li>
+ <li><strong>Dates :</strong> date de publication et date d'expérience</li>
+ <li><strong>Statut :</strong> booléen d'achat vérifié</li>
+ <li><strong>Réponse entreprise :</strong> texte et date de réponse si présents</li>
+ </ul>
 
-    <h2 class="section-title">Principaux cas d'usage</h2>
-    <ul>
-      <li><strong>Surveillance de la réputation de marque.</strong> Suivre la dérive du score de confiance et du volume d'avis semaine après semaine, alerter sur les baisses de note</li>
-      <li><strong>Analyse de sentiment concurrent.</strong> Comparer les thèmes d'avis (pour, contre, plaintes fréquentes) entre entreprises rivales</li>
-      <li><strong>Renseignement confiance e-commerce.</strong> Vérifier le passé Trustpilot d'un vendeur avant achat ou partenariat</li>
-      <li><strong>Mining de la voix client.</strong> Tirer les avis 1 et 5 étoiles dans un pipeline NLP pour extraction de thèmes et recherche CX</li>
-      <li><strong>Audit du taux de réponse.</strong> Mesurer à quelle fréquence un concurrent répond aux avis et à quelle vitesse</li>
-    </ul>
+ <h2 class="section-title">Principaux cas d'usage</h2>
+ <ul>
+ <li><strong>Surveillance de la réputation de marque.</strong> Suivre la dérive du score de confiance et du volume d'avis semaine après semaine, alerter sur les baisses de note</li>
+ <li><strong>Analyse de sentiment concurrent.</strong> Comparer les thèmes d'avis (pour, contre, plaintes fréquentes) entre entreprises rivales</li>
+ <li><strong>Renseignement confiance e-commerce.</strong> Vérifier le passé Trustpilot d'un vendeur avant achat ou partenariat</li>
+ <li><strong>Mining de la voix client.</strong> Tirer les avis 1 et 5 étoiles dans un pipeline NLP pour extraction de thèmes et recherche CX</li>
+ <li><strong>Audit du taux de réponse.</strong> Mesurer à quelle fréquence un concurrent répond aux avis et à quelle vitesse</li>
+ </ul>
 
-    <h2 class="section-title">Exemple API</h2>
-    <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
+ <h2 class="section-title">Exemple API</h2>
+ <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~trustpilot-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "urls": ["https://www.trustpilot.com/review/amazon.com"],
-    "maxReviewsPerBusiness": 50,
-    "sortBy": "recency"
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "urls": ["https://www.trustpilot.com/review/amazon.com"],
+ "maxReviewsPerBusiness": 50,
+ "sortBy": "recency"
+ }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/trustpilot-scraper</span></pre></div>
 
-    <h2 class="section-title">Intégrations</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier :</strong> déclencher les runs et traiter les avis ou entreprises via webhook</li>
-      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
-      <li><strong>BigQuery, Snowflake, Looker :</strong> pousser les jeux de données d'avis dans les dashboards analytics et BI</li>
-    </ul>
+ <h2 class="section-title">Intégrations</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier :</strong> déclencher les runs et traiter les avis ou entreprises via webhook</li>
+ <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+ <li><strong>BigQuery, Snowflake, Looker :</strong> pousser les jeux de données d'avis dans les dashboards analytics et BI</li>
+ </ul>
 
-    <h2 class="section-title">Champs de sortie (item avis)</h2>
-    <table class="compare-table">
-      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
-      <tr><td>type</td><td>string</td><td>review</td></tr>
-      <tr><td>company_name</td><td>string</td><td>Amazon</td></tr>
-      <tr><td>star_rating</td><td>integer</td><td>5</td></tr>
-      <tr><td>title</td><td>string</td><td>Livraison rapide, annonce conforme</td></tr>
-      <tr><td>review_text</td><td>string</td><td>La commande est arrivée un jour en avance...</td></tr>
-      <tr><td>author_name</td><td>string</td><td>Jane D.</td></tr>
-      <tr><td>author_country</td><td>string</td><td>GB</td></tr>
-      <tr><td>date_posted</td><td>string</td><td>2026-04-22</td></tr>
-      <tr><td>verified</td><td>boolean</td><td>true</td></tr>
-      <tr><td>company_reply</td><td>string</td><td>Merci pour vos mots aimables ...</td></tr>
-    </table>
+ <h2 class="section-title">Champs de sortie (item avis)</h2>
+ <table class="compare-table">
+ <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+ <tr><td>type</td><td>string</td><td>review</td></tr>
+ <tr><td>company_name</td><td>string</td><td>Amazon</td></tr>
+ <tr><td>star_rating</td><td>integer</td><td>5</td></tr>
+ <tr><td>title</td><td>string</td><td>Livraison rapide, annonce conforme</td></tr>
+ <tr><td>review_text</td><td>string</td><td>La commande est arrivée un jour en avance...</td></tr>
+ <tr><td>author_name</td><td>string</td><td>Jane D.</td></tr>
+ <tr><td>author_country</td><td>string</td><td>GB</td></tr>
+ <tr><td>date_posted</td><td>string</td><td>2026-04-22</td></tr>
+ <tr><td>verified</td><td>boolean</td><td>true</td></tr>
+ <tr><td>company_reply</td><td>string</td><td>Merci pour vos mots aimables ...</td></tr>
+ </table>
 
-    <h2 class="section-title">Notes et limites</h2>
-    <ul>
-      <li><strong>Données publiques uniquement.</strong> Trustpilot a des clauses anti-scraping dans ses CGU. Nous extrayons uniquement les pages d'entreprise et d'avis publiquement visibles, sans contournement de connexion, sans accès aux avis privés</li>
-      <li><strong>Filtres pris en charge.</strong> Trier par <code>recency</code> ou <code>relevance</code>, filtrer sur une note d'étoiles précise pour isoler les avis 1 ou 5 étoiles</li>
-      <li><strong>Mode entreprise seule.</strong> Régler <code>maxReviewsPerBusiness: 0</code> pour n'obtenir que le résumé entreprise, utile pour des balayages de profils en masse à bas coût</li>
-    </ul>
+ <h2 class="section-title">Notes et limites</h2>
+ <ul>
+ <li><strong>Données publiques uniquement.</strong> Trustpilot a des clauses anti-scraping dans ses CGU. Nous extrayons uniquement les pages d'entreprise et d'avis publiquement visibles, sans contournement de connexion, sans accès aux avis privés</li>
+ <li><strong>Filtres pris en charge.</strong> Trier par <code>recency</code> ou <code>relevance</code>, filtrer sur une note d'étoiles précise pour isoler les avis 1 ou 5 étoiles</li>
+ <li><strong>Mode entreprise seule.</strong> Régler <code>maxReviewsPerBusiness: 0</code> pour n'obtenir que le résumé entreprise, utile pour des balayages de profils en masse à bas coût</li>
+ </ul>
 
-    <h2 class="section-title">Scrapers liés</h2>
-    <ul>
-      <li><a href="/actors/clutch-co-scraper/">Clutch.co Scraper</a> : avis et notes d'agences B2B</li>
-      <li><a href="/actors/kununu-de-scraper/">Kununu Scraper</a> : avis employeurs DACH + salaires</li>
-      <li><a href="/actors/glassdoor-scraper/">Glassdoor Scraper</a> : avis employeurs + emplois + salaires mondiaux</li>
-      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a> : enrichir les entreprises avec avis et notes Google</li>
-    </ul>
+ <h2 class="section-title">Scrapers liés</h2>
+ <ul>
+ <li><a href="/actors/clutch-co-scraper/">Clutch.co Scraper</a> : avis et notes d'agences B2B</li>
+ <li><a href="/actors/kununu-de-scraper/">Kununu Scraper</a> : avis employeurs DACH + salaires</li>
+ <li><a href="/actors/glassdoor-scraper/">Glassdoor Scraper</a> : avis employeurs + emplois + salaires mondiaux</li>
+ <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a> : enrichir les entreprises avec avis et notes Google</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/IE1gPbj2Ql1X0SdnS/source?addFromActorId=IE1gPbj2Ql1X0SdnS&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

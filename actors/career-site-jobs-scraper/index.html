@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>💼 Career Site Jobs Scraper — Extract Job Listings via API — 25+ ATS &amp; RMP Platforms — $1.00 / 1,000 | NanoScrape</title>
+  <title>Career Site Jobs Scraper — Extract Job Listings via API — 25+ ATS &amp; RMP Platforms — $1.00 / 1,000 | NanoScrape</title>
   <meta name="description" content="Extract job listings from 25 ATS &amp; RMP Platforms. Only $1/1000 jobs. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet and more ">
-  <meta property="og:title" content="💼 Career Site Jobs Scraper — Extract Job Listings via API — 25+ ATS &amp; RMP Platforms — $1.00 / 1,000 | NanoScrape">
+  <meta property="og:title" content="Career Site Jobs Scraper — Extract Job Listings via API — 25+ ATS &amp; RMP Platforms — $1.00 / 1,000 | NanoScrape">
   <meta property="og:description" content="Extract job listings from 25 ATS &amp; RMP Platforms. Only $1/1000 jobs. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet and more ">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/career-site-jobs-scraper/">
   <meta property="og:type" content="website">
@@ -22,10 +22,10 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "💼 Career Site Jobs Scraper — 25+ ATS & RMP Platforms",
+  "name": "Career Site Jobs Scraper - 25+ ATS Platforms",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cloud (Apify)",
-  "description": "Extract job listings from 25 ATS & RMP Platforms. Only $1/1000 jobs. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet and more ATS career portals soon.",
+  "description": "Extract job listings from 25 ATS platforms covering ~60% of the Fortune 500. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet, Phenom, Eightfold, Oracle Recruiting, and more. Only $1/1,000 jobs.",
   "offers": {
     "@type": "Offer",
     "price": "0.00100",
@@ -40,6 +40,10 @@
   }
 }
   </script>
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <style>
     :root {
@@ -72,8 +76,35 @@
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    /* .code-block is just a positioning wrapper — Prism (prism-tomorrow) or the fallback <pre> draws the box */
+    .code-block { position: relative; margin-bottom: 24px; }
+    /* Fallback pre (no Prism language class) — matches site surface */
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto;
+    }
+    /* Prism-styled pre — override margin/radius/border to match site, keep prism-tomorrow bg + tokens */
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5;
+    }
+    .code-block code[class*="language-"] {
+      font-family: inherit; font-size: inherit; text-shadow: none;
+    }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+    .lang-panel { display: none; }
+    .lang-panel.is-active { display: block; }
+    .detail ol { padding-left: 24px; margin-bottom: 24px; }
+    .detail ol li { margin-bottom: 8px; color: var(--muted); }
+    .detail ol li strong { color: var(--white); }
     .code-block .comment { color: var(--muted); }
 
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
@@ -97,8 +128,8 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>💼 Career Site Jobs Scraper — 25+ ATS &amp; RMP Platforms</h1>
-    <p class="lead">Extract job listings from 25 ATS & RMP Platforms. Only $1/1000 jobs. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet and more ATS career portals soon.</p>
+    <h1>Career Site Jobs Scraper - 25+ ATS Platforms</h1>
+    <p class="lead">Extract job listings from 25 ATS platforms covering ~60% of the Fortune 500. Supports Lever, Greenhouse, Workable, Ashby, Teamtailor, Personio, SmartRecruiters, BambooHR, Workday, iCIMS, Recruitee, JOIN, Pinpoint, Rippling, JazzHR, Comeet, Phenom, Eightfold, Oracle Recruiting, and more. Only $1/1,000 jobs.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
@@ -108,14 +139,127 @@
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
-    <h2 class="section-title">What You Can Scrape</h2>
+    <h2 class="section-title">What You Get</h2>
     <ul>
-      <li>**25 ATS platforms** -- covers ~302 Fortune 500 companies (~60% of F500) across 16 standard + 9 enterprise ATS platforms</li>
-      <li>**Auto-detection** -- paste any career page URL; platform detection is automatic</li>
-      <li>**Normalised output** -- consistent field names across all platforms</li>
-      <li>**Full pagination** -- follows all pages; no hidden caps (Brassring verified at 23K+ jobs)</li>
-      <li>**Deduplication** -- duplicate job IDs are automatically excluded</li>
-      <li>**Optional descriptions** -- toggle full HTML descriptions on/off to control payload size</li>
+      <li><strong>ats_platform</strong>: Auto-detected ATS platform name (lever, greenhouse, workday, etc.) -- paste any career URL and the actor identifies the system automatically</li>
+      <li><strong>title / company / department</strong>: Normalised across all 25 platforms with consistent field names regardless of which ATS the employer uses</li>
+      <li><strong>employment_type / remote</strong>: Structured employment type and remote flag -- available on 12+ platforms including Lever, Ashby, SmartRecruiters, Recruitee, and Rippling</li>
+      <li><strong>apply_url / job_url</strong>: Direct application and listing URLs -- ready to embed in job boards or CRM pipelines without extra fetches</li>
+      <li><strong>created_at / updated_at</strong>: Posting and modification timestamps from the ATS APIs -- enables freshness-aware deduplication across your pipeline</li>
+      <li><strong>description</strong>: Full HTML job description toggled with <code>includeDescription</code> -- off by default to keep payloads lean, but available on 10+ platforms</li>
+    </ul>
+    <h2 class="section-title">Input Example</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;queries&quot;: [
+    &quot;https://jobs.lever.co/spotify&quot;,
+    &quot;https://boards.greenhouse.io/anthropic&quot;,
+    &quot;https://jobs.ashbyhq.com/ramp&quot;,
+    &quot;https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite&quot;,
+    {
+      &quot;platform&quot;: &quot;phenom&quot;,
+      &quot;company&quot;: &quot;https://jobs.cvshealth.com/us/en&quot;
+    }
+  ],
+  &quot;maxJobsPerCompany&quot;: 200,
+  &quot;includeDescription&quot;: true,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
+  }
+}</code></pre></div>
+    <h2 class="section-title">Output Example</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">[
+  {
+    &quot;id&quot;: &quot;8c8a4e5f-3a5c-4b0f-9d21-1b7f5c8e2a44&quot;,
+    &quot;title&quot;: &quot;Senior Backend Engineer, Personalization&quot;,
+    &quot;company&quot;: &quot;spotify&quot;,
+    &quot;ats_platform&quot;: &quot;lever&quot;,
+    &quot;location&quot;: &quot;Stockholm, Sweden&quot;,
+    &quot;department&quot;: &quot;Engineering&quot;,
+    &quot;employment_type&quot;: &quot;Full-time&quot;,
+    &quot;remote&quot;: false,
+    &quot;description&quot;: &quot;&lt;div&gt;We are looking for a Senior Backend Engineer to join our Personalization team...&lt;/div&gt;&quot;,
+    &quot;apply_url&quot;: &quot;https://jobs.lever.co/spotify/8c8a4e5f-3a5c-4b0f-9d21-1b7f5c8e2a44/apply&quot;,
+    &quot;job_url&quot;: &quot;https://jobs.lever.co/spotify/8c8a4e5f-3a5c-4b0f-9d21-1b7f5c8e2a44&quot;,
+    &quot;created_at&quot;: &quot;2026-08-19T09:00:00Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-08-28T14:12:00Z&quot;,
+    &quot;scraped_at&quot;: &quot;2026-09-02T10:00:00Z&quot;
+  },
+  {
+    &quot;id&quot;: &quot;4592842003&quot;,
+    &quot;title&quot;: &quot;Member of Technical Staff, Model Safety&quot;,
+    &quot;company&quot;: &quot;anthropic&quot;,
+    &quot;ats_platform&quot;: &quot;greenhouse&quot;,
+    &quot;location&quot;: &quot;San Francisco, CA&quot;,
+    &quot;department&quot;: &quot;Research&quot;,
+    &quot;employment_type&quot;: null,
+    &quot;remote&quot;: false,
+    &quot;description&quot;: &quot;&lt;div&gt;Anthropic is an AI safety company...&lt;/div&gt;&quot;,
+    &quot;apply_url&quot;: &quot;https://boards.greenhouse.io/anthropic/jobs/4592842003#app&quot;,
+    &quot;job_url&quot;: &quot;https://boards.greenhouse.io/anthropic/jobs/4592842003&quot;,
+    &quot;created_at&quot;: &quot;2026-08-14T00:00:00Z&quot;,
+    &quot;updated_at&quot;: null,
+    &quot;scraped_at&quot;: &quot;2026-09-02T10:00:00Z&quot;
+  },
+  {
+    &quot;id&quot;: &quot;d47a8f21-9c3e-4d5b-a6b7-2e4f8c1d5a7b&quot;,
+    &quot;title&quot;: &quot;Staff Software Engineer, Payments&quot;,
+    &quot;company&quot;: &quot;ramp&quot;,
+    &quot;ats_platform&quot;: &quot;ashby&quot;,
+    &quot;location&quot;: &quot;New York, NY&quot;,
+    &quot;department&quot;: &quot;Engineering&quot;,
+    &quot;employment_type&quot;: &quot;Full-time&quot;,
+    &quot;remote&quot;: true,
+    &quot;description&quot;: &quot;&lt;div&gt;Ramp is looking for a Staff Software Engineer to lead the Payments platform...&lt;/div&gt;&quot;,
+    &quot;apply_url&quot;: &quot;https://jobs.ashbyhq.com/ramp/d47a8f21-9c3e-4d5b-a6b7-2e4f8c1d5a7b/application&quot;,
+    &quot;job_url&quot;: &quot;https://jobs.ashbyhq.com/ramp/d47a8f21-9c3e-4d5b-a6b7-2e4f8c1d5a7b&quot;,
+    &quot;created_at&quot;: &quot;2026-08-25T15:30:00Z&quot;,
+    &quot;updated_at&quot;: &quot;2026-08-30T09:00:00Z&quot;,
+    &quot;scraped_at&quot;: &quot;2026-09-02T10:00:00Z&quot;
+  },
+  {
+    &quot;id&quot;: &quot;JR2019514&quot;,
+    &quot;title&quot;: &quot;AI Engineering Platform Development Engineer&quot;,
+    &quot;company&quot;: &quot;nvidia&quot;,
+    &quot;ats_platform&quot;: &quot;workday&quot;,
+    &quot;location&quot;: &quot;Santa Clara, CA&quot;,
+    &quot;department&quot;: null,
+    &quot;employment_type&quot;: &quot;Full-time&quot;,
+    &quot;remote&quot;: false,
+    &quot;description&quot;: &quot;&lt;div&gt;NVIDIA is looking for a talented AI Platform Development Engineer...&lt;/div&gt;&quot;,
+    &quot;apply_url&quot;: &quot;https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Santa-Clara-CA/AI-Engineering-Platform-Development-Engineer_JR2019514/apply&quot;,
+    &quot;job_url&quot;: &quot;https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite/job/Santa-Clara-CA/AI-Engineering-Platform-Development-Engineer_JR2019514&quot;,
+    &quot;created_at&quot;: &quot;Posted Today&quot;,
+    &quot;updated_at&quot;: null,
+    &quot;scraped_at&quot;: &quot;2026-09-02T10:00:00Z&quot;
+  },
+  {
+    &quot;id&quot;: &quot;R0230924&quot;,
+    &quot;title&quot;: &quot;Staff Pharmacist FT&quot;,
+    &quot;company&quot;: &quot;cvshealth&quot;,
+    &quot;ats_platform&quot;: &quot;phenom&quot;,
+    &quot;location&quot;: &quot;Chicago, IL, United States&quot;,
+    &quot;department&quot;: &quot;Pharmacy&quot;,
+    &quot;employment_type&quot;: &quot;Full-time&quot;,
+    &quot;remote&quot;: false,
+    &quot;description&quot;: &quot;&lt;div&gt;CVS Health is seeking a Staff Pharmacist...&lt;/div&gt;&quot;,
+    &quot;apply_url&quot;: &quot;https://jobs.cvshealth.com/us/en/job/R0230924/apply&quot;,
+    &quot;job_url&quot;: &quot;https://jobs.cvshealth.com/us/en/job/R0230924&quot;,
+    &quot;created_at&quot;: &quot;2026-08-22T00:00:00Z&quot;,
+    &quot;updated_at&quot;: null,
+    &quot;scraped_at&quot;: &quot;2026-09-02T10:00:00Z&quot;
+  }
+]</code></pre></div>
+    <h2 class="section-title">Who Should Use This</h2>
+    <p><p>This actor is the foundation layer for <strong>ATS technology vendors, talent intelligence platforms, and Fortune 500 job aggregators</strong>. It replaces the need to build and maintain separate crawlers for 25 different career site systems -- normalising output into one schema at $1/1,000 jobs. HR tech companies use it to monitor competitor hiring across any mix of Greenhouse, Workday, Lever, and Phenom portals in a single run. Pair it with the <a href="https://apify.com/santamaria-automations/career-site-discoverer?fpr=0khfbz">Career Site Discoverer</a> to build a fully automated pipeline: discover which ATS any company uses, then extract structured job data at scale.</p></p>
+    <h2 class="section-title">Related Tutorials</h2>
+    <ul>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a></li>
+      <li><a href="/tutorials/scrape-fortune-500-company-jobs/">Fortune 500 mega-tutorial</a></li>
+      <li><a href="/tutorials/how-to-scrape-workday-jobs/">How to Scrape Workday Jobs</a></li>
+      <li><a href="/tutorials/how-to-scrape-icims-jobs/">How to Scrape iCIMS Jobs</a></li>
+      <li><a href="/tutorials/how-to-scrape-phenom-jobs/">How to Scrape Phenom Jobs</a></li>
+      <li><a href="/tutorials/how-to-scrape-oracle-recruiting-jobs/">How to Scrape Oracle Recruiting Jobs</a></li>
+      <li><a href="/tutorials/how-to-scrape-talentbrew-jobs/">How to Scrape TalentBrew Jobs</a></li>
     </ul>
     <h2 class="section-title">Integrations</h2>
     <ul>
@@ -123,6 +267,127 @@
       <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
       <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
       <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
+
+    <!-- Auto-injected: Run directly on Apify (no code) -->
+    <h2 class="section-title">Run this actor directly on Apify (no code)</h2>
+    <p>Click <strong>Open on Apify</strong> above to run <code>career-site-jobs-scraper</code> in your browser - no code, no install. In the Apify console you get:</p>
+    <ul>
+      <li><strong>One-click test</strong> - fill in the input form, or paste the JSON example above into the <em>JSON editor</em> tab, then hit <strong>Start</strong>.</li>
+      <li><strong>Live output</strong> - watch rows stream into an interactive <em>Output</em> table as they arrive, or flip to the raw <em>JSON</em> / <em>Log</em> view.</li>
+      <li><strong>Export in any format</strong> - one click to download the dataset as <strong>JSON, CSV, XML, Excel, HTML table, RSS, or JSONL</strong>.</li>
+      <li><strong>Schedules</strong> - run this actor <strong>daily, weekly, hourly, or on a custom cron</strong>. Apify handles timing and stores every dataset run.</li>
+      <li><strong>Integrations &amp; webhooks</strong> - fire a webhook on success/failure, or plug into <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres, and more</strong> from the <em>Actions</em> tab.</li>
+      <li><strong>Transparent cost</strong> - see exact usage against your <strong>$5/month free tier</strong> before you spend a cent.</li>
+    </ul>
+
+    <!-- Auto-injected: API token guide -->
+    <h2 class="section-title">Get your Apify API token</h2>
+    <p>To run this actor from your own code you need an Apify API token. Get one in about a minute:</p>
+    <ol>
+      <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Sign up for a free Apify account</a> (Google, GitHub, or email).</li>
+      <li>Go to <strong>Settings &rarr; Integrations &rarr; API tokens</strong>.</li>
+      <li>Click <strong>Create a new API token</strong>. Copy it and keep it secret.</li>
+    </ol>
+    <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
+
+    <!-- Auto-injected: Call from code (multi-language switcher) -->
+    <h2 class="section-title">Call from code</h2>
+    <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
+    <div class="lang-tabs" data-lang-group="run-actor">
+      <button class="tab-btn is-active" data-lang="curl">curl</button>
+      <button class="tab-btn" data-lang="node">Node.js</button>
+      <button class="tab-btn" data-lang="python">Python</button>
+      <button class="tab-btn" data-lang="csharp">C#</button>
+      <button class="tab-btn" data-lang="java">Java</button>
+    </div>
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/career-site-jobs-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/career-site-jobs-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/career-site-jobs-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/career-site-jobs-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+    <!-- Auto-injected: Use with AI agents (MCP) -->
+    <h2 class="section-title">Use with AI agents (MCP)</h2>
+    <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper</code></pre></div>
+    <p><strong>Example prompt once connected:</strong></p>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use <code>career-site-jobs-scraper</code> to scrape the jobs from the Fortune 500 companies in <code>fortune-500.csv</code> and give me the results as a table."</blockquote>
+    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
+
+    <!-- Auto-injected: Use with no-code -->
+    <h2 class="section-title">Use with no-code platforms</h2>
+    <p>Trigger this actor from your favorite automation tool. Every platform below can call the Apify API in a few clicks - no code required.</p>
+    <div class="lang-tabs" data-lang-group="nocode">
+      <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+      <button class="tab-btn" data-lang="zapier">Zapier</button>
+      <button class="tab-btn" data-lang="make">Make</button>
+      <button class="tab-btn" data-lang="pipedream">Pipedream</button>
+      <button class="tab-btn" data-lang="bubble">Bubble</button>
+    </div>
+    <div class="lang-panel is-active" data-lang="n8n">
+      <ol>
+        <li>Add the <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> (installed by default on n8n Cloud; on self-hosted install <code>@apify/n8n-nodes-apify</code>).</li>
+        <li>Set <strong>Actor</strong> to <code>santamaria-automations/career-site-jobs-scraper</code>.</li>
+        <li>Choose operation <em>Run Actor and get dataset</em>, paste your input JSON, and connect a downstream node (Google Sheets, Postgres, webhook, ...).</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="zapier">
+      <ol>
+        <li>Create a new Zap with any trigger.</li>
+        <li>Add a <strong>Webhooks by Zapier</strong> POST action to <code>https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Body: your input JSON. Content-Type: <code>application/json</code>.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="make">
+      <ol>
+        <li>Create a new scenario.</li>
+        <li>Add an <strong>HTTP</strong> module: URL <code>https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, method POST, body raw JSON.</li>
+        <li>Parse the response with a <strong>JSON</strong> module to iterate items downstream.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="pipedream">
+      <ol>
+        <li>Create a new workflow.</li>
+        <li>Add an <strong>HTTP Request</strong> step: POST to <code>https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Access <code>steps.http.$return_value</code> in subsequent steps.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="bubble">
+      <ol>
+        <li>Install the <strong>API Connector</strong> plugin.</li>
+        <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~career-site-jobs-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+        <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
+      </ol>
+    </div>
+    <h2 class="section-title">Related tutorials</h2>
+    <ul>
+      <li><a href="/tutorials/scrape-fortune-500-company-jobs/"><strong>How to Scrape Every Fortune 500 Job Listing</strong></a> - Full playbook using this actor as part of a 3-tier stack. Includes MCP prompts, mapper script, and honest cost math.</li>
+      <li><a href="/tutorials/fortune-500-ats-market-share-2026/"><strong>Fortune 500 ATS Market Share 2026</strong></a> - Data study of ATS platforms across the F500. Workday leads with 126 deployments; 24 platforms total.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
@@ -133,5 +398,63 @@
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.copy-btn')) {
+      var pre = e.target.parentElement.querySelector('pre');
+      if (!pre) return;
+      var text = pre.textContent;
+      var btn = e.target;
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(function() {
+        btn.textContent = 'Copy failed';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+  });
+  // Language / no-code platform tab switcher
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.tab-btn')) return;
+    var btn = e.target;
+    var group = btn.closest('.lang-tabs');
+    if (!group) return;
+    var groupName = group.getAttribute('data-lang-group');
+    var lang = btn.getAttribute('data-lang');
+    // Deactivate siblings
+    group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    // Toggle panels in same scope (siblings of the tabs container's parent)
+    var panels = group.parentElement.querySelectorAll('.lang-panel');
+    panels.forEach(function(p) {
+      // Only toggle panels that were siblings of this tab group (not other tab groups' panels)
+      var prevGroup = p.previousElementSibling;
+      while (prevGroup && !prevGroup.classList.contains('lang-tabs')) {
+        prevGroup = prevGroup.previousElementSibling;
+      }
+      if (prevGroup === group || (prevGroup && prevGroup.getAttribute('data-lang-group') === groupName)) {
+        if (p.getAttribute('data-lang') === lang) {
+          p.classList.add('is-active');
+        } else {
+          p.classList.remove('is-active');
+        }
+      }
+    });
+  });
+  </script>
 </body>
 </html>

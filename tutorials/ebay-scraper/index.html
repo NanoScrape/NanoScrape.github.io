@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -215,8 +219,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -275,7 +293,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Open the eBay Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Open the eBay Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Jump to pricing &darr;</a>
     </div>
 
@@ -307,7 +325,7 @@
         <li><strong>Media and provenance:</strong> <code class="code-inline">imageUrl</code>, <code class="code-inline">searchQuery</code>, <code class="code-inline">scrapedAt</code>.</li>
       </ul>
     <p>All monetary values use the currency of the marketplace you target. <code class="code-inline">originalPrice</code> and <code class="code-inline">discountPercent</code> appear only when eBay shows a struck-through price on the card.</p>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "itemId": "256184730291",
   "title": "Apple iPhone 15 Pro 256GB Natural Titanium Unlocked Excellent",
   "url": "https://www.ebay.com/itm/256184730291",
@@ -330,18 +348,18 @@
   "imageUrl": "https://i.ebayimg.com/images/g/abc123/s-l500.jpg",
   "searchQuery": "iphone 15 pro",
   "scrapedAt": "2026-06-13T08:14:22Z"
-}</pre></div>
+}</code></pre></div>
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
-        <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">the actor page</a>. Every account gets $5 of free monthly usage credit, enough for about 1,600 eBay listings.</li>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">the actor page</a>. Every account gets $5 of free monthly usage credit, enough for about 1,600 eBay listings.</li>
       </ul>
 
     <div class="step" id="step-1">
       <span class="step-number">STEP 1</span>
       <h2>Open the actor and sign up</h2>
       <ol>
-        <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">NanoScrape eBay Product Scraper</a> on Apify.</li>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">NanoScrape eBay Product Scraper</a> on Apify.</li>
         <li>Click <strong>Try for free</strong>. Sign up with Google or email. The free tier includes $5 of monthly credit, enough to test without entering a payment method.</li>
         <li>Once signed in, click <strong>Try for free</strong> again on the actor page. The Apify Console opens with the input form pre-loaded and ready to configure.</li>
       </ol>
@@ -358,14 +376,14 @@
       <p>The actor accepts two types of input. Use <code class="code-inline">searchQueries</code> for keyword searches, or <code class="code-inline">startUrls</code> for direct eBay search and category page URLs. At least one of the two is required.</p>
       <h3>Keyword search</h3>
       <p>Paste one or more search terms into the <strong>Search Queries</strong> field, one per line. The actor runs all queries in the same run and labels each result with the query that produced it via the <code class="code-inline">searchQuery</code> field.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQueries": [
     "iphone 15 pro",
     "iphone 15 pro max"
   ],
   "marketplace": "ebay.com",
   "maxResults": 100
-}</pre></div>
+}</code></pre></div>
       <h3>URL search</h3>
       <p>If you already have a filtered eBay search URL from a manual search on ebay.com, paste it into <strong>Start URLs</strong>. This reproduces the exact sorting, condition, and filter combination you see in the browser.</p>
       <div class="callout tip"><strong>Tip:</strong> set <code class="code-inline">maxResults</code> to cap the total results across all queries. The default is 100. eBay typically returns fewer than 500 results per search term regardless of how high you set this.</div>
@@ -383,7 +401,7 @@
         <li><strong>freeShippingOnly:</strong> set to <code class="code-inline">true</code> to exclude listings with paid shipping.</li>
       </ul>
       <p>Example: find Buy It Now refurbished iPhones under $800 with free shipping, sorted by lowest price first:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchQueries": ["iphone 15 pro"],
   "marketplace": "ebay.com",
   "maxResults": 50,
@@ -392,7 +410,7 @@
   "sortBy": "price_low",
   "maxPrice": 800,
   "freeShippingOnly": true
-}</pre></div>
+}</code></pre></div>
       <figure>
       <img src="assets/03-ebay-scraper-filter-settings.png" alt="Apify Console input form for the eBay Product Scraper with condition set to refurbished, listing type to buy it now, sort by price low, and max price set to 800" loading="lazy" width="3200" height="2000">
       <figcaption>Combining condition, listing type, and price filters to narrow results before the run starts.</figcaption>
@@ -432,7 +450,7 @@
 
     <h2 id="api">Automate with the API</h2>
     <p>Call the actor from your own code or pipeline using the Apify REST API. Replace <code class="code-inline">YOUR_TOKEN</code> with the Personal API token found in Apify Console &rsaquo; Settings &rsaquo; Integrations.</p>
-    <div class="code-block"><pre>curl -sS -X POST \
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -sS -X POST \
   'https://api.apify.com/v2/acts/santamaria-automations~ebay-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -441,15 +459,15 @@
     "maxResults": 50,
     "condition": ["used", "refurbished"],
     "sortBy": "price_low"
-  }'</pre></div>
+  }'</code></pre></div>
     <p>The <code class="code-inline">run-sync-get-dataset-items</code> endpoint starts the actor, waits for it to finish, and returns the full dataset in one HTTP response. For large runs, use the async endpoint and poll for completion.</p>
     <h3>Use with AI agents via MCP</h3>
     <p>Connect the actor to any MCP-compatible AI client (Claude Desktop, Claude.ai, Cursor, VS Code, LangChain) using the Apify MCP server URL:</p>
-    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/ebay-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/ebay-scraper</code></pre></div>
     <p>Once connected, prompt your agent: <em>"Use ebay-scraper to find the 20 cheapest refurbished iPhone 15 Pro listings on ebay.com under $800. Return results as a table with price, condition, and link."</em> Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically.</p>
 
     <h2 id="sold-listings">Compare with sold prices</h2>
-    <p>Active listings show what sellers are asking. Completed listings show what buyers actually paid. The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">NanoScrape eBay Sold Listings Scraper</a> scrapes completed eBay sales for real transaction prices and includes built-in price analytics: average, median, and a recommended resale price.</p>
+    <p>Active listings show what sellers are asking. Completed listings show what buyers actually paid. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">NanoScrape eBay Sold Listings Scraper</a> scrapes completed eBay sales for real transaction prices and includes built-in price analytics: average, median, and a recommended resale price.</p>
     <p>A common workflow: run this actor to pull active listings, then run the Sold Listings Scraper on the same search term to see the spread between ask and transaction prices. Listings where the asking price is close to the recent sold median are priced to move. Listings significantly above the sold median are overpriced for the current market.</p>
 
     <h2 id="cost">What it costs</h2>
@@ -477,7 +495,7 @@
       </details>
       <details>
         <summary>What is the difference between this actor and the eBay Sold Listings Scraper?</summary>
-        <p>This actor scrapes <em>active</em> listings (current asking prices). The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">eBay Sold Listings Scraper</a> scrapes <em>completed</em> sales (real transaction prices, plus average, median, and recommended price analytics). Run both on the same search term to compare asking prices against what buyers actually paid.</p>
+        <p>This actor scrapes <em>active</em> listings (current asking prices). The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">eBay Sold Listings Scraper</a> scrapes <em>completed</em> sales (real transaction prices, plus average, median, and recommended price analytics). Run both on the same search term to compare asking prices against what buyers actually paid.</p>
       </details>
       <details>
         <summary>Does the actor work on all 8 eBay regional sites?</summary>
@@ -492,12 +510,12 @@
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/ebay-scraper/">eBay Scraper actor page</a>: Full spec sheet: pricing table, all input fields, supported marketplaces, and structured schema for LLM agents.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">eBay Product Scraper on Apify</a>: Full actor documentation, all input parameters, and complete field reference.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">eBay Sold Listings Scraper</a>: Companion actor that scrapes completed eBay sales for real transaction prices, plus average, median, and recommended resale price analytics.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz">eBay Product Scraper on Apify</a>: Full actor documentation, all input parameters, and complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-sold-scraper?fpr=0khfbz">eBay Sold Listings Scraper</a>: Companion actor that scrapes completed eBay sales for real transaction prices, plus average, median, and recommended resale price analytics.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Open the eBay Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/ebay-scraper?fpr=0khfbz" class="btn-primary">Open the eBay Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">See pricing above &uarr;</a>
     </div>
   </article>
@@ -506,5 +524,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

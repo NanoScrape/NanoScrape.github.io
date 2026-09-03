@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -245,8 +249,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -308,7 +326,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz" class="btn-primary">Open the TikTok Video Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz" class="btn-primary">Open the TikTok Video Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Read pricing details below</a>
     </div>
 
@@ -331,7 +349,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">NanoScrape TikTok Video Scraper</a> runs on Apify. You give it a list of TikTok usernames or profile URLs; it returns one JSON item per video with roughly 30 fields. Results are downloadable as JSON, CSV, or Excel. No TikTok account or API key required.</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">NanoScrape TikTok Video Scraper</a> runs on Apify. You give it a list of TikTok usernames or profile URLs; it returns one JSON item per video with roughly 30 fields. Results are downloadable as JSON, CSV, or Excel. No TikTok account or API key required.</p>
     <ul>
         <li><strong>Engagement metrics</strong>: play count, like count, comment count, share count, and save count for each video.</li>
         <li><strong>Content metadata</strong>: caption text, detected language, duration in seconds, pinned flag, slideshow flag, and ad flag.</li>
@@ -352,7 +370,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Create a free Apify account</h2>
       <ol>
-        <li>Open <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
         <li>Sign up with Google or email. The form takes about a minute.</li>
         <li>You land on the actor's input form inside Apify Console. The free $5 credit is applied automatically.</li>
       </ol>
@@ -377,10 +395,10 @@
         <li><code class="code-inline">profiles</code> (required): an array of TikTok usernames, @handles, or full profile URLs. Add one per line. <code class="code-inline">mrbeast</code>, <code class="code-inline">@mrbeast</code>, and <code class="code-inline">https://www.tiktok.com/@mrbeast</code> are all equivalent.</li>
         <li><code class="code-inline">maxVideosPerProfile</code>: how many recent videos to return per profile. Default is 30. Set higher to paginate further back in the profile history.</li>
       </ul>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "profiles": ["mrbeast", "nike", "nasa"],
   "maxVideosPerProfile": 50
-}</pre></div>
+}</code></pre></div>
       <p>That input returns up to 150 videos (3 profiles x 50 videos). Each profile is fetched in parallel.</p>
       <figure>
       <img src="assets/03-tiktok-video-scraper-input-form.png" alt="Apify Console TikTok Video Scraper input tab showing the profiles field with two usernames added and maxVideosPerProfile set to 30" loading="lazy" width="3200" height="2000">
@@ -401,7 +419,7 @@
       <ul>
         <li><strong>Private profile</strong>: the account is set to private on TikTok. Only public profiles return results.</li>
         <li><strong>Username not found</strong>: double-check the handle. TikTok usernames are case-insensitive but spelling must be exact.</li>
-        <li><strong>Insufficient credits</strong>: your Apify balance is below $0.02. Top up in <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
+        <li><strong>Insufficient credits</strong>: your Apify balance is below $0.02. Top up in <a target="_blank" rel="noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
       </ul>
     </div>
 
@@ -454,7 +472,7 @@
         <li><code class="code-inline">source_profile</code>: the input username that produced this result.</li>
         <li><code class="code-inline">scraped_at</code>: ISO 8601 timestamp of when the record was collected.</li>
       </ul>
-    <div class="callout tip">If you need richer author data -- bio, link in bio, account creation date, or TikTok Shop seller status -- feed those usernames into the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-profile-scraper?fpr=0khfbz">TikTok Profile Scraper</a>. The two actors pair naturally: use this one to find which creators post the best content, then enrich those profiles.</div>
+    <div class="callout tip">If you need richer author data -- bio, link in bio, account creation date, or TikTok Shop seller status -- feed those usernames into the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-profile-scraper?fpr=0khfbz">TikTok Profile Scraper</a>. The two actors pair naturally: use this one to find which creators post the best content, then enrich those profiles.</div>
 
     <h2 id="schedule">Schedule recurring runs</h2>
     <p>From the actor page in Apify Console, click <strong>Schedules</strong> in the left sidebar and then <strong>Create schedule</strong>. Set a cron expression -- for example, <code class="code-inline">0 9 * * 1</code> for every Monday at 9 AM UTC -- and attach this actor with the same input JSON you tested manually.</p>
@@ -514,13 +532,13 @@
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/tiktok-video-scraper/">TikTok Video Scraper actor page</a>: Full specs, pricing details, and field reference for the NanoScrape TikTok Video Scraper.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">TikTok Video Scraper on Apify</a>: Actor documentation, input schema, and all configuration options on the Apify platform.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz">TikTok Video Scraper on Apify</a>: Actor documentation, input schema, and all configuration options on the Apify platform.</li>
       <li><a href="/tutorials/scrape-instagram-follower-counts/">How to Track Instagram Follower Counts</a>: Similar engagement-tracking workflow for Instagram profiles using the NanoScrape Instagram Scraper.</li>
       <li><a href="/tutorials/instagram-scraper/">Instagram Scraper tutorial</a>: Extract posts, reels, hashtags, and profile data from Instagram without the Meta API.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz" class="btn-primary">Open the TikTok Video Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tiktok-video-scraper?fpr=0khfbz" class="btn-primary">Open the TikTok Video Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>
@@ -529,5 +547,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

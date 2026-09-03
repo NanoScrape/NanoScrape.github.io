@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kununu 抓取器：DACH 雇主评价 + 薪资 | NanoScrape</title>
-  <meta name="description" content="抓取 Kununu.com 在 DE/AT/CH 的雇主评价、评分、薪资和福利。返回评分、14 个子指标、薪资区间、福利、奖项、竞争对手。按结果付费。">
-  <meta property="og:title" content="Kununu 抓取器：DACH 雇主评价 | NanoScrape">
-  <meta property="og:description" content="从 Kununu DE/AT/CH 提取雇主评价和薪资。1500 万+ 评价、完整评分分解、福利百分比。每条结果起价 $0.003。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/kununu-de-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/kununu-de-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/kununu-de-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/kununu-de-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kununu Scraper",
-    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
-    "description": "Kununu.com DACH 雇主评价抓取器。1500 万+ 评价。返回评分、14 因子分解、按职位薪资区间、20+ 福利及百分比、Top Company 奖项、竞争对手。",
-    "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per company SERP result" },
-    "url": "https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Kununu 抓取器：DACH 雇主评价 + 薪资 | NanoScrape</title>
+ <meta name="description" content="抓取 Kununu.com 在 DE/AT/CH 的雇主评价、评分、薪资和福利。返回评分、14 个子指标、薪资区间、福利、奖项、竞争对手。按结果付费。">
+ <meta property="og:title" content="Kununu 抓取器：DACH 雇主评价 | NanoScrape">
+ <meta property="og:description" content="从 Kununu DE/AT/CH 提取雇主评价和薪资。1500 万+ 评价、完整评分分解、福利百分比。每条结果起价 $0.003。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/kununu-de-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/kununu-de-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/kununu-de-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/kununu-de-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/kununu-de-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kununu Scraper",
+ "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+ "description": "Kununu.com DACH 雇主评价抓取器。1500 万+ 评价。返回评分、14 因子分解、按职位薪资区间、20+ 福利及百分比、Top Company 奖项、竞争对手。",
+ "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per company SERP result" },
+ "url": "https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Kununu 抓取器：DACH 雇主评价与薪资</h1>
-    <p class="lead">从 kununu.com 提取雇主评价、评分、薪资数据和福利，这是德国、奥地利和瑞士最大的雇主评价平台，拥有 1500 万+ 条评价。返回总体评分和取整评分（1 至 5）、评价总数、推荐率、行业、地点、14 因子评分分解（薪资、氛围、领导力、工作生活平衡等）、20+ 福利类型及百分比、按职位的薪资区间（最小、最大、中位、平均）、按年度的 Top Company 徽章、竞争对手和来源 URL。纯 DACH 覆盖。我们只提取公开可见的资料数据，不绕过登录。</p>
+ <div class="detail">
+ <h1>Kununu 抓取器：DACH 雇主评价与薪资</h1>
+ <p class="lead">从 kununu.com 提取雇主评价、评分、薪资数据和福利，这是德国、奥地利和瑞士最大的雇主评价平台，拥有 1500 万+ 条评价。返回总体评分和取整评分（1 至 5）、评价总数、推荐率、行业、地点、14 因子评分分解（薪资、氛围、领导力、工作生活平衡等）、20+ 福利类型及百分比、按职位的薪资区间（最小、最大、中位、平均）、按年度的 Top Company 徽章、竞争对手和来源 URL。纯 DACH 覆盖。我们只提取公开可见的资料数据，不绕过登录。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hn0eQazatusKWl5nb/source?addFromActorId=hn0eQazatusKWl5nb&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hn0eQazatusKWl5nb/source?addFromActorId=hn0eQazatusKWl5nb&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">价格</div><div class="value">$3/1000 SERP</div></div>
-      <div class="spec"><div class="label">详情价</div><div class="value">$5/1000 资料</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">DE, AT, CH</div></div>
-      <div class="spec"><div class="label">规模</div><div class="value">1500 万+ 评价</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">子指标</div><div class="value">14 项/家</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">价格</div><div class="value">$3/1000 SERP</div></div>
+ <div class="spec"><div class="label">详情价</div><div class="value">$5/1000 资料</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">DE, AT, CH</div></div>
+ <div class="spec"><div class="label">规模</div><div class="value">1500 万+ 评价</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">子指标</div><div class="value">14 项/家</div></div>
+ </div>
 
-    <h2 class="section-title">可以抓取的内容</h2>
-    <ul>
-      <li><strong>身份信息：</strong>name、slug、logo_url、行业、地点、source_url</li>
-      <li><strong>总体评分：</strong>score、rounded_score（1 至 5）、total_reviews、recommendation_rate</li>
-      <li><strong>评分分解：</strong>14 项子指标，涵盖薪资、氛围、领导力、工作生活平衡、环境、沟通、平等、支持等</li>
-      <li><strong>福利：</strong>20+ 福利类型及各自报告比例</li>
-      <li><strong>薪资区间：</strong>按职位的最小、最大、中位、平均</li>
-      <li><strong>信任信号：</strong>按年度的 Top Company 徽章、可比评分的竞争对手</li>
-    </ul>
+ <h2 class="section-title">可以抓取的内容</h2>
+ <ul>
+ <li><strong>身份信息：</strong>name、slug、logo_url、行业、地点、source_url</li>
+ <li><strong>总体评分：</strong>score、rounded_score（1 至 5）、total_reviews、recommendation_rate</li>
+ <li><strong>评分分解：</strong>14 项子指标，涵盖薪资、氛围、领导力、工作生活平衡、环境、沟通、平等、支持等</li>
+ <li><strong>福利：</strong>20+ 福利类型及各自报告比例</li>
+ <li><strong>薪资区间：</strong>按职位的最小、最大、中位、平均</li>
+ <li><strong>信任信号：</strong>按年度的 Top Company 徽章、可比评分的竞争对手</li>
+ </ul>
 
-    <h2 class="section-title">主要使用场景</h2>
-    <ul>
-      <li><strong>招聘情报。</strong>在联系候选人之前，将目标公司子指标评分与行业中位对标</li>
-      <li><strong>雇主品牌舆情。</strong>追踪评分和评价数量随时间的漂移，及早发现声誉问题</li>
-      <li><strong>薪资基准。</strong>对竞争对手按职位提取中位和区间用于薪酬复盘</li>
-      <li><strong>并购尽调。</strong>提取 DACH 地区 M&amp;A 目标的员工情绪数据</li>
-      <li><strong>HR 市场情报。</strong>追踪德国、奥地利和瑞士各行业中哪些福利正在扩散</li>
-    </ul>
+ <h2 class="section-title">主要使用场景</h2>
+ <ul>
+ <li><strong>招聘情报。</strong>在联系候选人之前，将目标公司子指标评分与行业中位对标</li>
+ <li><strong>雇主品牌舆情。</strong>追踪评分和评价数量随时间的漂移，及早发现声誉问题</li>
+ <li><strong>薪资基准。</strong>对竞争对手按职位提取中位和区间用于薪酬复盘</li>
+ <li><strong>并购尽调。</strong>提取 DACH 地区 M&amp;A 目标的员工情绪数据</li>
+ <li><strong>HR 市场情报。</strong>追踪德国、奥地利和瑞士各行业中哪些福利正在扩散</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动任务</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动任务</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~kununu-de-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "searchQuery": "SAP",
-    "country": "de",
-    "maxResults": 50
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQuery": "SAP",
+ "country": "de",
+ "maxResults": 50
+ }'
 
 <span class="comment"># 或通过 MCP 与 AI 智能体一起使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/kununu-de-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>通过 webhook 触发任务并处理雇主记录</li>
-      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行程序化访问</li>
-      <li><strong>Google Sheets、Airtable、HubSpot、Greenhouse：</strong>将雇主情报推入 ATS 或 CRM</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>通过 webhook 触发任务并处理雇主记录</li>
+ <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行程序化访问</li>
+ <li><strong>Google Sheets、Airtable、HubSpot、Greenhouse：</strong>将雇主情报推入 ATS 或 CRM</li>
+ </ul>
 
-    <h2 class="section-title">输出字段</h2>
-    <table class="compare-table">
-      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
-      <tr><td>name</td><td>string</td><td>SAP SE</td></tr>
-      <tr><td>slug</td><td>string</td><td>sap</td></tr>
-      <tr><td>score</td><td>float</td><td>3.9</td></tr>
-      <tr><td>total_reviews</td><td>integer</td><td>4827</td></tr>
-      <tr><td>recommendation_rate</td><td>integer</td><td>78</td></tr>
-      <tr><td>industry</td><td>string</td><td>IT / 软件</td></tr>
-      <tr><td>location</td><td>string</td><td>Walldorf, 德国</td></tr>
-      <tr><td>score_breakdown</td><td>object</td><td>{salary: 3.7, atmosphere: 4.0, leadership: 3.4, ...}</td></tr>
-      <tr><td>benefits</td><td>object[]</td><td>[{name: "远程办公", percentage: 87}, ...]</td></tr>
-      <tr><td>salary_ranges</td><td>object[]</td><td>[{job_title, min, max, median, average}]</td></tr>
-    </table>
+ <h2 class="section-title">输出字段</h2>
+ <table class="compare-table">
+ <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+ <tr><td>name</td><td>string</td><td>SAP SE</td></tr>
+ <tr><td>slug</td><td>string</td><td>sap</td></tr>
+ <tr><td>score</td><td>float</td><td>3.9</td></tr>
+ <tr><td>total_reviews</td><td>integer</td><td>4827</td></tr>
+ <tr><td>recommendation_rate</td><td>integer</td><td>78</td></tr>
+ <tr><td>industry</td><td>string</td><td>IT / 软件</td></tr>
+ <tr><td>location</td><td>string</td><td>Walldorf, 德国</td></tr>
+ <tr><td>score_breakdown</td><td>object</td><td>{salary: 3.7, atmosphere: 4.0, leadership: 3.4, ...}</td></tr>
+ <tr><td>benefits</td><td>object[]</td><td>[{name: "远程办公", percentage: 87}, ...]</td></tr>
+ <tr><td>salary_ranges</td><td>object[]</td><td>[{job_title, min, max, median, average}]</td></tr>
+ </table>
 
-    <h2 class="section-title">注意与限制</h2>
-    <ul>
-      <li><strong>仅公开数据。</strong>Kununu 在条款中包含反抓取声明。我们只提取公开可见的资料数据，不绕过登录，不抓取私有评价</li>
-      <li><strong>仅限 DACH。</strong>国家必须是 <code>de</code>、<code>at</code> 或 <code>ch</code>。每个 Kununu 市场有独立的 slug（如 <code>sap</code>、<code>sap-oesterreich</code>、<code>sap-schweiz12</code>）</li>
-      <li><strong>SERP 与完整资料。</strong>SERP 返回轻量公司列表。开启 detail 模式即可获取 14 因子分解、福利和薪资</li>
-    </ul>
+ <h2 class="section-title">注意与限制</h2>
+ <ul>
+ <li><strong>仅公开数据。</strong>Kununu 在条款中包含反抓取声明。我们只提取公开可见的资料数据，不绕过登录，不抓取私有评价</li>
+ <li><strong>仅限 DACH。</strong>国家必须是 <code>de</code>、<code>at</code> 或 <code>ch</code>。每个 Kununu 市场有独立的 slug（如 <code>sap</code>、<code>sap-oesterreich</code>、<code>sap-schweiz12</code>）</li>
+ <li><strong>SERP 与完整资料。</strong>SERP 返回轻量公司列表。开启 detail 模式即可获取 14 因子分解、福利和薪资</li>
+ </ul>
 
-    <h2 class="section-title">相关抓取器</h2>
-    <ul>
-      <li><a href="/actors/glassdoor-scraper/">Glassdoor 抓取器</a>：全球雇主评价 + 职位 + 薪资</li>
-      <li><a href="/actors/trustpilot-scraper/">Trustpilot 抓取器</a>：全球消费者商家评价</li>
-      <li><a href="/actors/linkedin-scraper/">LinkedIn 抓取器</a>：公司资料字段与人数</li>
-      <li><a href="/actors/google-maps-scraper/">Google Maps 抓取器</a>：以 NAP 和 Google 评价补充雇主</li>
-    </ul>
+ <h2 class="section-title">相关抓取器</h2>
+ <ul>
+ <li><a href="/actors/glassdoor-scraper/">Glassdoor 抓取器</a>：全球雇主评价 + 职位 + 薪资</li>
+ <li><a href="/actors/trustpilot-scraper/">Trustpilot 抓取器</a>：全球消费者商家评价</li>
+ <li><a href="/actors/linkedin-scraper/">LinkedIn 抓取器</a>：公司资料字段与人数</li>
+ <li><a href="/actors/google-maps-scraper/">Google Maps 抓取器</a>：以 NAP 和 Google 评价补充雇主</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hn0eQazatusKWl5nb/source?addFromActorId=hn0eQazatusKWl5nb&fpr=0khfbz" class="btn-secondary">立即试用（有免费额度）</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/kununu-de-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hn0eQazatusKWl5nb/source?addFromActorId=hn0eQazatusKWl5nb&fpr=0khfbz" class="btn-secondary">立即试用（有免费额度）</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

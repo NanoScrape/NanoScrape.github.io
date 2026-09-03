@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Glassdoor Scraper - Reviews, Jobs &amp; Salaries — $3.00 / 1,000 | NanoScrape</title>
-  <meta name="description" content="Scrape Glassdoor company reviews, ratings, salaries, jobs, and interview experiences. Extract pros, cons, CEO approval, and more. Multi-mode: reviews, jobs, interviews, salaries, overview, benefits. Pay-per-result pricing.">
-  <meta property="og:title" content="Glassdoor Scraper - Reviews, Jobs &amp; Salaries — $3.00 / 1,000 | NanoScrape">
-  <meta property="og:description" content="Scrape Glassdoor company reviews, ratings, salaries, jobs, and interview experiences. Extract pros, cons, CEO approval, and more. Multi-mode: reviews, jobs, interviews, salaries, overview, benefits. Pay-per-result pricing.">
+  <title>Glassdoor Scraper - Jobs, Ratings &amp; Employer Profiles — $6.00 / 1,000 | NanoScrape</title>
+  <meta name="description" content="Scrape Glassdoor job listings with company ratings, salary estimates, and employer profiles across 20+ country domains. Returns company rating, review count, salary estimated vs employer, workplace type, apply URL, and optional employer profile enrichment.">
+  <meta property="og:title" content="Glassdoor Scraper - Jobs, Ratings &amp; Employer Profiles — $6.00 / 1,000 | NanoScrape">
+  <meta property="og:description" content="Scrape Glassdoor job listings with company ratings, salary estimates, and employer profiles across 20+ country domains. Returns company rating, review count, salary estimated vs employer, workplace type, apply URL, and optional employer profile enrichment.">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/glassdoor-scraper/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -22,15 +22,15 @@
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Glassdoor Scraper - Reviews, Jobs & Salaries",
+  "name": "Glassdoor Scraper - Jobs, Ratings & Employer Profiles",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cloud (Apify)",
-  "description": "Scrape Glassdoor company reviews, ratings, salaries, jobs, and interview experiences. Extract pros, cons, CEO approval, and more. Multi-mode: reviews, jobs, interviews, salaries, overview, benefits. Pay-per-result pricing.",
+  "description": "Scrape Glassdoor job listings with company ratings, salary estimates, and employer profiles across 20+ country domains. Returns company rating, review count, salary estimated vs employer, workplace type, apply URL, and optional employer profile enrichment.",
   "offers": {
     "@type": "Offer",
-    "price": "0.00300",
+    "price": "0.00600",
     "priceCurrency": "USD",
-    "description": "per result scraped ($3.00 per 1,000)"
+    "description": "per SERP result ($6.00 per 1,000)"
   },
   "url": "https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz",
   "author": {
@@ -40,6 +40,10 @@
   }
 }
   </script>
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <style>
     :root {
@@ -72,8 +76,35 @@
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    /* .code-block is just a positioning wrapper — Prism (prism-tomorrow) or the fallback <pre> draws the box */
+    .code-block { position: relative; margin-bottom: 24px; }
+    /* Fallback pre (no Prism language class) — matches site surface */
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto;
+    }
+    /* Prism-styled pre — override margin/radius/border to match site, keep prism-tomorrow bg + tokens */
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5;
+    }
+    .code-block code[class*="language-"] {
+      font-family: inherit; font-size: inherit; text-shadow: none;
+    }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+    .lang-panel { display: none; }
+    .lang-panel.is-active { display: block; }
+    .detail ol { padding-left: 24px; margin-bottom: 24px; }
+    .detail ol li { margin-bottom: 8px; color: var(--muted); }
+    .detail ol li strong { color: var(--white); }
     .code-block .comment { color: var(--muted); }
 
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
@@ -97,25 +128,66 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Glassdoor Scraper - Reviews, Jobs &amp; Salaries</h1>
-    <p class="lead">Scrape Glassdoor company reviews, ratings, salaries, jobs, and interview experiences. Extract pros, cons, CEO approval, and more. Multi-mode: reviews, jobs, interviews, salaries, overview, benefits. Pay-per-result pricing.</p>
+    <h1>Glassdoor Scraper - Jobs, Ratings &amp; Employer Profiles</h1>
+    <p class="lead">Scrape Glassdoor job listings with company ratings, salary estimates, and employer profiles across 20+ country domains. Every SERP row includes the company's Glassdoor rating and review count. Optional employer profile enrichment returns CEO approval, rating breakdown, and 18+ company fields.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$6.00 / 1,000</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Residential</div></div>
     </div>
-    <h2 class="section-title">What You Can Scrape</h2>
+    <h2 class="section-title">What You Get</h2>
     <ul>
-      <li>**Multi-mode scraping** — Reviews, Jobs, Salaries, Interviews, Overview, Benefits</li>
-      <li>**Company ratings** — Overall rating, CEO approval, recommend to friend %</li>
-      <li>**Review details** — Pros, cons, job title, employment status, rating breakdown</li>
-      <li>**Salary data** — Salary ranges by job title and location</li>
-      <li>**Job listings** — Open positions with descriptions and salary estimates</li>
-      <li>**Interview experiences** — Questions, difficulty, outcomes</li>
+      <li><strong>company_rating / review_count</strong>: Glassdoor's 1-5 star employer rating and total review count on every SERP row -- the single most-requested field from Glassdoor and not available from any other job board</li>
+      <li><strong>salary_estimated / salary_source</strong>: Whether the salary range is employer-disclosed or a Glassdoor estimate -- critical for salary benchmarking integrity</li>
+      <li><strong>easy_apply</strong>: Boolean flag for Glassdoor-native one-click applications vs external ATS apply redirects</li>
+      <li><strong>company_rating_culture / compensation / opportunities / senior_leadership / work_life_balance</strong>: Full sub-rating breakdown from the employer profile pass (requires <code>includeCompanyDetails: true</code>)</li>
+      <li><strong>company_ceo / company_ceo_approval_pct / company_recommend_pct</strong>: CEO identity and approval metrics from the Glassdoor company profile</li>
+      <li><strong>workplace_type</strong>: Remote, Hybrid, or In-person from Glassdoor's own listing metadata -- consistent across all 20+ country domains</li>
+    </ul>
+    <h2 class="section-title">Input Example</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchQueries&quot;: [&quot;software engineer&quot;, &quot;product manager&quot;],
+  &quot;location&quot;: &quot;London&quot;,
+  &quot;country&quot;: &quot;gb&quot;,
+  &quot;sortBy&quot;: &quot;date&quot;,
+  &quot;includeJobDetails&quot;: true,
+  &quot;includeCompanyDetails&quot;: false,
+  &quot;maxResults&quot;: 100,
+  &quot;maxResultsPerQuery&quot;: 200
+}</code></pre></div>
+    <h2 class="section-title">Output Example</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;_type&quot;: &quot;job&quot;,
+  &quot;id&quot;: &quot;1009123456&quot;,
+  &quot;title&quot;: &quot;Senior Software Engineer&quot;,
+  &quot;company_name&quot;: &quot;Acme Corp&quot;,
+  &quot;company_rating&quot;: 4.2,
+  &quot;review_count&quot;: 1284,
+  &quot;location&quot;: &quot;New York, NY&quot;,
+  &quot;salary_min&quot;: 145000,
+  &quot;salary_max&quot;: 205000,
+  &quot;salary_currency&quot;: &quot;USD&quot;,
+  &quot;salary_period&quot;: &quot;year&quot;,
+  &quot;salary_estimated&quot;: true,
+  &quot;salary_source&quot;: &quot;employer&quot;,
+  &quot;employment_type&quot;: &quot;full-time&quot;,
+  &quot;workplace_type&quot;: &quot;hybrid&quot;,
+  &quot;easy_apply&quot;: false,
+  &quot;posted_at&quot;: &quot;2026-08-19&quot;,
+  &quot;age_days&quot;: 1,
+  &quot;apply_url&quot;: &quot;https://boards.greenhouse.io/acme/jobs/1234&quot;,
+  &quot;employer_profile_url&quot;: &quot;https://www.glassdoor.com/Overview/Working-at-Acme-Corp-EI_IE12345.htm&quot;,
+  &quot;source_platform&quot;: &quot;glassdoor.com&quot;
+}</code></pre></div>
+    <h2 class="section-title">Who Should Use This</h2>
+    <p><p>This actor is the go-to source for <strong>recruiter lead-gen platforms, employer-brand analytics vendors, and compensation benchmarking services</strong>. Glassdoor is unique in attaching company ratings and salary data to every job listing SERP row -- no other major job board exposes the employer's reputation score alongside the job card. Talent analytics teams use the CEO approval, culture rating, and recommend percentage from the employer profile pass to build employer quality scores for candidate-facing platforms. Sales teams targeting HR departments use the company_size_range, industry, and active_jobs_count to score and prioritise outbound accounts across 20+ country domains in a single run.</p></p>
+    <h2 class="section-title">Related Tutorials</h2>
+    <ul>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a></li>
     </ul>
     <h2 class="section-title">Integrations</h2>
     <ul>
@@ -125,6 +197,122 @@
       <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
     </ul>
 
+    <!-- Auto-injected: Run directly on Apify (no code) -->
+    <h2 class="section-title">Run this actor directly on Apify (no code)</h2>
+    <p>Click <strong>Open on Apify</strong> above to run <code>glassdoor-scraper</code> in your browser - no code, no install. In the Apify console you get:</p>
+    <ul>
+      <li><strong>One-click test</strong> - fill in the input form, or paste the JSON example above into the <em>JSON editor</em> tab, then hit <strong>Start</strong>.</li>
+      <li><strong>Live output</strong> - watch rows stream into an interactive <em>Output</em> table as they arrive, or flip to the raw <em>JSON</em> / <em>Log</em> view.</li>
+      <li><strong>Export in any format</strong> - one click to download the dataset as <strong>JSON, CSV, XML, Excel, HTML table, RSS, or JSONL</strong>.</li>
+      <li><strong>Schedules</strong> - run this actor <strong>daily, weekly, hourly, or on a custom cron</strong>. Apify handles timing and stores every dataset run.</li>
+      <li><strong>Integrations &amp; webhooks</strong> - fire a webhook on success/failure, or plug into <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres, and more</strong> from the <em>Actions</em> tab.</li>
+      <li><strong>Transparent cost</strong> - see exact usage against your <strong>$5/month free tier</strong> before you spend a cent.</li>
+    </ul>
+
+    <!-- Auto-injected: API token guide -->
+    <h2 class="section-title">Get your Apify API token</h2>
+    <p>To run this actor from your own code you need an Apify API token. Get one in about a minute:</p>
+    <ol>
+      <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Sign up for a free Apify account</a> (Google, GitHub, or email).</li>
+      <li>Go to <strong>Settings &rarr; Integrations &rarr; API tokens</strong>.</li>
+      <li>Click <strong>Create a new API token</strong>. Copy it and keep it secret.</li>
+    </ol>
+    <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
+
+    <!-- Auto-injected: Call from code (multi-language switcher) -->
+    <h2 class="section-title">Call from code</h2>
+    <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
+    <div class="lang-tabs" data-lang-group="run-actor">
+      <button class="tab-btn is-active" data-lang="curl">curl</button>
+      <button class="tab-btn" data-lang="node">Node.js</button>
+      <button class="tab-btn" data-lang="python">Python</button>
+      <button class="tab-btn" data-lang="csharp">C#</button>
+      <button class="tab-btn" data-lang="java">Java</button>
+    </div>
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/glassdoor-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/glassdoor-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/glassdoor-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/glassdoor-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+    <!-- Auto-injected: Use with AI agents (MCP) -->
+    <h2 class="section-title">Use with AI agents (MCP)</h2>
+    <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper</code></pre></div>
+    <p><strong>Example prompt once connected:</strong></p>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;glassdoor-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
+    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
+
+    <!-- Auto-injected: Use with no-code -->
+    <h2 class="section-title">Use with no-code platforms</h2>
+    <p>Trigger this actor from your favorite automation tool. Every platform below can call the Apify API in a few clicks - no code required.</p>
+    <div class="lang-tabs" data-lang-group="nocode">
+      <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+      <button class="tab-btn" data-lang="zapier">Zapier</button>
+      <button class="tab-btn" data-lang="make">Make</button>
+      <button class="tab-btn" data-lang="pipedream">Pipedream</button>
+      <button class="tab-btn" data-lang="bubble">Bubble</button>
+    </div>
+    <div class="lang-panel is-active" data-lang="n8n">
+      <ol>
+        <li>Add the <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> (installed by default on n8n Cloud; on self-hosted install <code>@apify/n8n-nodes-apify</code>).</li>
+        <li>Set <strong>Actor</strong> to <code>santamaria-automations/glassdoor-scraper</code>.</li>
+        <li>Choose operation <em>Run Actor and get dataset</em>, paste your input JSON, and connect a downstream node (Google Sheets, Postgres, webhook, ...).</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="zapier">
+      <ol>
+        <li>Create a new Zap with any trigger.</li>
+        <li>Add a <strong>Webhooks by Zapier</strong> POST action to <code>https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Body: your input JSON. Content-Type: <code>application/json</code>.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="make">
+      <ol>
+        <li>Create a new scenario.</li>
+        <li>Add an <strong>HTTP</strong> module: URL <code>https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, method POST, body raw JSON.</li>
+        <li>Parse the response with a <strong>JSON</strong> module to iterate items downstream.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="pipedream">
+      <ol>
+        <li>Create a new workflow.</li>
+        <li>Add an <strong>HTTP Request</strong> step: POST to <code>https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Access <code>steps.http.$return_value</code> in subsequent steps.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="bubble">
+      <ol>
+        <li>Install the <strong>API Connector</strong> plugin.</li>
+        <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+        <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
+      </ol>
+    </div>
+
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
     </div>
@@ -133,5 +321,63 @@
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.copy-btn')) {
+      var pre = e.target.parentElement.querySelector('pre');
+      if (!pre) return;
+      var text = pre.textContent;
+      var btn = e.target;
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(function() {
+        btn.textContent = 'Copy failed';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+  });
+  // Language / no-code platform tab switcher
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.tab-btn')) return;
+    var btn = e.target;
+    var group = btn.closest('.lang-tabs');
+    if (!group) return;
+    var groupName = group.getAttribute('data-lang-group');
+    var lang = btn.getAttribute('data-lang');
+    // Deactivate siblings
+    group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    // Toggle panels in same scope (siblings of the tabs container's parent)
+    var panels = group.parentElement.querySelectorAll('.lang-panel');
+    panels.forEach(function(p) {
+      // Only toggle panels that were siblings of this tab group (not other tab groups' panels)
+      var prevGroup = p.previousElementSibling;
+      while (prevGroup && !prevGroup.classList.contains('lang-tabs')) {
+        prevGroup = prevGroup.previousElementSibling;
+      }
+      if (prevGroup === group || (prevGroup && prevGroup.getAttribute('data-lang-group') === groupName)) {
+        if (p.getAttribute('data-lang') === lang) {
+          p.classList.add('is-active');
+        } else {
+          p.classList.remove('is-active');
+        }
+      }
+    });
+  });
+  </script>
 </body>
 </html>

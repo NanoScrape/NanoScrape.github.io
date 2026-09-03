@@ -20,6 +20,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -216,8 +220,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -279,7 +297,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">Open the AutoScout24 Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">Open the AutoScout24 Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Jump to pricing &darr;</a>
     </div>
 
@@ -310,7 +328,7 @@
         <li><strong>Dealer:</strong> <code class="code-inline">dealer_name</code>, <code class="code-inline">dealer_location</code>, <code class="code-inline">dealer_phone</code>, <code class="code-inline">seller_type</code> (Dealer or Private).</li>
         <li><strong>Media and provenance:</strong> <code class="code-inline">image_url</code>, <code class="code-inline">image_urls</code> (all photos), <code class="code-inline">source_url</code>, <code class="code-inline">country_code</code>, <code class="code-inline">scraped_at</code>.</li>
       </ul>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "id": "ca83343a-6238-4378-a33d-c7d069b24a14",
   "title": "BMW 320d M Sport",
   "make": "BMW",
@@ -337,7 +355,7 @@
   "source_url": "https://www.autoscout24.de/angebote/bmw-320d-m-sport-...",
   "country_code": "DE",
   "scraped_at": "2026-08-15T06:14:12Z"
-}</pre></div>
+}</code></pre></div>
     <p>Spec fields like <code class="code-inline">body_type</code>, <code class="code-inline">color</code>, <code class="code-inline">num_doors</code>, and <code class="code-inline">drive_train</code> come from the detail page. Set <code class="code-inline">includeDetails: false</code> if you only need price and mileage for a fast market overview.</p>
 
     <h2 id="use-cases">Use cases</h2>
@@ -351,14 +369,14 @@
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
-        <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">the actor page</a>. Every account gets $5 of free monthly usage credit, enough for about 1,600 SERP-only listings.</li>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">the actor page</a>. Every account gets $5 of free monthly usage credit, enough for about 1,600 SERP-only listings.</li>
       </ul>
 
     <div class="step" id="step-1">
       <span class="step-number">STEP 1</span>
       <h2>Open the actor and sign up</h2>
       <ol>
-        <li>Open the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">NanoScrape AutoScout24 Scraper</a> on Apify.</li>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">NanoScrape AutoScout24 Scraper</a> on Apify.</li>
         <li>Click <strong>Try for free</strong>. Sign up with Google or email. The free tier includes $5 of monthly credit, enough to test without entering a payment method.</li>
         <li>Once signed in, click <strong>Try for free</strong> again on the actor page. The Apify Console opens with the input form pre-loaded and ready to configure.</li>
       </ol>
@@ -375,16 +393,16 @@
       <p>The actor accepts two input styles. Use whichever matches how you prefer to work:</p>
       <h3>Option A: Paste a search URL</h3>
       <p>Go to any AutoScout24 country site (autoscout24.de, .ch, .at, .fr, .it, .es, or .nl), apply your filters in the browser, then copy the URL from the address bar and paste it into the <strong>Search URLs</strong> field. This approach carries over every filter you set, including sort order, body type, and mileage range.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "searchUrls": [
     "https://www.autoscout24.de/lst?sort=price&amp;desc=0&amp;atype=C&amp;cy=D&amp;make=bmw&amp;model=3er&amp;pricefrom=15000&amp;priceto=30000"
   ],
   "maxResults": 100,
   "includeDetails": true
-}</pre></div>
+}</code></pre></div>
       <h3>Option B: Use make and model fields</h3>
       <p>Fill in the <strong>Make</strong>, <strong>Model</strong>, and <strong>Country</strong> fields. The actor builds the search URL for you. You can still add <code class="code-inline">priceFrom</code>, <code class="code-inline">priceTo</code>, <code class="code-inline">yearFrom</code>, <code class="code-inline">yearTo</code>, and <code class="code-inline">fuelType</code> to filter results.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "make": "BMW",
   "model": "3er",
   "country": "DE",
@@ -393,7 +411,7 @@
   "yearFrom": 2020,
   "maxResults": 100,
   "includeDetails": true
-}</pre></div>
+}</code></pre></div>
       <figure>
       <img src="assets/03-car-dealer-research-input-form.png" alt="Apify Console input form for the AutoScout24 Scraper with Make set to BMW, Model to 3er, Country to DE, Price From to 15000, and Max Results to 100" loading="lazy" width="3200" height="2000">
       <figcaption>The make/model mode is the fastest way to start a targeted search without visiting AutoScout24 first.</figcaption>
@@ -412,14 +430,14 @@
         <li><strong>maxResults:</strong> a hard cap on how many listings to return, from 1 to 4,000. The default is 100.</li>
       </ul>
       <p>Example: find electric cars under 25,000 EUR registered from 2022 onward in Germany, SERP data only for a quick price overview:</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "fuelType": "electric",
   "country": "DE",
   "priceTo": 25000,
   "yearFrom": 2022,
   "maxResults": 200,
   "includeDetails": false
-}</pre></div>
+}</code></pre></div>
       <div class="callout tip"><strong>Start small:</strong> set <code class="code-inline">maxResults</code> to 10 on your first run to verify the filters return the listings you expect before committing to a large run.</div>
     </div>
 
@@ -458,7 +476,7 @@
 
     <h2 id="api">Automate with the API</h2>
     <p>Call the actor from your own code or pipeline using the Apify REST API. Replace <code class="code-inline">YOUR_TOKEN</code> with the Personal API token found in Apify Console &rsaquo; Settings &rsaquo; Integrations.</p>
-    <div class="code-block"><pre>curl -sS -X POST \
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -sS -X POST \
   'https://api.apify.com/v2/acts/santamaria-automations~autoscout24-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
@@ -469,11 +487,11 @@
     "priceTo": 25000,
     "maxResults": 100,
     "includeDetails": false
-  }'</pre></div>
+  }'</code></pre></div>
     <p>The <code class="code-inline">run-sync-get-dataset-items</code> endpoint starts the actor, waits for it to finish, and returns the full dataset in one HTTP response. For runs with hundreds or thousands of listings, use the async endpoint and poll for completion.</p>
     <h3>Use with AI agents via MCP</h3>
     <p>Connect the actor to any MCP-compatible AI client (Claude Desktop, Claude.ai, Cursor, VS Code, LangChain) using the Apify MCP server URL:</p>
-    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/autoscout24-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/autoscout24-scraper</code></pre></div>
     <p>Once connected, prompt your agent: <em>"Use autoscout24-scraper to find all BMW 3 Series listings under 30,000 EUR in Germany from 2020 onward. Return results as a table sorted by price."</em> Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically.</p>
     <h3>Use with n8n</h3>
     <p>Connect AutoScout24 data to any n8n workflow using the Apify node. Set the actor to <code class="code-inline">santamaria-automations/autoscout24-scraper</code>, pass your input JSON, and the node returns the dataset items. A common pattern: run on a schedule, filter for new listings by comparing against a Google Sheet, and send an alert when a matching car appears. <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">Get started with n8n</a>.</p>
@@ -520,13 +538,13 @@
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/autoscout24-scraper/">AutoScout24 Scraper actor page</a>: Full spec sheet: pricing table, all input fields, supported countries, and structured schema for LLM agents.</li>
-      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">AutoScout24 Scraper on Apify</a>: Full actor documentation, all input parameters, and complete output field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz">AutoScout24 Scraper on Apify</a>: Full actor documentation, all input parameters, and complete output field reference.</li>
       <li><a href="/tutorials/ebay-scraper/">How to Scrape eBay Product Listings</a>: Scrape active eBay listings by keyword or URL. Get price, condition, bids, shipping, and 20-plus fields per listing across 8 regional marketplaces.</li>
       <li><a href="/tutorials/aliexpress-scraper/">How to Scrape AliExpress Product Listings</a>: Extract AliExpress product data including price, ratings, order counts, and seller info for dropshipping research and price comparison.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">Open the AutoScout24 Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/autoscout24-scraper?fpr=0khfbz" class="btn-primary">Open the AutoScout24 Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">See pricing above &uarr;</a>
     </div>
   </article>
@@ -535,5 +553,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

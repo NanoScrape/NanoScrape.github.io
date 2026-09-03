@@ -19,6 +19,10 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -219,8 +223,22 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -311,7 +329,7 @@
         <li><strong>Badges:</strong> <code class="code-inline">isRollback</code>, <code class="code-inline">isClearance</code>, <code class="code-inline">isFlashDeal</code>, <code class="code-inline">isBestSeller</code>.</li>
         <li><strong>Variants and reviews:</strong> <code class="code-inline">variantDetails</code> (per-variant item IDs with prices and availability), <code class="code-inline">topReviews</code> (up to 8 reviews with stars, text, author, and date).</li>
       </ul>
-    <div class="code-block"><pre>{
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "itemId": "5689919121",
   "url": "https://www.walmart.com/ip/Apple-AirPods-Pro-Wireless-Earbuds-MagSafe-Case-USB-C/5689919121",
   "title": "Apple, AirPods Pro, Wireless Earbuds with MagSafe Case (USB-C)",
@@ -328,7 +346,7 @@
   "sellerType": "1P",
   "categoryPath": "Electronics / Wireless / Headphones",
   "scrapedAt": "2026-07-30T09:12:44Z"
-}</pre></div>
+}</code></pre></div>
     <div class="callout">Fields marked <em>situational</em> in the actor docs only populate when Walmart surfaces them on that product page. For example, <code class="code-inline">listPrice</code> appears only when the product is on sale and <code class="code-inline">unitPrice</code> appears only on consumables and bulk goods. Missing fields are expected behavior, not extraction errors.</div>
 
     <h2 id="prerequisites">Prerequisites</h2>
@@ -358,17 +376,17 @@
       <p>The actor accepts two types of input. Use <code class="code-inline">startUrls</code> for product page links, or <code class="code-inline">itemIds</code> for bare numeric item IDs. Both inputs can be combined in the same run and duplicates are removed automatically.</p>
       <h3>Using product URLs</h3>
       <p>Paste one or more Walmart product page links into the <strong>Start URLs</strong> field. Any URL format works: <code class="code-inline">/ip/12345678</code>, <code class="code-inline">/ip/product-slug/12345678</code>, or the full share URL copied from a browser.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "startUrls": [
     { "url": "https://www.walmart.com/ip/Great-Value-Whole-Vitamin-D-Milk-1-Gallon-128-fl-oz/10450114" },
     { "url": "https://www.walmart.com/ip/Apple-AirPods-Pro-Wireless-Earbuds-MagSafe-Case-USB-C/5689919121" }
   ]
-}</pre></div>
+}</code></pre></div>
       <h3>Using bare item IDs</h3>
       <p>If you have a list of item IDs (the 5 to 12 digit number at the end of any Walmart URL), paste them into the <strong>Item IDs</strong> field, one per line. This is the faster input method when you already have a SKU catalog.</p>
-      <div class="code-block"><pre>{
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "itemIds": ["10450114", "5689919121", "14566603957", "2513765448"]
-}</pre></div>
+}</code></pre></div>
       <figure>
       <img src="assets/03-walmart-scraper-input-config.png" alt="Apify Console input form for the Walmart Product Scraper showing the Start URLs field pre-filled with two product links and Item IDs field with numeric IDs" loading="lazy" width="3200" height="2000">
       <figcaption>Add product URLs, bare item IDs, or a mix of both. Duplicates across the two fields are removed automatically.</figcaption>
@@ -413,18 +431,18 @@
 
     <h2 id="api">Automate with the API</h2>
     <p>Call the actor from your own code or data pipeline using the Apify REST API. Replace <code class="code-inline">YOUR_TOKEN</code> with the Personal API token found in Apify Console, under Settings, then Integrations.</p>
-    <div class="code-block"><pre>curl -sS -X POST \
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -sS -X POST \
   'https://api.apify.com/v2/acts/santamaria-automations~walmart-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN' \
   -H 'Content-Type: application/json' \
   -d '{
     "itemIds": ["10450114", "5689919121"],
     "scrapeReviewSample": true,
     "scrapeVariants": false
-  }'</pre></div>
+  }'</code></pre></div>
     <p>The <code class="code-inline">run-sync-get-dataset-items</code> endpoint starts the actor, waits for it to finish, and returns the full dataset in one HTTP response. For larger batches use the async run endpoint and poll the run status until it reaches <code class="code-inline">SUCCEEDED</code>.</p>
     <h3>Use with AI agents via MCP</h3>
     <p>Connect the actor to any MCP-compatible AI client such as Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, or LlamaIndex using the Apify MCP server URL:</p>
-    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/walmart-scraper</pre></div>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/walmart-scraper</code></pre></div>
     <p>Example prompt once connected: <em>"Use walmart-scraper to fetch the current price, rating, stock status, and seller type for Walmart item IDs 10450114, 5689919121, and 14566603957. Return a markdown table with columns: itemId, title, price, stars, reviewsCount, sellerType, stockText."</em> Clients that support dynamic tool discovery such as Claude.ai and Cursor receive the full input schema automatically.</p>
 
     <h2 id="use-cases">Common use cases</h2>
@@ -491,5 +509,29 @@
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
 </body>
 </html>

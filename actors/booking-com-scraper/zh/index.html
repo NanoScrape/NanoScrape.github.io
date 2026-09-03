@@ -1,118 +1,118 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="robots" content="noindex, follow">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Booking.com 抓取器：通过 GraphQL API 获取酒店、价格、评价 | NanoScrape</title>
-  <meta name="description" content="抓取全球 Booking.com 酒店列表。返回名称、星级、照片、位置、距市中心距离、评论评分、含折扣价格、币种、取消政策。基于 Booking.com 的 GraphQL API。$0.005/酒店。">
-  <meta property="og:title" content="Booking.com 抓取器：通过 GraphQL API 获取酒店 | NanoScrape">
-  <meta property="og:description" content="Booking.com 酒店抓取器。名称、星级、价格、币种、评分、取消政策。GraphQL API。$0.005/酒店。">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/booking-com-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/booking-com-scraper/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/booking-com-scraper/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/booking-com-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Booking.com 抓取器：通过 GraphQL API 获取酒店、价格、评价","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Booking.com 酒店列表抓取器。返回名称、星级、照片、城市/区/位置、距市中心距离、评论评分与数量、含折扣价格、币种、免费取消与免预付标记。基于 Booking.com 的 GraphQL API。","offers":{"@type":"Offer","price":"0.005","priceCurrency":"USD","description":"每酒店，外加 $0.05 启动费"},"url":"https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Booking.com 抓取器：通过 GraphQL API 获取酒店、价格、评价 | NanoScrape</title>
+ <meta name="description" content="抓取全球 Booking.com 酒店列表。返回名称、星级、照片、位置、距市中心距离、评论评分、含折扣价格、币种、取消政策。基于 Booking.com 的 GraphQL API。$0.005/酒店。">
+ <meta property="og:title" content="Booking.com 抓取器：通过 GraphQL API 获取酒店 | NanoScrape">
+ <meta property="og:description" content="Booking.com 酒店抓取器。名称、星级、价格、币种、评分、取消政策。GraphQL API。$0.005/酒店。">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/booking-com-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/booking-com-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/booking-com-scraper/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/booking-com-scraper/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/booking-com-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Booking.com 抓取器：通过 GraphQL API 获取酒店、价格、评价","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Booking.com 酒店列表抓取器。返回名称、星级、照片、城市/区/位置、距市中心距离、评论评分与数量、含折扣价格、币种、免费取消与免预付标记。基于 Booking.com 的 GraphQL API。","offers":{"@type":"Offer","price":"0.005","priceCurrency":"USD","description":"每酒店，外加 $0.05 启动费"},"url":"https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Booking.com 抓取器：通过 GraphQL API 获取酒店、价格与评价</h1>
-    <p class="lead">抓取 Booking.com 酒店列表，含价格、评分、可用性与取消政策。搜索全球任何城市、地区或国家。基于 Booking.com 的 GraphQL API，您将获得带完整价格细节（原价、折扣价、币种、免费取消与免预付标记）的干净结构化数据，而非脆弱的 HTML 解析。</p>
+ <div class="detail">
+ <h1>Booking.com 抓取器：通过 GraphQL API 获取酒店、价格与评价</h1>
+ <p class="lead">抓取 Booking.com 酒店列表，含价格、评分、可用性与取消政策。搜索全球任何城市、地区或国家。基于 Booking.com 的 GraphQL API，您将获得带完整价格细节（原价、折扣价、币种、免费取消与免预付标记）的干净结构化数据，而非脆弱的 HTML 解析。</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/0icQ8w6k50WgJsrci/source?addFromActorId=0icQ8w6k50WgJsrci&fpr=0khfbz" class="btn-secondary">立即试用</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/0icQ8w6k50WgJsrci/source?addFromActorId=0icQ8w6k50WgJsrci&fpr=0khfbz" class="btn-secondary">立即试用</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">定价</div><div class="value">$5.05/千酒店 + $0.05 启动</div></div>
-      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">引擎</div><div class="value">GraphQL API</div></div>
-      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
-      <div class="spec"><div class="label">货币</div><div class="value">Booking.com 全部</div></div>
-      <div class="spec"><div class="label">排序</div><div class="value">价格、热度、评分</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">定价</div><div class="value">$5.05/千酒店 + $0.05 启动</div></div>
+ <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">引擎</div><div class="value">GraphQL API</div></div>
+ <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+ <div class="spec"><div class="label">货币</div><div class="value">Booking.com 全部</div></div>
+ <div class="spec"><div class="label">排序</div><div class="value">价格、热度、评分</div></div>
+ </div>
 
-    <h2 class="section-title">可提取内容</h2>
-    <ul>
-      <li><strong>身份：</strong>酒店名、star_rating（1-5）、photo_url、booking.com 直链</li>
-      <li><strong>位置：</strong>城市、区、完整位置、distance_from_center</li>
-      <li><strong>评论：</strong>review_score（满分 10）、review_count、review_label（极佳、非常好等）</li>
-      <li><strong>价格：</strong>price、original_price（用于折扣计算）、币种</li>
-      <li><strong>预订政策：</strong>free_cancellation 标记、no_prepayment 标记</li>
-      <li><strong>搜索上下文：</strong>目的地、入住与退房日期、成人数、房间数</li>
-    </ul>
+ <h2 class="section-title">可提取内容</h2>
+ <ul>
+ <li><strong>身份：</strong>酒店名、star_rating（1-5）、photo_url、booking.com 直链</li>
+ <li><strong>位置：</strong>城市、区、完整位置、distance_from_center</li>
+ <li><strong>评论：</strong>review_score（满分 10）、review_count、review_label（极佳、非常好等）</li>
+ <li><strong>价格：</strong>price、original_price（用于折扣计算）、币种</li>
+ <li><strong>预订政策：</strong>free_cancellation 标记、no_prepayment 标记</li>
+ <li><strong>搜索上下文：</strong>目的地、入住与退房日期、成人数、房间数</li>
+ </ul>
 
-    <h2 class="section-title">主要用例</h2>
-    <ul>
-      <li><strong>价格一致性监控。</strong>每日将您酒店的 Booking.com 价格与官网价格进行比较</li>
-      <li><strong>酒店定价情报。</strong>按星级、街区与日期范围跟踪竞品价格</li>
-      <li><strong>OTA 比较。</strong>与 Airbnb、Expedia 或 Trivago 数据流结合，获得完整市场视图</li>
-      <li><strong>旅行元搜索。</strong>构建自己的比价站点或联盟挂件</li>
-      <li><strong>事件驱动的浪涌分析。</strong>测量会议、节庆或体育赛事前后价格变化</li>
-      <li><strong>方法坦诚说明：</strong>我们直接调用 Booking.com 的 GraphQL API。数据干净，无浏览器开销</li>
-    </ul>
+ <h2 class="section-title">主要用例</h2>
+ <ul>
+ <li><strong>价格一致性监控。</strong>每日将您酒店的 Booking.com 价格与官网价格进行比较</li>
+ <li><strong>酒店定价情报。</strong>按星级、街区与日期范围跟踪竞品价格</li>
+ <li><strong>OTA 比较。</strong>与 Airbnb、Expedia 或 Trivago 数据流结合，获得完整市场视图</li>
+ <li><strong>旅行元搜索。</strong>构建自己的比价站点或联盟挂件</li>
+ <li><strong>事件驱动的浪涌分析。</strong>测量会议、节庆或体育赛事前后价格变化</li>
+ <li><strong>方法坦诚说明：</strong>我们直接调用 Booking.com 的 GraphQL API。数据干净，无浏览器开销</li>
+ </ul>
 
-    <h2 class="section-title">API 示例</h2>
-    <div class="code-block"><pre><span class="comment"># Scrape Booking.com hotel listings</span>
+ <h2 class="section-title">API 示例</h2>
+ <div class="code-block"><pre><span class="comment"># Scrape Booking.com hotel listings</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~booking-com-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "destination": "Berlin",
-    "checkin": "2026-09-15",
-    "checkout": "2026-09-17",
-    "adults": 2,
-    "currency": "EUR",
-    "maxResults": 50
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "destination": "Berlin",
+ "checkin": "2026-09-15",
+ "checkout": "2026-09-17",
+ "adults": 2,
+ "currency": "EUR",
+ "maxResults": 50
+ }'
 
 <span class="comment"># Or sort by price for cheapest first:</span>
 <span class="comment"># {"destination":"Rome","checkin":"2026-05-01","checkout":"2026-05-03","sortBy":"PRICE"}</span>
@@ -120,50 +120,50 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~booking-com-s
 <span class="comment"># Or use with AI agents via MCP:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/booking-com-scraper</span></pre></div>
 
-    <h2 class="section-title">集成</h2>
-    <ul>
-      <li><strong>n8n、Make、Zapier：</strong>触发运行并将价格推送至 RMS 或 BI 工具</li>
-      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
-      <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
-      <li><strong>Google Sheets、Airtable、BigQuery：</strong>目的地列表输入，酒店记录输出</li>
-    </ul>
+ <h2 class="section-title">集成</h2>
+ <ul>
+ <li><strong>n8n、Make、Zapier：</strong>触发运行并将价格推送至 RMS 或 BI 工具</li>
+ <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+ <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
+ <li><strong>Google Sheets、Airtable、BigQuery：</strong>目的地列表输入，酒店记录输出</li>
+ </ul>
 
-    <h2 class="section-title">输出示例</h2>
-    <div class="code-block"><pre>{
-  "name": "Hotel Adlon Kempinski Berlin",
-  "star_rating": 5,
-  "photo_url": "https://cf.bstatic.com/...",
-  "city": "Berlin",
-  "district": "Mitte",
-  "location": "Unter den Linden 77, 10117 Berlin, Germany",
-  "distance_from_center": "0.5 km",
-  "review_score": 9.0,
-  "review_count": 4218,
-  "review_label": "Wonderful",
-  "price": 480,
-  "original_price": 520,
-  "currency": "EUR",
-  "free_cancellation": true,
-  "no_prepayment": false,
-  "url": "https://www.booking.com/hotel/de/adlon.html"
+ <h2 class="section-title">输出示例</h2>
+ <div class="code-block"><pre>{
+ "name": "Hotel Adlon Kempinski Berlin",
+ "star_rating": 5,
+ "photo_url": "https://cf.bstatic.com/...",
+ "city": "Berlin",
+ "district": "Mitte",
+ "location": "Unter den Linden 77, 10117 Berlin, Germany",
+ "distance_from_center": "0.5 km",
+ "review_score": 9.0,
+ "review_count": 4218,
+ "review_label": "Wonderful",
+ "price": 480,
+ "original_price": 520,
+ "currency": "EUR",
+ "free_cancellation": true,
+ "no_prepayment": false,
+ "url": "https://www.booking.com/hotel/de/adlon.html"
 }</pre></div>
 
-    <h2 class="section-title">相关 Actor</h2>
-    <ul>
-      <li><a href="/actors/google-maps-scraper/zh/">Google Maps 抓取器</a>：与本地商家数据、照片与评价交叉比对</li>
-      <li><a href="/actors/trustpilot-scraper/zh/">Trustpilot 抓取器</a>：酒店连锁的独立评价数据</li>
-      <li><a href="/actors/eventbrite-scraper/zh/">Eventbrite 抓取器</a>：将酒店需求与驱动它的活动配对</li>
-    </ul>
+ <h2 class="section-title">相关 Actor</h2>
+ <ul>
+ <li><a href="/actors/google-maps-scraper/zh/">Google Maps 抓取器</a>：与本地商家数据、照片与评价交叉比对</li>
+ <li><a href="/actors/trustpilot-scraper/zh/">Trustpilot 抓取器</a>：酒店连锁的独立评价数据</li>
+ <li><a href="/actors/eventbrite-scraper/zh/">Eventbrite 抓取器</a>：将酒店需求与驱动它的活动配对</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/0icQ8w6k50WgJsrci/source?addFromActorId=0icQ8w6k50WgJsrci&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/0icQ8w6k50WgJsrci/source?addFromActorId=0icQ8w6k50WgJsrci&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

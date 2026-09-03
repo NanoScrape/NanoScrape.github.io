@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand | NanoScrape</title>
-  <meta name="description" content="Produkte, Preise, Varianten und Bestand aus beliebigen Shopify-Shops extrahieren. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Nutzt den &ouml;ffentlichen /products.json-Endpunkt. Pay-per-Result.">
-  <meta property="og:title" content="Shopify Store Scraper -- Produkte &amp; Preise | NanoScrape">
-  <meta property="og:description" content="Shopify-Shop-Daten im grossen Stil scrapen. Kein Browser, ~12MB Image, 128MB RAM. Produkte, Preise, Varianten, Bestand und Bilder.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/shopify-store-scraper/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/shopify-store-scraper/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "Shopify Store Scraper",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "HTTP-only Shopify store scraper. ~12MB Docker image, 128MB RAM. Extracts products, prices, variants, inventory, images, and collections from any Shopify store.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD",
-      "description": "pay-per-result"
-    },
-    "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
-    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
-    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand | NanoScrape</title>
+ <meta name="description" content="Produkte, Preise, Varianten und Bestand aus beliebigen Shopify-Shops extrahieren. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Nutzt den &ouml;ffentlichen /products.json-Endpunkt. Pay-per-Result.">
+ <meta property="og:title" content="Shopify Store Scraper -- Produkte &amp; Preise | NanoScrape">
+ <meta property="og:description" content="Shopify-Shop-Daten im grossen Stil scrapen. Kein Browser, ~12MB Image, 128MB RAM. Produkte, Preise, Varianten, Bestand und Bilder.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/shopify-store-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/shopify-store-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "Shopify Store Scraper",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "HTTP-only Shopify store scraper. ~12MB Docker image, 128MB RAM. Extracts products, prices, variants, inventory, images, and collections from any Shopify store.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0",
+ "priceCurrency": "USD",
+ "description": "pay-per-result"
+ },
+ "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+ @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand</h1>
-    <p class="lead">Komplette Produktkataloge aus beliebigen Shopify-Shops extrahieren. Liefert Produkttitel, Beschreibungen, Preise, Varianten, Bestandsstatus, Bilder und Kollektionen. Nutzt Shopifys &ouml;ffentliche JSON-Endpunkte. Rein HTTP-basiert -- kein Chrome, kein Playwright.</p>
+ <div class="detail">
+ <h1>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand</h1>
+ <p class="lead">Komplette Produktkataloge aus beliebigen Shopify-Shops extrahieren. Liefert Produkttitel, Beschreibungen, Preise, Varianten, Bestandsstatus, Bilder und Kollektionen. Nutzt Shopifys &ouml;ffentliche JSON-Endpunkte. Rein HTTP-basiert -- kein Chrome, kein Playwright.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
-      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
-      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
-      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
-      <div class="spec"><div class="label">Preise</div><div class="value">Pay-per-Result</div></div>
-      <div class="spec"><div class="label">Methode</div><div class="value">&Ouml;ffentliche JSON-API</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+ <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+ <div class="spec"><div class="label">Preise</div><div class="value">Pay-per-Result</div></div>
+ <div class="spec"><div class="label">Methode</div><div class="value">&Ouml;ffentliche JSON-API</div></div>
+ </div>
 
-    <h2 class="section-title">Was Sie scrapen k&ouml;nnen</h2>
-    <ul>
-      <li><strong>Produktkatalog</strong> -- Titel, Beschreibung, Produkttyp, Anbieter, Tags</li>
-      <li><strong>Preise</strong> -- aktueller Preis, Vergleichspreis, W&auml;hrung</li>
-      <li><strong>Varianten</strong> -- alle Gr&ouml;ssen-/Farb-/Stil-Varianten mit individueller Preisgestaltung</li>
-      <li><strong>Bestand</strong> -- Verf&uuml;gbarkeit pro Variante</li>
-      <li><strong>Bilder</strong> -- alle Produktbild-URLs in verschiedenen Gr&ouml;ssen</li>
-      <li><strong>Kollektionen</strong> -- Produktkategorien und Kollektionszugeh&ouml;rigkeit</li>
-    </ul>
+ <h2 class="section-title">Was Sie scrapen k&ouml;nnen</h2>
+ <ul>
+ <li><strong>Produktkatalog</strong> -- Titel, Beschreibung, Produkttyp, Anbieter, Tags</li>
+ <li><strong>Preise</strong> -- aktueller Preis, Vergleichspreis, W&auml;hrung</li>
+ <li><strong>Varianten</strong> -- alle Gr&ouml;ssen-/Farb-/Stil-Varianten mit individueller Preisgestaltung</li>
+ <li><strong>Bestand</strong> -- Verf&uuml;gbarkeit pro Variante</li>
+ <li><strong>Bilder</strong> -- alle Produktbild-URLs in verschiedenen Gr&ouml;ssen</li>
+ <li><strong>Kollektionen</strong> -- Produktkategorien und Kollektionszugeh&ouml;rigkeit</li>
+ </ul>
 
-    <h2 class="section-title">Typische Anwendungsf&auml;lle</h2>
-    <ul>
-      <li><strong>Preis&uuml;berwachung</strong> -- Wettbewerberpreise &uuml;ber Shopify-Shops hinweg verfolgen</li>
-      <li><strong>Marktforschung</strong> -- Produktkataloge und Preisstrategien analysieren</li>
-      <li><strong>Dropshipping-Recherche</strong> -- Trendprodukte und Lieferantenpreise finden</li>
-      <li><strong>Wettbewerbsbeobachtung</strong> -- Konkurrenzbestand und neue Produktlaunches &uuml;berwachen</li>
-      <li><strong>Datenanreicherung</strong> -- Produktdaten in Ihre E-Commerce-Analytics-Pipeline einspeisen</li>
-    </ul>
+ <h2 class="section-title">Typische Anwendungsf&auml;lle</h2>
+ <ul>
+ <li><strong>Preis&uuml;berwachung</strong> -- Wettbewerberpreise &uuml;ber Shopify-Shops hinweg verfolgen</li>
+ <li><strong>Marktforschung</strong> -- Produktkataloge und Preisstrategien analysieren</li>
+ <li><strong>Dropshipping-Recherche</strong> -- Trendprodukte und Lieferantenpreise finden</li>
+ <li><strong>Wettbewerbsbeobachtung</strong> -- Konkurrenzbestand und neue Produktlaunches &uuml;berwachen</li>
+ <li><strong>Datenanreicherung</strong> -- Produktdaten in Ihre E-Commerce-Analytics-Pipeline einspeisen</li>
+ </ul>
 
-    <h2 class="section-title">API-Beispiel</h2>
-    <div class="code-block"><pre><span class="comment"># Einen Lauf &uuml;ber die Apify-API starten</span>
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf &uuml;ber die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~shopify-store-scraper/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "storeUrls": [
-      "https://allbirds.com",
-      "https://gymshark.com"
-    ],
-    "maxProducts": 100
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "storeUrls": [
+ "https://allbirds.com",
+ "https://gymshark.com"
+ ],
+ "maxProducts": 100
+ }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/shopify-store-scraper</span></pre></div>
 
-    <h2 class="section-title">Integrationen</h2>
-    <ul>
-      <li><strong>n8n / Make / Zapier</strong> -- L&auml;ufe ausl&ouml;sen und Ergebnisse per Webhook verarbeiten</li>
-      <li><strong>KI-Agenten (MCP)</strong> -- Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python / Node.js</strong> -- Apify SDK f&uuml;r programmatischen Zugriff</li>
-      <li><strong>Google Sheets / Airtable</strong> -- Export &uuml;ber Apify-Integrationen</li>
-    </ul>
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n / Make / Zapier</strong> -- L&auml;ufe ausl&ouml;sen und Ergebnisse per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP)</strong> -- Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python / Node.js</strong> -- Apify SDK f&uuml;r programmatischen Zugriff</li>
+ <li><strong>Google Sheets / Airtable</strong> -- Export &uuml;ber Apify-Integrationen</li>
+ </ul>
 
-    <h2 class="section-title">Im Vergleich</h2>
-    <table class="compare-table">
-      <tr><th>Merkmal</th><th>NanoScrape</th><th>Browser-basierte Scraper</th></tr>
-      <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
-      <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
-      <tr><td>Kosten</td><td class="highlight">Pay-per-Result</td><td>$5 - $20/1k</td></tr>
-      <tr><td>Datenquelle</td><td>&Ouml;ffentliche JSON-API</td><td>HTML-Parsing</td></tr>
-      <tr><td>Geschwindigkeit (1k Produkte)</td><td class="highlight">~2 Min.</td><td>15-30 Min.</td></tr>
-      <tr><td>Varianten-Extraktion</td><td>Vollst&auml;ndig</td><td>Oft unvollst&auml;ndig</td></tr>
-    </table>
+ <h2 class="section-title">Im Vergleich</h2>
+ <table class="compare-table">
+ <tr><th>Merkmal</th><th>NanoScrape</th><th>Browser-basierte Scraper</th></tr>
+ <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+ <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+ <tr><td>Kosten</td><td class="highlight">Pay-per-Result</td><td>$5 - $20/1k</td></tr>
+ <tr><td>Datenquelle</td><td>&Ouml;ffentliche JSON-API</td><td>HTML-Parsing</td></tr>
+ <tr><td>Geschwindigkeit (1k Produkte)</td><td class="highlight">~2 Min.</td><td>15-30 Min.</td></tr>
+ <tr><td>Varianten-Extraktion</td><td>Vollst&auml;ndig</td><td>Oft unvollst&auml;ndig</td></tr>
+ </table>
 
-    <h2 class="section-title">Ausgabefelder</h2>
-    <table class="compare-table">
-      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
-      <tr><td>title</td><td>string</td><td>Tree Runner Go - Alltagssneaker</td></tr>
-      <tr><td>vendor</td><td>string</td><td>Allbirds</td></tr>
-      <tr><td>product_type</td><td>string</td><td>Schuhe</td></tr>
-      <tr><td>price</td><td>string</td><td>110.00</td></tr>
-      <tr><td>compare_at_price</td><td>string</td><td>130.00</td></tr>
-      <tr><td>variants</td><td>array</td><td>[{"title": "42 / Natural White", "price": "110.00", "available": true}]</td></tr>
-      <tr><td>images</td><td>array</td><td>["https://cdn.shopify.com/..."]</td></tr>
-      <tr><td>tags</td><td>array</td><td>["schuhe", "runners", "nachhaltig"]</td></tr>
-      <tr><td>url</td><td>string</td><td>https://allbirds.com/products/...</td></tr>
-    </table>
+ <h2 class="section-title">Ausgabefelder</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+ <tr><td>title</td><td>string</td><td>Tree Runner Go - Alltagssneaker</td></tr>
+ <tr><td>vendor</td><td>string</td><td>Allbirds</td></tr>
+ <tr><td>product_type</td><td>string</td><td>Schuhe</td></tr>
+ <tr><td>price</td><td>string</td><td>110.00</td></tr>
+ <tr><td>compare_at_price</td><td>string</td><td>130.00</td></tr>
+ <tr><td>variants</td><td>array</td><td>[{"title": "42 / Natural White", "price": "110.00", "available": true}]</td></tr>
+ <tr><td>images</td><td>array</td><td>["https://cdn.shopify.com/..."]</td></tr>
+ <tr><td>tags</td><td>array</td><td>["schuhe", "runners", "nachhaltig"]</td></tr>
+ <tr><td>url</td><td>string</td><td>https://allbirds.com/products/...</td></tr>
+ </table>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz" class="btn-secondary">Jetzt testen -- kostenloser Einstieg</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz" class="btn-secondary">Jetzt testen -- kostenloser Einstieg</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>

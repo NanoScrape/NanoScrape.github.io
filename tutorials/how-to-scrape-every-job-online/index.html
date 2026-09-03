@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Scrape Every Job Online: 104+ Job Scrapers Guide (2026) | NanoScrape</title>
+  <meta name="description" content="104 maintained job scrapers across 29 countries plus the 3-tier ATS + LLM stack and the Job Feed orchestrator. Full country catalog + honest tier math.">
+  <meta name="primary-keyword" content="jobs scraper">
+  <meta property="og:title" content="How to Scrape Every Job Online - Full 2026 Playbook">
+  <meta property="og:description" content="Cover every job platform that matters: 104 country-specific scrapers + ATS-native + LLM extraction + browser fallback. Full catalog + honest scale math.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Scrape Every Job Online",
+  "description": "Use the NanoScrape catalog (104 maintained job scrapers) plus the 3-tier ATS + LLM stack to cover the majority of employer spend in the global job market.",
+  "totalTime": "PT30M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.00"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Free Google Gemini API key"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape catalog"
+    }
+  ],
+  "step": []
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Scrape Every Job Online: 104 scrapers, 30+ countries, one unified feed",
+  "description": "Complete 2026 guide to global jobs data. Fixes common misconceptions about scale + presents the full NanoScrape catalog.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-09-02",
+  "dateModified": "2026-09-02",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many job platforms exist worldwide?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Directories list under 1,000 boards. Editorial estimates put it above 3,000 active. Long-tail plus abandoned brings the total into tens of thousands or higher. Plus 200-400 ATS vendors serving millions of employer career pages."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why doesn't your catalog include LinkedIn or Indeed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "LinkedIn (linkedin-scraper) and Indeed (indeed-scraper) are both in the catalog under Global aggregators. Both respect platform terms and are for HTTP-scraped public data."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which is cheaper: ATS-native scraping or LLM extraction?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Tier 1 is $1/1000 jobs (ATS-native). Tier 2 is $4/1000. Tier 3 is $6/1000. Prefer Tier 1 whenever ATS is known."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run multi-country scraping in one job?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Multi-country actors: Welcome to the Jungle, Seek, Computrabajo, HH.ru. Or run parallel + merge, or use Job Feed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How often is the catalog updated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "About 25 new job platform actors per week. Tutorial regenerates from internal build queue on each deploy."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Scrape Every Job Online",
+      "item": "https://www.nanoscrape.com/tutorials/how-to-scrape-every-job-online/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; How to Scrape Every Job Online</nav>
+
+    <h1>How to Scrape Every Job Online</h1>
+    <p class="lead">Global jobs data is one of the most fragmented markets on the internet. Nobody knows exactly how many active job platforms exist worldwide, but the best triangulation from directories (Jobboard Finder lists 957, JobBoardSearch indexes 824, editorial estimates put the count above 3,000 active boards) plus tens of thousands of long-tail city / association / university boards means the total is in the tens of thousands, with 200,000+ if you count anything with a listings page. Layer on top ~200-400 ATS vendors sitting in front of well over a million employer career pages. This guide shows how to cover the 104+ platforms that account for the majority of employer spend.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Job scrapers:</strong> 104+ maintained (this catalog)</div>
+      <div class="meta-item"><strong>Countries:</strong> 29+</div>
+      <div class="meta-item"><strong>Cost:</strong> From $1 per 1,000 jobs (ATS-native)</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify + NanoScrape catalog + optional Gemini free tier</div>
+    </div>
+
+    <div class="ctas">
+      <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all NanoScrape job scrapers on Apify</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#scale-reality">The real scale of the global job market</a></li>
+        <li><a href="#three-tier-stack">The 3-tier stack + Job Feed orchestrator</a></li>
+        <li><a href="#which-scraper">Which scraper do I need? 4 use cases, 4 tools</a></li>
+        <li><a href="#first-run">Your first run in 5 minutes</a></li>
+        <li><a href="#catalog">The catalog: 104+ job scrapers by country</a></li>
+        <li><a href="#pricing">Pricing at a glance</a></li>
+        <li><a href="#cta">Get Job Feed private beta access</a></li>
+      </ol>
+    </div>
+
+    <h2 id="scale-reality">The real scale of the global job market</h2>
+    <p><em>By the NanoScrape team - Published 2026-09-02 - Updated 2026-09-02</em></p>
+    <p>A common misconception is that LinkedIn plus Indeed plus a handful of ATS platforms covers all online jobs. That is nowhere near the truth. The best available triangulation from public directories and editorial estimates puts the count much higher, structured in five tiers of decreasing revenue relevance:</p>
+    <figure>
+      <img src="assets/global-jobs-tier-pyramid.svg" alt="Pyramid diagram showing five tiers of global job platforms from Tier 0 global aggregators at the top (40-60 platforms, 40 percent of employer spend) down to Tier 4 long-tail listings pages at the base (200,000 plus platforms, under 1 percent of spend). A note at the bottom states the NanoScrape catalog covers Tier 0 plus 1 plus a slice of Tier 2 equalling 85 percent or more of employer spend." loading="lazy" width="900" height="520">
+      <figcaption>The global job market tier pyramid. Revenue concentration follows a steep power law: Tier 0 and 1 together represent roughly 85% of employer spend despite being fewer than 1,000 platforms.</figcaption>
+    </figure>
+    <ul>
+        <li><strong>Tier 0 - Global aggregators and cross-border platforms</strong>: about 40 to 60. Indeed, LinkedIn, Seek, Naukri, StepStone, Adzuna, Jooble, Careerjet.</li>
+        <li><strong>Tier 1 - National generalist leaders</strong>: about 500 to 800. Roughly 120 countries times 3 to 6 leader boards per country. Pracuj.pl in Poland, Jobindex.dk in Denmark, HH.ru in Russia, Karriere.at in Austria.</li>
+        <li><strong>Tier 2 - Commercially viable niche and vertical boards</strong>: about 3,000 to 6,000. Tech (Dice, BuiltIn, Wellfound), healthcare (HealtheCareers), remote-first (Remotive, WeWorkRemotely), academic (Jobs.ac.uk), nonprofit (CharityJob), sector (Rigzone).</li>
+        <li><strong>Tier 3 - Active long-tail</strong>: about 30,000 to 80,000. City-specific boards, industry associations, university career pages, chambers of commerce, micro-niches.</li>
+        <li><strong>Tier 4 - Anything with a listings page (including stale)</strong>: 200,000+. WordPress Job Manager installs and no-code board builders account for most of this - six-figure install counts, most abandoned or with single-digit postings.</li>
+      </ul>
+    <p>On top of this taxonomy sits a completely different shape: about 200 to 400 ATS vendors globally, with the top ~30 sitting in front of well over a million employer career pages. That is why the NanoScrape <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a> alone touches more employer surface than any 500 Tier-2 job boards combined.</p>
+    <p>Our maintained catalog covers all of Tier 0 and 1 and a meaningful slice of Tier 2 - 104 shipped job scrapers across 30+ countries and 12 industry verticals. Revenue across the tiers follows a much harder power law than count does: Tier 0 and 1 likely represent 85%+ of total employer spend. Coverage of Tier 3+ has diminishing marginal utility unless the source is an ATS (which multiplies to thousands of endpoints per integration) or a defended DACH incumbent (pricing power). That framing shapes our roadmap.</p>
+    <div class="callout"><strong>The bottom line:</strong> nobody scrapes every job online. What matters is coverage of the platforms that carry paying employers - Tier 0 and 1, plus the top ATS platforms. This catalog handles both. For the parts that don't fit any commercial ATS or aggregator, our LLM extractors (Tier 2/3 of our own stack) fill the gap.</div>
+
+    <h2 id="three-tier-stack">The 3-tier stack and the Job Feed orchestrator</h2>
+    <p>Beyond the country-specific catalog below, three cross-cutting actors handle careers-page scraping at scale plus a fourth orchestrator that ties everything together:</p>
+    <ul>
+        <li><strong>Tier 1 - <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a></strong>: JSON API access to 24+ ATS platforms (Workday, Phenom, Oracle Recruiting, iCIMS, TalentBrew, Eightfold, Brassring, Avature, Taleo modern, Greenhouse, SmartRecruiters, ADP). HTTP-only, $1 per 1,000 jobs.</li>
+        <li><strong>Tier 2 - <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a></strong>: LLM-powered extraction for any custom careers page. Auto-detects supported ATS platforms on the way in and emits ats_url so the next run can drop to Tier 1 pricing.</li>
+        <li><strong>Tier 3 - <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz">Website Job Extractor (Browser)</a></strong>: Playwright variant for JavaScript-rendered careers pages. Auto-spawned by Tier 2 when needed.</li>
+        <li><strong>Job Feed orchestrator (<a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz">private beta</a>)</strong>: routes URLs to the right tier, dedupes on job_url, unifies the schema across tiers. Give it a source list, get back one clean dataset.</li>
+      </ul>
+    <div class="callout tip">For the full technical playbook - input examples, output schemas, mapper script, cost math, n8n automation - see the companion tutorial: <a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>. This guide focuses on the catalog: which actors cover which country and vertical.</div>
+
+    <h2 id="which-scraper">Which scraper do I need? 4 use cases, 4 tools</h2>
+    <figure>
+      <img src="assets/which-scraper-decision-tree.svg" alt="Decision tree diagram asking what you are scraping. Four branches: known platform such as LinkedIn or Glassdoor leads to the catalog; supported ATS careers page leads to Career Site Jobs Scraper at one dollar per thousand jobs; any careers page with unknown ATS leads to Website Job Extractor with LLM auto-detection; multi-source unified feed leads to the Job Feed orchestrator in private beta." loading="lazy" width="900" height="440">
+      <figcaption>Use this tree to pick the right tool before you start. If you are unsure which ATS a target company uses, start with Website Job Extractor - it auto-detects and emits ats_url so future runs can switch to the cheaper Tier 1 path.</figcaption>
+    </figure>
+    <p>Someone searching for a jobs scraper has one of four underlying needs. Match yours to the right tool:</p>
+    <ol>
+        <li><strong>Scrape a known platform (Glassdoor, Indeed, Totaljobs, ...)</strong>: find it in the catalog below, click through, run the actor.</li>
+        <li><strong>Scrape a company's careers page on a supported ATS</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz">Career Site Jobs Scraper</a>. Cheapest option at $1 per 1,000 jobs.</li>
+        <li><strong>Scrape any careers page, ATS unknown</strong>: use <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz">Website Job Extractor</a>. Auto-detects ATS on the way in; falls back to LLM extraction for custom sites.</li>
+        <li><strong>Unified multi-source feed at scale</strong>: use the <a href="/jobfeed/">Job Feed orchestrator (private beta)</a>. Give it a source list, get one clean, deduplicated, schema-unified feed.</li>
+      </ol>
+
+    <h2 id="first-run">Your first run in 5 minutes</h2>
+    <p>The fastest way to see real job data is with the <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">Job Bank Canada Scraper</a>. Job Bank Canada (jobbank.gc.ca) is Canada's official federal government employment board. It has no bot protection, a stable public API, and returns rich structured data including NOC 2021 occupation codes, bilingual flags, hourly wages, and province-level location. It is the ideal starting point for anyone new to the NanoScrape catalog.</p>
+    <h3>Step 1 - Open the actor page</h3>
+    <p>Go to <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/jobbank-ca-scraper?fpr=0khfbz">apify.com/santamaria-automations/jobbank-ca-scraper</a> and click <strong>Try for free</strong>. This opens the Apify Console with a pre-configured input form. You do not need a credit card - the Apify free tier ($5/month) is more than enough for a test run.</p>
+    <h3>Step 2 - Paste the input JSON</h3>
+    <p>Switch the input tab from the visual form to <strong>JSON</strong> mode and paste the following:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "keywords": "software developer",
+  "location": "Ontario",
+  "maxItems": 50
+}</code></pre></div>
+    <p>This searches for software developer roles in Ontario with a limit of 50 results. You can change <code>keywords</code> to any job title and <code>location</code> to any Canadian province or city. Remove <code>location</code> entirely to search across all of Canada.</p>
+    <h3>Step 3 - Click Start and wait</h3>
+    <p>Click <strong>Start</strong>. The run typically finishes in under 30 seconds for 50 results. When the status indicator turns green, click the <strong>Results</strong> tab to see your data.</p>
+    <h3>Step 4 - Inspect the output</h3>
+    <p>Each result row is a structured job object. A typical output item looks like this:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">[
+  {
+    "job_url": "https://www.jobbank.gc.ca/jobsearch/jobposting/40812345",
+    "title": "Senior Software Developer",
+    "company": "Acme Systems Inc.",
+    "location": "Toronto, Ontario",
+    "salary": "$90,000 to $115,000 per year",
+    "employment_type": "Full-time",
+    "noc_code": "21232",
+    "bilingual": false,
+    "posted_date": "2026-08-30",
+    "closing_date": "2026-09-20",
+    "vacancies": 2,
+    "description": "We are looking for a Senior Software Developer to join our platform team..."
+  },
+  {
+    "job_url": "https://www.jobbank.gc.ca/jobsearch/jobposting/40819988",
+    "title": "Full Stack Developer",
+    "company": "Maple Digital Ltd.",
+    "location": "Ottawa, Ontario",
+    "salary": "$75,000 to $95,000 per year",
+    "employment_type": "Full-time",
+    "noc_code": "21232",
+    "bilingual": true,
+    "posted_date": "2026-08-29",
+    "closing_date": "2026-09-15",
+    "vacancies": 1,
+    "description": "Maple Digital is hiring a Full Stack Developer for our SaaS team..."
+  }
+]</code></pre></div>
+    <div class="callout tip"><strong>Next steps after your first run:</strong> export the dataset as CSV or JSON from the Results tab, then follow the same four steps with any other actor in the catalog. Every NanoScrape job scraper uses the same Apify Console workflow - only the input fields differ.</div>
+
+    <h2 id="catalog">The catalog: 86 job scrapers by country</h2>
+    <figure>
+      <img src="assets/job-scrapers-world-coverage.svg" alt="Horizontal bar chart showing NanoScrape job scraper actor counts by country. Switzerland leads with 14 actors, United Kingdom has 12, Global multi-country actors total 18, United States has 9, Germany has 7, Austria has 4, and 14 other countries each have 1 to 2 actors." loading="lazy" width="900" height="500">
+      <figcaption>NanoScrape job scraper coverage by country. Darker bars indicate 5 or more dedicated actors. Switzerland and the United Kingdom have the deepest regional coverage. 18 global actors cover multiple countries in a single run.</figcaption>
+    </figure>
+    <p>All 86 shipped NanoScrape job scrapers grouped by primary country. Each entry summarizes what's unique about the data. Follow any actor link for the full input schema, output examples, code snippets, and pricing.</p>
+    <h3>United States (9 actors)</h3>
+    <ul>
+        <li><a href="/actors/wellfound-jobs-scraper/"><strong>Wellfound Jobs Scraper</strong></a> <em>(Tech)</em>: 25+ fields including salary + equity range, tech stack, company stage, funding, and founder info - the richest startup job data on the Apify Store.</li>
+        <li><a href="/actors/levels-fyi-scraper/"><strong>Levels.fyi Scraper</strong></a> <em>(Tech)</em>: structured compensation data (base, total comp, equity, bonus) at FAANG-tier companies with role level. Unique compensation-benchmarking data not available elsewhere.</li>
+        <li><a href="/actors/usajobs-federal-scraper/"><strong>USAJobs Scraper</strong></a> <em>(Public sector)</em>: official US federal job board via public REST API. 30+ fields including GS pay grade, security clearance level, hiring path, and application deadline.</li>
+        <li><a href="/actors/craigslist-jobs-scraper/"><strong>Craigslist Jobs Scraper</strong></a> <em>(General)</em>: 430+ US city subdomains. Extracts salary, contact emails and phones from posting body. Widest local and gig job coverage on the Apify Store.</li>
+        <li><a href="/actors/dribbble-jobs-scraper/"><strong>Dribbble Jobs Scraper</strong></a> <em>(Tech)</em>: the design community&#x27;s dedicated job board. Returns design category (Product, Brand, Motion), salary, and employment type. Niche coverage for design recruiters.</li>
+        <li><a href="/actors/rigzone-us-scraper/"><strong>Rigzone Scraper</strong></a> <em>(Engineering)</em>: 30+ fields for oil, gas and energy jobs including day-rate salary, rig type, rotation, discipline, and certifications. The go-to board for energy sector recruitment.</li>
+        <li><a href="/actors/workatastartup-scraper/"><strong>Work at a Startup (YC) Jobs Scraper</strong></a> <em>(Tech)</em>: Y Combinator&#x27;s job board. Returns YC batch, equity range, visa sponsorship, founder-replies flag, and tech stack. Unique for YC-backed company hiring signals.</li>
+        <li><a href="/actors/healthecareers-scraper/"><strong>HealtheCareers Scraper</strong></a> <em>(Healthcare)</em>: US healthcare jobs with specialty, subspecialty, credentials (MD/RN/NP/PA), salary min/max, employer type, and shift type. Covers physicians, nurses, allied health, and pharmacy.</li>
+        <li><a href="/actors/wayup-us-scraper/"><strong>WayUp Scraper</strong></a> <em>(Graduate)</em>: internships and entry-level jobs with degree requirement, industry, zip-level location, and degree-level filter. Dedicated early-career source not covered by general boards.</li>
+      </ul>
+    <h3>United Kingdom (12 actors)</h3>
+    <ul>
+        <li><a href="/actors/tes-uk-scraper/"><strong>Tes.com UK Education Jobs Scraper</strong></a> <em>(Academic research)</em>: UK&#x27;s leading education job board. Teaching stage, subject, ECT suitability, school type, and contract details. Covers UK and international school postings.</li>
+        <li><a href="/actors/guardianjobs-scraper/"><strong>Guardian Jobs Scraper</strong></a> <em>(General)</em>: 28+ fields including GBP salary min/max, sector, employer address, and phone. Covers UK charity, media, public sector roles not found on general boards.</li>
+        <li><a href="/actors/teaching-vacancies-uk-scraper/"><strong>Teaching Vacancies GOV UK Scraper (DfE)</strong></a> <em>(Academic research)</em>: official UK DfE board for state schools and academies. Returns phase, key stage, subject, salary scale, and ECT suitability. No alternative on the Apify Store.</li>
+        <li><a href="/actors/targetjobs-uk-scraper/"><strong>TargetJobs UK Scraper</strong></a> <em>(Graduate)</em>: UK graduate jobs, internships, spring weeks, and placement years. Degree requirements, diversity scheme flag, and sector filter. Specialist graduate recruitment board.</li>
+        <li><a href="/actors/totaljobs-scraper/"><strong>TotalJobs Scraper</strong></a> <em>(General)</em>: 30+ fields including salary min/max/currency/period and posting date. High-volume UK job board covering all sectors and regions. Pay-per-result.</li>
+        <li><a href="/actors/cwjobs-uk-scraper/"><strong>CWJobs UK IT &amp; Tech Jobs Scraper</strong></a> <em>(Tech)</em>: specialist UK technology recruitment board since 1993. IR35 status, day rate, contract length, tech skill tags, and sector for IT contract and permanent roles.</li>
+        <li><a href="/actors/prospects-uk-scraper/"><strong>Prospects.ac.uk Scraper</strong></a> <em>(Graduate)</em>: official UK universities&#x27; careers partner. Degree requirement, visa sponsorship, diversity flags, and closing date across grad schemes, placements, and apprenticeships.</li>
+        <li><a href="/actors/jobs-ac-uk-scraper/"><strong>Jobs.ac.uk Scraper</strong></a> <em>(Academic research)</em>: UK academic and research jobs. GBP salary grade band, academic rank, research field, funding source, and PhD studentships. The primary academic job board in the UK.</li>
+        <li><a href="/actors/jobserve-uk-scraper/"><strong>JobServe UK Scraper</strong></a> <em>(Tech)</em>: UK&#x27;s oldest IT and engineering board (since 1993). Day rate, IR35 status, contract length, and skills tags. Specialist board for UK tech contractors.</li>
+        <li><a href="/actors/escape-the-city-scraper/"><strong>Escape the City Scraper</strong></a> <em>(Volunteer nonprofit)</em>: 30+ fields including B-Corp flag, Top-1% flag, visa-sponsor flag, cause area, and benefits. Unique niche for purpose-driven and ethical employer recruitment.</li>
+        <li><a href="/actors/charityjob-uk-scraper/"><strong>CharityJob UK Scraper</strong></a> <em>(Volunteer nonprofit)</em>: UK&#x27;s largest specialist charity job board. Cause area, GBP salary min/max, and closing date. The only dedicated charity job board on the Apify Store.</li>
+        <li><a href="/actors/milkround-uk-scraper/"><strong>Milkround UK Graduate Jobs Scraper</strong></a> <em>(Graduate)</em>: UK&#x27;s dedicated graduate recruitment platform. Degree requirement (2:1/2:2/1st), scheme size, start date type (September intake), and duration for placements and internships.</li>
+      </ul>
+    <h3>Canada (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/jobbank-ca-scraper/"><strong>Job Bank Canada Scraper (jobbank.gc.ca)</strong></a> <em>(General)</em>: official Canadian federal government job board. NOC 2021 codes, bilingual flag, hourly wages, vacancy count, and all provinces. Stable government source.</li>
+      </ul>
+    <h3>Ireland (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/irishjobs-ie-scraper/"><strong>IrishJobs.ie Scraper</strong></a> <em>(General)</em>: Ireland&#x27;s largest job board. County-level location, salary, sector, and work type (remote/hybrid/on-site). Primary source for Irish recruitment data.</li>
+      </ul>
+    <h3>Germany (7 actors)</h3>
+    <ul>
+        <li><a href="/actors/arbeitsagentur-de-scraper/"><strong>Arbeitsagentur.de Scraper</strong></a> <em>(Government)</em>: Germany&#x27;s official federal employment agency. Salary, full description, and contact details. Covers all German states. Official government source.</li>
+        <li><a href="/actors/jobware-de-scraper/"><strong>Jobware.de Scraper</strong></a> <em>(General)</em>: Germany&#x27;s premium job portal for professionals. Apply emails, contact persons, salary, and requirements extracted. HTTP-only, fast.</li>
+        <li><a href="/actors/meinestadt-de-scraper/"><strong>MeineStadt.de Job Scraper</strong></a> <em>(General)</em>: Germany&#x27;s largest regional job portal with 900K+ listings. Salary ranges, benefits, company logos, and city-radius filter. Best German regional job coverage.</li>
+        <li><a href="/actors/nicejob-de-scraper/"><strong>NiceJob.de Scraper</strong></a> <em>(General)</em>: German regional job portal with location, workload, and company type filters. Agency exclusion and optional LLM contact extraction.</li>
+        <li><a href="/actors/stellenanzeigen-de-scraper/"><strong>Stellenanzeigen.de Scraper</strong></a> <em>(General)</em>: one of Germany&#x27;s Top 3 job portals. Comprehensive title, salary, requirements, and contact info. Supports direct URL checks and search-based scraping.</li>
+        <li><a href="/actors/stellenmarkt-de-scraper/"><strong>Stellenmarkt.de Scraper</strong></a> <em>(General)</em>: established German national job board. Title, salary, requirements, and full descriptions with multi-query search and location filtering.</li>
+        <li><a href="/actors/stepstone-de-scraper/"><strong>StepStone.de Scraper</strong></a> <em>(General)</em>: Germany&#x27;s largest job portal. Salary info, contact details, Bundesland filter, and optional LLM extraction for requirements and benefits. Comprehensive German coverage.</li>
+      </ul>
+    <h3>Austria (4 actors)</h3>
+    <ul>
+        <li><a href="/actors/karriere-at-scraper/"><strong>Karriere.at Job Scraper</strong></a> <em>(General)</em>: Austria&#x27;s largest private job board. Full Markdown job descriptions, salary, contact details (name, email, phone), and benefits. Pay-per-result.</li>
+        <li><a href="/actors/stepstone-at-scraper/"><strong>StepStone.at Scraper</strong></a> <em>(General)</em>: Austria&#x27;s leading job board covering all 9 Bundesländer. Salary, contact info, and optional LLM-powered data extraction. Multi-source Austrian coverage.</li>
+        <li><a href="/actors/ams-at-scraper/"><strong>AMS Austria Scraper</strong></a> <em>(Government)</em>: Austria&#x27;s official public employment service with 100,000+ jobs. Bundesland, employment type, and company details. Official government source.</li>
+        <li><a href="/actors/westjob-at-scraper/"><strong>Westjob.at Scraper</strong></a> <em>(General)</em>: Vorarlberg regional job board. Specialist coverage for Austria&#x27;s westernmost state. Regional Austrian job market data.</li>
+      </ul>
+    <h3>Switzerland (14 actors)</h3>
+    <ul>
+        <li><a href="/actors/arbeit-swiss-scraper/"><strong>Arbeit.Swiss Scraper</strong></a> <em>(Government)</em>: Switzerland&#x27;s official public employment service (Job-Room.ch). Canton filter, workload percentage, RAV-registered government listings. Official source.</li>
+        <li><a href="/actors/ictjobs-ch-scraper/"><strong>ICTjobs.ch Scraper</strong></a> <em>(Tech)</em>: Switzerland&#x27;s dedicated ICT job board. Region, category, employment type, and optional LLM contact extraction. Specialist Swiss tech board.</li>
+        <li><a href="/actors/jobbasel-ch-scraper/"><strong>JobBasel.ch Scraper</strong></a> <em>(General)</em>: Basel and Northwestern Switzerland regional job portal. Workload percentage filter, company type, and optional LLM contact extraction.</li>
+        <li><a href="/actors/jobbern-ch-scraper/"><strong>JobBern.ch Scraper</strong></a> <em>(General)</em>: Bern region job portal. Workload percentage filter, company type, and optional LLM contact extraction. Specialist regional Swiss coverage.</li>
+        <li><a href="/actors/jobmittelland-ch-scraper/"><strong>JobMittelland.ch Scraper</strong></a> <em>(General)</em>: Swiss Mittelland regional job portal covering Solothurn, Olten, and Aarau. Workload filter and optional LLM contact extraction.</li>
+        <li><a href="/actors/jobs-ch-scraper/"><strong>Jobs.ch Scraper</strong></a> <em>(General)</em>: Switzerland&#x27;s largest job board powered by JobCloud. Primary source for Swiss job market data across all industries and cantons.</li>
+        <li><a href="/actors/jobscout24-ch-scraper/"><strong>JobScout24.ch Scraper</strong></a> <em>(Healthcare)</em>: major Swiss job portal with region, category (IT, finance, healthcare), and employment type filters. Optional LLM contact extraction.</li>
+        <li><a href="/actors/jobzueri-ch-scraper/"><strong>JobZueri.ch Scraper</strong></a> <em>(General)</em>: Greater Zurich regional job portal. Workload percentage filter, company type, and optional LLM contact extraction.</li>
+        <li><a href="/actors/myjob-ch-scraper/"><strong>MyJob.ch Scraper</strong></a> <em>(General)</em>: Swiss regional job portal. Workload percentage filter, company type, agency exclusion, and optional LLM contact extraction.</li>
+        <li><a href="/actors/ostjob-ch-scraper/"><strong>Ostjob.ch Scraper</strong></a> <em>(General)</em>: leading portal for Eastern Switzerland (St. Gallen, Thurgau, Appenzell, Graubünden). Canton filter, workload, and optional LLM contact extraction.</li>
+        <li><a href="/actors/schaffu-ch-scraper/"><strong>Schaffu.ch Scraper</strong></a> <em>(General)</em>: Schaffhausen region job portal. Workload filter, company type, and optional LLM contact extraction. Niche Swiss regional coverage.</li>
+        <li><a href="/actors/sozjobs-ch-scraper/"><strong>Sozjobs.ch Scraper</strong></a> <em>(Healthcare)</em>: leading portal for social work, healthcare, and education jobs in German-speaking Switzerland. Region and contract type filters. Niche specialist coverage.</li>
+        <li><a href="/actors/swissdevjobs-ch-scraper/"><strong>SwissDevJobs.ch Scraper</strong></a> <em>(Tech)</em>: developer and IT jobs with 25+ technology filters (Python, Go, etc.), visa sponsorship flag, company size, and remote/hybrid options. Built for Swiss tech recruiters.</li>
+        <li><a href="/actors/zentraljob-ch-scraper/"><strong>Zentraljob.ch Scraper</strong></a> <em>(General)</em>: Central Switzerland regional job portal covering Luzern, Zug, Schwyz, and Uri. Workload filter and optional LLM contact extraction.</li>
+      </ul>
+    <h3>France (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/hellowork-fr-scraper/"><strong>HelloWork FR Scraper</strong></a> <em>(General)</em>: 64M monthly visits. French region and département, contract types (CDI/CDD/Freelance/Alternance/Stage/Intérim), salary, and telework flag. Top French job board coverage.</li>
+        <li><a href="/actors/france-travail-scraper/"><strong>France Travail Job Scraper</strong></a> <em>(Government)</em>: France&#x27;s public employment service with 500,000+ active listings. Contract type, salary, and full description. Official French government job source.</li>
+      </ul>
+    <h3>Spain (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/sepe-es-scraper/"><strong>SEPE Spain Jobs Scraper (Empleate.gob.es)</strong></a> <em>(Public-sector)</em>: Spain&#x27;s national public employment service covering all 17 autonomous communities plus Ceuta and Melilla. Official government source for Spanish job market data.</li>
+      </ul>
+    <h3>Italy (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/subito-it-jobs-scraper/"><strong>Subito Lavoro Scraper</strong></a> <em>(Jobs)</em>: 170,000+ listings from Italy&#x27;s largest classifieds job section with phone numbers, ISTAT codes, Italian contract types, and optional business seller profiles.</li>
+        <li><a href="/actors/subito-it-scraper/"><strong>Subito.it Scraper</strong></a> <em>(Classifieds)</em>: Italy&#x27;s #1 classifieds marketplace with 30M+ monthly visitors. Extracts price, condition, location, seller info, and images across all categories.</li>
+      </ul>
+    <h3>Netherlands (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/werk-nl-scraper/"><strong>Werk.nl Scraper</strong></a> <em>(Public sector)</em>: Netherlands&#x27; national government employment service (UWV). Covers all 12 Dutch provinces with title, salary, and employment type. Official government source.</li>
+      </ul>
+    <h3>Denmark (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/jobindex-dk-scraper/"><strong>Jobindex.dk Job Scraper</strong></a> <em>(General)</em>: Denmark&#x27;s largest job board. Title, salary, employment type, and full description. Multi-query with deduplication. Essential for Danish market coverage.</li>
+        <li><a href="/actors/dba-dk-scraper/"><strong>DBA.dk Scraper</strong></a> <em>(Classifieds)</em>: Denmark&#x27;s #1 marketplace (Schibsted). Title, price, GPS coordinates, and images. HTTP-only classified data across all Danish categories.</li>
+      </ul>
+    <h3>Sweden (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/arbetsformedlingen-se-scraper/"><strong>Arbetsformedlingen Job Scraper</strong></a> <em>(Public sector)</em>: Sweden&#x27;s national employment service via free JobTech API. No authentication required. Official government source for Swedish job listings.</li>
+        <li><a href="/actors/blocket-se-scraper/"><strong>Blocket.se Scraper</strong></a> <em>(Classifieds)</em>: Sweden&#x27;s #1 marketplace (Schibsted). Title, price, GPS coordinates, and images across all classified categories. HTTP-only.</li>
+      </ul>
+    <h3>Norway (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/finn-no-scraper/"><strong>Finn.no Scraper</strong></a> <em>(Jobs+general)</em>: Norway&#x27;s largest marketplace and job board (Schibsted). Covers marketplace, jobs, real estate, and cars across all Norwegian regions. HTTP-only.</li>
+      </ul>
+    <h3>Finland (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/oikotie-fi-scraper/"><strong>Oikotie.fi Scraper</strong></a> <em>(General)</em>: Finland&#x27;s largest real estate portal (Sanoma Group) with 55,000+ active listings. Price, rooms, area, coordinates, and building type for buy and rent.</li>
+      </ul>
+    <h3>Poland (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/pracuj-pl-scraper/"><strong>Pracuj.pl Job Scraper</strong></a> <em>(General)</em>: Poland&#x27;s #1 job board. PLN salary ranges, company profiles, benefits, and remote filtering. Essential source for Polish labor market data.</li>
+        <li><a href="/actors/praca-gov-pl-scraper/"><strong>Praca.gov.pl Scraper</strong></a> <em>(Public-sector)</em>: Poland&#x27;s Central Job Offers Database (CBOP) run by the Ministry of Family and Social Policy. CBOP reference numbers, voivodeship, and PUP office details. Official government source.</li>
+      </ul>
+    <h3>Czech Republic (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/prace-cz-scraper/"><strong>Prace.cz Scraper</strong></a> <em>(General)</em>: Czech Republic&#x27;s largest job board. Czech region, CZK salary, contract type, and experience level. Primary source for Czech labor market intelligence.</li>
+      </ul>
+    <h3>Romania (1 actor)</h3>
+    <ul>
+        <li><a href="/actors/anofm-ro-scraper/"><strong>ANOFM.ro Scraper</strong></a> <em>(Public sector)</em>: Romania&#x27;s National Employment Agency official source. COR occupation codes, Romanian county (județ), salary in RON, and education level for all 41 județe.</li>
+      </ul>
+    <h3>Ukraine (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/dcz-gov-ua-scraper/"><strong>DCZ.gov.ua Scraper</strong></a> <em>(Public sector)</em>: Ukraine&#x27;s State Employment Service registry with 230,000+ active vacancies. Oblast-level coverage, UAH salary, disability/veteran/IDP flags, KATOTTG codes.</li>
+        <li><a href="/actors/work-ua-scraper/"><strong>Work.ua Scraper</strong></a> <em>(Jobs)</em>: Ukraine&#x27;s largest private job board with 9M monthly visitors and 106,000+ active vacancies. UAH salary, wartime deferment flag, accessibility flags, and company verified badge.</li>
+      </ul>
+    <h3>Russia (2 actors)</h3>
+    <ul>
+        <li><a href="/actors/hh-ru-scraper/"><strong>HeadHunter (hh.ru) Scraper</strong></a> <em>(General)</em>: Russia&#x27;s #1 job board via official public REST API. Covers Russia, Kazakhstan, Uzbekistan, Belarus. Salary gross/net flag, metro stations, IT accreditation badge.</li>
+        <li><a href="/actors/trudvsem-ru-scraper/"><strong>Trudvsem.ru Scraper</strong></a> <em>(Public sector)</em>: Russia&#x27;s official national employment registry via open government API. OKPDTR codes, INN/OGRN, and disability quota flags across all 89 federal subjects.</li>
+      </ul>
+    <h3>Global (18 actors)</h3>
+    <ul>
+        <li><a href="/actors/builtin-scraper/"><strong>Built In Scraper</strong></a> <em>(Tech)</em>: US tech jobs across engineering, design, data, product, marketing, and sales. Company logo, work arrangement, and city-level coverage for major US tech hubs.</li>
+        <li><a href="/actors/career-site-jobs-scraper/"><strong>Career Site Jobs Scraper</strong></a> <em>(General)</em>: extracts jobs from 25+ ATS platforms including Lever, Greenhouse, Workday, Ashby, and Personio. Covers ~60% of Fortune 500 career pages directly.</li>
+        <li><a href="/actors/computrabajo-scraper/"><strong>Computrabajo Scraper</strong></a> <em>(Aggregator (global))</em>: 40+ fields across 19 LATAM countries. Salary min/max/currency/period, employment type, education, experience years, and skill tags. Best LATAM job board coverage.</li>
+        <li><a href="/actors/cryptojobslist-scraper/"><strong>CryptoJobsList Scraper</strong></a> <em>(Engineering / energy)</em>: 35 fields including application count, benefits, and company social links. Covers DeFi, engineering, marketing, and non-tech crypto roles.</li>
+        <li><a href="/actors/dice-scraper/"><strong>Dice Scraper</strong></a> <em>(Tech)</em>: 68 fields including company HQ, employee count, industry, and recruiter contacts. 50,000+ tech jobs with skill tags and salary. Most field-rich tech scraper on the Store.</li>
+        <li><a href="/actors/glassdoor-scraper/"><strong>Glassdoor Scraper</strong></a> <em>(Aggregator (global))</em>: 20+ countries with employer rating, review count, salary estimate flag, and optional employer profile (HQ, size, CEO). Unique review-quality signal alongside job data.</li>
+        <li><a href="/actors/idealist-scraper/"><strong>Idealist Scraper</strong></a> <em>(Nonprofit / impact)</em>: 43 fields including areas of focus, organization details, and contact info. 10,000+ social impact positions. Largest nonprofit job dataset on the Apify Store.</li>
+        <li><a href="/actors/indeed-scraper/"><strong>Indeed Scraper Job Board Data Extraction</strong></a> <em>(Aggregator (global))</em>: 60+ countries including Switzerland, Germany, Austria, USA, and UK. Job titles, salaries, and full descriptions. World&#x27;s largest job board, broad market coverage.</li>
+        <li><a href="/actors/jobrapido-scraper/"><strong>Jobrapido Scraper</strong></a> <em>(Aggregator (global))</em>: multi-country job aggregator covering Germany, Austria, Switzerland, and 50+ other countries. One actor for broad global recruitment intelligence.</li>
+        <li><a href="/actors/linkedin-company-scraper/"><strong>LinkedIn Company Scraper</strong></a> <em>(Aggregator (global))</em>: employee count, industry, headquarters, description, and specialties. Optional employee profile scraping. Essential for company intelligence and lead generation.</li>
+        <li><a href="/actors/linkedin-scraper/"><strong>LinkedIn Jobs Scraper</strong></a> <em>(Remote-first)</em>: public LinkedIn job listings. Location, job type, experience level, remote options, company info, and description. No login required.</li>
+        <li><a href="/actors/naukri-scraper/"><strong>Naukri Scraper</strong></a> <em>(Aggregator (global))</em>: 45+ fields including AmbitionBox rating, follower count, founded year, company size, and benefits. Covers India and the Middle East. Most field-rich Indian job scraper.</li>
+        <li><a href="/actors/remotive-scraper/"><strong>Remotive Scraper</strong></a> <em>(Remote-first)</em>: 25 fields including salary min/max, skills/tags, company tagline, and all open positions at each company. Dedicated remote job board with rich company data.</li>
+        <li><a href="/actors/seek-scraper/"><strong>Seek, JobStreet &amp; JobsDB Scraper</strong></a> <em>(Aggregator (global))</em>: 40 fields across 8 countries (AU, NZ, SG, MY, ID, PH, HK, TH). Contact email/phone, work arrangement, and classifications. One actor for all APAC job boards.</li>
+        <li><a href="/actors/web3career-scraper/"><strong>Web3.career Scraper</strong></a> <em>(Remote-first)</em>: 25 fields including salary min/max, employment type, industry (Solidity, Rust, DeFi), and expiry date. Covers remote and on-site blockchain roles worldwide.</li>
+        <li><a href="/actors/website-job-extractor/"><strong>Website Job Extractor (HTTP)</strong></a> <em>(General)</em>: AI-powered extraction from any company career page. Auto-detects ATS, handles pagination, and validates output. Freshest hiring-intent signal for B2B targeting.</li>
+        <li><a href="/actors/welcome-to-the-jungle-scraper/"><strong>Welcome to the Jungle Scraper</strong></a> <em>(Aggregator (global))</em>: job title, salary, tech stack, and contract type across France, UK, Germany, Spain, and Czech Republic. Leading European employer-branding job board.</li>
+        <li><a href="/actors/weworkremotely-scraper/"><strong>WeWorkRemotely Scraper</strong></a> <em>(Remote-first)</em>: 26 fields including salary min/max, company website, category, and posting date. Covers programming, design, DevOps, marketing, and product remote roles.</li>
+      </ul>
+
+    <h2 id="pricing">Pricing at a glance</h2>
+    <p>All NanoScrape actors use Apify's pay-per-event (PPE) model. No monthly seats, no minimums. Apify's $5/month free tier covers meaningful testing on any actor.</p>
+    <figure>
+      <img src="assets/scraper-cost-comparison-bars.svg" alt="Horizontal bar chart comparing cost per 1,000 jobs for five NanoScrape scraper types. Career Site Jobs Scraper costs $1, Website Job Extractor HTTP costs $4, country-specific boards average $5, Website Job Extractor Browser costs $6, and global aggregators such as LinkedIn and Indeed average $8 per 1,000 jobs." loading="lazy" width="900" height="360">
+      <figcaption>Cost per 1,000 jobs by scraper type. The cheapest path is always Tier 1 (ATS-native) when the target company uses a supported ATS. Use Website Job Extractor to auto-detect before committing to a higher tier.</figcaption>
+    </figure>
+    <div class="callout tip"><strong>Free tier math:</strong> $5/month Apify credit covers 5,000 jobs on Career Site Jobs Scraper - enough for a daily pulse on 10-20 companies. Gemini free tier fully covers LLM extraction for up to 70 careers pages per day.</div>
+
+    <h2 id="cta">Get access to Job Feed private beta</h2>
+    <p>The 104+ actors above give you the building blocks. If you want one REST endpoint returning fresh, deduplicated, normalized jobs from every source refreshed daily, that is <strong>Job Feed</strong>. Currently in private beta while we onboard teams one by one.</p>
+    <ul>
+        <li>Early API access before public launch.</li>
+        <li>Direct input into which platforms get prioritized next.</li>
+        <li>Founding-customer pricing locked at beta rates.</li>
+        <li>Zero orchestration overhead - send a source list, get a clean dataset.</li>
+      </ul>
+    <div class="callout tip"><strong>To request access:</strong> visit the <a href="/jobfeed/#signup">Job Feed landing page</a> and fill in the form with your use case and expected daily job volume. We respond within 48 hours.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>How many job platforms exist worldwide?</summary>
+        <p>Nobody knows exactly. Public directories list under 1,000 boards (Jobboard Finder: 957, JobBoardSearch: 824), but these systematically under-count. Editorial estimates put it above 3,000 active boards. Including city, association, university, and long-tail micro-niches, the total is likely tens of thousands, with 200,000+ if you count anything with a listings page. On a separate axis, roughly 200-400 ATS vendors sit in front of well over a million employer career pages - a much larger surface than any single job board.</p>
+      </details>
+      <details>
+        <summary>Why doesn&#39;t your catalog include LinkedIn or Indeed?</summary>
+        <p>It does - see the Global aggregators section. LinkedIn (linkedin-scraper) reads public job data. Indeed (indeed-scraper) is available and returns structured job listings for public queries. Both are subject to platform terms; use responsibly and consult your legal team for scaled commercial use.</p>
+      </details>
+      <details>
+        <summary>Which is cheaper: ATS-native scraping or LLM extraction?</summary>
+        <p>ATS-native (Tier 1: Career Site Jobs Scraper) is 4x cheaper per job than LLM HTTP (Tier 2) and 6x cheaper than Browser (Tier 3). If you know the target company runs a supported ATS, always use Tier 1. If not, let Tier 2 auto-detect and it will emit ats_url so you can switch to Tier 1 on the next run.</p>
+      </details>
+      <details>
+        <summary>Can I run multi-country scraping in one job?</summary>
+        <p>Yes. Multiple actors are inherently multi-country: welcome-to-the-jungle-scraper (FR/UK/DE/ES/CZ), seek-scraper (8 APAC countries), computrabajo-scraper (19 LATAM countries), hh-ru-scraper (RU/KZ/UZ/BY). For broader coverage, run multiple single-country actors in parallel via the Apify API and merge datasets, or use the Job Feed orchestrator for automated routing.</p>
+      </details>
+      <details>
+        <summary>How often is the catalog updated?</summary>
+        <p>We ship approximately 25 new job platform actors per week from our build queue. Published actors appear in this catalog immediately; the build queue file (our internal build queue) tracks shipped-unpublished (in testing) and queued (upcoming). This tutorial regenerates from the same source so new actors show up on the next deploy.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/tutorials/scrape-fortune-500-company-jobs/">How to Scrape Every Fortune 500 Job Listing</a>: Full technical playbook: ATS distribution, input examples, output schemas, mapper script, cost math.</li>
+      <li><a href="/tutorials/fortune-500-ats-market-share-2026/">Fortune 500 ATS Market Share 2026</a>: Data study of ATS platforms across the F500. Workday leads with 118 deployments.</li>
+      <li><a href="/tutorials/how-to-scrape-workday-jobs/">How to Scrape Workday Jobs</a>: Deep dive on Workday: 118 F500 companies + API pattern + ready-to-run input.</li>
+      <li><a href="/jobfeed/">Job Feed private beta landing page</a>: The orchestrator that ties the 3-tier stack into a unified, daily-refreshed jobs feed.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for every actor in the catalog.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a href="/jobfeed/#signup" class="btn-primary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations?fpr=0khfbz" class="btn-secondary">Browse all job scrapers on Apify</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

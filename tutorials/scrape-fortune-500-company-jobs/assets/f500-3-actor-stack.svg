@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 620" width="100%" style="max-width:920px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif" role="img" aria-labelledby="stack-title stack-desc">
+<title id="stack-title">The 3-actor NanoScrape stack for scraping Fortune 500 careers pages</title>
+<desc id="stack-desc">Flow diagram showing how the F500 careers URL list flows into the Job Feed orchestrator, which fans out to three tiers - Career Site Jobs Scraper for ATS-native platforms, Website Job Extractor for custom sites, and Website Job Extractor Browser for JavaScript-rendered sites - then merges into a unified F500 jobs dataset.</desc>
+<rect width="920" height="620" fill="#fafafa" rx="8"/>
+
+<!-- title -->
+<text x="460" y="34" font-size="17" font-weight="700" fill="#1a1a1a" text-anchor="middle">The 3-actor NanoScrape stack + Job Feed orchestrator</text>
+<text x="460" y="54" font-size="12" fill="#666" text-anchor="middle">One list of 500 F500 careers URLs in, one unified job dataset out.</text>
+
+<!-- Input -->
+<rect x="290" y="80" width="340" height="46" fill="#e5e7eb" stroke="#9ca3af" stroke-width="1.5" rx="6"/>
+<text x="460" y="103" font-size="13" font-weight="600" fill="#1f2937" text-anchor="middle">Fortune 500 careers URL list (input)</text>
+<text x="460" y="118" font-size="10.5" fill="#4b5563" text-anchor="middle">500 companies with careers_url + detected ATS</text>
+
+<!-- arrow to orchestrator -->
+<line x1="460" y1="130" x2="460" y2="158" stroke="#6b7280" stroke-width="1.5"/>
+<polygon points="454,156 466,156 460,166" fill="#6b7280"/>
+
+<!-- Orchestrator (Job Feed) -->
+<rect x="230" y="170" width="460" height="60" fill="#fef3c7" stroke="#f59e0b" stroke-width="2" rx="8"/>
+<text x="460" y="192" font-size="14" font-weight="700" fill="#78350f" text-anchor="middle">Job Feed orchestrator (private beta)</text>
+<text x="460" y="211" font-size="11.5" fill="#78350f" text-anchor="middle">Detects ATS per row, fans out to tiers, retries, dedupes, unifies schema</text>
+
+<!-- 3 arrows down to 3 tiers -->
+<line x1="310" y1="232" x2="180" y2="278" stroke="#6b7280" stroke-width="1.5"/>
+<polygon points="176,272 186,275 178,284" fill="#6b7280"/>
+<line x1="460" y1="232" x2="460" y2="272" stroke="#6b7280" stroke-width="1.5"/>
+<polygon points="454,270 466,270 460,280" fill="#6b7280"/>
+<line x1="610" y1="232" x2="740" y2="278" stroke="#6b7280" stroke-width="1.5"/>
+<polygon points="742,272 732,275 740,284" fill="#6b7280"/>
+
+<!-- Tier 1 box -->
+<rect x="30" y="285" width="300" height="140" fill="#dbeafe" stroke="#2563eb" stroke-width="1.8" rx="8"/>
+<text x="180" y="308" font-size="13" font-weight="700" fill="#1e3a8a" text-anchor="middle">Tier 1: Career Site Jobs Scraper</text>
+<text x="180" y="325" font-size="10.5" fill="#1e40af" text-anchor="middle">HTTP-only, no browser</text>
+<line x1="60" y1="335" x2="300" y2="335" stroke="#93c5fd"/>
+<text x="180" y="352" font-size="11" fill="#1e40af" text-anchor="middle">24+ ATS platforms (Workday, Phenom,</text>
+<text x="180" y="367" font-size="11" fill="#1e40af" text-anchor="middle">Oracle Recruiting, iCIMS, TalentBrew...)</text>
+<text x="180" y="388" font-size="11" font-weight="600" fill="#1e3a8a" text-anchor="middle">293 companies (58.6% of F500)</text>
+<text x="180" y="410" font-size="12" font-weight="700" fill="#1e3a8a" text-anchor="middle">~$1 per 1,000 jobs</text>
+
+<!-- Tier 2 box -->
+<rect x="340" y="285" width="240" height="140" fill="#dcfce7" stroke="#059669" stroke-width="1.8" rx="8"/>
+<text x="460" y="308" font-size="13" font-weight="700" fill="#064e3b" text-anchor="middle">Tier 2: Website Job Extractor</text>
+<text x="460" y="325" font-size="10.5" fill="#065f46" text-anchor="middle">HTTP + LLM (Gemini/Groq)</text>
+<line x1="370" y1="335" x2="550" y2="335" stroke="#86efac"/>
+<text x="460" y="352" font-size="11" fill="#065f46" text-anchor="middle">Custom careers pages,</text>
+<text x="460" y="367" font-size="11" fill="#065f46" text-anchor="middle">no supported ATS</text>
+<text x="460" y="388" font-size="11" font-weight="600" fill="#064e3b" text-anchor="middle">136 companies (27.2% of F500)</text>
+<text x="460" y="410" font-size="12" font-weight="700" fill="#064e3b" text-anchor="middle">~$4 per 1,000 jobs</text>
+
+<!-- Tier 3 box -->
+<rect x="590" y="285" width="300" height="140" fill="#ffedd5" stroke="#d97706" stroke-width="1.8" rx="8"/>
+<text x="740" y="308" font-size="13" font-weight="700" fill="#7c2d12" text-anchor="middle">Tier 3: Website Job Extractor (Browser)</text>
+<text x="740" y="325" font-size="10.5" fill="#9a3412" text-anchor="middle">Playwright + LLM, JS-rendered</text>
+<line x1="620" y1="335" x2="860" y2="335" stroke="#fdba74"/>
+<text x="740" y="352" font-size="11" fill="#9a3412" text-anchor="middle">Auto-triggered by Tier 2 when</text>
+<text x="740" y="367" font-size="11" fill="#9a3412" text-anchor="middle">JS-rendering is detected</text>
+<text x="740" y="388" font-size="11" font-weight="600" fill="#7c2d12" text-anchor="middle">60 companies (12% of F500)</text>
+<text x="740" y="410" font-size="12" font-weight="700" fill="#7c2d12" text-anchor="middle">~$6 per 1,000 jobs</text>
+
+<!-- 3 arrows down to merge -->
+<line x1="180" y1="428" x2="410" y2="478" stroke="#6b7280" stroke-width="1.5"/>
+<line x1="460" y1="428" x2="460" y2="478" stroke="#6b7280" stroke-width="1.5"/>
+<line x1="740" y1="428" x2="510" y2="478" stroke="#6b7280" stroke-width="1.5"/>
+<polygon points="404,476 416,476 410,486" fill="#6b7280"/>
+<polygon points="454,476 466,476 460,486" fill="#6b7280"/>
+<polygon points="504,476 516,476 510,486" fill="#6b7280"/>
+
+<!-- Output -->
+<rect x="220" y="490" width="480" height="80" fill="#fce7f3" stroke="#db2777" stroke-width="2" rx="8"/>
+<text x="460" y="514" font-size="14" font-weight="700" fill="#831843" text-anchor="middle">Unified F500 jobs dataset</text>
+<text x="460" y="533" font-size="11.5" fill="#9d174d" text-anchor="middle">~206,000 rows, normalized field names across tiers</text>
+<text x="460" y="551" font-size="10.5" fill="#831843" text-anchor="middle">Deduplicated by job_url, ready for CSV/JSON/database export</text>
+
+<!-- 11 companies note -->
+<text x="460" y="596" font-size="10" fill="#9ca3af" text-anchor="middle">11 F500 companies (2.2%) use WAF-hardened deployments that require a custom scraper build - see the audit for the full list.</text>
+</svg>

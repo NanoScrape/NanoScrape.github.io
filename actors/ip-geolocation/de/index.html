@@ -1,182 +1,182 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, $0,10/1k | NanoScrape</title>
-  <meta name="description" content="Bulk-IP-Geolocation-Anreicherung mit Land, Stadt, Koordinaten, ASN, ISP, Zeitzone und Proxy-Erkennung. IPv4 und IPv6. Powered by MaxMind GeoLite2. $0,0001 pro IP.">
-  <meta property="og:title" content="IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, ISP | NanoScrape">
-  <meta property="og:description" content="IPs mit Standort, ASN, ISP und Proxy-Erkennung anreichern. IPv4 + IPv6. Pay-per-Result.">
-  <meta property="og:url" content="https://www.nanoscrape.com/actors/ip-geolocation/de/">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
-  <link rel="canonical" href="https://www.nanoscrape.com/actors/ip-geolocation/de/">
-  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ip-geolocation/">
-  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ip-geolocation/de/">
-  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ip-geolocation/fr/">
-  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ip-geolocation/zh/">
-  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ip-geolocation/">
-  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "IP Geolocation API",
-    "applicationCategory": "DeveloperApplication",
-    "operatingSystem": "Cloud (Apify)",
-    "description": "Bulk-IP-zu-Standort-Anreicherung für IPv4- und IPv6-Adressen. Liefert Land, Stadt, PLZ, Koordinaten, Zeitzone, ASN, ISP, Organisation und Proxy/VPN/Tor-Erkennung. Powered by MaxMind GeoLite2. 128MB RAM, $0,0001 pro IP.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0.0001",
-      "priceCurrency": "USD",
-      "description": "per IP enriched"
-    },
-    "url": "https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz",
-    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
-  }
-  </script>
-  <style>
-    :root {
-      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
-      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
-      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
-    }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
-    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
-    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
-    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
-    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
-    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
-    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
-    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
-    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
-    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
-    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
-    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
-    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
-    .detail ul { padding-left: 20px; margin-bottom: 24px; }
-    .detail li { margin-bottom: 8px; color: var(--muted); }
-    .detail li strong { color: var(--white); }
-    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
-    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
-    .code-block .comment { color: var(--muted); }
-    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
-    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
-    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
-    .compare-table td { color: var(--text); }
-    .compare-table tr:hover td { background: var(--surface); }
-    .highlight { color: var(--accent); font-weight: 700; }
-    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
-    @media (max-width: 480px) {
-      .detail h1 { font-size: 1.5rem; }
-      .specs { grid-template-columns: repeat(2, 1fr); }
-      .ctas { flex-direction: column; }
-      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
-    }
-    #site-header { min-height: 56px; }
-    #site-footer { min-height: 80px; }
-  </style>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, $0,10/1k | NanoScrape</title>
+ <meta name="description" content="Bulk-IP-Geolocation-Anreicherung mit Land, Stadt, Koordinaten, ASN, ISP, Zeitzone und Proxy-Erkennung. IPv4 und IPv6. Powered by MaxMind GeoLite2. $0,0001 pro IP.">
+ <meta property="og:title" content="IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, ISP | NanoScrape">
+ <meta property="og:description" content="IPs mit Standort, ASN, ISP und Proxy-Erkennung anreichern. IPv4 + IPv6. Pay-per-Result.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/ip-geolocation/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/ip-geolocation/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ip-geolocation/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ip-geolocation/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ip-geolocation/fr/">
+ <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ip-geolocation/zh/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ip-geolocation/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <script type="application/ld+json">
+ {
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "IP Geolocation API",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "description": "Bulk-IP-zu-Standort-Anreicherung für IPv4- und IPv6-Adressen. Liefert Land, Stadt, PLZ, Koordinaten, Zeitzone, ASN, ISP, Organisation und Proxy/VPN/Tor-Erkennung. Powered by MaxMind GeoLite2. 128MB RAM, $0,0001 pro IP.",
+ "offers": {
+ "@type": "Offer",
+ "price": "0.0001",
+ "priceCurrency": "USD",
+ "description": "per IP enriched"
+ },
+ "url": "https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz",
+ "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+ }
+ </script>
+ <style>
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ </style>
 </head>
 <body>
 
-  <div id="site-header"></div>
+ <div id="site-header"></div>
 
-  <div class="detail">
-    <h1>IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, ISP, $0,10 pro 1.000 IPs</h1>
-    <p class="lead">Jede IPv4- oder IPv6-Adresse mit Land, Stadt, PLZ, Breiten- und Längengrad, Zeitzone, ASN, ISP, Organisation und Proxy/VPN/Tor-Erkennung anreichern. Powered by MaxMind GeoLite2. Für Bulk gebaut: 100.000 IPs rein, Geo-angereicherte Zeilen in Sekunden raus. Ideal für Log-Analyse, Fraud-Scoring, Security-Audits, Traffic-Dashboards und Compliance-Geo-Fencing.</p>
+ <div class="detail">
+ <h1>IP-Geolocation-API: Bulk IP zu Land, Stadt, ASN, ISP, $0,10 pro 1.000 IPs</h1>
+ <p class="lead">Jede IPv4- oder IPv6-Adresse mit Land, Stadt, PLZ, Breiten- und Längengrad, Zeitzone, ASN, ISP, Organisation und Proxy/VPN/Tor-Erkennung anreichern. Powered by MaxMind GeoLite2. Für Bulk gebaut: 100.000 IPs rein, Geo-angereicherte Zeilen in Sekunden raus. Ideal für Log-Analyse, Fraud-Scoring, Security-Audits, Traffic-Dashboards und Compliance-Geo-Fencing.</p>
 
-    <div class="ctas">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/stV5E3Bqrx6cnkQdt/source?addFromActorId=stV5E3Bqrx6cnkQdt&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
-    </div>
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/stV5E3Bqrx6cnkQdt/source?addFromActorId=stV5E3Bqrx6cnkQdt&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+ </div>
 
-    <div class="specs">
-      <div class="spec"><div class="label">Preise</div><div class="value">$0,0001/IP</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Abdeckung</div><div class="value">IPv4 + IPv6, global</div></div><div class="spec"><div class="label">Ausgabefelder</div><div class="value">20+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div><div class="spec"><div class="label">Technik</div><div class="value">MaxMind GeoLite2</div></div>
-    </div>
+ <div class="specs">
+ <div class="spec"><div class="label">Preise</div><div class="value">$0,0001/IP</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Abdeckung</div><div class="value">IPv4 + IPv6, global</div></div><div class="spec"><div class="label">Ausgabefelder</div><div class="value">20+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div><div class="spec"><div class="label">Technik</div><div class="value">MaxMind GeoLite2</div></div>
+ </div>
 
-    <h2 class="section-title">Was Sie erhalten</h2>
-    <ul>
-      <li><strong>Standort:</strong> country_iso, country_name, region, city, postal_code, latitude, longitude</li>
-      <li><strong>Netzwerk:</strong> asn, asn_org, isp, connection_type, network, hostname</li>
-      <li><strong>Zeit:</strong> timezone, utc_offset, currency_code</li>
-      <li><strong>Risiko-Signale:</strong> is_proxy, is_vpn, is_tor, is_hosting, is_anonymous</li>
-      <li><strong>Metadaten:</strong> ip_version, accuracy_radius_km, scraped_at</li>
-    </ul>
+ <h2 class="section-title">Was Sie erhalten</h2>
+ <ul>
+ <li><strong>Standort:</strong> country_iso, country_name, region, city, postal_code, latitude, longitude</li>
+ <li><strong>Netzwerk:</strong> asn, asn_org, isp, connection_type, network, hostname</li>
+ <li><strong>Zeit:</strong> timezone, utc_offset, currency_code</li>
+ <li><strong>Risiko-Signale:</strong> is_proxy, is_vpn, is_tor, is_hosting, is_anonymous</li>
+ <li><strong>Metadaten:</strong> ip_version, accuracy_radius_km, scraped_at</li>
+ </ul>
 
-    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
-    <ul>
-      <li><strong>Log-Analyse.</strong> Web-Server-Access-Logs geo-anreichern, um globale Traffic-Muster zu mappen</li>
-      <li><strong>Fraud-Scoring.</strong> VPN-, Tor- und Hosting-Provider-IPs in Signup- und Checkout-Flows flaggen</li>
-      <li><strong>Security-Audits.</strong> Herkunftsländer von Failed Logins, Brute-Force-Versuchen und 4xx-Spikes mappen</li>
-      <li><strong>Compliance-Geo-Fencing.</strong> Verifizieren, dass Nutzer regionalen Lizenzbedingungen oder Sanktionsregeln entsprechen</li>
-      <li><strong>Marketing-Analytics.</strong> Traffic nach Stadt und ASN aufschlüsseln, um B2B-Prospects zu identifizieren</li>
-    </ul>
+ <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+ <ul>
+ <li><strong>Log-Analyse.</strong> Web-Server-Access-Logs geo-anreichern, um globale Traffic-Muster zu mappen</li>
+ <li><strong>Fraud-Scoring.</strong> VPN-, Tor- und Hosting-Provider-IPs in Signup- und Checkout-Flows flaggen</li>
+ <li><strong>Security-Audits.</strong> Herkunftsländer von Failed Logins, Brute-Force-Versuchen und 4xx-Spikes mappen</li>
+ <li><strong>Compliance-Geo-Fencing.</strong> Verifizieren, dass Nutzer regionalen Lizenzbedingungen oder Sanktionsregeln entsprechen</li>
+ <li><strong>Marketing-Analytics.</strong> Traffic nach Stadt und ASN aufschlüsseln, um B2B-Prospects zu identifizieren</li>
+ </ul>
 
-    <h2 class="section-title">API-Beispiel</h2>
-    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ip-geolocation/runs?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "ips": [
-      "8.8.8.8",
-      "1.1.1.1",
-      "2606:4700:4700::1111",
-      "185.220.101.45",
-      "203.0.113.42"
-    ],
-    "detectProxy": true,
-    "detectVpn": true
-  }'
+ -H "Content-Type: application/json" \
+ -d '{
+ "ips": [
+ "8.8.8.8",
+ "1.1.1.1",
+ "2606:4700:4700::1111",
+ "185.220.101.45",
+ "203.0.113.42"
+ ],
+ "detectProxy": true,
+ "detectVpn": true
+ }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/ip-geolocation</span></pre></div>
 
-    <h2 class="section-title">Integrationen</h2>
-    <ul>
-      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Datensätze per Webhook verarbeiten</li>
-      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
-      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
-      <li><strong>Google Sheets, Airtable:</strong> Bulk-Eingaben rein, strukturierte Daten raus</li>
-    </ul>
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und Datensätze per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+ <li><strong>Google Sheets, Airtable:</strong> Bulk-Eingaben rein, strukturierte Daten raus</li>
+ </ul>
 
-    <h2 class="section-title">Ausgabefelder</h2>
-    <table class="compare-table">
-      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
-      <tr><td>ip</td><td>string</td><td>8.8.8.8</td></tr>
-      <tr><td>country_iso</td><td>string</td><td>US</td></tr>
-      <tr><td>country_name</td><td>string</td><td>United States</td></tr>
-      <tr><td>city</td><td>string</td><td>Mountain View</td></tr>
-      <tr><td>postal_code</td><td>string</td><td>94043</td></tr>
-      <tr><td>latitude</td><td>number</td><td>37,4056</td></tr>
-      <tr><td>longitude</td><td>number</td><td>-122,0775</td></tr>
-      <tr><td>asn</td><td>integer</td><td>15169</td></tr>
-      <tr><td>asn_org</td><td>string</td><td>Google LLC</td></tr>
-      <tr><td>is_proxy</td><td>boolean</td><td>false</td></tr>
-    </table>
+ <h2 class="section-title">Ausgabefelder</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+ <tr><td>ip</td><td>string</td><td>8.8.8.8</td></tr>
+ <tr><td>country_iso</td><td>string</td><td>US</td></tr>
+ <tr><td>country_name</td><td>string</td><td>United States</td></tr>
+ <tr><td>city</td><td>string</td><td>Mountain View</td></tr>
+ <tr><td>postal_code</td><td>string</td><td>94043</td></tr>
+ <tr><td>latitude</td><td>number</td><td>37,4056</td></tr>
+ <tr><td>longitude</td><td>number</td><td>-122,0775</td></tr>
+ <tr><td>asn</td><td>integer</td><td>15169</td></tr>
+ <tr><td>asn_org</td><td>string</td><td>Google LLC</td></tr>
+ <tr><td>is_proxy</td><td>boolean</td><td>false</td></tr>
+ </table>
 
-    <h2 class="section-title">Verwandte Aktoren</h2>
-    <ul>
-      <li><a href="/actors/domain-whois-dns/">Domain WHOIS & DNS</a>: die Domain-Seite desselben Records anreichern</li>
-      <li><a href="/actors/ssl-certificate-inspector/">SSL Certificate Inspector</a>: TLS-Zertifikate parallel zur IP-Geo auditieren</li>
-      <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: Hosting-Infrastruktur hinter jeder Site identifizieren</li>
-    </ul>
+ <h2 class="section-title">Verwandte Aktoren</h2>
+ <ul>
+ <li><a href="/actors/domain-whois-dns/">Domain WHOIS & DNS</a>: die Domain-Seite desselben Records anreichern</li>
+ <li><a href="/actors/ssl-certificate-inspector/">SSL Certificate Inspector</a>: TLS-Zertifikate parallel zur IP-Geo auditieren</li>
+ <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: Hosting-Infrastruktur hinter jeder Site identifizieren</li>
+ </ul>
 
-    <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/stV5E3Bqrx6cnkQdt/source?addFromActorId=stV5E3Bqrx6cnkQdt&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
-    </div>
-  </div>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ip-geolocation?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/stV5E3Bqrx6cnkQdt/source?addFromActorId=stV5E3Bqrx6cnkQdt&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+ </div>
+ </div>
 
-  <div id="site-footer"></div>
+ <div id="site-footer"></div>
 
-  <script src="/components.js?v=6"></script>
-  <script src="/search.js?v=6"></script>
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
 </body>
 </html>
