@@ -18,10 +18,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
-  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -230,22 +226,8 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
-    .code-block { position: relative; margin: 12px 0 24px; }
-    .code-block > pre:not([class*="language-"]) {
-      margin: 0; padding: 18px 20px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
-      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
-    }
-    .code-block > pre[class*="language-"] {
-      margin: 0; border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
-    }
-    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
-    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
-    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -304,7 +286,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Try the Twitter/X Scraper free</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Try the Twitter/X Scraper free</a>
       <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
     </div>
 
@@ -326,7 +308,7 @@
     <h2 id="what-you-can-analyze">What data you can analyze</h2>
     <p>Each tweet comes back as one JSON item with three top-level keys: <code class="code-inline">item_type</code>, <code class="code-inline">tweet</code>, and <code class="code-inline">author</code>. The <code class="code-inline">tweet</code> object holds everything you need for content and engagement analysis. The <code class="code-inline">author</code> object holds the account profile, so you get follower counts and bio data alongside every tweet without a second lookup.</p>
     <h3>Tweet fields</h3>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "item_type": "tweet",
   "tweet": {
     "id": "2071963996576743795",
@@ -361,7 +343,7 @@
     "blue_verified": false
   },
   "scraped_at": "2026-06-30T15:00:00Z"
-}</code></pre></div>
+}</pre></div>
     <ul>
         <li><strong>engagement.like_count, retweet_count, view_count</strong> are the main signals for engagement analysis. View count is especially useful because it lets you calculate a real engagement rate (likes / views).</li>
         <li><strong>entities.hashtags and entities.mentions</strong> are parsed arrays, so you can count hashtag frequency or build a mention graph without regex on the raw text.</li>
@@ -372,7 +354,7 @@
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
-        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/sign-up?fpr=0khfbz">apify.com/sign-up</a>. No credit card required. The free tier includes $5 of usage credit each month.</li>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="sponsored noopener" href="https://apify.com/sign-up?fpr=0khfbz">apify.com/sign-up</a>. No credit card required. The free tier includes $5 of usage credit each month.</li>
         <li>The list of Twitter/X usernames or profile URLs you want to analyze. Plain handles (<code class="code-inline">openai</code>), at-prefixed handles (<code class="code-inline">@openai</code>), and full profile URLs all work.</li>
       </ul>
 
@@ -380,7 +362,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Step 1: Open the actor</h2>
       <ol>
-        <li>Go to <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper</a> and click <strong>Try for free</strong>.</li>
+        <li>Go to <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper</a> and click <strong>Try for free</strong>.</li>
         <li>Sign in or create your free Apify account.</li>
         <li>The actor opens directly in Apify Console on the <strong>Input</strong> tab.</li>
       </ol>
@@ -394,7 +376,7 @@
       <span class="step-number">STEP 2</span>
       <h2>Step 2: Pick accounts and options</h2>
       <p>In the <strong>Input</strong> tab, switch to <strong>JSON editor</strong> and paste a configuration like this one. You can add as many usernames as you need in a single run.</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+      <div class="code-block"><pre>{
   "usernames": [
     "openai",
     "@AnthropicAI",
@@ -403,7 +385,7 @@
   "tweetsPerUser": 50,
   "includeReplies": false,
   "includeRetweets": false
-}</code></pre></div>
+}</pre></div>
       <p>Input fields and what each one does:</p>
       <ul>
         <li><code class="code-inline">usernames</code> <em>(required)</em> - the accounts to scrape. Mix and match plain handles, @handles, and full profile URLs freely.</li>
@@ -447,12 +429,12 @@
     <p>Load the CSV into a spreadsheet. Add a computed column: <code class="code-inline">like_count / view_count * 100</code> for a like rate per impression. Group by <code class="code-inline">author.username</code> and compare. Because the actor embeds the author in every row, you can pivot directly without a join.</p>
     <h3>Hashtag frequency and trending topics</h3>
     <p>The <code class="code-inline">tweet.entities.hashtags</code> field is a pre-parsed array of strings. In Python, flatten across all tweets and use <code class="code-inline">collections.Counter</code> to get a frequency table in three lines:</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python">import json
+    <div class="code-block"><pre>import json
 from collections import Counter
 
 tweets = json.load(open("tweets.json"))
 tags = [tag for item in tweets for tag in item["tweet"]["entities"]["hashtags"]]
-print(Counter(tags).most_common(20))</code></pre></div>
+print(Counter(tags).most_common(20))</pre></div>
     <h3>Sentiment scoring with an LLM</h3>
     <p>Pass the <code class="code-inline">tweet.text</code> field to any LLM API (or a local model) and ask it to classify sentiment as positive, neutral, or negative. Because you have <code class="code-inline">created_at</code>, you can then plot sentiment over time to catch how a brand's tone changed around a product launch or news event.</p>
     <h3>Influencer reach comparison</h3>
@@ -465,12 +447,12 @@ print(Counter(tags).most_common(20))</code></pre></div>
         <li><strong>HTTP Request node</strong> - POST to <code class="code-inline">https://api.apify.com/v2/acts/santamaria-automations~twitter-x-profiles-tweets-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> with your JSON input as the body. The endpoint runs the actor and returns items in one call.</li>
         <li><strong>Google Sheets node</strong> (or any database node) - append the returned rows to your tracking sheet.</li>
       </ol>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "usernames": ["openai", "@AnthropicAI", "Google"],
   "tweetsPerUser": 20,
   "includeReplies": false,
   "includeRetweets": false
-}</code></pre></div>
+}</pre></div>
     <p>Because each run timestamp-stamps the <code class="code-inline">scraped_at</code> field on every item, you can store all runs in the same sheet and filter by date for trend charts.</p>
 
     <h2 id="what-it-costs">What it costs</h2>
@@ -528,7 +510,7 @@ print(Counter(tags).most_common(20))</code></pre></div>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Start collecting tweets free</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Start collecting tweets free</a>
       <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
     </div>
   </article>
@@ -537,29 +519,5 @@ print(Counter(tags).most_common(20))</code></pre></div>
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
-  <!-- Prism.js syntax highlighting -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
-  <script>
-  // Copy-to-clipboard for all .copy-btn elements in code blocks
-  document.addEventListener('click', function(e) {
-    if (!e.target.matches('.copy-btn')) return;
-    var pre = e.target.parentElement.querySelector('pre');
-    if (!pre) return;
-    var btn = e.target;
-    navigator.clipboard.writeText(pre.textContent).then(function() {
-      var orig = btn.textContent;
-      btn.classList.add('copied'); btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
-    }).catch(function() {
-      btn.textContent = 'Copy failed';
-      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-    });
-  });
-  </script>
 </body>
 </html>

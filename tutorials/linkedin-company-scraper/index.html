@@ -19,10 +19,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
-  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -227,22 +223,8 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
-    .code-block { position: relative; margin: 12px 0 24px; }
-    .code-block > pre:not([class*="language-"]) {
-      margin: 0; padding: 18px 20px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
-      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
-    }
-    .code-block > pre[class*="language-"] {
-      margin: 0; border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
-    }
-    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
-    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
-    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -322,7 +304,7 @@
 
     <h2 id="what-you-get">What data you get</h2>
     <p>Each run returns one dataset row per company. Fields come from LinkedIn's public guest company page, which does not require a login. The actor uses plain HTTP requests with no browser, so it processes each company in about one to two seconds.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "company_id": "lead-001",
   "company_name": "Acme Corp",
   "linkedin_url": "https://www.linkedin.com/company/acme-corp",
@@ -340,7 +322,7 @@
   "employees": [],
   "posts": [],
   "error": null
-}</code></pre></div>
+}</pre></div>
     <h3>Available fields</h3>
     <ul>
         <li><code class="code-inline">employee_count</code>: upper bound of the employee range shown on LinkedIn (for example, 5000 for "1,001-5,000").</li>
@@ -384,7 +366,7 @@
       <span class="step-number">STEP 2</span>
       <h2>Build your company list</h2>
       <p>In the <strong>Input</strong> tab, click <strong>JSON editor</strong> at the top right. Paste your list of companies in the format below. Each entry needs a <code class="code-inline">company_id</code> (your own key), a <code class="code-inline">company_name</code>, and either a <code class="code-inline">linkedin_url</code> or a <code class="code-inline">website_domain</code>:</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+      <div class="code-block"><pre>{
   "companies": [
     {
       "company_id": "lead-001",
@@ -398,7 +380,7 @@
     }
   ],
   "includeEmployees": false
-}</code></pre></div>
+}</pre></div>
       <p>Tips for building the list:</p>
       <ul>
         <li><strong>Use LinkedIn URLs whenever possible.</strong> The actor reads the company slug directly from the URL, which is faster and more reliable than a Google search.</li>
@@ -412,14 +394,14 @@
     </figure>
       <h3>Optional: include employee profiles</h3>
       <p>Set <code class="code-inline">includeEmployees: true</code> to also scrape the top visible employees from each company's People page. Use <code class="code-inline">maxEmployeesPerCompany</code> (1 to 50) and <code class="code-inline">employeeTitleFilters</code> to target specific roles:</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+      <div class="code-block"><pre>{
   "companies": [
     {"company_id": "lead-001", "company_name": "Contoso", "linkedin_url": "https://www.linkedin.com/company/contoso"}
   ],
   "includeEmployees": true,
   "maxEmployeesPerCompany": 10,
   "employeeTitleFilters": ["CEO", "CTO", "Head of Engineering"]
-}</code></pre></div>
+}</pre></div>
       <div class="callout"><strong>Visibility note:</strong> LinkedIn shows a limited set of employees on the public guest People page, typically 5 to 10 profiles per company. The actor returns whatever LinkedIn exposes to an anonymous visitor. Employees with private profiles or who are not visible without a login will not appear.</div>
     </div>
 
@@ -458,7 +440,7 @@
         <li>Add another Google Sheets node (or a CRM node) to write the enriched rows back.</li>
         <li>Save and activate the workflow.</li>
       </ol>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "companies": [
     {
       "company_id": "{{ $json.crm_id }}",
@@ -467,7 +449,7 @@
     }
   ],
   "includeEmployees": false
-}</code></pre></div>
+}</pre></div>
     <p>This workflow runs weekly, reads new companies from a Google Sheet, enriches each one with LinkedIn data, and writes the results back. At $0.005 per company, enriching 200 new leads per week costs about $1 per week ($4 per month).</p>
     <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and includes the Apify node pre-installed. On self-hosted or n8n Desktop, install it from <strong>Settings &rsaquo; Community Nodes</strong> with package name <code class="code-inline">@apify/n8n-nodes-apify</code>.</div>
 
@@ -487,10 +469,10 @@
         <li><strong>Per company enriched:</strong> $0.005 per company row returned. That is $5 per 1,000 companies.</li>
         <li><strong>No monthly fees. No minimum spend.</strong></li>
       </ul>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">10 companies                        = $0.051  ($0.001 start + $0.050)
+    <div class="code-block"><pre>10 companies                        = $0.051  ($0.001 start + $0.050)
 100 companies                       = $0.501  ($0.001 + $0.500)
 1,000 companies                     = $5.001  ($0.001 + $5.000)
-Weekly enrichment, 200 leads/week   ~ $4.16/month</code></pre></div>
+Weekly enrichment, 200 leads/week   ~ $4.16/month</pre></div>
     <p>The Apify free tier includes $5 of usage credit each month. That covers up to 999 company lookups per month at no charge. Companies that fail to resolve (returned with an error value) are not charged.</p>
     <div class="callout"><strong>Proxy cost:</strong> the actor uses RESIDENTIAL proxy, which adds a small traffic-based cost on top of the per-result price. The run page in Apify Console shows the full compute and proxy breakdown after each run.</div>
 
@@ -542,29 +524,5 @@ Weekly enrichment, 200 leads/week   ~ $4.16/month</code></pre></div>
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
-  <!-- Prism.js syntax highlighting -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
-  <script>
-  // Copy-to-clipboard for all .copy-btn elements in code blocks
-  document.addEventListener('click', function(e) {
-    if (!e.target.matches('.copy-btn')) return;
-    var pre = e.target.parentElement.querySelector('pre');
-    if (!pre) return;
-    var btn = e.target;
-    navigator.clipboard.writeText(pre.textContent).then(function() {
-      var orig = btn.textContent;
-      btn.classList.add('copied'); btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
-    }).catch(function() {
-      btn.textContent = 'Copy failed';
-      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-    });
-  });
-  </script>
 </body>
 </html>

@@ -19,10 +19,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
-  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -235,22 +231,8 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
-    .code-block { position: relative; margin: 12px 0 24px; }
-    .code-block > pre:not([class*="language-"]) {
-      margin: 0; padding: 18px 20px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
-      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
-    }
-    .code-block > pre[class*="language-"] {
-      margin: 0; border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
-    }
-    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
-    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
-    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -332,7 +314,7 @@
     <h2 id="what-you-get">What data you get</h2>
     <p>Each run returns a flat list of items. Posts and comments are separate items in the same dataset, distinguished by a <code class="code-inline">type</code> field. When comments are enabled, the actor outputs each post followed by its comments before moving to the next post.</p>
     <h3>Post fields</h3>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "id": "abc123",
   "type": "post",
   "subreddit": "programming",
@@ -346,9 +328,9 @@
   "created_utc": "2026-04-25T10:00:00Z",
   "reddit_url": "https://www.reddit.com/r/programming/comments/...",
   "scraped_at": "2026-04-25T10:30:00Z"
-}</code></pre></div>
+}</pre></div>
     <h3>Comment fields</h3>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "id": "xyz789",
   "type": "comment",
   "subreddit": "programming",
@@ -362,7 +344,7 @@
   "created_utc": "2026-04-25T11:15:00Z",
   "reddit_url": "https://www.reddit.com/r/programming/comments/.../xyz789/",
   "scraped_at": "2026-04-25T11:30:00Z"
-}</code></pre></div>
+}</pre></div>
     <div class="callout"><strong>Note on <code>score</code> and <code>num_comments</code>:</strong> Reddit removed access to its JSON endpoints in June 2026. The actor uses Reddit's public Atom feeds (<code class="code-inline">/.rss</code>), which is the only public surface that still works without a registered API app. Atom feeds do not expose vote counts or comment counts, so <code class="code-inline">score</code> is always <code class="code-inline">0</code> and <code class="code-inline">num_comments</code> is always <code class="code-inline">null</code>. All other fields (title, author, body text, URLs, timestamps) are identical to what you see on the site.</div>
     <div class="callout"><strong>Source:</strong> the example output above is taken directly from the actor README field reference, not a live demo run. The data structure is stable; actual field values depend on which subreddits you scrape.</div>
 
@@ -391,11 +373,11 @@
       <span class="step-number">STEP 2</span>
       <h2>Configure subreddits and options</h2>
       <p>In the <strong>Input</strong> tab, click <strong>JSON editor</strong> at the top right of the panel. Paste a configuration object. The simplest run just needs <code class="code-inline">subreddits</code>:</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+      <div class="code-block"><pre>{
   "subreddits": ["programming", "python", "golang"],
   "sort": "hot",
   "maxResults": 200
-}</code></pre></div>
+}</pre></div>
       <p>The full list of input fields:</p>
       <ul>
         <li><code class="code-inline">subreddits</code> (string[]): subreddit names without the <code class="code-inline">r/</code> prefix. Default: <code class="code-inline">["programming"]</code>.</li>
@@ -457,12 +439,12 @@
         <li>Add a <strong>Google Sheets</strong> node (or any other destination) to write the results.</li>
         <li>Save and activate the workflow.</li>
       </ol>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "subreddits": ["SaaS", "startups", "Entrepreneur"],
   "sort": "new",
   "maxResults": 100,
   "includeComments": false
-}</code></pre></div>
+}</pre></div>
     <p>This workflow fires every morning, collects the 100 newest posts from three business subreddits, and appends the rows to a Google Sheet. At $0.075 per run (100 posts x $0.00075 + $0.005 startup), a daily run costs about $2.30 per month.</p>
     <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and includes the Apify node pre-installed. On self-hosted or n8n Desktop, install it once from <strong>Settings &rsaquo; Community Nodes</strong> with package name <code class="code-inline">@apify/n8n-nodes-apify</code>.</div>
 
@@ -471,11 +453,11 @@
     <p>Collect posts and comments from subreddits where your target customers spend time. Run the text through a sentiment classifier or LLM to identify recurring pain points, feature requests, and competitor mentions. The <code class="code-inline">text</code> field on both posts and comments contains the full body text, ready for analysis.</p>
     <h3>Brand and competitor monitoring</h3>
     <p>Use <code class="code-inline">searchQuery</code> mode to search for your brand name or a competitor's product across all of Reddit. Schedule the run daily using n8n so you get a fresh feed of mentions every morning, without checking Reddit manually.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "searchQuery": "nanoscrape OR apify scraper",
   "sort": "new",
   "maxResults": 50
-}</code></pre></div>
+}</pre></div>
     <h3>Content research and topic discovery</h3>
     <p>Scrape the hot or top posts from subreddits in your niche. The titles and scores give you a direct signal of what the community finds valuable right now. Combine with comment threads to understand the conversation depth behind each topic.</p>
     <h3>Lead generation from niche subreddits</h3>
@@ -489,10 +471,10 @@
         <li><strong>Per item:</strong> $0.00075 per post or comment returned. That works out to $0.75 per 1,000 items.</li>
         <li><strong>No monthly fees. No minimum spend.</strong></li>
       </ul>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">100 posts (no comments)             = $0.08  ($0.005 + $0.075)
+    <div class="code-block"><pre>100 posts (no comments)             = $0.08  ($0.005 + $0.075)
 100 posts + 500 comments            = $0.46  ($0.005 + $0.45)
 1,000 posts + 5,000 comments        = $4.51  ($0.005 + $4.50)
-Daily new-posts run, 100 posts/day  ~ $2.30/month</code></pre></div>
+Daily new-posts run, 100 posts/day  ~ $2.30/month</pre></div>
     <p>The Apify free tier includes $5 of usage credit each month. That covers about 6,600 Reddit items per month (posts or comments) at no charge. A typical market-research run of 200 posts with 10 comments each costs about $1.55.</p>
 
     <h2 id="faq">FAQ</h2>
@@ -546,29 +528,5 @@ Daily new-posts run, 100 posts/day  ~ $2.30/month</code></pre></div>
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
-  <!-- Prism.js syntax highlighting -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
-  <script>
-  // Copy-to-clipboard for all .copy-btn elements in code blocks
-  document.addEventListener('click', function(e) {
-    if (!e.target.matches('.copy-btn')) return;
-    var pre = e.target.parentElement.querySelector('pre');
-    if (!pre) return;
-    var btn = e.target;
-    navigator.clipboard.writeText(pre.textContent).then(function() {
-      var orig = btn.textContent;
-      btn.classList.add('copied'); btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
-    }).catch(function() {
-      btn.textContent = 'Copy failed';
-      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-    });
-  });
-  </script>
 </body>
 </html>

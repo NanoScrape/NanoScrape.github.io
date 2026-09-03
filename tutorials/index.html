@@ -1,263 +1,209 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Tutorials — Scraping, Automation, and No-Code Workflows | NanoScrape</title>
- <meta name="description" content="Step-by-step tutorials for scraping the web with NanoScrape actors. Free n8n, Make, and Zapier templates to send scraped data into Google Sheets, Airtable, and more.">
- <meta property="og:title" content="Tutorials | NanoScrape">
- <meta property="og:description" content="Step-by-step tutorials for scraping the web with NanoScrape actors. Free n8n, Make, and Zapier templates to send scraped data into Google Sheets, Airtable, and more.">
- <meta property="og:url" content="https://www.nanoscrape.com/tutorials/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/tutorials/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
- .hub { max-width: 1000px; margin: 0 auto; padding: 20px 20px 60px; }
- .hub h1 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: var(--white); }
- .hub .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; max-width: 700px; }
- .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
- .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px; transition: border-color 0.15s; display: flex; flex-direction: column; }
- .card:hover { border-color: var(--accent); text-decoration: none; }
- .card .tags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
- .tag { background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(0,71,255,0.3); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 999px; }
- .tag.actor { background: rgba(122,153,186,0.1); color: var(--muted); border-color: var(--border); }
- .card h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: var(--white); line-height: 1.35; }
- .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; flex-grow: 1; }
- .card .meta { color: var(--muted); font-size: 0.8rem; }
- .empty-state { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 40px 20px; border: 1px dashed var(--border); border-radius: 10px; }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorials — Scraping, Automation, and No-Code Workflows | NanoScrape</title>
+  <meta name="description" content="Step-by-step tutorials for scraping the web with NanoScrape actors. Free n8n, Make, and Zapier templates to send scraped data into Google Sheets, Airtable, and more.">
+  <meta property="og:title" content="Tutorials | NanoScrape">
+  <meta property="og:description" content="Step-by-step tutorials for scraping the web with NanoScrape actors. Free n8n, Make, and Zapier templates to send scraped data into Google Sheets, Airtable, and more.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .hub { max-width: 1000px; margin: 0 auto; padding: 20px 20px 60px; }
+    .hub h1 { font-size: 2rem; font-weight: 800; margin-bottom: 12px; color: var(--white); }
+    .hub .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 40px; max-width: 700px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 22px; transition: border-color 0.15s; display: flex; flex-direction: column; }
+    .card:hover { border-color: var(--accent); text-decoration: none; }
+    .card .tags { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+    .tag { background: var(--accent-glow); color: var(--accent); border: 1px solid rgba(0,71,255,0.3); font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; padding: 3px 9px; border-radius: 999px; }
+    .tag.actor { background: rgba(122,153,186,0.1); color: var(--muted); border-color: var(--border); }
+    .card h2 { font-size: 1.15rem; font-weight: 700; margin-bottom: 8px; color: var(--white); line-height: 1.35; }
+    .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 14px; flex-grow: 1; }
+    .card .meta { color: var(--muted); font-size: 0.8rem; }
+    .empty-state { text-align: center; color: var(--muted); font-size: 0.9rem; padding: 40px 20px; border: 1px dashed var(--border); border-radius: 10px; }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <main class="hub">
- <h1>Tutorials</h1>
- <p class="lead">Step-by-step guides for turning NanoScrape actors into working automations. Every tutorial comes with a free downloadable template for n8n, Make, or Zapier so you can go from zero to a live workflow in under ten minutes.</p>
+  <main class="hub">
+    <h1>Tutorials</h1>
+    <p class="lead">Step-by-step guides for turning NanoScrape actors into working automations. Every tutorial comes with a free downloadable template for n8n, Make, or Zapier so you can go from zero to a live workflow in under ten minutes.</p>
 
- <div class="grid">
- <a href="/tutorials/how-to-scrape-every-job-online/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">job-feed</span>
- </div>
- <h2>How to Scrape Every Job Online</h2>
- <p>There are 300+ job platforms globally. LinkedIn and Indeed index a slice. ATS scraping catches the rest. But no single tool covers all of them - until now. This guide maps every NanoScrape jobs scr...</p>
- <div class="meta">Beginner to Advanced</div>
- </a>
- <a href="/tutorials/how-to-scrape-workday-jobs/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">career-site-jobs-scraper</span>
- </div>
- <h2>How to Scrape Workday Jobs from Fortune 500 Companies</h2>
- <p>Workday runs the careers pages for 118 Fortune 500 companies - 23.6% of the F500. This guide shows how to scrape jobs from every one of them using the NanoScrape Career Site Jobs Scraper: verified ...</p>
- <div class="meta"></div>
- </a>
- <a href="/tutorials/how-to-scrape-phenom-jobs/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">career-site-jobs-scraper</span>
- </div>
- <h2>How to Scrape Phenom People Jobs from Fortune 500 Companies</h2>
- <p>Phenom People runs the careers pages for 41 Fortune 500 companies - 8.2% of the F500. This guide shows how to scrape jobs from every one of them using the NanoScrape Career Site Jobs Scraper: verif...</p>
- <div class="meta"></div>
- </a>
- <a href="/tutorials/how-to-scrape-oracle-recruiting-jobs/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">career-site-jobs-scraper</span>
- </div>
- <h2>How to Scrape Oracle Recruiting Cloud (ORC) Jobs from Fortune 500 Companies</h2>
- <p>Oracle Recruiting Cloud (ORC) runs the careers pages for 32 Fortune 500 companies - 6.4% of the F500. This guide shows how to scrape jobs from every one of them using the NanoScrape Career Site Job...</p>
- <div class="meta"></div>
- </a>
- <a href="/tutorials/how-to-scrape-icims-jobs/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">career-site-jobs-scraper</span>
- </div>
- <h2>How to Scrape iCIMS Jobs from Fortune 500 Companies</h2>
- <p>iCIMS runs the careers pages for 31 Fortune 500 companies - 6.2% of the F500. This guide shows how to scrape jobs from every one of them using the NanoScrape Career Site Jobs Scraper: verified care...</p>
- <div class="meta"></div>
- </a>
- <a href="/tutorials/how-to-scrape-talentbrew-jobs/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">career-site-jobs-scraper</span>
- </div>
- <h2>How to Scrape TalentBrew (TMP Worldwide) Jobs from Fortune 500 Companies</h2>
- <p>TalentBrew (TMP Worldwide) runs the careers pages for 22 Fortune 500 companies - 4.4% of the F500. This guide shows how to scrape jobs from every one of them using the NanoScrape Career Site Jobs S...</p>
- <div class="meta"></div>
- </a>
- <a href="/tutorials/google-search-scraper-seo-rank-tracking/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">google-search-scraper</span>
- </div>
- <h2>How to Build an SEO Rank Tracking Tool with Google Search Scraper</h2>
- <p>Dedicated rank trackers charge $50 to $200 a month for what is essentially a scheduled Google search with a position lookup. The NanoScrape Google Search Scraper on Apify does the same thing for $1...</p>
- <div class="meta">10 minutes · Beginner</div>
- </a>
- <a href="/tutorials/aliexpress-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">aliexpress-scraper</span>
- </div>
- <h2>How to Scrape AliExpress Product Listings for Dropshipping Research</h2>
- <p>AliExpress does not offer a public API for bulk product data. If you want prices, order counts, discount percentages, and images across hundreds of listings, you are left clicking through pages man...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/linkedin-company-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">linkedin-company-scraper</span>
- </div>
- <h2>How to Scrape LinkedIn Company Data Without a Login</h2>
- <p>Enrich any list of companies with LinkedIn data: employee count, industry, headquarters, description, specialties, website, and top employee profiles. No LinkedIn account, no cookies, no browser au...</p>
- <div class="meta">10 minutes · Beginner</div>
- </a>
- <a href="/tutorials/google-maps-scraper-business-leads-contact-data/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">google-maps-scraper</span>
- </div>
- <h2>How to Use a Google Maps Scraper to Extract Business Leads and Contact Data</h2>
- <p>The Google Maps Places API costs $17 per 1,000 results for the full details tier, requires a billing account, and gets expensive fast at scale. The NanoScrape Google Maps Scraper on Apify costs $1 ...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/tweet-analysis/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">twitter-x-profiles-tweets-scraper</span>
- </div>
- <h2>How to Collect and Analyze Tweets from Any Public Account</h2>
- <p>Grab tweet text, engagement counts (likes, retweets, views), author profile data, and hashtag entities from any public Twitter/X account. No developer account, no API key, no login. Each item comes...</p>
- <div class="meta">10 minutes · Beginner</div>
- </a>
- <a href="/tutorials/reddit-sentiment-analysis/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">reddit-scraper</span>
- </div>
- <h2>How to Collect Reddit Data for Sentiment Analysis Without the Reddit API</h2>
- <p>Reddit is one of the best sources of unfiltered public opinion. This tutorial shows how to collect posts and full comment threads from any public subreddit or search query, no Reddit account or API...</p>
- <div class="meta">10 minutes · Beginner</div>
- </a>
- <a href="/tutorials/scrape-instagram-follower-counts/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">instagram-scraper</span>
- </div>
- <h2>How to Scrape Instagram Follower Counts Without the Instagram API</h2>
- <p>Supply a list of Instagram handles and get back follower counts, following counts, post totals, verification badges, and business category for each account. Set maxPostsPerProfile to 0 to skip post...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/google-maps-api-alternative/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">google-maps-scraper</span>
- </div>
- <h2>How to Get Google Maps Data Without the Places API</h2>
- <p>The Google Maps Places API charges $17 per 1,000 results for the basic details tier, requires a Google Cloud billing account, and bills by the request with no free threshold beyond the initial cred...</p>
- <div class="meta">10 minutes · Beginner to intermediate</div>
- </a>
- <a href="/tutorials/scrape-booking-com-hotel-prices/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">booking-com-scraper</span>
- </div>
- <h2>How to Scrape Booking.com: Hotels, Prices, and Availability</h2>
- <p>Pull hotel listings from any Booking.com city search -- prices, star ratings, guest scores, GPS coordinates, cancellation policies, and discount badges -- without a browser or session cookies. The ...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/extract-emails-from-websites-bulk/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">website-contact-extractor</span>
- </div>
- <h2>How to Extract Emails and Contacts from Company Websites in Bulk</h2>
- <p>Tracking down a contact email for each company on a prospect list is slow work: open the site, click Contact or About, scroll, copy, switch tabs, repeat. The NanoScrape Website Contact Extractor au...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/walmart-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">walmart-scraper</span>
- </div>
- <h2>How to Scrape Walmart Product Data: Prices, Stock, and Reviews</h2>
- <p>A practical guide to pulling structured product data from Walmart.com using the NanoScrape Walmart Product Scraper on Apify. Provide product URLs or bare item IDs and get back price, list price, un...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/ebay-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">ebay-scraper</span>
- </div>
- <h2>How to Scrape eBay Product Listings Across 8 Marketplaces</h2>
- <p>A practical guide to pulling active eBay listings by keyword or URL using the NanoScrape eBay Product Scraper. Each result includes price, condition, listing type, bids, shipping cost, sold count, ...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/reddit-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">reddit-scraper</span>
- </div>
- <h2>How to Scrape Reddit: Posts, Comments, and User Profiles Without an API Key</h2>
- <p>Collect posts and full comment threads from any public subreddit, search query, or user profile. No Reddit account, no API key, no OAuth setup. Sort by hot, new, top, or rising. Configure comment d...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/instagram-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">instagram-scraper</span>
- </div>
- <h2>How to Scrape Instagram: Extract Public Profiles and Posts Without a Login</h2>
- <p>Supply a list of Instagram handles and get back structured JSON for each one: bio, follower and following counts, verification status, business category, external website, and up to 12 recent posts...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/youtube-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">youtube-scraper</span>
- </div>
- <h2>How to Scrape YouTube Videos, Channels, and Shorts Without an API Key</h2>
- <p>The YouTube Data API caps you at 10,000 quota units per day, forces you to register an OAuth app, and locks certain fields behind restricted access. This tutorial shows a different path: a pay-per-...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/google-maps-reviews-scraper/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag actor">google-maps-scraper</span>
- </div>
- <h2>Google Maps Reviews Scraper: Extract All Reviews at Scale</h2>
- <p>Pull every review for every business Google Maps returns for your query. Author name, star rating, publication date, review text, owner response. One opt-in flag on the NanoScrape scraper, priced a...</p>
- <div class="meta">5 minutes · Beginner</div>
- </a>
- <a href="/tutorials/scrape-google-maps-with-n8n/" class="card">
- <div class="tags">
- <span class="tag">en</span>
- <span class="tag">n8n</span>
- <span class="tag">Google Sheets</span>
- <span class="tag actor">google-maps-scraper</span>
- </div>
- <h2>How to Scrape Google Maps with n8n (and Send Results to Google Sheets)</h2>
- <p>A working n8n workflow that pulls Google Maps business data into a Google Sheet on demand or on a schedule. No code, no browser automation, no proxy configuration. The template is free, the actor b...</p>
- <div class="meta">10 minutes · Beginner</div>
- </a>
- </div>
- </main>
+    <div class="grid">
+      <a href="/tutorials/google-search-scraper-seo-rank-tracking/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">google-search-scraper</span>
+        </div>
+        <h2>How to Build an SEO Rank Tracking Tool with Google Search Scraper</h2>
+        <p>Dedicated rank trackers charge $50 to $200 a month for what is essentially a scheduled Google search with a position lookup. The NanoScrape Google Search Scraper on Apify does the same thing for $1...</p>
+        <div class="meta">10 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/aliexpress-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">aliexpress-scraper</span>
+        </div>
+        <h2>How to Scrape AliExpress Product Listings for Dropshipping Research</h2>
+        <p>AliExpress does not offer a public API for bulk product data. If you want prices, order counts, discount percentages, and images across hundreds of listings, you are left clicking through pages man...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/linkedin-company-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">linkedin-company-scraper</span>
+        </div>
+        <h2>How to Scrape LinkedIn Company Data Without a Login</h2>
+        <p>Enrich any list of companies with LinkedIn data: employee count, industry, headquarters, description, specialties, website, and top employee profiles. No LinkedIn account, no cookies, no browser au...</p>
+        <div class="meta">10 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/google-maps-scraper-business-leads-contact-data/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">google-maps-scraper</span>
+        </div>
+        <h2>How to Use a Google Maps Scraper to Extract Business Leads and Contact Data</h2>
+        <p>The Google Maps Places API costs $17 per 1,000 results for the full details tier, requires a billing account, and gets expensive fast at scale. The NanoScrape Google Maps Scraper on Apify costs $1 ...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/tweet-analysis/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">twitter-x-profiles-tweets-scraper</span>
+        </div>
+        <h2>How to Collect and Analyze Tweets from Any Public Account</h2>
+        <p>Grab tweet text, engagement counts (likes, retweets, views), author profile data, and hashtag entities from any public Twitter/X account. No developer account, no API key, no login. Each item comes...</p>
+        <div class="meta">10 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/reddit-sentiment-analysis/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">reddit-scraper</span>
+        </div>
+        <h2>How to Collect Reddit Data for Sentiment Analysis Without the Reddit API</h2>
+        <p>Reddit is one of the best sources of unfiltered public opinion. This tutorial shows how to collect posts and full comment threads from any public subreddit or search query, no Reddit account or API...</p>
+        <div class="meta">10 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/scrape-instagram-follower-counts/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">instagram-scraper</span>
+        </div>
+        <h2>How to Scrape Instagram Follower Counts Without the Instagram API</h2>
+        <p>Supply a list of Instagram handles and get back follower counts, following counts, post totals, verification badges, and business category for each account. Set maxPostsPerProfile to 0 to skip post...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/google-maps-api-alternative/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">google-maps-scraper</span>
+        </div>
+        <h2>How to Get Google Maps Data Without the Places API</h2>
+        <p>The Google Maps Places API charges $17 per 1,000 results for the basic details tier, requires a Google Cloud billing account, and bills by the request with no free threshold beyond the initial cred...</p>
+        <div class="meta">10 minutes · Beginner to intermediate</div>
+      </a>
+      <a href="/tutorials/scrape-booking-com-hotel-prices/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">booking-com-scraper</span>
+        </div>
+        <h2>How to Scrape Booking.com: Hotels, Prices, and Availability</h2>
+        <p>Pull hotel listings from any Booking.com city search -- prices, star ratings, guest scores, GPS coordinates, cancellation policies, and discount badges -- without a browser or session cookies. The ...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/extract-emails-from-websites-bulk/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">website-contact-extractor</span>
+        </div>
+        <h2>How to Extract Emails and Contacts from Company Websites in Bulk</h2>
+        <p>Tracking down a contact email for each company on a prospect list is slow work: open the site, click Contact or About, scroll, copy, switch tabs, repeat. The NanoScrape Website Contact Extractor au...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/walmart-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">walmart-scraper</span>
+        </div>
+        <h2>How to Scrape Walmart Product Data: Prices, Stock, and Reviews</h2>
+        <p>A practical guide to pulling structured product data from Walmart.com using the NanoScrape Walmart Product Scraper on Apify. Provide product URLs or bare item IDs and get back price, list price, un...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/ebay-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">ebay-scraper</span>
+        </div>
+        <h2>How to Scrape eBay Product Listings Across 8 Marketplaces</h2>
+        <p>A practical guide to pulling active eBay listings by keyword or URL using the NanoScrape eBay Product Scraper. Each result includes price, condition, listing type, bids, shipping cost, sold count, ...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/reddit-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">reddit-scraper</span>
+        </div>
+        <h2>How to Scrape Reddit: Posts, Comments, and User Profiles Without an API Key</h2>
+        <p>Collect posts and full comment threads from any public subreddit, search query, or user profile. No Reddit account, no API key, no OAuth setup. Sort by hot, new, top, or rising. Configure comment d...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/instagram-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">instagram-scraper</span>
+        </div>
+        <h2>How to Scrape Instagram: Extract Public Profiles and Posts Without a Login</h2>
+        <p>Supply a list of Instagram handles and get back structured JSON for each one: bio, follower and following counts, verification status, business category, external website, and up to 12 recent posts...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/youtube-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">youtube-scraper</span>
+        </div>
+        <h2>How to Scrape YouTube Videos, Channels, and Shorts Without an API Key</h2>
+        <p>The YouTube Data API caps you at 10,000 quota units per day, forces you to register an OAuth app, and locks certain fields behind restricted access. This tutorial shows a different path: a pay-per-...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/google-maps-reviews-scraper/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag actor">google-maps-scraper</span>
+        </div>
+        <h2>Google Maps Reviews Scraper: Extract All Reviews at Scale</h2>
+        <p>Pull every review for every business Google Maps returns for your query. Author name, star rating, publication date, review text, owner response. One opt-in flag on the NanoScrape scraper, priced a...</p>
+        <div class="meta">5 minutes · Beginner</div>
+      </a>
+      <a href="/tutorials/scrape-google-maps-with-n8n/" class="card">
+        <div class="tags">
+          <span class="tag">en</span>
+          <span class="tag">n8n</span>
+          <span class="tag">Google Sheets</span>
+          <span class="tag actor">google-maps-scraper</span>
+        </div>
+        <h2>How to Scrape Google Maps with n8n (and Send Results to Google Sheets)</h2>
+        <p>A working n8n workflow that pulls Google Maps business data into a Google Sheet on demand or on a schedule. No code, no browser automation, no proxy configuration. The template is free, the actor b...</p>
+        <div class="meta">10 minutes · Beginner</div>
+      </a>
+    </div>
+  </main>
 
- <div id="site-footer"></div>
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <div id="site-footer"></div>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

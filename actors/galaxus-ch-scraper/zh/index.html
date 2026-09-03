@@ -1,186 +1,186 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Galaxus.ch 爬虫:630 万+ 商品,$3/1k | NanoScrape</title>
- <meta name="description" content="抓取 Galaxus.ch,瑞士最大在线零售商,覆盖 3,000+ 类目下 630 万+ 商品。返回名称、品牌、CHF 价格、促销标志、评分、可用性、欧盟能效标签、图片和商品 URL。GraphQL 后端。每件 $0.003,无启动费。">
- <meta property="og:title" content="Galaxus.ch 爬虫:630 万+ 商品,$3/1k | NanoScrape">
- <meta property="og:description" content="通过 GraphQL 提取 Galaxus.ch 商品:价格、促销、库存、欧盟能效标签、评分。按结果付费。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Galaxus.ch Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Galaxus.ch 商品爬虫。瑞士最大在线零售商,覆盖 3,000+ 类目下 630 万件商品。GraphQL 后端提供稳定、结构化的结果。返回商品名称及含规格的完整名称、品牌、当前价格与原价(促销侦测)、CHF 币种、评分、评论数、可用性与库存状态、完整图片画廊、欧盟能效标签及 Galaxus.ch 商品 URL。",
- "offers": {
- "@type": "Offer",
- "price": "0.003",
- "priceCurrency": "USD",
- "description": "per product scraped"
- },
- "url": "https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galaxus.ch 爬虫:630 万+ 商品,$3/1k | NanoScrape</title>
+  <meta name="description" content="抓取 Galaxus.ch,瑞士最大在线零售商,覆盖 3,000+ 类目下 630 万+ 商品。返回名称、品牌、CHF 价格、促销标志、评分、可用性、欧盟能效标签、图片和商品 URL。GraphQL 后端。每件 $0.003,无启动费。">
+  <meta property="og:title" content="Galaxus.ch 爬虫:630 万+ 商品,$3/1k | NanoScrape">
+  <meta property="og:description" content="通过 GraphQL 提取 Galaxus.ch 商品:价格、促销、库存、欧盟能效标签、评分。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/galaxus-ch-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Galaxus.ch Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Galaxus.ch 商品爬虫。瑞士最大在线零售商,覆盖 3,000+ 类目下 630 万件商品。GraphQL 后端提供稳定、结构化的结果。返回商品名称及含规格的完整名称、品牌、当前价格与原价(促销侦测)、CHF 币种、评分、评论数、可用性与库存状态、完整图片画廊、欧盟能效标签及 Galaxus.ch 商品 URL。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per product scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Galaxus.ch 爬虫:630 万+ 商品,每 1,000 件 $3</h1>
- <p class="lead">抓取 Galaxus.ch,瑞士最大的在线零售商,覆盖 3,000+ 类目下 630 万+ 件商品。GraphQL 后端提供稳定、结构化的结果。粘贴一个类目 URL 或 slug,选择排序顺序,爬虫即可抽取商品名称、品牌、当前与原价(促销侦测)、CHF 币种、评分、评论数、可用性、库存标志、完整图片画廊、欧盟能效标签和商品 URL。无启动费,只为结果付费。</p>
+  <div class="detail">
+    <h1>Galaxus.ch 爬虫:630 万+ 商品,每 1,000 件 $3</h1>
+    <p class="lead">抓取 Galaxus.ch,瑞士最大的在线零售商,覆盖 3,000+ 类目下 630 万+ 件商品。GraphQL 后端提供稳定、结构化的结果。粘贴一个类目 URL 或 slug,选择排序顺序,爬虫即可抽取商品名称、品牌、当前与原价(促销侦测)、CHF 币种、评分、评论数、可用性、库存标志、完整图片画廊、欧盟能效标签和商品 URL。无启动费,只为结果付费。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/source?addFromActorId=nPQHtYT7CVc8cPvlE&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/source?addFromActorId=nPQHtYT7CVc8cPvlE&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">价格</div><div class="value">$0.003/件</div></div>
- <div class="spec"><div class="label">启动费</div><div class="value">无</div></div>
- <div class="spec"><div class="label">商品</div><div class="value">630 万+</div></div>
- <div class="spec"><div class="label">类目</div><div class="value">3,000+</div></div>
- <div class="spec"><div class="label">国家</div><div class="value">瑞士</div></div>
- <div class="spec"><div class="label">方法</div><div class="value">GraphQL</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.003/件</div></div>
+      <div class="spec"><div class="label">启动费</div><div class="value">无</div></div>
+      <div class="spec"><div class="label">商品</div><div class="value">630 万+</div></div>
+      <div class="spec"><div class="label">类目</div><div class="value">3,000+</div></div>
+      <div class="spec"><div class="label">国家</div><div class="value">瑞士</div></div>
+      <div class="spec"><div class="label">方法</div><div class="value">GraphQL</div></div>
+    </div>
 
- <h2 class="section-title">可抓取的字段</h2>
- <ul>
- <li><strong>身份:</strong> name, name_full(短标题与长标题), brand, source_url</li>
- <li><strong>价格:</strong> price, price_before(用于促销侦测), currency (CHF)</li>
- <li><strong>评分:</strong> rating, rating_count</li>
- <li><strong>可用性:</strong> availability(配送时长文本), in_stock 标志</li>
- <li><strong>媒体:</strong> image_url, image_urls(完整画廊)</li>
- <li><strong>能效标签:</strong> energy_rating(欧盟 A 至 G)</li>
- <li><strong>排序方式:</strong> BESTSELLER、PRICE_ASC、RELEVANCE</li>
- </ul>
+    <h2 class="section-title">可抓取的字段</h2>
+    <ul>
+      <li><strong>身份:</strong> name, name_full(短标题与长标题), brand, source_url</li>
+      <li><strong>价格:</strong> price, price_before(用于促销侦测), currency (CHF)</li>
+      <li><strong>评分:</strong> rating, rating_count</li>
+      <li><strong>可用性:</strong> availability(配送时长文本), in_stock 标志</li>
+      <li><strong>媒体:</strong> image_url, image_urls(完整画廊)</li>
+      <li><strong>能效标签:</strong> energy_rating(欧盟 A 至 G)</li>
+      <li><strong>排序方式:</strong> BESTSELLER、PRICE_ASC、RELEVANCE</li>
+    </ul>
 
- <h2 class="section-title">主要使用场景</h2>
- <ul>
- <li><strong>瑞士 dropshipping 调研。</strong> 按 rating 与 rating_count 筛选,发现需求强劲的成熟商品</li>
- <li><strong>竞品定价。</strong> 追踪 price 与 price_before,识别电子、家电与家居的促销品</li>
- <li><strong>供应商搜索。</strong> 按类目梳理品牌分布以启动 B2B 外联</li>
- <li><strong>商品 feed 增强。</strong> 抓取 image_urls 与 energy_rating,丰富面向瑞士的目录</li>
- <li><strong>欧盟能效合规。</strong> 按类目快照 energy_rating 分布,服务合规报告</li>
- <li><strong>库存监控。</strong> 追踪 in_stock 与 availability,安排采购与补货时点</li>
- </ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>瑞士 dropshipping 调研。</strong> 按 rating 与 rating_count 筛选,发现需求强劲的成熟商品</li>
+      <li><strong>竞品定价。</strong> 追踪 price 与 price_before,识别电子、家电与家居的促销品</li>
+      <li><strong>供应商搜索。</strong> 按类目梳理品牌分布以启动 B2B 外联</li>
+      <li><strong>商品 feed 增强。</strong> 抓取 image_urls 与 energy_rating,丰富面向瑞士的目录</li>
+      <li><strong>欧盟能效合规。</strong> 按类目快照 energy_rating 分布,服务合规报告</li>
+      <li><strong>库存监控。</strong> 追踪 in_stock 与 availability,安排采购与补货时点</li>
+    </ul>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~galaxus-ch-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "categoryUrl": "https://www.galaxus.ch/en/s1/producttype/smartphones-24",
- "maxResults": 100,
- "sortOrder": "BESTSELLER"
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "categoryUrl": "https://www.galaxus.ch/en/s1/producttype/smartphones-24",
+    "maxResults": 100,
+    "sortOrder": "BESTSELLER"
+  }'
 
 <span class="comment"># 或通过 MCP 与 AI 智能体配合使用:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/galaxus-ch-scraper</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier:</strong> 触发运行并将商品路由到价格看板</li>
- <li><strong>AI 智能体 (MCP):</strong> Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js:</strong> 通过 Apify SDK 编程访问</li>
- <li><strong>Google Sheets、Airtable:</strong> 类目列表输入,商品记录输出</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier:</strong> 触发运行并将商品路由到价格看板</li>
+      <li><strong>AI 智能体 (MCP):</strong> Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js:</strong> 通过 Apify SDK 编程访问</li>
+      <li><strong>Google Sheets、Airtable:</strong> 类目列表输入,商品记录输出</li>
+    </ul>
 
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>name</td><td>string</td><td>iPhone 16 Pro 256GB Titanium</td></tr>
- <tr><td>brand</td><td>string</td><td>Apple</td></tr>
- <tr><td>price</td><td>number</td><td>1199.00</td></tr>
- <tr><td>price_before</td><td>number</td><td>1299.00</td></tr>
- <tr><td>currency</td><td>string</td><td>CHF</td></tr>
- <tr><td>rating</td><td>number</td><td>4.6</td></tr>
- <tr><td>rating_count</td><td>integer</td><td>248</td></tr>
- <tr><td>in_stock</td><td>boolean</td><td>true</td></tr>
- <tr><td>availability</td><td>string</td><td>2 天送达</td></tr>
- <tr><td>energy_rating</td><td>string</td><td>A</td></tr>
- </table>
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>name</td><td>string</td><td>iPhone 16 Pro 256GB Titanium</td></tr>
+      <tr><td>brand</td><td>string</td><td>Apple</td></tr>
+      <tr><td>price</td><td>number</td><td>1199.00</td></tr>
+      <tr><td>price_before</td><td>number</td><td>1299.00</td></tr>
+      <tr><td>currency</td><td>string</td><td>CHF</td></tr>
+      <tr><td>rating</td><td>number</td><td>4.6</td></tr>
+      <tr><td>rating_count</td><td>integer</td><td>248</td></tr>
+      <tr><td>in_stock</td><td>boolean</td><td>true</td></tr>
+      <tr><td>availability</td><td>string</td><td>2 天送达</td></tr>
+      <tr><td>energy_rating</td><td>string</td><td>A</td></tr>
+    </table>
 
- <h2 class="section-title">相关爬虫</h2>
- <ul>
- <li><a href="/actors/geizhals-scraper/">Geizhals Scraper</a>:DACH 科技品类专家</li>
- <li><a href="/actors/idealo-de-scraper/">Idealo.de Scraper</a>:6 国比价</li>
- <li><a href="/actors/billiger-de-scraper/">Billiger.de Scraper</a>:德国比价</li>
- <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a>:跨市场参考</li>
- </ul>
+    <h2 class="section-title">相关爬虫</h2>
+    <ul>
+      <li><a href="/actors/geizhals-scraper/">Geizhals Scraper</a>:DACH 科技品类专家</li>
+      <li><a href="/actors/idealo-de-scraper/">Idealo.de Scraper</a>:6 国比价</li>
+      <li><a href="/actors/billiger-de-scraper/">Billiger.de Scraper</a>:德国比价</li>
+      <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a>:跨市场参考</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/source?addFromActorId=nPQHtYT7CVc8cPvlE&fpr=0khfbz" class="btn-secondary">立即试用(提供免费额度)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/galaxus-ch-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/nPQHtYT7CVc8cPvlE/source?addFromActorId=nPQHtYT7CVc8cPvlE&fpr=0khfbz" class="btn-secondary">立即试用(提供免费额度)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

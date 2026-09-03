@@ -1,165 +1,165 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Glassdoor Scraper : avis, emplois, salaires, entretiens | NanoScrape</title>
- <meta name="description" content="Extraire avis Glassdoor, emplois, salaires, expériences d'entretien, vue d'ensemble et avantages. Retourne note, approbation CEO, pour, contre, salaire par poste, difficulté d'entretien. Paiement au résultat.">
- <meta property="og:title" content="Glassdoor Scraper : avis + emplois + salaires | NanoScrape">
- <meta property="og:description" content="Extraire avis employeurs, emplois, salaires et données d'entretien depuis Glassdoor. 6 modes de scraping. Dès 0,003$ par résultat.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/glassdoor-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Glassdoor Scraper",
- "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
- "description": "Scraper d'avis employeurs Glassdoor. 6 modes : avis, emplois, salaires, entretiens, vue d'ensemble, avantages. Retourne note, approbation CEO, pour, contre, salaire par poste, difficulté d'entretien.",
- "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per result" },
- "url": "https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Glassdoor Scraper : avis, emplois, salaires, entretiens | NanoScrape</title>
+  <meta name="description" content="Extraire avis Glassdoor, emplois, salaires, expériences d'entretien, vue d'ensemble et avantages. Retourne note, approbation CEO, pour, contre, salaire par poste, difficulté d'entretien. Paiement au résultat.">
+  <meta property="og:title" content="Glassdoor Scraper : avis + emplois + salaires | NanoScrape">
+  <meta property="og:description" content="Extraire avis employeurs, emplois, salaires et données d'entretien depuis Glassdoor. 6 modes de scraping. Dès 0,003$ par résultat.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/glassdoor-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/glassdoor-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/glassdoor-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/glassdoor-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Glassdoor Scraper",
+    "applicationCategory": "DeveloperApplication", "operatingSystem": "Cloud (Apify)",
+    "description": "Scraper d'avis employeurs Glassdoor. 6 modes : avis, emplois, salaires, entretiens, vue d'ensemble, avantages. Retourne note, approbation CEO, pour, contre, salaire par poste, difficulté d'entretien.",
+    "offers": { "@type": "Offer", "price": "0.003", "priceCurrency": "USD", "description": "per result" },
+    "url": "https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Glassdoor Scraper : avis, emplois, salaires, entretiens</h1>
- <p class="lead">Extraire les données employeur depuis Glassdoor, la plus grande plateforme d'avis employeurs au monde avec une portée globale aux États-Unis, en Europe et au-delà. Six modes de scraping dans un actor : avis (note, pour, contre, statut d'emploi, poste, dates), emplois (postes ouverts, estimations salariales, descriptions), salaires (base et total par poste), entretiens (questions, difficulté, résultats), vue d'ensemble (note, taille, CEO, siège) et avantages (avantages employés notés). Nous extrayons uniquement les pages Glassdoor publiquement visibles, sans contournement de connexion.</p>
+  <div class="detail">
+    <h1>Glassdoor Scraper : avis, emplois, salaires, entretiens</h1>
+    <p class="lead">Extraire les données employeur depuis Glassdoor, la plus grande plateforme d'avis employeurs au monde avec une portée globale aux États-Unis, en Europe et au-delà. Six modes de scraping dans un actor : avis (note, pour, contre, statut d'emploi, poste, dates), emplois (postes ouverts, estimations salariales, descriptions), salaires (base et total par poste), entretiens (questions, difficulté, résultats), vue d'ensemble (note, taille, CEO, siège) et avantages (avantages employés notés). Nous extrayons uniquement les pages Glassdoor publiquement visibles, sans contournement de connexion.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">Essayer maintenant</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Tarif</div><div class="value">3$ pour 1 000 résultats</div></div>
- <div class="spec"><div class="label">Vue d'ensemble</div><div class="value">5$ pour 1 000 entreprises</div></div>
- <div class="spec"><div class="label">Couverture</div><div class="value">Global</div></div>
- <div class="spec"><div class="label">Modes</div><div class="value">6 (avis, emplois, ...)</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif</div><div class="value">3$ pour 1 000 résultats</div></div>
+      <div class="spec"><div class="label">Vue d'ensemble</div><div class="value">5$ pour 1 000 entreprises</div></div>
+      <div class="spec"><div class="label">Couverture</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Modes</div><div class="value">6 (avis, emplois, ...)</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
+    </div>
 
- <h2 class="section-title">Ce que vous pouvez extraire</h2>
- <ul>
- <li><strong>Avis :</strong> review_title, rating, pros, cons, job_title, employment_status, review_date, recommend, ceo_approval</li>
- <li><strong>Emplois :</strong> title, location, salary_estimate, description, posted_date</li>
- <li><strong>Salaires :</strong> job_title, base_pay, total_pay, count</li>
- <li><strong>Entretiens :</strong> questions, difficulté, résultat, processus</li>
- <li><strong>Vue d'ensemble :</strong> rating, taille, secteur, CEO, headquarters, année de création</li>
- <li><strong>Avantages :</strong> nom de l'avantage, note, description</li>
- </ul>
+    <h2 class="section-title">Ce que vous pouvez extraire</h2>
+    <ul>
+      <li><strong>Avis :</strong> review_title, rating, pros, cons, job_title, employment_status, review_date, recommend, ceo_approval</li>
+      <li><strong>Emplois :</strong> title, location, salary_estimate, description, posted_date</li>
+      <li><strong>Salaires :</strong> job_title, base_pay, total_pay, count</li>
+      <li><strong>Entretiens :</strong> questions, difficulté, résultat, processus</li>
+      <li><strong>Vue d'ensemble :</strong> rating, taille, secteur, CEO, headquarters, année de création</li>
+      <li><strong>Avantages :</strong> nom de l'avantage, note, description</li>
+    </ul>
 
- <h2 class="section-title">Principaux cas d'usage</h2>
- <ul>
- <li><strong>Benchmark RH.</strong> Suivre la rémunération concurrente, les notes et l'approbation CEO dans le temps pour orienter la stratégie de rétention</li>
- <li><strong>Intelligence concurrentielle.</strong> Cartographier les postes ouverts, les salaires et le sentiment des avis par concurrent et par marché</li>
- <li><strong>Due diligence M&amp;A.</strong> Tirer le sentiment employé agrégé, les signaux de leadership et les fourchettes salariales sur les cibles</li>
- <li><strong>Sourcing talent.</strong> Trouver les entreprises qui recrutent pour un poste précis dans une ville précise, avec estimations salariales intégrées</li>
- <li><strong>Recherche investisseur.</strong> Utiliser la dérive du volume d'avis et l'approbation CEO comme signaux proxy de santé organisationnelle</li>
- </ul>
+    <h2 class="section-title">Principaux cas d'usage</h2>
+    <ul>
+      <li><strong>Benchmark RH.</strong> Suivre la rémunération concurrente, les notes et l'approbation CEO dans le temps pour orienter la stratégie de rétention</li>
+      <li><strong>Intelligence concurrentielle.</strong> Cartographier les postes ouverts, les salaires et le sentiment des avis par concurrent et par marché</li>
+      <li><strong>Due diligence M&amp;A.</strong> Tirer le sentiment employé agrégé, les signaux de leadership et les fourchettes salariales sur les cibles</li>
+      <li><strong>Sourcing talent.</strong> Trouver les entreprises qui recrutent pour un poste précis dans une ville précise, avec estimations salariales intégrées</li>
+      <li><strong>Recherche investisseur.</strong> Utiliser la dérive du volume d'avis et l'approbation CEO comme signaux proxy de santé organisationnelle</li>
+    </ul>
 
- <h2 class="section-title">Exemple API</h2>
- <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
+    <h2 class="section-title">Exemple API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer un run via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~glassdoor-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "startUrls": ["https://www.glassdoor.com/Reviews/SAP-Reviews-E10471.htm"],
- "mode": "reviews",
- "maxResults": 100
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "startUrls": ["https://www.glassdoor.com/Reviews/SAP-Reviews-E10471.htm"],
+    "mode": "reviews",
+    "maxResults": 100
+  }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/glassdoor-scraper</span></pre></div>
 
- <h2 class="section-title">Intégrations</h2>
- <ul>
- <li><strong>n8n, Make, Zapier :</strong> déclencher les runs et traiter les avis ou salaires via webhook</li>
- <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
- <li><strong>BigQuery, Snowflake, Tableau :</strong> pousser les jeux de données avis et salaires dans les entrepôts analytics</li>
- </ul>
+    <h2 class="section-title">Intégrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> déclencher les runs et traiter les avis ou salaires via webhook</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+      <li><strong>BigQuery, Snowflake, Tableau :</strong> pousser les jeux de données avis et salaires dans les entrepôts analytics</li>
+    </ul>
 
- <h2 class="section-title">Champs de sortie (mode avis)</h2>
- <table class="compare-table">
- <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
- <tr><td>company_name</td><td>string</td><td>SAP</td></tr>
- <tr><td>review_title</td><td>string</td><td>Great work-life balance</td></tr>
- <tr><td>rating</td><td>integer</td><td>4</td></tr>
- <tr><td>pros</td><td>string</td><td>Flexible hours, good benefits</td></tr>
- <tr><td>cons</td><td>string</td><td>Slow decision making</td></tr>
- <tr><td>job_title</td><td>string</td><td>Software Engineer</td></tr>
- <tr><td>employment_status</td><td>string</td><td>Current Employee</td></tr>
- <tr><td>review_date</td><td>string</td><td>2026-03-15</td></tr>
- <tr><td>recommend</td><td>boolean</td><td>true</td></tr>
- <tr><td>ceo_approval</td><td>boolean</td><td>true</td></tr>
- </table>
+    <h2 class="section-title">Champs de sortie (mode avis)</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>company_name</td><td>string</td><td>SAP</td></tr>
+      <tr><td>review_title</td><td>string</td><td>Great work-life balance</td></tr>
+      <tr><td>rating</td><td>integer</td><td>4</td></tr>
+      <tr><td>pros</td><td>string</td><td>Flexible hours, good benefits</td></tr>
+      <tr><td>cons</td><td>string</td><td>Slow decision making</td></tr>
+      <tr><td>job_title</td><td>string</td><td>Software Engineer</td></tr>
+      <tr><td>employment_status</td><td>string</td><td>Current Employee</td></tr>
+      <tr><td>review_date</td><td>string</td><td>2026-03-15</td></tr>
+      <tr><td>recommend</td><td>boolean</td><td>true</td></tr>
+      <tr><td>ceo_approval</td><td>boolean</td><td>true</td></tr>
+    </table>
 
- <h2 class="section-title">Notes et limites</h2>
- <ul>
- <li><strong>Données publiques uniquement.</strong> Glassdoor a des clauses anti-scraping dans ses CGU. Nous extrayons uniquement les pages publiquement visibles d'avis, emplois et salaires, sans contournement de connexion, sans accès aux données privées</li>
- <li><strong>Proxy résidentiel recommandé.</strong> Glassdoor limite agressivement les IP datacenter. L'actor utilise par défaut Apify Résidentiel avec correspondance pays</li>
- <li><strong>Le format URL compte.</strong> Chaque mode nécessite le modèle d'URL Glassdoor correspondant (Reviews-E{id}, Jobs-E{id}, Salary-E{id}, Interview-Questions-E{id}, EI_IE{id})</li>
- </ul>
+    <h2 class="section-title">Notes et limites</h2>
+    <ul>
+      <li><strong>Données publiques uniquement.</strong> Glassdoor a des clauses anti-scraping dans ses CGU. Nous extrayons uniquement les pages publiquement visibles d'avis, emplois et salaires, sans contournement de connexion, sans accès aux données privées</li>
+      <li><strong>Proxy résidentiel recommandé.</strong> Glassdoor limite agressivement les IP datacenter. L'actor utilise par défaut Apify Résidentiel avec correspondance pays</li>
+      <li><strong>Le format URL compte.</strong> Chaque mode nécessite le modèle d'URL Glassdoor correspondant (Reviews-E{id}, Jobs-E{id}, Salary-E{id}, Interview-Questions-E{id}, EI_IE{id})</li>
+    </ul>
 
- <h2 class="section-title">Scrapers liés</h2>
- <ul>
- <li><a href="/actors/kununu-de-scraper/">Kununu Scraper</a> : avis employeurs DACH + salaires</li>
- <li><a href="/actors/trustpilot-scraper/">Trustpilot Scraper</a> : avis consommateurs mondiaux pour entreprises</li>
- <li><a href="/actors/linkedin-scraper/">LinkedIn Scraper</a> : champs de profil entreprise et effectif</li>
- <li><a href="/actors/indeed-scraper/">Indeed Scraper</a> : offres d'emploi en complément des emplois Glassdoor</li>
- </ul>
+    <h2 class="section-title">Scrapers liés</h2>
+    <ul>
+      <li><a href="/actors/kununu-de-scraper/">Kununu Scraper</a> : avis employeurs DACH + salaires</li>
+      <li><a href="/actors/trustpilot-scraper/">Trustpilot Scraper</a> : avis consommateurs mondiaux pour entreprises</li>
+      <li><a href="/actors/linkedin-scraper/">LinkedIn Scraper</a> : champs de profil entreprise et effectif</li>
+      <li><a href="/actors/indeed-scraper/">Indeed Scraper</a> : offres d'emploi en complément des emplois Glassdoor</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/glassdoor-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hrJPbHgcDqPpF7NaW/source?addFromActorId=hrJPbHgcDqPpF7NaW&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

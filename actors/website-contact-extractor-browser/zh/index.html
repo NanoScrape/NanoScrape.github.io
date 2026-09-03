@@ -1,164 +1,164 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>网站联系人提取器（浏览器版）：JS 渲染公司站点 | NanoScrape</title>
- <meta name="description" content="使用 Playwright + AI 从 JavaScript 渲染的公司站点（React、Vue、Angular SPA）提取联系人（姓名、职位、邮箱、电话）。防幻觉校验。从 HTTP-only 版本自动链式触发。$0.02/公司 + $0.010/联系人。">
- <meta property="og:title" content="网站联系人提取器（浏览器版）：JS 公司站点 | NanoScrape">
- <meta property="og:description" content="Playwright + LLM 联系人提取，用于 React/Vue/Angular 公司站点。团队、联系、关于、法律声明页。防幻觉校验。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {"@context":"https://schema.org","@type":"SoftwareApplication","name":"网站联系人提取器（浏览器版）：JS 渲染公司站点","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Playwright + LLM 联系人提取，用于 JavaScript 渲染的公司站点。输出与 HTTP-only Website Contact Extractor 相同，覆盖无 JS 时返回空 HTML 的 React/Vue/Angular SPA。两阶段渲染（主页面，再到详情页）。对源 HTML 进行防幻觉校验。","offers":{"@type":"Offer","price":"0.02","priceCurrency":"USD","description":"每公司，外加每联系人 $0.010"},"url":"https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
- </script>
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>网站联系人提取器（浏览器版）：JS 渲染公司站点 | NanoScrape</title>
+  <meta name="description" content="使用 Playwright + AI 从 JavaScript 渲染的公司站点（React、Vue、Angular SPA）提取联系人（姓名、职位、邮箱、电话）。防幻觉校验。从 HTTP-only 版本自动链式触发。$0.02/公司 + $0.010/联系人。">
+  <meta property="og:title" content="网站联系人提取器（浏览器版）：JS 公司站点 | NanoScrape">
+  <meta property="og:description" content="Playwright + LLM 联系人提取，用于 React/Vue/Angular 公司站点。团队、联系、关于、法律声明页。防幻觉校验。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/website-contact-extractor-browser/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"网站联系人提取器（浏览器版）：JS 渲染公司站点","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Playwright + LLM 联系人提取，用于 JavaScript 渲染的公司站点。输出与 HTTP-only Website Contact Extractor 相同，覆盖无 JS 时返回空 HTML 的 React/Vue/Angular SPA。两阶段渲染（主页面，再到详情页）。对源 HTML 进行防幻觉校验。","offers":{"@type":"Offer","price":"0.02","priceCurrency":"USD","description":"每公司，外加每联系人 $0.010"},"url":"https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #c8d1de; --muted: #6e7787; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>网站联系人提取器（浏览器版）：JS 重型公司站点</h1>
- <p class="lead">使用 Playwright 与 AI 从 JavaScript 渲染的公司站点（React、Vue、Angular SPA）提取联系人（姓名、职位、邮箱、电话）。HTTP-only Website Contact Extractor 的浏览器版伴侣：处理在无 JavaScript 执行时返回空 HTML 的团队、联系、关于和法律声明页。相同输入格式、相同输出，对源 HTML 进行防幻觉校验。当 HTTP actor 将公司标记为 js_rendering_suspected 时自动链式触发。</p>
+  <div class="detail">
+    <h1>网站联系人提取器（浏览器版）：JS 重型公司站点</h1>
+    <p class="lead">使用 Playwright 与 AI 从 JavaScript 渲染的公司站点（React、Vue、Angular SPA）提取联系人（姓名、职位、邮箱、电话）。HTTP-only Website Contact Extractor 的浏览器版伴侣：处理在无 JavaScript 执行时返回空 HTML 的团队、联系、关于和法律声明页。相同输入格式、相同输出，对源 HTML 进行防幻觉校验。当 HTTP actor 将公司标记为 js_rendering_suspected 时自动链式触发。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">定价</div><div class="value">$0.02/公司 + $0.010/联系人</div></div>
- <div class="spec"><div class="label">内存</div><div class="value">1024MB</div></div>
- <div class="spec"><div class="label">引擎</div><div class="value">Playwright + LLM</div></div>
- <div class="spec"><div class="label">校验</div><div class="value">防幻觉</div></div>
- <div class="spec"><div class="label">LLM 提供商</div><div class="value">Gemini, Groq, OpenRouter</div></div>
- <div class="spec"><div class="label">自动链式</div><div class="value">来自 HTTP actor</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">定价</div><div class="value">$0.02/公司 + $0.010/联系人</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">1024MB</div></div>
+      <div class="spec"><div class="label">引擎</div><div class="value">Playwright + LLM</div></div>
+      <div class="spec"><div class="label">校验</div><div class="value">防幻觉</div></div>
+      <div class="spec"><div class="label">LLM 提供商</div><div class="value">Gemini, Groq, OpenRouter</div></div>
+      <div class="spec"><div class="label">自动链式</div><div class="value">来自 HTTP actor</div></div>
+    </div>
 
- <h2 class="section-title">何时使用此 Actor</h2>
- <ul>
- <li><strong>JS 渲染团队/联系页：</strong>React、Vue、Angular 等 SPA 框架</li>
- <li><strong>空 HTML 响应：</strong>联系页客户端渲染的站点</li>
- <li><strong>HTTP actor 标记的公司：</strong>通过 enablePlaywrightFallback 自动链式</li>
- <li><strong>团队详情页：</strong>两阶段渲染捕获每位成员档案</li>
- <li><strong>防幻觉要求：</strong>联系人按源 HTML 校验，非 LLM 凭空生成</li>
- </ul>
+    <h2 class="section-title">何时使用此 Actor</h2>
+    <ul>
+      <li><strong>JS 渲染团队/联系页：</strong>React、Vue、Angular 等 SPA 框架</li>
+      <li><strong>空 HTML 响应：</strong>联系页客户端渲染的站点</li>
+      <li><strong>HTTP actor 标记的公司：</strong>通过 enablePlaywrightFallback 自动链式</li>
+      <li><strong>团队详情页：</strong>两阶段渲染捕获每位成员档案</li>
+      <li><strong>防幻觉要求：</strong>联系人按源 HTML 校验，非 LLM 凭空生成</li>
+    </ul>
 
- <h2 class="section-title">工作原理</h2>
- <ul>
- <li><strong>从主页发现链接</strong>（HTTP，快速）</li>
- <li><strong>第 1 阶段：</strong>Playwright 渲染主页面（团队、联系、关于、法律声明）</li>
- <li><strong>第 2 阶段：</strong>Playwright 渲染团队成员详情页</li>
- <li><strong>LLM 提取</strong>使用 Gemini Flash、Groq 或 OpenRouter</li>
- <li><strong>防幻觉校验</strong>对源 HTML 验证</li>
- <li><strong>跨公司去重</strong>过滤 LLM 凭空生成的姓名</li>
- </ul>
+    <h2 class="section-title">工作原理</h2>
+    <ul>
+      <li><strong>从主页发现链接</strong>（HTTP，快速）</li>
+      <li><strong>第 1 阶段：</strong>Playwright 渲染主页面（团队、联系、关于、法律声明）</li>
+      <li><strong>第 2 阶段：</strong>Playwright 渲染团队成员详情页</li>
+      <li><strong>LLM 提取</strong>使用 Gemini Flash、Groq 或 OpenRouter</li>
+      <li><strong>防幻觉校验</strong>对源 HTML 验证</li>
+      <li><strong>跨公司去重</strong>过滤 LLM 凭空生成的姓名</li>
+    </ul>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># Run the browser contact extractor on a list of JS-heavy company sites</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># Run the browser contact extractor on a list of JS-heavy company sites</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-contact-extractor-browser/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "companies": [
- {
- "company_id": "abc-123",
- "company_name": "TechCorp AG",
- "website_url": "https://techcorp.ch"
- }
- ],
- "llmProvider": "gemini",
- "geminiApiKey": "YOUR_GEMINI_KEY"
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "companies": [
+      {
+        "company_id": "abc-123",
+        "company_name": "TechCorp AG",
+        "website_url": "https://techcorp.ch"
+      }
+    ],
+    "llmProvider": "gemini",
+    "geminiApiKey": "YOUR_GEMINI_KEY"
+  }'
 
 <span class="comment"># Or use with AI agents via MCP:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/website-contact-extractor-browser</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier：</strong>触发运行并通过 webhook 处理联系人记录</li>
- <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
- <li><strong>CRM（HubSpot、Pipedrive、Salesforce）：</strong>将联系人直接推送至管线</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发运行并通过 webhook 处理联系人记录</li>
+      <li><strong>AI 智能体（MCP）：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>Apify SDK 用于程序化访问</li>
+      <li><strong>CRM（HubSpot、Pipedrive、Salesforce）：</strong>将联系人直接推送至管线</li>
+    </ul>
 
- <h2 class="section-title">输出示例</h2>
- <div class="code-block"><pre>{
- "company_id": "abc-123",
- "company_name": "TechCorp AG",
- "contacts": [
- {
- "name": "Max Mustermann",
- "position": "CTO",
- "email": "max@techcorp.ch",
- "confidence": 0.92
- }
- ],
- "status": "success",
- "browser_extraction": true
+    <h2 class="section-title">输出示例</h2>
+    <div class="code-block"><pre>{
+  "company_id": "abc-123",
+  "company_name": "TechCorp AG",
+  "contacts": [
+    {
+      "name": "Max Mustermann",
+      "position": "CTO",
+      "email": "max@techcorp.ch",
+      "confidence": 0.92
+    }
+  ],
+  "status": "success",
+  "browser_extraction": true
 }</pre></div>
 
- <h2 class="section-title">相关 Actor</h2>
- <ul>
- <li><a href="/actors/website-contact-extractor/zh/">Website Contact Extractor (HTTP)</a>：轻量 HTTP-only 版本，先运行此版</li>
- <li><a href="/actors/website-job-extractor-browser/zh/">Website Job Extractor (Browser)</a>：相同 Playwright 栈，输出为职位</li>
- <li><a href="/actors/url-contact-scraper/zh/">URL Contact Scraper</a>：大规模单次抓取联系人提取</li>
- </ul>
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/website-contact-extractor/zh/">Website Contact Extractor (HTTP)</a>：轻量 HTTP-only 版本，先运行此版</li>
+      <li><a href="/actors/website-job-extractor-browser/zh/">Website Job Extractor (Browser)</a>：相同 Playwright 栈，输出为职位</li>
+      <li><a href="/actors/url-contact-scraper/zh/">URL Contact Scraper</a>：大规模单次抓取联系人提取</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz" class="btn-primary">在 Apify 打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qyhwGclZi7LRryTto/source?addFromActorId=qyhwGclZi7LRryTto&fpr=0khfbz" class="btn-secondary">立即试用 (提供免费额度)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

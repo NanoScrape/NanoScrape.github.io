@@ -1,196 +1,196 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Immoweb.be Scraper : Immobilier belge, energie PEB | NanoScrape</title>
- <meta name="description" content="Extrayez les annonces immobilieres Immoweb.be en Flandre, Wallonie et Bruxelles. Retourne prix EUR, adresse, GPS, chambres, surface habitable, label energetique PEB (A++ a G), type de chauffage, annee de construction, telephone et email agence. EN, FR, NL. Sans connexion. A partir de 3$ pour 1 000 annonces.">
- <meta property="og:title" content="Immoweb.be Scraper : Immobilier belge | NanoScrape">
- <meta property="og:description" content="Extrayez les donnees immobilieres belges de Immoweb.be. Prix EUR, adresse, label PEB, region, telephone/email agence. Paiement au resultat. Sans connexion.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Immoweb.be Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Scraper immobilier belge pour Immoweb.be, portail numero 1 du pays avec plus de 300 000 annonces actives en Flandre, Wallonie et Bruxelles. Retourne prix EUR, price_per_m2, adresse complete avec code postal 4 chiffres, coordonnees GPS, chambres, salles de bain, surface habitable, taille du terrain, annee de construction, label energetique PEB (A++ a G), type de chauffage, etat de construction, contact agence (telephone, email, site) et galerie photo complete. Multilingue (EN, FR, NL). HTTP-only, 128MB RAM.",
- "offers": {
- "@type": "Offer",
- "price": "0.003",
- "priceCurrency": "USD",
- "description": "per listing scraped"
- },
- "url": "https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Immoweb.be Scraper : Immobilier belge, energie PEB | NanoScrape</title>
+  <meta name="description" content="Extrayez les annonces immobilieres Immoweb.be en Flandre, Wallonie et Bruxelles. Retourne prix EUR, adresse, GPS, chambres, surface habitable, label energetique PEB (A++ a G), type de chauffage, annee de construction, telephone et email agence. EN, FR, NL. Sans connexion. A partir de 3$ pour 1 000 annonces.">
+  <meta property="og:title" content="Immoweb.be Scraper : Immobilier belge | NanoScrape">
+  <meta property="og:description" content="Extrayez les donnees immobilieres belges de Immoweb.be. Prix EUR, adresse, label PEB, region, telephone/email agence. Paiement au resultat. Sans connexion.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immoweb-be-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Immoweb.be Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Scraper immobilier belge pour Immoweb.be, portail numero 1 du pays avec plus de 300 000 annonces actives en Flandre, Wallonie et Bruxelles. Retourne prix EUR, price_per_m2, adresse complete avec code postal 4 chiffres, coordonnees GPS, chambres, salles de bain, surface habitable, taille du terrain, annee de construction, label energetique PEB (A++ a G), type de chauffage, etat de construction, contact agence (telephone, email, site) et galerie photo complete. Multilingue (EN, FR, NL). HTTP-only, 128MB RAM.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Immoweb.be Scraper : immobilier belge, energie PEB, 3 regions</h1>
- <p class="lead">Extrayez chaque annonce immobiliere sur Immoweb.be, portail numero 1 en Belgique avec plus de 300 000 annonces actives en Flandre, Wallonie et Bruxelles. Retourne prix demande en EUR, price_per_m2, adresse complete avec code postal a 4 chiffres, coordonnees GPS, chambres, salles de bain, surface habitable, taille du terrain, annee de construction, label energetique PEB (A++ a G), type de chauffage, etat de construction, contact agence (telephone, email, site) et galerie photo complete en resolution d'origine. Extraction multilingue en EN, FR ou NL.</p>
+  <div class="detail">
+    <h1>Immoweb.be Scraper : immobilier belge, energie PEB, 3 regions</h1>
+    <p class="lead">Extrayez chaque annonce immobiliere sur Immoweb.be, portail numero 1 en Belgique avec plus de 300 000 annonces actives en Flandre, Wallonie et Bruxelles. Retourne prix demande en EUR, price_per_m2, adresse complete avec code postal a 4 chiffres, coordonnees GPS, chambres, salles de bain, surface habitable, taille du terrain, annee de construction, label energetique PEB (A++ a G), type de chauffage, etat de construction, contact agence (telephone, email, site) et galerie photo complete en resolution d'origine. Extraction multilingue en EN, FR ou NL.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Tarif</div><div class="value">3$ / 1k SERP</div></div>
- <div class="spec"><div class="label">Prix detail</div><div class="value">8$ / 1k</div></div>
- <div class="spec"><div class="label">Couverture</div><div class="value">Toute la Belgique</div></div>
- <div class="spec"><div class="label">Annonces actives</div><div class="value">300k+</div></div>
- <div class="spec"><div class="label">Langues</div><div class="value">EN / FR / NL</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif</div><div class="value">3$ / 1k SERP</div></div>
+      <div class="spec"><div class="label">Prix detail</div><div class="value">8$ / 1k</div></div>
+      <div class="spec"><div class="label">Couverture</div><div class="value">Toute la Belgique</div></div>
+      <div class="spec"><div class="label">Annonces actives</div><div class="value">300k+</div></div>
+      <div class="spec"><div class="label">Langues</div><div class="value">EN / FR / NL</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+    </div>
 
- <h2 class="section-title">Ce que vous pouvez extraire</h2>
- <ul>
- <li><strong>Prix :</strong> price (EUR demande ou loyer), price_per_m2, price_currency, transaction_type (vente ou location)</li>
- <li><strong>Configuration :</strong> bedrooms, bathrooms, rooms, living_area_m2, plot_size_m2, year_built, property_type</li>
- <li><strong>Localisation :</strong> address, street, city, postal_code (4 chiffres), region (Flandre, Wallonie, Bruxelles), latitude, longitude</li>
- <li><strong>Energie belge :</strong> energy_label (PEB A++ a G), heating_type (gaz, mazout, electrique, pompe a chaleur), construction_type</li>
- <li><strong>Caracteristiques :</strong> tableau (jardin, terrasse, piscine, ascenseur, cave, double vitrage, pompe a chaleur, photovoltaique)</li>
- <li><strong>Agent :</strong> agent_name, agent_phone, agent_email, agent_url, agency_name</li>
- <li><strong>Medias :</strong> property_image_url, photos (galerie complete, plus de 30 images), description complete</li>
- </ul>
+    <h2 class="section-title">Ce que vous pouvez extraire</h2>
+    <ul>
+      <li><strong>Prix :</strong> price (EUR demande ou loyer), price_per_m2, price_currency, transaction_type (vente ou location)</li>
+      <li><strong>Configuration :</strong> bedrooms, bathrooms, rooms, living_area_m2, plot_size_m2, year_built, property_type</li>
+      <li><strong>Localisation :</strong> address, street, city, postal_code (4 chiffres), region (Flandre, Wallonie, Bruxelles), latitude, longitude</li>
+      <li><strong>Energie belge :</strong> energy_label (PEB A++ a G), heating_type (gaz, mazout, electrique, pompe a chaleur), construction_type</li>
+      <li><strong>Caracteristiques :</strong> tableau (jardin, terrasse, piscine, ascenseur, cave, double vitrage, pompe a chaleur, photovoltaique)</li>
+      <li><strong>Agent :</strong> agent_name, agent_phone, agent_email, agent_url, agency_name</li>
+      <li><strong>Medias :</strong> property_image_url, photos (galerie complete, plus de 30 images), description complete</li>
+    </ul>
 
- <h2 class="section-title">Cas d'usage courants</h2>
- <ul>
- <li><strong>Analyse du marche belge.</strong> Suivre les prix demandes medians a Bruxelles, Anvers, Gand, Liege, Charleroi par region</li>
- <li><strong>Calcul de rendement locatif.</strong> Croiser les annonces a vendre et a louer du meme code postal pour calculer les taux de capitalisation</li>
- <li><strong>Valorisation PEB-aware.</strong> Calculer les delta prix-au-m2 par label PEB, critique pour la recherche pret vert et durabilite en Belgique</li>
- <li><strong>Prospection d'agences.</strong> Extraire chaque agence belge active avec telephone et email pour la prospection B2B</li>
- <li><strong>Outils de relocation.</strong> Alimenter une application multilingue grand public avec annonces EN, FR ou NL filtrees par region et equipements</li>
- </ul>
+    <h2 class="section-title">Cas d'usage courants</h2>
+    <ul>
+      <li><strong>Analyse du marche belge.</strong> Suivre les prix demandes medians a Bruxelles, Anvers, Gand, Liege, Charleroi par region</li>
+      <li><strong>Calcul de rendement locatif.</strong> Croiser les annonces a vendre et a louer du meme code postal pour calculer les taux de capitalisation</li>
+      <li><strong>Valorisation PEB-aware.</strong> Calculer les delta prix-au-m2 par label PEB, critique pour la recherche pret vert et durabilite en Belgique</li>
+      <li><strong>Prospection d'agences.</strong> Extraire chaque agence belge active avec telephone et email pour la prospection B2B</li>
+      <li><strong>Outils de relocation.</strong> Alimenter une application multilingue grand public avec annonces EN, FR ou NL filtrees par region et equipements</li>
+    </ul>
 
- <h2 class="section-title">Tarification</h2>
- <ul>
- <li><strong>Demarrage de l'actor :</strong> 0,001$ par execution</li>
- <li><strong>Resultat de recherche (SERP) :</strong> 0,003$ par annonce</li>
- <li><strong>Detail complet (description, toutes photos, PEB, contacts agent) :</strong> 0,008$ par annonce</li>
- </ul>
- <p style="color:var(--muted); margin-bottom: 24px;"><strong>Nouveau sur Apify ?</strong> Chaque compte recoit 5$ de credit plateforme mensuel gratuit, suffisant pour environ 1 600 annonces SERP ou 600 annonces enrichies en detail avant de vous engager a payer.</p>
+    <h2 class="section-title">Tarification</h2>
+    <ul>
+      <li><strong>Demarrage de l'actor :</strong> 0,001$ par execution</li>
+      <li><strong>Resultat de recherche (SERP) :</strong> 0,003$ par annonce</li>
+      <li><strong>Detail complet (description, toutes photos, PEB, contacts agent) :</strong> 0,008$ par annonce</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Nouveau sur Apify ?</strong> Chaque compte recoit 5$ de credit plateforme mensuel gratuit, suffisant pour environ 1 600 annonces SERP ou 600 annonces enrichies en detail avant de vous engager a payer.</p>
 
- <h2 class="section-title">Exemple d'API</h2>
- <div class="code-block"><pre><span class="comment"># Lancer une execution via l'API Apify</span>
+    <h2 class="section-title">Exemple d'API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une execution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~immoweb-be-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "propertyType": "house",
- "transactionType": "for-sale",
- "city": "brussels",
- "language": "fr",
- "maxResults": 100,
- "includeDetails": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "propertyType": "house",
+    "transactionType": "for-sale",
+    "city": "brussels",
+    "language": "fr",
+    "maxResults": 100,
+    "includeDetails": true
+  }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/immoweb-be-scraper</span></pre></div>
 
- <h2 class="section-title">Integrations</h2>
- <ul>
- <li><strong>n8n, Make, Zapier :</strong> declencher des executions et piper les annonces belges vers Google Sheets, Airtable ou votre CRM</li>
- <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js :</strong> SDK Apify pour l'acces programmatique</li>
- <li><strong>BI et entrepots :</strong> pousser le JSON vers BigQuery, Postgres, Snowflake pour les pipelines de valorisation PEB-aware</li>
- </ul>
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> declencher des executions et piper les annonces belges vers Google Sheets, Airtable ou votre CRM</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'acces programmatique</li>
+      <li><strong>BI et entrepots :</strong> pousser le JSON vers BigQuery, Postgres, Snowflake pour les pipelines de valorisation PEB-aware</li>
+    </ul>
 
- <h2 class="section-title">Champs de sortie (exemple)</h2>
- <table class="compare-table">
- <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
- <tr><td>title</td><td>string</td><td>VILLA 4F - 3CH - PISCINE</td></tr>
- <tr><td>price</td><td>number</td><td>549000 (EUR)</td></tr>
- <tr><td>price_per_m2</td><td>number</td><td>3155</td></tr>
- <tr><td>bedrooms</td><td>integer</td><td>3</td></tr>
- <tr><td>living_area_m2</td><td>number</td><td>174</td></tr>
- <tr><td>plot_size_m2</td><td>number</td><td>845</td></tr>
- <tr><td>postal_code</td><td>string</td><td>4450</td></tr>
- <tr><td>region</td><td>string</td><td>Wallonie</td></tr>
- <tr><td>energy_label</td><td>string</td><td>C</td></tr>
- <tr><td>agent_email</td><td>string</td><td>roufousse@example.be</td></tr>
- </table>
+    <h2 class="section-title">Champs de sortie (exemple)</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>title</td><td>string</td><td>VILLA 4F - 3CH - PISCINE</td></tr>
+      <tr><td>price</td><td>number</td><td>549000 (EUR)</td></tr>
+      <tr><td>price_per_m2</td><td>number</td><td>3155</td></tr>
+      <tr><td>bedrooms</td><td>integer</td><td>3</td></tr>
+      <tr><td>living_area_m2</td><td>number</td><td>174</td></tr>
+      <tr><td>plot_size_m2</td><td>number</td><td>845</td></tr>
+      <tr><td>postal_code</td><td>string</td><td>4450</td></tr>
+      <tr><td>region</td><td>string</td><td>Wallonie</td></tr>
+      <tr><td>energy_label</td><td>string</td><td>C</td></tr>
+      <tr><td>agent_email</td><td>string</td><td>roufousse@example.be</td></tr>
+    </table>
 
- <h2 class="section-title">Scrapers associes</h2>
- <ul>
- <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a> : immobilier suisse avec prix CHF et Minergie</li>
- <li><a href="/actors/immowelt-de-scraper/">Immowelt.de Scraper</a> : immobilier allemand avec Warmmiete et classe energetique</li>
- <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a> : portail numero 1 des Pays-Bas avec energielabel neerlandais</li>
- <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a> : immobilier finlandais avec configuration des pieces</li>
- </ul>
+    <h2 class="section-title">Scrapers associes</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a> : immobilier suisse avec prix CHF et Minergie</li>
+      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de Scraper</a> : immobilier allemand avec Warmmiete et classe energetique</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a> : portail numero 1 des Pays-Bas avec energielabel neerlandais</li>
+      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a> : immobilier finlandais avec configuration des pieces</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immoweb-be-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/L170pAvt9BaaTC81q/source?addFromActorId=L170pAvt9BaaTC81q&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

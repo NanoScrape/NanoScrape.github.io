@@ -1,193 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Oikotie.fi 抓取器：芬兰房产，每平米价 Neliohinta | NanoScrape</title>
- <meta name="description" content="抓取 Oikotie.fi 在 50+ 个芬兰城市的购房与租房房源。返回 EUR 价格、芬兰房间配置（3h+k+s）、平方米面积、建筑类型（Kerrostalo）、建造年份、楼层、街区、GPS、中介。无需登录。每 1,000 条 $3 起。">
- <meta property="og:title" content="Oikotie.fi 抓取器：芬兰房产 | NanoScrape">
- <meta property="og:description" content="从 Oikotie.fi 提取芬兰房产数据。EUR 价格、芬兰房间配置、Kerrostalo / Omakotitalo、街区、GPS、中介。按结果付费。无需登录。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Oikotie.fi Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "针对 Oikotie.fi 的芬兰房产抓取器，芬兰最大的房产门户（Sanoma 集团）。返回 EUR 价格（含 neliohinta 计算）、芬兰房间配置（如 3h+k+s）、平方米面积、土地面积、建筑类型（Kerrostalo、Rivitalo、Omakotitalo）、建造年份、楼层与总楼层数、含街区的地址、GPS 坐标、完整描述以及中介公司和经纪人姓名。支持 50+ 个芬兰城市。HTTP-only，128MB 内存。",
- "offers": {
- "@type": "Offer",
- "price": "0.003",
- "priceCurrency": "USD",
- "description": "per listing scraped"
- },
- "url": "https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oikotie.fi 抓取器：芬兰房产，每平米价 Neliohinta | NanoScrape</title>
+  <meta name="description" content="抓取 Oikotie.fi 在 50+ 个芬兰城市的购房与租房房源。返回 EUR 价格、芬兰房间配置（3h+k+s）、平方米面积、建筑类型（Kerrostalo）、建造年份、楼层、街区、GPS、中介。无需登录。每 1,000 条 $3 起。">
+  <meta property="og:title" content="Oikotie.fi 抓取器：芬兰房产 | NanoScrape">
+  <meta property="og:description" content="从 Oikotie.fi 提取芬兰房产数据。EUR 价格、芬兰房间配置、Kerrostalo / Omakotitalo、街区、GPS、中介。按结果付费。无需登录。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/oikotie-fi-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Oikotie.fi Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "针对 Oikotie.fi 的芬兰房产抓取器，芬兰最大的房产门户（Sanoma 集团）。返回 EUR 价格（含 neliohinta 计算）、芬兰房间配置（如 3h+k+s）、平方米面积、土地面积、建筑类型（Kerrostalo、Rivitalo、Omakotitalo）、建造年份、楼层与总楼层数、含街区的地址、GPS 坐标、完整描述以及中介公司和经纪人姓名。支持 50+ 个芬兰城市。HTTP-only，128MB 内存。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Oikotie.fi 抓取器：芬兰房产，Neliohinta，50+ 城市</h1>
- <p class="lead">抓取 Oikotie.fi 上的每条房源，由 Sanoma 集团运营的芬兰最大房产门户。返回 EUR 价格（按 price_numeric 除以 area_sqm 计算 neliohinta 每平米价）、芬兰房间配置字符串（如 3h+k+s 表示 3 房、厨房、桑拿）、平方米面积、独立屋的土地面积、建筑类型（Kerrostalo 公寓楼、Rivitalo 联排、Omakotitalo 独立屋、Paritalo 双拼）、建造年份、楼层与总楼层数、含街区（如 Toolo、Punavuori）的地址、GPS 坐标、完整芬兰语描述以及中介公司和经纪人姓名。支持 50+ 芬兰城市，包括赫尔辛基、坦佩雷、图尔库、奥卢、埃斯波、万塔。</p>
+  <div class="detail">
+    <h1>Oikotie.fi 抓取器：芬兰房产，Neliohinta，50+ 城市</h1>
+    <p class="lead">抓取 Oikotie.fi 上的每条房源，由 Sanoma 集团运营的芬兰最大房产门户。返回 EUR 价格（按 price_numeric 除以 area_sqm 计算 neliohinta 每平米价）、芬兰房间配置字符串（如 3h+k+s 表示 3 房、厨房、桑拿）、平方米面积、独立屋的土地面积、建筑类型（Kerrostalo 公寓楼、Rivitalo 联排、Omakotitalo 独立屋、Paritalo 双拼）、建造年份、楼层与总楼层数、含街区（如 Toolo、Punavuori）的地址、GPS 坐标、完整芬兰语描述以及中介公司和经纪人姓名。支持 50+ 芬兰城市，包括赫尔辛基、坦佩雷、图尔库、奥卢、埃斯波、万塔。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k 房源</div></div>
- <div class="spec"><div class="label">覆盖</div><div class="value">50+ 芬兰城市</div></div>
- <div class="spec"><div class="label">市场</div><div class="value">购房 + 租赁</div></div>
- <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">代理</div><div class="value">Apify 默认</div></div>
- <div class="spec"><div class="label">反爬虫</div><div class="value">HTTP-only</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$3 / 1k 房源</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">50+ 芬兰城市</div></div>
+      <div class="spec"><div class="label">市场</div><div class="value">购房 + 租赁</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 默认</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">HTTP-only</div></div>
+    </div>
 
- <h2 class="section-title">您可以抓取的内容</h2>
- <ul>
- <li><strong>价格：</strong>price（格式化 "295 000 EUR"）、price_numeric（解析为数字），便于精确计算 neliohinta（EUR/m2）</li>
- <li><strong>户型：</strong>rooms（整数）、room_configuration（芬兰格式如 "3h+k+s"）、area_sqm、lot_area_sqm、floor、floor_count</li>
- <li><strong>建筑：</strong>building_type（Kerrostalo 公寓楼、Rivitalo 联排、Omakotitalo 独立屋、Paritalo 双拼）、building_year</li>
- <li><strong>位置：</strong>address、city、district（如 Toolo、Kallio、Punavuori）、latitude、longitude</li>
- <li><strong>描述：</strong>完整芬兰语房源描述（kuvaus）</li>
- <li><strong>中介：</strong>broker_name（Kiinteistomaailma、OP Koti、Huoneistokeskus 等）、realtor_name（个人经纪人）</li>
- <li><strong>媒体：</strong>image_url</li>
- <li><strong>元数据：</strong>published_at、source_url、scraped_at</li>
- </ul>
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>价格：</strong>price（格式化 "295 000 EUR"）、price_numeric（解析为数字），便于精确计算 neliohinta（EUR/m2）</li>
+      <li><strong>户型：</strong>rooms（整数）、room_configuration（芬兰格式如 "3h+k+s"）、area_sqm、lot_area_sqm、floor、floor_count</li>
+      <li><strong>建筑：</strong>building_type（Kerrostalo 公寓楼、Rivitalo 联排、Omakotitalo 独立屋、Paritalo 双拼）、building_year</li>
+      <li><strong>位置：</strong>address、city、district（如 Toolo、Kallio、Punavuori）、latitude、longitude</li>
+      <li><strong>描述：</strong>完整芬兰语房源描述（kuvaus）</li>
+      <li><strong>中介：</strong>broker_name（Kiinteistomaailma、OP Koti、Huoneistokeskus 等）、realtor_name（个人经纪人）</li>
+      <li><strong>媒体：</strong>image_url</li>
+      <li><strong>元数据：</strong>published_at、source_url、scraped_at</li>
+    </ul>
 
- <h2 class="section-title">主要使用场景</h2>
- <ul>
- <li><strong>芬兰市场分析。</strong>追踪赫尔辛基、埃斯波、坦佩雷、图尔库以及其余 50+ 支持城市的 neliohinta（每平米 EUR）趋势</li>
- <li><strong>赫尔辛基街区价格图。</strong>按街区（Toolo、Punavuori、Kallio、Kruununhaka、Eira）构建 price_numeric/area_sqm 的热力图</li>
- <li><strong>Kerrostalo vs Omakotitalo 基准。</strong>按 building_year 队列对比公寓楼与独立屋的价格</li>
- <li><strong>投资筛选。</strong>在同一街区交叉购房与租赁市场，计算芬兰租金回报率</li>
- <li><strong>中介拓客。</strong>提取每条活跃的 Kiinteistomaailma、OP Koti、Huoneistokeskus 房源，用于 B2B 触达</li>
- </ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>芬兰市场分析。</strong>追踪赫尔辛基、埃斯波、坦佩雷、图尔库以及其余 50+ 支持城市的 neliohinta（每平米 EUR）趋势</li>
+      <li><strong>赫尔辛基街区价格图。</strong>按街区（Toolo、Punavuori、Kallio、Kruununhaka、Eira）构建 price_numeric/area_sqm 的热力图</li>
+      <li><strong>Kerrostalo vs Omakotitalo 基准。</strong>按 building_year 队列对比公寓楼与独立屋的价格</li>
+      <li><strong>投资筛选。</strong>在同一街区交叉购房与租赁市场，计算芬兰租金回报率</li>
+      <li><strong>中介拓客。</strong>提取每条活跃的 Kiinteistomaailma、OP Koti、Huoneistokeskus 房源，用于 B2B 触达</li>
+    </ul>
 
- <h2 class="section-title">定价</h2>
- <ul>
- <li><strong>Actor 启动：</strong>每次运行 $0.05（一次性）</li>
- <li><strong>抓取房源：</strong>每条结果 $0.003</li>
- </ul>
- <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度。扣除 $0.05 启动费后，相当于在付费之前可抓取约 1,650 条该 actor 的房源。</p>
+    <h2 class="section-title">定价</h2>
+    <ul>
+      <li><strong>Actor 启动：</strong>每次运行 $0.05（一次性）</li>
+      <li><strong>抓取房源：</strong>每条结果 $0.003</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Apify 新用户？</strong>每个账户均可获得 $5 免费月度平台额度。扣除 $0.05 启动费后，相当于在付费之前可抓取约 1,650 条该 actor 的房源。</p>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~oikotie-fi-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "category": "buy",
- "location": "Helsinki",
- "maxResults": 100
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "category": "buy",
+    "location": "Helsinki",
+    "maxResults": 100
+  }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/oikotie-fi-scraper</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier：</strong>触发运行并将芬兰房源送入 Google Sheets、Airtable 或您的 CRM</li>
- <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
- <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 neliohinta 看板</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>触发运行并将芬兰房源送入 Google Sheets、Airtable 或您的 CRM</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>BI 与数仓：</strong>将 JSON 推送到 BigQuery、Postgres、Snowflake 以支撑 neliohinta 看板</li>
+    </ul>
 
- <h2 class="section-title">输出字段（示例）</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>title</td><td>string</td><td>Kerrostalo, 3h+k+s, 75 m2</td></tr>
- <tr><td>address</td><td>string</td><td>Mannerheimintie 42 A 5</td></tr>
- <tr><td>district</td><td>string</td><td>Toolo</td></tr>
- <tr><td>price</td><td>string</td><td>295 000 EUR</td></tr>
- <tr><td>price_numeric</td><td>number</td><td>295000</td></tr>
- <tr><td>rooms</td><td>integer</td><td>3</td></tr>
- <tr><td>room_configuration</td><td>string</td><td>3h+k+s</td></tr>
- <tr><td>area_sqm</td><td>number</td><td>75.0</td></tr>
- <tr><td>building_type</td><td>string</td><td>Kerrostalo</td></tr>
- <tr><td>building_year</td><td>integer</td><td>1965</td></tr>
- </table>
+    <h2 class="section-title">输出字段（示例）</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>Kerrostalo, 3h+k+s, 75 m2</td></tr>
+      <tr><td>address</td><td>string</td><td>Mannerheimintie 42 A 5</td></tr>
+      <tr><td>district</td><td>string</td><td>Toolo</td></tr>
+      <tr><td>price</td><td>string</td><td>295 000 EUR</td></tr>
+      <tr><td>price_numeric</td><td>number</td><td>295000</td></tr>
+      <tr><td>rooms</td><td>integer</td><td>3</td></tr>
+      <tr><td>room_configuration</td><td>string</td><td>3h+k+s</td></tr>
+      <tr><td>area_sqm</td><td>number</td><td>75.0</td></tr>
+      <tr><td>building_type</td><td>string</td><td>Kerrostalo</td></tr>
+      <tr><td>building_year</td><td>integer</td><td>1965</td></tr>
+    </table>
 
- <h2 class="section-title">相关抓取器</h2>
- <ul>
- <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与 Minergie</li>
- <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含 Warmmiete 与能源等级</li>
- <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号门户，含 energielabel</li>
- <li><a href="/actors/immoweb-be-scraper/">Immoweb.be 抓取器</a>：比利时房产，含 PEB 能源标签</li>
- </ul>
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch 抓取器</a>：瑞士房产，含 CHF 价格与 Minergie</li>
+      <li><a href="/actors/immowelt-de-scraper/">Immowelt.de 抓取器</a>：德国房产，含 Warmmiete 与能源等级</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl 抓取器</a>：荷兰头号门户，含 energielabel</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be 抓取器</a>：比利时房产，含 PEB 能源标签</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/oikotie-fi-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/EKil5xePhou85oNGq/source?addFromActorId=EKil5xePhou85oNGq&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

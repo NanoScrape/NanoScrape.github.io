@@ -19,10 +19,6 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
 
-  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -232,22 +228,8 @@
     .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
     .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
 
-    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
-    .code-block { position: relative; margin: 12px 0 24px; }
-    .code-block > pre:not([class*="language-"]) {
-      margin: 0; padding: 18px 20px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
-      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
-    }
-    .code-block > pre[class*="language-"] {
-      margin: 0; border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
-    }
-    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
-    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
-    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 18px 20px; overflow-x: auto; margin: 12px 0 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; }
     .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
 
     .article figure { margin: 24px 0 28px; }
@@ -306,7 +288,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz" class="btn-primary">Open the Google Search Scraper on Apify</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz" class="btn-primary">Open the Google Search Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">See pricing details</a>
     </div>
 
@@ -330,7 +312,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">NanoScrape Google Search Scraper</a> runs on Apify and returns one dataset row per SERP page. Each row contains everything Google shows for that query: the ordered list of organic results with their positions and URLs, paid ads, People Also Ask questions (with pre-rendered answers when Google provides them), related search suggestions, the featured snippet, and the full AI Overview text with source citations.</p>
+    <p>The <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">NanoScrape Google Search Scraper</a> runs on Apify and returns one dataset row per SERP page. Each row contains everything Google shows for that query: the ordered list of organic results with their positions and URLs, paid ads, People Also Ask questions (with pre-rendered answers when Google provides them), related search suggestions, the featured snippet, and the full AI Overview text with source citations.</p>
     <ul>
         <li><strong>Organic results with position</strong>: each result includes its title, URL, description, display URL, bolded keywords, position number, and source site name. Position 1 is the top result.</li>
         <li><strong>AI Overview body and sources</strong>: the full synthesized AI answer text and the citation cards Google credits, each with title, URL, and excerpt.</li>
@@ -357,7 +339,7 @@
         <li><strong>Keyword Ideas (live)</strong>: <code class="code-inline">/dataforseo_labs/google/keyword_ideas/live</code>. Pass a seed keyword and get back related queries ranked by volume. Great for discovering which long-tail variants your competitors are ranking for.</li>
       </ul>
     <p>Here is a minimal example that takes a seed keyword, fetches related ideas, and filters to those with at least 100 monthly searches:</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const response = await fetch(
+    <div class="code-block"><pre>const response = await fetch(
   'https://api.dataforseo.com/v3/dataforseo_labs/google/keyword_ideas/live',
   {
     method: 'POST',
@@ -383,7 +365,7 @@ const trackable = ideas
   .sort((a, b) =&gt; b.volume - a.volume);
 
 console.log('Keywords to track:', trackable);
-// Pass trackable.map(k =&gt; k.keyword) directly into the scraper's queries field</code></pre></div>
+// Pass trackable.map(k =&gt; k.keyword) directly into the scraper's queries field</pre></div>
     <div class="callout tip"><strong>DataForSEO has a free trial with no credit card required.</strong> You get $1 of API credit to test with, enough to look up volume for several hundred keywords. Sign up at <a target="_blank" rel="noopener" href="https://dataforseo.com/?aff=320516">dataforseo.com</a> and use the credentials you receive as the <code class="code-inline">YOUR_LOGIN:YOUR_PASSWORD</code> values above.</div>
     <p>Once you have filtered your list down to keywords with meaningful volume, paste them into the scraper's <code class="code-inline">queries</code> field in Step 3. This way every run measures positions for queries that real users are actually typing.</p>
 
@@ -391,7 +373,7 @@ console.log('Keywords to track:', trackable);
       <span class="step-number">STEP 1</span>
       <h2>Create a free Apify account</h2>
       <ol>
-        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
+        <li>Open <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">the actor page on Apify</a> and click <strong>Try for free</strong>.</li>
         <li>Sign up with Google or email. The form takes about a minute.</li>
         <li>You land on the actor's input form inside Apify Console. The $5 free credit is added automatically.</li>
       </ol>
@@ -412,7 +394,7 @@ console.log('Keywords to track:', trackable);
       <span class="step-number">STEP 3</span>
       <h2>Build your keyword list</h2>
       <p>Click <strong>Input</strong> in the left sidebar. Enter one keyword per line in the <strong>Search Queries</strong> field. Each keyword runs as a separate Google search and produces one dataset row per SERP page.</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+      <div class="code-block"><pre>{
   "queries": [
     "best seo rank tracking tool",
     "google search position checker",
@@ -422,7 +404,7 @@ console.log('Keywords to track:', trackable);
   "languageCode": "en",
   "resultsPerPage": 10,
   "maxPagesPerQuery": 1
-}</code></pre></div>
+}</pre></div>
       <p>Key input settings for rank tracking:</p>
       <ul>
         <li><code class="code-inline">queries</code>: your keyword list. Use the exact phrasing your audience types into Google.</li>
@@ -455,7 +437,7 @@ console.log('Keywords to track:', trackable);
       <figcaption>The run log. Each line is one SERP page fetched. The status bar shows the total item count when finished.</figcaption>
     </figure>
       <p>To automate the position lookup, export the dataset as JSON and filter with a script. Here is a minimal example that prints your domain's rank for each keyword:</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const data = require('./dataset.json');
+      <div class="code-block"><pre>const data = require('./dataset.json');
 const myDomain = 'yoursite.com';
 
 for (const row of data) {
@@ -463,7 +445,7 @@ for (const row of data) {
   const match = row.organicResults.find(r =&gt; r.url.includes(myDomain));
   const rank = match ? match.position : 'not in top results';
   console.log(`${keyword}: position ${rank}`);
-}</code></pre></div>
+}</pre></div>
       <div class="callout">If your domain is not in the top 10 results for a keyword, it means you are not on page 1. Increase <code class="code-inline">maxPagesPerQuery</code> to 3 to also check positions 11 to 30.</div>
     </div>
 
@@ -479,9 +461,9 @@ for (const row of data) {
         <li>Click <strong>Save</strong>. Apify runs the actor automatically at each scheduled time and stores each run's dataset separately.</li>
       </ol>
       <p>Each scheduled run produces its own dataset with a timestamp in the run metadata. To compare rankings across dates, fetch multiple datasets by run date via the Apify API:</p>
-      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash"># List recent runs with their dataset IDs
+      <div class="code-block"><pre># List recent runs with their dataset IDs
 curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-search-scraper/runs?token=YOUR_TOKEN&amp;limit=7" \
-  | jq '.data.items[] | {startedAt, defaultDatasetId, status}'</code></pre></div>
+  | jq '.data.items[] | {startedAt, defaultDatasetId, status}'</pre></div>
       <div class="callout tip">For 100 keywords tracked daily, you use 100 SERP page credits per day (1 page per keyword). At $0.0015 per page that is $0.15/day or about $4.50/month, well under the free tier's $5 monthly credit.</div>
     </div>
 
@@ -489,31 +471,31 @@ curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-search-scra
     <p>The actor supports two patterns for more advanced rank tracking scenarios.</p>
     <p><strong>Multi-country tracking</strong></p>
     <p>To track the same keyword in multiple countries, run the actor once per country with the appropriate <code class="code-inline">countryCode</code> and <code class="code-inline">languageCode</code>. You can also pass raw Google search URLs via <code class="code-inline">searchUrls</code> to preserve any additional filters or parameters already in the URL:</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "searchUrls": [
     "https://www.google.co.uk/search?q=project+management+software&amp;gl=gb&amp;hl=en",
     "https://www.google.de/search?q=project+management+software&amp;gl=de&amp;hl=de"
   ],
   "resultsPerPage": 10,
   "maxPagesPerQuery": 1
-}</code></pre></div>
+}</pre></div>
     <p><strong>Competitive tracking</strong></p>
     <p>To monitor competitors, use the same approach as for your own domain. Run the actor against your target keywords, then search the <code class="code-inline">organicResults</code> for each competitor's domain. You can also enable <code class="code-inline">extractAds</code> to see which competitors are bidding on paid placements for the same queries:</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+    <div class="code-block"><pre>{
   "queries": [
     "best project management software",
     "project management tool for teams"
   ],
   "countryCode": "us",
   "extractAds": true
-}</code></pre></div>
+}</pre></div>
     <p>With <code class="code-inline">extractAds: true</code>, the actor runs each query with rotated proxy sessions to maximize ad discovery. Paid results appear in <code class="code-inline">paidResults[]</code> (text ads) and <code class="code-inline">paidProducts[]</code> (shopping carousel cards).</p>
 
     <h2 id="mcp">Connect to AI agents via MCP</h2>
     <p>The actor works as a Model Context Protocol (MCP) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex):</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/google-search-scraper</code></pre></div>
+    <div class="code-block"><pre>https://mcp.apify.com?tools=santamaria-automations/google-search-scraper</pre></div>
     <p>Once connected, prompt your AI agent in plain English and it calls the actor with the right parameters:</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Check where our domain example.com ranks for 'project management software' and 'team collaboration tool' in the US.</code></pre></div>
+    <div class="code-block"><pre>Check where our domain example.com ranks for 'project management software' and 'team collaboration tool' in the US.</pre></div>
     <p>Clients that support dynamic tool discovery receive the full input schema automatically, so the model fills in all fields without you specifying parameters manually.</p>
 
     <h2 id="fields">Key input and output fields</h2>
@@ -590,12 +572,12 @@ curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-search-scra
       <li><a href="/actors/google-search-scraper/">Google Search Scraper actor page</a>: Full specs, all input parameters, output field reference, and pricing details.</li>
       <li><a href="/tutorials/reddit-sentiment-analysis/">Reddit Sentiment Analysis</a>: Track how people talk about your brand or competitors on Reddit alongside your SERP data.</li>
       <li><a href="/tutorials/extract-emails-from-websites-bulk/">Extract Emails from Websites in Bulk</a>: After pulling ranking URLs from SERPs, use this to extract contact emails from those sites for lead generation.</li>
-      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">Google Search Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz">Google Search Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Instagram, Reddit, YouTube, Amazon, and more.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz" class="btn-primary">Open the Google Search Scraper on Apify</a>
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-search-scraper?fpr=0khfbz" class="btn-primary">Open the Google Search Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>
@@ -604,29 +586,5 @@ curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-search-scra
 
   <script src="/components.js?v=6"></script>
   <script src="/search.js?v=6"></script>
-  <!-- Prism.js syntax highlighting -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
-  <script>
-  // Copy-to-clipboard for all .copy-btn elements in code blocks
-  document.addEventListener('click', function(e) {
-    if (!e.target.matches('.copy-btn')) return;
-    var pre = e.target.parentElement.querySelector('pre');
-    if (!pre) return;
-    var btn = e.target;
-    navigator.clipboard.writeText(pre.textContent).then(function() {
-      var orig = btn.textContent;
-      btn.classList.add('copied'); btn.textContent = 'Copied!';
-      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
-    }).catch(function() {
-      btn.textContent = 'Copy failed';
-      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-    });
-  });
-  </script>
 </body>
 </html>

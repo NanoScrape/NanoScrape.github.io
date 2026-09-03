@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pracuj.pl Scraper - Poland Jobs with PLN Salary, $3.00 / 1,000 | NanoScrape</title>
-  <meta name="description" content="Scrape 80,000+ job listings from Pracuj.pl, Poland&#39;s #1 job board. Returns structured PLN salary, requirements, responsibilities, benefits arrays, work mode, apply URL, and optional employer profile. $3.00 per 1,000 jobs.">
-  <meta property="og:title" content="Pracuj.pl Scraper - Poland Jobs with PLN Salary, $3.00 / 1,000 | NanoScrape">
-  <meta property="og:description" content="Scrape 80,000+ job listings from Pracuj.pl, Poland&#39;s #1 job board. Returns structured PLN salary, requirements, responsibilities, benefits arrays, work mode, apply URL, and optional employer profile. $3.00 per 1,000 jobs.">
+  <title>Pracuj.pl Job Scraper - Poland Jobs — $3.00 / 1,000 | NanoScrape</title>
+  <meta name="description" content="Scrape job listings from Pracuj.pl, Poland&#39;s #1 job board. Extract jobs with salary ranges (PLN), company profiles, requirements, benefits, and application URLs. Supports multiple queries, employment types, and remote filtering.">
+  <meta property="og:title" content="Pracuj.pl Job Scraper - Poland Jobs — $3.00 / 1,000 | NanoScrape">
+  <meta property="og:description" content="Scrape job listings from Pracuj.pl, Poland&#39;s #1 job board. Extract jobs with salary ranges (PLN), company profiles, requirements, benefits, and application URLs. Supports multiple queries, employment types, and remote filtering.">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/pracuj-pl-scraper/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -25,12 +25,12 @@
   "name": "Pracuj.pl Job Scraper - Poland Jobs",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Cloud (Apify)",
-  "description": "Scrape 80,000+ job listings from Pracuj.pl, Poland's #1 job board. Returns structured PLN salary, requirements, responsibilities, and benefits arrays, work mode, apply URL, and optional employer profile enrichment. $3.00 per 1,000 SERP results.",
+  "description": "Scrape job listings from Pracuj.pl, Poland's #1 job board. Extract jobs with salary ranges (PLN), company profiles, requirements, benefits, and application URLs. Supports multiple queries, employment types, and remote filtering.",
   "offers": {
     "@type": "Offer",
-    "price": "0.003",
+    "price": "0.00300",
     "priceCurrency": "USD",
-    "description": "per SERP job result ($3.00 per 1,000)"
+    "description": "per job listing scraped ($3.00 per 1,000)"
   },
   "url": "https://apify.com/santamaria-automations/pracuj-pl-scraper?fpr=0khfbz",
   "author": {
@@ -40,10 +40,6 @@
   }
 }
   </script>
-
-  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 
   <style>
     :root {
@@ -76,35 +72,8 @@
     .detail li { margin-bottom: 8px; color: var(--muted); }
     .detail li strong { color: var(--white); }
 
-    /* .code-block is just a positioning wrapper — Prism (prism-tomorrow) or the fallback <pre> draws the box */
-    .code-block { position: relative; margin-bottom: 24px; }
-    /* Fallback pre (no Prism language class) — matches site surface */
-    .code-block > pre:not([class*="language-"]) {
-      margin: 0; padding: 20px;
-      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
-      color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto;
-    }
-    /* Prism-styled pre — override margin/radius/border to match site, keep prism-tomorrow bg + tokens */
-    .code-block > pre[class*="language-"] {
-      margin: 0; border: 1px solid var(--border); border-radius: 8px;
-      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5;
-    }
-    .code-block code[class*="language-"] {
-      font-family: inherit; font-size: inherit; text-shadow: none;
-    }
-    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
-    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
-    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
-    .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
-    .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
-    .tab-btn:hover { color: var(--text); }
-    .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
-    .lang-panel { display: none; }
-    .lang-panel.is-active { display: block; }
-    .detail ol { padding-left: 24px; margin-bottom: 24px; }
-    .detail ol li { margin-bottom: 8px; color: var(--muted); }
-    .detail ol li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
     .code-block .comment { color: var(--muted); }
 
     .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
@@ -128,74 +97,25 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Pracuj.pl Scraper: Poland&#39;s #1 Job Board with PLN Salary and Full Data Arrays</h1>
-    <p class="lead">Scrape 80,000+ job listings from Pracuj.pl, Poland's largest job board, with 20,000+ employer profiles. Get structured PLN salary ranges, full requirements and responsibilities arrays, benefits lists, work mode (remote/hybrid/stationary), apply URLs, and optional employer profile enrichment. $3.00 per 1,000 SERP results.</p>
+    <h1>Pracuj.pl Job Scraper - Poland Jobs</h1>
+    <p class="lead">Scrape job listings from Pracuj.pl, Poland's #1 job board. Extract jobs with salary ranges (PLN), company profiles, requirements, benefits, and application URLs. Supports multiple queries, employment types, and remote filtering.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pracuj-pl-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="/tutorials/pracuj-pl-scraper/" class="btn-secondary">Read the tutorial</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000 SERP; $5.00 / 1,000 with full details</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
-      <div class="spec"><div class="label">Auth</div><div class="value">None required</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">Poland nationwide, 80,000+ active listings</div></div>
-      <div class="spec"><div class="label">Runtime type</div><div class="value">HTTP-only, no browser</div></div>
     </div>
-    <h2 class="section-title">What You Get</h2>
+    <h2 class="section-title">What You Can Scrape</h2>
     <ul>
-      <li><strong>salary_min / salary_max / salary_currency / salary_period</strong> — structured PLN salary (or B2B hourly) parsed from Pracuj's native salary display, e.g. '110-140 zl netto (+ VAT) / godz.'</li>
-      <li><strong>requirements</strong> — array of mandatory and optional skills/technologies extracted from the structured job form</li>
-      <li><strong>responsibilities</strong> — array of day-to-day duties extracted as clean strings, ready for NLP or model features</li>
-      <li><strong>company_benefits</strong> — perks array: health insurance, sports card, remote work, pension, and more</li>
-      <li><strong>work_mode / employment_type</strong> — Praca zdalna / Hybrid / Stacjonarna + Kontrakt B2B / Umowa o prace normalized</li>
-      <li><strong>company_url / company_about</strong> — optional employer Pracuj.pl profile with About text and other open roles (set <code>includeCompanyDetails: true</code>)</li>
-      <li><strong>apply_url</strong> — direct application link from the detail page</li>
-      <li><strong>region / city</strong> — Polish voivodeship and city for geo-routing</li>
-    </ul>
-    <h2 class="section-title">Input Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;searchQueries&quot;: [&quot;Java Developer&quot;, &quot;Backend Engineer&quot;],
-  &quot;location&quot;: &quot;Warszawa&quot;,
-  &quot;remote&quot;: false,
-  &quot;employmentType&quot;: &quot;b2b&quot;,
-  &quot;maxResultsPerQuery&quot;: 100,
-  &quot;includeJobDetails&quot;: true,
-  &quot;includeCompanyDetails&quot;: true
-}</code></pre></div>
-    <h2 class="section-title">Output Example</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;id&quot;: &quot;1004762431&quot;,
-  &quot;title&quot;: &quot;Senior Java Developer&quot;,
-  &quot;company&quot;: &quot;Scalo Sp. z o.o.&quot;,
-  &quot;company_url&quot;: &quot;https://pracodawcy.pracuj.pl/company/20062259&quot;,
-  &quot;location&quot;: &quot;Katowice&quot;,
-  &quot;city&quot;: &quot;Katowice&quot;,
-  &quot;region&quot;: &quot;slaskie&quot;,
-  &quot;country&quot;: &quot;PL&quot;,
-  &quot;salary_min&quot;: 110,
-  &quot;salary_max&quot;: 140,
-  &quot;salary_currency&quot;: &quot;PLN&quot;,
-  &quot;salary_period&quot;: &quot;hour&quot;,
-  &quot;salary_text&quot;: &quot;110-140 zl netto (+ VAT) / godz.&quot;,
-  &quot;employment_type&quot;: &quot;Kontrakt B2B&quot;,
-  &quot;work_mode&quot;: &quot;Praca zdalna&quot;,
-  &quot;requirements&quot;: [&quot;Java&quot;, &quot;Spring Boot&quot;, &quot;PostgreSQL&quot;, &quot;Kafka&quot;, &quot;Docker&quot;],
-  &quot;responsibilities&quot;: [&quot;rozwoj i projektowanie modulow&quot;, &quot;code review&quot;],
-  &quot;company_benefits&quot;: [&quot;prywatna opieka medyczna&quot;, &quot;karta sportowa Multisport&quot;],
-  &quot;posted_at&quot;: &quot;2026-04-10T10:10:39Z&quot;,
-  &quot;apply_url&quot;: &quot;https://www.pracuj.pl/aplikuj/senior-java-developer-katowice,oferta,1004762431&quot;,
-  &quot;source_platform&quot;: &quot;pracuj.pl&quot;,
-  &quot;search_query&quot;: &quot;Java Developer&quot;,
-  &quot;scraped_at&quot;: &quot;2026-04-10T10:15:02Z&quot;
-}</code></pre></div>
-    <h2 class="section-title">Who Should Use This</h2>
-    <p><p><strong>Polish and Central European job aggregators</strong> need Pracuj.pl because it is Poland's largest job board by volume (80,000+ listings, 20,000+ employers) and the only source where structured requirements, responsibilities, and benefits arrive as clean arrays rather than free-form HTML. <strong>Compensation research platforms</strong> value the B2B hourly rate field, which captures the PLN contractor market that is invisible on most European job boards. <strong>Recruitment data vendors</strong> use <code>includeCompanyDetails</code> to pull the employer's Pracuj.pl About text and all other open roles at that company, turning a job feed into a full employer intelligence dataset. <strong>Remote work analytics teams</strong> use the <code>remote: true</code> filter to isolate the growing Polish remote market without any post-processing.</p></p>
-    <h2 class="section-title">Related Tutorials</h2>
-    <ul>
-      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a> — multi-board pipeline guide</li>
-      <li><a href="/tutorials/pracuj-pl-scraper/">How to Scrape Pracuj.pl Polish Job Listings</a> — step-by-step actor tutorial</li>
+      <li>**80,000+ active job listings** across all of Poland</li>
+      <li>**Structured salary in PLN** — `salary_min`, `salary_max`, `salary_currency`, `salary_period` parsed from the raw text</li>
+      <li>**Full requirements arrays** — mandatory skills, optional skills, technologies, operating systems</li>
+      <li>**Full responsibilities arrays** — what the person will actually do, day-to-day</li>
+      <li>**Full benefits arrays** — perks, health insurance, bonuses, sports cards, etc.</li>
+      <li>**Work mode** — stationary / hybrid / remote, with remote-only filtering</li>
     </ul>
     <h2 class="section-title">Integrations</h2>
     <ul>
@@ -205,193 +125,13 @@
       <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
     </ul>
 
-    <!-- Auto-injected: Run directly on Apify (no code) -->
-    <h2 class="section-title">Run this actor directly on Apify (no code)</h2>
-    <p>Click <strong>Open on Apify</strong> above to run <code>pracuj-pl-scraper</code> in your browser - no code, no install. In the Apify console you get:</p>
-    <ul>
-      <li><strong>One-click test</strong> - fill in the input form, or paste the JSON example above into the <em>JSON editor</em> tab, then hit <strong>Start</strong>.</li>
-      <li><strong>Live output</strong> - watch rows stream into an interactive <em>Output</em> table as they arrive, or flip to the raw <em>JSON</em> / <em>Log</em> view.</li>
-      <li><strong>Export in any format</strong> - one click to download the dataset as <strong>JSON, CSV, XML, Excel, HTML table, RSS, or JSONL</strong>.</li>
-      <li><strong>Schedules</strong> - run this actor <strong>daily, weekly, hourly, or on a custom cron</strong>. Apify handles timing and stores every dataset run.</li>
-      <li><strong>Integrations &amp; webhooks</strong> - fire a webhook on success/failure, or plug into <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres, and more</strong> from the <em>Actions</em> tab.</li>
-      <li><strong>Transparent cost</strong> - see exact usage against your <strong>$5/month free tier</strong> before you spend a cent.</li>
-    </ul>
-
-    <!-- Auto-injected: API token guide -->
-    <h2 class="section-title">Get your Apify API token</h2>
-    <p>To run this actor from your own code you need an Apify API token. Get one in about a minute:</p>
-    <ol>
-      <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Sign up for a free Apify account</a> (Google, GitHub, or email).</li>
-      <li>Go to <strong>Settings &rarr; Integrations &rarr; API tokens</strong>.</li>
-      <li>Click <strong>Create a new API token</strong>. Copy it and keep it secret.</li>
-    </ol>
-    <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
-
-    <!-- Auto-injected: Call from code (multi-language switcher) -->
-    <h2 class="section-title">Call from code</h2>
-    <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
-    <div class="lang-tabs" data-lang-group="run-actor">
-      <button class="tab-btn is-active" data-lang="curl">curl</button>
-      <button class="tab-btn" data-lang="node">Node.js</button>
-      <button class="tab-btn" data-lang="python">Python</button>
-      <button class="tab-btn" data-lang="csharp">C#</button>
-      <button class="tab-btn" data-lang="java">Java</button>
-    </div>
-    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{}'</code></pre></div>
-    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
-import { ApifyClient } from 'apify-client';
-
-const client = new ApifyClient({ token: 'YOUR_TOKEN' });
-const run = await client.actor('santamaria-automations/pracuj-pl-scraper').call({});
-const { items } = await client.dataset(run.defaultDatasetId).listItems();
-console.log(items);</code></pre></div>
-    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
-from apify_client import ApifyClient
-
-client = ApifyClient('YOUR_TOKEN')
-run = client.actor('santamaria-automations/pracuj-pl-scraper').call(run_input={})
-items = list(client.dataset(run['defaultDatasetId']).iterate_items())
-print(items)</code></pre></div>
-    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
-using Apify.Client;
-
-var client = new ApifyClient("YOUR_TOKEN");
-var run = await client.Actor("santamaria-automations/pracuj-pl-scraper").CallAsync(new { });
-var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
-    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
-import com.apify.client.ApifyClient;
-
-ApifyClient client = new ApifyClient("YOUR_TOKEN");
-ActorRun run = client.actor("santamaria-automations/pracuj-pl-scraper").call(Map.of());
-List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
-
-    <!-- Auto-injected: Use with AI agents (MCP) -->
-    <h2 class="section-title">Use with AI agents (MCP)</h2>
-    <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/pracuj-pl-scraper</code></pre></div>
-    <p><strong>Example prompt once connected:</strong></p>
-    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;pracuj-pl-scraper&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
-    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
-
-    <!-- Auto-injected: Use with no-code -->
-    <h2 class="section-title">Use with no-code platforms</h2>
-    <p>Trigger this actor from your favorite automation tool. Every platform below can call the Apify API in a few clicks - no code required.</p>
-    <div class="lang-tabs" data-lang-group="nocode">
-      <button class="tab-btn is-active" data-lang="n8n">n8n</button>
-      <button class="tab-btn" data-lang="zapier">Zapier</button>
-      <button class="tab-btn" data-lang="make">Make</button>
-      <button class="tab-btn" data-lang="pipedream">Pipedream</button>
-      <button class="tab-btn" data-lang="bubble">Bubble</button>
-    </div>
-    <div class="lang-panel is-active" data-lang="n8n">
-      <ol>
-        <li>Add the <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> (installed by default on n8n Cloud; on self-hosted install <code>@apify/n8n-nodes-apify</code>).</li>
-        <li>Set <strong>Actor</strong> to <code>santamaria-automations/pracuj-pl-scraper</code>.</li>
-        <li>Choose operation <em>Run Actor and get dataset</em>, paste your input JSON, and connect a downstream node (Google Sheets, Postgres, webhook, ...).</li>
-      </ol>
-    </div>
-    <div class="lang-panel" data-lang="zapier">
-      <ol>
-        <li>Create a new Zap with any trigger.</li>
-        <li>Add a <strong>Webhooks by Zapier</strong> POST action to <code>https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
-        <li>Body: your input JSON. Content-Type: <code>application/json</code>.</li>
-      </ol>
-    </div>
-    <div class="lang-panel" data-lang="make">
-      <ol>
-        <li>Create a new scenario.</li>
-        <li>Add an <strong>HTTP</strong> module: URL <code>https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, method POST, body raw JSON.</li>
-        <li>Parse the response with a <strong>JSON</strong> module to iterate items downstream.</li>
-      </ol>
-    </div>
-    <div class="lang-panel" data-lang="pipedream">
-      <ol>
-        <li>Create a new workflow.</li>
-        <li>Add an <strong>HTTP Request</strong> step: POST to <code>https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
-        <li>Access <code>steps.http.$return_value</code> in subsequent steps.</li>
-      </ol>
-    </div>
-    <div class="lang-panel" data-lang="bubble">
-      <ol>
-        <li>Install the <strong>API Connector</strong> plugin.</li>
-        <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~pracuj-pl-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
-        <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
-      </ol>
-    </div>
-    <h2 class="section-title">Related tutorials</h2>
-    <ul>
-      <li><a href="/tutorials/how-to-scrape-every-job-online/"><strong>How to Scrape Every Job Online</strong></a> - Build a multi-board job pipeline covering Poland and beyond.</li>
-      <li><a href="/tutorials/pracuj-pl-scraper/"><strong>How to Scrape Pracuj.pl Polish Job Listings</strong></a> - Step-by-step tutorial for the pracuj-pl-scraper actor.</li>
-    </ul>
-
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pracuj-pl-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
-      <a target="_blank" rel="sponsored noopener" href="/tutorials/pracuj-pl-scraper/" class="btn-secondary">Read the tutorial</a>
     </div>
   </div>
 
   <div id="site-footer"></div>
 
   <script src="/components.js"></script>
-  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
-  <script>
-  // Copy-to-clipboard for all .copy-btn elements in code blocks
-  document.addEventListener('click', function(e) {
-    if (e.target.matches('.copy-btn')) {
-      var pre = e.target.parentElement.querySelector('pre');
-      if (!pre) return;
-      var text = pre.textContent;
-      var btn = e.target;
-      navigator.clipboard.writeText(text).then(function() {
-        var orig = btn.textContent;
-        btn.classList.add('copied');
-        btn.textContent = 'Copied!';
-        setTimeout(function() {
-          btn.textContent = orig;
-          btn.classList.remove('copied');
-        }, 1500);
-      }).catch(function() {
-        btn.textContent = 'Copy failed';
-        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
-      });
-    }
-  });
-  // Language / no-code platform tab switcher
-  document.addEventListener('click', function(e) {
-    if (!e.target.matches('.tab-btn')) return;
-    var btn = e.target;
-    var group = btn.closest('.lang-tabs');
-    if (!group) return;
-    var groupName = group.getAttribute('data-lang-group');
-    var lang = btn.getAttribute('data-lang');
-    // Deactivate siblings
-    group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
-    btn.classList.add('is-active');
-    // Toggle panels in same scope (siblings of the tabs container's parent)
-    var panels = group.parentElement.querySelectorAll('.lang-panel');
-    panels.forEach(function(p) {
-      // Only toggle panels that were siblings of this tab group (not other tab groups' panels)
-      var prevGroup = p.previousElementSibling;
-      while (prevGroup && !prevGroup.classList.contains('lang-tabs')) {
-        prevGroup = prevGroup.previousElementSibling;
-      }
-      if (prevGroup === group || (prevGroup && prevGroup.getAttribute('data-lang-group') === groupName)) {
-        if (p.getAttribute('data-lang') === lang) {
-          p.classList.add('is-active');
-        } else {
-          p.classList.remove('is-active');
-        }
-      }
-    });
-  });
-  </script>
 </body>
 </html>

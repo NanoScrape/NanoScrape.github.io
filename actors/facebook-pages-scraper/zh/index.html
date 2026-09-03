@@ -1,193 +1,193 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>抓取Facebook公共主页 — 30+字段，无需登录 | NanoScrape</title>
- <meta name="description" content="无需登录即可从任何公共Facebook主页提取30多个字段。联系方式、互动指标、商业信息、最新帖子以及Facebook广告资料库中的活跃广告。">
- <meta property="og:title" content="Facebook主页爬虫 — 30+字段，无需登录 | NanoScrape">
- <meta property="og:description" content="抓取任何公共Facebook主页。联系方式、互动数据、商业信息、帖子和活跃广告。无需登录。按结果付费。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/de/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/fr/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Facebook Page Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "从任何公共Facebook主页提取30多个字段。联系方式、互动指标、商业信息、最新帖子和广告资料库中的活跃广告。无需登录。",
- "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD", "description": "按结果付费" },
- "url": "https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>抓取Facebook公共主页 — 30+字段，无需登录 | NanoScrape</title>
+  <meta name="description" content="无需登录即可从任何公共Facebook主页提取30多个字段。联系方式、互动指标、商业信息、最新帖子以及Facebook广告资料库中的活跃广告。">
+  <meta property="og:title" content="Facebook主页爬虫 — 30+字段，无需登录 | NanoScrape">
+  <meta property="og:description" content="抓取任何公共Facebook主页。联系方式、互动数据、商业信息、帖子和活跃广告。无需登录。按结果付费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/de/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/zh/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/fr/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Facebook Page Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "从任何公共Facebook主页提取30多个字段。联系方式、互动指标、商业信息、最新帖子和广告资料库中的活跃广告。无需登录。",
+    "offers": { "@type": "Offer", "price": "0.00", "priceCurrency": "USD", "description": "按结果付费" },
+    "url": "https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
- </div>
+  <div id="site-header"></div>
+  </div>
 
- <div class="detail">
- <h1>抓取Facebook公共主页 — 30+字段，无需登录</h1>
- <p class="lead">无需登录即可从任何公共Facebook主页提取30多个字段。返回联系方式（电话、邮箱、网站、地址）、互动指标（点赞、粉丝、讨论量）、商业信息（类别、服务、营业时间）、最新帖子以及Facebook广告资料库中的活跃广告。</p>
+  <div class="detail">
+    <h1>抓取Facebook公共主页 — 30+字段，无需登录</h1>
+    <p class="lead">无需登录即可从任何公共Facebook主页提取30多个字段。返回联系方式（电话、邮箱、网站、地址）、互动指标（点赞、粉丝、讨论量）、商业信息（类别、服务、营业时间）、最新帖子以及Facebook广告资料库中的活跃广告。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/HoF6gh9wDfpGA3CXs/source?addFromActorId=HoF6gh9wDfpGA3CXs&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/HoF6gh9wDfpGA3CXs/source?addFromActorId=HoF6gh9wDfpGA3CXs&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
- <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">代理</div><div class="value">数据中心 (HTTP-only)</div></div>
- <div class="spec"><div class="label">覆盖范围</div><div class="value">全球</div></div>
- <div class="spec"><div class="label">定价</div><div class="value">按结果付费</div></div>
- <div class="spec"><div class="label">反爬虫</div><div class="value">HTTP-only + sec-fetch头</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">数据中心 (TLS fingerprinting)</div></div>
+      <div class="spec"><div class="label">覆盖范围</div><div class="value">全球</div></div>
+      <div class="spec"><div class="label">定价</div><div class="value">按结果付费</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">TLS fingerprinting + sec-fetch头</div></div>
+    </div>
 
- <h2 class="section-title">可抓取的数据</h2>
- <ul>
- <li><strong>联系信息</strong> — 电话号码、邮箱地址、网站URL、实际地址</li>
- <li><strong>互动指标</strong> — 点赞数、粉丝数、讨论量、到访人数</li>
- <li><strong>商业详情</strong> — 类别、服务、星级评分、价格区间</li>
- <li><strong>最新帖子</strong> — 文本内容、日期、附图URL</li>
- <li><strong>广告资料库中的活跃广告</strong> — 广告数量、广告文案、链接、格式（图片/视频/轮播）</li>
- </ul>
+    <h2 class="section-title">可抓取的数据</h2>
+    <ul>
+      <li><strong>联系信息</strong> — 电话号码、邮箱地址、网站URL、实际地址</li>
+      <li><strong>互动指标</strong> — 点赞数、粉丝数、讨论量、到访人数</li>
+      <li><strong>商业详情</strong> — 类别、服务、星级评分、价格区间</li>
+      <li><strong>最新帖子</strong> — 文本内容、日期、附图URL</li>
+      <li><strong>广告资料库中的活跃广告</strong> — 广告数量、广告文案、链接、格式（图片/视频/轮播）</li>
+    </ul>
 
- <h2 class="section-title">主要应用场景</h2>
- <ul>
- <li><strong>潜在客户开发</strong> — 大规模收集Facebook主页的联系方式和商业信息</li>
- <li><strong>竞争分析</strong> — 监控竞争对手的互动数据、内容策略和活跃广告活动</li>
- <li><strong>品牌监测</strong> — 跟踪主页增长、粉丝趋势和受众互动变化</li>
- <li><strong>市场调研</strong> — 分析跨行业的商业类别、服务和定价</li>
- <li><strong>广告情报</strong> — 了解竞争对手正在投放的广告、格式和文案</li>
- </ul>
+    <h2 class="section-title">主要应用场景</h2>
+    <ul>
+      <li><strong>潜在客户开发</strong> — 大规模收集Facebook主页的联系方式和商业信息</li>
+      <li><strong>竞争分析</strong> — 监控竞争对手的互动数据、内容策略和活跃广告活动</li>
+      <li><strong>品牌监测</strong> — 跟踪主页增长、粉丝趋势和受众互动变化</li>
+      <li><strong>市场调研</strong> — 分析跨行业的商业类别、服务和定价</li>
+      <li><strong>广告情报</strong> — 了解竞争对手正在投放的广告、格式和文案</li>
+    </ul>
 
- <h2 class="section-title">API示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
+    <h2 class="section-title">API示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~facebook-pages-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "pages": ["Meta", "obi.swiss"],
- "includeAds": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "pages": ["Meta", "obi.swiss"],
+    "includeAds": true
+  }'
 
 <span class="comment"># 或通过MCP与AI代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/facebook-pages-scraper</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n / Make / Zapier</strong> — 通过Webhook触发运行并处理结果</li>
- <li><strong>AI代理 (MCP)</strong> — Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python / Node.js</strong> — Apify SDK编程访问</li>
- <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — 通过Webhook触发运行并处理结果</li>
+      <li><strong>AI代理 (MCP)</strong> — Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK编程访问</li>
+      <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
+    </ul>
 
- <h2 class="section-title">对比</h2>
- <table class="compare-table">
- <tr><th>特性</th><th>NanoScrape</th><th>基于浏览器的爬虫</th></tr>
- <tr><td>需要登录</td><td class="highlight">否</td><td>通常需要</td></tr>
- <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
- <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
- <tr><td>广告资料库数据</td><td class="highlight">包含</td><td>很少</td></tr>
- <tr><td>成本</td><td class="highlight">便宜10倍</td><td>基准价格</td></tr>
- <tr><td>需要Chrome</td><td class="highlight">否</td><td>是</td></tr>
- </table>
+    <h2 class="section-title">对比</h2>
+    <table class="compare-table">
+      <tr><th>特性</th><th>NanoScrape</th><th>基于浏览器的爬虫</th></tr>
+      <tr><td>需要登录</td><td class="highlight">否</td><td>通常需要</td></tr>
+      <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
+      <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
+      <tr><td>广告资料库数据</td><td class="highlight">包含</td><td>很少</td></tr>
+      <tr><td>成本</td><td class="highlight">便宜10倍</td><td>基准价格</td></tr>
+      <tr><td>需要Chrome</td><td class="highlight">否</td><td>是</td></tr>
+    </table>
 
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>name</td><td>string</td><td>Meta</td></tr>
- <tr><td>pageUrl</td><td>string</td><td>https://www.facebook.com/Meta</td></tr>
- <tr><td>profilePicUrl</td><td>string</td><td>https://scontent...</td></tr>
- <tr><td>coverPhotoUrl</td><td>string</td><td>https://scontent...</td></tr>
- <tr><td>category</td><td>string</td><td>互联网公司</td></tr>
- <tr><td>subcategories</td><td>string[]</td><td>["科技", "软件"]</td></tr>
- <tr><td>likes</td><td>number</td><td>14200000</td></tr>
- <tr><td>followers</td><td>number</td><td>14500000</td></tr>
- <tr><td>talkingAbout</td><td>number</td><td>85000</td></tr>
- <tr><td>wereHere</td><td>number</td><td>12500</td></tr>
- <tr><td>rating</td><td>number</td><td>4.2</td></tr>
- <tr><td>ratingCount</td><td>number</td><td>3400</td></tr>
- <tr><td>phone</td><td>string</td><td>+1 650-543-4800</td></tr>
- <tr><td>email</td><td>string</td><td>info@example.com</td></tr>
- <tr><td>website</td><td>string</td><td>https://about.meta.com</td></tr>
- <tr><td>address</td><td>string</td><td>1 Hacker Way, Menlo Park, CA</td></tr>
- <tr><td>city</td><td>string</td><td>Menlo Park</td></tr>
- <tr><td>zip</td><td>string</td><td>94025</td></tr>
- <tr><td>country</td><td>string</td><td>美国</td></tr>
- <tr><td>hours</td><td>object</td><td>{"周一": "9:00-17:00", ...}</td></tr>
- <tr><td>services</td><td>string[]</td><td>["咨询", "开发"]</td></tr>
- <tr><td>priceRange</td><td>string</td><td>$$</td></tr>
- <tr><td>description</td><td>string</td><td>Meta官方主页</td></tr>
- <tr><td>shortDescription</td><td>string</td><td>构建连接的未来</td></tr>
- <tr><td>founded</td><td>string</td><td>2004</td></tr>
- <tr><td>impressum</td><td>string</td><td>Meta Platforms, Inc.</td></tr>
- <tr><td>latestPostText</td><td>string</td><td>我们很高兴地宣布...</td></tr>
- <tr><td>latestPostDate</td><td>string</td><td>2026-04-20T10:30:00Z</td></tr>
- <tr><td>latestPostImageUrl</td><td>string</td><td>https://scontent...</td></tr>
- <tr><td>isVerified</td><td>boolean</td><td>true</td></tr>
- <tr><td>adCount</td><td>number</td><td>24</td></tr>
- <tr><td>ads</td><td>object[]</td><td>[{text, link, format, startDate}]</td></tr>
- <tr><td>pageId</td><td>string</td><td>100064757027104</td></tr>
- <tr><td>scrapedAt</td><td>string</td><td>2026-04-23T08:00:00Z</td></tr>
- </table>
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>name</td><td>string</td><td>Meta</td></tr>
+      <tr><td>pageUrl</td><td>string</td><td>https://www.facebook.com/Meta</td></tr>
+      <tr><td>profilePicUrl</td><td>string</td><td>https://scontent...</td></tr>
+      <tr><td>coverPhotoUrl</td><td>string</td><td>https://scontent...</td></tr>
+      <tr><td>category</td><td>string</td><td>互联网公司</td></tr>
+      <tr><td>subcategories</td><td>string[]</td><td>["科技", "软件"]</td></tr>
+      <tr><td>likes</td><td>number</td><td>14200000</td></tr>
+      <tr><td>followers</td><td>number</td><td>14500000</td></tr>
+      <tr><td>talkingAbout</td><td>number</td><td>85000</td></tr>
+      <tr><td>wereHere</td><td>number</td><td>12500</td></tr>
+      <tr><td>rating</td><td>number</td><td>4.2</td></tr>
+      <tr><td>ratingCount</td><td>number</td><td>3400</td></tr>
+      <tr><td>phone</td><td>string</td><td>+1 650-543-4800</td></tr>
+      <tr><td>email</td><td>string</td><td>info@example.com</td></tr>
+      <tr><td>website</td><td>string</td><td>https://about.meta.com</td></tr>
+      <tr><td>address</td><td>string</td><td>1 Hacker Way, Menlo Park, CA</td></tr>
+      <tr><td>city</td><td>string</td><td>Menlo Park</td></tr>
+      <tr><td>zip</td><td>string</td><td>94025</td></tr>
+      <tr><td>country</td><td>string</td><td>美国</td></tr>
+      <tr><td>hours</td><td>object</td><td>{"周一": "9:00-17:00", ...}</td></tr>
+      <tr><td>services</td><td>string[]</td><td>["咨询", "开发"]</td></tr>
+      <tr><td>priceRange</td><td>string</td><td>$$</td></tr>
+      <tr><td>description</td><td>string</td><td>Meta官方主页</td></tr>
+      <tr><td>shortDescription</td><td>string</td><td>构建连接的未来</td></tr>
+      <tr><td>founded</td><td>string</td><td>2004</td></tr>
+      <tr><td>impressum</td><td>string</td><td>Meta Platforms, Inc.</td></tr>
+      <tr><td>latestPostText</td><td>string</td><td>我们很高兴地宣布...</td></tr>
+      <tr><td>latestPostDate</td><td>string</td><td>2026-04-20T10:30:00Z</td></tr>
+      <tr><td>latestPostImageUrl</td><td>string</td><td>https://scontent...</td></tr>
+      <tr><td>isVerified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>adCount</td><td>number</td><td>24</td></tr>
+      <tr><td>ads</td><td>object[]</td><td>[{text, link, format, startDate}]</td></tr>
+      <tr><td>pageId</td><td>string</td><td>100064757027104</td></tr>
+      <tr><td>scrapedAt</td><td>string</td><td>2026-04-23T08:00:00Z</td></tr>
+    </table>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/HoF6gh9wDfpGA3CXs/source?addFromActorId=HoF6gh9wDfpGA3CXs&fpr=0khfbz" class="btn-secondary">立即试用 — 提供免费额度</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/facebook-pages-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/HoF6gh9wDfpGA3CXs/source?addFromActorId=HoF6gh9wDfpGA3CXs&fpr=0khfbz" class="btn-secondary">立即试用 — 提供免费额度</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

@@ -1,182 +1,182 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>PDF 文本提取器：批量 PDF 转文本，$1/1k | NanoScrape</title>
- <meta name="description" content="大规模从 PDF URL 提取文本和元数据。返回页面内容、标题、作者、页数和扫描/加密标识。每 1,000 PDF $1。">
- <meta property="og:title" content="PDF 文本提取器：批量 PDF 转文本和元数据 | NanoScrape">
- <meta property="og:description" content="从任意 PDF URL 批量提取文本和元数据。按结果付费，无月费。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/pdf-extractor/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/pdf-extractor/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/pdf-extractor/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/pdf-extractor/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "PDF Text Extractor",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "批量从任意 URL 提取 PDF 文本和元数据。返回页面内容、标题、作者、创建日期、页数、字符数和扫描/加密标识。128MB 内存，纯 HTTP，每 PDF $0.001。",
- "offers": {
- "@type": "Offer",
- "price": "0.001",
- "priceCurrency": "USD",
- "description": "per PDF extracted"
- },
- "url": "https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF 文本提取器：批量 PDF 转文本，$1/1k | NanoScrape</title>
+  <meta name="description" content="大规模从 PDF URL 提取文本和元数据。返回页面内容、标题、作者、页数和扫描/加密标识。每 1,000 PDF $1。">
+  <meta property="og:title" content="PDF 文本提取器：批量 PDF 转文本和元数据 | NanoScrape">
+  <meta property="og:description" content="从任意 PDF URL 批量提取文本和元数据。按结果付费，无月费。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/pdf-extractor/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/pdf-extractor/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/pdf-extractor/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/pdf-extractor/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/pdf-extractor/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "PDF Text Extractor",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "批量从任意 URL 提取 PDF 文本和元数据。返回页面内容、标题、作者、创建日期、页数、字符数和扫描/加密标识。128MB 内存，纯 HTTP，每 PDF $0.001。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per PDF extracted"
+    },
+    "url": "https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>PDF 文本提取器：批量 PDF 转文本和元数据，每 1,000 PDF $1</h1>
- <p class="lead">从任意 PDF URL 提取纯文本、逐页内容和完整元数据。返回标题、作者、创建日期、页数、字符总数，以及扫描（纯图像）或加密文档标识。为批量而生：输入 10,000 URL，返回结构化数据行。适用于法律电子取证、RAG 数据摄入、合规审计和文档工作流自动化。</p>
+  <div class="detail">
+    <h1>PDF 文本提取器：批量 PDF 转文本和元数据，每 1,000 PDF $1</h1>
+    <p class="lead">从任意 PDF URL 提取纯文本、逐页内容和完整元数据。返回标题、作者、创建日期、页数、字符总数，以及扫描（纯图像）或加密文档标识。为批量而生：输入 10,000 URL，返回结构化数据行。适用于法律电子取证、RAG 数据摄入、合规审计和文档工作流自动化。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/4h1HeF87bxEsek8FR/source?addFromActorId=4h1HeF87bxEsek8FR&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/4h1HeF87bxEsek8FR/source?addFromActorId=4h1HeF87bxEsek8FR&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">价格</div><div class="value">$0.001/PDF</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">任意 URL</div></div><div class="spec"><div class="label">输出字段</div><div class="value">12+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">HTTP + pdfcpu</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/PDF</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">任意 URL</div></div><div class="spec"><div class="label">输出字段</div><div class="value">12+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">HTTP + pdfcpu</div></div>
+    </div>
 
- <h2 class="section-title">您能获得什么</h2>
- <ul>
- <li><strong>页面文本：</strong>完整提取文本，加上每页数组用于分页工作流</li>
- <li><strong>元数据：</strong>title、author、subject、creator、producer、creation_date、modification_date</li>
- <li><strong>统计：</strong>page_count、char_count、word_count、file_size_bytes</li>
- <li><strong>标识：</strong>is_scanned（纯图像 PDF）、is_encrypted、is_form</li>
- <li><strong>来源：</strong>source_url、content_type、http_status、scraped_at</li>
- </ul>
+    <h2 class="section-title">您能获得什么</h2>
+    <ul>
+      <li><strong>页面文本：</strong>完整提取文本，加上每页数组用于分页工作流</li>
+      <li><strong>元数据：</strong>title、author、subject、creator、producer、creation_date、modification_date</li>
+      <li><strong>统计：</strong>page_count、char_count、word_count、file_size_bytes</li>
+      <li><strong>标识：</strong>is_scanned（纯图像 PDF）、is_encrypted、is_form</li>
+      <li><strong>来源：</strong>source_url、content_type、http_status、scraped_at</li>
+    </ul>
 
- <h2 class="section-title">主要使用场景</h2>
- <ul>
- <li><strong>法律电子取证。</strong>批量从法院文件、合同和诉状中提取文本，用于关键词搜索和审阅</li>
- <li><strong>RAG 数据摄入。</strong>将 PDF 报告、白皮书和手册直接送入向量数据库</li>
- <li><strong>合规审计。</strong>扫描数千份政策 PDF，查找必需条款、签名或监管关键词</li>
- <li><strong>研究聚合。</strong>从学术预印本 URL 提取摘要、作者和全文</li>
- <li><strong>发票与收据解析。</strong>在应付账款管道中从供应商 PDF 提取结构化文本</li>
- </ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>法律电子取证。</strong>批量从法院文件、合同和诉状中提取文本，用于关键词搜索和审阅</li>
+      <li><strong>RAG 数据摄入。</strong>将 PDF 报告、白皮书和手册直接送入向量数据库</li>
+      <li><strong>合规审计。</strong>扫描数千份政策 PDF，查找必需条款、签名或监管关键词</li>
+      <li><strong>研究聚合。</strong>从学术预印本 URL 提取摘要、作者和全文</li>
+      <li><strong>发票与收据解析。</strong>在应付账款管道中从供应商 PDF 提取结构化文本</li>
+    </ul>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~pdf-extractor/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "pdfUrls": [
- "https://example.com/report-2026.pdf",
- "https://example.com/contract-v3.pdf",
- "https://example.com/whitepaper.pdf"
- ],
- "extractText": true,
- "extractMetadata": true,
- "perPageText": false
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "pdfUrls": [
+      "https://example.com/report-2026.pdf",
+      "https://example.com/contract-v3.pdf",
+      "https://example.com/whitepaper.pdf"
+    ],
+    "extractText": true,
+    "extractMetadata": true,
+    "perPageText": false
+  }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/pdf-extractor</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
- <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
- <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
+    </ul>
 
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>source_url</td><td>string</td><td>https://example.com/report.pdf</td></tr>
- <tr><td>title</td><td>string</td><td>2026 年度报告</td></tr>
- <tr><td>author</td><td>string</td><td>Acme 公司</td></tr>
- <tr><td>page_count</td><td>integer</td><td>142</td></tr>
- <tr><td>char_count</td><td>integer</td><td>284,512</td></tr>
- <tr><td>text</td><td>string</td><td>执行摘要...</td></tr>
- <tr><td>creation_date</td><td>string</td><td>2026-01-15T09:30:00Z</td></tr>
- <tr><td>is_scanned</td><td>boolean</td><td>false</td></tr>
- <tr><td>is_encrypted</td><td>boolean</td><td>false</td></tr>
- <tr><td>file_size_bytes</td><td>integer</td><td>4,218,940</td></tr>
- </table>
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>source_url</td><td>string</td><td>https://example.com/report.pdf</td></tr>
+      <tr><td>title</td><td>string</td><td>2026 年度报告</td></tr>
+      <tr><td>author</td><td>string</td><td>Acme 公司</td></tr>
+      <tr><td>page_count</td><td>integer</td><td>142</td></tr>
+      <tr><td>char_count</td><td>integer</td><td>284,512</td></tr>
+      <tr><td>text</td><td>string</td><td>执行摘要...</td></tr>
+      <tr><td>creation_date</td><td>string</td><td>2026-01-15T09:30:00Z</td></tr>
+      <tr><td>is_scanned</td><td>boolean</td><td>false</td></tr>
+      <tr><td>is_encrypted</td><td>boolean</td><td>false</td></tr>
+      <tr><td>file_size_bytes</td><td>integer</td><td>4,218,940</td></tr>
+    </table>
 
- <h2 class="section-title">相关 Actor</h2>
- <ul>
- <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将网页转换为干净 markdown，用于相同管道</li>
- <li><a href="/actors/wikipedia-scraper/">Wikipedia 抓取器</a>: 按标题或 URL 提取维基百科文章及元数据</li>
- <li><a href="/actors/sitemap-url-discovery/">Sitemap URL 发现器</a>: 批量提取前先找出网站上每一个 PDF 链接</li>
- </ul>
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将网页转换为干净 markdown，用于相同管道</li>
+      <li><a href="/actors/wikipedia-scraper/">Wikipedia 抓取器</a>: 按标题或 URL 提取维基百科文章及元数据</li>
+      <li><a href="/actors/sitemap-url-discovery/">Sitemap URL 发现器</a>: 批量提取前先找出网站上每一个 PDF 链接</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/4h1HeF87bxEsek8FR/source?addFromActorId=4h1HeF87bxEsek8FR&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/pdf-extractor?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/4h1HeF87bxEsek8FR/source?addFromActorId=4h1HeF87bxEsek8FR&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

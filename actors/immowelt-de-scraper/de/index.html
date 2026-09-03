@@ -1,193 +1,193 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Immowelt.de Scraper: Deutsche Immobilien, Warm/Kaltmiete | NanoScrape</title>
- <meta name="description" content="Miet- und Kaufinserate aus ganz Deutschland von Immowelt.de scrapen. Liefert Warmmiete, Kaltmiete, Zimmer, Flaeche, PLZ, Energieklasse (A+ bis H), Maklerfirma, Telefon, Provisionsflag. Ohne Login. Ab $3 pro 1.000 Inseraten.">
- <meta property="og:title" content="Immowelt.de Scraper: Deutsche Immobilien | NanoScrape">
- <meta property="og:description" content="Deutsche Immobilieninserate von Immowelt.de extrahieren. Warm-/Kaltmiete, Energieklasse, Maklerkontakt, PLZ, Provisionsflag. Pay-per-Result. Ohne Login.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Immowelt.de Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Deutscher Immobilien-Scraper fuer Immowelt.de, eine der groessten Immobilienplattformen Deutschlands. Liefert Preis, Warmmiete, Kaltmiete, Zimmer, Flaeche in m2, Grundstuecksgroesse, Etage (z.B. 2. OG), vollstaendige Adresse mit PLZ, Stadtteil, Energieklasse (A+ bis H), Provisionsflag, Maklerfirma, Maklertelefon, Makler-Website und getaggte Bilderszenen. HTTP-only, 128MB RAM.",
- "offers": {
- "@type": "Offer",
- "price": "0.003",
- "priceCurrency": "USD",
- "description": "per listing scraped"
- },
- "url": "https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Immowelt.de Scraper: Deutsche Immobilien, Warm/Kaltmiete | NanoScrape</title>
+  <meta name="description" content="Miet- und Kaufinserate aus ganz Deutschland von Immowelt.de scrapen. Liefert Warmmiete, Kaltmiete, Zimmer, Flaeche, PLZ, Energieklasse (A+ bis H), Maklerfirma, Telefon, Provisionsflag. Ohne Login. Ab $3 pro 1.000 Inseraten.">
+  <meta property="og:title" content="Immowelt.de Scraper: Deutsche Immobilien | NanoScrape">
+  <meta property="og:description" content="Deutsche Immobilieninserate von Immowelt.de extrahieren. Warm-/Kaltmiete, Energieklasse, Maklerkontakt, PLZ, Provisionsflag. Pay-per-Result. Ohne Login.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/immowelt-de-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Immowelt.de Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Deutscher Immobilien-Scraper fuer Immowelt.de, eine der groessten Immobilienplattformen Deutschlands. Liefert Preis, Warmmiete, Kaltmiete, Zimmer, Flaeche in m2, Grundstuecksgroesse, Etage (z.B. 2. OG), vollstaendige Adresse mit PLZ, Stadtteil, Energieklasse (A+ bis H), Provisionsflag, Maklerfirma, Maklertelefon, Makler-Website und getaggte Bilderszenen. HTTP-only, 128MB RAM.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.003",
+      "priceCurrency": "USD",
+      "description": "per listing scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Immowelt.de Scraper: Deutsche Immobilien, Warmmiete &amp; Energieklasse</h1>
- <p class="lead">Jedes Miet- und Kaufinserat auf Immowelt.de scrapen, eine der groessten Immobilienplattformen Deutschlands. Liefert Warmmiete (inkl. Nebenkosten), Kaltmiete, Zimmer, Flaeche in m2, Grundstuecksgroesse fuer Haeuser, Etage (z.B. 2. OG), vollstaendige Adresse mit PLZ, Stadtteil, Energieklasse von A+ bis H, Provisions-Flag (Provisionspflichtig), Maklerfirma (100% Abdeckung), Maklertelefon (80% Abdeckung), Makler-Website und Impressum. Funktioniert mit jeder /liste/-Suchanfrage, die Sie im Browser zusammenbauen.</p>
+  <div class="detail">
+    <h1>Immowelt.de Scraper: Deutsche Immobilien, Warmmiete &amp; Energieklasse</h1>
+    <p class="lead">Jedes Miet- und Kaufinserat auf Immowelt.de scrapen, eine der groessten Immobilienplattformen Deutschlands. Liefert Warmmiete (inkl. Nebenkosten), Kaltmiete, Zimmer, Flaeche in m2, Grundstuecksgroesse fuer Haeuser, Etage (z.B. 2. OG), vollstaendige Adresse mit PLZ, Stadtteil, Energieklasse von A+ bis H, Provisions-Flag (Provisionspflichtig), Maklerfirma (100% Abdeckung), Maklertelefon (80% Abdeckung), Makler-Website und Impressum. Funktioniert mit jeder /liste/-Suchanfrage, die Sie im Browser zusammenbauen.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Preis</div><div class="value">$3 / 1k Inserate</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Abdeckung</div><div class="value">Ganz Deutschland</div></div>
- <div class="spec"><div class="label">Felder pro Inserat</div><div class="value">40+</div></div>
- <div class="spec"><div class="label">Proxy</div><div class="value">Apify Default</div></div>
- <div class="spec"><div class="label">Anti-Bot</div><div class="value">HTTP-only</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Preis</div><div class="value">$3 / 1k Inserate</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Ganz Deutschland</div></div>
+      <div class="spec"><div class="label">Felder pro Inserat</div><div class="value">40+</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Apify Default</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">HTTP-only</div></div>
+    </div>
 
- <h2 class="section-title">Was Sie scrapen koennen</h2>
- <ul>
- <li><strong>Deutsche Mietaufschluesselung:</strong> price, price_label, price_warm (Warmmiete), price_cold (Kaltmiete), price_raw</li>
- <li><strong>Grundriss:</strong> rooms, area_sqm, plot_size (Grundstuecksflaeche fuer Haeuser), floor, property_type (FLAT, HOUSE, ...), property_subtype (Etagenwohnung, Penthouse, ...)</li>
- <li><strong>Standort:</strong> address, neighborhood, city, postcode (PLZ), availability_date</li>
- <li><strong>Energie:</strong> energy_class (Energieausweis A+ bis H), Heizungstyp via description</li>
- <li><strong>Makler:</strong> publisher_name, publisher_type (AGENT oder PRIVATE), is_premium_partner, agent_company, agent_name, agent_phone, agent_website, agent_address, agent_profile_url, agent_imprint_url</li>
- <li><strong>Medien:</strong> image_url, image_urls (volle Galerie), image_tags (Szenen-Labels pro Foto wie "living_room" mit deutschen Beschreibungen)</li>
- <li><strong>Flags:</strong> is_new, is_exclusive, has_3d_tour, has_brokerage_fee (Provisionspflichtig), is_private_owner</li>
- </ul>
+    <h2 class="section-title">Was Sie scrapen koennen</h2>
+    <ul>
+      <li><strong>Deutsche Mietaufschluesselung:</strong> price, price_label, price_warm (Warmmiete), price_cold (Kaltmiete), price_raw</li>
+      <li><strong>Grundriss:</strong> rooms, area_sqm, plot_size (Grundstuecksflaeche fuer Haeuser), floor, property_type (FLAT, HOUSE, ...), property_subtype (Etagenwohnung, Penthouse, ...)</li>
+      <li><strong>Standort:</strong> address, neighborhood, city, postcode (PLZ), availability_date</li>
+      <li><strong>Energie:</strong> energy_class (Energieausweis A+ bis H), Heizungstyp via description</li>
+      <li><strong>Makler:</strong> publisher_name, publisher_type (AGENT oder PRIVATE), is_premium_partner, agent_company, agent_name, agent_phone, agent_website, agent_address, agent_profile_url, agent_imprint_url</li>
+      <li><strong>Medien:</strong> image_url, image_urls (volle Galerie), image_tags (Szenen-Labels pro Foto wie "living_room" mit deutschen Beschreibungen)</li>
+      <li><strong>Flags:</strong> is_new, is_exclusive, has_3d_tour, has_brokerage_fee (Provisionspflichtig), is_private_owner</li>
+    </ul>
 
- <h2 class="section-title">Typische Anwendungsfaelle</h2>
- <ul>
- <li><strong>Mietspiegel-Recherche.</strong> Einen privaten Mietspiegel nach Stadt und PLZ aus Live-Warm- und Kaltmietdaten aufbauen</li>
- <li><strong>Energieausweis-Benchmarking.</strong> Mediane Angebotsmiete pro Energieklasse A bis H je Bundesland berechnen, fuer Green-Building-Research</li>
- <li><strong>Provisionsfreie Lead-Listen.</strong> has_brokerage_fee=false filtern, um Direktanbieter-Inserate fuer Kaeuferseite zu finden</li>
- <li><strong>Berlin / Muenchen / Hamburg Investment-Screening.</strong> Preis pro m2 ueber Stadtteile vergleichen und unterbewertete Kieze ranken</li>
- <li><strong>Maklerakquise.</strong> CRM-Liste jeder aktiven deutschen Agentur mit Name, Telefon, Website und Impressum aufbauen</li>
- </ul>
+    <h2 class="section-title">Typische Anwendungsfaelle</h2>
+    <ul>
+      <li><strong>Mietspiegel-Recherche.</strong> Einen privaten Mietspiegel nach Stadt und PLZ aus Live-Warm- und Kaltmietdaten aufbauen</li>
+      <li><strong>Energieausweis-Benchmarking.</strong> Mediane Angebotsmiete pro Energieklasse A bis H je Bundesland berechnen, fuer Green-Building-Research</li>
+      <li><strong>Provisionsfreie Lead-Listen.</strong> has_brokerage_fee=false filtern, um Direktanbieter-Inserate fuer Kaeuferseite zu finden</li>
+      <li><strong>Berlin / Muenchen / Hamburg Investment-Screening.</strong> Preis pro m2 ueber Stadtteile vergleichen und unterbewertete Kieze ranken</li>
+      <li><strong>Maklerakquise.</strong> CRM-Liste jeder aktiven deutschen Agentur mit Name, Telefon, Website und Impressum aufbauen</li>
+    </ul>
 
- <h2 class="section-title">Preise</h2>
- <ul>
- <li><strong>Inserat gescrapt:</strong> $0,003 pro Ergebnis, alle 40+ Felder befuellt</li>
- </ul>
- <p style="color:var(--muted); margin-bottom: 24px;"><strong>Neu bei Apify?</strong> Jedes Konto erhaelt $5 monatliches Gratis-Plattformguthaben, genug fuer rund 1.600 Immowelt-Inserate, bevor Sie sich auf eine Zahlung festlegen.</p>
+    <h2 class="section-title">Preise</h2>
+    <ul>
+      <li><strong>Inserat gescrapt:</strong> $0,003 pro Ergebnis, alle 40+ Felder befuellt</li>
+    </ul>
+    <p style="color:var(--muted); margin-bottom: 24px;"><strong>Neu bei Apify?</strong> Jedes Konto erhaelt $5 monatliches Gratis-Plattformguthaben, genug fuer rund 1.600 Immowelt-Inserate, bevor Sie sich auf eine Zahlung festlegen.</p>
 
- <h2 class="section-title">API-Beispiel</h2>
- <div class="code-block"><pre><span class="comment"># Einen Lauf ueber die Apify-API starten</span>
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf ueber die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~immowelt-de-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "searchUrls": [
- "https://www.immowelt.de/liste/berlin/wohnungen/mieten",
- "https://www.immowelt.de/liste/muenchen/haeuser/kaufen"
- ],
- "maxResults": 100
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "searchUrls": [
+      "https://www.immowelt.de/liste/berlin/wohnungen/mieten",
+      "https://www.immowelt.de/liste/muenchen/haeuser/kaufen"
+    ],
+    "maxResults": 100
+  }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/immowelt-de-scraper</span></pre></div>
 
- <h2 class="section-title">Integrationen</h2>
- <ul>
- <li><strong>n8n, Make, Zapier:</strong> Laeufe ausloesen und Immowelt-Inserate in Google Sheets, Airtable oder Ihr CRM uebergeben</li>
- <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js:</strong> Apify SDK fuer programmatischen Zugriff</li>
- <li><strong>BI &amp; Warehouses:</strong> JSON in BigQuery, Postgres, Snowflake pushen fuer Mietspiegel-Pipelines</li>
- </ul>
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Laeufe ausloesen und Immowelt-Inserate in Google Sheets, Airtable oder Ihr CRM uebergeben</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK fuer programmatischen Zugriff</li>
+      <li><strong>BI &amp; Warehouses:</strong> JSON in BigQuery, Postgres, Snowflake pushen fuer Mietspiegel-Pipelines</li>
+    </ul>
 
- <h2 class="section-title">Ausgabefelder (Beispiel)</h2>
- <table class="compare-table">
- <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
- <tr><td>title</td><td>string</td><td>3-Zimmer-Wohnung in Berlin Kreuzberg</td></tr>
- <tr><td>price_warm</td><td>number</td><td>1200 (EUR)</td></tr>
- <tr><td>price_cold</td><td>number</td><td>950</td></tr>
- <tr><td>rooms</td><td>number</td><td>3</td></tr>
- <tr><td>area_sqm</td><td>number</td><td>78,5</td></tr>
- <tr><td>postcode</td><td>string</td><td>10969</td></tr>
- <tr><td>neighborhood</td><td>string</td><td>Kreuzberg</td></tr>
- <tr><td>energy_class</td><td>string</td><td>C</td></tr>
- <tr><td>has_brokerage_fee</td><td>boolean</td><td>true</td></tr>
- <tr><td>agent_company</td><td>string</td><td>Immobilien Schmidt GmbH</td></tr>
- </table>
+    <h2 class="section-title">Ausgabefelder (Beispiel)</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>title</td><td>string</td><td>3-Zimmer-Wohnung in Berlin Kreuzberg</td></tr>
+      <tr><td>price_warm</td><td>number</td><td>1200 (EUR)</td></tr>
+      <tr><td>price_cold</td><td>number</td><td>950</td></tr>
+      <tr><td>rooms</td><td>number</td><td>3</td></tr>
+      <tr><td>area_sqm</td><td>number</td><td>78,5</td></tr>
+      <tr><td>postcode</td><td>string</td><td>10969</td></tr>
+      <tr><td>neighborhood</td><td>string</td><td>Kreuzberg</td></tr>
+      <tr><td>energy_class</td><td>string</td><td>C</td></tr>
+      <tr><td>has_brokerage_fee</td><td>boolean</td><td>true</td></tr>
+      <tr><td>agent_company</td><td>string</td><td>Immobilien Schmidt GmbH</td></tr>
+    </table>
 
- <h2 class="section-title">Verwandte Scraper</h2>
- <ul>
- <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a>: Schweizer Immobilien mit CHF-Preisen und Halbzimmer-System</li>
- <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a>: Niederlands Immobilienportal Nr. 1 mit energielabel</li>
- <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a>: belgische Immobilien mit PEB-Energielabel</li>
- <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: finnische Immobilieninserate</li>
- <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a>: deutsche Kleinanzeigen fuer Quersignal</li>
- </ul>
+    <h2 class="section-title">Verwandte Scraper</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/">Homegate.ch Scraper</a>: Schweizer Immobilien mit CHF-Preisen und Halbzimmer-System</li>
+      <li><a href="/actors/funda-nl-scraper/">Funda.nl Scraper</a>: Niederlands Immobilienportal Nr. 1 mit energielabel</li>
+      <li><a href="/actors/immoweb-be-scraper/">Immoweb.be Scraper</a>: belgische Immobilien mit PEB-Energielabel</li>
+      <li><a href="/actors/oikotie-fi-scraper/">Oikotie.fi Scraper</a>: finnische Immobilieninserate</li>
+      <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a>: deutsche Kleinanzeigen fuer Quersignal</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfuegbar)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/immowelt-de-scraper?fpr=0khfbz" class="btn-primary">Auf Apify oeffnen &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/9io8vYSKX37vV9slX/source?addFromActorId=9io8vYSKX37vV9slX&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfuegbar)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

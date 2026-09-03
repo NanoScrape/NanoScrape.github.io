@@ -1,185 +1,185 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Twitter / X 主页 + 推文抓取器：24 个字段，无需登录 | NanoScrape</title>
- <meta name="description" content="抓取公开 Twitter / X 主页与推文。返回用户名、bio、粉丝/关注数量、认证状态、所在地、网站，以及含互动数据、实体和回复上下文的完整推文负载。无需登录或 API 密钥。按结果付费。">
- <meta property="og:title" content="Twitter / X 主页 + 推文抓取器：24 个字段，无需登录 | NanoScrape">
- <meta property="og:description" content="提取公开 Twitter / X 主页与推文数据。bio、粉丝/关注数、认证、所在地、网站、互动数据、实体。无需登录。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Twitter / X Profiles + Tweets Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Twitter / X 主页与推文抓取器。传入任意 X / Twitter 用户名或主页 URL，返回完整作者块（24 个字段）以及可配置的最近推文，含互动数据、实体和回复 / 转推上下文。住宅代理，遇限速时 warm-IP 轮换。无需登录或 API 密钥。",
- "offers": {
- "@type": "Offer",
- "price": "0.001",
- "priceCurrency": "USD",
- "description": "per profile / tweet item"
- },
- "url": "https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Twitter / X 主页 + 推文抓取器：24 个字段，无需登录 | NanoScrape</title>
+  <meta name="description" content="抓取公开 Twitter / X 主页与推文。返回用户名、bio、粉丝/关注数量、认证状态、所在地、网站，以及含互动数据、实体和回复上下文的完整推文负载。无需登录或 API 密钥。按结果付费。">
+  <meta property="og:title" content="Twitter / X 主页 + 推文抓取器：24 个字段，无需登录 | NanoScrape">
+  <meta property="og:description" content="提取公开 Twitter / X 主页与推文数据。bio、粉丝/关注数、认证、所在地、网站、互动数据、实体。无需登录。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Twitter / X Profiles + Tweets Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Twitter / X 主页与推文抓取器。传入任意 X / Twitter 用户名或主页 URL，返回完整作者块（24 个字段）以及可配置的最近推文，含互动数据、实体和回复 / 转推上下文。住宅代理，遇限速时 warm-IP 轮换。无需登录或 API 密钥。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per profile / tweet item"
+    },
+    "url": "https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Twitter / X 主页 + 推文抓取器：24 个字段，无需登录，每 1,000 个记录 $1</h1>
- <p class="lead">单次调用即可抓取公开 Twitter / X 主页及其最近推文。每条推文均内嵌完整的 24 字段作者块，让您无需二次查询即可关联推文与主页。可选输出仅主页项，可配置每用户推文数，可选择是否包含回复与转推，遇限速时 warm-IP 轮换。无需登录、无需 API 密钥、无需 X 开发者账号。</p>
+  <div class="detail">
+    <h1>Twitter / X 主页 + 推文抓取器：24 个字段，无需登录，每 1,000 个记录 $1</h1>
+    <p class="lead">单次调用即可抓取公开 Twitter / X 主页及其最近推文。每条推文均内嵌完整的 24 字段作者块，让您无需二次查询即可关联推文与主页。可选输出仅主页项，可配置每用户推文数，可选择是否包含回复与转推，遇限速时 warm-IP 轮换。无需登录、无需 API 密钥、无需 X 开发者账号。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/K6hQL3kO4er79e4F6/source?addFromActorId=K6hQL3kO4er79e4F6&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/K6hQL3kO4er79e4F6/source?addFromActorId=K6hQL3kO4er79e4F6&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">价格</div><div class="value">$0.001/记录</div></div>
- <div class="spec"><div class="label">内存</div><div class="value">256MB</div></div>
- <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
- <div class="spec"><div class="label">每记录字段数</div><div class="value">24 作者 + 推文负载</div></div>
- <div class="spec"><div class="label">代理</div><div class="value">Apify 住宅</div></div>
- <div class="spec"><div class="label">反爬虫</div><div class="value">Warm-IP 轮换</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.001/记录</div></div>
+      <div class="spec"><div class="label">内存</div><div class="value">256MB</div></div>
+      <div class="spec"><div class="label">覆盖</div><div class="value">全球</div></div>
+      <div class="spec"><div class="label">每记录字段数</div><div class="value">24 作者 + 推文负载</div></div>
+      <div class="spec"><div class="label">代理</div><div class="value">Apify 住宅</div></div>
+      <div class="spec"><div class="label">反爬虫</div><div class="value">Warm-IP 轮换</div></div>
+    </div>
 
- <h2 class="section-title">您可以抓取的内容</h2>
- <ul>
- <li><strong>作者块（24 个字段）：</strong>username、昵称、bio、follower_count、following_count、verified、location、website、头像、横幅、created_at 等</li>
- <li><strong>推文负载：</strong>id、text、created_at、lang、完整互动数据（点赞、转推、回复、引用、收藏、查看）</li>
- <li><strong>实体：</strong>hashtags、mentions、URL、cashtags、媒体（photo / video / animated_gif）</li>
- <li><strong>回复与转推上下文：</strong>in_reply_to_user、retweeted_status、quoted_status（含内嵌作者）</li>
- <li><strong>记录类型：</strong>tweet（默认）或仅主页，通过 includeProfileOnlyItems 切换</li>
- <li><strong>过滤：</strong>includeReplies、includeRetweets、tweetsPerUser 上限</li>
- </ul>
+    <h2 class="section-title">您可以抓取的内容</h2>
+    <ul>
+      <li><strong>作者块（24 个字段）：</strong>username、昵称、bio、follower_count、following_count、verified、location、website、头像、横幅、created_at 等</li>
+      <li><strong>推文负载：</strong>id、text、created_at、lang、完整互动数据（点赞、转推、回复、引用、收藏、查看）</li>
+      <li><strong>实体：</strong>hashtags、mentions、URL、cashtags、媒体（photo / video / animated_gif）</li>
+      <li><strong>回复与转推上下文：</strong>in_reply_to_user、retweeted_status、quoted_status（含内嵌作者）</li>
+      <li><strong>记录类型：</strong>tweet（默认）或仅主页，通过 includeProfileOnlyItems 切换</li>
+      <li><strong>过滤：</strong>includeReplies、includeRetweets、tweetsPerUser 上限</li>
+    </ul>
 
- <h2 class="section-title">主要使用场景</h2>
- <ul>
- <li><strong>品牌提及监控。</strong>每日抓取 100 个行业账号的最近推文，找出提及您品牌或竞品的帖子</li>
- <li><strong>危机公关追踪。</strong>抓取某账号的回复与引用，在情绪变化登上热门之前提前察觉</li>
- <li><strong>网红尽调。</strong>快照 follower_count、认证状态和最近互动数据，验证合作 pitch deck</li>
- <li><strong>CRM bio 数据增强。</strong>为一组 X 账号抓取 website、location 和 bio，增强 Salesforce / HubSpot 联系人</li>
- <li><strong>跨平台创作者情报。</strong>与 TikTok 和 YouTube 抓取器组合，构建完整的多平台创作者画像</li>
- </ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>品牌提及监控。</strong>每日抓取 100 个行业账号的最近推文，找出提及您品牌或竞品的帖子</li>
+      <li><strong>危机公关追踪。</strong>抓取某账号的回复与引用，在情绪变化登上热门之前提前察觉</li>
+      <li><strong>网红尽调。</strong>快照 follower_count、认证状态和最近互动数据，验证合作 pitch deck</li>
+      <li><strong>CRM bio 数据增强。</strong>为一组 X 账号抓取 website、location 和 bio，增强 Salesforce / HubSpot 联系人</li>
+      <li><strong>跨平台创作者情报。</strong>与 TikTok 和 YouTube 抓取器组合，构建完整的多平台创作者画像</li>
+    </ul>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~twitter-x-profiles-tweets-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "usernames": ["elonmusk", "@sama", "https://x.com/naval"],
- "tweetsPerUser": 20,
- "includeReplies": false,
- "includeRetweets": false,
- "includeProfileOnlyItems": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "usernames": ["elonmusk", "@sama", "https://x.com/naval"],
+    "tweetsPerUser": 20,
+    "includeReplies": false,
+    "includeRetweets": false,
+    "includeProfileOnlyItems": true
+  }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/twitter-x-profiles-tweets-scraper</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并流式处理推文</li>
- <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
- <li><strong>Google Sheets、Airtable：</strong>账号输入，含互动数据的推文流输出</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并流式处理推文</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>账号输入，含互动数据的推文流输出</li>
+    </ul>
 
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>item_type</td><td>string</td><td>tweet</td></tr>
- <tr><td>tweet.id</td><td>string</td><td>1854729384759302174</td></tr>
- <tr><td>tweet.text</td><td>string</td><td>Mars is the future</td></tr>
- <tr><td>tweet.engagement.like_count</td><td>integer</td><td>248,300</td></tr>
- <tr><td>tweet.engagement.retweet_count</td><td>integer</td><td>32,150</td></tr>
- <tr><td>tweet.entities.hashtags</td><td>array</td><td>["mars", "spacex"]</td></tr>
- <tr><td>author.username</td><td>string</td><td>elonmusk</td></tr>
- <tr><td>author.follower_count</td><td>integer</td><td>208,400,000</td></tr>
- <tr><td>author.verified</td><td>boolean</td><td>true</td></tr>
- <tr><td>author.website</td><td>string</td><td>https://x.com/elonmusk</td></tr>
- </table>
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>item_type</td><td>string</td><td>tweet</td></tr>
+      <tr><td>tweet.id</td><td>string</td><td>1854729384759302174</td></tr>
+      <tr><td>tweet.text</td><td>string</td><td>Mars is the future</td></tr>
+      <tr><td>tweet.engagement.like_count</td><td>integer</td><td>248,300</td></tr>
+      <tr><td>tweet.engagement.retweet_count</td><td>integer</td><td>32,150</td></tr>
+      <tr><td>tweet.entities.hashtags</td><td>array</td><td>["mars", "spacex"]</td></tr>
+      <tr><td>author.username</td><td>string</td><td>elonmusk</td></tr>
+      <tr><td>author.follower_count</td><td>integer</td><td>208,400,000</td></tr>
+      <tr><td>author.verified</td><td>boolean</td><td>true</td></tr>
+      <tr><td>author.website</td><td>string</td><td>https://x.com/elonmusk</td></tr>
+    </table>
 
- <h2 class="section-title">相关抓取器</h2>
- <ul>
- <li><a href="/actors/tiktok-profile-scraper/">TikTok 个人主页抓取器</a>：TikTok 跨平台创作者情报</li>
- <li><a href="/actors/reddit-scraper/">Reddit 抓取器</a>：子版块的帖子、评论、搜索与用户</li>
- <li><a href="/actors/threads-search-scraper/">Threads 搜索抓取器</a>：Threads.net 关键词与主页帖子</li>
- </ul>
+    <h2 class="section-title">相关抓取器</h2>
+    <ul>
+      <li><a href="/actors/tiktok-profile-scraper/">TikTok 个人主页抓取器</a>：TikTok 跨平台创作者情报</li>
+      <li><a href="/actors/reddit-scraper/">Reddit 抓取器</a>：子版块的帖子、评论、搜索与用户</li>
+      <li><a href="/actors/threads-search-scraper/">Threads 搜索抓取器</a>：Threads.net 关键词与主页帖子</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/K6hQL3kO4er79e4F6/source?addFromActorId=K6hQL3kO4er79e4F6&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/K6hQL3kO4er79e4F6/source?addFromActorId=K6hQL3kO4er79e4F6&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

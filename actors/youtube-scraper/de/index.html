@@ -1,184 +1,184 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>YouTube Scraper: Videos, Channels, Shorts, $1/1k | NanoScrape</title>
- <meta name="description" content="YouTube-Suchergebnisse, Channels, Videodetails und Shorts scrapen. Liefert Titel, Views, Likes, Kommentare, Dauer, Tags, Thumbnail, Channel-Infos und Engagement-Rate. Ohne API-Key. Export als JSON, CSV oder Excel. $0,001 pro Ergebnis.">
- <meta property="og:title" content="YouTube Scraper: Videos, Channels, Shorts | NanoScrape">
- <meta property="og:description" content="YouTube-Videos, Channels und Shorts ohne API-Key extrahieren. Titel, Views, Likes, Kommentare, Tags, Thumbnails, Dauer, Engagement-Rate. Pay-per-Result.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/youtube-scraper/de/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/youtube-scraper/de/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/youtube-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/youtube-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/youtube-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/youtube-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/youtube-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "YouTube Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "YouTube-Such-, Channel-, Video- und Shorts-Scraper. Vier Modi: Keyword-Suche, Channel-URL (Videos), Videodetail, Channel-URL (Shorts). Liefert Titel, Views, Likes, Kommentare, Dauer, Tags, Thumbnail, Channel-Abonnenten, Engagement-Rate, is_short- / is_live- / is_premiere-Flags. Ohne API-Key. Optionaler includeDetails-Toggle für reichhaltigere Per-Video-Daten.",
- "offers": {
- "@type": "Offer",
- "price": "0.001",
- "priceCurrency": "USD",
- "description": "per result scraped"
- },
- "url": "https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>YouTube Scraper: Videos, Channels, Shorts, $1/1k | NanoScrape</title>
+  <meta name="description" content="YouTube-Suchergebnisse, Channels, Videodetails und Shorts scrapen. Liefert Titel, Views, Likes, Kommentare, Dauer, Tags, Thumbnail, Channel-Infos und Engagement-Rate. Ohne API-Key. Export als JSON, CSV oder Excel. $0,001 pro Ergebnis.">
+  <meta property="og:title" content="YouTube Scraper: Videos, Channels, Shorts | NanoScrape">
+  <meta property="og:description" content="YouTube-Videos, Channels und Shorts ohne API-Key extrahieren. Titel, Views, Likes, Kommentare, Tags, Thumbnails, Dauer, Engagement-Rate. Pay-per-Result.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/youtube-scraper/de/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/youtube-scraper/de/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/youtube-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/youtube-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/youtube-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/youtube-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/youtube-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "YouTube Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "YouTube-Such-, Channel-, Video- und Shorts-Scraper. Vier Modi: Keyword-Suche, Channel-URL (Videos), Videodetail, Channel-URL (Shorts). Liefert Titel, Views, Likes, Kommentare, Dauer, Tags, Thumbnail, Channel-Abonnenten, Engagement-Rate, is_short- / is_live- / is_premiere-Flags. Ohne API-Key. Optionaler includeDetails-Toggle für reichhaltigere Per-Video-Daten.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per result scraped"
+    },
+    "url": "https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>YouTube Scraper: Videos, Channels, Shorts, $1 pro 1.000 Ergebnisse</h1>
- <p class="lead">YouTube ohne API-Key scrapen. Vier Modi in einem Actor: Keyword-Suche, Channel-Videos, Einzelvideo-Detail, Channel-Shorts. Jedes Ergebnis enthält Titel, view_count, like_count, comment_count, Dauer, Tags, Thumbnail, Channel-Infos mit Abonnenten-Anzahl, is_short- / is_live- / is_premiere-Flags, berechnete engagement_rate und optional vollständige Details (Beschreibung, Tags, Kategorie, Sprache) via includeDetails.</p>
+  <div class="detail">
+    <h1>YouTube Scraper: Videos, Channels, Shorts, $1 pro 1.000 Ergebnisse</h1>
+    <p class="lead">YouTube ohne API-Key scrapen. Vier Modi in einem Actor: Keyword-Suche, Channel-Videos, Einzelvideo-Detail, Channel-Shorts. Jedes Ergebnis enthält Titel, view_count, like_count, comment_count, Dauer, Tags, Thumbnail, Channel-Infos mit Abonnenten-Anzahl, is_short- / is_live- / is_premiere-Flags, berechnete engagement_rate und optional vollständige Details (Beschreibung, Tags, Kategorie, Sprache) via includeDetails.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">Jetzt testen</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Preise</div><div class="value">$0,001/Ergebnis</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
- <div class="spec"><div class="label">Modi</div><div class="value">search, channel, video, shorts</div></div>
- <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
- <div class="spec"><div class="label">Anti-Bot</div><div class="value">SSR + IP-Rotation</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Preise</div><div class="value">$0,001/Ergebnis</div></div>
+      <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+      <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
+      <div class="spec"><div class="label">Modi</div><div class="value">search, channel, video, shorts</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Apify Datacenter</div></div>
+      <div class="spec"><div class="label">Anti-Bot</div><div class="value">SSR + IP-Rotation</div></div>
+    </div>
 
- <h2 class="section-title">Was Sie scrapen können</h2>
- <ul>
- <li><strong>Identität:</strong> id, video_url, title, type (video, channel, short), is_short, is_live, is_premiere</li>
- <li><strong>Engagement:</strong> view_count, like_count, comment_count, engagement_rate (berechnete Prozentzahl)</li>
- <li><strong>Channel-Kontext:</strong> channel_id, channel_name, channel_subscribers, channel_url</li>
- <li><strong>Inhalt:</strong> description, tags, category, language, duration, duration_seconds, thumbnail_url</li>
- <li><strong>Zeit:</strong> published_at (ISO-Zeitstempel)</li>
- <li><strong>Herkunft:</strong> search_query (für Search-Modus), source_url, scraped_at</li>
- </ul>
+    <h2 class="section-title">Was Sie scrapen können</h2>
+    <ul>
+      <li><strong>Identität:</strong> id, video_url, title, type (video, channel, short), is_short, is_live, is_premiere</li>
+      <li><strong>Engagement:</strong> view_count, like_count, comment_count, engagement_rate (berechnete Prozentzahl)</li>
+      <li><strong>Channel-Kontext:</strong> channel_id, channel_name, channel_subscribers, channel_url</li>
+      <li><strong>Inhalt:</strong> description, tags, category, language, duration, duration_seconds, thumbnail_url</li>
+      <li><strong>Zeit:</strong> published_at (ISO-Zeitstempel)</li>
+      <li><strong>Herkunft:</strong> search_query (für Search-Modus), source_url, scraped_at</li>
+    </ul>
 
- <h2 class="section-title">Wichtige Anwendungsfälle</h2>
- <ul>
- <li><strong>Nischen-Keyword-Recherche.</strong> YouTube nach "Python Tutorial" sortiert nach Views durchsuchen, sehen welche Titel die Nische dominieren</li>
- <li><strong>Channel-Performance-Audit.</strong> Jedes Video eines Channels ziehen und die Median-engagement_rate über die letzten 100 Uploads berechnen</li>
- <li><strong>Shorts-Trend-Mining.</strong> shorts-Modus auf 50 Channels nutzen, um zu sehen, welche Shorts-Formate in einer Vertikale Fahrt aufnehmen</li>
- <li><strong>Sponsored-Content-Matching.</strong> Tags- und Titelmuster erkennen, um Brand-gesponserte Episoden im Katalog eines Creators zu identifizieren</li>
- <li><strong>SEO-Konkurrenz-Tracking.</strong> Täglicher Snapshot von view_count für Konkurrenz-Uploads, um Ranking-Shifts und virale Momente zu verfolgen</li>
- </ul>
+    <h2 class="section-title">Wichtige Anwendungsfälle</h2>
+    <ul>
+      <li><strong>Nischen-Keyword-Recherche.</strong> YouTube nach "Python Tutorial" sortiert nach Views durchsuchen, sehen welche Titel die Nische dominieren</li>
+      <li><strong>Channel-Performance-Audit.</strong> Jedes Video eines Channels ziehen und die Median-engagement_rate über die letzten 100 Uploads berechnen</li>
+      <li><strong>Shorts-Trend-Mining.</strong> shorts-Modus auf 50 Channels nutzen, um zu sehen, welche Shorts-Formate in einer Vertikale Fahrt aufnehmen</li>
+      <li><strong>Sponsored-Content-Matching.</strong> Tags- und Titelmuster erkennen, um Brand-gesponserte Episoden im Katalog eines Creators zu identifizieren</li>
+      <li><strong>SEO-Konkurrenz-Tracking.</strong> Täglicher Snapshot von view_count für Konkurrenz-Uploads, um Ranking-Shifts und virale Momente zu verfolgen</li>
+    </ul>
 
- <h2 class="section-title">API-Beispiel</h2>
- <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+    <h2 class="section-title">API-Beispiel</h2>
+    <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~youtube-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "mode": "channel",
- "urls": ["https://www.youtube.com/@MrBeast"],
- "maxResults": 100,
- "sortBy": "views",
- "includeDetails": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "mode": "channel",
+    "urls": ["https://www.youtube.com/@MrBeast"],
+    "maxResults": 100,
+    "sortBy": "views",
+    "includeDetails": true
+  }'
 
 <span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/youtube-scraper</span></pre></div>
 
- <h2 class="section-title">Integrationen</h2>
- <ul>
- <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und neue Video-Records per Webhook streamen</li>
- <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
- <li><strong>Google Sheets, Airtable:</strong> Queries oder Channel-URLs rein, vollständige Video-CSV raus</li>
- </ul>
+    <h2 class="section-title">Integrationen</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und neue Video-Records per Webhook streamen</li>
+      <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
+      <li><strong>Google Sheets, Airtable:</strong> Queries oder Channel-URLs rein, vollständige Video-CSV raus</li>
+    </ul>
 
- <h2 class="section-title">Ausgabefelder</h2>
- <table class="compare-table">
- <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
- <tr><td>id</td><td>string</td><td>dQw4w9WgXcQ</td></tr>
- <tr><td>title</td><td>string</td><td>How to Code in Python</td></tr>
- <tr><td>view_count</td><td>integer</td><td>1.500.000</td></tr>
- <tr><td>like_count</td><td>integer</td><td>45.000</td></tr>
- <tr><td>comment_count</td><td>integer</td><td>3.200</td></tr>
- <tr><td>engagement_rate</td><td>number</td><td>3,2</td></tr>
- <tr><td>duration</td><td>string</td><td>12:34</td></tr>
- <tr><td>channel_name</td><td>string</td><td>TechTutorials</td></tr>
- <tr><td>is_short</td><td>boolean</td><td>false</td></tr>
- <tr><td>thumbnail_url</td><td>string</td><td>https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg</td></tr>
- </table>
+    <h2 class="section-title">Ausgabefelder</h2>
+    <table class="compare-table">
+      <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
+      <tr><td>id</td><td>string</td><td>dQw4w9WgXcQ</td></tr>
+      <tr><td>title</td><td>string</td><td>How to Code in Python</td></tr>
+      <tr><td>view_count</td><td>integer</td><td>1.500.000</td></tr>
+      <tr><td>like_count</td><td>integer</td><td>45.000</td></tr>
+      <tr><td>comment_count</td><td>integer</td><td>3.200</td></tr>
+      <tr><td>engagement_rate</td><td>number</td><td>3,2</td></tr>
+      <tr><td>duration</td><td>string</td><td>12:34</td></tr>
+      <tr><td>channel_name</td><td>string</td><td>TechTutorials</td></tr>
+      <tr><td>is_short</td><td>boolean</td><td>false</td></tr>
+      <tr><td>thumbnail_url</td><td>string</td><td>https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg</td></tr>
+    </table>
 
- <h2 class="section-title">Verwandte Scraper</h2>
- <ul>
- <li><a href="/actors/tiktok-video-scraper/">TikTok Video Scraper</a>: aktuelle Videos mit Engagement, Hashtags und Musik auf TikTok</li>
- <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a>: plattformübergreifende Creator-Intelligenz</li>
- <li><a href="/actors/reddit-scraper/">Reddit Scraper</a>: Subreddit-Posts, Kommentare, Suche und User</li>
- </ul>
+    <h2 class="section-title">Verwandte Scraper</h2>
+    <ul>
+      <li><a href="/actors/tiktok-video-scraper/">TikTok Video Scraper</a>: aktuelle Videos mit Engagement, Hashtags und Musik auf TikTok</li>
+      <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profile + Tweets Scraper</a>: plattformübergreifende Creator-Intelligenz</li>
+      <li><a href="/actors/reddit-scraper/">Reddit Scraper</a>: Subreddit-Posts, Kommentare, Suche und User</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/youtube-scraper?fpr=0khfbz" class="btn-primary">Auf Apify öffnen &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/OkoPo1EdR1NdwVEaA/source?addFromActorId=OkoPo1EdR1NdwVEaA&fpr=0khfbz" class="btn-secondary">Jetzt testen (kostenloses Kontingent verfügbar)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

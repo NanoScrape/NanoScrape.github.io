@@ -1,184 +1,184 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>维基百科抓取器：文章、摘要、元数据，$0.50/1k | NanoScrape</title>
- <meta name="description" content="通过官方 MediaWiki API 大规模提取维基百科文章。返回摘要、全文、缩略图、类目、坐标、Wikidata ID 和页面浏览量。12+ 语言。每 1,000 文章 $0.50。">
- <meta property="og:title" content="维基百科抓取器 API：文章、摘要、元数据 | NanoScrape">
- <meta property="og:description" content="按标题或 URL 提取维基百科文章，含摘要、类目、Wikidata ID。12+ 语言。">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/wikipedia-scraper/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/wikipedia-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/wikipedia-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/wikipedia-scraper/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Wikipedia Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "通过官方 MediaWiki API 大规模提取维基百科文章。返回摘要、全文、缩略图、类目、坐标、Wikidata ID 和页面浏览量。12+ 语言。128MB 内存，每文章 $0.0005。",
- "offers": {
- "@type": "Offer",
- "price": "0.0005",
- "priceCurrency": "USD",
- "description": "per article extracted"
- },
- "url": "https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>维基百科抓取器：文章、摘要、元数据，$0.50/1k | NanoScrape</title>
+  <meta name="description" content="通过官方 MediaWiki API 大规模提取维基百科文章。返回摘要、全文、缩略图、类目、坐标、Wikidata ID 和页面浏览量。12+ 语言。每 1,000 文章 $0.50。">
+  <meta property="og:title" content="维基百科抓取器 API：文章、摘要、元数据 | NanoScrape">
+  <meta property="og:description" content="按标题或 URL 提取维基百科文章，含摘要、类目、Wikidata ID。12+ 语言。">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/wikipedia-scraper/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/wikipedia-scraper/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/wikipedia-scraper/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/wikipedia-scraper/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/wikipedia-scraper/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Wikipedia Scraper",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "通过官方 MediaWiki API 大规模提取维基百科文章。返回摘要、全文、缩略图、类目、坐标、Wikidata ID 和页面浏览量。12+ 语言。128MB 内存，每文章 $0.0005。",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.0005",
+      "priceCurrency": "USD",
+      "description": "per article extracted"
+    },
+    "url": "https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>维基百科抓取器：文章、摘要和元数据，每 1,000 文章 $0.50</h1>
- <p class="lead">通过官方 MediaWiki API 按标题、URL 或 Wikidata ID 提取维基百科文章。返回文章标题、摘要（首段）、纯文本全文、缩略图、首图、所有类目、地理坐标（适用时）、Wikidata Q-ID、过去 30 天页面浏览量，以及其他语言的引用。支持 12+ 语言，包括英语、德语、法语、西班牙语、中文和日语。适用于 AI 训练数据、知识图谱富化、RAG 数据摄入和参考数据库。</p>
+  <div class="detail">
+    <h1>维基百科抓取器：文章、摘要和元数据，每 1,000 文章 $0.50</h1>
+    <p class="lead">通过官方 MediaWiki API 按标题、URL 或 Wikidata ID 提取维基百科文章。返回文章标题、摘要（首段）、纯文本全文、缩略图、首图、所有类目、地理坐标（适用时）、Wikidata Q-ID、过去 30 天页面浏览量，以及其他语言的引用。支持 12+ 语言，包括英语、德语、法语、西班牙语、中文和日语。适用于 AI 训练数据、知识图谱富化、RAG 数据摄入和参考数据库。</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tR3uLUvQfpZtOOh6A/source?addFromActorId=tR3uLUvQfpZtOOh6A&fpr=0khfbz" class="btn-secondary">立即试用</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tR3uLUvQfpZtOOh6A/source?addFromActorId=tR3uLUvQfpZtOOh6A&fpr=0khfbz" class="btn-secondary">立即试用</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">价格</div><div class="value">$0.0005/文章</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">12+ 语言</div></div><div class="spec"><div class="label">输出字段</div><div class="value">20+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">MediaWiki API</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">价格</div><div class="value">$0.0005/文章</div></div><div class="spec"><div class="label">内存</div><div class="value">128MB</div></div><div class="spec"><div class="label">覆盖</div><div class="value">12+ 语言</div></div><div class="spec"><div class="label">输出字段</div><div class="value">20+</div></div><div class="spec"><div class="label">代理</div><div class="value">Apify 数据中心</div></div><div class="spec"><div class="label">技术</div><div class="value">MediaWiki API</div></div>
+    </div>
 
- <h2 class="section-title">您能获得什么</h2>
- <ul>
- <li><strong>身份：</strong>title、page_id、wikidata_id（Q-ID）、canonical_url、language</li>
- <li><strong>内容：</strong>summary（首段）、content（完整纯文本）、sections[]、word_count</li>
- <li><strong>视觉：</strong>thumbnail_url、lead_image_url、image_count</li>
- <li><strong>分类：</strong>categories[]、interwiki_links[]（其他语言版本）</li>
- <li><strong>地理 + 热度：</strong>coordinates（地理类文章的 lat/lon）、pageviews_30d、edit_count、last_edited_at</li>
- </ul>
+    <h2 class="section-title">您能获得什么</h2>
+    <ul>
+      <li><strong>身份：</strong>title、page_id、wikidata_id（Q-ID）、canonical_url、language</li>
+      <li><strong>内容：</strong>summary（首段）、content（完整纯文本）、sections[]、word_count</li>
+      <li><strong>视觉：</strong>thumbnail_url、lead_image_url、image_count</li>
+      <li><strong>分类：</strong>categories[]、interwiki_links[]（其他语言版本）</li>
+      <li><strong>地理 + 热度：</strong>coordinates（地理类文章的 lat/lon）、pageviews_30d、edit_count、last_edited_at</li>
+    </ul>
 
- <h2 class="section-title">主要使用场景</h2>
- <ul>
- <li><strong>AI 训练数据。</strong>跨主题和语言构建用于 LLM 微调的干净、结构化语料</li>
- <li><strong>知识图谱富化。</strong>将公司、人物或地点实体解析到 Wikidata Q-ID 并提取规范描述</li>
- <li><strong>RAG 数据摄入。</strong>将维基百科内容作为权威参考锚定送入向量数据库</li>
- <li><strong>多语言参考数据库。</strong>以 12+ 语言提取同一篇文章用于平行文本项目</li>
- <li><strong>主题监控。</strong>追踪 edit_count 和 last_edited_at 以检测公众兴趣激增</li>
- </ul>
+    <h2 class="section-title">主要使用场景</h2>
+    <ul>
+      <li><strong>AI 训练数据。</strong>跨主题和语言构建用于 LLM 微调的干净、结构化语料</li>
+      <li><strong>知识图谱富化。</strong>将公司、人物或地点实体解析到 Wikidata Q-ID 并提取规范描述</li>
+      <li><strong>RAG 数据摄入。</strong>将维基百科内容作为权威参考锚定送入向量数据库</li>
+      <li><strong>多语言参考数据库。</strong>以 12+ 语言提取同一篇文章用于平行文本项目</li>
+      <li><strong>主题监控。</strong>追踪 edit_count 和 last_edited_at 以检测公众兴趣激增</li>
+    </ul>
 
- <h2 class="section-title">API 示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
+    <h2 class="section-title">API 示例</h2>
+    <div class="code-block"><pre><span class="comment"># 通过 Apify API 启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~wikipedia-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "queries": [
- "Stripe (公司)",
- "OpenAI",
- "埃菲尔铁塔",
- "阿尔伯特·爱因斯坦",
- "Transformer (机器学习模型)"
- ],
- "language": "zh",
- "extractFullContent": true,
- "includePageviews": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "queries": [
+      "Stripe (公司)",
+      "OpenAI",
+      "埃菲尔铁塔",
+      "阿尔伯特·爱因斯坦",
+      "Transformer (机器学习模型)"
+    ],
+    "language": "zh",
+    "extractFullContent": true,
+    "includePageviews": true
+  }'
 
 <span class="comment"># 或通过 MCP 与 AI 代理配合使用：</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/wikipedia-scraper</span></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
- <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
- <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
- </ul>
+    <h2 class="section-title">集成</h2>
+    <ul>
+      <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理记录</li>
+      <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
+      <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
+      <li><strong>Google Sheets、Airtable：</strong>批量输入，结构化数据输出</li>
+    </ul>
 
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>title</td><td>string</td><td>埃菲尔铁塔</td></tr>
- <tr><td>page_id</td><td>integer</td><td>9202</td></tr>
- <tr><td>wikidata_id</td><td>string</td><td>Q243</td></tr>
- <tr><td>summary</td><td>string</td><td>埃菲尔铁塔是一座位于法国巴黎的镂空结构铁塔...</td></tr>
- <tr><td>content</td><td>string</td><td>埃菲尔铁塔（法语：La Tour Eiffel）...</td></tr>
- <tr><td>thumbnail_url</td><td>string</td><td>https://upload.wikimedia.org/wikipedia/commons/...</td></tr>
- <tr><td>categories</td><td>array</td><td>["埃菲尔铁塔","巴黎建筑"]</td></tr>
- <tr><td>coordinates</td><td>object</td><td>{"lat":48.8584,"lon":2.2945}</td></tr>
- <tr><td>pageviews_30d</td><td>integer</td><td>512,847</td></tr>
- <tr><td>canonical_url</td><td>string</td><td>https://zh.wikipedia.org/wiki/埃菲尔铁塔</td></tr>
- </table>
+    <h2 class="section-title">输出字段</h2>
+    <table class="compare-table">
+      <tr><th>字段</th><th>类型</th><th>示例</th></tr>
+      <tr><td>title</td><td>string</td><td>埃菲尔铁塔</td></tr>
+      <tr><td>page_id</td><td>integer</td><td>9202</td></tr>
+      <tr><td>wikidata_id</td><td>string</td><td>Q243</td></tr>
+      <tr><td>summary</td><td>string</td><td>埃菲尔铁塔是一座位于法国巴黎的镂空结构铁塔...</td></tr>
+      <tr><td>content</td><td>string</td><td>埃菲尔铁塔（法语：La Tour Eiffel）...</td></tr>
+      <tr><td>thumbnail_url</td><td>string</td><td>https://upload.wikimedia.org/wikipedia/commons/...</td></tr>
+      <tr><td>categories</td><td>array</td><td>["埃菲尔铁塔","巴黎建筑"]</td></tr>
+      <tr><td>coordinates</td><td>object</td><td>{"lat":48.8584,"lon":2.2945}</td></tr>
+      <tr><td>pageviews_30d</td><td>integer</td><td>512,847</td></tr>
+      <tr><td>canonical_url</td><td>string</td><td>https://zh.wikipedia.org/wiki/埃菲尔铁塔</td></tr>
+    </table>
 
- <h2 class="section-title">相关 Actor</h2>
- <ul>
- <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将维基百科 HTML 转换为干净 markdown 用于下游 LLM</li>
- <li><a href="/actors/rss-feed-reader/">RSS Feed Reader</a>: 将维基百科实体与时事 RSS 源结合</li>
- <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: 从任意参考 URL 提取页面 SEO 信号</li>
- </ul>
+    <h2 class="section-title">相关 Actor</h2>
+    <ul>
+      <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: 将维基百科 HTML 转换为干净 markdown 用于下游 LLM</li>
+      <li><a href="/actors/rss-feed-reader/">RSS Feed Reader</a>: 将维基百科实体与时事 RSS 源结合</li>
+      <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: 从任意参考 URL 提取页面 SEO 信号</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tR3uLUvQfpZtOOh6A/source?addFromActorId=tR3uLUvQfpZtOOh6A&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz" class="btn-primary">在 Apify 上打开 &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/tR3uLUvQfpZtOOh6A/source?addFromActorId=tR3uLUvQfpZtOOh6A&fpr=0khfbz" class="btn-secondary">立即试用（免费套餐可用）</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>

@@ -1,183 +1,183 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
- <meta charset="UTF-8">
- <meta name="robots" content="noindex, follow">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Inspecteur SSL : audit TLS et expiration, 1$/1k | NanoScrape</title>
- <meta name="description" content="Inspection SSL/TLS en masse pour tout domaine. Retourne émetteur, expiration, validation de chaîne, versions TLS, suites de chiffrement et score sécurité 0-100. 1$ pour 1 000 domaines.">
- <meta property="og:title" content="Inspecteur de certificats SSL : audit TLS et moniteur d'expiration | NanoScrape">
- <meta property="og:description" content="Inspecter les certs SSL/TLS de tout domaine. Émetteur, expiration, chaîne, chiffrements, score. Paiement au résultat.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "SSL Certificate Inspector",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Inspection en masse de certificats SSL/TLS pour tout domaine. Retourne émetteur, expiration, validation de chaîne, versions TLS, suites de chiffrement, liste SAN et score sécurité 0-100. 128MB RAM, 0,001$ par domaine.",
- "offers": {
- "@type": "Offer",
- "price": "0.001",
- "priceCurrency": "USD",
- "description": "per domain inspected"
- },
- "url": "https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inspecteur SSL : audit TLS et expiration, 1$/1k | NanoScrape</title>
+  <meta name="description" content="Inspection SSL/TLS en masse pour tout domaine. Retourne émetteur, expiration, validation de chaîne, versions TLS, suites de chiffrement et score sécurité 0-100. 1$ pour 1 000 domaines.">
+  <meta property="og:title" content="Inspecteur de certificats SSL : audit TLS et moniteur d'expiration | NanoScrape">
+  <meta property="og:description" content="Inspecter les certs SSL/TLS de tout domaine. Émetteur, expiration, chaîne, chiffrements, score. Paiement au résultat.">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/de/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/fr/">
+  <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/zh/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "SSL Certificate Inspector",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cloud (Apify)",
+    "description": "Inspection en masse de certificats SSL/TLS pour tout domaine. Retourne émetteur, expiration, validation de chaîne, versions TLS, suites de chiffrement, liste SAN et score sécurité 0-100. 128MB RAM, 0,001$ par domaine.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0.001",
+      "priceCurrency": "USD",
+      "description": "per domain inspected"
+    },
+    "url": "https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz",
+    "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  }
+  </script>
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+    .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+    .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+    .code-block .comment { color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; }
+    #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Inspecteur de certificats SSL : audit TLS et moniteur d'expiration, 1$ pour 1 000 domaines</h1>
- <p class="lead">Inspectez le certificat SSL/TLS de tout domaine. Retourne émetteur, sujet, date d'expiration, days_until_expiry, validité de chaîne, algorithme de signature, taille de clé, liste SAN, versions TLS supportées, suites de chiffrement acceptées et score de sécurité 0-100. Construit pour le bulk : 10 000 domaines en entrée, une ligne par cert en sortie. Idéal pour audits de conformité, surveillance d'expiration, dashboards de posture de sécurité et revues de risque fournisseur.</p>
+  <div class="detail">
+    <h1>Inspecteur de certificats SSL : audit TLS et moniteur d'expiration, 1$ pour 1 000 domaines</h1>
+    <p class="lead">Inspectez le certificat SSL/TLS de tout domaine. Retourne émetteur, sujet, date d'expiration, days_until_expiry, validité de chaîne, algorithme de signature, taille de clé, liste SAN, versions TLS supportées, suites de chiffrement acceptées et score de sécurité 0-100. Construit pour le bulk : 10 000 domaines en entrée, une ligne par cert en sortie. Idéal pour audits de conformité, surveillance d'expiration, dashboards de posture de sécurité et revues de risque fournisseur.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">Essayez maintenant</a>
+    </div>
 
- <div class="specs">
- <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/domaine</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Couverture</div><div class="value">Tout domaine</div></div><div class="spec"><div class="label">Champs de sortie</div><div class="value">20+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">Handshake TLS natif</div></div>
- </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/domaine</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Couverture</div><div class="value">Tout domaine</div></div><div class="spec"><div class="label">Champs de sortie</div><div class="value">20+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">Handshake TLS natif</div></div>
+    </div>
 
- <h2 class="section-title">Ce que vous obtenez</h2>
- <ul>
- <li><strong>Identité du certificat :</strong> issuer, subject, common_name, sans[], serial_number</li>
- <li><strong>Validité :</strong> not_before, not_after, days_until_expiry, is_expired, is_self_signed</li>
- <li><strong>Chaîne :</strong> chain_valid, chain_length, root_ca, intermediate_cas[]</li>
- <li><strong>Crypto :</strong> signature_algorithm, key_algorithm, key_size_bits</li>
- <li><strong>Posture TLS :</strong> tls_versions_supported, cipher_suites, supports_tls13, security_score (0-100)</li>
- </ul>
+    <h2 class="section-title">Ce que vous obtenez</h2>
+    <ul>
+      <li><strong>Identité du certificat :</strong> issuer, subject, common_name, sans[], serial_number</li>
+      <li><strong>Validité :</strong> not_before, not_after, days_until_expiry, is_expired, is_self_signed</li>
+      <li><strong>Chaîne :</strong> chain_valid, chain_length, root_ca, intermediate_cas[]</li>
+      <li><strong>Crypto :</strong> signature_algorithm, key_algorithm, key_size_bits</li>
+      <li><strong>Posture TLS :</strong> tls_versions_supported, cipher_suites, supports_tls13, security_score (0-100)</li>
+    </ul>
 
- <h2 class="section-title">Cas d'usage principaux</h2>
- <ul>
- <li><strong>Audits de conformité.</strong> Vérifier que chaque domaine en scope respecte les exigences TLS PCI-DSS ou SOC 2</li>
- <li><strong>Surveillance d'expiration.</strong> Alerter sur les certs expirant dans <30 jours sur une flotte de sous-domaines</li>
- <li><strong>Dashboards de posture.</strong> Noter chaque service client sur une échelle unique 0-100</li>
- <li><strong>Revues de risque fournisseur.</strong> Évaluer l'hygiène TLS des fournisseurs tiers avant l'onboarding</li>
- <li><strong>Due diligence d'acquisition.</strong> Inventorier la santé des certs sur le portefeuille de domaines d'une cible</li>
- </ul>
+    <h2 class="section-title">Cas d'usage principaux</h2>
+    <ul>
+      <li><strong>Audits de conformité.</strong> Vérifier que chaque domaine en scope respecte les exigences TLS PCI-DSS ou SOC 2</li>
+      <li><strong>Surveillance d'expiration.</strong> Alerter sur les certs expirant dans <30 jours sur une flotte de sous-domaines</li>
+      <li><strong>Dashboards de posture.</strong> Noter chaque service client sur une échelle unique 0-100</li>
+      <li><strong>Revues de risque fournisseur.</strong> Évaluer l'hygiène TLS des fournisseurs tiers avant l'onboarding</li>
+      <li><strong>Due diligence d'acquisition.</strong> Inventorier la santé des certs sur le portefeuille de domaines d'une cible</li>
+    </ul>
 
- <h2 class="section-title">Exemple d'API</h2>
- <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
+    <h2 class="section-title">Exemple d'API</h2>
+    <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ssl-certificate-inspector/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "domains": [
- "google.com",
- "stripe.com",
- "shopify.com",
- "example-app.com",
- "vendor-portal.com"
- ],
- "checkChain": true,
- "checkCiphers": true
- }'
+  -H "Content-Type: application/json" \
+  -d '{
+    "domains": [
+      "google.com",
+      "stripe.com",
+      "shopify.com",
+      "example-app.com",
+      "vendor-portal.com"
+    ],
+    "checkChain": true,
+    "checkCiphers": true
+  }'
 
 <span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
 <span class="comment"># https://mcp.apify.com?tools=santamaria-automations/ssl-certificate-inspector</span></pre></div>
 
- <h2 class="section-title">Intégrations</h2>
- <ul>
- <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les enregistrements via webhook</li>
- <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
- <li><strong>Google Sheets, Airtable :</strong> entrées en masse, données structurées en sortie</li>
- </ul>
+    <h2 class="section-title">Intégrations</h2>
+    <ul>
+      <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les enregistrements via webhook</li>
+      <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
+      <li><strong>Google Sheets, Airtable :</strong> entrées en masse, données structurées en sortie</li>
+    </ul>
 
- <h2 class="section-title">Champs de sortie</h2>
- <table class="compare-table">
- <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
- <tr><td>domain</td><td>string</td><td>stripe.com</td></tr>
- <tr><td>issuer</td><td>string</td><td>DigiCert TLS RSA SHA256 2020 CA1</td></tr>
- <tr><td>common_name</td><td>string</td><td>stripe.com</td></tr>
- <tr><td>sans</td><td>array</td><td>["stripe.com","www.stripe.com"]</td></tr>
- <tr><td>not_after</td><td>string</td><td>2026-09-12T23:59:59Z</td></tr>
- <tr><td>days_until_expiry</td><td>integer</td><td>91</td></tr>
- <tr><td>chain_valid</td><td>boolean</td><td>true</td></tr>
- <tr><td>signature_algorithm</td><td>string</td><td>sha256WithRSAEncryption</td></tr>
- <tr><td>supports_tls13</td><td>boolean</td><td>true</td></tr>
- <tr><td>security_score</td><td>integer</td><td>98</td></tr>
- </table>
+    <h2 class="section-title">Champs de sortie</h2>
+    <table class="compare-table">
+      <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
+      <tr><td>domain</td><td>string</td><td>stripe.com</td></tr>
+      <tr><td>issuer</td><td>string</td><td>DigiCert TLS RSA SHA256 2020 CA1</td></tr>
+      <tr><td>common_name</td><td>string</td><td>stripe.com</td></tr>
+      <tr><td>sans</td><td>array</td><td>["stripe.com","www.stripe.com"]</td></tr>
+      <tr><td>not_after</td><td>string</td><td>2026-09-12T23:59:59Z</td></tr>
+      <tr><td>days_until_expiry</td><td>integer</td><td>91</td></tr>
+      <tr><td>chain_valid</td><td>boolean</td><td>true</td></tr>
+      <tr><td>signature_algorithm</td><td>string</td><td>sha256WithRSAEncryption</td></tr>
+      <tr><td>supports_tls13</td><td>boolean</td><td>true</td></tr>
+      <tr><td>security_score</td><td>integer</td><td>98</td></tr>
+    </table>
 
- <h2 class="section-title">Acteurs associés</h2>
- <ul>
- <li><a href="/actors/domain-whois-dns/">Domain WHOIS & DNS</a>: associer audit cert avec posture WHOIS et DNS</li>
- <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: identifier le CDN derrière chaque cert</li>
- <li><a href="/actors/ip-geolocation/">IP Geolocation</a>: enrichir chaque cert avec le pays d'hébergement</li>
- </ul>
+    <h2 class="section-title">Acteurs associés</h2>
+    <ul>
+      <li><a href="/actors/domain-whois-dns/">Domain WHOIS & DNS</a>: associer audit cert avec posture WHOIS et DNS</li>
+      <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: identifier le CDN derrière chaque cert</li>
+      <li><a href="/actors/ip-geolocation/">IP Geolocation</a>: enrichir chaque cert avec le pays d'hébergement</li>
+    </ul>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
- </div>
- </div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ssl-certificate-inspector?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+      <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/yNDDWDEoxQfStg0z1/source?addFromActorId=yNDDWDEoxQfStg0z1&fpr=0khfbz" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+    </div>
+  </div>
 
- <div id="site-footer"></div>
+  <div id="site-footer"></div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
 </body>
 </html>
