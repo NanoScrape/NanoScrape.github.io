@@ -3672,6 +3672,9 @@ z
 </div>
 <div class="chart-cta">Scrape all Swiss industries from <a href="/actors/jobs-ch-scraper/">jobs.ch</a> &middot; <a href="/actors/arbeit-swiss-scraper/">arbeit.swiss</a> &middot; <a href="/actors/jobscout24-ch-scraper/">jobscout24.ch</a> &mdash; pay per result, no monthly fee. <span class="chart-download">&middot; <a href="chart-industries-de-ch.png" download>PNG</a></span></div>
 <details class="chart-table"><summary>Show chart data as table</summary><table><caption>Open positions by industry across Swiss job platforms — 2026-09-08</caption><thead><tr><th>Industry</th><th>jobs.ch</th><th>arbeit.swiss</th><th>jobscout24.ch</th></tr></thead><tbody><tr><td>Gesundheits- &amp; Sozialwesen</td><td>7,780</td><td>19,991</td><td>4,786</td></tr><tr><td>Detail- &amp; Grosshandel</td><td>5,919</td><td>4,085</td><td>2,493</td></tr><tr><td>Bau &amp; Immobilien</td><td>3,178</td><td>14,580</td><td>665</td></tr><tr><td>Industrie diverse</td><td>2,419</td><td>5,295</td><td>6,899</td></tr><tr><td>Öffentl. Verwaltung &amp; Verbände</td><td>2,198</td><td>471</td><td>0</td></tr><tr><td>Gastgewerbe &amp; Hotellerie</td><td>1,403</td><td>3,031</td><td>987</td></tr><tr><td>Maschinen- &amp; Anlagenbau</td><td>1,314</td><td>4,270</td><td>4,652</td></tr><tr><td>Informatik &amp; Telekommunikation</td><td>1,157</td><td>1,995</td><td>1,789</td></tr><tr><td>Dienstleistungen allgemein</td><td>1,229</td><td>9,036</td><td>1,826</td></tr><tr><td>Transport &amp; Logistik</td><td>1,094</td><td>5,101</td><td>1,459</td></tr><tr><td>Versicherungen</td><td>919</td><td>0</td><td>614</td></tr><tr><td>Bildungswesen</td><td>775</td><td>180</td><td>102</td></tr><tr><td>Gewerbe &amp; Handwerk</td><td>763</td><td>0</td><td>0</td></tr><tr><td>Banken &amp; Finanzinstitute</td><td>751</td><td>1,286</td><td>1,536</td></tr><tr><td>Medizinaltechnik</td><td>704</td><td>443</td><td>0</td></tr><tr><td>Rechts- &amp; Wirtschaftsberatung</td><td>663</td><td>717</td><td>711</td></tr><tr><td>Energie &amp; Versorgung</td><td>4,184</td><td>31</td><td>0</td></tr><tr><td>Konsum- &amp; Luxusgüter</td><td>544</td><td>306</td><td>16</td></tr><tr><td>Chemie, Pharma &amp; Biotech</td><td>587</td><td>89</td><td>216</td></tr><tr><td>Tourismus, Reisen &amp; Freizeit</td><td>323</td><td>452</td><td>0</td></tr><tr><td>Medien, Druckerei &amp; Verlage</td><td>121</td><td>688</td><td>583</td></tr><tr><td>Beratung diverse</td><td>121</td><td>471</td><td>0</td></tr><tr><td>Land- &amp; Forstwirtschaft</td><td>60</td><td>990</td><td>61</td></tr><tr><td>Personalberatung</td><td>39</td><td>1,277</td><td>0</td></tr></tbody></table></details>
+<h2 id="interactive-views">Interactive views</h2><p>Client-side charts rendered from <a href="data.json"><code>data.json</code></a>. Hover any point for exact values. If your browser blocks JavaScript, the CSV under every static chart above carries the same numbers.</p>
+<div class="chart" id="vega-dotplot" style="min-height:340px;padding:24px"></div><div class="chart-cta chart-cta-slim">Dot plot &mdash; latest snapshot, one dot per platform, one row per industry.</div>
+<div class="chart" id="vega-indexed" style="min-height:340px;padding:24px"></div><div class="chart-cta chart-cta-slim">Indexed line chart &mdash; first snapshot = 100. Reads as &ldquo;percent change vs baseline&rdquo;. Needs ≥3 snapshots for meaningful shape.</div>
 <h2 id="by-occupation">By occupation — German-language job postings in Switzerland</h2>
 <p>Top 12 job titles per industry, based on real search-query counts across all 3 Swiss platforms. Titles were selected by pilot-testing ~115 candidate terms per industry and keeping the highest-signal twelve (deduped for gender variants and qualification suffixes). Bars platform-colored for direct comparison.</p>
 <div class="chart-cta chart-cta-lead">Every industry below is scrapeable from <a href="/actors/jobs-ch-scraper/">jobs.ch</a> &middot; <a href="/actors/arbeit-swiss-scraper/">arbeit.swiss</a> &middot; <a href="/actors/jobscout24-ch-scraper/">jobscout24.ch</a> &mdash; pay per result, no monthly fee.</div>
@@ -19858,5 +19861,134 @@ z
 <!-- Shared site footer injected by components.js -->
 <div id="site-footer"></div>
 <script src="/components.js?v=6"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5.30.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.21.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.26.0"></script>
+<script>
+(async () => {
+  try {
+    const r = await fetch("data.json", {cache: "no-cache"});
+    if (!r.ok) return;
+    const d = await r.json();
+    const seriesByInd = (d.series || {}).industry || {};
+    const meta = (d.series || {}).industry_meta || {};
+    const highlighted = new Set(["construction_realestate", "healthcare_social", "hospitality", "machinery", "manufacturing_diverse", "medical_technology", "public_admin", "retail_wholesale", "services_diverse", "transport_logistics"]);
+    // Flatten to a single array of {industry, industry_label, platform, date, value}
+    const rows = [];
+    for (const [ind, arr] of Object.entries(seriesByInd)) {
+      if (!highlighted.has(ind)) continue;
+      const label = (meta[ind] || {}).label_en || ind;
+      for (const rec of arr) rows.push({
+        industry: ind, industry_label: label,
+        platform: rec.platform, date: rec.date, value: rec.value
+      });
+    }
+    if (!rows.length) return;
+
+    // Palette shared across both charts.
+    const palette = {"bg": "#0e1118", "text": "#dce8f5", "muted": "#7a99ba", "border": "#1a1f2e", "range": {"jobs.ch": "#0047ff", "arbeit.swiss": "#f2c674", "jobscout24.ch": "#6be3aa"}};
+
+    // ── Dot plot: latest snapshot per (industry, platform) ─────────────
+    const latestDate = rows.map(r => r.date).sort().slice(-1)[0];
+    const dotRows = rows.filter(r => r.date === latestDate);
+    const dotSpec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "background": palette.bg,
+      "data": {"values": dotRows},
+      "height": {"step": 22},
+      "width": "container",
+      "config": {
+        "view": {"stroke": null},
+        "axis": {"labelColor": palette.text, "titleColor": palette.muted,
+                  "domainColor": palette.border, "tickColor": palette.border,
+                  "gridColor": palette.border, "gridOpacity": 0.4},
+        "legend": {"labelColor": palette.text, "titleColor": palette.muted}
+      },
+      "mark": {"type": "circle", "size": 140, "opacity": 0.85},
+      "encoding": {
+        "y": {"field": "industry_label", "type": "nominal",
+              "sort": {"field": "value", "op": "max", "order": "descending"},
+              "axis": {"title": null}},
+        "x": {"field": "value", "type": "quantitative",
+              "axis": {"title": "Open positions (" + latestDate + ")"}},
+        "color": {"field": "platform", "type": "nominal",
+                  "scale": {"domain": Object.keys(palette.range),
+                            "range": Object.values(palette.range)},
+                  "legend": {"title": null, "orient": "top"}},
+        "tooltip": [
+          {"field": "industry_label", "title": "Industry"},
+          {"field": "platform", "title": "Platform"},
+          {"field": "value", "title": "Open positions", "format": ","}
+        ]
+      }
+    };
+    await vegaEmbed("#vega-dotplot", dotSpec,
+      {actions: false, renderer: "svg", theme: undefined});
+
+    // ── Indexed line chart: first snapshot = 100, one line per (ind, platform)
+    const byKey = new Map();
+    for (const rec of rows) {
+      const k = rec.industry + "|" + rec.platform;
+      if (!byKey.has(k)) byKey.set(k, []);
+      byKey.get(k).push(rec);
+    }
+    const indexedRows = [];
+    for (const [k, arr] of byKey) {
+      arr.sort((a,b) => a.date.localeCompare(b.date));
+      const base = arr[0].value;
+      if (!base) continue;
+      for (const rec of arr) indexedRows.push({
+        ...rec, index: (rec.value / base) * 100
+      });
+    }
+    if (indexedRows.length < 2) return;
+    const indexedSpec = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "background": palette.bg,
+      "data": {"values": indexedRows},
+      "height": 260,
+      "width": "container",
+      "config": {
+        "view": {"stroke": null},
+        "axis": {"labelColor": palette.text, "titleColor": palette.muted,
+                  "domainColor": palette.border, "tickColor": palette.border,
+                  "gridColor": palette.border, "gridOpacity": 0.4},
+        "legend": {"labelColor": palette.text, "titleColor": palette.muted}
+      },
+      "layer": [
+        {"mark": {"type": "rule", "color": palette.muted,
+                  "strokeDash": [3, 3], "opacity": 0.6},
+          "encoding": {"y": {"datum": 100}}},
+        {"mark": {"type": "line", "point": {"filled": true, "size": 55},
+                  "interpolate": "monotone", "strokeWidth": 2, "opacity": 0.85},
+          "encoding": {
+            "x": {"field": "date", "type": "temporal",
+                  "axis": {"title": null, "format": "%b %-d"}},
+            "y": {"field": "index", "type": "quantitative",
+                  "axis": {"title": "Indexed (first snapshot = 100)"},
+                  "scale": {"zero": false}},
+            "color": {"field": "platform", "type": "nominal",
+                      "scale": {"domain": Object.keys(palette.range),
+                                "range": Object.values(palette.range)},
+                      "legend": {"title": "Platform", "orient": "top"}},
+            "detail": {"field": "industry_label"},
+            "tooltip": [
+              {"field": "industry_label", "title": "Industry"},
+              {"field": "platform", "title": "Platform"},
+              {"field": "date", "title": "Date"},
+              {"field": "value", "title": "Value", "format": ","},
+              {"field": "index", "title": "Indexed", "format": ".1f"}
+            ]
+          }
+        }
+      ]
+    };
+    await vegaEmbed("#vega-indexed", indexedSpec,
+      {actions: false, renderer: "svg", theme: undefined});
+  } catch (e) {
+    console.warn("JMI Vega-Lite init skipped:", e);
+  }
+})();
+</script>
 </body>
 </html>
