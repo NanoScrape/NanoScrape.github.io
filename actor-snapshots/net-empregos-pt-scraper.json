@@ -1,0 +1,41 @@
+{
+  "slug": "santamaria-automations/net-empregos-pt-scraper",
+  "name": "net-empregos-pt-scraper",
+  "title": "Net-Empregos.pt Scraper: Portugal Jobs, Salaries and Employers",
+  "description": "Scrape job listings from Net-Empregos.com, Portugal's number-one job board. Returns title, company, location, Portuguese distrito, contract type, salary in EUR, experience level, education level, and full description.",
+  "readme": "# Net-Empregos.pt Scraper: Portugal Jobs, Salaries and Employers\n\nExtract structured job listings from [Net-Empregos.com](https://www.net-empregos.com), Portugal's leading job board with over 59,000 active listings. Each result includes job title, company, Portuguese district (Lisboa/Porto/Braga/etc), job category, contract type under Portuguese employment law, salary in EUR, experience level, education requirements, and full description. Results are returned newest-first by default.\n\n## What you get\n\n- **Job fields**: title, job_url, company_name, company_logo_url, company_profile_url\n- **Location**: location, country (`PT`), district (all 18 Portuguese distritos), city\n- **Dates**: posted_at_text, posted_at_datetime (ISO 8601)\n- **Employment**: employment_type, contract_type_pt (Sem termo / Termo certo / Estagio profissional / Prestacao de servicos), job_category (Informatica / Saude / Engenharia / etc)\n- **Candidate requirements**: experience_level (Sem experiencia / 1-3 anos / 3-5 anos / 5+ anos), education_level (Licenciatura / Mestrado / 12 ano / etc)\n- **Salary**: salary_min, salary_max, salary_currency (`EUR`), salary_period, salary_text\n- **Description**: description (snippet), description_full (plain text), description_html, description_md\n- **Contacts**: contact_emails, contact_phones, contact_urls, apply_url\n\n## Input\n\n| Field | Type | Description |\n|---|---|---|\n| `searchQueries` | string[] | Portuguese keywords, e.g. `programador`, `enfermeiro`, `contabilista` |\n| `searchUrls` | string[] | Net-Empregos search URLs to crawl directly |\n| `startUrls` | string[] | Direct job detail page URLs |\n| `location` | string | City or district filter: Lisboa, Porto, Braga, Coimbra |\n| `contractType` | string | Filter by contract: any, sem-termo, termo-certo, estagio-profissional, prestacao-servicos |\n| `remoteOnly` | boolean | Return only teletrabalho (remote work) listings |\n| `sortBy` | string enum | Sort order. Net-Empregos.com only exposes its native newest-first order (no server-side sort dropdown or URL parameter). Only supported value: `\"newest\"` (default). Present for fleet consistency. |\n| `includeJobDetails` | boolean | Fetch full job detail page per listing (description, salary, contacts). Charges `job-detail-result` PPE event |\n| `includeCompanyDetails` | boolean | Include company logo and company profile URL from detail page |\n| `maxResults` | integer | Total cap (default 10, max 5,000) |\n| `maxResultsPerQuery` | integer | Cap per search query |\n\n## Sample output\n\n```json\n{\n  \"_type\": \"job\",\n  \"id\": \"15931638\",\n  \"title\": \"Programador .NET & IA (M/F) - Figueira da Foz\",\n  \"job_url\": \"https://www.net-empregos.com/15931638/programador-net-ia-m-f-figueira-da-foz/\",\n  \"source_platform\": \"net-empregos.com\",\n  \"company_name\": \"LogicPulse\",\n  \"company_profile_url\": \"https://www.net-empregos.com/emprego-empresa-id/127635/logicpulse/\",\n  \"company_logo_url\": \"https://upload.net-empregos.com/uploads/960f12.../logo-net-empregos.png\",\n  \"location\": \"Coimbra\",\n  \"country\": \"PT\",\n  \"district\": \"Coimbra\",\n  \"city\": null,\n  \"posted_at_text\": \"2-9-2026\",\n  \"posted_at_datetime\": \"2026-09-02T00:00:00Z\",\n  \"employment_type\": \"full-time\",\n  \"contract_type_pt\": \"Sem termo\",\n  \"job_category\": \"Informatica ( Programacao )\",\n  \"experience_level\": \"3-5 anos\",\n  \"education_level\": \"Licenciatura\",\n  \"salary_min\": null,\n  \"salary_max\": null,\n  \"salary_currency\": null,\n  \"salary_period\": null,\n  \"salary_text\": null,\n  \"description\": \"A Logicpulse Technologies, empresa tecnologica portuguesa com presenca internacional...\",\n  \"contact_emails\": [],\n  \"contact_phones\": [],\n  \"contact_urls\": [\"https://www.logicpulse.com/pt/recrutamento\"],\n  \"apply_url\": null,\n  \"search_query\": \"programador\",\n  \"scraped_at\": \"2026-09-02T09:55:00Z\"\n}\n```\n\n## Pricing\n\nCharges **3 PPE events** per run:\n\n| Event | Cost | When |\n|---|---|---|\n| `actor-start` | $0.001 | Once per run |\n| `job-serp-result` | $0.003 | Per job (SERP data only) |\n| `job-detail-result` | $0.005 | Per job when `includeJobDetails: true` |\n\n3 results with details = $0.001 + (3 x $0.005) = **$0.016**.\n\nNew Apify accounts include **$5 free monthly credit**: enough for several hundred jobs.\n\n## Tips\n\n- Use Portuguese keywords for best results: `programador`, `engenheiro`, `enfermeiro`, `gestor`, `comercial`\n- Filter by district: `Lisboa`, `Porto`, `Braga`, `Coimbra`, `Aveiro`\n- Enable `includeJobDetails: true` to get full descriptions, contract types, job category, company profile URLs, and salary data\n- Net-Empregos uses ISO-8859-1 encoding internally; all output is delivered as proper UTF-8 with correct character encoding\n- Results are returned newest-first by default (native sort order of net-empregos.com)\n\n## Related Actors\n\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper): Portugal + worldwide\n- [LinkedIn Jobs Scraper](https://apify.com/santamaria-automations/linkedin-go-scraper): LinkedIn Portugal listings\n- [InfoJobs Scraper](https://apify.com/santamaria-automations/infojobs-scraper): Spain's number-one job board (Iberian peer)\n- [Computrabajo Scraper](https://apify.com/santamaria-automations/computrabajo-go-scraper): Latin America + Spain\n- [HelloWork FR Scraper](https://apify.com/santamaria-automations/hellowork-fr-scraper): French job board (EU peer)\n- [Reed UK Scraper](https://apify.com/santamaria-automations/reed-uk-go-scraper): UK jobs\n- [StepStone DE Scraper](https://apify.com/santamaria-automations/stepstone-de-go-scraper): German jobs\n\n## Issues\n\nFound a bug or a field that is not populating? Open an issue at the [Issues tab](https://console.apify.com/actors/santamaria-automations/net-empregos-pt-scraper/issues).\n\n## Support\n\nQuestions? Contact us at [contact@nanoscrape.com](mailto:contact@nanoscrape.com).\n",
+  "readmeSource": "actors/jobs/net-empregos-pt/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-08-25T10:08:45.706Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "One-time charge when the actor run begins.",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-serp-result",
+        "title": "SERP result",
+        "description": "Charged per job returned in fast SERP-only mode.",
+        "isPrimary": false,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Detail result",
+        "description": "Charged per job returned in full-detail mode.",
+        "isPrimary": false,
+        "priceUsd": 0.005,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-10T14:58:29.320Z"
+}

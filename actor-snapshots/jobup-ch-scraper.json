@@ -1,0 +1,55 @@
+{
+  "slug": "santamaria-automations/jobup-ch-scraper",
+  "name": "jobup-ch-scraper",
+  "title": "Jobup.ch Scraper - Switzerland Jobs, Salaries, Employers",
+  "description": "Scrape job listings from Jobup.ch, Switzerland-#1 general job board (JobCloud AG). Returns title, company, location, canton, workload, salary, contact details, and full descriptions. Multi-language (DE/FR/IT/EN). Public JSON API, no login. Pay-per-result.",
+  "readme": "# Jobup.ch Scraper - Switzerland Jobs, Salaries, Employers\n\nScrape job listings from [Jobup.ch](https://www.jobup.ch/), Switzerland's #1 general job board (JobCloud AG, sister site to jobs.ch). Returns title, company, canton, workload, salary, contact details, apply URL, and full description. Multi-language (DE / FR / IT / EN).\n\nJobup.ch is the leading job board in French-speaking Switzerland (Suisse romande), covering Geneva, Vaud, Neuchâtel, Fribourg, Valais, and Jura.\n\n**Cost-effective**: uses Jobup.ch's public JSON API for search (fast, cheap) with optional detail-page enrichment. No login required.\n\n---\n\n## Features\n\n- 4 input modes: **searchQueries** (keywords) · **searchUrls** (paste any Jobup.ch SERP URL) · **startUrls** (alias) · **directUrls** (single-job re-scrape / still-alive checks)\n- Multi-language: DE, FR, IT, EN\n- Sort by **newest** (recommended for scheduled scrapes) or **relevance**\n- Fleet-canonical field names: `job_url`, `title`, `company_name`, `canton`, `posted_at_datetime`, `salary_min/max`, `remote_type`, `description_full`, `apply_url`, `contact_email`, `contact_phone`, etc.\n- **Description quartet** (v0.2.0): `description_full` (plain text), `description_snippet` (300-char preview), `description_html` (cleaned HTML), `description_md` (markdown for LLMs)\n- Detail-page enrichment: full description in 4 formats, external ATS apply URL (Workday, SmartRecruiters, Greenhouse) + JSON-LD apply endpoint fallback, recruiter email + Swiss phone (with platform-boilerplate filtering)\n- Multilingual `requirements` / `benefits` extraction: scans DE/FR/IT/EN section headers (Anforderungen / Votre profil / Requisiti / Requirements etc.)\n- Salary extraction from Swiss patterns (`CHF 80'000 - 120'000 par an`, JSON-LD baseSalary)\n- Fast SERP-only mode: `includeJobDetails: false` returns 20 fields per listing at ~10 items/sec\n- Concurrent detail fetching (default 8 workers)\n- Multi-language: `de`, `fr`, `it`, `en`; set via `language`; API accepts all four\n- 3-tier proxy fallback (user proxy → auto → direct) for resilience\n- 128 MB memory, ~$0.001 base charge per run\n\n---\n\n## Sample input\n\n```json\n{\n  \"searchQueries\": [\"développeur\", \"software engineer\"],\n  \"language\": \"fr\",\n  \"sortBy\": \"newest\",\n  \"includeJobDetails\": true,\n  \"maxResultsPerQuery\": 50,\n  \"maxResults\": 100,\n  \"maxConcurrency\": 8,\n  \"proxyConfiguration\": { \"useApifyProxy\": true }\n}\n```\n\n**Search URL mode**: paste any Jobup.ch SERP URL:\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.jobup.ch/fr/emplois/?category=informatique-telecommunication&region_ids=1\",\n    \"https://www.jobup.ch/de/jobs/?query=data%20engineer\"\n  ],\n  \"includeJobDetails\": true,\n  \"maxResultsPerQuery\": 30\n}\n```\n\n**Direct URL mode**: re-scrape specific jobs:\n\n```json\n{\n  \"directUrls\": [\n    \"https://www.jobup.ch/en/jobs/detail/d997ba3c-0238-49b4-b05d-a1b4f32c27ee/\",\n    \"https://www.jobup.ch/fr/jobs/detail/53919591-93f1-4268-b50b-1c4e70124822/\"\n  ],\n  \"language\": \"en\"\n}\n```\n\n---\n\n## Sample output\n\n```json\n{\n  \"id\": \"d997ba3c-0238-49b4-b05d-a1b4f32c27ee\",\n  \"job_url\": \"https://www.jobup.ch/en/jobs/detail/d997ba3c-0238-49b4-b05d-a1b4f32c27ee/\",\n  \"title\": \"Image Processing Engineer\",\n  \"company_name\": \"SICPA SA\",\n  \"company_logo_url\": \"https://media.jobs.ch/media/a3ced256-75ca-4598-a294-3c83cfa7e64c\",\n  \"location\": \"Prilly\",\n  \"canton\": \"VD\",\n  \"postal_code\": \"1008\",\n  \"country\": \"CH\",\n  \"latitude\": 46.53431,\n  \"longitude\": 6.60564,\n  \"posted_at_datetime\": \"2026-09-03T13:26:13+02:00\",\n  \"initial_posted_at\": \"2026-09-03T11:26:13+00:00\",\n  \"employment_type\": \"permanent\",\n  \"employment_position\": \"permanent\",\n  \"workload_min\": 100,\n  \"workload_max\": 100,\n  \"salary_min\": null,\n  \"salary_max\": null,\n  \"salary_currency\": \"CHF\",\n  \"salary_period\": null,\n  \"remote_type\": \"hybrid\",\n  \"language\": \"en\",\n  \"description_full\": \"About the job\\nEstablished in 1927, SICPA is a Swiss private technology company that supports the effective governance and long-term prosperity of nations...\",\n  \"description_snippet\": \"About the job Established in 1927, SICPA is a Swiss private technology company that supports the effective governance and long-term...\",\n  \"description_html\": \"<h4>About the job</h4><p>Established in 1927, SICPA is a Swiss private technology company...</p>\",\n  \"description_md\": \"#### About the job\\n\\nEstablished in 1927, SICPA is a Swiss private technology company...\",\n  \"apply_url\": \"https://www.jobup.ch/en/jobs/detail/d997ba3c-0238-49b4-b05d-a1b4f32c27ee/apply\",\n  \"contact_email\": \"hr@sicpa.com\",\n  \"contact_phone\": \"031 357 96 63\",\n  \"requirements\": [\"MSc/BSc in Computer Science, Engineering, or related field\", \"3+ years experience in image processing\"],\n  \"benefits\": [\"Competitive compensation package\", \"International working environment\"],\n  \"tags\": [\"quickApply\"],\n  \"coordinates\": [46.53431, 6.60564],\n  \"source_query\": \"developer\",\n  \"scraped_at\": \"2026-09-03T18:36:00Z\"\n}\n```\n\n---\n\n## Input fields\n\n| Field | Type | Description |\n|---|---|---|\n| `searchQueries` | string[] | Keywords, one search per keyword |\n| `searchUrls` | string[] | Paste pre-filtered Jobup.ch SERP URLs |\n| `startUrls` | string[] | Alias for `searchUrls` (Apify convention) |\n| `directUrls` | string[] | Detail-page URLs for single-job re-scrapes |\n| `language` | enum | `de` / `fr` / `it` / `en` (default `de`) |\n| `sortBy` | enum | `newest` (default) / `relevance` |\n| `includeJobDetails` | bool | Fetch full description + apply URL + contact email (default `true`) |\n| `maxResults` | int | Global cap across all queries (0 = unlimited) |\n| `maxResultsPerQuery` | int | Per-keyword cap (0 = unlimited; Jobup.ch caps ~400 per keyword) |\n| `maxConcurrency` | int | Parallel detail fetches (default 8, max 30) |\n| `proxyConfiguration` | proxy | Apify proxy (default auto). Public API works from datacenter. |\n\n---\n\n## Pricing (Pay-per-event)\n\n| Event | Description | When it fires |\n|---|---|---|\n| `apify-actor-start` | One-time run start charge | Every run, once |\n| `job-serp-result` | SERP-only listing (basic fields, no description) | When `includeJobDetails: false` OR detail fetch fails |\n| `job-detail-result` | Full listing with description + apply_url + contact_email | When `includeJobDetails: true` succeeds |\n\nRate card is set on the Apify Console. This actor is designed for cost parity with our jobs.ch scraper (same JobCloud parent = same cost profile).\n\n---\n\n## Related actors\n\n- [Jobs.ch Scraper](https://apify.com/santamaria-automations/jobs-ch-scraper) - sister JobCloud site, same API family\n- [travail.swiss / job-room.ch Scraper](https://apify.com/santamaria-automations/arbeit-swiss-scraper) - official Swiss federal employment office (SECO). Covers arbeit.swiss (DE) / travail.swiss (FR) / lavoro.swiss (IT) / work.swiss (EN).\n- [Swissdevjobs.ch Scraper](https://apify.com/santamaria-automations/swissdevjobs-ch-scraper) - Swiss developer-focused jobs\n- [Zentraljob.ch Scraper](https://apify.com/santamaria-automations/zentraljob-ch-scraper) - Central-Switzerland regional board\n- [JobScout24.ch Scraper](https://apify.com/santamaria-automations/jobscout24-ch-scraper) - General Swiss job aggregator with strong Suisse romande coverage.\n- [LinkedIn Scraper](https://apify.com/santamaria-automations/linkedin-scraper) - Global professional network with Swiss localization; complementary to Swiss-native boards.\n- [Indeed Scraper](https://apify.com/santamaria-automations/indeed-scraper) - Global aggregator with a strong Swiss corpus; broadens coverage beyond native boards.\n\n---\n\n## Issues / feature requests\n\nContact us at [contact@nanoscrape.com](mailto:contact@nanoscrape.com) or open an issue via the Apify Console.\n\n---\n\n*Built by [NanoScrape](https://apify.com/santamaria-automations). No affiliation with JobCloud AG or Jobup.ch.*\n",
+  "readmeSource": "actors/jobs/jobup-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-09-03T19:18:06.457Z",
+    "events": [
+      {
+        "key": "job-serp-result",
+        "title": "Job Search Result",
+        "description": "A job listing from the search results with basic fields (title, company, location, posted date, canton, workload). Available when includeJobDetails is disabled.",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.00287,
+          "BRONZE": 0.00275,
+          "SILVER": 0.0026,
+          "GOLD": 0.00249,
+          "PLATINUM": 0.00249,
+          "DIAMOND": 0.00249
+        }
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job Detail Result",
+        "description": "A complete job listing with full description, external ATS apply URL, recruiter contact email, remote type. From the detail page.",
+        "isPrimary": false,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.005,
+          "BRONZE": 0.005,
+          "SILVER": 0.00475,
+          "GOLD": 0.0045,
+          "PLATINUM": 0.0045,
+          "DIAMOND": 0.0045
+        }
+      },
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-10T14:58:33.219Z"
+}
