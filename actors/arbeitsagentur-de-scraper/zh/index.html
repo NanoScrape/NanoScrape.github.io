@@ -51,8 +51,27 @@
  @media (max-width: 480px) { .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; } .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
  #site-header { min-height: 56px; }
  #site-footer { min-height: 80px; }
- </style>
-</head>
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+</style>
+<!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+ </head>
 <body>
 
  <div id="site-header"></div>
@@ -104,6 +123,124 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentu
  <li><strong>Google Sheets / Airtable</strong> — 通过Apify集成导出</li>
  </ul>
 
+ 
+ <!-- Auto-injected: Run directly on Apify -->
+ <h2 class="section-title">直接在 Apify 上运行此 actor（无需代码）</h2>
+ <p>点击上方 <strong>在 Apify 上打开</strong>，在浏览器中运行 <code>arbeitsagentur-de-scraper</code> — 无需代码，无需安装。在 Apify 控制台，您可以获得：</p>
+ <ul>
+  <li><strong>一键测试</strong> — 填写输入表单，或将上面的 JSON 示例粘贴到 <em>JSON 编辑器</em> 选项卡，然后点击 <strong>Start</strong>。</li>
+  <li><strong>实时输出</strong> — 观看行数据流入交互式 <em>Output</em> 表格，或切换到原始 <em>JSON</em> / <em>Log</em> 视图。</li>
+  <li><strong>任意格式导出</strong> — 一键下载数据集为 <strong>JSON、CSV、XML、Excel、HTML 表格、RSS 或 JSONL</strong>。</li>
+  <li><strong>计划任务</strong> — <strong>每日、每周、每小时或自定义 cron</strong> 运行此 actor。Apify 处理时间调度并存储每次数据集运行。</li>
+  <li><strong>集成与 Webhook</strong> — 成功/失败时触发 webhook，或从 <em>Actions</em> 选项卡连接 <strong>Zapier、n8n、Make、Airbyte、Google Sheets、Slack、S3、Postgres</strong> 等。</li>
+  <li><strong>透明成本</strong> — 在花一分钱之前查看您的 <strong>每月 5 美元免费额度</strong> 的确切用量。</li>
+ </ul>
+
+ <!-- Auto-injected: API token guide -->
+ <h2 class="section-title">获取您的 Apify API 令牌</h2>
+ <p>要从自己的代码运行此 actor，您需要一个 Apify API 令牌。大约一分钟完成：</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">免费注册 Apify 账户</a>（Google、GitHub 或电子邮件）。</li>
+  <li>前往 <strong>设置 &rarr; 集成 &rarr; API 令牌</strong>。</li>
+  <li>点击 <strong>创建新 API 令牌</strong>。复制并妥善保存。</li>
+ </ol>
+ <p><strong>免费额度：</strong>Apify 每月为您的账户提供 <strong>5 美元平台使用额度</strong>，无需信用卡。足以有意义地测试任何 actor — 按典型 scraper 每条结果 0.001 美元计算，每月大约 5,000 条免费结果。</p>
+
+ <!-- Auto-injected: Call from code -->
+ <h2 class="section-title">从代码调用</h2>
+ <p>通过 Apify REST API 从任何语言运行此 actor。将 <code>YOUR_TOKEN</code> 替换为您的 API 令牌，并根据需要调整输入 JSON。</p>
+ <div class="lang-tabs" data-lang-group="run-actor-zh">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentur-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/arbeitsagentur-de-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/arbeitsagentur-de-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/arbeitsagentur-de-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/arbeitsagentur-de-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+ <!-- Auto-injected: MCP -->
+ <h2 class="section-title">与 AI 代理配合使用 (MCP)</h2>
+ <p>此 actor 可在 Apify MCP 服务器上使用，因此您可以从任何兼容 MCP 的 AI 客户端驱动它 — Claude Desktop、Claude.ai、Cursor、VS Code、LangChain、LlamaIndex 或自定义 agent — 无需编写代码。</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/arbeitsagentur-de-scraper</code></pre></div>
+ <p><strong>连接后的示例提示：</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"使用 <code>arbeitsagentur-de-scraper</code> 运行一次 scrape，并将结果以表格形式返回给我。"</blockquote>
+ <p>支持动态工具发现的客户端（Claude.ai、VS Code）会通过 <code>add-actor</code> 自动接收完整的输入 schema。</p>
+
+ <!-- Auto-injected: no-code -->
+ <h2 class="section-title">与无代码平台配合使用</h2>
+ <p>从您喜欢的自动化工具触发此 actor。下面的每个平台都可以点几下就调用 Apify API — 无需代码。</p>
+ <div class="lang-tabs" data-lang-group="nocode-zh">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>添加 <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify 节点</a>（n8n Cloud 默认已安装；self-hosted 请安装 <code>@apify/n8n-nodes-apify</code>）。</li>
+    <li>将 <strong>Actor</strong> 设置为 <code>santamaria-automations/arbeitsagentur-de-scraper</code>。</li>
+    <li>选择操作 <em>Run Actor and get dataset</em>，粘贴您的输入 JSON，然后连接下游节点（Google Sheets、Postgres、Webhook 等）。</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>使用任意触发器创建新 Zap。</li>
+    <li>添加一个 <strong>Webhooks by Zapier</strong> POST 操作到 <code>https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentur-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>。</li>
+    <li>Body：您的输入 JSON。Content-Type：<code>application/json</code>。</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>创建新场景。</li>
+    <li>添加 <strong>HTTP</strong> 模块：URL <code>https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentur-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>，方法 POST，body raw JSON。</li>
+    <li>使用 <strong>JSON</strong> 模块解析响应以在下游迭代 items。</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>创建新工作流。</li>
+    <li>添加 <strong>HTTP Request</strong> 步骤：POST 到 <code>https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentur-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>。</li>
+    <li>在后续步骤中访问 <code>steps.http.$return_value</code>。</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>安装 <strong>API Connector</strong> 插件。</li>
+    <li>添加新 API：POST <code>https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentur-de-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>，body 类型 JSON。</li>
+    <li>用您的输入初始化 call，然后在 workflow 操作中引用响应数组。</li>
+  </ol>
+</div>
+
+
  <div class="ctas" style="margin-top:40px">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz" class="btn-primary">在Apify上打开 &rarr;</a>
  <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/W1KlQhgxuiGN7vnFu/source?addFromActorId=W1KlQhgxuiGN7vnFu&fpr=0khfbz" class="btn-secondary">立即试用 — 提供免费额度</a>
@@ -116,5 +253,48 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeitsagentu
 
  <script src="/components.js?v=6"></script>
  <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
 </body>
 </html>

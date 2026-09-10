@@ -21,6 +21,10 @@
  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
  <script type="application/ld+json">
  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Eventbrite Scraper","applicationCategory":"DeveloperApplication","operatingSystem":"Cloud (Apify)","description":"Scraper d'événements Eventbrite. Renvoie titre, description, dates de début/fin avec fuseau, nom du lieu et adresse complète, coordonnées GPS, prix du billet, devise, gratuit/payant, organisateur, catégorie, URL image. 180+ pays. Go HTTP-only, proxy RESIDENTIAL.","offers":{"@type":"Offer","price":"0.003","priceCurrency":"USD","description":"par événement"},"url":"https://apify.com/santamaria-automations/eventbrite-scraper?fpr=0khfbz","author":{"@type":"Organization","name":"NanoScrape","url":"https://www.nanoscrape.com"}}
  </script>
@@ -57,7 +61,22 @@
  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
  @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
  #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
- </style>
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+</style>
 </head>
 <body>
 
@@ -154,6 +173,124 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~eventbrite-sc
  <li><a href="/actors/leads-finder/fr/">Leads Finder</a> : listes de prospects B2B pour organisateurs et sponsors</li>
  </ul>
 
+ 
+ <!-- Auto-injected: Run directly on Apify -->
+ <h2 class="section-title">Exécutez cet actor directement sur Apify (sans code)</h2>
+ <p>Cliquez sur <strong>Ouvrir sur Apify</strong> ci-dessus pour lancer <code>eventbrite-scraper</code> dans votre navigateur – sans code, sans installation. Dans la console Apify, vous obtenez :</p>
+ <ul>
+  <li><strong>Test en un clic</strong> – remplissez le formulaire d'entrée ou collez l'exemple JSON ci-dessus dans l'onglet <em>Éditeur JSON</em>, puis cliquez sur <strong>Start</strong>.</li>
+  <li><strong>Sortie en direct</strong> – regardez les lignes défiler dans un tableau <em>Output</em> interactif, ou basculez vers la vue <em>JSON</em> / <em>Log</em> brute.</li>
+  <li><strong>Exportez dans n'importe quel format</strong> – téléchargez le dataset en un clic au format <strong>JSON, CSV, XML, Excel, tableau HTML, RSS ou JSONL</strong>.</li>
+  <li><strong>Planifications</strong> – lancez cet actor <strong>quotidiennement, hebdomadairement, toutes les heures ou avec un cron personnalisé</strong>. Apify gère le timing et stocke chaque dataset.</li>
+  <li><strong>Intégrations &amp; webhooks</strong> – déclenchez un webhook en cas de succès/échec, ou connectez <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres et plus</strong> depuis l'onglet <em>Actions</em>.</li>
+  <li><strong>Coûts transparents</strong> – suivez l'usage exact face à votre <strong>quota gratuit de 5$/mois</strong> avant de dépenser un centime.</li>
+ </ul>
+
+ <!-- Auto-injected: API token guide -->
+ <h2 class="section-title">Obtenez votre jeton API Apify</h2>
+ <p>Pour lancer cet actor depuis votre propre code, il vous faut un jeton API Apify. Environ une minute :</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Inscrivez-vous gratuitement à Apify</a> (Google, GitHub ou e-mail).</li>
+  <li>Allez dans <strong>Paramètres &rarr; Intégrations &rarr; Jetons API</strong>.</li>
+  <li>Cliquez sur <strong>Créer un nouveau jeton API</strong>. Copiez et gardez-le secret.</li>
+ </ol>
+ <p><strong>Quota gratuit :</strong> Apify crédite votre compte de <strong>5$ d'usage plateforme par mois</strong>, sans carte bancaire. Assez pour tester n'importe quel actor — à 0,001$ par résultat, c'est environ 5 000 résultats gratuits chaque mois.</p>
+
+ <!-- Auto-injected: Call from code -->
+ <h2 class="section-title">Appeler depuis votre code</h2>
+ <p>Lancez cet actor depuis n'importe quel langage via l'API REST Apify. Remplacez <code>YOUR_TOKEN</code> par votre jeton API et adaptez le JSON d'entrée.</p>
+ <div class="lang-tabs" data-lang-group="run-actor-fr">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~eventbrite-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/eventbrite-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/eventbrite-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/eventbrite-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/eventbrite-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+ <!-- Auto-injected: MCP -->
+ <h2 class="section-title">Utiliser avec des agents IA (MCP)</h2>
+ <p>Cet actor est disponible sur le serveur MCP Apify, vous pouvez donc le piloter depuis n'importe quel client IA compatible MCP – Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex ou un agent maison – sans écrire de code.</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/eventbrite-scraper</code></pre></div>
+ <p><strong>Exemple de prompt une fois connecté :</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Utilise <code>eventbrite-scraper</code> pour lancer un scrape et donne-moi les résultats sous forme de tableau."</blockquote>
+ <p>Les clients avec découverte dynamique des outils (Claude.ai, VS Code) reçoivent le schéma d'entrée complet automatiquement via <code>add-actor</code>.</p>
+
+ <!-- Auto-injected: no-code -->
+ <h2 class="section-title">Utiliser avec des plateformes no-code</h2>
+ <p>Déclenchez cet actor depuis votre outil d'automatisation. Toutes les plateformes ci-dessous peuvent appeler l'API Apify en quelques clics — sans code.</p>
+ <div class="lang-tabs" data-lang-group="nocode-fr">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>Ajoutez le <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">node Apify pour n8n</a> (installé par défaut sur n8n Cloud ; en self-hosted installez <code>@apify/n8n-nodes-apify</code>).</li>
+    <li>Définissez <strong>Actor</strong> sur <code>santamaria-automations/eventbrite-scraper</code>.</li>
+    <li>Choisissez l'opération <em>Run Actor and get dataset</em>, collez votre JSON d'entrée, et connectez un node aval (Google Sheets, Postgres, webhook, …).</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>Créez un nouveau Zap avec n'importe quel déclencheur.</li>
+    <li>Ajoutez une action <strong>Webhooks by Zapier</strong> POST vers <code>https://api.apify.com/v2/acts/santamaria-automations~eventbrite-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Body : votre JSON d'entrée. Content-Type : <code>application/json</code>.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>Créez un nouveau scénario.</li>
+    <li>Ajoutez un module <strong>HTTP</strong> : URL <code>https://api.apify.com/v2/acts/santamaria-automations~eventbrite-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, méthode POST, body raw JSON.</li>
+    <li>Parsez la réponse avec un module <strong>JSON</strong> pour itérer les items en aval.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>Créez un nouveau workflow.</li>
+    <li>Ajoutez une étape <strong>HTTP Request</strong> : POST vers <code>https://api.apify.com/v2/acts/santamaria-automations~eventbrite-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Accédez à <code>steps.http.$return_value</code> dans les étapes suivantes.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>Installez le plugin <strong>API Connector</strong>.</li>
+    <li>Ajoutez une nouvelle API : POST <code>https://api.apify.com/v2/acts/santamaria-automations~eventbrite-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+    <li>Initialisez l'appel avec votre input, puis référencez le tableau de réponse dans les actions de workflow.</li>
+  </ol>
+</div>
+
+
  <div class="ctas" style="margin-top:40px">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/eventbrite-scraper?fpr=0khfbz" class="btn-primary">Ouvrir sur Apify &rarr;</a>
  <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/bn1zqW7IDOoj5evZl/source?addFromActorId=bn1zqW7IDOoj5evZl&fpr=0khfbz" class="btn-secondary">Essayer maintenant (offre gratuite disponible)</a>
@@ -164,5 +301,48 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~eventbrite-sc
 
  <script src="/components.js?v=6"></script>
  <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
 </body>
 </html>

@@ -20,6 +20,10 @@
  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
  <script type="application/ld+json">
  {
  "@context": "https://schema.org",
@@ -82,7 +86,22 @@
  }
  #site-header { min-height: 56px; }
  #site-footer { min-height: 80px; }
- </style>
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+</style>
 </head>
 <body>
 
@@ -159,6 +178,124 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~france-travai
  <tr><td>apply_url</td><td>string</td><td>https://candidat.francetravail.fr/...</td></tr>
  </table>
 
+ 
+ <!-- Auto-injected: Run directly on Apify -->
+ <h2 class="section-title">Direkt auf Apify ausführen (kein Code)</h2>
+ <p>Klicken Sie oben auf <strong>Auf Apify öffnen</strong>, um <code>france-travail-scraper</code> im Browser auszuführen – kein Code, keine Installation. In der Apify-Konsole erhalten Sie:</p>
+ <ul>
+  <li><strong>Test mit einem Klick</strong> – füllen Sie das Eingabeformular aus oder fügen Sie das obige JSON-Beispiel in den <em>JSON-Editor</em> ein und klicken Sie auf <strong>Start</strong>.</li>
+  <li><strong>Live-Ausgabe</strong> – sehen Sie zu, wie Zeilen in eine interaktive <em>Output</em>-Tabelle einfließen, oder wechseln Sie zur rohen <em>JSON</em>- / <em>Log</em>-Ansicht.</li>
+  <li><strong>Export in jedem Format</strong> – Datensatz mit einem Klick als <strong>JSON, CSV, XML, Excel, HTML-Tabelle, RSS oder JSONL</strong> herunterladen.</li>
+  <li><strong>Zeitpläne</strong> – Actor <strong>täglich, wöchentlich, stündlich oder mit benutzerdefiniertem Cron</strong> ausführen. Apify übernimmt das Timing und speichert jeden Datensatz-Lauf.</li>
+  <li><strong>Integrationen &amp; Webhooks</strong> – Webhook bei Erfolg/Fehler auslösen oder mit <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres</strong> u.v.m. aus dem <em>Actions</em>-Tab verbinden.</li>
+  <li><strong>Transparente Kosten</strong> – exakte Nutzung im Rahmen Ihres <strong>Gratiskontingents von 5$/Monat</strong> sehen, bevor Sie etwas ausgeben.</li>
+ </ul>
+
+ <!-- Auto-injected: API token guide -->
+ <h2 class="section-title">Ihren Apify API-Token erhalten</h2>
+ <p>Um diesen Actor aus Ihrem eigenen Code auszuführen, benötigen Sie einen Apify API-Token. In etwa einer Minute erledigt:</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Kostenlos bei Apify registrieren</a> (Google, GitHub oder E-Mail).</li>
+  <li>Gehen Sie zu <strong>Einstellungen &rarr; Integrationen &rarr; API-Tokens</strong>.</li>
+  <li>Klicken Sie auf <strong>Neuen API-Token erstellen</strong>. Kopieren und geheim halten.</li>
+ </ol>
+ <p><strong>Gratiskontingent:</strong> Apify schreibt Ihrem Konto <strong>5$ Plattformnutzung pro Monat</strong> gut, keine Kreditkarte erforderlich. Genug, um jeden Actor sinnvoll zu testen — bei 0,001$ pro Ergebnis sind das etwa 5.000 Ergebnisse gratis pro Monat.</p>
+
+ <!-- Auto-injected: Call from code -->
+ <h2 class="section-title">Aus Code aufrufen</h2>
+ <p>Führen Sie diesen Actor aus jeder Sprache über die Apify-REST-API aus. Ersetzen Sie <code>YOUR_TOKEN</code> durch Ihren API-Token und passen Sie das JSON-Input an.</p>
+ <div class="lang-tabs" data-lang-group="run-actor-de">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~france-travail-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/france-travail-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/france-travail-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/france-travail-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/france-travail-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+ <!-- Auto-injected: MCP -->
+ <h2 class="section-title">Mit KI-Agenten verwenden (MCP)</h2>
+ <p>Dieser Actor ist auf dem Apify MCP-Server verfügbar, sodass Sie ihn von jedem MCP-kompatiblen KI-Client aus steuern können – Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex oder einem eigenen Agent – ohne Code zu schreiben.</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/france-travail-scraper</code></pre></div>
+ <p><strong>Beispiel-Prompt nach Verbindung:</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Verwende <code>france-travail-scraper</code>, um einen Scrape durchzuführen, und liefere mir die Ergebnisse als Tabelle."</blockquote>
+ <p>Clients mit dynamischer Tool-Discovery (Claude.ai, VS Code) erhalten das vollständige Input-Schema automatisch via <code>add-actor</code>.</p>
+
+ <!-- Auto-injected: no-code -->
+ <h2 class="section-title">Mit No-Code-Plattformen verwenden</h2>
+ <p>Triggern Sie diesen Actor aus Ihrem Automatisierungstool. Alle unten aufgeführten Plattformen können die Apify-API in wenigen Klicks aufrufen — kein Code erforderlich.</p>
+ <div class="lang-tabs" data-lang-group="nocode-de">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>Fügen Sie den <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify-Node</a> hinzu (auf n8n Cloud vorinstalliert; auf self-hosted <code>@apify/n8n-nodes-apify</code> installieren).</li>
+    <li>Setzen Sie <strong>Actor</strong> auf <code>santamaria-automations/france-travail-scraper</code>.</li>
+    <li>Wählen Sie Operation <em>Run Actor and get dataset</em>, fügen Sie Ihr Input-JSON ein und verbinden Sie einen Downstream-Node (Google Sheets, Postgres, Webhook, …).</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>Erstellen Sie einen neuen Zap mit beliebigem Trigger.</li>
+    <li>Fügen Sie eine <strong>Webhooks by Zapier</strong> POST-Action zu <code>https://api.apify.com/v2/acts/santamaria-automations~france-travail-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> hinzu.</li>
+    <li>Body: Ihr Input-JSON. Content-Type: <code>application/json</code>.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>Erstellen Sie ein neues Szenario.</li>
+    <li>Fügen Sie ein <strong>HTTP</strong>-Modul hinzu: URL <code>https://api.apify.com/v2/acts/santamaria-automations~france-travail-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Methode POST, Body raw JSON.</li>
+    <li>Parsen Sie die Antwort mit einem <strong>JSON</strong>-Modul, um Items downstream zu iterieren.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>Erstellen Sie einen neuen Workflow.</li>
+    <li>Fügen Sie einen <strong>HTTP Request</strong>-Schritt hinzu: POST zu <code>https://api.apify.com/v2/acts/santamaria-automations~france-travail-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Greifen Sie in nachfolgenden Schritten auf <code>steps.http.$return_value</code> zu.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>Installieren Sie das <strong>API Connector</strong>-Plugin.</li>
+    <li>Fügen Sie eine neue API hinzu: POST <code>https://api.apify.com/v2/acts/santamaria-automations~france-travail-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Body type JSON.</li>
+    <li>Initialisieren Sie den Call mit Ihrem Input und referenzieren Sie das Response-Array in Workflow-Actions.</li>
+  </ol>
+</div>
+
+
  <h2 class="section-title">Verwandte Scraper</h2>
  <ul>
  <li><a href="/actors/welcome-to-the-jungle-scraper/">Welcome to the Jungle Scraper</a>: modernes franz&ouml;sisches Job-Portal mit reicher Employer-Branding-Daten</li>
@@ -175,5 +312,48 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~france-travai
 
  <script src="/components.js?v=6"></script>
  <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
 </body>
 </html>
