@@ -76,6 +76,14 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .quality-legend { display: grid; grid-template-columns: max-content 1fr; gap: 8px 14px; margin: 12px 0 20px; font-size: 0.88rem; }
 .quality-legend dt { align-self: start; }
 .quality-legend dd { margin: 0; color: var(--muted); }
+.jump-strip { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
+.jump-strip a { padding: 6px 12px; color: var(--muted); font-weight: 500; text-decoration: none; border-radius: 5px; transition: all 0.12s ease; }
+.jump-strip a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+.chart-toggle { display: inline-flex; gap: 4px; margin: 8px 0 12px; padding: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.chart-toggle-btn { font: inherit; font-size: 0.85rem; color: var(--muted); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: all 0.12s ease; }
+.chart-toggle-btn:hover { color: var(--text); }
+.chart-toggle-btn.is-active { background: var(--accent); color: var(--bg); font-weight: 600; }
+.chart-view[hidden] { display: none; }
 .download-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0 24px; }
 .download-row a { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
 .methodology { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 32px; }
@@ -115,5 +123,24 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 <script src="/components.js?v=6"></script>
 
 
+<script>
+/* Chart view toggle (share vs absolute). Wave 7. */
+document.querySelectorAll('.chart-toggle').forEach(function(toggle) {
+  var container = toggle.parentElement;
+  toggle.addEventListener('click', function(e) {
+    var btn = e.target.closest('button[data-view]');
+    if (!btn) return;
+    var view = btn.dataset.view;
+    toggle.querySelectorAll('button').forEach(function(b) {
+      var active = b.dataset.view === view;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+    });
+    container.querySelectorAll('.chart-view').forEach(function(el) {
+      el.hidden = (el.dataset.view !== view);
+    });
+  });
+});
+</script>
 </body>
 </html>
