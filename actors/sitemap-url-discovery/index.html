@@ -1,181 +1,472 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>Sitemap & URL Discovery: Find Every URL on Any Site, $1/1k | NanoScrape</title>
- <meta name="description" content="Parse robots.txt, sitemap.xml, and sitemap indexes to discover every URL on a website. Returns URLs with lastmod, changefreq, and priority. Supports gzipped sitemaps. $1 per 1,000 sitemaps.">
- <meta property="og:title" content="Sitemap & URL Discovery: Find All URLs on Any Website | NanoScrape">
- <meta property="og:description" content="Parse sitemap.xml and robots.txt to discover every URL on a site. Pay-per-result.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
- <link rel="canonical" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
- <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
- <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/zh/">
- <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
- <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
- <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
- <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
- <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Sitemap and URL Discovery",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Parse robots.txt, sitemap.xml, and sitemap indexes to discover every URL on a website. Returns URLs with lastmod, changefreq, and priority. Supports gzipped sitemaps. 128MB RAM, $0.001 per sitemap.",
- "offers": {
- "@type": "Offer",
- "price": "0.001",
- "priceCurrency": "USD",
- "description": "per sitemap processed"
- },
- "url": "https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
- <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
- * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; }
- a:hover { text-decoration: underline; }
- .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
- .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
- .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
- .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
- .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
- .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
- .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
- .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
- .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
- .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; }
- .detail li { margin-bottom: 8px; color: var(--muted); }
- .detail li strong { color: var(--white); }
- .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
- .code-block .comment { color: var(--muted); }
- .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
- .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
- .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); }
- .highlight { color: var(--accent); font-weight: 700; }
- footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
- #site-header { min-height: 56px; }
- #site-footer { min-height: 80px; }
- </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sitemap &amp; URL Discovery - Find All URLs on Any Site | NanoScrape</title>
+  <meta name="description" content="Discover all URLs on any website by parsing sitemap.xml and robots.txt. Returns URLs with last modified date, change frequency, and priority. Supports site...">
+  <meta property="og:title" content="Sitemap &amp; URL Discovery - Find All URLs on Any Site | NanoScrape">
+  <meta property="og:description" content="Discover all URLs on any website by parsing sitemap.xml and robots.txt. Returns URLs with last modified date, change frequency, and priority. Supports site...">
+  <meta property="og:url" content="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#app",
+      "name": "Sitemap & URL Discovery - Find All URLs on Any Site",
+      "description": "Discover all URLs on any website by parsing sitemap.xml and robots.txt. Returns URLs with last modified date, change frequency, and priority. Supports sitemap indexes. Pay-per-result.",
+      "applicationCategory": "DeveloperApplication",
+      "applicationSubCategory": "Web scraping",
+      "operatingSystem": "Apify cloud",
+      "installUrl": "https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz",
+      "offers": {
+        "@type": "Offer",
+        "priceCurrency": "USD",
+        "price": "0.0020",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "0.0020",
+          "priceCurrency": "USD",
+          "unitText": "per website analyzed"
+        }
+      },
+      "publisher": {
+        "@id": "https://www.nanoscrape.com/#org"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "NanoScrape",
+          "item": "https://www.nanoscrape.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Actors",
+          "item": "https://www.nanoscrape.com/#actor-catalog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Web Tools",
+          "item": "https://www.nanoscrape.com/#actor-catalog"
+        },
+        {
+          "@type": "ListItem",
+          "position": 4,
+          "name": "Sitemap & URL Discovery - Find All URLs on Any Site"
+        }
+      ]
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#webpage",
+      "url": "https://www.nanoscrape.com/actors/sitemap-url-discovery/",
+      "name": "Sitemap & URL Discovery - Find All URLs on Any Site | NanoScrape",
+      "description": "Discover all URLs on any website by parsing sitemap.xml and robots.txt. Returns URLs with last modified date, change frequency, and priority. Supports site...",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://www.nanoscrape.com/#website"
+      },
+      "about": {
+        "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#app"
+      },
+      "breadcrumb": {
+        "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#breadcrumb"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.nanoscrape.com/actors/sitemap-url-discovery/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does the sitemap-url-discovery cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "$2.00 / 1,000 website analyzed, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What fields does it return?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "14 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is scraping this site legal?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fresh is the data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
+          }
+        }
+      ]
+    }
+  ]
+}
+  </script>
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <style>
+    :root {
+      --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+      --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+      --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+    .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
+    .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+    .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+    .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+    .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
+    .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+    .detail ul { padding-left: 20px; margin-bottom: 24px; }
+    .detail li { margin-bottom: 8px; color: var(--muted); }
+    .detail li strong { color: var(--white); }
+
+    /* .code-block is just a positioning wrapper — Prism (prism-tomorrow) or the fallback <pre> draws the box */
+    .code-block { position: relative; margin-bottom: 24px; }
+    /* Fallback pre (no Prism language class) — matches site surface */
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto;
+    }
+    /* Prism-styled pre — override margin/radius/border to match site, keep prism-tomorrow bg + tokens */
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5;
+    }
+    .code-block code[class*="language-"] {
+      font-family: inherit; font-size: inherit; text-shadow: none;
+    }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+    .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+    .lang-panel { display: none; }
+    .lang-panel.is-active { display: block; }
+    .detail ol { padding-left: 24px; margin-bottom: 24px; }
+    .detail ol li { margin-bottom: 8px; color: var(--muted); }
+    .detail ol li strong { color: var(--white); }
+    .code-block .comment { color: var(--muted); }
+
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+    .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    .compare-table td { color: var(--text); }
+    .compare-table tr:hover td { background: var(--surface); }
+    .highlight { color: var(--accent); font-weight: 700; }
+
+    @media (max-width: 480px) {
+      .detail h1 { font-size: 1.5rem; }
+      .specs { grid-template-columns: repeat(2, 1fr); }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
 </head>
 <body>
 
- <div id="site-header"></div>
+  <div id="site-header"></div>
 
- <div class="detail">
- <h1>Sitemap and URL Discovery: Find Every URL on Any Site, $1 per 1,000 Sitemaps</h1>
- <p class="lead">Parse robots.txt, sitemap.xml, and nested sitemap indexes to discover every published URL on any website. Returns each URL with its last-modified date, change frequency, and priority. Supports gzipped sitemaps and sitemap-index chains. Built for bulk: pass a list of domains and it returns the full URL inventory for each. Ideal for SEO audits, content monitoring, competitive intelligence, and pre-crawl URL discovery.</p>
+  <div class="detail">
+    <h1>Sitemap &amp; URL Discovery - Find All URLs on Any Site</h1>
+    <p class="lead">Discover all URLs on any website by parsing sitemap.xml and robots.txt. Returns URLs with last modified date, change frequency, and priority. Supports sitemap indexes. Pay-per-result.</p>
 
- <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/FOkcFNjk48ygVJv7i/source?addFromActorId=FOkcFNjk48ygVJv7i&fpr=0khfbz" class="btn-secondary">Try it now</a>
- </div>
+    <div class="ctas">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
+    </div>
+    <div class="specs">
+      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 website analyzed</div></div>
+      <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+    </div>
+    <h2 class="section-title">What you can scrape — 14 fields per result</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
+      <tr><td><code>url</code></td><td>string | null</td><td>https://apify.com/</td><td>Core</td></tr>
+      <tr><td><code>image_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>sitemap_urls</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>total_urls</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-09-12T06:56:04Z</td><td>Metadata</td></tr>
+      <tr><td><code>is_image</code></td><td>boolean | null</td><td><code>false</code></td><td>Media</td></tr>
+      <tr><td><code>website</code></td><td>string</td><td>https://www.apify.com</td><td>Other</td></tr>
+      <tr><td><code>type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>lastmod</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>changefreq</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>priority</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>source_sitemap</code></td><td>string | null</td><td>https://apify.com/sitemap/pages.xml</td><td>Other</td></tr>
+      <tr><td><code>robots_txt_found</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>sitemaps_found</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+    </table>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;websites&quot;: [
+    &quot;https://www.apify.com&quot;,
+    &quot;https://wordpress.org&quot;
+  ],
+  &quot;followSitemapIndex&quot;: true,
+  &quot;respectRobotsTxt&quot;: true,
+  &quot;maxUrlsPerSite&quot;: 500,
+  &quot;maxDepth&quot;: 3,
+  &quot;includeLastmod&quot;: true,
+  &quot;includeImages&quot;: false,
+  &quot;timeoutSeconds&quot;: 30
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;website&quot;: &quot;https://www.apify.com&quot;,
+  &quot;url&quot;: &quot;https://apify.com/&quot;,
+  &quot;lastmod&quot;: null,
+  &quot;changefreq&quot;: null,
+  &quot;priority&quot;: null,
+  &quot;source_sitemap&quot;: &quot;https://apify.com/sitemap/pages.xml&quot;,
+  &quot;is_image&quot;: false,
+  &quot;image_url&quot;: null,
+  &quot;scraped_at&quot;: &quot;2026-09-12T06:56:04Z&quot;
+}</code></pre></div>
+    <h2 class="section-title">Cost math</h2>
+    <p>Priced at <strong>$0.0020</strong> per website analyzed. 10 website analyzeds ≈ $0.02, 100 ≈ $0.20, 1,000 ≈ $2.00. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Integrations</h2>
+    <ul>
+      <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
+      <li><strong>AI Agents (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+      <li><strong>Python / Node.js</strong> — Apify SDK for programmatic access</li>
+      <li><strong>Google Sheets / Airtable</strong> — export via Apify integrations</li>
+    </ul>
 
- <div class="specs">
- <div class="spec"><div class="label">Pricing</div><div class="value">$0.001/sitemap</div></div><div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div><div class="spec"><div class="label">Coverage</div><div class="value">Any domain</div></div><div class="spec"><div class="label">Output fields</div><div class="value">8+</div></div><div class="spec"><div class="label">Proxy</div><div class="value">Apify datacenter</div></div><div class="spec"><div class="label">Tech</div><div class="value">Native XML + gzip</div></div>
- </div>
+    <!-- Auto-injected: Run directly on Apify (no code) -->
+    <h2 class="section-title">Run this actor directly on Apify (no code)</h2>
+    <p>Click <strong>Open on Apify</strong> above to run <code>sitemap-url-discovery</code> in your browser - no code, no install. In the Apify console you get:</p>
+    <ul>
+      <li><strong>One-click test</strong> - fill in the input form, or paste the JSON example above into the <em>JSON editor</em> tab, then hit <strong>Start</strong>.</li>
+      <li><strong>Live output</strong> - watch rows stream into an interactive <em>Output</em> table as they arrive, or flip to the raw <em>JSON</em> / <em>Log</em> view.</li>
+      <li><strong>Export in any format</strong> - one click to download the dataset as <strong>JSON, CSV, XML, Excel, HTML table, RSS, or JSONL</strong>.</li>
+      <li><strong>Schedules</strong> - run this actor <strong>daily, weekly, hourly, or on a custom cron</strong>. Apify handles timing and stores every dataset run.</li>
+      <li><strong>Integrations &amp; webhooks</strong> - fire a webhook on success/failure, or plug into <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres, and more</strong> from the <em>Actions</em> tab.</li>
+      <li><strong>Transparent cost</strong> - see exact usage against your <strong>$5/month free tier</strong> before you spend a cent.</li>
+    </ul>
 
- <h2 class="section-title">What you get</h2>
- <ul>
- <li><strong>URL inventory:</strong> every <loc> from sitemap.xml and nested sitemap indexes</li>
- <li><strong>Per-URL metadata:</strong> lastmod, changefreq, priority, image_count, video_count</li>
- <li><strong>Sitemap source:</strong> sitemap_url, sitemap_type (urlset / sitemapindex), is_gzipped</li>
- <li><strong>robots.txt:</strong> declared sitemaps, allowed/disallowed paths, crawl_delay</li>
- <li><strong>Aggregates:</strong> total_urls, last_modified_max, scraped_at</li>
- </ul>
+    <!-- Auto-injected: API token guide -->
+    <h2 class="section-title">Get your Apify API token</h2>
+    <p>To run this actor from your own code you need an Apify API token. Get one in about a minute:</p>
+    <ol>
+      <li><a href="https://console.apify.com/sign-up?fpr=0khfbz" target="_blank" rel="sponsored noopener">Sign up for a free Apify account</a> (Google, GitHub, or email).</li>
+      <li>Go to <strong>Settings &rarr; Integrations &rarr; API tokens</strong>.</li>
+      <li>Click <strong>Create a new API token</strong>. Copy it and keep it secret.</li>
+    </ol>
+    <p><strong>Free tier:</strong> Apify credits your account with <strong>$5 of platform usage every month</strong>, no credit card required. Enough to test any actor meaningfully - at $0.001 per result on typical scrapers, that is roughly 5,000 results for free every month.</p>
 
- <h2 class="section-title">Primary use cases</h2>
- <ul>
- <li><strong>SEO audits.</strong> Compare declared URLs to crawled URLs to spot indexation gaps</li>
- <li><strong>Content monitoring.</strong> Diff sitemaps over time to detect new, changed, or removed pages</li>
- <li><strong>Competitive intelligence.</strong> Map a competitor's full content footprint by parsing their sitemap chain</li>
- <li><strong>Pre-crawl URL discovery.</strong> Hand the URL list to a downstream crawler for targeted scraping</li>
- <li><strong>Migration QA.</strong> Verify every URL in the old sitemap redirects correctly after a relaunch</li>
- </ul>
+    <!-- Auto-injected: Call from code (multi-language switcher) -->
+    <h2 class="section-title">Call from code</h2>
+    <p>Run this actor from any language via the Apify REST API. Replace <code>YOUR_TOKEN</code> with your API token and adapt the input JSON to your needs.</p>
+    <div class="lang-tabs" data-lang-group="run-actor">
+      <button class="tab-btn is-active" data-lang="curl">curl</button>
+      <button class="tab-btn" data-lang="node">Node.js</button>
+      <button class="tab-btn" data-lang="python">Python</button>
+      <button class="tab-btn" data-lang="csharp">C#</button>
+      <button class="tab-btn" data-lang="java">Java</button>
+    </div>
+    <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+    <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
 
- <h2 class="section-title">API example</h2>
- <div class="code-block"><pre><span class="comment"># Start a run via the Apify API</span>
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "domains": [
- "https://example.com",
- "https://competitor.com",
- "https://news-site.com"
- ],
- "maxUrlsPerSite": 10000,
- "followSitemapIndexes": true,
- "parseRobotsTxt": true
- }'
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/sitemap-url-discovery').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+    <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
 
-<span class="comment"># Or use with AI agents via MCP:</span>
-<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/sitemap-url-discovery</span></pre></div>
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/sitemap-url-discovery').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+    <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
 
- <h2 class="section-title">Integrations</h2>
- <ul>
- <li><strong>n8n, Make, Zapier:</strong> trigger runs and process records via webhook</li>
- <li><strong>AI Agents (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js:</strong> Apify SDK for programmatic access</li>
- <li><strong>Google Sheets, Airtable:</strong> bulk input in, structured data out</li>
- </ul>
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/sitemap-url-discovery").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+    <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
 
- <h2 class="section-title">Output fields</h2>
- <table class="compare-table">
- <tr><th>Field</th><th>Type</th><th>Example</th></tr>
- <tr><td>source_domain</td><td>string</td><td>example.com</td></tr>
- <tr><td>sitemap_url</td><td>string</td><td>https://example.com/sitemap.xml</td></tr>
- <tr><td>total_urls</td><td>integer</td><td>12,486</td></tr>
- <tr><td>url</td><td>string</td><td>https://example.com/blog/post-1</td></tr>
- <tr><td>lastmod</td><td>string</td><td>2026-06-10T14:00:00Z</td></tr>
- <tr><td>changefreq</td><td>string</td><td>weekly</td></tr>
- <tr><td>priority</td><td>number</td><td>0.8</td></tr>
- <tr><td>robots_sitemaps</td><td>array</td><td>["https://example.com/sitemap.xml"]</td></tr>
- <tr><td>is_gzipped</td><td>boolean</td><td>false</td></tr>
- <tr><td>scraped_at</td><td>string</td><td>2026-06-13T10:15:42Z</td></tr>
- </table>
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/sitemap-url-discovery").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
 
- <h2 class="section-title">Related Actors</h2>
- <ul>
- <li><a href="/actors/html-to-markdown/">HTML to Markdown</a>: feed discovered URLs into a bulk markdown extractor</li>
- <li><a href="/actors/seo-metadata-extractor/">SEO Metadata Extractor</a>: extract SEO metadata from each discovered URL</li>
- <li><a href="/actors/broken-link-checker/">Broken Link Checker</a>: validate every URL in the sitemap returns 200</li>
- </ul>
+    <!-- Auto-injected: Use with AI agents (MCP) -->
+    <h2 class="section-title">Use with AI agents (MCP)</h2>
+    <p>This actor is available on the Apify MCP server, so you can drive it from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or a custom agent - without writing any code.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/sitemap-url-discovery</code></pre></div>
+    <p><strong>Example prompt once connected:</strong></p>
+    <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Use &lt;code&gt;sitemap-url-discovery&lt;/code&gt; to run a scrape on my target list and give me the results as a table."</blockquote>
+    <p>Clients that support dynamic tool discovery (Claude.ai, VS Code) receive the full input schema automatically via <code>add-actor</code>.</p>
 
- <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/FOkcFNjk48ygVJv7i/source?addFromActorId=FOkcFNjk48ygVJv7i&fpr=0khfbz" class="btn-secondary">Try it now (free tier available)</a>
- </div>
- </div>
+    <!-- Auto-injected: Use with no-code -->
+    <h2 class="section-title">Use with no-code platforms</h2>
+    <p>Trigger this actor from your favorite automation tool. Every platform below can call the Apify API in a few clicks - no code required.</p>
+    <div class="lang-tabs" data-lang-group="nocode">
+      <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+      <button class="tab-btn" data-lang="zapier">Zapier</button>
+      <button class="tab-btn" data-lang="make">Make</button>
+      <button class="tab-btn" data-lang="pipedream">Pipedream</button>
+      <button class="tab-btn" data-lang="bubble">Bubble</button>
+    </div>
+    <div class="lang-panel is-active" data-lang="n8n">
+      <ol>
+        <li>Add the <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify node</a> (installed by default on n8n Cloud; on self-hosted install <code>@apify/n8n-nodes-apify</code>).</li>
+        <li>Set <strong>Actor</strong> to <code>santamaria-automations/sitemap-url-discovery</code>.</li>
+        <li>Choose operation <em>Run Actor and get dataset</em>, paste your input JSON, and connect a downstream node (Google Sheets, Postgres, webhook, ...).</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="zapier">
+      <ol>
+        <li>Create a new Zap with any trigger.</li>
+        <li>Add a <strong>Webhooks by Zapier</strong> POST action to <code>https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Body: your input JSON. Content-Type: <code>application/json</code>.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="make">
+      <ol>
+        <li>Create a new scenario.</li>
+        <li>Add an <strong>HTTP</strong> module: URL <code>https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, method POST, body raw JSON.</li>
+        <li>Parse the response with a <strong>JSON</strong> module to iterate items downstream.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="pipedream">
+      <ol>
+        <li>Create a new workflow.</li>
+        <li>Add an <strong>HTTP Request</strong> step: POST to <code>https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+        <li>Access <code>steps.http.$return_value</code> in subsequent steps.</li>
+      </ol>
+    </div>
+    <div class="lang-panel" data-lang="bubble">
+      <ol>
+        <li>Install the <strong>API Connector</strong> plugin.</li>
+        <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~sitemap-url-discovery/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+        <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
+      </ol>
+    </div>
 
- <div id="site-footer"></div>
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sitemap-url-discovery?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
+    </div>
+  </div>
 
- <script src="/components.js?v=6"></script>
- <script src="/search.js?v=6"></script>
+  <div id="site-footer"></div>
+
+  <script src="/components.js"></script>
+  <!-- Prism.js syntax highlighting (core + languages used on this page) -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (e.target.matches('.copy-btn')) {
+      var pre = e.target.parentElement.querySelector('pre');
+      if (!pre) return;
+      var text = pre.textContent;
+      var btn = e.target;
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.textContent;
+        btn.classList.add('copied');
+        btn.textContent = 'Copied!';
+        setTimeout(function() {
+          btn.textContent = orig;
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(function() {
+        btn.textContent = 'Copy failed';
+        setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+      });
+    }
+  });
+  // Language / no-code platform tab switcher
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.tab-btn')) return;
+    var btn = e.target;
+    var group = btn.closest('.lang-tabs');
+    if (!group) return;
+    var groupName = group.getAttribute('data-lang-group');
+    var lang = btn.getAttribute('data-lang');
+    // Deactivate siblings
+    group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+    btn.classList.add('is-active');
+    // Toggle panels in same scope (siblings of the tabs container's parent)
+    var panels = group.parentElement.querySelectorAll('.lang-panel');
+    panels.forEach(function(p) {
+      // Only toggle panels that were siblings of this tab group (not other tab groups' panels)
+      var prevGroup = p.previousElementSibling;
+      while (prevGroup && !prevGroup.classList.contains('lang-tabs')) {
+        prevGroup = prevGroup.previousElementSibling;
+      }
+      if (prevGroup === group || (prevGroup && prevGroup.getAttribute('data-lang-group') === groupName)) {
+        if (p.getAttribute('data-lang') === lang) {
+          p.classList.add('is-active');
+        } else {
+          p.classList.remove('is-active');
+        }
+      }
+    });
+  });
+  </script>
 </body>
 </html>
