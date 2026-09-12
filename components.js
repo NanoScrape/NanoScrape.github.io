@@ -274,12 +274,12 @@
  '<div class="ns-footer-langs" aria-label="' + esc(t.lang) + '">' + langLinks + '</div>' +
  '</div>' +
  '<div class="ns-footer-col"><h4>' + esc(t.colActors) + '</h4>' +
- '<a href="' + home + '">' + esc(t.allActors) + '</a>' +
- '<a href="' + home + '#jobs">Job boards</a>' +
- '<a href="' + home + '#dirs">Business directories</a>' +
- '<a href="' + home + '#social">Social media</a>' +
- '<a href="' + home + '#ecom">Ecommerce</a>' +
- '<a href="' + home + '#enrichment">Enrichment</a>' +
+ '<a href="/actors/">' + esc(t.allActors) + '</a>' +
+ '<a href="/actors/job-scrapers/">Job scrapers</a>' +
+ '<a href="/actors/directories/">Business directories</a>' +
+ '<a href="/actors/social/">Social media</a>' +
+ '<a href="/actors/ecommerce/">Ecommerce</a>' +
+ '<a href="/actors/enrichment/">Enrichment</a>' +
  '</div>' +
  '<div class="ns-footer-col"><h4>' + esc(t.colLearn) + '</h4>' +
  '<a href="' + tutorialsHubUrl(ctx.currentLang) + '">' + esc(t.allTutorials) + '</a>' +
