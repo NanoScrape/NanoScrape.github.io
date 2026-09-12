@@ -295,10 +295,12 @@
  '<a href="/templates/#zapier">Zapier</a>' +
  '</div>' +
  '<div class="ns-footer-col"><h4>' + esc(t.colCompany) + '</h4>' +
- '<a href="/actors/">All actors</a>' +
- '<a href="/tutorials/">Tutorials</a>' +
+ '<a href="/about/">About</a>' +
  '<a href="https://github.com/NanoScrape" target="_blank" rel="noopener">GitHub \u2197</a>' +
  '<a href="mailto:contact@nanoscrape.com">contact@nanoscrape.com</a>' +
+ '<a href="/impressum/">Impressum</a>' +
+ '<a href="/datenschutz/">Datenschutz</a>' +
+ '<a href="/legal/">Legal &amp; Terms</a>' +
  '</div>' +
  '</div>' +
  '<div class="ns-footer-legal"><span>\u00A9 ' + new Date().getFullYear() + ' NanoScrape</span><span>' + esc(t.legal) + '</span></div>' +
