@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tutti Scraper — Marketplace Listings | NanoScrape</title>
-  <meta name="description" content="Scrape Tutti for $5/1k listing: title, location, phone, email, description. Runs on Apify, pay-per-result, no monthly fee.">
+  <meta name="description" content="Extract classified listings from Tutti.ch. Returns price, location, canton, seller info, GPS coordinates, and images. No login required. Pay-per-result.">
   <meta property="og:title" content="Tutti Scraper — Marketplace Listings | NanoScrape">
-  <meta property="og:description" content="Scrape Tutti for $5/1k listing: title, location, phone, email, description. Runs on Apify, pay-per-result, no monthly fee.">
+  <meta property="og:description" content="Extract classified listings from Tutti.ch. Returns price, location, canton, seller info, GPS coordinates, and images. No login required. Pay-per-result.">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/tutti-ch-scraper/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -34,12 +34,12 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.0050",
+        "price": "",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.0050",
+          "price": "",
           "priceCurrency": "USD",
-          "unitText": "per detail listing"
+          "unitText": "per result"
         }
       },
       "publisher": {
@@ -80,7 +80,7 @@
       "@id": "https://www.nanoscrape.com/actors/tutti-ch-scraper/#webpage",
       "url": "https://www.nanoscrape.com/actors/tutti-ch-scraper/",
       "name": "Tutti Scraper — Marketplace Listings | NanoScrape",
-      "description": "Scrape Tutti for $5/1k listing: title, location, phone, email, description. Runs on Apify, pay-per-result, no monthly fee.",
+      "description": "Extract classified listings from Tutti.ch. Returns price, location, canton, seller info, GPS coordinates, and images. No login required. Pay-per-result.",
       "inLanguage": "en",
       "isPartOf": {
         "@id": "https://www.nanoscrape.com/#website"
@@ -96,14 +96,6 @@
       "@type": "FAQPage",
       "@id": "https://www.nanoscrape.com/actors/tutti-ch-scraper/#faq",
       "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "How much does the tutti-ch-scraper cost?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "$5.00 / 1,000 detail listing, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
-          }
-        },
         {
           "@type": "Question",
           "name": "What fields does it return?",
@@ -225,6 +217,12 @@
     .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
     .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
     .faq details p { margin-top: 10px; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+    .direct-answer { font-size: 1.05rem; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--accent); border-radius: 8px; padding: 16px 20px; margin-bottom: 24px; line-height: 1.65; }
+    .related-actors { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 32px; }
+    .related-actor { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; color: inherit; text-decoration: none; transition: border-color 0.15s; }
+    .related-actor:hover { border-color: var(--accent); text-decoration: none; }
+    .related-actor .name { display: block; font-weight: 700; color: var(--white); margin-bottom: 4px; font-size: 0.95rem; }
+    .related-actor .summary { display: block; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -233,45 +231,43 @@
 
   <div class="detail">
     <h1>Tutti.ch Scraper - Swiss Classifieds &amp; Marketplace</h1>
+    <p class="direct-answer">The NanoScrape Tutti Scraper is an Apify actor that extracts marketplace listings from tutti.ch. It returns 24 fields per result including title, location, phone, email, description, with no API key or monthly subscription required.</p>
     <p class="lead">Extract classified listings from Tutti.ch <a href="https://www.tutti.ch/" target="_blank" rel="noopener">(source platform)</a>. Returns price, location, canton, seller info, GPS coordinates, and images. No login required. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$5.00 / 1,000 detail listing</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 24 fields per result</h2>
     <table class="compare-table">
       <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>id</code></td><td>string</td><td>82778871</td><td>Core</td></tr>
-      <tr><td><code>title</code></td><td>string | null</td><td>Altstadtwohnung in Altstätten</td><td>Core</td></tr>
-      <tr><td><code>seller_name</code></td><td>string | null</td><td>Usman Khan Mufti</td><td>Core</td></tr>
-      <tr><td><code>seller_id</code></td><td>string | null</td><td>5311494020943126650</td><td>Core</td></tr>
-      <tr><td><code>image_url</code></td><td>string | null</td><td>https://c.tutti.ch/big/1704318546.jpg</td><td>Core</td></tr>
-      <tr><td><code>image_urls</code></td><td>array | null</td><td><code>["https://c.tutti.ch/big/1704318546.jpg", "https://c.tutti.ch/big/6454846779.jpg</code></td><td>Core</td></tr>
-      <tr><td><code>source_url</code></td><td>string</td><td>https://www.tutti.ch/de/vi/st-gallen/immobilien/wohnungen/altstadtwohnung-in-altstaette...</td><td>Core</td></tr>
-      <tr><td><code>location</code></td><td>string | null</td><td>Altstätten SG</td><td>Location</td></tr>
-      <tr><td><code>postcode</code></td><td>string | null</td><td>9450</td><td>Location</td></tr>
-      <tr><td><code>latitude</code></td><td>number | null</td><td><code>47.3700789</code></td><td>Location</td></tr>
-      <tr><td><code>longitude</code></td><td>number | null</td><td><code>9.5549856</code></td><td>Location</td></tr>
-      <tr><td><code>description</code></td><td>string | null</td><td>Nachmieter gesucht für eine 3-Zimmer-Maisonettewohnung (Altbau) in Altstätten SG
-
-Ich s...</td><td>Description</td></tr>
-      <tr><td><code>category</code></td><td>string | null</td><td>realEstate</td><td>Metadata</td></tr>
-      <tr><td><code>posted_at</code></td><td>string | null</td><td>2026-09-04T18:11:08+02:00</td><td>Metadata</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-09-04T18:25:45.765Z</td><td>Metadata</td></tr>
-      <tr><td><code>price</code></td><td>string | null</td><td>1'200.- pro Monat</td><td>Other</td></tr>
-      <tr><td><code>price_chf</code></td><td>number | null</td><td><code>1200</code></td><td>Other</td></tr>
-      <tr><td><code>currency</code></td><td>string</td><td>CHF</td><td>Other</td></tr>
-      <tr><td><code>canton</code></td><td>string | null</td><td>SG</td><td>Other</td></tr>
-      <tr><td><code>seller_type</code></td><td>string | null</td><td>private</td><td>Other</td></tr>
+      <tr><td><code>id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>title</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>seller_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>seller_id</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>image_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>image_urls</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>source_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>location</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
+      <tr><td><code>postcode</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
+      <tr><td><code>latitude</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
+      <tr><td><code>longitude</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
+      <tr><td><code>description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Description</td></tr>
+      <tr><td><code>category</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><td><code>posted_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><td><code>price</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>price_chf</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>currency</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>canton</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>seller_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
       <tr><td><code>phone</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
       <tr><td><code>email</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>is_highlighted</code></td><td>boolean</td><td><code>false</code></td><td>Other</td></tr>
-      <tr><td><code>properties</code></td><td>object | null</td><td><code>{"Zimmer": "3", "Fläche": "58", "Typ": "Mieten"}</code></td><td>Other</td></tr>
+      <tr><td><code>is_highlighted</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>properties</code></td><td>object | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
     </table>
     <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
@@ -287,44 +283,6 @@ Ich s...</td><td>Description</td></tr>
     &quot;https://www.tutti.ch/de/q/autos/Ak6NibXekY2Fyc5SSkrFjYXJzQXV0b1Njb3V0VHlwZaljYWJyaW9sZXSStWNhcnNBdXRvU2NvdXRGdWVsVHlwZaZwZXRyb2zAwMA?sorting=newest&amp;query=bmw&quot;
   ]
 }</code></pre></div>
-    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;id&quot;: &quot;82778871&quot;,
-  &quot;title&quot;: &quot;Altstadtwohnung in Altstätten&quot;,
-  &quot;description&quot;: &quot;Nachmieter gesucht für eine 3-Zimmer-Maisonettewohnung (Altbau) in Altstätten SG&#92;n&#92;nIch suche Nachmieter für eine Maisonettewohnung in Altstätten SG. Ideal für Paare, aber auch Einzelpersonen. &#92;n&#92;nWichtig: Der Vertrag muss zu gleichen Bedingungen übernommen werden.&#92;n&#92;nDiese Wohnung überzeugt durch ihren klassischen Charme und die Aussicht auf die Berge und eignet sich für Paare sowie Einzelpersonen.&#92;n&#92;nWohnungsdetails:&#92;n- 3. OG&#92;n- 3-Zimmer ,sieht für mich nach 2,5 Zimmern aus (hat einen kleinen Estrich)&#92;n- Wohnfläche ca. 58 m²&#92;n- Renovierte grosse Küche mit Geschirrspüler und Balkonzugang&#92;n- Grosszügiger Balkon mit 360°-Aussicht auf die Berge&#92;n- Waschmaschine und Tumbler in der Wohnung&#92;n- Haustiere erlaubt&#92;n- Miete: 1200 CHF.- inkl. Nebenkosten (1020 CHF.- + 180 CHF.-)&#92;n&#92;nLage und Umgebung:&#92;nZentral gelegen im Altstätten.&#92;nIn nur maximal 46 Gehminuten erreichen Sie Supermärkte wie Migros und Denner, aber auch Restaurants, Bushaltestellen und Ärztezentren etc. In etwa 10 Gehminuten erreichen Sie Coop.&quot;,
-  &quot;price&quot;: &quot;1&#39;200.- pro Monat&quot;,
-  &quot;price_chf&quot;: 1200,
-  &quot;currency&quot;: &quot;CHF&quot;,
-  &quot;category&quot;: &quot;realEstate&quot;,
-  &quot;location&quot;: &quot;Altstätten SG&quot;,
-  &quot;canton&quot;: &quot;SG&quot;,
-  &quot;postcode&quot;: &quot;9450&quot;,
-  &quot;latitude&quot;: 47.3700789,
-  &quot;longitude&quot;: 9.5549856,
-  &quot;seller_name&quot;: &quot;Usman Khan Mufti&quot;,
-  &quot;seller_type&quot;: &quot;private&quot;,
-  &quot;seller_id&quot;: &quot;5311494020943126650&quot;,
-  &quot;image_url&quot;: &quot;https://c.tutti.ch/big/1704318546.jpg&quot;,
-  &quot;image_urls&quot;: [
-    &quot;https://c.tutti.ch/big/1704318546.jpg&quot;,
-    &quot;https://c.tutti.ch/big/6454846779.jpg&quot;,
-    &quot;https://c.tutti.ch/big/9339674935.jpg&quot;,
-    &quot;https://c.tutti.ch/big/6993066848.jpg&quot;
-  ],
-  &quot;posted_at&quot;: &quot;2026-09-04T18:11:08+02:00&quot;,
-  &quot;source_url&quot;: &quot;https://www.tutti.ch/de/vi/st-gallen/immobilien/wohnungen/altstadtwohnung-in-altstaetten/82778871&quot;,
-  &quot;phone&quot;: null,
-  &quot;email&quot;: null,
-  &quot;is_highlighted&quot;: false,
-  &quot;properties&quot;: {
-    &quot;Zimmer&quot;: &quot;3&quot;,
-    &quot;Fläche&quot;: &quot;58&quot;,
-    &quot;Typ&quot;: &quot;Mieten&quot;
-  },
-  &quot;scraped_at&quot;: &quot;2026-09-04T18:25:45.765Z&quot;
-}</code></pre></div>
-    <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.0050</strong> per detail listing. 10 detail listings ≈ $0.05, 100 ≈ $0.50, 1,000 ≈ $5.00. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -450,11 +408,18 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the tutti-ch-scraper cost?</summary><p>$5.00 / 1,000 detail listing, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
       <details><summary>What fields does it return?</summary><p>24 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
       <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
+    </div>
+    <h2 class="section-title">Related actors in this category</h2>
+    <div class="related-actors">
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/booking-com-scraper/"><span class="name">Booking Com Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/finn-no-scraper/"><span class="name">Finn Scraper</span><span class="summary">Finn.no (Classifieds/Jobs, Norway): Norway&#39;s largest marketplace and job board (Schibsted). Covers marketplace, jobs, real estate, and cars across all Norwegian regions. HTTP-only.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/bazos-scraper/"><span class="name">Bazos Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/kleinanzeigen-de-scraper/"><span class="name">Kleinanzeigen Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/willhaben-at-scraper/"><span class="name">Willhaben Scraper</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
