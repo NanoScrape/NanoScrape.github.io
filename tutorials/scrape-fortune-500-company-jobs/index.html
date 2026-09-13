@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Scrape Every Fortune 500 Job Listing (2026 Playbook) | NanoScrape</title>
-  <meta name="description" content="Extract jobs from all 500 Fortune 500 companies. 293 use supported ATS (Workday, Phenom, Oracle, iCIMS, +20 more), 136 need LLM extraction, 60 need browser rendering, 11 need custom builds. Full list + one-click scraper links.">
+  <meta name="description" content="Extract jobs from all 500 Fortune 500 companies. 285 use supported ATS (Workday, Phenom, Oracle, iCIMS, +18 more), 103 need LLM extraction, 101 need browser rendering, 11 need custom builds. Full list + one-click scraper links.">
   <meta name="primary-keyword" content="scrape fortune 500 jobs">
   <meta property="og:title" content="Scrape All Fortune 500 Job Listings - Full Playbook">
-  <meta property="og:description" content="293/500 F500 careers pages use one of 24 supported ATS. 136 more work with LLM extraction. Complete playbook + interactive list + honest cost math.">
+  <meta property="og:description" content="285/500 F500 careers pages use one of 22 supported ATS. 103 more work with LLM extraction. Complete playbook + interactive list + honest cost math.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -70,7 +70,7 @@
   "step": [
     {
       "@type": "HowToStep",
-      "name": "Tier 1: ATS-native scraping (covers 58% of the F500)",
+      "name": "Tier 1: ATS-native scraping (covers 57% of the F500)",
       "text": "Run Career Site Jobs Scraper on ATS careers URLs - Workday, Phenom, Oracle Recruiting, iCIMS, TalentBrew, Eightfold and 19 more platforms are natively supported."
     },
     {
@@ -114,7 +114,7 @@
     }
   },
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-02",
+  "dateModified": "2026-09-13",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/"
 }
   </script>
@@ -335,7 +335,7 @@
         <li><a href="#the-problem">Why there is no single Fortune 500 jobs API</a></li>
         <li><a href="#coverage-map">F500 ATS coverage map</a></li>
         <li><a href="#the-stack">The 3-actor stack (and one orchestrator)</a></li>
-        <li><a href="#tier-1-ats">Tier 1: ATS-native scraping (58% of F500)</a></li>
+        <li><a href="#tier-1-ats">Tier 1: ATS-native scraping (57% of F500)</a></li>
         <li><a href="#tier-2-llm-http">Tier 2: LLM HTTP extraction (custom sites)</a></li>
         <li><a href="#tier-3-llm-browser">Tier 3: LLM browser fallback (JS-only sites)</a></li>
         <li><a href="#tier-4-orchestrator">Tier 4: Job Feed orchestrator (private beta)</a></li>
@@ -352,7 +352,7 @@
     <p><em>By the NanoScrape team · Published 2026-09-01 · Updated 2026-09-01</em></p>
     <p>Which Applicant Tracking Systems dominate the Fortune 500 today? Here's the full distribution across all 500 companies, color-coded by which NanoScrape scraper handles that ATS. Workday accounts for about 23% of the F500 careers pages.</p>
     <figure>
-      <img src="assets/f500-ats-chart.svg" alt="Horizontal bar chart of the Fortune 500 Applicant Tracking System distribution. Workday leads with 118 companies, followed by custom in-house sites at 136, Phenom at 41, and 19 more ATS platforms tapering to 1 company each. Bars color-coded by NanoScrape scraper tier." loading="lazy" width="900" height="746">
+      <img src="assets/f500-ats-chart.svg" alt="Horizontal bar chart of the Fortune 500 Applicant Tracking System distribution. Workday leads with 118 companies, followed by custom in-house sites at 103, pending browser-check at 50, Phenom at 41, and 18 more ATS platforms tapering to 1 company each. Bars color-coded by NanoScrape scraper tier." loading="lazy" width="900" height="746">
       <figcaption>F500 ATS distribution. Blue = Tier 1 (Career Site Jobs Scraper). Green = Tier 2 (Website Job Extractor). Orange = Tier 3 (Browser variant). Red = Tier 4 (Custom build).</figcaption>
     </figure>
     <p>Want the raw data? The <a href="./f500-list.html">interactive Fortune 500 careers table</a> lists all 500 companies with their detected ATS, careers URL, and a one-click <em>Try + copy JSON</em> button per row. Or grab the <a href="./f500-list.csv" download>downloadable CSV (13 columns)</a> for scripting.</p>
@@ -373,8 +373,9 @@
     <p>We audited all 500 Fortune 500 careers pages in May 2026. Here's the breakdown by ATS platform:</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">ATS PLATFORM               F500  SHARE
 ----------------------------------------------
-workday                     126   23.6%
-custom                      136   27.2%
+workday                     118   23.6%
+custom                      103   20.6%
+pending_browser_check        50   10.0%
 phenom                       41    8.2%
 oracle_recruiting            32    6.4%
 icims                        31    6.2%
@@ -382,7 +383,6 @@ successfactors               28    5.6%
 talentbrew                   22    4.4%
 eightfold                    16    3.2%
 paradox                      15    3.0%
-custom_js_only                9    1.8%
 taleo                         8    1.6%
 brassring                     8    1.6%
 beamery                       6    1.2%
@@ -398,10 +398,10 @@ ukg                           1    0.2%
 ----------------------------------------------
 TOTAL                       500  100.0%
 
-Tier 1 - Career Site Jobs Scraper:  293 companies (58.6%)
-Tier 2 - Website Job Extractor:     136 companies (27.2%)
-Tier 3 - Website Job Extractor (Browser): 60 companies (12.0%)
-Tier 4 - Custom build (WAF-hardened): 11 companies (2.2%)
+Tier 1 - Career Site Jobs Scraper (ATS-native): 285 companies (57.0%)
+Tier 2 - Website Job Extractor (HTTP + LLM):    103 companies (20.6%)
+Tier 3 - Website Job Extractor Browser:         101 companies (20.2%)
+Tier 4 - Custom build (WAF-hardened):            11 companies (2.2%)
 
 Every F500 company gets a recommended scraper - 100% coverage attempted,
 ~85-90% expected to actually return jobs on the first run.</code></pre></div>
@@ -423,7 +423,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
     <h2 id="the-stack">The 3-actor stack (and one orchestrator)</h2>
     <p>Here's the whole pipeline at a glance. Each tier writes to its own dataset with its own field names; a small mapper script (or the Job Feed orchestrator) unifies them into a single schema.</p>
     <figure>
-      <img src="assets/f500-3-actor-stack.svg" alt="Flow diagram of the 3-actor NanoScrape stack: Fortune 500 careers URL list feeds into the Job Feed orchestrator, which fans out to Tier 1 Career Site Jobs Scraper (293 companies), Tier 2 Website Job Extractor (136 companies), and Tier 3 Website Job Extractor Browser (60 companies). All three tiers merge into a unified F500 jobs dataset (206,000 rows)." loading="lazy" width="920" height="620">
+      <img src="assets/f500-3-actor-stack.svg" alt="Flow diagram of the 3-actor NanoScrape stack: Fortune 500 careers URL list feeds into the Job Feed orchestrator, which fans out to Tier 1 Career Site Jobs Scraper (285 companies), Tier 2 Website Job Extractor (103 companies), and Tier 3 Website Job Extractor Browser (101 companies). All three tiers merge into a unified F500 jobs dataset." loading="lazy" width="920" height="620">
       <figcaption>The 3-actor NanoScrape stack for Fortune 500 jobs coverage. Job Feed (private beta) routes each URL to the right tier and merges output.</figcaption>
     </figure>
     <div class="callout"><strong>Two cost-saving arrows in that diagram.</strong> (1) The LLM extractors (Tier 2/3) emit <code class="code-inline">ats_system</code> and <code class="code-inline">ats_url</code> whenever they detect a supported ATS on the way in. Feed those URLs into Tier 1 on the next run and you replace ~$0.014/company of LLM work with ~$0.001/company of ATS-native fetching. (2) Turn on <code class="code-inline">enablePlaywrightFallback: true</code> on the HTTP LLM extractor and it automatically re-runs any JS-flagged company through the Browser variant, so you only pay browser prices where you actually need them.</div>
@@ -432,7 +432,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
 
     <div class="step" id="tier-1-ats">
       <span class="step-number">STEP 1</span>
-      <h2>Tier 1: ATS-native scraping (covers 58% of the F500)</h2>
+      <h2>Tier 1: ATS-native scraping (covers 57% of the F500)</h2>
       <p>The <a target="_blank" rel="sponsored noopener" href="/actors/career-site-jobs-scraper/">NanoScrape Career Site Jobs Scraper</a> talks to 24 ATS platforms directly through their public JSON APIs. It's fast (HTTP-only, no browser), cheap ($1 per 1,000 jobs), and returns structured data with consistent field names within this actor.</p>
       <h3>Sample input: 8 F500 companies across 8 ATS platforms</h3>
       <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
@@ -602,11 +602,11 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
     <div class="step" id="tier-3-llm-browser">
       <span class="step-number">STEP 3</span>
       <h2>Tier 3: LLM browser fallback (JS-only sites)</h2>
-      <p>Roughly 20% of F500 careers pages (60 companies) render jobs with JavaScript only - the initial HTML is an empty React or Vue shell. HTTP scraping returns zero jobs, but the page loads fine in a browser.</p>
+      <p>Roughly 20% of F500 careers pages (101 companies) render jobs with JavaScript only - the initial HTML is an empty React or Vue shell. HTTP scraping returns zero jobs, but the page loads fine in a browser.</p>
       <p>The HTTP extractor detects this automatically. If it sees a nearly-empty <code class="code-inline">&lt;div id="root"&gt;</code> or a <code class="code-inline">noscript</code> warning, it emits a sentinel row (<code class="code-inline">js_rendering_suspected: true</code>) instead of an empty result. With <code class="code-inline">enablePlaywrightFallback: true</code> (see Tier 2 input above), the HTTP actor spawns a <a target="_blank" rel="sponsored noopener" href="/actors/website-job-extractor-browser/">Website Job Extractor (Browser)</a> run for those flagged companies. You get complete data with zero manual intervention and the browser run ID is stored in the key-value store as <code class="code-inline">BROWSER_FALLBACK_RUN_ID</code>.</p>
       <h3>Why keep them separate at all?</h3>
       <ul>
-        <li><strong>HTTP actor:</strong> ~128 MB memory, ~$0.014 per company. Runs on 78% of the F500.</li>
+        <li><strong>HTTP actor:</strong> ~128 MB memory, ~$0.014 per company. Runs on 77% of the F500 (Tier 1 + Tier 2 combined).</li>
         <li><strong>Browser actor:</strong> ~1-4 GB memory, ~$0.03 per company. Runs on the ~20% that need it.</li>
         <li><strong>Two-stage economics:</strong> paying browser costs on all 500 companies would inflate the total sweep by ~2-3x. Auto-fallback keeps cost proportional to actual JS-rendering frequency.</li>
       </ul>
@@ -759,27 +759,27 @@ https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper,sant
       </ul>
 
     <h2 id="cost">What it costs to sweep the F500</h2>
-    <p>Assuming an average of ~500 open roles per Fortune 500 company (bigger for retailers, smaller for pure-play tech), a full sweep processes about 250,000 jobs.</p>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">TIER 1 - Career Site Jobs Scraper (293 companies x ~500 jobs avg)
+    <p>Assuming an average of ~500 open roles per Fortune 500 company (bigger for retailers, smaller for pure-play tech), a full sweep processes about 200,000 jobs.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">TIER 1 - Career Site Jobs Scraper (285 companies x ~500 jobs avg)
   Actor start:      $0.001
-  Job results:      146,500 x $0.001 = $146.50
-  Subtotal:                          ~$146.50
+  Job results:      142,500 x $0.001 = $142.50
+  Subtotal:                          ~$142.50
 
-TIER 2 - Website Job Extractor HTTP (136 companies x ~350 jobs avg)
+TIER 2 - Website Job Extractor HTTP (103 companies x ~350 jobs avg)
   Actor start:      $0.00005
-  Companies:        136 x $0.01     = $1.36
-  Job results:      47,600 x $0.004  = $190.40
+  Companies:        103 x $0.01     = $1.03
+  Job results:      36,050 x $0.004  = $144.20
   LLM tokens:       Gemini free tier = $0.00
-  Subtotal:                          ~$191.76
+  Subtotal:                          ~$145.23
 
-TIER 3 - Website Job Extractor Browser (60 companies x ~200 jobs avg)
+TIER 3 - Website Job Extractor Browser (101 companies x ~200 jobs avg)
   Actor start:      $0.0001
-  Companies:        60 x $0.03      = $1.80
-  Job results:      12,000 x $0.006  = $72.00
-  Subtotal:                          ~$73.80
+  Companies:        101 x $0.03      = $3.03
+  Job results:      20,200 x $0.006  = $121.20
+  Subtotal:                          ~$124.23
 
 ---------------------------------------------------------------
-TOTAL PER FULL SWEEP:               ~$412.06
+TOTAL PER FULL SWEEP:               ~$411.96
 ---------------------------------------------------------------</code></pre></div>
     <div class="callout"><strong>Validated with live smoke runs (2026-09-01).</strong> We ran bounded versions of the exact inputs in this tutorial against all three actors. Charged-event structure and per-event pricing match the math above. Real full-sweep costs will vary a bit with the actual job count per company (which we assumed ~500 avg) and how many custom sites turn out to be JS-rendered (Amazon, Walmart, Meta all were - so Tier 3 share may be larger than the 10% baseline for retail + tech-heavy slices).</div>
     <h3>Repeat runs</h3>
