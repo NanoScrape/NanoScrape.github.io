@@ -3,10 +3,10 @@
 <head>
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>NanoScrape — Lightweight Web Scraping Actors | 10x Cheaper, ~10MB RAM</title>
- <meta name="description" content="176 web scrapers on Apify. ~10MB Docker images, 128MB RAM, datacenter proxy. Job boards, directories, marketplaces, social media. Pay-per-result from $0.001/SERP. No monthly fees.">
- <meta property="og:title" content="NanoScrape — Lightweight Web Scraping Actors">
- <meta property="og:description" content="176 lean scrapers for Apify. ~10MB images, 128MB RAM. 10-100x cheaper than browser-based alternatives. Pay only for what you scrape.">
+ <title>NanoScrape — Scrape Any Job Board, Directory or Marketplace for a Tenth of the Price</title>
+ <meta name="description" content="Scrape any job board, directory or marketplace for a tenth of the price. 176 pay-per-result scrapers from $1 per 1,000 results. No monthly fee, no setup.">
+ <meta property="og:title" content="NanoScrape — Web Scraping Actors, 10× Cheaper">
+ <meta property="og:description" content="176 pay-per-result scrapers. From $1 per 1,000 results, no monthly fee. Go actors 10–50× cheaper than browser-based alternatives.">
  <meta property="og:url" content="https://www.nanoscrape.com/">
  <meta property="og:type" content="website">
  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
@@ -193,8 +193,18 @@
  <div class="hero-body">
  <div class="hero-copy">
  <img src="/nanoscrape_logo.svg" alt="NanoScrape — Lightweight Web Scraping Actors" class="hero-logo" width="300" height="56">
- <h1>176 web scrapers on Apify</h1>
- <p>Mostly HTTP-only Go actors on Apify &mdash; 10&ndash;50&times; cheaper than browser-based scrapers, sub-second cold starts. Sources with hard anti-bot walls or JS-only content run on browser-tier variants. Pay per result from $0.001/SERP, no monthly fee.</p>
+ <h1 class="hero-h1" data-hero-rotator>Scrape <a href="/actors/jobs-ch-scraper/" class="hero-rotator-slot">Jobs.ch</a> for a tenth of the price.</h1>
+ <script type="application/json" id="hero-rotator-data">
+[
+ {"label": "Jobs.ch", "href": "/actors/jobs-ch-scraper/"},
+ {"label": "Telefonbuch.de", "href": "/actors/telefonbuch-de-scraper/"},
+ {"label": "Booking.com", "href": "/actors/booking-com-scraper/"},
+ {"label": "Amazon products", "href": "/actors/amazon-search-scraper/"},
+ {"label": "Threads", "href": "/actors/threads-search-scraper/"},
+ {"label": "Kununu reviews", "href": "/actors/kununu-de-scraper/"}
+]
+ </script>
+ <p>176 pay-per-result scrapers. From $1 per 1,000 results, no monthly fee, no setup. Lightweight Go actors that cost 10&ndash;50&times; less than browser-based alternatives.</p>
  </div>
 
  <aside class="cost-card" aria-label="Cost estimate">
@@ -217,8 +227,8 @@
  <div class="cost-bar"><i class="alt" style="width:100%"></i></div>
  </div>
 
- <div class="cost-keep"><span>You keep</span><b data-cost-save>$11.00</b></div>
- <p class="cost-note">Cheapest actors run at $0.0005 per SERP. Datacenter proxy, 128&nbsp;MB RAM, &lt;1&nbsp;s cold start.</p>
+ <div class="cost-keep"><span>You save</span><b data-cost-save>$11.00</b></div>
+ <p class="cost-note">Cheapest actors run from $0.50 per 1,000 results. Datacenter proxy, 128&nbsp;MB RAM, &lt;1&nbsp;s cold start.</p>
  </aside>
  </div>
 
@@ -262,6 +272,10 @@
  .hero-body { display: grid; grid-template-columns: 1fr 340px; gap: 52px; align-items: center; max-width: 1060px; margin: 0 auto; padding: 40px 20px 0; }
  .hero-logo { height: 56px; width: auto; margin-bottom: 26px; }
  .hero h1 { font-size: 2.8rem; line-height: 1.1; font-weight: 800; color: var(--white); letter-spacing: -1.3px; margin-bottom: 16px; text-wrap: balance; }
+ .hero-rotator-slot { color: var(--accent); text-decoration: none; border-bottom: 3px solid var(--accent); padding-bottom: 2px; transition: opacity 0.35s ease-in-out; }
+ .hero-rotator-slot:hover { opacity: 0.75; }
+ .hero-rotator-slot.is-fading { opacity: 0; }
+ @media (prefers-reduced-motion: reduce) { .hero-rotator-slot { transition: none; } }
  .hero-copy p { font-size: 1.1rem; color: var(--muted); line-height: 1.6; max-width: 520px; margin: 0; text-wrap: pretty; }
 
  .cost-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 22px; box-shadow: 0 18px 50px rgba(0,0,0,0.35); }
@@ -716,6 +730,37 @@
  btn.addEventListener('click', e => { e.stopPropagation(); btn.parentElement.classList.toggle('open'); });
  });
  document.addEventListener('click', () => { document.querySelectorAll('.lang-dropdown.open').forEach(d => d.classList.remove('open')); });
+
+ // Hero rotator: swaps the linked brand slot every 2.8s. Pause on hover.
+ // Respects prefers-reduced-motion (skips rotation, keeps SSR first item).
+ (function () {
+ var host = document.querySelector('[data-hero-rotator]');
+ var slot = host && host.querySelector('.hero-rotator-slot');
+ var dataEl = document.getElementById('hero-rotator-data');
+ if (!host || !slot || !dataEl) return;
+ if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+ var items;
+ try { items = JSON.parse(dataEl.textContent); } catch (e) { return; }
+ if (!Array.isArray(items) || items.length < 2) return;
+ // Start from the SSR item so we don't repeat it on the first tick.
+ var i = 0;
+ for (var k = 0; k < items.length; k++) {
+ if (items[k].href === slot.getAttribute('href')) { i = k; break; }
+ }
+ var paused = false;
+ host.addEventListener('mouseenter', function () { paused = true; });
+ host.addEventListener('mouseleave', function () { paused = false; });
+ setInterval(function () {
+ if (paused) return;
+ slot.classList.add('is-fading');
+ setTimeout(function () {
+ i = (i + 1) % items.length;
+ slot.textContent = items[i].label;
+ slot.setAttribute('href', items[i].href);
+ slot.classList.remove('is-fading');
+ }, 350);
+ }, 2800);
+ })();
  </script>
 
  <script src="/components.js?v=6"></script>
