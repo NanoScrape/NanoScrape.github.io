@@ -79,7 +79,7 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .jump-strip { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
 .jump-strip a { padding: 6px 12px; color: var(--muted); font-weight: 500; text-decoration: none; border-radius: 5px; transition: all 0.12s ease; }
 .jump-strip a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.industry-picker { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px 16px; margin: 16px 0 8px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.industry-picker { position: sticky; top: 0; z-index: 5; display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px 16px; margin: 16px 0 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.6); }
 .industry-picker-controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; }
 .industry-picker-field { display: flex; flex-direction: column; gap: 4px; }
 .industry-picker-field-disabled { opacity: 0.55; }
@@ -96,6 +96,26 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .chart-toggle-btn:hover { color: var(--text); }
 .chart-toggle-btn.is-active { background: var(--accent); color: var(--bg); font-weight: 600; }
 .chart-view[hidden] { display: none; }
+/* Wave 13: dashboard-style card grid for the interactive chart row. */
+.chart-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin: 8px 0 16px; }
+@media (min-width: 960px) { .chart-grid { grid-template-columns: 1fr 1fr; } }
+.chart-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px 12px; display: flex; flex-direction: column; min-width: 0; }
+.chart-card-wide { grid-column: 1 / -1; }
+.chart-grid[data-dot-visible="false"] .chart-card[data-chart="hero"] { grid-column: 1 / -1; }
+.chart-card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.chart-card-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.chart-card-fs { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; padding: 0; background: transparent; border: 1px solid var(--border); border-radius: 6px; color: var(--muted); cursor: pointer; transition: all 0.12s ease; }
+.chart-card-fs:hover { color: var(--text); border-color: var(--muted); }
+.chart-card-fs svg { display: block; }
+.chart-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.chart-card-body .chart { margin: 0; background: transparent; border: none; padding: 0; }
+.chart-card-cta { margin-top: 10px; }
+.chart-card-cta .chart-cta { margin: 0; }
+.chart-card[hidden] { display: none; }
+.chart-card.is-fullscreen { position: fixed; inset: 0; z-index: 100; margin: 0; border-radius: 0; padding: 20px 24px; overflow: auto; background: var(--bg); border: none; }
+.chart-card.is-fullscreen .chart-card-fs::after { content: "Exit"; margin-left: 6px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
+.chart-card.is-fullscreen .chart-card-fs { width: auto; padding: 0 10px 0 8px; height: 30px; color: var(--text); border-color: var(--muted); }
+body.has-fullscreen-chart { overflow: hidden; }
 .download-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0 24px; }
 .download-row a { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
 .methodology { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 32px; }
@@ -115,12 +135,11 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 <div class="container">
 <div class="crumb"><a href="/job-market-index/">Job Market Index</a> · <a href="/job-market-index/switzerland/">Switzerland</a> · German-speaking Switzerland</div>
 <h1>Job Market Index — German-speaking Switzerland</h1>
+<div class="jmi-interactive">
 <h2 id="by-industry">Cross-platform industry comparison — comparable subset</h2>
 <p>Only <strong>6 of 24</strong> industries map 1:1 across all three platforms' native category filters (jobs.ch <em>Branche</em>, arbeit.swiss CHISCO3, jobscout24 <em>Berufsgruppe</em>). The remainder have at least one platform where the category is merged with unrelated industries or absent entirely — those live on the <a href="dataset/">dataset page</a> as per-platform native tables, without a cross-platform comparison claim.</p>
-<div class="industry-picker" role="group" aria-labelledby="jmi-industry-select-label"><div class="industry-picker-controls"><div class="industry-picker-field"><label id="jmi-industry-select-label" for="jmi-industry-select">Focus the charts on:</label><select id="jmi-industry-select"><option value="all" selected>All industries (comparable subset)</option><option value="construction_realestate">Construction &amp; Real Estate</option><option value="manufacturing_diverse">Diverse Industry</option><option value="services_diverse">Diverse Services</option><option value="healthcare_social">Healthcare &amp; Social Services</option><option value="hospitality">Hospitality &amp; Hotels</option><option value="machinery">Machinery &amp; Plant Engineering</option><option value="medical_technology">Medical Technology</option><option value="public_admin">Public Admin &amp; Associations</option><option value="retail_wholesale">Retail &amp; Wholesale</option><option value="transport_logistics">Transport &amp; Logistics</option></select></div></div><span class="industry-picker-hint">Drives the hero chart, dot plot and line chart below.</span></div>
-<div class="hero-all-industries">
-<div class="chart-toggle" role="tablist" aria-label="Chart view mode"><button type="button" data-view="share" aria-pressed="true" class="chart-toggle-btn is-active">Share of platform (%)</button><button type="button" data-view="abs" aria-pressed="false" class="chart-toggle-btn">Absolute counts</button></div>
-<div class="chart chart-view chart-view-share" data-view="share"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+<div class="industry-picker" role="group" id="interactive-views" aria-labelledby="jmi-industry-select-label"><div class="industry-picker-controls"><div class="industry-picker-field"><label id="jmi-industry-select-label" for="jmi-industry-select">Focus the charts on:</label><select id="jmi-industry-select"><option value="all" selected>All industries (comparable subset)</option><option value="construction_realestate">Construction &amp; Real Estate</option><option value="manufacturing_diverse">Diverse Industry</option><option value="services_diverse">Diverse Services</option><option value="healthcare_social">Healthcare &amp; Social Services</option><option value="hospitality">Hospitality &amp; Hotels</option><option value="machinery">Machinery &amp; Plant Engineering</option><option value="medical_technology">Medical Technology</option><option value="public_admin">Public Admin &amp; Associations</option><option value="retail_wholesale">Retail &amp; Wholesale</option><option value="transport_logistics">Transport &amp; Logistics</option></select></div></div><span class="industry-picker-hint">Drives the hero chart, dot plot and line chart below.</span></div>
+<div class="chart-grid" id="jmi-chart-grid" data-dot-visible="true"><section class="chart-card" data-chart="hero" aria-labelledby="chart-card-hero-title"><header class="chart-card-header"><span class="chart-card-title" id="chart-card-hero-title">Latest snapshot</span><button type="button" class="chart-card-fs" aria-label="Toggle fullscreen for the latest-snapshot chart"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></header><div class="chart-card-body"><div class="hero-all-industries"><div class="chart-toggle" role="tablist" aria-label="Chart view mode"><button type="button" data-view="share" aria-pressed="true" class="chart-toggle-btn is-active">Share of platform (%)</button><button type="button" data-view="abs" aria-pressed="false" class="chart-toggle-btn">Absolute counts</button></div><div class="chart chart-view chart-view-share" data-view="share"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" role="img" aria-labelledby="chart-industries-exact-share-title chart-industries-exact-share-desc"><title id="chart-industries-exact-share-title">Exact-cell industry share-of-platform across jobs.ch, arbeit.swiss, jobscout24.ch — Switzerland, 2026-09-15</title><desc id="chart-industries-exact-share-desc">Grouped horizontal bar chart. Each industry&#x27;s share of that platform&#x27;s exact-cell inventory (%). Coverage-neutral. Snapshot 2026-09-15.</desc>
 <svg xmlns:xlink="http://www.w3.org/1999/xlink" width="648pt" height="331.2pt" viewBox="0 0 648 331.2" xmlns="http://www.w3.org/2000/svg" version="1.1">
  <metadata>
@@ -3885,11 +3904,9 @@ z
   </clipPath>
  </defs>
 </svg>
-</div></div><div class="chart" id="vega-hero-industry" hidden style="min-height:220px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-hero-industry-cta" hidden>Single-industry view — three bars, one per platform. Coverage-neutral framing does not apply here: hover for exact counts and cross-reference the coverage-ratio label in the orientation strip.</div>
-<div class="chart-cta chart-cta-slim" id="hero-share-cta">Default view is <strong>share-of-platform</strong>: each industry's value divided by that platform's sum across the comparable subset. Neutralises coverage differences (jobs.ch native filter vs arbeit.swiss occupation-derived). Switch to absolute counts for headline numbers. jobscout24 shares for 2026-09-08 come from the occupation-tagged subset (~25% coverage); native <code>?catidl</code> filter joins from 2026-09-15 onward.</div>
-<h3 id="interactive-views" style="margin-top:32px;font-size:1.15rem">Industry snapshot & trend</h3><div class="chart" id="vega-dotplot" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-dotplot-cta">Dot plot &mdash; latest snapshot, one dot per platform per industry.</div>
-<div class="chart-toggle" role="tablist" aria-label="Line chart mode" id="line-mode-toggle"><button type="button" data-line-mode="titles" aria-pressed="false" class="chart-toggle-btn" hidden>By job title</button><button type="button" data-line-mode="abs" aria-pressed="true" class="chart-toggle-btn is-active">Absolute counts</button><button type="button" data-line-mode="indexed" aria-pressed="false" class="chart-toggle-btn">Indexed (baseline = 100)</button></div><div class="chart" id="vega-indexed" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Line chart — open positions over time. Toggle to <em>Indexed</em> to normalise all series to their first snapshot for percent-change reading. Pick a specific industry above to unlock <em>By job title</em>.</div>
+</div></div><div class="chart" id="vega-hero-industry" hidden style="min-height:220px;padding:24px;width:100%"></div></div><div class="chart-card-cta"><div class="chart-cta chart-cta-slim" id="vega-hero-industry-cta" hidden>Single-industry view — three bars, one per platform. Coverage-neutral framing does not apply here: hover for exact counts and cross-reference the coverage-ratio label in the orientation strip.</div><div class="chart-cta chart-cta-slim" id="hero-share-cta">Default view is <strong>share-of-platform</strong>: each industry's value divided by that platform's sum across the comparable subset. Neutralises coverage differences (jobs.ch native filter vs arbeit.swiss occupation-derived). Switch to absolute counts for headline numbers. jobscout24 shares for 2026-09-08 come from the occupation-tagged subset (~25% coverage); native <code>?catidl</code> filter joins from 2026-09-15 onward.</div></div></section><section class="chart-card" data-chart="dot" aria-labelledby="chart-card-dot-title"><header class="chart-card-header"><span class="chart-card-title" id="chart-card-dot-title">Snapshot dot plot</span><button type="button" class="chart-card-fs" aria-label="Toggle fullscreen for the dot plot"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></header><div class="chart-card-body"><div class="chart" id="vega-dotplot" style="min-height:340px;width:100%"></div></div><div class="chart-card-cta"><div class="chart-cta chart-cta-slim" id="vega-dotplot-cta">Dot plot &mdash; latest snapshot, one dot per platform per industry.</div></div></section><section class="chart-card chart-card-wide" data-chart="line" aria-labelledby="chart-card-line-title"><header class="chart-card-header"><span class="chart-card-title" id="chart-card-line-title">Over time</span><button type="button" class="chart-card-fs" aria-label="Toggle fullscreen for the trend chart"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button></header><div class="chart-card-body"><div class="chart-toggle" role="tablist" aria-label="Line chart mode" id="line-mode-toggle"><button type="button" data-line-mode="titles" aria-pressed="false" class="chart-toggle-btn" hidden>By job title</button><button type="button" data-line-mode="abs" aria-pressed="true" class="chart-toggle-btn is-active">Absolute counts</button><button type="button" data-line-mode="indexed" aria-pressed="false" class="chart-toggle-btn">Indexed (baseline = 100)</button></div><div class="chart" id="vega-indexed" style="min-height:340px;width:100%"></div></div><div class="chart-card-cta"><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Line chart — open positions over time. Toggle to <em>Indexed</em> to normalise all series to their first snapshot for percent-change reading. Pick a specific industry above to unlock <em>By job title</em>.</div></div></section></div>
 <details class="chart-table"><summary>Show chart data as table</summary><table><caption>Exact-cell industries across Swiss job platforms — 2026-09-15. Only industries where all three platforms have a clean 1:1 native-category mapping are shown.</caption><thead><tr><th>Industry</th><th>jobs.ch</th><th>arbeit.swiss</th><th>jobscout24.ch</th></tr></thead><tbody><tr><td>Gesundheits- &amp; Sozialwesen</td><td>8,010</td><td>20,321</td><td>4,861</td></tr><tr><td>Informatik &amp; Telekommunikation</td><td>1,154</td><td>2,220</td><td>1,831</td></tr><tr><td>Transport &amp; Logistik</td><td>1,074</td><td>5,434</td><td>1,459</td></tr><tr><td>Bildungswesen</td><td>824</td><td>209</td><td>102</td></tr><tr><td>Banken &amp; Finanzinstitute</td><td>762</td><td>1,363</td><td>850</td></tr><tr><td>Land- &amp; Forstwirtschaft</td><td>64</td><td>996</td><td>75</td></tr></tbody></table></details>
+</div>
 <div class="orientation-strip" role="note"><p><strong>What this is:</strong> weekly counts of open job postings on <strong>3 Swiss platforms</strong> — jobs.ch, arbeit.swiss, jobscout24.ch — in German language. Each platform reports its own count; we do not aggregate.</p><p><strong>Headline numbers, latest snapshot:</strong> <em>Pflegefachfrau</em> — jobs.ch <strong>2,657</strong> · arbeit.swiss <strong>4,465</strong> · jobscout24.ch <strong>3,720</strong>; <em>Kaufmann</em> — jobs.ch <strong>1,604</strong> · arbeit.swiss <strong>3,838</strong> · jobscout24.ch <strong>4,017</strong>; <em>Projektleiter</em> — jobs.ch <strong>2,332</strong> · arbeit.swiss <strong>1,950</strong> · jobscout24.ch <strong>3,419</strong>. Every title shown here was verified against the platform SERP (top-100 precision ≥ 70%).</p><p><strong>Read platforms side-by-side, not summed.</strong> The three boards cover overlapping-but-not-identical universes: arbeit.swiss includes mandatory public-sector reporting and apprenticeships that commercial boards omit, so its totals are systematically larger. Same posting often appears on multiple boards.</p><p><strong>Industry-tag coverage:</strong> jobs.ch 83%, arbeit.swiss 98%, jobscout24.ch 25%. Coverage is the share of platform postings that carry the tag we filter on. Where coverage is low (jobscout24 today), per-industry values under-count that platform proportionally.</p><p><strong>Not a market-share proxy.</strong> arbeit.swiss is a public employment service; commercial boards select their own inventory. Cite as posting counts, not vacancy counts.</p></div>
 <nav class="jump-strip" aria-label="Page sections"><a href="#by-occupation">Titles</a><a href="#by-industry">Industries</a><a href="#interactive-views">Interactive</a><a href="#methodology">Methodology</a><a href="#downloads">Download</a></nav>
 <p class="lead">Latest snapshot: <strong>2026-09-15</strong>. Series began 2026-09-08 (v3 precision-first taxonomy — every keyword shown was sampled against the platform SERP, ≥70% of returned titles matched). Page is <code>noindex</code> until four consecutive Tuesday snapshots land. French, Italian-language regions coming next.</p>
@@ -18986,13 +19003,19 @@ z
     async function renderDot() {
       const ind = currentIndustry();
       // Solo view: the hero already IS the 3-platform snapshot for this
-      // industry, so hide the dot plot to avoid redundancy.
+      // industry, so hide the whole dot-plot card. The grid re-flows and
+      // the hero card expands to full width via
+      // `.chart-grid[data-dot-visible="false"]` in the CSS.
       const dotEl = document.getElementById('vega-dotplot');
+      const dotCard = dotEl && dotEl.closest('.chart-card');
+      const grid = document.getElementById('jmi-chart-grid');
       if (ind !== 'all') {
-        if (dotEl) dotEl.hidden = true;
-        if (dotCta) dotCta.hidden = true;
+        if (dotCard) dotCard.hidden = true;
+        if (grid) grid.dataset.dotVisible = 'false';
         return;
       }
+      if (dotCard) dotCard.hidden = false;
+      if (grid) grid.dataset.dotVisible = 'true';
       if (dotEl) dotEl.hidden = false;
       if (dotCta) {
         dotCta.hidden = false;
@@ -19227,6 +19250,39 @@ z
         await renderLine();
       });
     }
+
+    // Wave 13: fullscreen toggle per chart card. Vega-Lite renders at the
+    // container's clientWidth, so we must re-embed the chart after the
+    // card class change flips the layout.
+    async function reRenderCard(chartName) {
+      if (chartName === 'hero') await renderHero();
+      else if (chartName === 'dot') await renderDot();
+      else if (chartName === 'line') await renderLine();
+    }
+    document.addEventListener('click', async (e) => {
+      const btn = e.target.closest('.chart-card-fs');
+      if (!btn) return;
+      const card = btn.closest('.chart-card');
+      if (!card) return;
+      card.classList.toggle('is-fullscreen');
+      const anyFs = document.querySelector('.chart-card.is-fullscreen');
+      document.body.classList.toggle('has-fullscreen-chart', !!anyFs);
+      btn.setAttribute('aria-pressed', String(card.classList.contains('is-fullscreen')));
+      await reRenderCard(card.dataset.chart);
+    });
+    document.addEventListener('keydown', async (e) => {
+      if (e.key !== 'Escape') return;
+      const open = document.querySelectorAll('.chart-card.is-fullscreen');
+      if (!open.length) return;
+      const names = new Set();
+      open.forEach(c => {
+        c.classList.remove('is-fullscreen');
+        names.add(c.dataset.chart);
+      });
+      document.body.classList.remove('has-fullscreen-chart');
+      for (const n of names) await reRenderCard(n);
+    });
+
     syncLineToggleUI();
     await renderAll();
   } catch (e) {
