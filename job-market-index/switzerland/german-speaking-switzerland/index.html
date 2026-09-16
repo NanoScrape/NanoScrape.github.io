@@ -18735,12 +18735,11 @@ z
   </clipPath>
  </defs>
 </svg>
-</div></div><div class="chart" id="vega-hero-industry" hidden style="min-height:220px;padding:24px"></div><div class="chart-cta chart-cta-slim" id="vega-hero-industry-cta" hidden>Single-industry view — three bars, one per platform. Coverage-neutral framing does not apply here: hover for exact counts and cross-reference the coverage-ratio label in the orientation strip.</div>
-<div class="chart-cta chart-cta-slim">Default view is <strong>share-of-platform</strong>: each industry's value divided by that platform's sum across the comparable subset. Neutralises coverage differences (jobs.ch native filter vs arbeit.swiss occupation-derived). Switch to absolute counts for headline numbers. jobscout24 shares for 2026-09-08 come from the occupation-tagged subset (~25% coverage); native <code>?catidl</code> filter joins from 2026-09-15 onward.</div>
+</div></div><div class="chart" id="vega-hero-industry" hidden style="min-height:220px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-hero-industry-cta" hidden>Single-industry view — three bars, one per platform. Coverage-neutral framing does not apply here: hover for exact counts and cross-reference the coverage-ratio label in the orientation strip.</div>
+<div class="chart-cta chart-cta-slim" id="hero-share-cta">Default view is <strong>share-of-platform</strong>: each industry's value divided by that platform's sum across the comparable subset. Neutralises coverage differences (jobs.ch native filter vs arbeit.swiss occupation-derived). Switch to absolute counts for headline numbers. jobscout24 shares for 2026-09-08 come from the occupation-tagged subset (~25% coverage); native <code>?catidl</code> filter joins from 2026-09-15 onward.</div>
+<h3 id="interactive-views" style="margin-top:32px;font-size:1.15rem">Industry snapshot & trend</h3><div class="chart" id="vega-dotplot" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-dotplot-cta">Dot plot &mdash; latest snapshot, one dot per platform per industry.</div>
+<div class="chart-toggle" role="tablist" aria-label="Line chart mode" id="line-mode-toggle"><button type="button" data-line-mode="abs" aria-pressed="true" class="chart-toggle-btn is-active">Absolute counts</button><button type="button" data-line-mode="indexed" aria-pressed="false" class="chart-toggle-btn">Indexed (baseline = 100)</button></div><div class="chart" id="vega-indexed" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Line chart — open positions over time. Toggle to <em>Indexed</em> to normalise all series to their first snapshot for percent-change reading.</div>
 <details class="chart-table"><summary>Show chart data as table</summary><table><caption>Exact-cell industries across Swiss job platforms — 2026-09-15. Only industries where all three platforms have a clean 1:1 native-category mapping are shown.</caption><thead><tr><th>Industry</th><th>jobs.ch</th><th>arbeit.swiss</th><th>jobscout24.ch</th></tr></thead><tbody><tr><td>Gesundheits- &amp; Sozialwesen</td><td>8,010</td><td>20,321</td><td>4,861</td></tr><tr><td>Informatik &amp; Telekommunikation</td><td>1,154</td><td>2,220</td><td>1,831</td></tr><tr><td>Transport &amp; Logistik</td><td>1,074</td><td>5,434</td><td>1,459</td></tr><tr><td>Bildungswesen</td><td>824</td><td>209</td><td>102</td></tr><tr><td>Banken &amp; Finanzinstitute</td><td>762</td><td>1,363</td><td>850</td></tr><tr><td>Land- &amp; Forstwirtschaft</td><td>64</td><td>996</td><td>75</td></tr></tbody></table></details>
-<h2 id="interactive-views">Interactive views</h2><p>Client-side charts rendered from <a href="data.json"><code>data.json</code></a>. Use the <strong>Focus the charts on:</strong> dropdown up top to filter to a single industry, or leave it on <em>All industries</em> for the multi-industry overview (showing the 24 highlighted industries). Hover any point for exact values.</p>
-<div class="chart" id="vega-dotplot" style="min-height:340px;padding:24px"></div><div class="chart-cta chart-cta-slim" id="vega-dotplot-cta">Dot plot &mdash; latest snapshot, one dot per platform per industry.</div>
-<div class="chart" id="vega-indexed" style="min-height:340px;padding:24px"></div><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Indexed line chart &mdash; first snapshot = 100. Reads as &ldquo;percent change vs baseline&rdquo;. Needs ≥3 snapshots for meaningful shape.</div>
 <h2 id="precision-methodology">How we chose the keywords</h2>
 <p>Job-market indices live or die on their keyword list. Our v3 shipping taxonomy is the outcome of a precision test that runs every candidate keyword against the live platform SERP and measures what fraction of returned titles actually contain the search term.</p>
 <p><strong>Method.</strong> For each candidate keyword, sample the first 100 result titles from each platform's search endpoint. Normalise for case, umlauts, gender suffixes (Koch → Köchin) and qualification prefixes (dipl., MSc). Count titles that still contain the keyword tokens in any order after normalisation. Divide by sample size → precision score.</p>
@@ -18817,15 +18816,41 @@ z
     const palette = {"bg": "#0e1118", "text": "#dce8f5", "muted": "#7a99ba", "border": "#1a1f2e", "range": {"jobs.ch": "#0047ff", "arbeit.swiss": "#f2c674", "jobscout24.ch": "#6be3aa"}};
     const latestDate = rows.map(r => r.date).sort().slice(-1)[0];
 
-    const select   = document.getElementById('jmi-industry-select');
-    const heroAll  = document.querySelector('.hero-all-industries');
-    const heroSolo = document.getElementById('vega-hero-industry');
-    const heroSoloCta = document.getElementById('vega-hero-industry-cta');
-    const dotContainer = document.getElementById('vega-dotplot');
-    const dotCta  = document.getElementById('vega-dotplot-cta');
-    const lineCta = document.getElementById('vega-indexed-cta');
+    const select        = document.getElementById('jmi-industry-select');
+    const heroAll       = document.querySelector('.hero-all-industries');
+    const heroSolo      = document.getElementById('vega-hero-industry');
+    const heroSoloCta   = document.getElementById('vega-hero-industry-cta');
+    const heroShareCta  = document.getElementById('hero-share-cta');
+    const dotCta        = document.getElementById('vega-dotplot-cta');
+    const lineCta       = document.getElementById('vega-indexed-cta');
+    const lineToggle    = document.getElementById('line-mode-toggle');
 
     const currentIndustry = () => (select && select.value) || 'all';
+    // Line-chart mode: 'abs' | 'indexed'. Reset on dropdown change so
+    // 'All' defaults to indexed (30 raw series overwhelm) and specific
+    // industry defaults to absolute (3 lines, readable). User can override
+    // via the toggle after the switch.
+    let lineMode = 'indexed';
+    let userTouchedLineMode = false;
+
+    function syncLineToggleUI() {
+      if (!lineToggle) return;
+      lineToggle.querySelectorAll('.chart-toggle-btn').forEach(b => {
+        const on = b.dataset.lineMode === lineMode;
+        b.classList.toggle('is-active', on);
+        b.setAttribute('aria-pressed', String(on));
+      });
+    }
+
+    // Vega-Lite width:"container" measures clientWidth at render time. If
+    // we just unhid the container, layout may not have flushed yet — the
+    // chart draws at 0px. Wait one frame + force reflow before embedding.
+    async function safeEmbed(sel, spec) {
+      const el = document.querySelector(sel);
+      if (el) el.offsetHeight;  // force sync layout
+      await new Promise(rs => requestAnimationFrame(rs));
+      return vegaEmbed(sel, spec, {actions: false, renderer: "svg", theme: undefined});
+    }
 
     async function renderHero() {
       const ind = currentIndustry();
@@ -18833,9 +18858,11 @@ z
         if (heroAll)  heroAll.hidden  = false;
         if (heroSolo) heroSolo.hidden = true;
         if (heroSoloCta) heroSoloCta.hidden = true;
+        if (heroShareCta) heroShareCta.hidden = false;
         return;
       }
       if (heroAll)  heroAll.hidden  = true;
+      if (heroShareCta) heroShareCta.hidden = true;
       if (!heroSolo) return;
       heroSolo.hidden = false;
       if (heroSoloCta) heroSoloCta.hidden = false;
@@ -18871,23 +18898,30 @@ z
           ]
         }
       };
-      await vegaEmbed("#vega-hero-industry", heroSpec,
-        {actions: false, renderer: "svg", theme: undefined});
+      await safeEmbed("#vega-hero-industry", heroSpec);
     }
 
     async function renderDot() {
       const ind = currentIndustry();
-      const dotRows = (ind === 'all')
-        ? rows.filter(r => r.date === latestDate)
-        : rows.filter(r => r.industry === ind && r.date === latestDate);
-      if (dotCta) dotCta.textContent = (ind === 'all')
-        ? 'Dot plot — latest snapshot, one dot per platform per industry.'
-        : 'Dot plot — one dot per platform for ' + (dotRows[0]?.industry_label || ind) + ', ' + latestDate + '.';
+      // Solo view: the hero already IS the 3-platform snapshot for this
+      // industry, so hide the dot plot to avoid redundancy.
+      const dotEl = document.getElementById('vega-dotplot');
+      if (ind !== 'all') {
+        if (dotEl) dotEl.hidden = true;
+        if (dotCta) dotCta.hidden = true;
+        return;
+      }
+      if (dotEl) dotEl.hidden = false;
+      if (dotCta) {
+        dotCta.hidden = false;
+        dotCta.textContent = 'Dot plot — latest snapshot, one dot per platform per industry.';
+      }
+      const dotRows = rows.filter(r => r.date === latestDate);
       const dotSpec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "background": palette.bg,
         "data": {"values": dotRows},
-        "height": (ind === 'all') ? {"step": 26} : 160,
+        "height": {"step": 26},
         "width": "container",
         "config": {
           "view": {"stroke": null},
@@ -18898,8 +18932,7 @@ z
         },
         "mark": {"type": "circle", "size": 180, "opacity": 0.85},
         "encoding": {
-          "y": {"field": (ind === 'all') ? "industry_label" : "platform",
-                "type": "nominal",
+          "y": {"field": "industry_label", "type": "nominal",
                 "sort": {"field": "value", "op": "max", "order": "descending"},
                 "axis": {"title": null}},
           "x": {"field": "value", "type": "quantitative",
@@ -18915,38 +18948,53 @@ z
           ]
         }
       };
-      await vegaEmbed("#vega-dotplot", dotSpec,
-        {actions: false, renderer: "svg", theme: undefined});
+      await safeEmbed("#vega-dotplot", dotSpec);
     }
 
-    async function renderIndexed() {
+    async function renderLine() {
       const ind = currentIndustry();
       const filtered = (ind === 'all') ? rows : rows.filter(r => r.industry === ind);
-      if (lineCta) {
-        const soloLabel = filtered[0]?.industry_label || ind;
-        lineCta.textContent = (ind === 'all')
-          ? 'Indexed line chart — first snapshot = 100. Reads as “percent change vs baseline”. Needs ≥3 snapshots for meaningful shape.'
-          : 'Indexed line chart for ' + soloLabel + ' — 3 lines (one per platform), first snapshot = 100.';
-      }
+      const soloLabel = filtered[0]?.industry_label || ind;
+      // Build both raw + indexed shapes so switching mode is instant.
       const byKey = new Map();
       for (const rec of filtered) {
         const k = rec.industry + "|" + rec.platform;
         if (!byKey.has(k)) byKey.set(k, []);
         byKey.get(k).push(rec);
       }
-      const indexedRows = [];
-      for (const [k, arr] of byKey) {
+      const lineRows = [];
+      for (const [, arr] of byKey) {
         arr.sort((a,b) => a.date.localeCompare(b.date));
         const base = arr[0].value;
-        if (!base) continue;
-        for (const rec of arr) indexedRows.push({...rec, index: (rec.value / base) * 100});
+        for (const rec of arr) lineRows.push({
+          ...rec, index: base ? (rec.value / base) * 100 : null
+        });
       }
-      if (indexedRows.length < 2) return;
-      const indexedSpec = {
+      if (lineRows.length < 2) {
+        if (lineCta) lineCta.textContent = 'Line chart — waiting for ≥2 snapshots.';
+        return;
+      }
+      const isIndexed = (lineMode === 'indexed');
+      const yField = isIndexed ? 'index' : 'value';
+      const yTitle = isIndexed
+        ? 'Indexed (first snapshot = 100)'
+        : ((ind === 'all') ? 'Open positions' : 'Open positions in ' + soloLabel);
+      if (lineCta) {
+        if (ind === 'all') {
+          lineCta.textContent = isIndexed
+            ? 'Indexed line chart — every (industry, platform) series normalised to its first snapshot = 100. Reads as "percent change vs baseline". Use the dropdown up top to focus on one industry — much easier to read.'
+            : 'Open positions over time — every (industry, platform) series. Absolute counts across ' + Object.keys(palette.range).length + ' platforms × 10 industries. Use the dropdown to focus on one industry.';
+        } else {
+          lineCta.textContent = isIndexed
+            ? 'Indexed view of ' + soloLabel + ' — 3 lines (one per platform), first snapshot = 100. Percent change vs baseline.'
+            : 'Open positions in ' + soloLabel + ' over time — 3 lines (one per platform). Raw counts.';
+        }
+      }
+      const lineSpec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
         "background": palette.bg,
-        "data": {"values": indexedRows},
-        "height": 280, "width": "container",
+        "data": {"values": lineRows},
+        "height": 300, "width": "container",
         "config": {
           "view": {"stroke": null},
           "axis": {"labelColor": palette.text, "titleColor": palette.muted,
@@ -18955,18 +19003,18 @@ z
           "legend": {"labelColor": palette.text, "titleColor": palette.muted}
         },
         "layer": [
-          {"mark": {"type": "rule", "color": palette.muted,
+          ...(isIndexed ? [{"mark": {"type": "rule", "color": palette.muted,
                     "strokeDash": [3, 3], "opacity": 0.6},
-            "encoding": {"y": {"datum": 100}}},
+            "encoding": {"y": {"datum": 100}}}] : []),
           {"mark": {"type": "line", "point": {"filled": true, "size": 65},
                     "interpolate": "monotone", "strokeWidth": 2.2,
-                    "opacity": (ind === 'all') ? 0.7 : 0.95},
+                    "opacity": (ind === 'all') ? 0.65 : 0.95},
             "encoding": {
               "x": {"field": "date", "type": "temporal",
                     "axis": {"title": null, "format": "%b %-d"}},
-              "y": {"field": "index", "type": "quantitative",
-                    "axis": {"title": "Indexed (first snapshot = 100)"},
-                    "scale": {"zero": false}},
+              "y": {"field": yField, "type": "quantitative",
+                    "axis": {"title": yTitle},
+                    "scale": {"zero": !isIndexed && (ind !== 'all')}},
               "color": {"field": "platform", "type": "nominal",
                         "scale": {"domain": Object.keys(palette.range),
                                   "range":  Object.values(palette.range)},
@@ -18976,21 +19024,37 @@ z
                 {"field": "industry_label", "title": "Industry"},
                 {"field": "platform", "title": "Platform"},
                 {"field": "date", "title": "Date"},
-                {"field": "value", "title": "Value", "format": ","},
-                {"field": "index", "title": "Indexed", "format": ".1f"}
+                {"field": "value", "title": "Open positions", "format": ","},
+                ...(isIndexed ? [{"field": "index", "title": "Indexed", "format": ".1f"}] : [])
               ]
             }
           }
         ]
       };
-      await vegaEmbed("#vega-indexed", indexedSpec,
-        {actions: false, renderer: "svg", theme: undefined});
+      await safeEmbed("#vega-indexed", lineSpec);
     }
 
     async function renderAll() {
-      await Promise.all([renderHero(), renderDot(), renderIndexed()]);
+      await Promise.all([renderHero(), renderDot(), renderLine()]);
     }
-    if (select) select.addEventListener('change', renderAll);
+    if (select) select.addEventListener('change', async () => {
+      if (!userTouchedLineMode) {
+        lineMode = (currentIndustry() === 'all') ? 'indexed' : 'abs';
+        syncLineToggleUI();
+      }
+      await renderAll();
+    });
+    if (lineToggle) {
+      lineToggle.addEventListener('click', async (e) => {
+        const btn = e.target.closest('[data-line-mode]');
+        if (!btn) return;
+        lineMode = btn.dataset.lineMode;
+        userTouchedLineMode = true;
+        syncLineToggleUI();
+        await renderLine();
+      });
+    }
+    syncLineToggleUI();
     await renderAll();
   } catch (e) {
     console.warn("JMI Vega-Lite init skipped:", e);
