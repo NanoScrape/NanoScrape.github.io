@@ -79,12 +79,17 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .jump-strip { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
 .jump-strip a { padding: 6px 12px; color: var(--muted); font-weight: 500; text-decoration: none; border-radius: 5px; transition: all 0.12s ease; }
 .jump-strip a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
-.industry-picker { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; margin: 16px 0 8px; padding: 12px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
-.industry-picker label { font-weight: 600; color: var(--text); font-size: 0.9rem; }
+.industry-picker { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px 16px; margin: 16px 0 8px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; }
+.industry-picker-controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: flex-end; }
+.industry-picker-field { display: flex; flex-direction: column; gap: 4px; }
+.industry-picker-field-disabled { opacity: 0.55; }
+.industry-picker label { font-weight: 600; color: var(--text); font-size: 0.85rem; }
 .industry-picker select { font: inherit; font-size: 0.9rem; padding: 6px 10px; background: var(--bg); color: var(--text); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
 .industry-picker select:focus { outline: 2px solid var(--accent); outline-offset: 2px; }
-.industry-picker-hint { font-size: 0.8rem; color: var(--muted); flex-basis: 100%; margin-left: 0; }
-@media (min-width: 640px) { .industry-picker-hint { flex-basis: auto; margin-left: 8px; } }
+.industry-picker select[disabled] { cursor: not-allowed; color: var(--muted); }
+.industry-picker-badge { display: inline-block; margin-top: 4px; font-size: 0.72rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); background: rgba(255, 176, 32, 0.10); border: 1px solid rgba(255, 176, 32, 0.30); border-radius: 999px; padding: 2px 8px; align-self: flex-start; }
+.industry-picker-hint { font-size: 0.8rem; color: var(--muted); flex-basis: 100%; }
+@media (min-width: 640px) { .industry-picker-hint { flex-basis: 100%; margin-top: 2px; } }
 .hero-all-industries[hidden] { display: none; }
 .chart-toggle { display: inline-flex; gap: 4px; margin: 8px 0 12px; padding: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
 .chart-toggle-btn { font: inherit; font-size: 0.85rem; color: var(--muted); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: all 0.12s ease; }
@@ -112,7 +117,7 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 <h1>Job Market Index — German-speaking Switzerland</h1>
 <h2 id="by-industry">Cross-platform industry comparison — comparable subset</h2>
 <p>Only <strong>6 of 24</strong> industries map 1:1 across all three platforms' native category filters (jobs.ch <em>Branche</em>, arbeit.swiss CHISCO3, jobscout24 <em>Berufsgruppe</em>). The remainder have at least one platform where the category is merged with unrelated industries or absent entirely — those live on the <a href="dataset/">dataset page</a> as per-platform native tables, without a cross-platform comparison claim.</p>
-<div class="industry-picker" role="group" aria-labelledby="jmi-industry-select-label"><label id="jmi-industry-select-label" for="jmi-industry-select">Focus the charts on:</label><select id="jmi-industry-select"><option value="all" selected>All industries (comparable subset)</option><option value="construction_realestate">Construction &amp; Real Estate</option><option value="manufacturing_diverse">Diverse Industry</option><option value="services_diverse">Diverse Services</option><option value="healthcare_social">Healthcare &amp; Social Services</option><option value="hospitality">Hospitality &amp; Hotels</option><option value="machinery">Machinery &amp; Plant Engineering</option><option value="medical_technology">Medical Technology</option><option value="public_admin">Public Admin &amp; Associations</option><option value="retail_wholesale">Retail &amp; Wholesale</option><option value="transport_logistics">Transport &amp; Logistics</option></select><span class="industry-picker-hint">Drives the hero chart, dot plot and indexed line chart below.</span></div>
+<div class="industry-picker" role="group" aria-labelledby="jmi-industry-select-label"><div class="industry-picker-controls"><div class="industry-picker-field"><label id="jmi-industry-select-label" for="jmi-industry-select">Focus the charts on:</label><select id="jmi-industry-select"><option value="all" selected>All industries (comparable subset)</option><option value="construction_realestate">Construction &amp; Real Estate</option><option value="manufacturing_diverse">Diverse Industry</option><option value="services_diverse">Diverse Services</option><option value="healthcare_social">Healthcare &amp; Social Services</option><option value="hospitality">Hospitality &amp; Hotels</option><option value="machinery">Machinery &amp; Plant Engineering</option><option value="medical_technology">Medical Technology</option><option value="public_admin">Public Admin &amp; Associations</option><option value="retail_wholesale">Retail &amp; Wholesale</option><option value="transport_logistics">Transport &amp; Logistics</option></select></div><div class="industry-picker-field industry-picker-field-disabled"><label for="jmi-date-range-select">Date range:</label><select id="jmi-date-range-select" disabled aria-disabled="true" title="Coming soon — enabled once we have 8+ Tuesday snapshots"><option>All snapshots (default)</option></select><span class="industry-picker-badge">coming soon · 2/8 snapshots</span></div></div><span class="industry-picker-hint">Drives the hero chart, dot plot and line chart below.</span></div>
 <div class="hero-all-industries">
 <div class="chart-toggle" role="tablist" aria-label="Chart view mode"><button type="button" data-view="share" aria-pressed="true" class="chart-toggle-btn is-active">Share of platform (%)</button><button type="button" data-view="abs" aria-pressed="false" class="chart-toggle-btn">Absolute counts</button></div>
 <div class="chart chart-view chart-view-share" data-view="share"><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
@@ -153,7 +158,7 @@ L 560.712989 23.539669
 L 560.712989 35.88009 
 L 180.372727 35.88009 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 180.372727 67.094095 
@@ -161,7 +166,7 @@ L 231.369661 67.094095
 L 231.369661 79.434515 
 L 180.372727 79.434515 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 180.372727 110.64852 
@@ -169,7 +174,7 @@ L 235.168316 110.64852
 L 235.168316 122.988941 
 L 180.372727 122.988941 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 180.372727 154.202946 
@@ -177,7 +182,7 @@ L 216.55491 154.202946
 L 216.55491 166.543366 
 L 180.372727 166.543366 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 180.372727 197.757371 
@@ -185,7 +190,7 @@ L 183.411651 197.757371
 L 183.411651 210.097791 
 L 180.372727 210.097791 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 180.372727 241.311796 
@@ -193,7 +198,7 @@ L 219.498867 241.311796
 L 219.498867 253.652217 
 L 180.372727 253.652217 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #7c3aed"/>
+" clip-path="url(#pc86701a47d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 180.372727 35.88009 
@@ -201,7 +206,7 @@ L 555.935006 35.88009
 L 555.935006 48.22051 
 L 180.372727 48.22051 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 180.372727 79.434515 
@@ -209,7 +214,7 @@ L 280.801123 79.434515
 L 280.801123 91.774936 
 L 180.372727 91.774936 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 180.372727 122.988941 
@@ -217,7 +222,7 @@ L 221.401626 122.988941
 L 221.401626 135.329361 
 L 180.372727 135.329361 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 180.372727 166.543366 
@@ -225,7 +230,7 @@ L 205.562993 166.543366
 L 205.562993 178.883787 
 L 180.372727 178.883787 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 180.372727 210.097791 
@@ -233,7 +238,7 @@ L 198.780287 210.097791
 L 198.780287 222.438212 
 L 180.372727 222.438212 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 180.372727 253.652217 
@@ -241,7 +246,7 @@ L 184.235358 253.652217
 L 184.235358 265.992637 
 L 180.372727 265.992637 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #dc2626"/>
+" clip-path="url(#pc86701a47d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 180.372727 48.22051 
@@ -249,7 +254,7 @@ L 479.341721 48.22051
 L 479.341721 60.560931 
 L 180.372727 60.560931 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 180.372727 91.774936 
@@ -257,7 +262,7 @@ L 270.106478 91.774936
 L 270.106478 104.115356 
 L 180.372727 104.115356 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 180.372727 135.329361 
@@ -265,7 +270,7 @@ L 292.985817 135.329361
 L 292.985817 147.669782 
 L 180.372727 147.669782 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 180.372727 178.883787 
@@ -273,7 +278,7 @@ L 232.650786 178.883787
 L 232.650786 191.224207 
 L 180.372727 191.224207 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 180.372727 222.438212 
@@ -281,7 +286,7 @@ L 184.985497 222.438212
 L 184.985497 234.778632 
 L 180.372727 234.778632 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 180.372727 265.992637 
@@ -289,7 +294,7 @@ L 186.646094 265.992637
 L 186.646094 278.333058 
 L 180.372727 278.333058 
 z
-" clip-path="url(#pc86701a47d)" style="fill: #14b8a6"/>
+" clip-path="url(#pc86701a47d)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -1947,7 +1952,7 @@ L 386.815886 281.101009
 L 386.815886 274.801009 
 L 368.815886 274.801009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_35">
      <!-- jobs.ch -->
@@ -1988,7 +1993,7 @@ L 461.937761 281.101009
 L 461.937761 274.801009 
 L 443.937761 274.801009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_36">
      <!-- arbeit.swiss -->
@@ -2013,7 +2018,7 @@ L 558.419167 281.101009
 L 558.419167 274.801009 
 L 540.419167 274.801009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_37">
      <!-- jobscout24.ch -->
@@ -2080,7 +2085,7 @@ L 330.430404 23.539669
 L 330.430404 35.88009 
 L 180.372727 35.88009 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 180.372727 67.094095 
@@ -2088,7 +2093,7 @@ L 200.49282 67.094095
 L 200.49282 79.434515 
 L 180.372727 79.434515 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 180.372727 110.64852 
@@ -2096,7 +2101,7 @@ L 201.991524 110.64852
 L 201.991524 122.988941 
 L 180.372727 122.988941 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 180.372727 154.202946 
@@ -2104,7 +2109,7 @@ L 194.647877 154.202946
 L 194.647877 166.543366 
 L 180.372727 166.543366 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 180.372727 197.757371 
@@ -2112,7 +2117,7 @@ L 181.57169 197.757371
 L 181.57169 210.097791 
 L 180.372727 210.097791 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 180.372727 241.311796 
@@ -2120,7 +2125,7 @@ L 195.809372 241.311796
 L 195.809372 253.652217 
 L 180.372727 253.652217 
 z
-" clip-path="url(#p239a66e614)" style="fill: #7c3aed"/>
+" clip-path="url(#p239a66e614)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 180.372727 35.88009 
@@ -2128,7 +2133,7 @@ L 561.062121 35.88009
 L 561.062121 48.22051 
 L 180.372727 48.22051 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 180.372727 79.434515 
@@ -2136,7 +2141,7 @@ L 282.172155 79.434515
 L 282.172155 91.774936 
 L 180.372727 91.774936 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 180.372727 122.988941 
@@ -2144,7 +2149,7 @@ L 221.961746 122.988941
 L 221.961746 135.329361 
 L 180.372727 135.329361 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 180.372727 166.543366 
@@ -2152,7 +2157,7 @@ L 205.906886 166.543366
 L 205.906886 178.883787 
 L 180.372727 178.883787 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 180.372727 210.097791 
@@ -2160,7 +2165,7 @@ L 199.031584 210.097791
 L 199.031584 222.438212 
 L 180.372727 222.438212 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 180.372727 253.652217 
@@ -2168,7 +2173,7 @@ L 184.28809 253.652217
 L 184.28809 265.992637 
 L 180.372727 265.992637 
 z
-" clip-path="url(#p239a66e614)" style="fill: #dc2626"/>
+" clip-path="url(#p239a66e614)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 180.372727 48.22051 
@@ -2176,7 +2181,7 @@ L 271.437692 48.22051
 L 271.437692 60.560931 
 L 180.372727 60.560931 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 180.372727 91.774936 
@@ -2184,7 +2189,7 @@ L 207.70533 91.774936
 L 207.70533 104.115356 
 L 180.372727 104.115356 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 180.372727 135.329361 
@@ -2192,7 +2197,7 @@ L 214.674301 135.329361
 L 214.674301 147.669782 
 L 180.372727 147.669782 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 180.372727 178.883787 
@@ -2200,7 +2205,7 @@ L 196.296451 178.883787
 L 196.296451 191.224207 
 L 180.372727 191.224207 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 180.372727 222.438212 
@@ -2208,7 +2213,7 @@ L 181.777762 222.438212
 L 181.777762 234.778632 
 L 180.372727 234.778632 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 180.372727 265.992637 
@@ -2216,7 +2221,7 @@ L 182.283574 265.992637
 L 182.283574 278.333058 
 L 180.372727 278.333058 
 z
-" clip-path="url(#p239a66e614)" style="fill: #14b8a6"/>
+" clip-path="url(#p239a66e614)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -3778,7 +3783,7 @@ L 387.234844 281.101009
 L 387.234844 274.801009 
 L 369.234844 274.801009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_31">
      <!-- jobs.ch -->
@@ -3826,7 +3831,7 @@ L 462.356719 281.101009
 L 462.356719 274.801009 
 L 444.356719 274.801009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_32">
      <!-- arbeit.swiss -->
@@ -3851,7 +3856,7 @@ L 558.838125 281.101009
 L 558.838125 274.801009 
 L 540.838125 274.801009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_33">
      <!-- jobscout24.ch -->
@@ -3883,7 +3888,7 @@ z
 </div></div><div class="chart" id="vega-hero-industry" hidden style="min-height:220px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-hero-industry-cta" hidden>Single-industry view — three bars, one per platform. Coverage-neutral framing does not apply here: hover for exact counts and cross-reference the coverage-ratio label in the orientation strip.</div>
 <div class="chart-cta chart-cta-slim" id="hero-share-cta">Default view is <strong>share-of-platform</strong>: each industry's value divided by that platform's sum across the comparable subset. Neutralises coverage differences (jobs.ch native filter vs arbeit.swiss occupation-derived). Switch to absolute counts for headline numbers. jobscout24 shares for 2026-09-08 come from the occupation-tagged subset (~25% coverage); native <code>?catidl</code> filter joins from 2026-09-15 onward.</div>
 <h3 id="interactive-views" style="margin-top:32px;font-size:1.15rem">Industry snapshot & trend</h3><div class="chart" id="vega-dotplot" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-dotplot-cta">Dot plot &mdash; latest snapshot, one dot per platform per industry.</div>
-<div class="chart-toggle" role="tablist" aria-label="Line chart mode" id="line-mode-toggle"><button type="button" data-line-mode="abs" aria-pressed="true" class="chart-toggle-btn is-active">Absolute counts</button><button type="button" data-line-mode="indexed" aria-pressed="false" class="chart-toggle-btn">Indexed (baseline = 100)</button></div><div class="chart" id="vega-indexed" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Line chart — open positions over time. Toggle to <em>Indexed</em> to normalise all series to their first snapshot for percent-change reading.</div>
+<div class="chart-toggle" role="tablist" aria-label="Line chart mode" id="line-mode-toggle"><button type="button" data-line-mode="titles" aria-pressed="false" class="chart-toggle-btn" hidden>By job title</button><button type="button" data-line-mode="abs" aria-pressed="true" class="chart-toggle-btn is-active">Absolute counts</button><button type="button" data-line-mode="indexed" aria-pressed="false" class="chart-toggle-btn">Indexed (baseline = 100)</button></div><div class="chart" id="vega-indexed" style="min-height:340px;padding:24px;width:100%"></div><div class="chart-cta chart-cta-slim" id="vega-indexed-cta">Line chart — open positions over time. Toggle to <em>Indexed</em> to normalise all series to their first snapshot for percent-change reading. Pick a specific industry above to unlock <em>By job title</em>.</div>
 <details class="chart-table"><summary>Show chart data as table</summary><table><caption>Exact-cell industries across Swiss job platforms — 2026-09-15. Only industries where all three platforms have a clean 1:1 native-category mapping are shown.</caption><thead><tr><th>Industry</th><th>jobs.ch</th><th>arbeit.swiss</th><th>jobscout24.ch</th></tr></thead><tbody><tr><td>Gesundheits- &amp; Sozialwesen</td><td>8,010</td><td>20,321</td><td>4,861</td></tr><tr><td>Informatik &amp; Telekommunikation</td><td>1,154</td><td>2,220</td><td>1,831</td></tr><tr><td>Transport &amp; Logistik</td><td>1,074</td><td>5,434</td><td>1,459</td></tr><tr><td>Bildungswesen</td><td>824</td><td>209</td><td>102</td></tr><tr><td>Banken &amp; Finanzinstitute</td><td>762</td><td>1,363</td><td>850</td></tr><tr><td>Land- &amp; Forstwirtschaft</td><td>64</td><td>996</td><td>75</td></tr></tbody></table></details>
 <div class="orientation-strip" role="note"><p><strong>What this is:</strong> weekly counts of open job postings on <strong>3 Swiss platforms</strong> — jobs.ch, arbeit.swiss, jobscout24.ch — in German language. Each platform reports its own count; we do not aggregate.</p><p><strong>Headline numbers, latest snapshot:</strong> <em>Pflegefachfrau</em> — jobs.ch <strong>2,657</strong> · arbeit.swiss <strong>4,465</strong> · jobscout24.ch <strong>3,720</strong>; <em>Kaufmann</em> — jobs.ch <strong>1,604</strong> · arbeit.swiss <strong>3,838</strong> · jobscout24.ch <strong>4,017</strong>; <em>Projektleiter</em> — jobs.ch <strong>2,332</strong> · arbeit.swiss <strong>1,950</strong> · jobscout24.ch <strong>3,419</strong>. Every title shown here was verified against the platform SERP (top-100 precision ≥ 70%).</p><p><strong>Read platforms side-by-side, not summed.</strong> The three boards cover overlapping-but-not-identical universes: arbeit.swiss includes mandatory public-sector reporting and apprenticeships that commercial boards omit, so its totals are systematically larger. Same posting often appears on multiple boards.</p><p><strong>Industry-tag coverage:</strong> jobs.ch 83%, arbeit.swiss 98%, jobscout24.ch 25%. Coverage is the share of platform postings that carry the tag we filter on. Where coverage is low (jobscout24 today), per-industry values under-count that platform proportionally.</p><p><strong>Not a market-share proxy.</strong> arbeit.swiss is a public employment service; commercial boards select their own inventory. Cite as posting counts, not vacancy counts.</p></div>
 <nav class="jump-strip" aria-label="Page sections"><a href="#by-occupation">Titles</a><a href="#by-industry">Industries</a><a href="#interactive-views">Interactive</a><a href="#methodology">Methodology</a><a href="#downloads">Download</a></nav>
@@ -3931,7 +3936,7 @@ L 391.402492 28.121488
 L 391.402492 48.359652 
 L 149.609091 48.359652 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #7c3aed"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 149.609091 99.550302 
@@ -3939,7 +3944,7 @@ L 248.073698 99.550302
 L 248.073698 119.788467 
 L 149.609091 119.788467 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #7c3aed"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 149.609091 170.979117 
@@ -3947,7 +3952,7 @@ L 232.512286 170.979117
 L 232.512286 191.217282 
 L 149.609091 191.217282 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #7c3aed"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 149.609091 242.407932 
@@ -3955,7 +3960,7 @@ L 157.071288 242.407932
 L 157.071288 262.646096 
 L 149.609091 262.646096 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #7c3aed"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 149.609091 313.836747 
@@ -3963,7 +3968,7 @@ L 160.16537 313.836747
 L 160.16537 334.074911 
 L 149.609091 334.074911 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #7c3aed"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 149.609091 48.359652 
@@ -3971,7 +3976,7 @@ L 555.934848 48.359652
 L 555.934848 68.597816 
 L 149.609091 68.597816 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #dc2626"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #f2c674"/>
    </g>
    <g id="patch_9">
     <path d="M 149.609091 119.788467 
@@ -3979,7 +3984,7 @@ L 377.388121 119.788467
 L 377.388121 140.026631 
 L 149.609091 140.026631 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #dc2626"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 149.609091 191.217282 
@@ -3987,7 +3992,7 @@ L 347.266324 191.217282
 L 347.266324 211.455446 
 L 149.609091 211.455446 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #dc2626"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 149.609091 262.646096 
@@ -3995,7 +4000,7 @@ L 305.95123 262.646096
 L 305.95123 282.884261 
 L 149.609091 282.884261 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #dc2626"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 149.609091 334.074911 
@@ -4003,7 +4008,7 @@ L 178.092845 334.074911
 L 178.092845 354.313075 
 L 149.609091 354.313075 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #dc2626"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 149.609091 68.597816 
@@ -4011,7 +4016,7 @@ L 488.138054 68.597816
 L 488.138054 88.83598 
 L 149.609091 88.83598 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #14b8a6"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_14">
     <path d="M 149.609091 140.026631 
@@ -4019,7 +4024,7 @@ L 261.178045 140.026631
 L 261.178045 160.264795 
 L 149.609091 160.264795 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #14b8a6"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_15">
     <path d="M 149.609091 211.455446 
@@ -4027,7 +4032,7 @@ L 213.03777 211.455446
 L 213.03777 231.69361 
 L 149.609091 231.69361 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #14b8a6"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 149.609091 282.884261 
@@ -4035,7 +4040,7 @@ L 160.620382 282.884261
 L 160.620382 303.122425 
 L 149.609091 303.122425 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #14b8a6"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 149.609091 354.313075 
@@ -4043,7 +4048,7 @@ L 166.990551 354.313075
 L 166.990551 374.55124 
 L 149.609091 374.55124 
 z
-" clip-path="url(#p8e2a5c7a0c)" style="fill: #14b8a6"/>
+" clip-path="url(#p8e2a5c7a0c)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -5415,7 +5420,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_28">
      <!-- jobs.ch -->
@@ -5489,7 +5494,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_29">
      <!-- arbeit.swiss -->
@@ -5532,7 +5537,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_30">
      <!-- jobscout24.ch -->
@@ -5604,7 +5609,7 @@ L 552.948485 28.121488
 L 552.948485 44.900137 
 L 131.690909 44.900137 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 131.690909 87.340249 
@@ -5612,7 +5617,7 @@ L 452.291361 87.340249
 L 452.291361 104.118898 
 L 131.690909 104.118898 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 131.690909 146.55901 
@@ -5620,7 +5625,7 @@ L 263.596812 146.55901
 L 263.596812 163.337659 
 L 131.690909 163.337659 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 131.690909 205.777771 
@@ -5628,7 +5633,7 @@ L 141.155683 205.777771
 L 141.155683 222.55642 
 L 131.690909 222.55642 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 131.690909 264.996532 
@@ -5636,7 +5641,7 @@ L 204.704883 264.996532
 L 204.704883 281.775181 
 L 131.690909 281.775181 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 131.690909 324.215293 
@@ -5644,7 +5649,7 @@ L 142.207325 324.215293
 L 142.207325 340.993942 
 L 131.690909 340.993942 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #7c3aed"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 131.690909 44.900137 
@@ -5652,7 +5657,7 @@ L 208.160276 44.900137
 L 208.160276 61.678786 
 L 131.690909 61.678786 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 131.690909 104.118898 
@@ -5660,7 +5665,7 @@ L 177.66267 104.118898
 L 177.66267 120.897547 
 L 131.690909 120.897547 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 131.690909 163.337659 
@@ -5668,7 +5673,7 @@ L 133.343489 163.337659
 L 133.343489 180.116308 
 L 131.690909 180.116308 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 131.690909 222.55642 
@@ -5676,7 +5681,7 @@ L 133.193254 222.55642
 L 133.193254 239.335069 
 L 131.690909 239.335069 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 131.690909 281.775181 
@@ -5684,7 +5689,7 @@ L 139.953807 281.775181
 L 139.953807 298.55383 
 L 131.690909 298.55383 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 131.690909 340.993942 
@@ -5692,7 +5697,7 @@ L 132.442082 340.993942
 L 132.442082 357.772591 
 L 131.690909 357.772591 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #dc2626"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 131.690909 61.678786 
@@ -5700,7 +5705,7 @@ L 328.798591 61.678786
 L 328.798591 78.457434 
 L 131.690909 78.457434 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 131.690909 120.897547 
@@ -5708,7 +5713,7 @@ L 267.953613 120.897547
 L 267.953613 137.676196 
 L 131.690909 137.676196 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 131.690909 180.116308 
@@ -5716,7 +5721,7 @@ L 132.742551 180.116308
 L 132.742551 196.894957 
 L 131.690909 196.894957 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 131.690909 239.335069 
@@ -5724,7 +5729,7 @@ L 215.221299 239.335069
 L 215.221299 256.113718 
 L 131.690909 256.113718 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 131.690909 298.55383 
@@ -5732,7 +5737,7 @@ L 203.653241 298.55383
 L 203.653241 315.332479 
 L 131.690909 315.332479 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 131.690909 357.772591 
@@ -5740,7 +5745,7 @@ L 134.094661 357.772591
 L 134.094661 374.55124 
 L 131.690909 374.55124 
 z
-" clip-path="url(#p3f35b1fb39)" style="fill: #14b8a6"/>
+" clip-path="url(#p3f35b1fb39)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -7109,7 +7114,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_33">
      <!-- jobs.ch -->
@@ -7157,7 +7162,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_34">
      <!-- arbeit.swiss -->
@@ -7200,7 +7205,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_35">
      <!-- jobscout24.ch -->
@@ -7272,7 +7277,7 @@ L 336.49456 28.121488
 L 336.49456 48.359652 
 L 133.081818 48.359652 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #7c3aed"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 133.081818 99.550302 
@@ -7280,7 +7285,7 @@ L 361.601321 99.550302
 L 361.601321 119.788467 
 L 133.081818 119.788467 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #7c3aed"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 133.081818 170.979117 
@@ -7288,7 +7293,7 @@ L 361.28149 170.979117
 L 361.28149 191.217282 
 L 133.081818 191.217282 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #7c3aed"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 133.081818 242.407932 
@@ -7296,7 +7301,7 @@ L 176.259051 242.407932
 L 176.259051 262.646096 
 L 133.081818 262.646096 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #7c3aed"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 133.081818 313.836747 
@@ -7304,7 +7309,7 @@ L 144.275916 313.836747
 L 144.275916 334.074911 
 L 133.081818 334.074911 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #7c3aed"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 133.081818 48.359652 
@@ -7312,7 +7317,7 @@ L 499.608551 48.359652
 L 499.608551 68.597816 
 L 133.081818 68.597816 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #dc2626"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #f2c674"/>
    </g>
    <g id="patch_9">
     <path d="M 133.081818 119.788467 
@@ -7320,7 +7325,7 @@ L 163.145966 119.788467
 L 163.145966 140.026631 
 L 133.081818 140.026631 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #dc2626"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 133.081818 191.217282 
@@ -7328,7 +7333,7 @@ L 133.241734 191.217282
 L 133.241734 211.455446 
 L 133.081818 211.455446 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #dc2626"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 133.081818 262.646096 
@@ -7336,7 +7341,7 @@ L 193.050197 262.646096
 L 193.050197 282.884261 
 L 133.081818 282.884261 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #dc2626"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 133.081818 334.074911 
@@ -7344,7 +7349,7 @@ L 149.553133 334.074911
 L 149.553133 354.313075 
 L 133.081818 354.313075 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #dc2626"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 133.081818 68.597816 
@@ -7352,7 +7357,7 @@ L 553.180303 68.597816
 L 553.180303 88.83598 
 L 133.081818 88.83598 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #14b8a6"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_14">
     <path d="M 133.081818 140.026631 
@@ -7360,7 +7365,7 @@ L 189.851884 140.026631
 L 189.851884 160.264795 
 L 133.081818 160.264795 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #14b8a6"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_15">
     <path d="M 133.081818 211.455446 
@@ -7368,7 +7373,7 @@ L 133.081818 211.455446
 L 133.081818 231.69361 
 L 133.081818 231.69361 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #14b8a6"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 133.081818 282.884261 
@@ -7376,7 +7381,7 @@ L 213.999151 282.884261
 L 213.999151 303.122425 
 L 133.081818 303.122425 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #14b8a6"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 133.081818 354.313075 
@@ -7384,7 +7389,7 @@ L 157.708833 354.313075
 L 157.708833 374.55124 
 L 133.081818 374.55124 
 z
-" clip-path="url(#pfd22ad3aaa)" style="fill: #14b8a6"/>
+" clip-path="url(#pfd22ad3aaa)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -8750,7 +8755,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_28">
      <!-- jobs.ch -->
@@ -8798,7 +8803,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_29">
      <!-- arbeit.swiss -->
@@ -8841,7 +8846,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_30">
      <!-- jobscout24.ch -->
@@ -8913,7 +8918,7 @@ L 551.748485 28.121488
 L 551.748485 44.900137 
 L 124.490909 44.900137 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 124.490909 87.340249 
@@ -8921,7 +8926,7 @@ L 427.131692 87.340249
 L 427.131692 104.118898 
 L 124.490909 104.118898 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 124.490909 146.55901 
@@ -8929,7 +8934,7 @@ L 391.526894 146.55901
 L 391.526894 163.337659 
 L 124.490909 163.337659 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 124.490909 205.777771 
@@ -8937,7 +8942,7 @@ L 338.119697 205.777771
 L 338.119697 222.55642 
 L 124.490909 222.55642 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 124.490909 264.996532 
@@ -8945,7 +8950,7 @@ L 320.317298 264.996532
 L 320.317298 281.775181 
 L 124.490909 281.775181 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 124.490909 324.215293 
@@ -8953,7 +8958,7 @@ L 231.305303 324.215293
 L 231.305303 340.993942 
 L 124.490909 340.993942 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #7c3aed"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 124.490909 44.900137 
@@ -8961,7 +8966,7 @@ L 142.293308 44.900137
 L 142.293308 61.678786 
 L 124.490909 61.678786 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 124.490909 104.118898 
@@ -8969,7 +8974,7 @@ L 284.7125 104.118898
 L 284.7125 120.897547 
 L 124.490909 120.897547 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 124.490909 163.337659 
@@ -8977,7 +8982,7 @@ L 177.898106 163.337659
 L 177.898106 180.116308 
 L 124.490909 180.116308 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 124.490909 222.55642 
@@ -8985,7 +8990,7 @@ L 249.107702 222.55642
 L 249.107702 239.335069 
 L 124.490909 239.335069 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 124.490909 281.775181 
@@ -8993,7 +8998,7 @@ L 177.898106 281.775181
 L 177.898106 298.55383 
 L 124.490909 298.55383 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 124.490909 340.993942 
@@ -9001,7 +9006,7 @@ L 160.095707 340.993942
 L 160.095707 357.772591 
 L 124.490909 357.772591 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #dc2626"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 124.490909 61.678786 
@@ -9009,7 +9014,7 @@ L 160.095707 61.678786
 L 160.095707 78.457434 
 L 124.490909 78.457434 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 124.490909 120.897547 
@@ -9017,7 +9022,7 @@ L 320.317298 120.897547
 L 320.317298 137.676196 
 L 124.490909 137.676196 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 124.490909 180.116308 
@@ -9025,7 +9030,7 @@ L 231.305303 180.116308
 L 231.305303 196.894957 
 L 124.490909 196.894957 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 124.490909 239.335069 
@@ -9033,7 +9038,7 @@ L 284.7125 239.335069
 L 284.7125 256.113718 
 L 124.490909 256.113718 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 124.490909 298.55383 
@@ -9041,7 +9046,7 @@ L 231.305303 298.55383
 L 231.305303 315.332479 
 L 124.490909 315.332479 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 124.490909 357.772591 
@@ -9049,7 +9054,7 @@ L 177.898106 357.772591
 L 177.898106 374.55124 
 L 124.490909 374.55124 
 z
-" clip-path="url(#pc9f920f6ca)" style="fill: #14b8a6"/>
+" clip-path="url(#pc9f920f6ca)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -10384,7 +10389,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_32">
      <!-- jobs.ch -->
@@ -10432,7 +10437,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_33">
      <!-- arbeit.swiss -->
@@ -10457,7 +10462,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_34">
      <!-- jobscout24.ch -->
@@ -10529,7 +10534,7 @@ L 551.448485 28.939669
 L 551.448485 43.945722 
 L 122.690909 43.945722 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 122.690909 81.902208 
@@ -10537,7 +10542,7 @@ L 183.192919 81.902208
 L 183.192919 96.90826 
 L 122.690909 96.90826 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 122.690909 134.864746 
@@ -10545,7 +10550,7 @@ L 252.16521 134.864746
 L 252.16521 149.870799 
 L 122.690909 149.870799 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 122.690909 187.827285 
@@ -10553,7 +10558,7 @@ L 225.947672 187.827285
 L 225.947672 202.833337 
 L 122.690909 202.833337 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 122.690909 240.789823 
@@ -10561,7 +10566,7 @@ L 163.428929 240.789823
 L 163.428929 255.795876 
 L 122.690909 255.795876 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 122.690909 293.752362 
@@ -10569,7 +10574,7 @@ L 163.832276 293.752362
 L 163.832276 308.758414 
 L 122.690909 308.758414 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 122.690909 346.7149 
@@ -10577,7 +10582,7 @@ L 142.454899 346.7149
 L 142.454899 361.720953 
 L 122.690909 361.720953 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #7c3aed"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #0047ff"/>
    </g>
    <g id="patch_10">
     <path d="M 122.690909 43.945722 
@@ -10585,7 +10590,7 @@ L 439.72144 43.945722
 L 439.72144 58.951775 
 L 122.690909 58.951775 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 122.690909 96.90826 
@@ -10593,7 +10598,7 @@ L 139.228125 96.90826
 L 139.228125 111.914313 
 L 122.690909 111.914313 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 122.690909 149.870799 
@@ -10601,7 +10606,7 @@ L 215.460657 149.870799
 L 215.460657 164.876851 
 L 122.690909 164.876851 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 122.690909 202.833337 
@@ -10609,7 +10614,7 @@ L 144.874979 202.833337
 L 144.874979 217.83939 
 L 122.690909 217.83939 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 122.690909 255.795876 
@@ -10617,7 +10622,7 @@ L 183.596266 255.795876
 L 183.596266 270.801928 
 L 122.690909 270.801928 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 122.690909 308.758414 
@@ -10625,7 +10630,7 @@ L 132.774577 308.758414
 L 132.774577 323.764467 
 L 122.690909 323.764467 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_16">
     <path d="M 122.690909 361.720953 
@@ -10633,7 +10638,7 @@ L 136.001351 361.720953
 L 136.001351 376.727005 
 L 122.690909 376.727005 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #dc2626"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #f2c674"/>
    </g>
    <g id="patch_17">
     <path d="M 122.690909 58.951775 
@@ -10641,7 +10646,7 @@ L 496.189983 58.951775
 L 496.189983 73.957827 
 L 122.690909 73.957827 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 122.690909 111.914313 
@@ -10649,7 +10654,7 @@ L 424.394264 111.914313
 L 424.394264 126.920366 
 L 122.690909 126.920366 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 122.690909 164.876851 
@@ -10657,7 +10662,7 @@ L 360.665481 164.876851
 L 360.665481 179.882904 
 L 122.690909 179.882904 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 122.690909 217.83939 
@@ -10665,7 +10670,7 @@ L 142.454899 217.83939
 L 142.454899 232.845442 
 L 122.690909 232.845442 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_21">
     <path d="M 122.690909 270.801928 
@@ -10673,7 +10678,7 @@ L 152.538567 270.801928
 L 152.538567 285.807981 
 L 122.690909 285.807981 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_22">
     <path d="M 122.690909 323.764467 
@@ -10681,7 +10686,7 @@ L 137.211391 323.764467
 L 137.211391 338.770519 
 L 122.690909 338.770519 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_23">
     <path d="M 122.690909 376.727005 
@@ -10689,7 +10694,7 @@ L 126.32103 376.727005
 L 126.32103 391.733058 
 L 122.690909 391.733058 
 z
-" clip-path="url(#pf09b3ecf2d)" style="fill: #14b8a6"/>
+" clip-path="url(#pf09b3ecf2d)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -12187,7 +12192,7 @@ L 387.234844 399.901009
 L 387.234844 393.601009 
 L 369.234844 393.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_37">
      <!-- jobs.ch -->
@@ -12235,7 +12240,7 @@ L 462.356719 399.901009
 L 462.356719 393.601009 
 L 444.356719 393.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_38">
      <!-- arbeit.swiss -->
@@ -12278,7 +12283,7 @@ L 558.838125 399.901009
 L 558.838125 393.601009 
 L 540.838125 393.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_39">
      <!-- jobscout24.ch -->
@@ -12350,7 +12355,7 @@ L 310.611832 28.121488
 L 310.611832 44.900137 
 L 129.154545 44.900137 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 129.154545 87.340249 
@@ -12358,7 +12363,7 @@ L 496.289056 87.340249
 L 496.289056 104.118898 
 L 129.154545 104.118898 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 129.154545 146.55901 
@@ -12366,7 +12371,7 @@ L 383.840149 146.55901
 L 383.840149 163.337659 
 L 129.154545 163.337659 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 129.154545 205.777771 
@@ -12374,7 +12379,7 @@ L 268.660695 205.777771
 L 268.660695 222.55642 
 L 129.154545 222.55642 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 129.154545 264.996532 
@@ -12382,7 +12387,7 @@ L 260.717284 264.996532
 L 260.717284 281.775181 
 L 129.154545 281.775181 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 129.154545 324.215293 
@@ -12390,7 +12395,7 @@ L 186.496041 324.215293
 L 186.496041 340.993942 
 L 129.154545 340.993942 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #7c3aed"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 129.154545 44.900137 
@@ -12398,7 +12403,7 @@ L 297.952022 44.900137
 L 297.952022 61.678786 
 L 129.154545 61.678786 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 129.154545 104.118898 
@@ -12406,7 +12411,7 @@ L 289.512148 104.118898
 L 289.512148 120.897547 
 L 129.154545 120.897547 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 129.154545 163.337659 
@@ -12414,7 +12419,7 @@ L 131.140398 163.337659
 L 131.140398 180.116308 
 L 129.154545 180.116308 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 129.154545 222.55642 
@@ -12422,7 +12427,7 @@ L 250.788021 222.55642
 L 250.788021 239.335069 
 L 129.154545 239.335069 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 129.154545 281.775181 
@@ -12430,7 +12435,7 @@ L 129.89924 281.775181
 L 129.89924 298.55383 
 L 129.154545 298.55383 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 129.154545 340.993942 
@@ -12438,7 +12443,7 @@ L 192.950062 340.993942
 L 192.950062 357.772591 
 L 129.154545 357.772591 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #dc2626"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 129.154545 61.678786 
@@ -12446,7 +12451,7 @@ L 552.389394 61.678786
 L 552.389394 78.457434 
 L 129.154545 78.457434 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_16">
     <path d="M 129.154545 120.897547 
@@ -12454,7 +12459,7 @@ L 449.125056 120.897547
 L 449.125056 137.676196 
 L 129.154545 137.676196 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_17">
     <path d="M 129.154545 180.116308 
@@ -12462,7 +12467,7 @@ L 133.126251 180.116308
 L 133.126251 196.894957 
 L 129.154545 196.894957 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_18">
     <path d="M 129.154545 239.335069 
@@ -12470,7 +12475,7 @@ L 350.825349 239.335069
 L 350.825349 256.113718 
 L 129.154545 256.113718 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_19">
     <path d="M 129.154545 298.55383 
@@ -12478,7 +12483,7 @@ L 130.147472 298.55383
 L 130.147472 315.332479 
 L 129.154545 315.332479 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 129.154545 357.772591 
@@ -12486,7 +12491,7 @@ L 233.660042 357.772591
 L 233.660042 374.55124 
 L 129.154545 374.55124 
 z
-" clip-path="url(#pb2ce29ba30)" style="fill: #14b8a6"/>
+" clip-path="url(#pb2ce29ba30)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -13899,7 +13904,7 @@ L 387.071207 381.901009
 L 387.071207 375.601009 
 L 369.071207 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_35">
      <!-- jobs.ch -->
@@ -13947,7 +13952,7 @@ L 462.193082 381.901009
 L 462.193082 375.601009 
 L 444.193082 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_36">
      <!-- arbeit.swiss -->
@@ -13972,7 +13977,7 @@ L 558.674489 381.901009
 L 558.674489 375.601009 
 L 540.674489 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_37">
      <!-- jobscout24.ch -->
@@ -14044,7 +14049,7 @@ L 275.278873 28.121488
 L 275.278873 53.616318 
 L 94.790909 53.616318 
 z
-" clip-path="url(#pc95804c124)" style="fill: #7c3aed"/>
+" clip-path="url(#pc95804c124)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 94.790909 118.103241 
@@ -14052,7 +14057,7 @@ L 357.196104 118.103241
 L 357.196104 143.598072 
 L 94.790909 143.598072 
 z
-" clip-path="url(#pc95804c124)" style="fill: #7c3aed"/>
+" clip-path="url(#pc95804c124)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 94.790909 208.084995 
@@ -14060,7 +14065,7 @@ L 220.817418 208.084995
 L 220.817418 233.579825 
 L 94.790909 233.579825 
 z
-" clip-path="url(#pc95804c124)" style="fill: #7c3aed"/>
+" clip-path="url(#pc95804c124)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 94.790909 298.066749 
@@ -14068,7 +14073,7 @@ L 161.292397 298.066749
 L 161.292397 323.561579 
 L 94.790909 323.561579 
 z
-" clip-path="url(#pc95804c124)" style="fill: #7c3aed"/>
+" clip-path="url(#pc95804c124)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 94.790909 53.616318 
@@ -14076,7 +14081,7 @@ L 526.656748 53.616318
 L 526.656748 79.111148 
 L 94.790909 79.111148 
 z
-" clip-path="url(#pc95804c124)" style="fill: #dc2626"/>
+" clip-path="url(#pc95804c124)" style="fill: #f2c674"/>
    </g>
    <g id="patch_8">
     <path d="M 94.790909 143.598072 
@@ -14084,7 +14089,7 @@ L 314.212062 143.598072
 L 314.212062 169.092902 
 L 94.790909 169.092902 
 z
-" clip-path="url(#pc95804c124)" style="fill: #dc2626"/>
+" clip-path="url(#pc95804c124)" style="fill: #f2c674"/>
    </g>
    <g id="patch_9">
     <path d="M 94.790909 233.579825 
@@ -14092,7 +14097,7 @@ L 247.485527 233.579825
 L 247.485527 259.074656 
 L 94.790909 259.074656 
 z
-" clip-path="url(#pc95804c124)" style="fill: #dc2626"/>
+" clip-path="url(#pc95804c124)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 94.790909 323.561579 
@@ -14100,7 +14105,7 @@ L 133.048956 323.561579
 L 133.048956 349.056409 
 L 94.790909 349.056409 
 z
-" clip-path="url(#pc95804c124)" style="fill: #dc2626"/>
+" clip-path="url(#pc95804c124)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 94.790909 79.111148 
@@ -14108,7 +14113,7 @@ L 546.798485 79.111148
 L 546.798485 104.605978 
 L 94.790909 104.605978 
 z
-" clip-path="url(#pc95804c124)" style="fill: #14b8a6"/>
+" clip-path="url(#pc95804c124)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_12">
     <path d="M 94.790909 169.092902 
@@ -14116,7 +14121,7 @@ L 479.509331 169.092902
 L 479.509331 194.587732 
 L 94.790909 194.587732 
 z
-" clip-path="url(#pc95804c124)" style="fill: #14b8a6"/>
+" clip-path="url(#pc95804c124)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_13">
     <path d="M 94.790909 259.074656 
@@ -14124,7 +14129,7 @@ L 350.557207 259.074656
 L 350.557207 284.569486 
 L 94.790909 284.569486 
 z
-" clip-path="url(#pc95804c124)" style="fill: #14b8a6"/>
+" clip-path="url(#pc95804c124)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_14">
     <path d="M 94.790909 349.056409 
@@ -14132,7 +14137,7 @@ L 320.175817 349.056409
 L 320.175817 374.55124 
 L 94.790909 374.55124 
 z
-" clip-path="url(#pc95804c124)" style="fill: #14b8a6"/>
+" clip-path="url(#pc95804c124)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -15345,7 +15350,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_23">
      <!-- jobs.ch -->
@@ -15374,7 +15379,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_24">
      <!-- arbeit.swiss -->
@@ -15417,7 +15422,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_25">
      <!-- jobscout24.ch -->
@@ -15489,7 +15494,7 @@ L 190.437808 31.394215
 L 190.437808 46.260527 
 L 120.318182 46.260527 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 120.318182 83.863552 
@@ -15497,7 +15502,7 @@ L 160.841862 83.863552
 L 160.841862 98.729864 
 L 120.318182 98.729864 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 120.318182 136.332889 
@@ -15505,7 +15510,7 @@ L 314.740783 136.332889
 L 314.740783 151.199202 
 L 120.318182 151.199202 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 120.318182 188.802227 
@@ -15513,7 +15518,7 @@ L 321.115294 188.802227
 L 321.115294 203.668539 
 L 120.318182 203.668539 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 120.318182 241.271564 
@@ -15521,7 +15526,7 @@ L 313.374816 241.271564
 L 313.374816 256.137876 
 L 120.318182 256.137876 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_8">
     <path d="M 120.318182 293.740901 
@@ -15529,7 +15534,7 @@ L 203.642154 293.740901
 L 203.642154 308.607213 
 L 120.318182 308.607213 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_9">
     <path d="M 120.318182 346.210238 
@@ -15537,7 +15542,7 @@ L 128.05866 346.210238
 L 128.05866 361.076551 
 L 120.318182 361.076551 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_10">
     <path d="M 120.318182 398.679576 
@@ -15545,7 +15550,7 @@ L 151.280095 398.679576
 L 151.280095 413.545888 
 L 120.318182 413.545888 
 z
-" clip-path="url(#p22be49518b)" style="fill: #7c3aed"/>
+" clip-path="url(#p22be49518b)" style="fill: #0047ff"/>
    </g>
    <g id="patch_11">
     <path d="M 120.318182 46.260527 
@@ -15553,7 +15558,7 @@ L 187.250553 46.260527
 L 187.250553 61.126839 
 L 120.318182 61.126839 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_12">
     <path d="M 120.318182 98.729864 
@@ -15561,7 +15566,7 @@ L 285.144836 98.729864
 L 285.144836 113.596177 
 L 120.318182 113.596177 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_13">
     <path d="M 120.318182 151.199202 
@@ -15569,7 +15574,7 @@ L 364.82623 151.199202
 L 364.82623 166.065514 
 L 120.318182 166.065514 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_14">
     <path d="M 120.318182 203.668539 
@@ -15577,7 +15582,7 @@ L 361.183652 203.668539
 L 361.183652 218.534851 
 L 120.318182 218.534851 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_15">
     <path d="M 120.318182 256.137876 
@@ -15585,7 +15590,7 @@ L 133.522527 256.137876
 L 133.522527 271.004188 
 L 120.318182 271.004188 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_16">
     <path d="M 120.318182 308.607213 
@@ -15593,7 +15598,7 @@ L 236.425356 308.607213
 L 236.425356 323.473526 
 L 120.318182 323.473526 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_17">
     <path d="M 120.318182 361.076551 
@@ -15601,7 +15606,7 @@ L 129.879949 361.076551
 L 129.879949 375.942863 
 L 120.318182 375.942863 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_18">
     <path d="M 120.318182 413.545888 
@@ -15609,7 +15614,7 @@ L 121.684149 413.545888
 L 121.684149 428.4122 
 L 120.318182 428.4122 
 z
-" clip-path="url(#p22be49518b)" style="fill: #dc2626"/>
+" clip-path="url(#p22be49518b)" style="fill: #f2c674"/>
    </g>
    <g id="patch_19">
     <path d="M 120.318182 61.126839 
@@ -15617,7 +15622,7 @@ L 551.05303 61.126839
 L 551.05303 75.993152 
 L 120.318182 75.993152 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_20">
     <path d="M 120.318182 113.596177 
@@ -15625,7 +15630,7 @@ L 437.67779 113.596177
 L 437.67779 128.462489 
 L 120.318182 128.462489 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_21">
     <path d="M 120.318182 166.065514 
@@ -15633,7 +15638,7 @@ L 342.51544 166.065514
 L 342.51544 180.931826 
 L 120.318182 180.931826 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_22">
     <path d="M 120.318182 218.534851 
@@ -15641,7 +15646,7 @@ L 348.889951 218.534851
 L 348.889951 233.401163 
 L 120.318182 233.401163 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_23">
     <path d="M 120.318182 271.004188 
@@ -15649,7 +15654,7 @@ L 125.782049 271.004188
 L 125.782049 285.870501 
 L 120.318182 285.870501 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_24">
     <path d="M 120.318182 323.473526 
@@ -15657,7 +15662,7 @@ L 224.586977 323.473526
 L 224.586977 338.339838 
 L 120.318182 338.339838 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_25">
     <path d="M 120.318182 375.942863 
@@ -15665,7 +15670,7 @@ L 161.297184 375.942863
 L 161.297184 390.809175 
 L 120.318182 390.809175 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_26">
     <path d="M 120.318182 428.4122 
@@ -15673,7 +15678,7 @@ L 123.96076 428.4122
 L 123.96076 443.278512 
 L 120.318182 443.278512 
 z
-" clip-path="url(#p22be49518b)" style="fill: #14b8a6"/>
+" clip-path="url(#p22be49518b)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -17210,7 +17215,7 @@ L 387.234844 453.901009
 L 387.234844 447.601009 
 L 369.234844 447.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_40">
      <!-- jobs.ch -->
@@ -17258,7 +17263,7 @@ L 462.356719 453.901009
 L 462.356719 447.601009 
 L 444.356719 447.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_41">
      <!-- arbeit.swiss -->
@@ -17283,7 +17288,7 @@ L 558.838125 453.901009
 L 558.838125 447.601009 
 L 540.838125 447.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_42">
      <!-- jobscout24.ch -->
@@ -17355,7 +17360,7 @@ L 256.310197 28.121488
 L 256.310197 53.616318 
 L 164.336364 53.616318 
 z
-" clip-path="url(#p403a630631)" style="fill: #7c3aed"/>
+" clip-path="url(#p403a630631)" style="fill: #0047ff"/>
    </g>
    <g id="patch_4">
     <path d="M 164.336364 118.103241 
@@ -17363,7 +17368,7 @@ L 254.622604 118.103241
 L 254.622604 143.598072 
 L 164.336364 143.598072 
 z
-" clip-path="url(#p403a630631)" style="fill: #7c3aed"/>
+" clip-path="url(#p403a630631)" style="fill: #0047ff"/>
    </g>
    <g id="patch_5">
     <path d="M 164.336364 208.084995 
@@ -17371,7 +17376,7 @@ L 286.686876 208.084995
 L 286.686876 233.579825 
 L 164.336364 233.579825 
 z
-" clip-path="url(#p403a630631)" style="fill: #7c3aed"/>
+" clip-path="url(#p403a630631)" style="fill: #0047ff"/>
    </g>
    <g id="patch_6">
     <path d="M 164.336364 298.066749 
@@ -17379,7 +17384,7 @@ L 193.869246 298.066749
 L 193.869246 323.561579 
 L 164.336364 323.561579 
 z
-" clip-path="url(#p403a630631)" style="fill: #7c3aed"/>
+" clip-path="url(#p403a630631)" style="fill: #0047ff"/>
    </g>
    <g id="patch_7">
     <path d="M 164.336364 53.616318 
@@ -17387,7 +17392,7 @@ L 558.389394 53.616318
 L 558.389394 79.111148 
 L 164.336364 79.111148 
 z
-" clip-path="url(#p403a630631)" style="fill: #dc2626"/>
+" clip-path="url(#p403a630631)" style="fill: #f2c674"/>
    </g>
    <g id="patch_8">
     <path d="M 164.336364 143.598072 
@@ -17395,7 +17400,7 @@ L 453.758611 143.598072
 L 453.758611 169.092902 
 L 164.336364 169.092902 
 z
-" clip-path="url(#p403a630631)" style="fill: #dc2626"/>
+" clip-path="url(#p403a630631)" style="fill: #f2c674"/>
    </g>
    <g id="patch_9">
     <path d="M 164.336364 233.579825 
@@ -17403,7 +17408,7 @@ L 171.930533 233.579825
 L 171.930533 259.074656 
 L 164.336364 259.074656 
 z
-" clip-path="url(#p403a630631)" style="fill: #dc2626"/>
+" clip-path="url(#p403a630631)" style="fill: #f2c674"/>
    </g>
    <g id="patch_10">
     <path d="M 164.336364 323.561579 
@@ -17411,7 +17416,7 @@ L 188.806466 323.561579
 L 188.806466 349.056409 
 L 164.336364 349.056409 
 z
-" clip-path="url(#p403a630631)" style="fill: #dc2626"/>
+" clip-path="url(#p403a630631)" style="fill: #f2c674"/>
    </g>
    <g id="patch_11">
     <path d="M 164.336364 79.111148 
@@ -17419,7 +17424,7 @@ L 278.24891 79.111148
 L 278.24891 104.605978 
 L 164.336364 104.605978 
 z
-" clip-path="url(#p403a630631)" style="fill: #14b8a6"/>
+" clip-path="url(#p403a630631)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_12">
     <path d="M 164.336364 169.092902 
@@ -17427,7 +17432,7 @@ L 278.24891 169.092902
 L 278.24891 194.587732 
 L 164.336364 194.587732 
 z
-" clip-path="url(#p403a630631)" style="fill: #14b8a6"/>
+" clip-path="url(#p403a630631)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_13">
     <path d="M 164.336364 259.074656 
@@ -17435,7 +17440,7 @@ L 174.461923 259.074656
 L 174.461923 284.569486 
 L 164.336364 284.569486 
 z
-" clip-path="url(#p403a630631)" style="fill: #14b8a6"/>
+" clip-path="url(#p403a630631)" style="fill: #6be3aa"/>
    </g>
    <g id="patch_14">
     <path d="M 164.336364 349.056409 
@@ -17443,7 +17448,7 @@ L 222.558332 349.056409
 L 222.558332 374.55124 
 L 164.336364 374.55124 
 z
-" clip-path="url(#p403a630631)" style="fill: #14b8a6"/>
+" clip-path="url(#p403a630631)" style="fill: #6be3aa"/>
    </g>
    <g id="matplotlib.axis_1">
     <g id="xtick_1">
@@ -18589,7 +18594,7 @@ L 387.234844 381.901009
 L 387.234844 375.601009 
 L 369.234844 375.601009 
 z
-" style="fill: #7c3aed"/>
+" style="fill: #0047ff"/>
     </g>
     <g id="text_24">
      <!-- jobs.ch -->
@@ -18663,7 +18668,7 @@ L 462.356719 381.901009
 L 462.356719 375.601009 
 L 444.356719 375.601009 
 z
-" style="fill: #dc2626"/>
+" style="fill: #f2c674"/>
     </g>
     <g id="text_25">
      <!-- arbeit.swiss -->
@@ -18706,7 +18711,7 @@ L 558.838125 381.901009
 L 558.838125 375.601009 
 L 540.838125 375.601009 
 z
-" style="fill: #14b8a6"/>
+" style="fill: #6be3aa"/>
     </g>
     <g id="text_26">
      <!-- jobscout24.ch -->
@@ -18802,6 +18807,7 @@ z
     const seriesByInd = (d.series || {}).industry || {};
     const meta = (d.series || {}).industry_meta || {};
     const kwByInd = (d.series || {}).keywords_by_industry || {};
+    const kwTsByInd = (d.series || {}).keyword_timeseries_by_industry || {};
     const latestKwDate = (d.series || {}).latest_keyword_date || null;
     const highlighted = new Set(["construction_realestate", "healthcare_social", "hospitality", "machinery", "manufacturing_diverse", "medical_technology", "public_admin", "retail_wholesale", "services_diverse", "transport_logistics"]);
     const rows = [];
@@ -18828,19 +18834,36 @@ z
     const lineToggle    = document.getElementById('line-mode-toggle');
 
     const currentIndustry = () => (select && select.value) || 'all';
-    // Line-chart mode: 'abs' | 'indexed'. Reset on dropdown change so
-    // 'All' defaults to indexed (30 raw series overwhelm) and specific
-    // industry defaults to absolute (3 lines, readable). User can override
-    // via the toggle after the switch.
+    // Line-chart mode: 'titles' | 'abs' | 'indexed'. Reset on dropdown change
+    // so 'All' defaults to indexed (30 raw series overwhelm) and specific
+    // industry defaults to 'titles' (per-title small multiples — the most
+    // interesting drill-down). User can override via the toggle.
+    // 'titles' is only meaningful when a specific industry is picked and
+    // that industry has time-series data.
     let lineMode = 'indexed';
     let userTouchedLineMode = false;
 
+    function titlesAvailable(ind) {
+      const arr = kwTsByInd[ind] || [];
+      if (!arr.length) return false;
+      // Need at least 2 distinct dates for a line to be drawable.
+      const dates = new Set(arr.map(r => r.date));
+      return dates.size >= 2;
+    }
+
     function syncLineToggleUI() {
       if (!lineToggle) return;
+      const ind = currentIndustry();
+      const titlesOk = (ind !== 'all') && titlesAvailable(ind);
       lineToggle.querySelectorAll('.chart-toggle-btn').forEach(b => {
-        const on = b.dataset.lineMode === lineMode;
+        const mode = b.dataset.lineMode;
+        const on = mode === lineMode;
         b.classList.toggle('is-active', on);
         b.setAttribute('aria-pressed', String(on));
+        // 'titles' button hidden when not applicable.
+        if (mode === 'titles') {
+          b.hidden = !titlesOk;
+        }
       });
     }
 
@@ -19012,8 +19035,94 @@ z
 
     async function renderLine() {
       const ind = currentIndustry();
+      const soloLabel = (meta[ind] || {}).label_en || ind;
+
+      // 'titles' mode — small multiples per platform, one line per job title.
+      // Only meaningful when a specific industry is chosen and there's
+      // per-keyword time series available. Silently falls back to abs
+      // otherwise (button was hidden by syncLineToggleUI, so this is a
+      // defensive guard for programmatic mode changes).
+      if (lineMode === 'titles' && ind !== 'all' && titlesAvailable(ind)) {
+        const titleRowsRaw = kwTsByInd[ind] || [];
+        // Compute lastDate per (keyword, platform) so we can flag the
+        // rightmost point for right-side labels via a filter transform.
+        const lastByKey = new Map();
+        for (const r of titleRowsRaw) {
+          const k = r.keyword + '|' + r.platform;
+          const prev = lastByKey.get(k);
+          if (!prev || r.date > prev) lastByKey.set(k, r.date);
+        }
+        const titleRows = titleRowsRaw.map(r => ({
+          ...r,
+          isLast: (lastByKey.get(r.keyword + '|' + r.platform) === r.date)
+        }));
+        if (lineCta) lineCta.textContent =
+          'Open positions over time by job title in ' + soloLabel +
+          ' — small multiples (one panel per platform), one line per tracked ' +
+          'title. Labels sit at the last snapshot. Waiting on more snapshots ' +
+          'for smoother trend lines.';
+        const platforms = Object.keys(palette.range);
+        const titleSpec = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+          "background": palette.bg,
+          "data": {"values": titleRows},
+          "config": {
+            "view": {"stroke": null},
+            "axis": {"labelColor": palette.text, "titleColor": palette.muted,
+                      "domainColor": palette.border, "tickColor": palette.border,
+                      "gridColor": palette.border, "gridOpacity": 0.4},
+            "legend": {"labelColor": palette.text, "titleColor": palette.muted},
+            "header": {"labelColor": palette.text, "titleColor": palette.muted,
+                        "labelFontWeight": 600, "labelFontSize": 12}
+          },
+          "facet": {
+            "column": {"field": "platform", "type": "nominal",
+                        "sort": platforms,
+                        "header": {"title": null, "labelOrient": "top"}}
+          },
+          "spec": {
+            "width": 240, "height": 300,
+            "layer": [
+              {"mark": {"type": "line", "point": {"filled": true, "size": 45},
+                        "interpolate": "monotone", "strokeWidth": 1.8,
+                        "opacity": 0.85},
+                "encoding": {
+                  "x": {"field": "date", "type": "temporal",
+                        "axis": {"title": null, "format": "%b %-d"},
+                        "scale": {"padding": 30}},
+                  "y": {"field": "value", "type": "quantitative",
+                        "axis": {"title": "Open positions"},
+                        "scale": {"zero": true, "nice": true}},
+                  "color": {"field": "keyword", "type": "nominal",
+                            "legend": null},
+                  "detail": {"field": "keyword"},
+                  "tooltip": [
+                    {"field": "keyword", "title": "Job title"},
+                    {"field": "platform", "title": "Platform"},
+                    {"field": "date", "title": "Date"},
+                    {"field": "value", "title": "Open positions", "format": ","}
+                  ]
+                }
+              },
+              {"transform": [{"filter": "datum.isLast"}],
+                "mark": {"type": "text", "align": "left", "baseline": "middle",
+                          "dx": 6, "fontSize": 10},
+                "encoding": {
+                  "x": {"field": "date", "type": "temporal"},
+                  "y": {"field": "value", "type": "quantitative"},
+                  "text": {"field": "keyword", "type": "nominal"},
+                  "color": {"field": "keyword", "type": "nominal", "legend": null}
+                }
+              }
+            ]
+          },
+          "resolve": {"scale": {"y": "independent", "color": "shared"}}
+        };
+        await safeEmbed("#vega-indexed", titleSpec);
+        return;
+      }
+
       const filtered = (ind === 'all') ? rows : rows.filter(r => r.industry === ind);
-      const soloLabel = filtered[0]?.industry_label || ind;
       // Build both raw + indexed shapes so switching mode is instant.
       const byKey = new Map();
       for (const rec of filtered) {
@@ -19098,7 +19207,12 @@ z
     }
     if (select) select.addEventListener('change', async () => {
       if (!userTouchedLineMode) {
-        lineMode = (currentIndustry() === 'all') ? 'indexed' : 'abs';
+        const ind = currentIndustry();
+        if (ind === 'all') {
+          lineMode = 'indexed';
+        } else {
+          lineMode = titlesAvailable(ind) ? 'titles' : 'abs';
+        }
         syncLineToggleUI();
       }
       await renderAll();
