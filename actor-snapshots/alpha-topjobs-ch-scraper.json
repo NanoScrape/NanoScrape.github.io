@@ -1,0 +1,55 @@
+{
+  "slug": "santamaria-automations/alpha-topjobs-ch-scraper",
+  "name": "alpha-topjobs-ch-scraper",
+  "title": "Alpha.ch + Topjobs.ch Scraper - Swiss JobCloud Vertical Boards",
+  "description": "Scrape Swiss job listings from alpha.ch or topjobs.ch (JobCloud/Netiva family, shared inventory ~4,700 jobs). 41 fields: title, company, canton, coordinates, workload, salary, contact, apply URL, full description in 4 formats. DE/FR/IT/EN. Pay-per-result.",
+  "readme": "# Alpha.ch + Topjobs.ch Scraper — Swiss JobCloud Vertical Boards\n\nScrape job listings from [Alpha.ch](https://www.alpha.ch/) **or** [Topjobs.ch](https://www.topjobs.ch/) — two Swiss vertical job boards operated by JobCloud AG on the shared Netiva backend. Both sites share **the same inventory** (~4,700 active listings), the same API, and the same job IDs — the difference is UI branding only. Pick either surface with the `host` input parameter.\n\nReturns 41 fields: title, company, canton, coordinates, workload, salary (CHF), recruiter contact person / email / phone, external apply URL, and full description in 4 formats (plain text, snippet, HTML, markdown). Multi-language (DE / FR / IT / EN).\n\n**Cost-effective**: uses the public JSON API + `/GetById` detail endpoint. No login required, no anti-bot friction (JobCloud endpoints work from datacenter proxies).\n\n---\n\n## Why one actor for two hosts?\n\nPhase 0 verification (2026-09-03) confirmed alpha.ch and topjobs.ch are one platform:\n- Same Netiva backend (`jobboard-api.netiva.ch` proxied by tenant subdomains `api.alpha.ch` / `api.topjobs.ch`)\n- Same Next.js frontend (identical `buildId`)\n- Same job IDs, same ordering, byte-identical SERP responses\n- Same result count (~4,735 across both hosts on the same probe)\n\nBuilding two separate actors would produce duplicate output. Instead, one actor with the `host` input parameter lets you pick which branding surface to attribute the listings to.\n\n---\n\n## Features\n\n- 4 input modes: **searchQueries** (keywords) · **searchUrls** (paste any alpha.ch / topjobs.ch SERP URL) · **startUrls** (alias) · **directUrls** (single-job re-scrape / still-alive checks)\n- Multi-language: DE, FR, IT, EN\n- Sort by **newest** (default; recommended for scheduled scrapes) or **relevance** (default when a search query is supplied)\n- Filter by JobCloud **category tags** (`categoryTags: [\"632\"]` = Informatik, `[\"638\"]` = Medizin/Pflege, etc.), **region IDs** (`regionIds: [\"103\"]` = Stadt Zürich, `[\"105\"]` = Deutschschweiz), and **workload range** (`workload: \"80-100\"`)\n- Fleet-canonical field names: `job_url`, `title`, `company_name`, `postal_code`, `posted_at_datetime`, `valid_through`, `employment_type`, `workload_min`/`max`, `salary_min`/`max`, `remote_type`, `apply_url`, `contact_email`, `contact_phone`, `contact_person_name`, etc.\n- **Description quartet**: `description_full` (plain text), `description_snippet` (300-char preview), `description_html` (cleaned HTML), `description_md` (markdown for LLM ingestion)\n- Rich tag taxonomy: 6 categories exposed as separate fields (employment type, position, region, industry, profession, company size)\n- Detail-page enrichment via `/Api/JobsPublic/GetById/{id}` — full JobCloud record with tags, coordinates, valid-through date, contact person, external apply URL (usually the JobCloud sibling jobs.ch/stellenangebote/detail/{jcJobId})\n- Multilingual `requirements` / `benefits` extraction: scans DE/FR/IT/EN section headers (Anforderungen / Votre profil / Requisiti / Requirements etc.)\n- Salary extraction from Swiss CHF patterns (`CHF 80'000 - 120'000 par an`)\n- Fast SERP-only mode: `includeJobDetails: false` returns baseline fields at ~10 items/sec, no PPE detail charge\n- Concurrent detail fetching (default 8 workers)\n- 3-tier proxy fallback (user proxy → auto → direct) for resilience\n- 128 MB memory, ~$0.001 base charge per run\n\n---\n\n## Sample input\n\n```json\n{\n  \"host\": \"alpha.ch\",\n  \"searchQueries\": [\"informatik\", \"buchhalter\"],\n  \"language\": \"de\",\n  \"sortBy\": \"newest\",\n  \"includeJobDetails\": true,\n  \"maxResultsPerQuery\": 50,\n  \"maxResults\": 100,\n  \"maxConcurrency\": 8,\n  \"proxyConfiguration\": { \"useApifyProxy\": true }\n}\n```\n\n**Filter by category + region** (no keyword — returns all Zürich IT jobs):\n\n```json\n{\n  \"host\": \"alpha.ch\",\n  \"categoryTags\": [\"632\"],\n  \"regionIds\": [\"103\"],\n  \"workload\": \"80-100\",\n  \"maxResults\": 100\n}\n```\n\n**Search URL mode** — paste any alpha.ch / topjobs.ch SERP URL:\n\n```json\n{\n  \"searchUrls\": [\n    \"https://www.alpha.ch/de/jobs?tag=632&region=105\",\n    \"https://www.topjobs.ch/fr/jobs?q=developer&region=111\"\n  ],\n  \"includeJobDetails\": true,\n  \"maxResultsPerQuery\": 30\n}\n```\n\n**Direct URL mode** — re-scrape specific jobs:\n\n```json\n{\n  \"directUrls\": [\n    \"https://www.alpha.ch/de/jobs/14727114\",\n    \"https://www.topjobs.ch/de/jobs/14727096\"\n  ],\n  \"language\": \"de\"\n}\n```\n\n---\n\n## Sample output\n\n```json\n{\n  \"id\": \"14727114\",\n  \"job_url\": \"https://www.alpha.ch/de/jobs/14727114\",\n  \"source_host\": \"alpha.ch\",\n  \"title\": \"Akquisition TU-Submissionen, Gesamtleistungswettbewerbe 80–100%\",\n  \"company_name\": \"e-selection AG\",\n  \"company_logo_url\": \"https://media.jobs.ch/images/05389230-0f42-4c2b-953f-369385f87d72/2067x322.png\",\n  \"company_website\": \"https://www.e-selection.ch\",\n  \"location\": \"Luzern\",\n  \"postal_code\": \"6003\",\n  \"region\": \"Region Zentralschweiz\",\n  \"country\": \"CH\",\n  \"latitude\": 47.05048,\n  \"longitude\": 8.30635,\n  \"posted_at_datetime\": \"2026-09-03T19:03:27+00:00\",\n  \"valid_through\": \"2026-10-18T21:59\",\n  \"employment_type\": \"permanent\",\n  \"employment_position\": \"specialist\",\n  \"workload_min\": 80,\n  \"workload_max\": 100,\n  \"workload_text\": \"80 - 100%\",\n  \"salary_min\": null,\n  \"salary_max\": null,\n  \"salary_currency\": \"CHF\",\n  \"salary_period\": null,\n  \"remote_type\": null,\n  \"language\": \"de\",\n  \"description_full\": \"In dieser Rolle sind Sie die erste Ansprechperson im Akquisitionsprozess...\",\n  \"description_snippet\": \"In dieser Rolle sind Sie die erste Ansprechperson im Akquisitionsprozess und stehen am Anfang unserer Immobilienprojekte...\",\n  \"description_html\": \"<p>In dieser Rolle sind Sie die erste Ansprechperson im Akquisitionsprozess...</p><p><strong>Ihre Aufgaben</strong></p><ul><li>Ausarbeitung überzeugender Angebote...</li></ul>\",\n  \"description_md\": \"In dieser Rolle sind Sie die erste Ansprechperson...\\n\\n**Ihre Aufgaben**\\n\\n- Ausarbeitung überzeugender Angebote...\",\n  \"apply_url\": \"https://www.jobs.ch/de/stellenangebote/detail/f64abc08-a878-42cc-b772-89168f2a4dec/\",\n  \"contact_email\": null,\n  \"contact_phone\": null,\n  \"contact_person_name\": \"Michael Benjamin\",\n  \"requirements\": [\n    \"Fachkenntnisse und Erfahrung: abgeschlossene Ausbildung in Architektur oder Bauingenieurwesen...\",\n    \"Kundenbeziehung: Kompetenz im Aufbau vertrauensvoller Kundenbeziehungen...\"\n  ],\n  \"benefits\": [\n    \"Arbeitsplatz mit Gestaltungsspielraum und direktem Einfluss auf nachhaltige Immobilienprojekte.\",\n    \"Kollegiales Arbeitsklima mit Förderung von Diversität und Chancengleichheit.\"\n  ],\n  \"tags\": [\"Festanstellung\", \"Fachverantwortung\", \"Region Zentralschweiz\", \"Bau / Architektur / Engineering\"],\n  \"categories\": [\"Bau / Architektur / Engineering\", \"Architektur / Bauplanung / Zeichner\"],\n  \"coordinates\": [47.05048, 8.30635],\n  \"source_query\": \"\",\n  \"scraped_at\": \"2026-09-03T21:40:53Z\"\n}\n```\n\n---\n\n## Pricing\n\nPay-per-event (PPE). Every SERP result is billed as `job-serp-result`; every enriched detail is billed as `job-detail-result` (once per job). A tiny `apify-actor-start` charge covers the run itself.\n\nTypical cost estimate: **~$0.005 per enriched job** at the introductory rate — one of the cheapest ways to build a live Swiss job dataset.\n\n---\n\n## Related actors (JobCloud family)\n\n- [jobs-ch-scraper](https://apify.com/santamaria-automations/jobs-ch-scraper) — jobs.ch, Switzerland's largest general job board\n- [jobup-ch-scraper](https://apify.com/santamaria-automations/jobup-ch-scraper) — jobup.ch, French-Swiss sister site\n- [arbeit-swiss-scraper](https://apify.com/santamaria-automations/arbeit-swiss-scraper) — arbeit.swiss, government job board\n- [swissdevjobs-ch-scraper](https://apify.com/santamaria-automations/swissdevjobs-ch-scraper) — swissdevjobs.ch, tech-focused\n- [ictjobs-ch-scraper](https://apify.com/santamaria-automations/ictjobs-ch-scraper) — ictjobs.ch, ICT vertical\n\n---\n\n## Troubleshooting / Issues\n\nReport issues or request fields via [nanoscrape.com/contact](https://nanoscrape.com/contact) or open a GitHub issue.\n\n## Changelog\n\n- **0.1.0** (2026-09-03): Initial build. Phase 0 verified alpha.ch and topjobs.ch share the JobCloud/Netiva backend. Description quartet, `applyPrefillDefaults()`, `sortBy` enum, 3-tier proxy fallback, safeCharge PPE billing.\n",
+  "readmeSource": "actors/jobs/alpha-topjobs-ch/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-09-16T11:39:20.793Z",
+    "events": [
+      {
+        "key": "apify-actor-start",
+        "title": "Actor Start",
+        "description": "Charged when the Actor starts running. Number of events charged depends on Actor memory (one event per GB, minimum one event).",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "job-serp-result",
+        "title": "Job Search Result",
+        "description": "A job listing from the search results with basic fields (title, company, location, posted date, canton, workload). Available when includeJobDetails is disabled.",
+        "isPrimary": true,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.00287,
+          "BRONZE": 0.00275,
+          "SILVER": 0.0026,
+          "GOLD": 0.00249,
+          "PLATINUM": 0.00249,
+          "DIAMOND": 0.00249
+        }
+      },
+      {
+        "key": "job-detail-result",
+        "title": "Job Detail Result",
+        "description": "A complete job listing with full description, salary range (CHF), recruiter contact (name/email/phone), external apply URL, and 4-format description. From the detail page.",
+        "isPrimary": false,
+        "priceUsd": null,
+        "tieredPriceUsd": {
+          "FREE": 0.005,
+          "BRONZE": 0.005,
+          "SILVER": 0.00475,
+          "GOLD": 0.0045,
+          "PLATINUM": 0.0045,
+          "DIAMOND": 0.0045
+        }
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-09-29T05:26:01.104Z"
+}
