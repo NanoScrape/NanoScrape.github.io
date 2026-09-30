@@ -76,7 +76,7 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .quality-legend { display: grid; grid-template-columns: max-content 1fr; gap: 8px 14px; margin: 12px 0 20px; font-size: 0.88rem; }
 .quality-legend dt { align-self: start; }
 .quality-legend dd { margin: 0; color: var(--muted); }
-.jump-strip { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
+.jump-strip { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
 .jump-strip a { padding: 6px 12px; color: var(--muted); font-weight: 500; text-decoration: none; border-radius: 5px; transition: all 0.12s ease; }
 .jump-strip a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
 .industry-picker { position: sticky; top: 0; z-index: 5; display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px 16px; margin: 16px 0 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.6); }
@@ -90,6 +90,9 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .industry-picker-badge { display: inline-block; margin-top: 4px; font-size: 0.72rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); background: rgba(255, 176, 32, 0.10); border: 1px solid rgba(255, 176, 32, 0.30); border-radius: 999px; padding: 2px 8px; align-self: flex-start; }
 .industry-picker-hint { font-size: 0.8rem; color: var(--muted); flex-basis: 100%; }
 @media (min-width: 640px) { .industry-picker-hint { flex-basis: 100%; margin-top: 2px; } }
+.platform-key { display: flex; flex-wrap: wrap; gap: 4px 14px; flex-basis: 100%; font-size: 0.8rem; color: var(--text); }
+.platform-key-item { display: inline-flex; align-items: center; gap: 6px; }
+.platform-key-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 .hero-all-industries[hidden] { display: none; }
 .chart-toggle { display: inline-flex; gap: 4px; margin: 8px 0 12px; padding: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
 .chart-toggle-btn { font: inherit; font-size: 0.85rem; color: var(--muted); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: all 0.12s ease; }
@@ -110,12 +113,29 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .chart-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .chart-card-body .chart { margin: 0; background: transparent; border: none; padding: 0; }
 .chart-card-cta { margin-top: 10px; }
-.chart-card-cta .chart-cta { margin: 0; }
+.chart-card-cta .chart-cta { margin: 0; text-align: left; border-radius: 8px; }
 .chart-card[hidden] { display: none; }
 .chart-card.is-fullscreen { position: fixed; inset: 0; z-index: 100; margin: 0; border-radius: 0; padding: 20px 24px; overflow: auto; background: var(--bg); border: none; }
 .chart-card.is-fullscreen .chart-card-fs::after { content: "Exit"; margin-left: 6px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
 .chart-card.is-fullscreen .chart-card-fs { width: auto; padding: 0 10px 0 8px; height: 30px; color: var(--text); border-color: var(--muted); }
 body.has-fullscreen-chart { overflow: hidden; }
+.chart-toggle[hidden], .chart-toggle-btn[hidden] { display: none; }
+.jmi-interactive > .chart-table { margin-top: 0; border-top: 1px solid var(--border); border-radius: 10px; }
+.chart-table-standalone { margin-top: 12px; border-top: 1px solid var(--border); border-radius: 10px; }
+.citation-box { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 0.85rem; }
+.chart-table-open { margin-top: 0; border-top: 1px solid var(--border); border-radius: 10px; padding: 4px 18px; overflow-x: auto; }
+details.chart-table[open] { overflow-x: auto; }
+.excluded-count { color: var(--muted); opacity: 0.7; }
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 8px 0 8px; }
+.stat-tile { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+.stat-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.stat-value { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat-delta { font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stat-note { font-size: 0.85rem; margin-bottom: 20px; }
+.data-notes { list-style: none; padding: 0; }
+.data-notes li { color: var(--muted); padding: 12px 0; border-bottom: 1px solid var(--border); }
+.data-notes li strong { color: var(--text); }
+.data-note-date { display: inline-block; font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1px 8px; margin-right: 6px; }
 .download-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0 24px; }
 .download-row a { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
 .methodology { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 32px; }
@@ -134,7 +154,7 @@ body.has-fullscreen-chart { overflow: hidden; }
 <div id="site-header"></div>
 <div class="container">
 <h1>Job Market Index</h1>
-<p class="lead">Weekly, per-platform open-position counts. Direct platform-reported totals — no estimation, no extrapolation, no summing across platforms. CC BY 4.0.</p>
+<p class="lead">Weekly counts of open job postings, per platform. Platform-reported totals: no estimation, no extrapolation, no summing across platforms. CC BY 4.0.</p>
 <h2>Countries</h2>
 <div class="country-grid">
 <a class="country-tile" href="/job-market-index/switzerland/"><h3>Switzerland</h3><p>Schweiz</p></a>
@@ -142,11 +162,11 @@ body.has-fullscreen-chart { overflow: hidden; }
 <div class="methodology">
 <h2>How to read the index</h2>
 <ul>
-<li>Every country page shows one chart <strong>per platform</strong>. We never sum across platforms — the same position appears on multiple boards, and adding them would double-count.</li>
-<li>Counts are what the platform publicly reports for a keyword search, on the snapshot date. Not vacancies. Not hires.</li>
-<li>Keyword lists are derived from ESCO / ISCO-08 and are frozen per taxonomy version. Any change ships as a new version alongside the old one.</li>
-<li>Snapshots run every Tuesday 06:00 UTC. Monthly published figures are the mean of that month's weeks.</li>
-<li>Full per-country CSV and JSON downloads are on the country page.</li>
+<li>Every platform is reported <strong>separately</strong>. Counts are never summed across platforms: the same position is often listed on several boards.</li>
+<li>Counts are what each platform itself reports for an industry filter or a job-title search on the snapshot date. They are postings, not vacancies and not hires.</li>
+<li>Job titles are a curated list. A count is published only if a sample of the platform's results actually contains the title. The list is frozen per version; a change starts a new version and a new series.</li>
+<li>One snapshot per week, taken on Tuesday. A missed week stays a gap and is never estimated.</li>
+<li>CSV and JSON downloads are on each region page.</li>
 </ul>
 </div>
 </div>

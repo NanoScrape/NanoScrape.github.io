@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Job Market Index — Switzerland | NanoScrape</title>
+<title>Job Market Index: Switzerland | NanoScrape</title>
 <meta name="description" content="Weekly open-position counts by language region for Switzerland: German-, French-, and Italian-language job postings, measured per platform, CC BY 4.0.">
 
-<meta property="og:title" content="Job Market Index — Switzerland | NanoScrape">
+<meta property="og:title" content="Job Market Index: Switzerland | NanoScrape">
 <meta property="og:description" content="Weekly open-position counts by language region for Switzerland: German-, French-, and Italian-language job postings, measured per platform, CC BY 4.0.">
 <meta property="og:url" content="https://www.nanoscrape.com/job-market-index/switzerland/">
 <meta property="og:type" content="website">
@@ -76,7 +76,7 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .quality-legend { display: grid; grid-template-columns: max-content 1fr; gap: 8px 14px; margin: 12px 0 20px; font-size: 0.88rem; }
 .quality-legend dt { align-self: start; }
 .quality-legend dd { margin: 0; color: var(--muted); }
-.jump-strip { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
+.jump-strip { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 12px; margin: 0 0 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-size: 0.88rem; backdrop-filter: blur(8px); }
 .jump-strip a { padding: 6px 12px; color: var(--muted); font-weight: 500; text-decoration: none; border-radius: 5px; transition: all 0.12s ease; }
 .jump-strip a:hover { color: var(--text); background: rgba(255,255,255,0.05); }
 .industry-picker { position: sticky; top: 0; z-index: 5; display: flex; align-items: flex-start; flex-wrap: wrap; gap: 10px 16px; margin: 16px 0 12px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; box-shadow: 0 6px 18px -12px rgba(0, 0, 0, 0.6); }
@@ -90,6 +90,9 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .industry-picker-badge { display: inline-block; margin-top: 4px; font-size: 0.72rem; letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); background: rgba(255, 176, 32, 0.10); border: 1px solid rgba(255, 176, 32, 0.30); border-radius: 999px; padding: 2px 8px; align-self: flex-start; }
 .industry-picker-hint { font-size: 0.8rem; color: var(--muted); flex-basis: 100%; }
 @media (min-width: 640px) { .industry-picker-hint { flex-basis: 100%; margin-top: 2px; } }
+.platform-key { display: flex; flex-wrap: wrap; gap: 4px 14px; flex-basis: 100%; font-size: 0.8rem; color: var(--text); }
+.platform-key-item { display: inline-flex; align-items: center; gap: 6px; }
+.platform-key-swatch { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
 .hero-all-industries[hidden] { display: none; }
 .chart-toggle { display: inline-flex; gap: 4px; margin: 8px 0 12px; padding: 4px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
 .chart-toggle-btn { font: inherit; font-size: 0.85rem; color: var(--muted); background: transparent; border: 1px solid transparent; border-radius: 6px; padding: 6px 12px; cursor: pointer; transition: all 0.12s ease; }
@@ -110,12 +113,29 @@ p { color: var(--muted); margin-bottom: 12px; text-wrap: pretty; }
 .chart-card-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
 .chart-card-body .chart { margin: 0; background: transparent; border: none; padding: 0; }
 .chart-card-cta { margin-top: 10px; }
-.chart-card-cta .chart-cta { margin: 0; }
+.chart-card-cta .chart-cta { margin: 0; text-align: left; border-radius: 8px; }
 .chart-card[hidden] { display: none; }
 .chart-card.is-fullscreen { position: fixed; inset: 0; z-index: 100; margin: 0; border-radius: 0; padding: 20px 24px; overflow: auto; background: var(--bg); border: none; }
 .chart-card.is-fullscreen .chart-card-fs::after { content: "Exit"; margin-left: 6px; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.04em; }
 .chart-card.is-fullscreen .chart-card-fs { width: auto; padding: 0 10px 0 8px; height: 30px; color: var(--text); border-color: var(--muted); }
 body.has-fullscreen-chart { overflow: hidden; }
+.chart-toggle[hidden], .chart-toggle-btn[hidden] { display: none; }
+.jmi-interactive > .chart-table { margin-top: 0; border-top: 1px solid var(--border); border-radius: 10px; }
+.chart-table-standalone { margin-top: 12px; border-top: 1px solid var(--border); border-radius: 10px; }
+.citation-box { white-space: pre-wrap; overflow-wrap: anywhere; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; font-size: 0.85rem; }
+.chart-table-open { margin-top: 0; border-top: 1px solid var(--border); border-radius: 10px; padding: 4px 18px; overflow-x: auto; }
+details.chart-table[open] { overflow-x: auto; }
+.excluded-count { color: var(--muted); opacity: 0.7; }
+.stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin: 8px 0 8px; }
+.stat-tile { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 1px solid var(--border); border-top: 3px solid var(--accent); border-radius: 10px; padding: 14px 16px; }
+.stat-label { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+.stat-value { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.stat-delta { font-size: 0.82rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.stat-note { font-size: 0.85rem; margin-bottom: 20px; }
+.data-notes { list-style: none; padding: 0; }
+.data-notes li { color: var(--muted); padding: 12px 0; border-bottom: 1px solid var(--border); }
+.data-notes li strong { color: var(--text); }
+.data-note-date { display: inline-block; font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; color: var(--text); background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1px 8px; margin-right: 6px; }
 .download-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 12px 0 24px; }
 .download-row a { display: inline-block; padding: 8px 16px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.9rem; }
 .methodology { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 24px; margin-top: 32px; }
@@ -134,14 +154,14 @@ body.has-fullscreen-chart { overflow: hidden; }
 <div id="site-header"></div>
 <div class="container">
 <div class="crumb"><a href="/job-market-index/">Job Market Index</a> · Switzerland</div>
-<h1>Job Market Index — Switzerland</h1>
-<p class="lead">Switzerland is a four-language job market and no single platform covers all of it. We split the JMI by language region so each section uses its own taxonomy, its own dominant platforms, and its own canonical URL. Pick a region:</p>
+<h1>Job Market Index: Switzerland</h1>
+<p class="lead">Switzerland is a four-language job market and no single platform covers all of it. We split the JMI by language region so each section uses its own job-title list and its own platforms. Pick a region:</p>
 <div class="country-grid">
 <a class="country-tile" href="/job-market-index/switzerland/german-speaking-switzerland/"><h3>German-speaking Switzerland</h3><p>Deutschschweiz · German-language postings</p></a>
 <a class="country-tile" href="/job-market-index/switzerland/french-speaking-switzerland/"><h3>French-speaking Switzerland <em>(coming soon)</em></h3><p>Suisse romande · French-language postings</p></a>
 <a class="country-tile" href="/job-market-index/switzerland/italian-speaking-switzerland/"><h3>Italian-speaking Switzerland <em>(coming soon)</em></h3><p>Svizzera italiana · Italian-language postings</p></a>
 </div>
-<p style="font-size:0.85rem;margin-top:24px">Why English URL slugs on an English-language index? Because <code>/de/ /fr/ /it/</code> collides with the site-wide language picker. English slugs are unambiguous, describe the region geographically, and index cleanly. The German-language section is the first to publish; French and Italian sections follow once their platform coverage (jobup.ch et al.) is instrumented.</p>
+<p style="font-size:0.85rem;margin-top:24px">The German-language section is the first to publish. French and Italian sections follow once the German one passes its quality bar and their main platforms are tracked.</p>
 </div>
 <!-- Shared site footer injected by components.js -->
 <div id="site-footer"></div>
