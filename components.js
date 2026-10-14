@@ -139,9 +139,12 @@
  }
 
  // Language-aware tutorials hub URL. EN at /tutorials/, others under /{lang}/tutorials/.
+ // Only languages with a published tutorials hub get a localized URL; the
+ // rest fall back to the EN hub (de/zh hubs don't exist yet and 404'd).
+ var TUTORIAL_HUB_LANGS = { fr: true };
  function tutorialsHubUrl(langCode) {
  for (var i = 0; i < LANGUAGES.length; i++) {
- if (LANGUAGES[i].code === langCode) return LANGUAGES[i].prefix ? '/' + LANGUAGES[i].prefix + '/tutorials/' : '/tutorials/';
+ if (LANGUAGES[i].code === langCode) return LANGUAGES[i].prefix && TUTORIAL_HUB_LANGS[langCode] ? '/' + LANGUAGES[i].prefix + '/tutorials/' : '/tutorials/';
  }
  return '/tutorials/';
  }
