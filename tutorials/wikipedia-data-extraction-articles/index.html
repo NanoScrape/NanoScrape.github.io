@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Extract Wikipedia Data and Articles at Scale (2026 Guide) | NanoScrape</title>
-  <meta name="description" content="Step-by-step guide to extracting Wikipedia articles, summaries, categories, and metadata in bulk. Turn Wikipedia into a structured dataset for AI training, research, or knowledge graphs.">
+  <title>How to Extract Wikipedia Data at Scale (2026 Guide) | NanoScrape</title>
+  <meta name="description" content="Extract Wikipedia articles, summaries, categories and metadata in bulk as a structured dataset for AI training, research or knowledge graphs.">
   <meta name="primary-keyword" content="wikipedia data">
-  <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="How to Extract Wikipedia Data and Articles at Scale | NanoScrape">
-  <meta property="og:description" content="Turn Wikipedia into a structured dataset: extract articles, summaries, categories, and Wikidata IDs in bulk. No API keys, no anti-bot headaches, 12 languages.">
+  <meta property="og:description" content="Turn Wikipedia into a structured dataset: extract articles, summaries, categories, and Wikidata IDs in bulk. No API keys, 12 languages.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/wikipedia-data-extraction-articles/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/wikipedia-data-extraction-articles/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/wikipedia-data-extraction-articles/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/wikipedia-data-extraction-articles/">
@@ -102,8 +105,8 @@
       "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
     }
   },
-  "datePublished": "2026-08-17",
-  "dateModified": "2026-08-17",
+  "datePublished": "2026-10-15",
+  "dateModified": "2026-10-15",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/wikipedia-data-extraction-articles/"
 }
   </script>
@@ -118,7 +121,7 @@
       "name": "Do I need a Wikipedia API key?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "No. The actor uses the public MediaWiki REST API, which requires no authentication and imposes no strict rate limits for reasonable usage. You only need a free Apify account to run the scraper."
+        "text": "No. The actor uses the public Wikipedia and Wikimedia APIs, which need no API key. You only need a free Apify account to run the scraper."
       }
     },
     {
@@ -126,7 +129,7 @@
       "name": "How many languages does it support?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "12 language editions: English, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese (Simplified), and Arabic. Set the language input field to the appropriate ISO code, such as de for German or zh for Chinese."
+        "text": "12 language editions: English, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese, and Arabic. Set the language input field to the appropriate ISO code, such as de for German or zh for Chinese."
       }
     },
     {
@@ -280,9 +283,6 @@
   </style>
 </head>
 <body>
-  <div class="draft-banner">
-    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
-  </div>
 
   <div id="site-header"></div>
 
@@ -291,11 +291,6 @@
 
     <h1>How to Extract Wikipedia Data and Articles at Scale</h1>
     <p class="lead">Wikipedia holds structured knowledge on nearly every topic imaginable, and all of it is publicly accessible. The problem is that the raw MediaWiki API is fiddly to work with: pagination, language edition URLs, redirect handling, and content parsing all require custom code. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">NanoScrape Wikipedia Scraper</a> handles all of that. Give it a list of article titles, Wikipedia URLs, or a search keyword and it returns structured JSON records with the full article text, summary, sections, categories, images, Wikidata ID, and 30-day page view counts. At $0.002 per article, a thousand articles costs $2.</p>
-
-    <figure>
-      <img src="assets/01-wikipedia-data-dataset-table.png" alt="Apify dataset table view showing extracted Wikipedia article records with columns for title, URL, language, description, word count, wikidata ID, and view count" loading="lazy" width="3200" height="2000">
-      <figcaption>One structured record per Wikipedia article, ready to export as CSV, JSON, or Excel.</figcaption>
-    </figure>
 
     <div class="meta-row">
       <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
@@ -328,7 +323,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">NanoScrape Wikipedia Scraper</a> connects to the official MediaWiki REST API and returns one structured JSON record per article. Each record contains:</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">NanoScrape Wikipedia Scraper</a> uses the public Wikipedia and Wikimedia APIs and returns one structured JSON record per article. Each record contains:</p>
     <ul>
         <li><strong>Full article text</strong> as plain text and cleaned HTML, split into sections with heading levels</li>
         <li><strong>Summary and description</strong>: the one-line description and first-paragraph extract Wikipedia surfaces in search results</li>
@@ -339,17 +334,17 @@
         <li><strong>30-day page views</strong>: pulled from the Wikimedia pageviews API so you can gauge article traffic</li>
         <li><strong>Disambiguation flag</strong>: identifies ambiguous pages before you ingest them</li>
       </ul>
-    <p>Because it uses the official MediaWiki API rather than HTML scraping, there is no bot protection to work around and no fragile CSS selectors to maintain. The same input works across all 12 supported language editions.</p>
+    <p>Because it uses Wikipedia's public APIs rather than browser scraping, there are no CSS selectors to maintain. The same input works across all 12 supported language editions.</p>
 
     <h2 id="use-cases">Use cases</h2>
     <ul>
-        <li><strong>AI and LLM training data</strong>: Wikipedia is the gold standard for encyclopedic corpora. Extract topic-specific article sets for fine-tuning or retrieval-augmented generation pipelines</li>
+        <li><strong>AI and LLM training data</strong>: Wikipedia is a widely used encyclopedic corpus. Extract topic-specific article sets for fine-tuning or retrieval-augmented generation pipelines</li>
         <li><strong>Knowledge graphs</strong>: link entities in your database to Wikidata Q-IDs and pull in coordinates, categories, and descriptions at scale</li>
         <li><strong>Academic research</strong>: build multilingual topic corpora, track edits via last-modified timestamps, and cross-reference citations</li>
         <li><strong>Content enrichment</strong>: add encyclopedic summaries, infobox facts, or related categories to product pages, blog posts, or travel content</li>
         <li><strong>Fact-checking pipelines</strong>: verify claims against Wikipedia extracts and flag disambiguation pages automatically before downstream processing</li>
         <li><strong>Travel and geo content</strong>: extract city, landmark, and attraction data with coordinates for maps, booking sites, or itinerary builders</li>
-        <li><strong>Biography datasets</strong>: scrape person articles for journalism, CRM enrichment, or historical databases and link subjects to their Wikidata records</li>
+        <li><strong>Biography datasets</strong>: scrape person articles for journalism or historical databases and link subjects to their Wikidata records</li>
       </ul>
 
     <h2 id="prerequisites">Prerequisites</h2>
@@ -362,10 +357,6 @@
       <span class="step-number">STEP 1</span>
       <h2>Step 1: Open the actor on Apify</h2>
       <p>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">Wikipedia Scraper actor page</a> on Apify. Click <strong>Try for free</strong> to open the input form. First-time Apify visitors will create a free account before landing on the input screen.</p>
-      <figure>
-      <img src="assets/02-wikipedia-data-information-tab.png" alt="Apify console showing the Wikipedia Scraper actor information page with pricing overview, description, and the Try for free button" loading="lazy" width="3200" height="2000">
-      <figcaption>The actor page on Apify. Click Try for free to open the input form.</figcaption>
-    </figure>
     </div>
 
     <div class="step" id="step-2">
@@ -397,44 +388,37 @@
   "maxSearchResults": 10,
   "includeFullContent": true
 }</code></pre></div>
-      <figure>
-      <img src="assets/03-wikipedia-data-input-form.png" alt="Apify input form for the Wikipedia Scraper showing the searchQuery field set to machine learning, language set to en, and maxSearchResults set to 5" loading="lazy" width="3200" height="2000">
-      <figcaption>Set a search query or paste article titles directly. Choose the language edition and which content fields to include.</figcaption>
-    </figure>
     </div>
 
     <div class="step" id="step-3">
       <span class="step-number">STEP 3</span>
       <h2>Step 3: Start the run</h2>
-      <p>Click <strong>Start</strong>. Because the actor calls the official MediaWiki REST API rather than rendering pages in a browser, runs are fast. A batch of 10 articles typically completes in under 10 seconds. A thousand articles finishes in a few minutes.</p>
-      <div class="callout tip">Wikipedia imposes no rate limits on the MediaWiki REST API for reasonable usage. The scraper runs as many parallel requests as needed and handles pagination automatically.</div>
-      <figure>
-      <img src="assets/04-wikipedia-data-run-log.png" alt="Apify run log for the Wikipedia Scraper showing INFO messages as articles are fetched from the MediaWiki REST API with article titles and completion status" loading="lazy" width="3200" height="2000">
-      <figcaption>The live run log shows each article as it is fetched. Runs finish fast because there is no browser rendering.</figcaption>
-    </figure>
+      <p>Click <strong>Start</strong>. Because the actor calls the official MediaWiki REST API rather than rendering pages in a browser, runs are fast.</p>
+      <div class="callout tip">Start with a handful of titles on your first run to check the output before you queue a large list.</div>
     </div>
 
     <div class="step" id="step-4">
       <span class="step-number">STEP 4</span>
       <h2>Step 4: Export the results</h2>
-      <p>Once the run finishes, open the <strong>Dataset</strong> tab. Each row is one Wikipedia article. Click <strong>Export</strong> to download as CSV, JSON, Excel, or Google Sheets. Here is a real output record from a run on the article "Web scraping":</p>
+      <p>Once the run finishes, open the <strong>Dataset</strong> tab. Each row is one Wikipedia article. Click <strong>Export</strong> to download as CSV, JSON, Excel, or Google Sheets. Here is a real output record from a run on the English article "Berlin" (long fields shortened, some list fields trimmed, <code>content_html</code> and the image/link lists omitted):</p>
       <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  "title": "Web scraping",
-  "url": "https://en.wikipedia.org/wiki/Web_scraping",
+  "title": "Berlin",
+  "url": "https://en.wikipedia.org/wiki/Berlin",
   "language": "en",
-  "page_id": 2696619,
-  "revision_id": 1289394025,
-  "extract": "Web scraping, web harvesting, or web data extraction is data scraping used for extracting data from websites...",
-  "description": "Method of extracting data from websites",
-  "content_full": "Web scraping, web harvesting...",
-  "sections": [
-    { "title": "Techniques", "level": 2, "text": "..." },
-    { "title": "Legal issues", "level": 2, "text": "..." }
-  ],
-  "categories": ["Web scraping", "Internet terminology"],
-  "wikidata_id": "Q186931",
-  "word_count": 4820,
-  "scraped_at": "2026-08-17T06:18:28Z"
+  "page_id": 3354,
+  "revision_id": 1380001131,
+  "extract": "Berlin is the capital and largest city of Germany. With 3.7 million inhabitants, ...",
+  "description": "Capital and largest city of Germany",
+  "content_full": "This article is about the capital city of Germany. ...",
+  "sections": [ { "title": "", "level": 0, "text": "Berlin is the capital and largest city of Germany. ..." } ],
+  "categories": ["Berlin", "Capital cities in Europe", "German state capitals"],
+  "coordinates": { "lat": 52.52, "lng": 13.405 },
+  "wikidata_id": "Q64",
+  "last_modified": "2026-10-13T04:54:07Z",
+  "word_count": 19965,
+  "view_count_30d": 163279,
+  "is_disambiguation": false,
+  "scraped_at": "2026-10-14T07:02:02Z"
 }</code></pre></div>
     </div>
 
@@ -461,7 +445,7 @@
         <li><code>extract</code> (string): first-paragraph plain-text extract, the same content Wikipedia shows in search snippets</li>
         <li><code>description</code> (string): Wikidata one-line description for the article subject</li>
         <li><code>content_full</code> (string): full article body as plain text</li>
-        <li><code>content_html</code> (string): cleaned HTML version of the article body</li>
+        <li><code>content_html</code> (string): the article HTML. This field is large (about 1.5 MB for the Berlin article), so skip it when you export if you only need text</li>
         <li><code>sections</code> (array): per-section breakdown with <code>title</code>, <code>level</code>, and <code>text</code></li>
         <li><code>thumbnail_url</code> (string): URL of the article thumbnail image</li>
         <li><code>main_image_url</code> (string): URL of the main article image</li>
@@ -489,7 +473,7 @@
         <li><strong>1,000 articles</strong>: ~$2.00</li>
         <li><strong>10,000 articles</strong>: ~$20.00</li>
       </ul>
-    <p>There are no proxy costs because the actor calls the public MediaWiki API, not a browser. Current rates are always on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">actor page</a>.</p>
+    <p>The actor calls public Wikipedia APIs, not a browser. Current rates are always on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/wikipedia-scraper?fpr=0khfbz&amp;fp_sid=t-wikipedia-data-extraction-articles">actor page</a>.</p>
     <div class="callout tip">New Apify accounts receive $5 of free credit, which covers 2,500 Wikipedia articles before you need to add a payment method.</div>
 
     <h2 id="schedule">Automate with a schedule</h2>
@@ -500,11 +484,11 @@
     <div class="faq">
       <details>
         <summary>Do I need a Wikipedia API key?</summary>
-        <p>No. The actor uses the public MediaWiki REST API, which requires no authentication and imposes no strict rate limits for reasonable usage. You only need a free Apify account to run the scraper.</p>
+        <p>No. The actor uses the public Wikipedia and Wikimedia APIs, which need no API key. You only need a free Apify account to run the scraper.</p>
       </details>
       <details>
         <summary>How many languages does it support?</summary>
-        <p>12 language editions: English, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese (Simplified), and Arabic. Set the <code>language</code> input field to the appropriate ISO code, such as <code>de</code> for German or <code>zh</code> for Chinese.</p>
+        <p>12 language editions: English, German, French, Spanish, Italian, Portuguese, Dutch, Polish, Russian, Japanese, Chinese, and Arabic. Set the <code>language</code> input field to the appropriate ISO code, such as <code>de</code> for German or <code>zh</code> for Chinese.</p>
       </details>
       <details>
         <summary>How is this different from querying the Wikipedia API directly?</summary>

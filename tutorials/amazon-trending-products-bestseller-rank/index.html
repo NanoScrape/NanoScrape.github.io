@@ -11,7 +11,11 @@
   <meta property="og:description" content="Pull live Amazon bestseller rankings, trending product data, and deal badges for any category across 20 marketplaces. $0.001 per result. No account needed.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/amazon-trending-products-bestseller-rank/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/amazon-trending-products-bestseller-rank/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/amazon-trending-products-bestseller-rank/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/amazon-trending-products-bestseller-rank/">
@@ -290,12 +294,7 @@
     <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Amazon Trending Products and Bestseller Rankings</nav>
 
     <h1>How to Track Amazon Trending Products and Bestseller Rankings</h1>
-    <p class="lead">Amazon's bestseller lists update every hour and cover thousands of categories across 20 marketplaces. Manually checking them by hand is impractical at any meaningful scale. The NanoScrape Amazon Bestsellers Scraper pulls the full top-100 for any category, including Best Sellers, Movers & Shakers, New Releases, Most Wished For, and Most Gifted rankings, and returns rank, ASIN, price, stars, review count, and deal badges as structured JSON at $0.001 per result. This guide walks through setup, category selection, and scheduling a recurring monitor.</p>
-
-    <figure>
-      <img src="assets/01-amazon-trending-products-bestseller-rank-dataset-table.png" alt="Apify dataset table showing Amazon bestseller results with columns for position, ASIN, title, price, stars, review count, and deal badges" loading="lazy" width="3200" height="2000">
-      <figcaption>One row per ranked product. The actor returns position, ASIN, title, brand, price, stars, review count, and Amazon's Choice/Prime/deal flags for each category entry.</figcaption>
-    </figure>
+    <p class="lead">Amazon's bestseller lists update every hour and cover thousands of categories across 20 marketplaces. Manually checking them by hand is impractical at any meaningful scale. The NanoScrape Amazon Bestsellers Scraper pulls the ranking (up to Amazon's 100 products) for any category, including Best Sellers, Movers & Shakers, New Releases, Most Wished For, and Most Gifted rankings, and returns rank, ASIN, price, stars, review count, and deal badges as structured JSON at $0.001 per result. This guide walks through setup, category selection, and scheduling a recurring monitor.</p>
 
     <div class="meta-row">
       <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
@@ -305,7 +304,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-trending-products-bestseller-rank" class="btn-primary">Open the Amazon Bestsellers Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz" class="btn-primary">Open the Amazon Bestsellers Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">See pricing details</a>
     </div>
 
@@ -326,7 +325,7 @@
     </div>
 
     <h2 id="what-you-get">What data you get</h2>
-    <p>Each run returns one dataset row per ranked product. The actor walks all pages of a bestseller list to collect the full top-100 ranking, handling both Amazon layouts (50 products per page x 2, and 20 per page x 5) automatically.</p>
+    <p>Each run returns one dataset row per ranked product. The actor walks all pages of a bestseller list to collect the ranking (up to 100 products), handling both Amazon layouts (50 products per page x 2, and 20 per page x 5) automatically.</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "asin": "B0GJTFXNRX",
   "url": "https://www.amazon.com/dp/B0GJTFXNRX",
@@ -359,7 +358,7 @@
         <li><code class="code-inline">categoryName</code> and <code class="code-inline">categoryBreadCrumbs</code>: the list heading and breadcrumb trail from the page.</li>
         <li><code class="code-inline">brand</code>: shown when Amazon includes it on the bestseller card (often null on standard cards).</li>
       </ul>
-    <div class="callout"><strong>Amazon caps every list at 100 products.</strong> That is Amazon's own limit, not the actor's. Running one category returns at most 100 rows. To cover a market segment, add multiple sub-category URLs to one run.</div>
+    <div class="callout"><strong>Amazon caps every list at 100 products.</strong> That is Amazon's own limit, not the actor's. Running one category returns at most 100 rows, and on a few high-traffic Best Sellers categories Amazon lazy-loads some positions, so a run can return fewer (the actor README notes around 60 of 100 on affected categories). To cover a market segment, add multiple sub-category URLs to one run.</div>
 
     <h2 id="list-types">Five list types</h2>
     <p>The actor supports all five of Amazon's public product ranking lists. You can mix list types within a single run by providing different URLs, or use the toggle fields with browse-node IDs to select a specific list.</p>
@@ -374,7 +373,7 @@
 
     <h2 id="prerequisites">Prerequisites</h2>
     <ul>
-        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-trending-products-bestseller-rank">the actor page</a>. The free tier includes $5 of usage credit each month, which covers about 4,999 scraped product rows.</li>
+        <li>A free Apify account. Sign up at <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz">the actor page</a>. The free tier includes $5 of usage credit each month, which covers about 4,999 scraped product rows.</li>
         <li>One or more Amazon bestseller category URLs to target, or browse-node IDs if you prefer. You can grab a URL directly from any Amazon bestsellers page in your browser.</li>
       </ul>
 
@@ -382,14 +381,10 @@
       <span class="step-number">STEP 1</span>
       <h2>Open the actor on Apify</h2>
       <ol>
-        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-trending-products-bestseller-rank">NanoScrape Amazon Bestsellers Scraper</a> on Apify.</li>
+        <li>Go to the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz">NanoScrape Amazon Bestsellers Scraper</a> on Apify.</li>
         <li>Click <strong>Try for free</strong>. Create an account with Google or email in about a minute.</li>
         <li>Once signed in, the actor opens in Apify Console with the Input tab active.</li>
       </ol>
-      <figure>
-      <img src="assets/02-amazon-trending-products-bestseller-rank-actor-page.png" alt="Apify actor page for the NanoScrape Amazon Bestsellers Scraper showing title, description, pricing, and a Try for free button" loading="lazy" width="3200" height="2000">
-      <figcaption>The Amazon Bestsellers Scraper on Apify. Click Try for free to open the input editor.</figcaption>
-    </figure>
     </div>
 
     <div class="step" id="step-2">
@@ -413,21 +408,13 @@
         <li><code class="code-inline">browseNodeIds</code>: alternative to URLs. Pass a numeric browse-node ID and use the <code class="code-inline">country</code> field to pick the marketplace.</li>
         <li><code class="code-inline">newReleases</code>, <code class="code-inline">movers</code>, <code class="code-inline">mostWished</code>, <code class="code-inline">mostGifted</code>: boolean toggles for list type when using browse-node IDs. Default is Best Sellers.</li>
       </ul>
-      <figure>
-      <img src="assets/03-amazon-trending-products-bestseller-rank-input-form.png" alt="Apify Console Input tab showing the Amazon Bestsellers Scraper JSON editor with startUrls and maxResultsPerCategory configured" loading="lazy" width="3200" height="2000">
-      <figcaption>Paste your category URLs in the JSON editor. The actor auto-detects the marketplace and list type from each URL.</figcaption>
-    </figure>
       <div class="callout tip"><strong>Any marketplace URL works.</strong> Drop in a URL from amazon.de, amazon.co.uk, amazon.co.jp, or any of the 20 supported marketplaces. The actor routes each request through a marketplace-matched proxy so prices and currency come back correctly.</div>
     </div>
 
     <div class="step" id="step-3">
       <span class="step-number">STEP 3</span>
       <h2>Run and review results</h2>
-      <p>Click <strong>Start</strong> at the top right. The run log shows each category as it is processed. A single top-100 category walk typically completes in under two minutes. Adding multiple categories runs them in parallel up to the concurrency limit.</p>
-      <figure>
-      <img src="assets/04-amazon-trending-products-bestseller-rank-run-log.png" alt="Apify Console run log for the Amazon Bestsellers Scraper showing categories being processed with a live item count" loading="lazy" width="3200" height="2000">
-      <figcaption>The live run log. Each category is processed in turn, with a running item count visible at the top.</figcaption>
-    </figure>
+      <p>Click <strong>Start</strong> at the top right. The run log shows each category as it is processed. Several categories run in parallel up to the concurrency limit.</p>
       <p>When the status changes to <strong>Succeeded</strong>, click <strong>Results</strong> (or the Dataset tab) to preview the ranked product table. Sort by <code class="code-inline">position</code> to read the list top-to-bottom. The <code class="code-inline">listType</code> column tells you which list each row came from when you mix multiple URLs in a single run.</p>
       <div class="callout tip"><strong>Comparing ranks over time.</strong> Add a <code class="code-inline">scrapedAt</code> timestamp and a <code class="code-inline">runId</code> column in your downstream spreadsheet or database. Each daily run gives you a fresh snapshot, and comparing <code class="code-inline">position</code> across runs shows rising and falling products.</div>
     </div>
@@ -521,14 +508,14 @@ Daily scan, 5 categories/day  ~ $15/month</code></pre></div>
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/amazon-bestsellers-scraper/">Amazon Bestsellers Scraper actor page</a>: Full input reference, output schema, pricing details, and API integration examples.</li>
-      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-trending-products-bestseller-rank">Amazon Bestsellers Scraper on Apify</a>: Try the actor directly in Apify Console or access it via the Apify API.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz">Amazon Bestsellers Scraper on Apify</a>: Try the actor directly in Apify Console or access it via the Apify API.</li>
       <li><a href="/tutorials/walmart-scraper/">How to Scrape Walmart Product Data</a>: Pull product titles, prices, ratings, reviews, and availability from Walmart.com across any category or search keyword.</li>
       <li><a href="/tutorials/ebay-scraper/">How to Scrape eBay Listings and Prices</a>: Extract eBay auction and buy-it-now listings with price, seller, condition, and bid count for market research and price comparison.</li>
       <li><a href="/tutorials/aliexpress-scraper/">How to Scrape AliExpress Products</a>: Collect product data from AliExpress including price, orders, ratings, and supplier details across any category.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-trending-products-bestseller-rank" class="btn-primary">Try the Amazon Bestsellers Scraper free</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz" class="btn-primary">Try the Amazon Bestsellers Scraper free</a>
       <a href="/actors/" class="btn-secondary">Browse all NanoScrape actors</a>
     </div>
   </article>

@@ -11,7 +11,11 @@
   <meta property="og:description" content="Collect Twitter / X profile data and tweet timelines at scale. No API key, no OAuth app, no monthly subscription. Pay per result on Apify.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-twitter-x-profiles-tweets/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-twitter-x-profiles-tweets/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-twitter-x-profiles-tweets/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-twitter-x-profiles-tweets/">
@@ -131,7 +135,7 @@
       "name": "Can I scrape protected or private accounts?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Protected accounts return profile metadata only. Tweets from locked accounts cannot be fetched. Suspended and deleted accounts are skipped silently."
+        "text": "Protected accounts return no tweets; the profile row is returned when includeProfileOnlyItems is on. Suspended and deleted accounts are skipped silently."
       }
     },
     {
@@ -147,7 +151,7 @@
       "name": "How many tweets can I scrape per user?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The tweetsPerUser field accepts 0 to 1,000. For larger backlogs, run multiple jobs."
+        "text": "The tweetsPerUser field accepts 0 to 1,000. There is no date filter to page further back."
       }
     },
     {
@@ -155,7 +159,7 @@
       "name": "Will the actor get rate-limited by X?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The actor uses residential proxies and retries with a fresh session up to maxIPRotations times if X rate-limits a request. Default is 5 retries."
+        "text": "The actor uses residential proxies by default. Check the run log and re-run usernames that returned no items."
       }
     },
     {
@@ -163,7 +167,7 @@
       "name": "Can I filter out retweets and replies?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Set includeRetweets to false to drop retweets and includeReplies to false to drop replies. Both fields default to including those tweet types."
+        "text": "Set includeRetweets to false to drop retweets and includeReplies to false to drop replies. includeRetweets defaults to true and includeReplies to false."
       }
     },
     {
@@ -171,7 +175,7 @@
       "name": "How long does a run take?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "A small run of 3 accounts with 20 tweets each finishes in under 30 seconds. Larger runs scale roughly linearly."
+        "text": "Small runs finish in seconds; runtime grows with accounts and tweets."
       }
     },
     {
@@ -311,7 +315,7 @@
     <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape Twitter / X Profiles and Tweets</nav>
 
     <h1>How to Scrape Twitter / X Profiles and Tweets Without the API</h1>
-    <p class="lead">The X API's Basic tier starts at $100 per month and caps you at 10,000 tweet reads. This tutorial shows a cheaper path: a pay-per-result scraper on Apify that returns full profile data (bio, followers, verified status) and recent tweets (text, engagement metrics, entities) for any list of public accounts. No API key, no OAuth app, no monthly commitment. One user's 20 most recent tweets costs about two cents.</p>
+    <p class="lead">This tutorial shows how to pull profile data and tweets in bulk with a pay-per-result scraper on Apify that returns full profile data (bio, followers, verified status) and recent tweets (text, engagement metrics, entities) for any list of public accounts. No API key, no OAuth app, no monthly commitment. One user's 20 most recent tweets costs about two cents.</p>
 
     <figure>
       <img src="assets/01-twitter-x-scraper-dataset-table.png" alt="Apify dataset table showing scraped Twitter / X tweets with columns for tweet text, author username, follower count, and like count" loading="lazy" width="3200" height="2000">
@@ -326,7 +330,7 @@
     </div>
 
     <div class="ctas">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
       <a href="#cost" class="btn-secondary">Read pricing details below</a>
     </div>
 
@@ -348,7 +352,7 @@
     </div>
 
     <h2 id="what-you-get">What you get</h2>
-    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets">NanoScrape Twitter / X Profiles + Tweets Scraper</a> runs on Apify and accepts a list of usernames. For each account it fetches the full profile block (24 fields) and that user's recent tweet timeline. Each tweet is returned as a separate dataset row with the author profile embedded alongside it. No login, no API key, and no cookies required.</p>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">NanoScrape Twitter / X Profiles + Tweets Scraper</a> runs on Apify and accepts a list of usernames. For each account it fetches the full profile block (22 fields in the output schema) and that user's recent tweet timeline. Each tweet is returned as a separate dataset row with the author profile embedded alongside it. No login, no API key, and no cookies required.</p>
     <ul>
         <li><strong>Profile data</strong>: username, display name, bio, location, website, follower count, following count, tweet count, verified status, blue verified badge, profile image URL, banner URL, account creation date, and more.</li>
         <li><strong>Tweet text</strong>: full tweet text without truncation, plus the tweet's URL, creation timestamp, and source app.</li>
@@ -368,7 +372,7 @@
       <span class="step-number">STEP 1</span>
       <h2>Step 1: Create a free Apify account</h2>
       <ol>
-        <li>Go to <a target="_blank" rel="noopener" href="https://console.apify.com/sign-up?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets">console.apify.com/sign-up</a> and create an account. Email, Google, and GitHub sign-in are all available.</li>
+        <li>Go to <a target="_blank" rel="noopener" href="https://console.apify.com/sign-up?fpr=0khfbz">console.apify.com/sign-up</a> and create an account. Email, Google, and GitHub sign-in are all available.</li>
         <li>After activating your account, Apify credits $5 to your balance. This covers hundreds of user scrapes before any payment is needed.</li>
         <li>You do not need to enter a credit card to begin.</li>
       </ol>
@@ -404,11 +408,11 @@
       <p>Key input fields:</p>
       <ul>
         <li><code class="code-inline">usernames</code> (required): usernames, @handles, or full profile URLs. One actor run can process many accounts.</li>
-        <li><code class="code-inline">tweetsPerUser</code> (integer, default 20, range 0 to 1000): how many recent tweets to return per account. Set to <code class="code-inline">0</code> to skip tweets and fetch only profile data.</li>
+        <li><code class="code-inline">tweetsPerUser</code> (integer, default 20, range 0 to 1000): how many recent tweets to return per account. Set to <code class="code-inline">0</code> together with <code class="code-inline">includeProfileOnlyItems: true</code> to skip tweets and fetch only profile data (with <code class="code-inline">0</code> alone the actor falls back to 20 tweets).</li>
         <li><code class="code-inline">includeReplies</code> (boolean, default false): include tweets that are replies to other accounts.</li>
         <li><code class="code-inline">includeRetweets</code> (boolean, default true): include retweets in the timeline.</li>
         <li><code class="code-inline">includeProfileOnlyItems</code> (boolean, default false): when enabled, adds one extra profile row per user in addition to the tweet rows.</li>
-        <li><code class="code-inline">maxIPRotations</code> (integer, default 5): how many times the actor retries with a fresh proxy session if X rate-limits the current IP.</li>
+        <li><code class="code-inline">maxIPRotations</code> (integer, default 5): advanced setting; leave it at the default.</li>
       </ul>
       <figure>
       <img src="assets/03-twitter-x-scraper-input-form.png" alt="Apify Console input form for Twitter / X Profiles + Tweets Scraper with the usernames field showing nasa and tweetsPerUser set to 10" loading="lazy" width="3200" height="2000">
@@ -420,16 +424,16 @@
     <div class="step" id="step-4">
       <span class="step-number">STEP 4</span>
       <h2>Step 4: Run the actor</h2>
-      <p>Click <strong>Save and Run</strong> at the bottom of the input form. Apify starts the actor container, logs into X using a fresh guest session, and begins fetching profiles and tweets. For a small run of 3 accounts with 20 tweets each, the job finishes in under 30 seconds.</p>
+      <p>Click <strong>Save and Run</strong> at the bottom of the input form. Apify starts the actor container, opens a fresh logged-out guest session on x.com, and begins fetching profiles and tweets. A small test run (1 account, 3 tweets) finished in 4 seconds in our own test.</p>
       <figure>
       <img src="assets/04-twitter-x-scraper-run-log.png" alt="Apify Console run log for the Twitter / X Profiles + Tweets Scraper showing progress lines for each username with item counts" loading="lazy" width="3200" height="2000">
       <figcaption>The live run log. Each line confirms a username was processed and how many items were pushed.</figcaption>
     </figure>
       <p>If a run shows FAILED, the most common causes are:</p>
       <ul>
-        <li><strong>Protected account</strong>: the target account has locked tweets. The actor returns the profile row only and skips tweets for that user.</li>
+        <li><strong>Protected account</strong>: the target account has locked tweets. The actor returns no tweets for that user. Turn on <code class="code-inline">includeProfileOnlyItems</code> if you still want the profile row.</li>
         <li><strong>Suspended or deleted account</strong>: the actor skips these silently. Check for typos in your username list.</li>
-        <li><strong>Credit balance at zero</strong>: top up in <a target="_blank" rel="noopener" href="https://console.apify.com/billing?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets">Apify Console billing</a>.</li>
+        <li><strong>Credit balance at zero</strong>: top up in <a target="_blank" rel="noopener" href="https://console.apify.com/billing?fpr=0khfbz">Apify Console billing</a>.</li>
       </ul>
     </div>
 
@@ -449,7 +453,7 @@
     <h2 id="use-cases">Common use cases</h2>
     <ul>
         <li><strong>Competitor monitoring</strong>: pull the last 50 tweets from a set of competitor accounts weekly to track announcements, campaigns, and community engagement.</li>
-        <li><strong>Lead generation</strong>: scrape profiles of accounts in a niche to build a list of contacts with bio, website, and follower count. Combine with <code class="code-inline">tweetsPerUser: 0</code> to minimise cost.</li>
+        <li><strong>Lead generation</strong>: scrape profiles of accounts in a niche to build a list of contacts with bio, website, and follower count. Combine <code class="code-inline">tweetsPerUser: 0</code> with <code class="code-inline">includeProfileOnlyItems: true</code> to minimise cost.</li>
         <li><strong>Research datasets</strong>: collect tweets from a list of accounts for academic or business research, filtering out retweets and replies with <code class="code-inline">includeRetweets: false</code> and <code class="code-inline">includeReplies: false</code>.</li>
         <li><strong>Social listening</strong>: monitor what a set of influencers or brand accounts are posting by scheduling a daily run and feeding results into a spreadsheet or database.</li>
         <li><strong>Sentiment analysis pipeline</strong>: feed tweet text into an LLM or sentiment model for brand monitoring. See the related <a href="/tutorials/tweet-analysis/">Tweet analysis tutorial</a> for one way to do this.</li>
@@ -496,7 +500,7 @@
         <li>100 users, 20 tweets each: $0.01 + (2,000 x $0.0003) = <strong>$0.61</strong></li>
         <li>1,000 tweet rows: $0.01 + (1,000 x $0.0003) = <strong>$0.31</strong></li>
       </ul>
-    <p>The $5 free credit Apify gives on signup covers roughly 300 users at 20 tweets each before any payment is needed. By comparison, the X API Basic tier starts at $100 per month for 10,000 tweet reads. For intermittent or batch workloads, the pay-per-result model is significantly cheaper.</p>
+    <p>The $5 free credit Apify gives on signup covers roughly 300 users at 20 tweets each before any payment is needed.</p>
 
     <h2 id="faq">FAQ</h2>
     <div class="faq">
@@ -506,7 +510,7 @@
       </details>
       <details>
         <summary>Can I scrape protected or private accounts?</summary>
-        <p>Protected accounts (locked tweets) return profile metadata only. The actor cannot fetch tweets from accounts that require a follow request. Suspended and deleted accounts are skipped silently.</p>
+        <p>Protected accounts (locked tweets) return no tweets. With <code>includeProfileOnlyItems</code> on you still get the profile row (it carries an <code>is_protected</code> flag). Suspended and deleted accounts are skipped silently.</p>
       </details>
       <details>
         <summary>What is the difference between a tweet item and a profile item?</summary>
@@ -514,19 +518,19 @@
       </details>
       <details>
         <summary>How many tweets can I scrape per user?</summary>
-        <p>The `tweetsPerUser` field accepts any integer from 0 to 1,000. For historical backfills beyond 1,000 tweets, run multiple jobs with different date ranges or use the actor in batches.</p>
+        <p>The `tweetsPerUser` field accepts any integer from 0 to 1,000. The actor has no date filter, so you cannot page back past that limit.</p>
       </details>
       <details>
         <summary>Will the actor get rate-limited by X?</summary>
-        <p>X rate-limits requests from datacenter IP ranges aggressively. The actor uses residential proxies by default and retries with a fresh session up to `maxIPRotations` times (default 5) if it hits a rate limit. For large runs, increasing `maxIPRotations` can reduce failures.</p>
+        <p>X rate-limits requests from datacenter IP ranges aggressively. The actor uses residential proxies by default. Check the run log for warnings and re-run any usernames that returned no items.</p>
       </details>
       <details>
         <summary>Can I filter out retweets and replies?</summary>
-        <p>Yes. Set `includeRetweets: false` to drop retweets from the output and `includeReplies: false` to drop replies. Both default to the values that return the broadest timeline, so you can tighten the filter to original tweets only.</p>
+        <p>Yes. Set `includeRetweets: false` to drop retweets from the output and `includeReplies: false` to drop replies. Retweets are included by default and replies are excluded by default, so set includeRetweets to false to get original tweets only.</p>
       </details>
       <details>
         <summary>How long does a run take?</summary>
-        <p>A small run of 3 accounts at 20 tweets each typically finishes in under 30 seconds. Larger runs scale roughly linearly: 100 accounts at 20 tweets each takes 2 to 4 minutes depending on X response times and proxy routing.</p>
+        <p>Small runs finish in seconds (our test run of 1 account with 3 tweets took 4 seconds). Runtime grows with the number of accounts and tweets and depends on how X responds.</p>
       </details>
       <details>
         <summary>Can I use this actor from an AI agent or automation tool?</summary>
@@ -539,12 +543,12 @@
       <li><a href="/actors/twitter-x-profiles-tweets-scraper/">Twitter / X Profiles + Tweets Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
       <li><a href="/tutorials/tweet-analysis/">Tweet analysis tutorial</a>: How to run sentiment analysis and topic extraction on the tweets you collect with this scraper.</li>
       <li><a href="/tutorials/instagram-scraper/">Instagram Scraper tutorial</a>: Scrape Instagram profiles, posts, and follower counts in the same pay-per-result pattern.</li>
-      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets">Twitter / X Profiles + Tweets Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz">Twitter / X Profiles + Tweets Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Google Maps, Reddit, YouTube, and more.</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
-      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-twitter-x-profiles-tweets" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/twitter-x-profiles-tweets-scraper?fpr=0khfbz" class="btn-primary">Open the Twitter / X Scraper on Apify</a>
       <a href="/actors/" class="btn-secondary">Browse all actors</a>
     </div>
   </article>

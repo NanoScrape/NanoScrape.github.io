@@ -3,15 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How to Scrape LinkedIn Job Listings Without a Login (2026 Guide) | NanoScrape</title>
-  <meta name="description" content="Extract job titles, companies, locations, salaries, and full descriptions from LinkedIn Jobs with no login required. $0.001 per result. Covers keyword search, SERP bulk mode, and n8n automation.">
+  <title>How to Scrape LinkedIn Jobs Without a Login (2026) | NanoScrape</title>
+  <meta name="description" content="Export LinkedIn job listings with title, company, location, salary and description, no login needed. $0.001 per job, keyword search and n8n automation.">
   <meta name="primary-keyword" content="linkedin scraper">
-  <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="How to Scrape LinkedIn Job Listings Without a Login | NanoScrape">
   <meta property="og:description" content="Pull structured LinkedIn job data at scale: title, company, location, salary, seniority, industry, applicant count, and hiring manager. No login. $0.001 per listing.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/">
@@ -102,8 +105,8 @@
       "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
     }
   },
-  "datePublished": "2026-08-10",
-  "dateModified": "2026-08-10",
+  "datePublished": "2026-10-15",
+  "dateModified": "2026-10-15",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/linkedin-jobs-scraper-extract-job-postings/"
 }
   </script>
@@ -150,7 +153,7 @@
       "name": "What is the difference between SERP-only and full detail mode?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Full detail mode fetches each job's detail page for descriptions, seniority, and hiring manager. SERP-only mode returns search-result data only and runs about 3x faster."
+        "text": "Full detail mode (includeJobDetails true) fetches each job's detail page for descriptions, seniority, and hiring manager. SERP-only mode (the default) returns search-result data only and runs roughly 2 to 4 times faster."
       }
     },
     {
@@ -166,7 +169,7 @@
       "name": "Is scraping LinkedIn legal?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "The actor only accesses publicly visible job data. The hiQ Labs v. LinkedIn ruling found scraping public data is not a CFAA violation. LinkedIn ToS restricts automated access. Consult a lawyer for specific compliance questions."
+        "text": "The actor only accesses publicly visible job data. LinkedIn's terms restrict automated access, so check your own use case and consult a lawyer if unsure."
       }
     }
   ]
@@ -288,9 +291,6 @@
   </style>
 </head>
 <body>
-  <div class="draft-banner">
-    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
-  </div>
 
   <div id="site-header"></div>
 
@@ -298,7 +298,7 @@
     <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; LinkedIn Jobs Scraper</nav>
 
     <h1>How to Scrape LinkedIn Job Listings Without a Login</h1>
-    <p class="lead">Pull job titles, companies, locations, salaries, employment types, seniority levels, applicant counts, and full descriptions from LinkedIn Jobs. No LinkedIn account needed. Four input modes cover keyword search, pasted URLs, and still-alive monitoring. Pricing starts at $0.001 per listing.</p>
+    <p class="lead">Pull job titles, companies, locations, salaries, employment types, seniority levels, applicant counts, and full descriptions from LinkedIn Jobs (the last three with job details switched on). No LinkedIn account needed. Four input modes cover keyword search, pasted URLs, and still-alive monitoring. Pricing starts at $0.001 per listing.</p>
 
     <figure>
       <img src="assets/01-linkedin-scraper-dataset-table.png" alt="Apify dataset table showing LinkedIn job listings with columns for job title, company, location, employment type, seniority level, and posted date" loading="lazy" width="3200" height="1842">
@@ -377,10 +377,10 @@
     <div class="callout"><strong>What the actor does not return:</strong> private LinkedIn data (direct messages, connection requests, InMail allowances) and any content behind a login wall. The public job search page is the data source.</div>
 
     <h2 id="four-modes">Four input modes</h2>
-    <p>Pick the mode that matches your workflow. All four modes produce the same output fields.</p>
+    <p>Pick the mode that matches your workflow. All four modes use the same output schema. Fields that need the job detail page (full description, seniority, industry, hiring manager) are only filled when <code class="code-inline">includeJobDetails</code> is on.</p>
     <ul>
         <li><strong>Keyword search (default)</strong> - provide <code class="code-inline">searchQueries</code> and an optional <code class="code-inline">location</code>. Best for discovering jobs you want to monitor over time.</li>
-        <li><strong>SERP-only bulk mode</strong> - set <code class="code-inline">includeJobDetails: false</code> to skip the per-job detail fetch. Returns title, company, location, and posted date at roughly 3x the speed. Best for large market scans.</li>
+        <li><strong>SERP-only bulk mode</strong> - leave <code class="code-inline">includeJobDetails</code> off (it is off by default) to skip the per-job detail fetch. Returns the search-result fields (title, company, location, posted date) and is roughly 2 to 4 times faster. Best for large market scans.</li>
         <li><strong>Start URLs</strong> - paste a LinkedIn job search URL from your browser directly into <code class="code-inline">startUrls</code>. Useful when you want to replicate a filtered search you set up manually.</li>
         <li><strong>Direct URLs</strong> - pass specific LinkedIn job URLs in <code class="code-inline">directUrls</code> to check if those listings are still live. Perfect for verifying jobs already stored in your database.</li>
       </ul>
@@ -428,9 +428,9 @@
         <li><code class="code-inline">jobType</code>: <code class="code-inline">full-time</code>, <code class="code-inline">part-time</code>, <code class="code-inline">contract</code>, <code class="code-inline">temporary</code>, or <code class="code-inline">internship</code>.</li>
         <li><code class="code-inline">experienceLevel</code>: <code class="code-inline">entry</code>, <code class="code-inline">associate</code>, <code class="code-inline">mid-senior</code>, <code class="code-inline">director</code>, or <code class="code-inline">executive</code>.</li>
         <li><code class="code-inline">remoteFilter</code>: <code class="code-inline">remote</code>, <code class="code-inline">hybrid</code>, or <code class="code-inline">on-site</code>.</li>
-        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 990 with city expansion).</li>
-        <li><code class="code-inline">includeJobDetails</code>: set to <code class="code-inline">false</code> for SERP-only bulk mode (title, company, location only, but 3x faster).</li>
-        <li><code class="code-inline">easyApply</code>: set to <code class="code-inline">true</code> to return only LinkedIn Easy Apply listings.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 100).</li>
+        <li><code class="code-inline">includeJobDetails</code>: off by default (SERP-only bulk mode, roughly 2 to 4 times faster). Set to <code class="code-inline">true</code> to fetch each job's detail page for the full description, seniority, industry, and hiring manager. The example above turns it on.</li>
+        <li><code class="code-inline">easyApplyOnly</code>: set to <code class="code-inline">true</code> to return only LinkedIn Easy Apply listings.</li>
       </ul>
       <h3>Bulk mode for large market scans</h3>
       <p>If you need thousands of listings fast and only need title, company, location, and posted date, skip the per-job detail fetch:</p>
@@ -441,8 +441,8 @@
   "maxResultsPerQuery": 500
 }</code></pre></div>
       <figure>
-      <img src="assets/03-linkedin-scraper-input-json.png" alt="Apify Console Input tab showing the JSON editor with searchQueries, location, datePosted, and jobType fields configured for LinkedIn job scraping" loading="lazy" width="3200" height="1842">
-      <figcaption>Paste your search configuration in JSON editor mode. At minimum, set searchQueries and location.</figcaption>
+      <img src="assets/03-linkedin-scraper-input-json.png" alt="Apify Console Input tab in JSON editor mode for the LinkedIn Jobs Scraper" loading="lazy" width="3200" height="1842">
+      <figcaption>The Input tab in JSON editor mode. At minimum, set searchQueries and location.</figcaption>
     </figure>
       <div class="callout tip"><strong>Paste a LinkedIn search URL instead.</strong> Open LinkedIn Jobs, apply your filters manually, then copy the URL from your browser. Paste it into <code class="code-inline">startUrls</code> and set <code class="code-inline">maxResultsPerQuery</code> to cap results. The actor paginates from your exact filter setup.</div>
     </div>
@@ -450,7 +450,7 @@
     <div class="step" id="step-3">
       <span class="step-number">STEP 3</span>
       <h2>Run the actor</h2>
-      <p>Click <strong>Start</strong> at the top right. The run log shows each query as it processes. In default detail mode, the actor fetches each job's detail page in turn, so expect about one to two jobs per second. A search returning 100 jobs typically finishes in under three minutes.</p>
+      <p>Click <strong>Start</strong> at the top right. The run log shows each query as it processes. With <code class="code-inline">includeJobDetails</code> on, the actor fetches each job's detail page, so runs take longer than in SERP-only mode.</p>
       <figure>
       <img src="assets/04-linkedin-scraper-run-log.png" alt="Apify Console run log for the LinkedIn Jobs Scraper showing job titles being processed with a running item count" loading="lazy" width="3200" height="1842">
       <figcaption>The live run log. Each job appears as it resolves, with a running item count at the top.</figcaption>
@@ -466,7 +466,7 @@
       <ul>
         <li><strong>Google Sheets:</strong> click <strong>Integrations</strong> below the run log, choose Google Sheets, and authorize once. Future runs on this actor will append new rows automatically.</li>
         <li><strong>Airtable / Notion / Postgres:</strong> same flow via the matching integration tile.</li>
-        <li><strong>Webhook:</strong> open <strong>Integrations &rsaquo; Add Integration &rsaquo; Webhook</strong> and paste your endpoint. Apify posts the full dataset payload when the run finishes.</li>
+        <li><strong>Webhook:</strong> open <strong>Integrations &rsaquo; Add Integration &rsaquo; Webhook</strong> and paste your endpoint. Apify calls it when the run finishes, and you fetch the results from the run's dataset.</li>
         <li><strong>n8n / Make / Zapier:</strong> call the actor from an HTTP Request node and retrieve results from the dataset endpoint. See the <a href="#n8n-automation">n8n section</a> below for a step-by-step walkthrough.</li>
       </ul>
     </div>
@@ -491,7 +491,7 @@
   "includeJobDetails": true
 }</code></pre></div>
     <p>This workflow runs daily, pulls remote engineering roles posted in the last 24 hours across Germany, and writes new listings to a Google Sheet. At $0.001 per listing, pulling 100 listings per day costs about $3 per month.</p>
-    <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> has a free trial and includes the Apify node pre-installed. On self-hosted or n8n Desktop, install it from <strong>Settings &rsaquo; Community Nodes</strong> with package name <code class="code-inline">@apify/n8n-nodes-apify</code>.</div>
+    <div class="callout tip"><strong>New to n8n?</strong> <a target="_blank" rel="noopener sponsored" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Cloud</a> offers a free trial; search for the Apify node when you add a step.</div>
 
     <h2 id="use-cases">Common use cases</h2>
     <h3>Recruitment and candidate sourcing</h3>
@@ -507,16 +507,16 @@
 
     <h2 id="cost">What it costs</h2>
     <ul>
-        <li><strong>Actor start:</strong> $0.001 per run (one-time flat fee, regardless of results count).</li>
+        <li><strong>Actor start:</strong> $0.001 per GB of memory at start (minimum one event), regardless of results count.</li>
         <li><strong>Per job listing:</strong> $0.001 per result. That is $1 per 1,000 listings.</li>
         <li><strong>No monthly fees. No minimum spend.</strong></li>
       </ul>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">100 listings (SERP only)         = $0.101  ($0.001 start + $0.100)
-100 listings (with full details) = $0.101  (same -- price per result is the same regardless of mode)
+100 listings (with full details) = $0.101  (same: price per result is the same regardless of mode)
 1,000 listings                   = $1.001  ($0.001 + $1.000)
-Daily monitor, 100 listings/day  ~ $3.10/month</code></pre></div>
+Daily monitor, 100 listings/day  ~ $3.03/month (30 runs x $0.101)</code></pre></div>
     <p>The Apify free tier includes $5 of usage credit each month, which covers about 4,999 job listings before you pay anything.</p>
-    <div class="callout"><strong>Company enrichment cost note:</strong> enabling <code class="code-inline">includeCompanyDetails: true</code> adds one extra HTTP request per unique company in the result set. For a 100-job run with 80 distinct employers, that adds roughly 80 seconds to the runtime and a small amount of additional compute cost shown in the Apify Console breakdown.</div>
+    <div class="callout"><strong>Company enrichment cost note:</strong> enabling <code class="code-inline">includeCompanyDetails: true</code> adds one extra HTTP request per unique company in the result set. It requires <code class="code-inline">includeJobDetails</code> to be on as well, and it makes runs slower.</div>
 
     <h2 id="faq">FAQ</h2>
     <div class="faq">
@@ -534,11 +534,11 @@ Daily monitor, 100 listings/day  ~ $3.10/month</code></pre></div>
       </details>
       <details>
         <summary>Is salary data always available?</summary>
-        <p>Salary is only shown when LinkedIn publicly displays it on the listing, which depends on the employer. It is much more common in US listings than EU ones. The actor returns <code>salary_min</code>, <code>salary_max</code>, <code>salary_currency</code>, and <code>salary_period</code> when the data is present, and leaves them null when it is not.</p>
+        <p>Salary is only shown when LinkedIn publicly displays it on the listing, which depends on the employer and country. It is more common in US listings than EU ones. The actor returns <code>salary_min</code>, <code>salary_max</code>, <code>salary_currency</code>, and <code>salary_period</code> when the data is present, and leaves them null when it is not.</p>
       </details>
       <details>
         <summary>What is the difference between SERP-only and full detail mode?</summary>
-        <p>Full detail mode (the default, with <code>includeJobDetails: true</code>) fetches each job's detail page to collect the full description, employment type, seniority, applicant count, hiring manager, and more. SERP-only mode (<code>includeJobDetails: false</code>) skips that detail fetch and returns only what appears on the search results page: title, company, location, logo, and posted date. SERP-only runs roughly 3x faster and is ideal for large market scans where you only need the basics.</p>
+        <p>Full detail mode (<code>includeJobDetails: true</code>; the default is off) fetches each job's detail page to collect the full description, employment type, seniority, applicant count, hiring manager, and more. SERP-only mode (<code>includeJobDetails: false</code>, the default) skips that detail fetch and returns only what appears on the search results page: title, company, location, logo, and posted date. SERP-only runs roughly 2 to 4 times faster and is ideal for large market scans where you only need the basics.</p>
       </details>
       <details>
         <summary>Can I use this to monitor specific company job pages?</summary>
@@ -546,7 +546,7 @@ Daily monitor, 100 listings/day  ~ $3.10/month</code></pre></div>
       </details>
       <details>
         <summary>Is scraping LinkedIn legal?</summary>
-        <p>The actor only accesses data publicly visible on LinkedIn's job search without logging in. The <em>hiQ Labs v. LinkedIn</em> ruling in the US established that scraping publicly available data is not a violation of the Computer Fraud and Abuse Act. LinkedIn's Terms of Service restrict automated access, so you are responsible for your own use case. Consult a lawyer for jurisdiction-specific compliance questions.</p>
+        <p>The actor only accesses data publicly visible on LinkedIn's job search without logging in. LinkedIn's Terms of Service restrict automated access, so check your own use case and jurisdiction, and consult a lawyer if you are unsure.</p>
       </details>
     </div>
 

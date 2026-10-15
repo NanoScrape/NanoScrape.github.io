@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Turn Google News into an RSS Feed (2026 Guide) | NanoScrape</title>
-  <meta name="description" content="Step-by-step guide to scraping Google News articles by keyword and converting them into structured data you can use like an RSS feed. Runs on Apify, costs $0.001 per article, no subscription needed.">
+  <meta name="description" content="Scrape Google News articles by keyword into structured data you can use like an RSS feed. Runs on Apify at $0.001 per article, no subscription.">
   <meta name="primary-keyword" content="google news to rss">
-  <meta name="robots" content="noindex, nofollow">
   <meta property="og:title" content="How to Turn Google News into an RSS Feed | NanoScrape">
-  <meta property="og:description" content="Google removed its News RSS feeds years ago. This guide shows how to replace them with a structured keyword scraper that returns titles, sources, publication dates, and article links at $0.001 per result.">
+  <meta property="og:description" content="Google News has no simple keyword feed button. This guide shows how to get the same result with a structured keyword scraper that returns titles, sources, publication dates, and article links at $0.001 per result.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/">
@@ -29,7 +32,7 @@
   "@context": "https://schema.org",
   "@type": "HowTo",
   "name": "How to Turn Google News into an RSS Feed",
-  "description": "Use the NanoScrape Google News Scraper on Apify to pull structured article data for any search query, replacing the old Google News RSS feeds that were discontinued. Returns titles, sources, publication dates, and direct article links.",
+  "description": "Use the NanoScrape Google News Scraper on Apify to pull structured article data for any search query, giving you a keyword-based news feed as structured data. Returns titles, sources, publication dates, and direct article links.",
   "totalTime": "PT8M",
   "estimatedCost": {
     "@type": "MonetaryAmount",
@@ -91,7 +94,7 @@
   "@context": "https://schema.org",
   "@type": "Article",
   "headline": "How to Turn Google News into an RSS Feed",
-  "description": "A complete guide to replacing Google News RSS feeds with the NanoScrape Google News Scraper: keyword setup, scheduling for regular pulls, language and country targeting, and exporting structured article data.",
+  "description": "A complete guide to building a keyword news feed with the NanoScrape Google News Scraper: keyword setup, scheduling for regular pulls, language and country targeting, and exporting structured article data.",
   "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
   "author": {
     "@type": "Organization",
@@ -107,8 +110,8 @@
       "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
     }
   },
-  "datePublished": "2026-08-11",
-  "dateModified": "2026-08-11",
+  "datePublished": "2026-10-15",
+  "dateModified": "2026-10-15",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-news-scraper-rss-feed/"
 }
   </script>
@@ -123,7 +126,7 @@
       "name": "Does Google News still have RSS feeds?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Google removed publicly shareable News RSS feeds from its interface. The RSS endpoint still works internally, but there is no simple subscribe button to get a personal feed URL. This actor fetches the feed on your behalf for any keyword."
+        "text": "Google News offers no simple subscribe button for a keyword feed. The actor reads the Google News RSS search endpoint for any keyword you specify and returns structured data."
       }
     },
     {
@@ -139,7 +142,7 @@
       "name": "How recent are the articles?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Google News RSS typically returns articles from the last 30 to 90 days, most recent first. For breaking news topics, articles from the past few hours appear quickly."
+        "text": "The date range depends on Google News coverage for the keyword. Use the published_at field to filter to the period you need."
       }
     },
     {
@@ -293,9 +296,6 @@
   </style>
 </head>
 <body>
-  <div class="draft-banner">
-    DRAFT tutorial. Not indexed by search engines. Not yet listed on the tutorials hub. Review + iterate in the Claude Code session, then merge the "Publish tutorial" PR to make it public.
-  </div>
 
   <div id="site-header"></div>
 
@@ -303,11 +303,11 @@
     <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google News to RSS Feed</nav>
 
     <h1>How to Turn Google News into an RSS Feed</h1>
-    <p class="lead">Google killed its News RSS feeds in 2014 and never brought them back. If you relied on those feeds to monitor topics, competitors, or brand mentions, you were left with manual checks or expensive media monitoring subscriptions. The NanoScrape Google News Scraper on Apify gives you a direct replacement: you give it a list of keywords, it pulls the Google News results for each one, and you get back a structured dataset with titles, sources, publication dates, and article URLs. Schedule it to run daily and you have a keyword news feed at $0.001 per article, with no monthly subscription.</p>
+    <p class="lead">Google News has no simple button for a keyword news feed you can pull into your own tools. If you want to monitor topics, competitors, or brand mentions, you are left with manual checks or paid media monitoring subscriptions. The NanoScrape Google News Scraper on Apify gives you a direct replacement: you give it a list of keywords, it pulls the Google News results for each one, and you get back a structured dataset with titles, sources, publication dates, and article URLs. Schedule it to run daily and you have a keyword news feed at $0.001 per article, with no monthly subscription.</p>
 
     <figure>
       <img src="assets/01-google-news-scraper-rss-feed-dataset-table.png" alt="Apify dataset table showing Google News articles returned by the Google News Scraper with columns for title, source, publication date, and URL" loading="lazy" width="3200" height="2000">
-      <figcaption>The dataset output: one row per article with title, source, publisher URL, publication date, and the Google News article link.</figcaption>
+      <figcaption>The dataset output (a run with 5 results): one row per article with title, source, publisher URL, publication date, and the Google News article link.</figcaption>
     </figure>
 
     <div class="meta-row">
@@ -375,8 +375,8 @@
       <h2>Open the Google News Scraper</h2>
       <p>After signing in you are on the actor page. The <strong>Information</strong> tab shows the pricing, all input parameters, and example output. The <strong>Input</strong> tab is where you enter your keyword list.</p>
       <figure>
-      <img src="assets/02-google-news-scraper-rss-feed-actor-information-tab.png" alt="Apify Console showing the NanoScrape Google News Scraper actor information tab with pricing and description" loading="lazy" width="3200" height="2000">
-      <figcaption>The actor's Information tab: pricing per article, description of all output fields, and a quick-start summary.</figcaption>
+      <img src="assets/02-google-news-scraper-rss-feed-actor-information-tab.png" alt="Apify Console showing the NanoScrape Google News Scraper Info tab with the price in the header and the list of output fields" loading="lazy" width="3200" height="2000">
+      <figcaption>The actor's Information tab: the price per article in the header, the output field list, and MCP usage.</figcaption>
     </figure>
     </div>
 
@@ -404,10 +404,10 @@
         <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 50, max approximately 100). Google News RSS returns up to about 100 articles per query.</li>
       </ul>
       <figure>
-      <img src="assets/03-google-news-scraper-rss-feed-input-form.png" alt="Apify Console Google News Scraper input form with search queries field showing three brand monitoring keywords" loading="lazy" width="3200" height="2000">
-      <figcaption>The Input tab with a keyword list for brand and topic monitoring. Each keyword produces results as separate rows in the dataset.</figcaption>
+      <img src="assets/03-google-news-scraper-rss-feed-input-form.png" alt="Apify Console Google News Scraper input form with one search query, language en, country US and result limits of 50" loading="lazy" width="3200" height="2000">
+      <figcaption>The Input form with one example keyword ("artificial intelligence"). Add as many keywords as you like; each one is searched separately.</figcaption>
     </figure>
-      <div class="callout tip">Start with 3 to 5 keywords for your first test. A run with 5 keywords at 50 articles each completes in about 30 seconds and uses only $0.005 to $0.25 in credits, depending on how many articles Google returns.</div>
+      <div class="callout tip">Start with 3 to 5 keywords for your first test. A run with 5 keywords at 50 articles each costs at most $0.251 ($0.001 start plus 250 articles at $0.001), and less if Google returns fewer articles.</div>
     </div>
 
     <div class="step" id="step-4">
@@ -421,7 +421,7 @@
       </ol>
       <figure>
       <img src="assets/04-google-news-scraper-rss-feed-run-log.png" alt="Apify run log for the Google News Scraper showing articles being collected with status SUCCEEDED" loading="lazy" width="3200" height="2000">
-      <figcaption>The run log. The status bar updates with the article count as the run progresses.</figcaption>
+      <figcaption>The run log: the actor fetches the Google News RSS search feed for each keyword and pushes the articles to the dataset.</figcaption>
     </figure>
       <p>Each row in the dataset is one article. To process the results programmatically, download as JSON and filter by date to show only articles from the last 24 hours:</p>
       <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">const articles = require('./dataset.json');
@@ -512,8 +512,9 @@ curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-news-scrape
       </ul>
 
     <h2 id="cost">What it costs</h2>
-    <p>The actor charges per article returned, not per run or per keyword.</p>
+    <p>The actor charges per article returned, plus a small flat start fee per run.</p>
     <ul>
+        <li><strong>Actor start</strong>: $0.001 per run (one event per GB of memory, minimum one).</li>
         <li><strong>Per news article</strong>: $0.001 per result ($1.00 per 1,000 articles).</li>
       </ul>
     <p>The Apify free tier gives $5 of monthly credit. At $0.001 per article that covers 5,000 articles at no cost. For a daily news feed covering 10 topics at 50 articles each, you pull about 500 articles per day (15,000/month), which costs about $15/month at full scale. Most users stay well within the free tier in testing.</p>
@@ -523,15 +524,15 @@ curl -s "https://api.apify.com/v2/acts/santamaria-automations~google-news-scrape
     <div class="faq">
       <details>
         <summary>Does Google News still have RSS feeds?</summary>
-        <p>Google removed publicly shareable News RSS feeds from its interface years ago. The RSS endpoint still works internally (the actor uses it), but there is no longer a simple "subscribe" button in Google News to get a personal feed URL. This actor fetches the feed on your behalf for any keyword you specify.</p>
+        <p>Google News offers no simple "subscribe" button for a keyword feed. The actor reads the Google News RSS search endpoint on your behalf for any keyword you specify and returns the articles as a structured dataset.</p>
       </details>
       <details>
         <summary>How many articles can I get per keyword?</summary>
-        <p>Google News RSS returns up to approximately 100 articles per search query. Set <code class="code-inline">maxResultsPerQuery: 100</code> to pull the maximum. In practice the number varies by keyword: broad topics return close to 100 while niche topics may return 10 to 30.</p>
+        <p>Google News RSS returns up to approximately 100 articles per search query. Set <code class="code-inline">maxResultsPerQuery: 100</code> to pull the maximum. The number varies by keyword; niche topics return fewer.</p>
       </details>
       <details>
         <summary>How recent are the articles?</summary>
-        <p>Google News RSS typically returns articles published in the last 30 to 90 days, with the most recent articles listed first. The exact date range depends on how much coverage Google News has for the keyword. For breaking news topics, articles from the last few hours appear quickly.</p>
+        <p>The date range depends on how much coverage Google News has for the keyword. Each row carries a published_at timestamp, so you can filter to the last 24 hours in your own code (see the snippet in Step 4).</p>
       </details>
       <details>
         <summary>Can I get the full article text?</summary>
