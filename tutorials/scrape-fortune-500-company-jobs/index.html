@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>How to Scrape Every Fortune 500 Job Listing (2026 Playbook) | NanoScrape</title>
-  <meta name="description" content="Extract jobs from all 500 Fortune 500 companies. 285 use supported ATS (Workday, Phenom, Oracle, iCIMS, +18 more), 103 need LLM extraction, 101 need browser rendering, 11 need custom builds. Full list + one-click scraper links.">
+  <meta name="description" content="Extract jobs from all 500 Fortune 500 companies. 285 use supported ATS (Workday, Phenom, Oracle, iCIMS and more), 103 need LLM extraction, 101 need browser rendering, 11 need custom builds. Full list + one-click scraper links.">
   <meta name="primary-keyword" content="scrape fortune 500 jobs">
   <meta property="og:title" content="Scrape All Fortune 500 Job Listings - Full Playbook">
   <meta property="og:description" content="285/500 F500 careers pages use one of 22 supported ATS. 103 more work with LLM extraction. Complete playbook + interactive list + honest cost math.">
@@ -114,7 +114,7 @@
     }
   },
   "datePublished": "2026-09-01",
-  "dateModified": "2026-09-13",
+  "dateModified": "2026-10-15",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-fortune-500-company-jobs/"
 }
   </script>
@@ -349,7 +349,7 @@
     </div>
 
     <h2 id="at-a-glance">Fortune 500 ATS distribution at a glance</h2>
-    <p><em>By the NanoScrape team · Published 2026-09-01 · Updated 2026-09-01</em></p>
+    <p><em>By the NanoScrape team · Published 2026-09-01 · Updated 2026-10-15</em></p>
     <p>Which Applicant Tracking Systems dominate the Fortune 500 today? Here's the full distribution across all 500 companies, color-coded by which NanoScrape scraper handles that ATS. Workday accounts for about 23% of the F500 careers pages.</p>
     <figure>
       <img src="assets/f500-ats-chart.svg" alt="Horizontal bar chart of the Fortune 500 Applicant Tracking System distribution. Workday leads with 118 companies, followed by custom in-house sites at 103, pending browser-check at 50, Phenom at 41, and 18 more ATS platforms tapering to 1 company each. Bars color-coded by NanoScrape scraper tier." loading="lazy" width="900" height="746">
@@ -433,7 +433,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
     <div class="step" id="tier-1-ats">
       <span class="step-number">STEP 1</span>
       <h2>Tier 1: ATS-native scraping (covers 57% of the F500)</h2>
-      <p>The <a target="_blank" rel="sponsored noopener" href="/actors/career-site-jobs-scraper/">NanoScrape Career Site Jobs Scraper</a> talks to 24 ATS platforms directly through their public JSON APIs. It's fast (HTTP-only, no browser), cheap ($1 per 1,000 jobs), and returns structured data with consistent field names within this actor.</p>
+      <p>The <a target="_blank" rel="sponsored noopener" href="/actors/career-site-jobs-scraper/">NanoScrape Career Site Jobs Scraper</a> talks to 40 ATS platforms directly through their public JSON APIs. It's fast (HTTP-only, no browser), cheap ($1 per 1,000 jobs), and returns structured data with consistent field names within this actor.</p>
       <h3>Sample input: 8 F500 companies across 8 ATS platforms</h3>
       <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   "queries": [
@@ -482,7 +482,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   "scraped_at": "2026-09-01T13:20:20Z"
 }</code></pre></div>
       <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> The example above is real output from a run with the exact input shown in this section, capped at 5 jobs per company. A few field-shape notes: <code class="code-inline">company</code> is the lowercase URL slug (not the full display name); <code class="code-inline">created_at</code> for Workday is a human-readable string like "Posted Today" or "Posted 5 Days Ago" (not ISO); <code class="code-inline">description</code> is <code class="code-inline">null</code> when <code class="code-inline">includeDescription: false</code>. Real charge was $0.006 for 5 job results + $0.001 start.</div>
-      <div class="callout tip"><strong>Batch tip.</strong> The actor accepts up to 500 URLs per run and processes them in parallel. A single run against 200 F500 Workday deployments returning ~150K jobs typically finishes in under 25 minutes and costs about $150 total ($0.001 start + $150 for jobs).</div>
+      <div class="callout tip"><strong>Batch tip.</strong> Put all your career-site URLs into one run. You pay per job returned: $0.001 per job plus $0.001 per run start, so a run that returns 10,000 jobs costs about $10. Set <code class="code-inline">maxJobsPerCompany</code> to cap the cost of a first test run.</div>
       <h3>F500 companies you can scrape today with this actor</h3>
       <ul>
         <li><strong>Workday (118):</strong> NVIDIA, Centene, Verizon, Marathon Petroleum, Target, Bank of America, Johnson &amp; Johnson, Allstate, Salesforce, Truist, PNC, Fifth Third Bancorp, and 106 more.</li>

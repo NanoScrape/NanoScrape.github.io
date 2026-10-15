@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Stellenanzeigen von Karriereseiten extrahieren | NanoScrape</title>
+ <meta name="description" content="Stellenanzeigen von Firmen-Karriereseiten extrahieren: ATS-Erkennung, strukturierte Daten per API. Ab $4 pro 1.000 Jobs, ohne Abo, auf Apify.">
+ <meta property="og:title" content="Website Job Extractor: Stellenanzeigen von Karriereseiten | NanoScrape">
+ <meta property="og:description" content="Stellenanzeigen direkt von Firmenwebsites und Karriereseiten extrahieren, mit automatischer ATS-Erkennung. Ab $4 pro 1.000 Jobs.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/website-job-extractor/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:locale" content="de_DE">
+ <meta property="og:image" content="https://www.nanoscrape.com/og/og-actors.png">
+ <meta property="og:image:width" content="1200">
+ <meta property="og:image:height" content="630">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="Website Job Extractor: Stellenanzeigen von Karriereseiten | NanoScrape">
+ <meta name="twitter:description" content="Stellenanzeigen direkt von Firmenwebsites und Karriereseiten extrahieren, mit automatischer ATS-Erkennung. Ab $4 pro 1.000 Jobs.">
+ <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-actors.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/website-job-extractor/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/website-job-extractor/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/website-job-extractor/de/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/website-job-extractor/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+ <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "SoftwareApplication",
+   "@id": "https://www.nanoscrape.com/actors/website-job-extractor/de/#app",
+   "name": "Website Job Extractor",
+   "description": "KI-gestützte Extraktion von Stellenanzeigen direkt von Firmenwebsites und Karriereseiten, mit automatischer ATS-Erkennung, Pagination und Validierung.",
+   "applicationCategory": "DeveloperApplication",
+   "applicationSubCategory": "Web Scraping",
+   "operatingSystem": "Apify Cloud",
+   "inLanguage": "de",
+   "installUrl": "https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz",
+   "url": "https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz",
+   "offers": [
+    {
+     "@type": "Offer",
+     "name": "Job extrahiert (eigener LLM-Key)",
+     "priceCurrency": "USD",
+     "price": "0.004",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "0.004",
+      "priceCurrency": "USD",
+      "unitText": "pro Job"
+     }
+    },
+    {
+     "@type": "Offer",
+     "name": "Job extrahiert (Managed LLM)",
+     "priceCurrency": "USD",
+     "price": "0.012",
+     "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": "0.012",
+      "priceCurrency": "USD",
+      "unitText": "pro Job"
+     }
+    }
+   ],
+   "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+   }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "@id": "https://www.nanoscrape.com/actors/website-job-extractor/de/#breadcrumb",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "NanoScrape",
+     "item": "https://www.nanoscrape.com/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Actors",
+     "item": "https://www.nanoscrape.com/actors/"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Website Job Extractor"
+    }
+   ]
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://www.nanoscrape.com/actors/website-job-extractor/de/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Was kostet der Website Job Extractor?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen und $0,00005 pro Actor-Start. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Brauche ich einen eigenen LLM-API-Key?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Nein. Lassen Sie die Key-Felder leer, dann nutzt der Actor ein verwaltetes OpenRouter-Modell (Managed-LLM-Modus). Wenn Sie lieber einen eigenen Key von Gemini, Groq oder OpenRouter verwenden, zahlen Sie nur den günstigeren Preis pro Job."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Welche Daten liefert der Actor?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Pro Job unter anderem Titel, Beschreibung, Standort, Beschäftigungsart, Abteilung, Veröffentlichungsdatum, Job- und Bewerbungs-URL sowie das erkannte ATS-System. Mit der Option includeJobDetails kommen Gehalt, Pensum, Ansprechperson, Bewerbungsfrist, Sprachen und weitere Detailfelder hinzu, soweit sie in der Anzeige stehen."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Wie finde ich die Karriereseite eines Unternehmens?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Sie müssen sie nicht kennen. Übergeben Sie nur die Firmenwebsite (website_url). Der Actor sucht die Karriereseite über die Navigation der Startseite und gängige Subdomains wie jobs.domain.ch oder karriere.domain.ch. Kennen Sie die Karriere-URL bereits, übergeben Sie sie direkt als career_urls."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Ist das Scrapen von Karriereseiten erlaubt?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Öffentlich zugängliche Stellenanzeigen dürfen in den meisten Rechtsordnungen ausgelesen werden. Enthält eine Anzeige personenbezogene Daten (etwa eine Ansprechperson), gilt die DSGVO. Prüfen Sie die Rechtslage für Ihren Einsatzzweck und lassen Sie sich bei kommerzieller Nutzung rechtlich beraten."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Wie aktuell sind die Daten?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Jeder Lauf liest die Karriereseiten live zum Zeitpunkt der Ausführung. Mit einem Zeitplan in der Apify-Konsole (täglich, stündlich oder per Cron) halten Sie Ihren Datensatz automatisch aktuell."
+     }
+    }
+   ]
+  }
+ ]
+}
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+ 
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+
+ .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+ .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+ .faq details p { margin-top: 10px; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+ .detail p { margin-bottom: 16px; } .detail ol { padding-left: 20px; margin-bottom: 24px; } .detail ol li { color: var(--muted); }
+
+        /* phone width: wide tables scroll inside their own box, not the page */
+        @media (max-width: 760px){.compare-table{display:block;max-width:100%;overflow-x:auto}}
+    </style>
+</head>
+<body>
+
+ <div id="site-header"></div>
+
+ <div class="detail">
+ <h1>Stellenanzeigen von Karriereseiten extrahieren — Website Job Extractor</h1>
+ <p class="lead">Der Website Job Extractor liest offene Stellen direkt von Firmenwebsites und Karriereseiten aus und liefert sie als strukturierte Daten. Sie übergeben nur die Website eines Unternehmens: Der Actor findet die Karriereseite, erkennt das eingesetzte Bewerbermanagementsystem (ATS), blättert durch die Joblisten und gibt saubere Datensätze zurück. So sehen Sie Einstellungssignale, noch bevor eine Stelle auf großen Jobbörsen erscheint.</p>
+
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=a-website-job-extractor-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qzJqttU80OcxkcWZv/source?addFromActorId=qzJqttU80OcxkcWZv&fpr=0khfbz&fp_sid=a-website-job-extractor-de" class="btn-secondary">Jetzt testen</a>
+ </div>
+
+ <div class="specs">
+ <div class="spec"><div class="label">Eigener LLM-Key</div><div class="value">$4 pro 1.000 Jobs</div></div>
+ <div class="spec"><div class="label">Managed LLM</div><div class="value">$12 pro 1.000 Jobs</div></div>
+ <div class="spec"><div class="label">Pro Unternehmen</div><div class="value">$0,01</div></div>
+ <div class="spec"><div class="label">Actor-Start</div><div class="value">$0,00005</div></div>
+ <div class="spec"><div class="label">Ausführung</div><div class="value">HTTP-only, 256 MB</div></div>
+ <div class="spec"><div class="label">Abdeckung</div><div class="value">Weltweit, 7 Sprachen</div></div>
+ </div>
+
+ <h2 class="section-title">Was Sie extrahieren können</h2>
+ <ul>
+ <li><strong>Automatische Karriereseiten-Suche</strong> — es genügt die Firmenwebsite (<code>website_url</code>); der Actor findet Karriereseiten über die Navigation und Subdomains wie jobs.domain.ch oder karriere.domain.ch</li>
+ <li><strong>ATS-Erkennung</strong> — erkennt gängige Bewerbermanagementsysteme (u. a. Personio, Greenhouse, Softgarden, Lever, BambooHR) und folgt den Links zu eingebetteten Portalen</li>
+ <li><strong>Strukturierte Stellendaten</strong> — Titel, Beschreibung, Standort, Beschäftigungsart, Abteilung, Veröffentlichungsdatum, Job- und Bewerbungs-URL</li>
+ <li><strong>Detailfelder (optional)</strong> — mit <code>includeJobDetails</code> zusätzlich Anzeigentext als Markdown, Gehalt, Pensum, Ansprechperson, Bewerbungsfrist, Sprachen und Referenznummer</li>
+ <li><strong>Filter</strong> — nach <code>keywords</code> im Titel, <code>location</code> und <code>postedWithinDays</code>; Filter greifen vor dem Limit und vor der Abrechnung</li>
+ <li><strong>Anti-Halluzinations-Pipeline</strong> — erkennt &bdquo;keine offenen Stellen&ldquo;-Hinweise vor dem LLM-Aufruf und validiert jede extrahierte Stelle mit einem Konfidenzwert</li>
+ <li><strong>Ausgabesprache</strong> — <code>outputLanguage</code> mit en, de, fr, it, es, pt, nl oder auto (Sprache der Website)</li>
+ </ul>
+
+ <h2 class="section-title">Typische Anwendungsfälle</h2>
+ <ul>
+ <li><strong>B2B-Vertrieb und Lead-Generierung</strong> — ein Unternehmen, das gerade mehrere Vertriebsstellen ausschreibt, ist ein aktuelles Kaufsignal für CRM-, HR-Tech- und Benefits-Anbieter</li>
+ <li><strong>Recruiting-Analytics</strong> — Einstellungstrends nach Branche oder Region beobachten, etwa zusammen mit einer Firmenliste aus dem Google Maps Scraper</li>
+ <li><strong>Nischen-Jobbörsen</strong> — Stellen aus Firmenkarriereseiten in ein eigenes Jobportal einspeisen; mit <code>skipAtsExtraction</code> übergeben Sie bekannte ATS-Portale an den Career Site Jobs Scraper</li>
+ <li><strong>Wettbewerbsbeobachtung</strong> — offene Stellen von Konkurrenten und deren Schwerpunkte regelmäßig auswerten</li>
+ <li><strong>Marktrecherche im DACH-Raum</strong> — Karriereseiten von Mittelständlern, Kliniken oder Behörden auslesen, die auf Jobbörsen kaum vertreten sind</li>
+ </ul>
+
+ <h2 class="section-title">Preise</h2>
+ <table class="compare-table">
+ <tr><th>Ereignis</th><th>Preis</th><th>Wann es anfällt</th></tr>
+ <tr><td>Job extrahiert (eigener LLM-Key)</td><td class="highlight">$0,004 ($4 pro 1.000 Jobs)</td><td>pro extrahiertem Job</td></tr>
+ <tr><td>Job extrahiert (Managed LLM)</td><td class="highlight">$0,012 ($12 pro 1.000 Jobs)</td><td>pro Job, wenn Sie keinen eigenen API-Key angeben</td></tr>
+ <tr><td>Unternehmen verarbeitet</td><td class="highlight">$0,01</td><td>pro Unternehmen, dessen Karriereseiten durchsucht werden</td></tr>
+ <tr><td>Actor-Start</td><td>$0,00005</td><td>einmal pro Lauf</td></tr>
+ </table>
+ <p>Beispielrechnung mit eigenem LLM-Key: 20 Unternehmen mit zusammen 400 Jobs kosten 400 &times; $0,004 + 20 &times; $0,01 = $1,80 plus $0,00005 Startgebühr. Im Managed-LLM-Modus gilt für die Jobs der Preis von $0,012 pro Job. Mit der Option <code>managedLlmBudgetUsd</code> begrenzen Sie die LLM-Ausgaben pro Lauf. Es gibt kein Monatsabo, Sie zahlen nur für das, was Sie extrahieren.</p>
+
+ <h2 class="section-title">Ausgabefelder</h2>
+ <p>Die Tabelle zeigt die wichtigsten Felder des Datensatzes. Ein Teil der Detailfelder ist nur mit <code>includeJobDetails</code> gefüllt und bleibt sonst <code>null</code>. Zusätzlich liefert der Actor pro Unternehmen eine Diagnosezeile (<code>_type: job_extraction_done</code>), die zeigt, wie viele Jobs gefunden wurden oder warum keine.</p>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beschreibung</th></tr>
+ <tr><td><code>company_id</code></td><td>string</td><td>Ihre eigene Firmenkennung aus dem Input</td></tr>
+ <tr><td><code>company_name</code></td><td>string</td><td>Firmenname aus dem Input</td></tr>
+ <tr><td><code>company_name_detected</code></td><td>string | null</td><td>Markenname, den die Seiten oder das Job-System des Unternehmens melden</td></tr>
+ <tr><td><code>company_name_source</code></td><td>string | null</td><td>Herkunft des erkannten Namens: json_ld_organization, ats_board, og_site_name oder title</td></tr>
+ <tr><td><code>title</code></td><td>string | null</td><td>Jobtitel</td></tr>
+ <tr><td><code>description</code></td><td>string | null</td><td>Stellenbeschreibung</td></tr>
+ <tr><td><code>description_md</code></td><td>string | null</td><td>Anzeigentext als Markdown von der Detailseite (nur mit includeJobDetails)</td></tr>
+ <tr><td><code>posting_format</code></td><td>string | null</td><td>Quelle von description_md: html oder pdf</td></tr>
+ <tr><td><code>full_text_url</code></td><td>string | null</td><td>Seite oder PDF, aus der die Detaildaten gelesen wurden</td></tr>
+ <tr><td><code>location</code></td><td>string | null</td><td>Standort der Stelle</td></tr>
+ <tr><td><code>city / region / country</code></td><td>string | null</td><td>Stadt, Region und Land (bei ATS-API-Zeilen)</td></tr>
+ <tr><td><code>postal_code / street_address</code></td><td>string | null</td><td>PLZ und Straße (aus JSON-LD, falls vorhanden)</td></tr>
+ <tr><td><code>remote</code></td><td>boolean | null</td><td>true bei Remote-Stellen (ATS-API-Zeilen)</td></tr>
+ <tr><td><code>remote_option</code></td><td>string | null</td><td>remote oder hybrid, wenn die Anzeige es nennt</td></tr>
+ <tr><td><code>workplace_type</code></td><td>string | null</td><td>Remote, Hybrid oder vor Ort</td></tr>
+ <tr><td><code>employment_type</code></td><td>string | null</td><td>Beschäftigungsart (z. B. Vollzeit, Teilzeit)</td></tr>
+ <tr><td><code>experience_level</code></td><td>string | null</td><td>Geforderte Erfahrungsstufe</td></tr>
+ <tr><td><code>department</code></td><td>string | null</td><td>Abteilung oder Team</td></tr>
+ <tr><td><code>requirements</code></td><td>array | null</td><td>Anforderungen</td></tr>
+ <tr><td><code>benefits</code></td><td>array | null</td><td>Benefits</td></tr>
+ <tr><td><code>skills</code></td><td>array | null</td><td>Kurze Skill-Liste aus JSON-LD</td></tr>
+ <tr><td><code>languages</code></td><td>array | null</td><td>Geforderte Sprachen (englische Namen)</td></tr>
+ <tr><td><code>workload_min / workload_max</code></td><td>number | null</td><td>Pensum in Prozent (80-100 % ergibt 80 und 100)</td></tr>
+ <tr><td><code>working_hours</code></td><td>string | null</td><td>Arbeitszeit als Text</td></tr>
+ <tr><td><code>salary_text / salary_range</code></td><td>string | null</td><td>Gehalt wie angegeben</td></tr>
+ <tr><td><code>salary_min / salary_max</code></td><td>number | null</td><td>Gehaltsgrenzen als Zahl</td></tr>
+ <tr><td><code>salary_currency / salary_period</code></td><td>string | null</td><td>Währung (ISO 4217) und Zeitraum: annual, monthly oder hourly</td></tr>
+ <tr><td><code>posted_at</code></td><td>string | null</td><td>Veröffentlichungsdatum</td></tr>
+ <tr><td><code>expires_at / application_deadline</code></td><td>string | null</td><td>Ablauf- bzw. Bewerbungsfrist (ISO-Datum)</td></tr>
+ <tr><td><code>contact_name / contact_email / contact_phone</code></td><td>string | null</td><td>Ansprechperson, E-Mail und Telefon, sofern in der Anzeige genannt</td></tr>
+ <tr><td><code>hiring_organization</code></td><td>string | null</td><td>Einstellende Organisation laut JSON-LD</td></tr>
+ <tr><td><code>reference_number</code></td><td>string | null</td><td>Eigene Referenznummer des Arbeitgebers</td></tr>
+ <tr><td><code>source_url</code></td><td>string</td><td>Karriereseite, auf der der Job gefunden wurde</td></tr>
+ <tr><td><code>job_url</code></td><td>string | null</td><td>URL der Job-Detailseite</td></tr>
+ <tr><td><code>job_id</code></td><td>string | null</td><td>Stabile Job-Kennung aus URL oder ATS-Daten</td></tr>
+ <tr><td><code>application_url / apply_url</code></td><td>string | null</td><td>Direkte Bewerbungs-URL</td></tr>
+ <tr><td><code>is_easy_apply</code></td><td>boolean | null</td><td>JSON-LD-Flag directApply</td></tr>
+ <tr><td><code>career_page_url</code></td><td>string | null</td><td>Karriereseite, bei der die Suche begann (Input oder automatisch gefunden)</td></tr>
+ <tr><td><code>ats_system</code></td><td>string | null</td><td>Erkanntes Job-System (z. B. onlyfy, pi-asp)</td></tr>
+ <tr><td><code>ats_url</code></td><td>string | null</td><td>Adresse der Jobliste des ATS</td></tr>
+ <tr><td><code>ats_supported_by_csj</code></td><td>boolean</td><td>true, wenn der career-site-jobs-Actor das System direkt lesen kann</td></tr>
+ <tr><td><code>application_ats / ats_tenant</code></td><td>string | null</td><td>ATS hinter der Bewerbungs-URL bzw. Mandant der Quelle</td></tr>
+ <tr><td><code>extraction_method</code></td><td>string | null</td><td>Wie die Zeile entstand, z. B. ats_api, sitemap_jsonld oder llm</td></tr>
+ <tr><td><code>confidence</code></td><td>number | null</td><td>Extraktions-Konfidenz (0-1)</td></tr>
+ <tr><td><code>relevance</code></td><td>string | null</td><td>Relevanz zu den Keywords (high, medium, low)</td></tr>
+ <tr><td><code>extracted_at</code></td><td>string</td><td>Zeitstempel der Extraktion (ISO)</td></tr>
+ <tr><td><code>_type</code></td><td>string | null</td><td>Diagnosezeile: job_extraction_done (eine pro Unternehmen) oder js_rendering_suspected</td></tr>
+ <tr><td><code>job_count / jobs_seen / jobs_after_filters / jobs_pushed</code></td><td>integer | null</td><td>Zähler der Diagnosezeile pro Unternehmen</td></tr>
+ <tr><td><code>reason / reason_message</code></td><td>string | null</td><td>Ursache, wenn für ein Unternehmen 0 Jobs gefunden wurden</td></tr>
+ </table>
+
+ <h2 class="section-title">Input-Beispiel</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;companies&quot;: [
+    {
+      &quot;company_id&quot;: &quot;merian&quot;,
+      &quot;company_name&quot;: &quot;Merian Iselin&quot;,
+      &quot;website_url&quot;: &quot;https://merianiselin.ch&quot;
+    }
+  ],
+  &quot;includeJobDetails&quot;: true,
+  &quot;maxResultsPerCompany&quot;: 50
+}</code></pre></div>
+
+ <h2 class="section-title">Output-Beispiel — echter Datensatz</h2>
+ <p>Ein echter Datensatz aus einem Lauf vom 15.10.2026 (Beschreibung gekürzt):</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;company_id&quot;: &quot;merian&quot;,
+  &quot;company_name&quot;: &quot;Merian Iselin&quot;,
+  &quot;company_name_detected&quot;: &quot;Merian Iselin Klinik&quot;,
+  &quot;company_name_source&quot;: &quot;json_ld_organization&quot;,
+  &quot;title&quot;: &quot;Dipl. Fachfrau / Fachmann Operationstechnik HF&quot;,
+  &quot;description&quot;: &quot;&lt;div class=\&quot;loga3-pointed-mark\&quot;&gt; &lt;p&gt;Zur Verstärkung unseres Teams suchen wir nach Vereinbarung eine / einen&lt;/p&gt; &lt;/div&gt; &lt;h1&gt;Dipl. Fachfrau / Fachmann Operationstechnik HF&lt;/h1&gt; &lt;div class=\&quot;loga3-lead\&quot;&gt; &lt;p&gt;Die Merian Iselin Klinik ist eine hochmoderne …&quot;,
+  &quot;location&quot;: &quot;Basel, BS, CH&quot;,
+  &quot;city&quot;: null,
+  &quot;region&quot;: null,
+  &quot;country&quot;: null,
+  &quot;remote&quot;: null,
+  &quot;employment_type&quot;: &quot;CONTRACTOR&quot;,
+  &quot;experience_level&quot;: null,
+  &quot;salary_range&quot;: null,
+  &quot;department&quot;: null,
+  &quot;requirements&quot;: null,
+  &quot;benefits&quot;: null,
+  &quot;source_url&quot;: &quot;https://merianiselin.ch/jobs/3a875c27-3516-45c1-b7d4-07a26db0f188&quot;,
+  &quot;job_url&quot;: &quot;https://merianiselin.ch/jobs/3a875c27-3516-45c1-b7d4-07a26db0f188&quot;,
+  &quot;job_id&quot;: &quot;3a875c27-3516-45c1-b7d4-07a26db0f188&quot;,
+  &quot;application_url&quot;: &quot;https://merianiselin.ch/jobs/3a875c27-3516-45c1-b7d4-07a26db0f188&quot;,
+  &quot;posted_at&quot;: &quot;2026-10-02&quot;,
+  &quot;workplace_type&quot;: null,
+  &quot;extracted_at&quot;: &quot;2026-10-15T05:09:37.400Z&quot;,
+  &quot;confidence&quot;: null,
+  &quot;relevance&quot;: null,
+  &quot;ats_system&quot;: &quot;pi-asp&quot;,
+  &quot;ats_supported_by_csj&quot;: false,
+  &quot;application_ats&quot;: null,
+  &quot;ats_tenant&quot;: null,
+  &quot;ats_url&quot;: &quot;https://merian.pi-asp.de/bewerber-web/?xsrf=D76877BB24D51193A66ED4BD80BFD345&amp;company=100-FIRMA-ID&amp;tenant=&amp;lang=DS&amp;canShare=true&amp;Uid=&quot;,
+  &quot;career_page_url&quot;: &quot;https://merianiselin.ch/klinik/jobs/offene-stellen&quot;,
+  &quot;extraction_method&quot;: &quot;sitemap_jsonld&quot;,
+  &quot;description_md&quot;: null,
+  &quot;posting_format&quot;: null,
+  &quot;full_text_url&quot;: null,
+  &quot;expires_at&quot;: null,
+  &quot;application_deadline&quot;: null,
+  &quot;salary_text&quot;: null,
+  &quot;salary_min&quot;: null,
+  &quot;salary_max&quot;: null,
+  &quot;salary_currency&quot;: null,
+  &quot;salary_period&quot;: null,
+  &quot;workload_min&quot;: null,
+  &quot;workload_max&quot;: null,
+  &quot;contact_name&quot;: null,
+  &quot;contact_email&quot;: null,
+  &quot;contact_phone&quot;: null,
+  &quot;remote_option&quot;: null,
+  &quot;languages&quot;: null,
+  &quot;hiring_organization&quot;: null,
+  &quot;reference_number&quot;: null,
+  &quot;apply_url&quot;: null,
+  &quot;is_easy_apply&quot;: null,
+  &quot;skills&quot;: null,
+  &quot;postal_code&quot;: null,
+  &quot;street_address&quot;: null,
+  &quot;working_hours&quot;: null,
+  &quot;job_url_is_synthetic&quot;: false
+}</code></pre></div>
+
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n / Make / Zapier</strong> — Läufe auslösen und Ergebnisse per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python / Node.js</strong> — Apify SDK für programmatischen Zugriff</li>
+ <li><strong>Google Sheets / Airtable</strong> — Export über Apify-Integrationen</li>
+ <li><strong>Webhook</strong> — mit <code>webhookUrl</code> werden die Ergebnisse nach Abschluss an Ihren Endpunkt gesendet</li>
+ </ul>
+
+ <h2 class="section-title">Direkt auf Apify ausführen (kein Code)</h2>
+ <p>Klicken Sie oben auf <strong>Auf Apify öffnen</strong>, um <code>website-job-extractor</code> im Browser auszuführen, ohne Code und ohne Installation. In der Apify-Konsole erhalten Sie:</p>
+ <ul>
+  <li><strong>Test mit einem Klick</strong> – füllen Sie das Eingabeformular aus oder fügen Sie das obige JSON-Beispiel in den <em>JSON-Editor</em> ein und klicken Sie auf <strong>Start</strong>.</li>
+  <li><strong>Live-Ausgabe</strong> – sehen Sie zu, wie Zeilen in eine interaktive <em>Output</em>-Tabelle einfließen, oder wechseln Sie zur rohen <em>JSON</em>- / <em>Log</em>-Ansicht.</li>
+  <li><strong>Export in jedem Format</strong> – Datensatz mit einem Klick als <strong>JSON, CSV, XML, Excel, HTML-Tabelle, RSS oder JSONL</strong> herunterladen.</li>
+  <li><strong>Zeitpläne</strong> – Actor <strong>täglich, wöchentlich, stündlich oder mit benutzerdefiniertem Cron</strong> ausführen. Apify übernimmt das Timing und speichert jeden Datensatz-Lauf.</li>
+  <li><strong>Integrationen &amp; Webhooks</strong> – Webhook bei Erfolg/Fehler auslösen oder mit <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres</strong> u.v.m. aus dem <em>Actions</em>-Tab verbinden.</li>
+  <li><strong>Transparente Kosten</strong> – exakte Nutzung im Rahmen Ihres <strong>Gratiskontingents von 5$/Monat</strong> sehen, bevor Sie etwas ausgeben.</li>
+ </ul>
+
+ <h2 class="section-title">Ihren Apify API-Token erhalten</h2>
+ <p>Um diesen Actor aus Ihrem eigenen Code auszuführen, benötigen Sie einen Apify API-Token. In etwa einer Minute erledigt:</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz&amp;fp_sid=a-website-job-extractor-de" target="_blank" rel="sponsored noopener">Kostenlos bei Apify registrieren</a> (Google, GitHub oder E-Mail).</li>
+  <li>Gehen Sie zu <strong>Einstellungen &rarr; Integrationen &rarr; API-Tokens</strong>.</li>
+  <li>Klicken Sie auf <strong>Neuen API-Token erstellen</strong>. Kopieren und geheim halten.</li>
+ </ol>
+ <p><strong>Gratiskontingent:</strong> Apify schreibt Ihrem Konto <strong>5$ Plattformnutzung pro Monat</strong> gut, keine Kreditkarte erforderlich. Das reicht für erste Tests: Bei $0,004 pro Job entspricht das rechnerisch mehr als 1.000 Jobs (ohne Unternehmens- und Startgebühr).</p>
+
+ <h2 class="section-title">Aus Code aufrufen</h2>
+ <p>Führen Sie diesen Actor aus jeder Sprache über die Apify-REST-API aus. Ersetzen Sie <code>YOUR_TOKEN</code> durch Ihren API-Token und passen Sie das JSON-Input an.</p>
+ <div class="lang-tabs" data-lang-group="run-actor-de">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"companies": [{"company_id": "merian", "company_name": "Merian Iselin", "website_url": "https://merianiselin.ch"}], "includeJobDetails": true, "maxResultsPerCompany": 50}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/website-job-extractor').call({
+  companies: [{ company_id: 'merian', company_name: 'Merian Iselin', website_url: 'https://merianiselin.ch' }],
+  includeJobDetails: true,
+});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/website-job-extractor').call(run_input={
+    'companies': [{'company_id': 'merian', 'company_name': 'Merian Iselin', 'website_url': 'https://merianiselin.ch'}],
+    'includeJobDetails': True,
+})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/website-job-extractor").CallAsync(new {
+    companies = new[] { new { company_id = "merian", company_name = "Merian Iselin", website_url = "https://merianiselin.ch" } },
+    includeJobDetails = true
+});
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+Map&lt;String,Object&gt; input = Map.of(
+    "companies", List.of(Map.of("company_id", "merian", "company_name", "Merian Iselin", "website_url", "https://merianiselin.ch")),
+    "includeJobDetails", true);
+ActorRun run = client.actor("santamaria-automations/website-job-extractor").call(input);
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+ <h2 class="section-title">Mit KI-Agenten verwenden (MCP)</h2>
+ <p>Dieser Actor ist auf dem Apify MCP-Server verfügbar, sodass Sie ihn von jedem MCP-kompatiblen KI-Client aus steuern können – Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex oder einem eigenen Agent – ohne Code zu schreiben.</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/website-job-extractor</code></pre></div>
+ <p><strong>Beispiel-Prompt nach Verbindung:</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Verwende <code>website-job-extractor</code>, um die offenen Stellen auf der Karriereseite von merianiselin.ch zu extrahieren, und liefere mir die Ergebnisse als Tabelle."</blockquote>
+ <p>Clients mit dynamischer Tool-Discovery (Claude.ai, VS Code) erhalten das vollständige Input-Schema automatisch via <code>add-actor</code>.</p>
+
+ <h2 class="section-title">Mit No-Code-Plattformen verwenden</h2>
+ <p>Triggern Sie diesen Actor aus Ihrem Automatisierungstool. Alle unten aufgeführten Plattformen können die Apify-API in wenigen Klicks aufrufen — kein Code erforderlich.</p>
+ <div class="lang-tabs" data-lang-group="nocode-de">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>Fügen Sie den <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify-Node</a> hinzu (auf n8n Cloud vorinstalliert; auf self-hosted <code>@apify/n8n-nodes-apify</code> installieren).</li>
+    <li>Setzen Sie <strong>Actor</strong> auf <code>santamaria-automations/website-job-extractor</code>.</li>
+    <li>Wählen Sie Operation <em>Run Actor and get dataset</em>, fügen Sie Ihr Input-JSON ein und verbinden Sie einen Downstream-Node (Google Sheets, Postgres, Webhook, …).</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>Erstellen Sie einen neuen Zap mit beliebigem Trigger.</li>
+    <li>Fügen Sie eine <strong>Webhooks by Zapier</strong> POST-Action zu <code>https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN</code> hinzu.</li>
+    <li>Body: Ihr Input-JSON. Content-Type: <code>application/json</code>.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>Erstellen Sie ein neues Szenario.</li>
+    <li>Fügen Sie ein <strong>HTTP</strong>-Modul hinzu: URL <code>https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Methode POST, Body raw JSON.</li>
+    <li>Parsen Sie die Antwort mit einem <strong>JSON</strong>-Modul, um Items downstream zu iterieren.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>Erstellen Sie einen neuen Workflow.</li>
+    <li>Fügen Sie einen <strong>HTTP Request</strong>-Schritt hinzu: POST zu <code>https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Greifen Sie in nachfolgenden Schritten auf <code>steps.http.$return_value</code> zu.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>Installieren Sie das <strong>API Connector</strong>-Plugin.</li>
+    <li>Fügen Sie eine neue API hinzu: POST <code>https://api.apify.com/v2/acts/santamaria-automations~website-job-extractor/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Body type JSON.</li>
+    <li>Initialisieren Sie den Call mit Ihrem Input und referenzieren Sie das Response-Array in Workflow-Actions.</li>
+  </ol>
+</div>
+
+
+ <h2 class="section-title">Häufige Fragen</h2>
+ <div class="faq">
+ <details><summary>Was kostet der Website Job Extractor?</summary><p>Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen und $0,00005 pro Actor-Start. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht.</p></details>
+ <details><summary>Brauche ich einen eigenen LLM-API-Key?</summary><p>Nein. Lassen Sie die Key-Felder leer, dann nutzt der Actor ein verwaltetes OpenRouter-Modell (Managed-LLM-Modus). Wenn Sie lieber einen eigenen Key von Gemini, Groq oder OpenRouter verwenden, zahlen Sie nur den günstigeren Preis pro Job.</p></details>
+ <details><summary>Welche Daten liefert der Actor?</summary><p>Pro Job unter anderem Titel, Beschreibung, Standort, Beschäftigungsart, Abteilung, Veröffentlichungsdatum, Job- und Bewerbungs-URL sowie das erkannte ATS-System. Mit der Option includeJobDetails kommen Gehalt, Pensum, Ansprechperson, Bewerbungsfrist, Sprachen und weitere Detailfelder hinzu, soweit sie in der Anzeige stehen.</p></details>
+ <details><summary>Wie finde ich die Karriereseite eines Unternehmens?</summary><p>Sie müssen sie nicht kennen. Übergeben Sie nur die Firmenwebsite (website_url). Der Actor sucht die Karriereseite über die Navigation der Startseite und gängige Subdomains wie jobs.domain.ch oder karriere.domain.ch. Kennen Sie die Karriere-URL bereits, übergeben Sie sie direkt als career_urls.</p></details>
+ <details><summary>Ist das Scrapen von Karriereseiten erlaubt?</summary><p>Öffentlich zugängliche Stellenanzeigen dürfen in den meisten Rechtsordnungen ausgelesen werden. Enthält eine Anzeige personenbezogene Daten (etwa eine Ansprechperson), gilt die DSGVO. Prüfen Sie die Rechtslage für Ihren Einsatzzweck und lassen Sie sich bei kommerzieller Nutzung rechtlich beraten.</p></details>
+ <details><summary>Wie aktuell sind die Daten?</summary><p>Jeder Lauf liest die Karriereseiten live zum Zeitpunkt der Ausführung. Mit einem Zeitplan in der Apify-Konsole (täglich, stündlich oder per Cron) halten Sie Ihren Datensatz automatisch aktuell.</p></details>
+ </div>
+
+ <h2 class="section-title">Verwandte Actors</h2>
+ <ul>
+ <li><a href="/actors/website-job-extractor-browser/de/"><strong>Website Job Extractor Browser</strong></a> — für Karriereseiten, die ihre Inhalte per JavaScript nachladen</li>
+ <li><a href="/actors/website-contact-extractor/de/"><strong>Website Contact Extractor</strong></a> — Kontaktdaten von Firmenwebsites extrahieren</li>
+ <li><a href="/actors/website-email-scraper/de/"><strong>Website Email Scraper</strong></a> — E-Mail-Adressen von Websites sammeln</li>
+ <li><a href="/actors/phone-validator/de/"><strong>Phone Validator</strong></a> — Telefonnummern validieren</li>
+ <li><a href="/actors/linkedin-company-scraper/"><strong>LinkedIn Company Scraper</strong></a> — Unternehmensdaten von LinkedIn (Englisch)</li>
+ </ul>
+
+ <h2 class="section-title">Weiterführende Anleitungen (Englisch)</h2>
+ <ul>
+ <li><a href="/tutorials/scrape-fortune-500-company-jobs/"><strong>How to Scrape Every Fortune 500 Job Listing</strong></a> — Playbook mit diesem Actor als Teil eines dreistufigen Setups</li>
+ <li><a href="/tutorials/fortune-500-ats-market-share-2026/"><strong>Fortune 500 ATS Market Share 2026</strong></a> — Datenstudie zu ATS-Plattformen der Fortune 500</li>
+ <li><a href="/tutorials/how-to-scrape-every-job-online/"><strong>How to Scrape Every Job Online</strong></a> — Multi-Board-Guide inklusive Firmenkarriereseiten</li>
+ </ul>
+
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=a-website-job-extractor-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/qzJqttU80OcxkcWZv/source?addFromActorId=qzJqttU80OcxkcWZv&fpr=0khfbz&fp_sid=a-website-job-extractor-de" class="btn-secondary">Jetzt testen — kostenloser Einstieg</a>
+ </div>
+ </div>
+
+ <div id="site-footer"></div>
+
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
+</body>
+</html>

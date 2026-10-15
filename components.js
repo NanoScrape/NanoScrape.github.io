@@ -140,8 +140,8 @@
 
  // Language-aware tutorials hub URL. EN at /tutorials/, others under /{lang}/tutorials/.
  // Only languages with a published tutorials hub get a localized URL; the
- // rest fall back to the EN hub (de/zh hubs don't exist yet and 404'd).
- var TUTORIAL_HUB_LANGS = { fr: true };
+ // rest fall back to the EN hub (no zh hub yet; it would 404).
+ var TUTORIAL_HUB_LANGS = { fr: true, de: true };
  function tutorialsHubUrl(langCode) {
  for (var i = 0; i < LANGUAGES.length; i++) {
  if (LANGUAGES[i].code === langCode) return LANGUAGES[i].prefix && TUTORIAL_HUB_LANGS[langCode] ? '/' + LANGUAGES[i].prefix + '/tutorials/' : '/tutorials/';
@@ -397,9 +397,31 @@
  for (var i = 0; i < open.length; i++) open[i].classList.remove('open');
  });
 
+ // Actor pages: most actors only have some of the DE/FR/ZH pages, so the
+ // language links (header menu + footer) are checked with a HEAD request and
+ // removed when that language page does not exist (instead of linking a 404).
+ function hideMissingActorLangs() {
+ var ctx = detectContext();
+ if (!ctx.isActorPage || !ctx.actorSlug || !window.fetch) return;
+ var links = document.querySelectorAll('.ns-lang-menu a, .ns-footer-langs a');
+ var byHref = {};
+ for (var i = 0; i < links.length; i++) {
+ var href = links[i].getAttribute('href');
+ if (links[i].classList.contains('active') || href === '/actors/' + ctx.actorSlug + '/') continue;
+ (byHref[href] = byHref[href] || []).push(links[i]);
+ }
+ Object.keys(byHref).forEach(function (href) {
+ fetch(href, { method: 'HEAD' }).then(function (res) {
+ if (res.ok) return;
+ byHref[href].forEach(function (a) { if (a.parentNode) a.parentNode.removeChild(a); });
+ }).catch(function () {});
+ });
+ }
+
  injectStyles();
  renderHeader();
  renderFooter();
+ hideMissingActorLangs();
 
  window.NanoScrapeComponents = { languages: LANGUAGES, strings: T, detectContext: detectContext, homeUrl: homeUrl };
 })();

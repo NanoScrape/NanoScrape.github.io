@@ -10,7 +10,11 @@
   <meta property="og:description" content="Collect tweets with engagement counts and author profiles from any public account on Twitter/X. No API key needed. Export to CSV or JSON. About $0.31 per 1,000 tweets.">
   <meta property="og:url" content="https://www.nanoscrape.com/tutorials/tweet-analysis/">
   <meta property="og:type" content="article">
-  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/tweet-analysis/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/tweet-analysis/">
   <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
@@ -137,6 +141,14 @@
       "acceptedAnswer": {
         "@type": "Answer",
         "text": "The actor does not filter by date or keyword at collection time. Download the full dataset and filter locally. Because created_at is an ISO 8601 timestamp on every item, date filtering in a spreadsheet or with pandas is straightforward."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get only original tweets, without retweets or replies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set includeRetweets to false and keep includeReplies at false (its default). The dataset then holds only tweets the account wrote itself. Quote tweets stay in, because they are original posts; drop rows where is_quote is true if you don't want them."
       }
     },
     {
@@ -504,6 +516,10 @@ print(Counter(tags).most_common(20))</code></pre></div>
       <details>
         <summary>Can I filter tweets by date or keyword?</summary>
         <p>The actor does not filter by date or keyword at collection time. Download the full dataset and filter locally. Because <code class="code-inline">created_at</code> is an ISO 8601 timestamp on every item, date filtering in a spreadsheet or with pandas is straightforward.</p>
+      </details>
+      <details>
+        <summary>How do I get only original tweets, without retweets or replies?</summary>
+        <p>Set <code class="code-inline">includeRetweets</code> to <code class="code-inline">false</code> and keep <code class="code-inline">includeReplies</code> at <code class="code-inline">false</code> (its default). The dataset then holds only tweets the account wrote itself. Quote tweets stay in, because they are original posts; drop rows where <code class="code-inline">is_quote</code> is true if you don't want them.</p>
       </details>
       <details>
         <summary>What happens with protected or suspended accounts?</summary>

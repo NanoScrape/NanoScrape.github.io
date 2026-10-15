@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AMS Jobs scrapen: Stellenangebote exportieren | NanoScrape</title>
+ <meta name="description" content="AMS Stellenangebote exportieren: Jobs von jobs.ams.at per API als JSON, CSV oder Excel abrufen. Bundesland-Filter, Kontaktdaten, ab $0,005 pro Job.">
+ <meta property="og:title" content="AMS Jobs scrapen: Stellenangebote exportieren | NanoScrape">
+ <meta property="og:description" content="Stellenanzeigen des Arbeitsmarktservice Österreich (jobs.ams.at) als JSON, CSV oder Excel exportieren. Ab $0,005 pro Ergebnis.">
+ <meta property="og:url" content="https://www.nanoscrape.com/actors/ams-at-scraper/de/">
+ <meta property="og:type" content="website">
+ <meta property="og:locale" content="de_AT">
+ <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <meta name="twitter:card" content="summary_large_image">
+ <meta name="twitter:title" content="AMS Jobs scrapen: Stellenangebote exportieren | NanoScrape">
+ <meta name="twitter:description" content="Stellenanzeigen des Arbeitsmarktservice Österreich (jobs.ams.at) als JSON, CSV oder Excel exportieren. Ab $0,005 pro Ergebnis.">
+ <meta name="twitter:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/ams-at-scraper/de/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/ams-at-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/ams-at-scraper/de/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/ams-at-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+ <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "SoftwareApplication",
+ "name": "AMS.at Job Scraper (Arbeitsmarktservice Österreich)",
+ "applicationCategory": "DeveloperApplication",
+ "operatingSystem": "Cloud (Apify)",
+ "inLanguage": "de",
+ "description": "Scraper für jobs.ams.at, das Jobportal des Arbeitsmarktservice Österreich. HTTP-only, Bundesland-Filter, Kontaktdaten, Export als JSON, CSV oder Excel.",
+ "offers": {
+  "@type": "Offer",
+  "price": "0.005",
+  "priceCurrency": "USD",
+  "description": "pro Ergebnis (zzgl. $0,05 pro Lauf)"
+ },
+ "url": "https://apify.com/santamaria-automations/ams-at-scraper?fpr=0khfbz",
+ "author": {
+  "@type": "Organization",
+  "name": "NanoScrape",
+  "url": "https://www.nanoscrape.com"
+ }
+}
+ </script>
+ <script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Welche Felder liefert der Scraper?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "33 Felder pro Ergebnis, darunter Titel, Unternehmen, Ort, Bundesland, Beschäftigungsart, Gehaltsangaben, Beschreibung, Anforderungen, Kontaktdaten und Bewerbungs-URL. Die vollständige Liste finden Sie in der Tabelle „Ausgabefelder“."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Ist das Scrapen dieser Seite legal?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Das Abrufen öffentlich zugänglicher Daten ist in vielen Rechtsordnungen grundsätzlich zulässig, für personenbezogene Daten (etwa Ansprechpersonen) gilt jedoch die DSGVO. Prüfen Sie die lokalen Vorgaben und holen Sie bei kommerzieller Nutzung rechtlichen Rat ein."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Brauche ich einen API-Schlüssel von AMS?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Nein. Der Actor liest die öffentlichen Daten per HTTP, Proxys werden für Sie verwaltet. Sie benötigen weder API-Schlüssel noch OAuth noch eigenes Rate-Limit-Management."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Wie aktuell sind die Daten?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Jeder Lauf ruft die Daten live zum Ausführungszeitpunkt ab. Mit einem Zeitplan (täglich, stündlich oder wöchentlich per Cron) in der Apify-Konsole halten Sie Ihren Datensatz automatisch aktuell. Mit sortBy „_DATE“ erhalten Sie die neuesten Anzeigen zuerst."
+   }
+  }
+ ]
+}
+ </script>
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+ 
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+ .faq details { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; }
+ .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+ .faq details p { margin-top: 10px; color: var(--muted); font-size: 0.9rem; line-height: 1.65; }
+ .related-actors { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 32px; }
+ .related-actor { display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; color: inherit; }
+ .related-actor:hover { border-color: var(--accent); text-decoration: none; }
+ .related-actor .name { display: block; font-weight: 700; color: var(--white); margin-bottom: 4px; font-size: 0.95rem; }
+ .related-actor .summary { display: block; color: var(--muted); font-size: 0.82rem; line-height: 1.5; }
+ .detail ol { padding-left: 24px; margin-bottom: 24px; } .detail ol li { margin-bottom: 8px; color: var(--muted); }
+
+        /* phone width: wide tables scroll inside their own box, not the page */
+        @media (max-width: 760px){.compare-table{display:block;max-width:100%;overflow-x:auto}}
+    </style>
+</head>
+<body>
+
+ <div id="site-header"></div>
+
+ <div class="detail">
+ <h1>AMS Jobs scrapen: Stellenangebote des Arbeitsmarktservice Österreich exportieren</h1>
+ <p class="lead">Der AMS-Scraper liest Stellenanzeigen von <a href="https://jobs.ams.at/public/emps/" target="_blank" rel="noopener">jobs.ams.at</a>, dem Jobportal des Arbeitsmarktservice Österreich, und liefert sie als strukturierte Daten. Filtern Sie nach Suchbegriff, Ort, Bundesland und Beschäftigungsart, holen Sie Kontaktdaten und Gehaltsangaben, sofern in der Anzeige vorhanden, und exportieren Sie alles als JSON, CSV oder Excel. Ohne Browser, ohne eigenen API-Schlüssel.</p>
+
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ams-at-scraper?fpr=0khfbz&amp;fp_sid=a-ams-at-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/lyA2bsuiNWQk8Uqy2/source?addFromActorId=lyA2bsuiNWQk8Uqy2&amp;fpr=0khfbz&amp;fp_sid=a-ams-at-scraper-de" class="btn-secondary">Jetzt testen</a>
+ </div>
+
+ <div class="specs">
+ <div class="spec"><div class="label">Abdeckung</div><div class="value">Österreich (AT)</div></div>
+ <div class="spec"><div class="label">Technik</div><div class="value">HTTP-only, kein Browser</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
+ <div class="spec"><div class="label">Preis pro Job</div><div class="value">$0,005 ($5 / 1.000)</div></div>
+ <div class="spec"><div class="label">Start pro Lauf</div><div class="value">$0,05</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Wird verwaltet</div></div>
+ </div>
+
+ <h2 class="section-title">Was Sie scrapen können</h2>
+ <ul>
+ <li><strong>AMS-Stellenangebote</strong> — Anzeigen von jobs.ams.at nach Stichwort, Ort oder Bundesland</li>
+ <li><strong>Mehrere Suchbegriffe pro Lauf</strong> — Ergebnisse werden über alle Begriffe hinweg dedupliziert</li>
+ <li><strong>Bundesland- und Beschäftigungsfilter</strong> — Wien, Niederösterreich, Oberösterreich, Steiermark, Tirol, Kärnten, Salzburg, Vorarlberg, Burgenland; Vollzeit, Teilzeit oder geringfügig</li>
+ <li><strong>Vollständige Details</strong> — Beschreibung, Anforderungen, Gehaltsangaben und Kontaktdaten, wenn „includeJobDetails“ aktiv ist (Standard)</li>
+ <li><strong>Sortierung</strong> — nach Relevanz (<code>_SCORE</code>) oder nach Datum, neueste zuerst (<code>_DATE</code>)</li>
+ <li><strong>Direkte Job-URLs</strong> — einzelne Anzeigen über <code>startUrls</code> gezielt abrufen</li>
+ </ul>
+
+ <h2 class="section-title">Typische Anwendungsfälle</h2>
+ <ul>
+ <li><strong>HR-Tech und Jobaggregatoren</strong> — österreichische Stellen aus dem Portal des öffentlichen Arbeitsmarktservice in eigene Produkte einspeisen</li>
+ <li><strong>Arbeitsmarktanalyse</strong> — Angebot nach Bundesland, Beruf und Beschäftigungsart auswerten und im Zeitverlauf beobachten</li>
+ <li><strong>Personalvermittlung im DACH-Raum</strong> — Anzeigen mit Gehaltsangaben und Kontaktdaten für die Ansprache nutzen</li>
+ <li><strong>Marktabdeckung</strong> — mit karriere.at, StepStone und weiteren Quellen kombinieren</li>
+ <li><strong>Regelmäßige Exporte</strong> — per Zeitplan täglich neue Anzeigen nach Excel, Google Sheets oder in die eigene Datenbank laden</li>
+ </ul>
+
+ <h2 class="section-title">Eingabe-Beispiel</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+ "searchQueries": ["Software Engineer", "Pflegefachkraft"],
+ "bundesland": "Wien",
+ "employmentType": "Vollzeit",
+ "sortBy": "_DATE",
+ "maxResultsPerQuery": 100,
+ "includeJobDetails": true
+}</code></pre></div>
+ <p>Alle Eingabefelder sind optional: <code>searchQueries</code>, <code>searchQuery</code>, <code>location</code>, <code>bundesland</code>, <code>employmentType</code>, <code>sortBy</code> (Standard <code>_SCORE</code>), <code>maxResultsPerQuery</code> (Standard 100), <code>maxResults</code> (Standard 0 = unbegrenzt), <code>includeJobDetails</code> (Standard <code>true</code>) und <code>startUrls</code>.</p>
+
+ <h2 class="section-title">Preise</h2>
+ <table class="compare-table">
+ <tr><th>Ereignis</th><th>Preis</th></tr>
+ <tr><td>Ergebnis (ein Job im Datensatz)</td><td class="highlight">$0,005 (= $5,00 pro 1.000 Ergebnisse)</td></tr>
+ <tr><td>Actor-Start (einmal pro Lauf)</td><td>$0,05</td></tr>
+ </table>
+ <p>Beispiel: 100 Jobs kosten $0,05 + 100 × $0,005 = $0,55.</p>
+
+ <h2 class="section-title">API-Beispiel</h2>
+ <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
+curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/runs?token=YOUR_TOKEN" \
+ -H "Content-Type: application/json" \
+ -d '{
+ "searchQueries": ["Software Engineer"],
+ "bundesland": "Wien",
+ "sortBy": "_DATE",
+ "maxResultsPerQuery": 100,
+ "includeJobDetails": true
+ }'
+
+<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
+<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/ams-at-scraper</span></pre></div>
+
+ <h2 class="section-title">Integrationen</h2>
+ <ul>
+ <li><strong>n8n / Make / Zapier</strong> — Läufe auslösen und Ergebnisse per Webhook verarbeiten</li>
+ <li><strong>KI-Agenten (MCP)</strong> — Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
+ <li><strong>Python / Node.js</strong> — Apify SDK für programmatischen Zugriff</li>
+ <li><strong>Google Sheets / Airtable</strong> — Export über Apify-Integrationen</li>
+ </ul>
+
+ <h2 class="section-title">Ausgabefelder (33 Felder pro Ergebnis)</h2>
+ <table class="compare-table">
+ <tr><th>Feld</th><th>Typ</th><th>Beispiel</th><th>Bedeutung</th></tr>
+ <tr><td><code>id</code></td><td>string</td><td>6bcd1d7c-370f-3175-8913-672b1ea021f5</td><td>Eindeutige Job-ID bei AMS (UUID)</td></tr>
+ <tr><td><code>title</code></td><td>string</td><td>SOFTWARE ENGINEER - FAHRZEUGKOMMUNIKATION</td><td>Stellentitel</td></tr>
+ <tr><td><code>company</code></td><td>string | null</td><td>Aspöck Systems GmbH</td><td>Name des Arbeitgebers</td></tr>
+ <tr><td><code>location</code></td><td>string</td><td>4722 Enzing</td><td>Arbeitsort laut Anzeige (PLZ und Ort)</td></tr>
+ <tr><td><code>country</code></td><td>string</td><td>AT</td><td>Ländercode (in den Ausgabezeilen enthalten)</td></tr>
+ <tr><td><code>canton</code></td><td>string | null</td><td>OO</td><td>Bundesland als Kürzel (z. B. W, OO)</td></tr>
+ <tr><td><code>salary_min</code></td><td>number | null</td><td>null</td><td>Untergrenze des Gehalts, sofern angegeben</td></tr>
+ <tr><td><code>salary_max</code></td><td>number | null</td><td>null</td><td>Obergrenze des Gehalts, sofern angegeben</td></tr>
+ <tr><td><code>salary_currency</code></td><td>string</td><td>EUR</td><td>Währung</td></tr>
+ <tr><td><code>salary_period</code></td><td>string | null</td><td>monthly</td><td>Bezugszeitraum des Gehalts</td></tr>
+ <tr><td><code>salary_text</code></td><td>string | null</td><td>…Mindestentgelt … 2.535,00 EUR brutto pro Monat …</td><td>Gehaltsangabe im Originaltext</td></tr>
+ <tr><td><code>employment_type</code></td><td>string | null</td><td>full-time</td><td>Beschäftigungsart</td></tr>
+ <tr><td><code>workload_min</code></td><td>number | null</td><td>null</td><td>Untergrenze des Beschäftigungsausmaßes in %</td></tr>
+ <tr><td><code>workload_max</code></td><td>number | null</td><td>null</td><td>Obergrenze des Beschäftigungsausmaßes in %</td></tr>
+ <tr><td><code>remote_option</code></td><td>string | null</td><td>null</td><td>Hinweis auf Remote-/Homeoffice-Möglichkeit</td></tr>
+ <tr><td><code>description_snippet</code></td><td>string | null</td><td>Wir suchen einen praxisorientierten Software Engineer …</td><td>Kurzauszug der Beschreibung</td></tr>
+ <tr><td><code>description_full</code></td><td>string | null</td><td>International präsentiert ASPÖCK Systems GmbH …</td><td>Vollständige Stellenbeschreibung</td></tr>
+ <tr><td><code>requirements</code></td><td>array</td><td>["Matura", "Fachhochschule/Universität/pädagogische Hochschule"]</td><td>Anforderungen und Qualifikationen</td></tr>
+ <tr><td><code>company_benefits</code></td><td>array</td><td>[]</td><td>Vom Arbeitgeber genannte Benefits</td></tr>
+ <tr><td><code>posted_at</code></td><td>string | null</td><td>2026-09-23T00:00:00Z</td><td>Veröffentlichungsdatum</td></tr>
+ <tr><td><code>expires_at</code></td><td>string | null</td><td>null</td><td>Ablaufdatum der Anzeige</td></tr>
+ <tr><td><code>source_url</code></td><td>string</td><td>https://jobs.ams.at/public/emps/jobs/uuid/6bcd1d7c-…</td><td>Link zur Anzeige auf jobs.ams.at</td></tr>
+ <tr><td><code>source_platform</code></td><td>string</td><td>ams.at</td><td>Quellplattform</td></tr>
+ <tr><td><code>contact_salutation</code></td><td>string | null</td><td>null</td><td>Anrede der Kontaktperson</td></tr>
+ <tr><td><code>contact_firstname</code></td><td>string | null</td><td>null</td><td>Vorname der Kontaktperson</td></tr>
+ <tr><td><code>contact_lastname</code></td><td>string | null</td><td>null</td><td>Nachname der Kontaktperson</td></tr>
+ <tr><td><code>contact_email</code></td><td>string | null</td><td>office@aspoeck.com</td><td>E-Mail-Adresse des Kontakts</td></tr>
+ <tr><td><code>contact_phone</code></td><td>string | null</td><td>null</td><td>Telefonnummer des Kontakts</td></tr>
+ <tr><td><code>apply_url</code></td><td>string | null</td><td>https://jobs.ams.at/public/emps/jobs/uuid/6bcd1d7c-…</td><td>Direkter Bewerbungslink</td></tr>
+ <tr><td><code>apply_email</code></td><td>string | null</td><td>office@aspoeck.com</td><td>E-Mail-Adresse für Bewerbungen</td></tr>
+ <tr><td><code>company_url</code></td><td>string | null</td><td>https://aspoeck.com</td><td>Website des Unternehmens</td></tr>
+ <tr><td><code>search_query</code></td><td>string | null</td><td>Software Engineer</td><td>Suchbegriff, der die Anzeige geliefert hat</td></tr>
+ <tr><td><code>scraped_at</code></td><td>string</td><td>2026-10-15T05:34:04Z</td><td>Zeitpunkt des Abrufs</td></tr>
+ </table>
+
+ <h2 class="section-title">Beispiel-Ausgabe</h2>
+ <p>Ein echter Datensatz aus einem Lauf vom 15.10.2026 (Suchbegriff „Software Engineer“, Texte gekürzt):</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "6bcd1d7c-370f-3175-8913-672b1ea021f5",
+  "title": "SOFTWARE ENGINEER - FAHRZEUGKOMMUNIKATION",
+  "company": "Aspöck Systems GmbH",
+  "location": "4722 Enzing",
+  "country": "AT",
+  "canton": "OO",
+  "salary_min": null,
+  "salary_max": null,
+  "salary_currency": "EUR",
+  "salary_period": "monthly",
+  "salary_text": "Das Mindestentgelt für die Stelle als SOFTWARE ENGINEER - FAHRZEUGKOMMUNIKATION beträgt 2.535,00 EUR brutto pro Monat auf Basis Vollzeitbeschäftigung. Bereitschaft zur Überzahlung.",
+  "employment_type": "full-time",
+  "workload_min": null,
+  "workload_max": null,
+  "remote_option": null,
+  "description_snippet": "Wir suchen einen praxisorientierten Software Engineer mit fundierter Erfahrung im Bereich Fahrzeugkommunikation und Embedded Softwareentwicklung. Der Schwerpunkt dieser Rolle liegt in der Analyse, Erp…",
+  "description_full": "International präsentiert ASPÖCK Systems GmbH, mit Hauptsitz in Peuerbach, seit über 45 Jahren Beleuchtungslösungen für Fahrzeuge, um für deutlich mehr Sicherheit auf den Straßen der Welt zu sorgen. V…",
+  "requirements": [
+    "Matura",
+    "Fachhochschule/Universität/pädagogische Hochschule"
+  ],
+  "company_benefits": [],
+  "posted_at": "2026-09-23T00:00:00Z",
+  "expires_at": null,
+  "source_url": "https://jobs.ams.at/public/emps/jobs/uuid/6bcd1d7c-370f-3175-8913-672b1ea021f5",
+  "source_platform": "ams.at",
+  "contact_salutation": null,
+  "contact_firstname": null,
+  "contact_lastname": null,
+  "contact_email": "office@aspoeck.com",
+  "contact_phone": null,
+  "apply_url": "https://jobs.ams.at/public/emps/jobs/uuid/6bcd1d7c-370f-3175-8913-672b1ea021f5",
+  "apply_email": "office@aspoeck.com",
+  "company_url": "https://aspoeck.com",
+  "search_query": "Software Engineer",
+  "scraped_at": "2026-10-15T05:34:04.769304212Z"
+}</code></pre></div>
+
+ <h2 class="section-title">Direkt auf Apify ausführen (kein Code)</h2>
+ <p>Klicken Sie oben auf <strong>Auf Apify öffnen</strong>, um <code>ams-at-scraper</code> im Browser auszuführen – kein Code, keine Installation. In der Apify-Konsole erhalten Sie:</p>
+ <ul>
+  <li><strong>Test mit einem Klick</strong> – füllen Sie das Eingabeformular aus oder fügen Sie das obige JSON-Beispiel in den <em>JSON-Editor</em> ein und klicken Sie auf <strong>Start</strong>.</li>
+  <li><strong>Live-Ausgabe</strong> – sehen Sie zu, wie Zeilen in eine interaktive <em>Output</em>-Tabelle einfließen, oder wechseln Sie zur rohen <em>JSON</em>- / <em>Log</em>-Ansicht.</li>
+  <li><strong>Export in jedem Format</strong> – Datensatz mit einem Klick als <strong>JSON, CSV, XML, Excel, HTML-Tabelle, RSS oder JSONL</strong> herunterladen.</li>
+  <li><strong>Zeitpläne</strong> – Actor <strong>täglich, wöchentlich, stündlich oder mit benutzerdefiniertem Cron</strong> ausführen. Apify übernimmt das Timing und speichert jeden Datensatz-Lauf.</li>
+  <li><strong>Integrationen &amp; Webhooks</strong> – Webhook bei Erfolg/Fehler auslösen oder mit <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres</strong> u.v.m. aus dem <em>Actions</em>-Tab verbinden.</li>
+  <li><strong>Transparente Kosten</strong> – exakte Nutzung im Rahmen Ihres <strong>Gratiskontingents von 5$/Monat</strong> sehen, bevor Sie etwas ausgeben.</li>
+ </ul>
+
+ <h2 class="section-title">Ihren Apify API-Token erhalten</h2>
+ <p>Um diesen Actor aus Ihrem eigenen Code auszuführen, benötigen Sie einen Apify API-Token. In etwa einer Minute erledigt:</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz&amp;fp_sid=a-ams-at-scraper-de" target="_blank" rel="sponsored noopener">Kostenlos bei Apify registrieren</a> (Google, GitHub oder E-Mail).</li>
+  <li>Gehen Sie zu <strong>Einstellungen &rarr; Integrationen &rarr; API-Tokens</strong>.</li>
+  <li>Klicken Sie auf <strong>Neuen API-Token erstellen</strong>. Kopieren und geheim halten.</li>
+ </ol>
+ <p><strong>Gratiskontingent:</strong> Apify schreibt Ihrem Konto <strong>5$ Plattformnutzung pro Monat</strong> gut, keine Kreditkarte erforderlich. Bei $0,005 pro Ergebnis plus $0,05 pro Lauf reicht das für rund 990 Ergebnisse in einem einzigen Lauf, also für einen ausführlichen Test.</p>
+
+ <h2 class="section-title">Aus Code aufrufen</h2>
+ <p>Führen Sie diesen Actor aus jeder Sprache über die Apify-REST-API aus. Ersetzen Sie <code>YOUR_TOKEN</code> durch Ihren API-Token und passen Sie das JSON-Input an.</p>
+ <div class="lang-tabs" data-lang-group="run-actor-de">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/ams-at-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/ams-at-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/ams-at-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/ams-at-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+
+ <h2 class="section-title">Mit KI-Agenten verwenden (MCP)</h2>
+ <p>Dieser Actor ist auf dem Apify MCP-Server verfügbar, sodass Sie ihn von jedem MCP-kompatiblen KI-Client aus steuern können – Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex oder einem eigenen Agent – ohne Code zu schreiben.</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/ams-at-scraper</code></pre></div>
+ <p><strong>Beispiel-Prompt nach Verbindung:</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Verwende <code>ams-at-scraper</code>, um die neuesten AMS-Stellenangebote für „Software Engineer“ in Wien abzurufen, und liefere mir die Ergebnisse als Tabelle."</blockquote>
+ <p>Clients mit dynamischer Tool-Discovery (Claude.ai, VS Code) erhalten das vollständige Input-Schema automatisch via <code>add-actor</code>.</p>
+
+ <h2 class="section-title">Mit No-Code-Plattformen verwenden</h2>
+ <p>Triggern Sie diesen Actor aus Ihrem Automatisierungstool. Alle unten aufgeführten Plattformen können die Apify-API in wenigen Klicks aufrufen — kein Code erforderlich.</p>
+ <div class="lang-tabs" data-lang-group="nocode-de">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>Fügen Sie den <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">n8n Apify-Node</a> hinzu (auf n8n Cloud vorinstalliert; auf self-hosted <code>@apify/n8n-nodes-apify</code> installieren).</li>
+    <li>Setzen Sie <strong>Actor</strong> auf <code>santamaria-automations/ams-at-scraper</code>.</li>
+    <li>Wählen Sie Operation <em>Run Actor and get dataset</em>, fügen Sie Ihr Input-JSON ein und verbinden Sie einen Downstream-Node (Google Sheets, Postgres, Webhook, …).</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>Erstellen Sie einen neuen Zap mit beliebigem Trigger.</li>
+    <li>Fügen Sie eine <strong>Webhooks by Zapier</strong> POST-Action zu <code>https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code> hinzu.</li>
+    <li>Body: Ihr Input-JSON. Content-Type: <code>application/json</code>.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>Erstellen Sie ein neues Szenario.</li>
+    <li>Fügen Sie ein <strong>HTTP</strong>-Modul hinzu: URL <code>https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Methode POST, Body raw JSON.</li>
+    <li>Parsen Sie die Antwort mit einem <strong>JSON</strong>-Modul, um Items downstream zu iterieren.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>Erstellen Sie einen neuen Workflow.</li>
+    <li>Fügen Sie einen <strong>HTTP Request</strong>-Schritt hinzu: POST zu <code>https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Greifen Sie in nachfolgenden Schritten auf <code>steps.http.$return_value</code> zu.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>Installieren Sie das <strong>API Connector</strong>-Plugin.</li>
+    <li>Fügen Sie eine neue API hinzu: POST <code>https://api.apify.com/v2/acts/santamaria-automations~ams-at-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, Body type JSON.</li>
+    <li>Initialisieren Sie den Call mit Ihrem Input und referenzieren Sie das Response-Array in Workflow-Actions.</li>
+  </ol>
+</div>
+
+
+ <h2 class="section-title">Häufige Fragen</h2>
+ <div class="faq">
+ <details><summary>Welche Felder liefert der Scraper?</summary><p>33 Felder pro Ergebnis, darunter Titel, Unternehmen, Ort, Bundesland, Beschäftigungsart, Gehaltsangaben, Beschreibung, Anforderungen, Kontaktdaten und Bewerbungs-URL. Die vollständige Liste finden Sie in der Tabelle „Ausgabefelder“.</p></details>
+ <details><summary>Ist das Scrapen dieser Seite legal?</summary><p>Das Abrufen öffentlich zugänglicher Daten ist in vielen Rechtsordnungen grundsätzlich zulässig, für personenbezogene Daten (etwa Ansprechpersonen) gilt jedoch die DSGVO. Prüfen Sie die lokalen Vorgaben und holen Sie bei kommerzieller Nutzung rechtlichen Rat ein.</p></details>
+ <details><summary>Brauche ich einen API-Schlüssel von AMS?</summary><p>Nein. Der Actor liest die öffentlichen Daten per HTTP, Proxys werden für Sie verwaltet. Sie benötigen weder API-Schlüssel noch OAuth noch eigenes Rate-Limit-Management.</p></details>
+ <details><summary>Wie aktuell sind die Daten?</summary><p>Jeder Lauf ruft die Daten live zum Ausführungszeitpunkt ab. Mit einem Zeitplan (täglich, stündlich oder wöchentlich per Cron) in der Apify-Konsole halten Sie Ihren Datensatz automatisch aktuell. Mit sortBy „_DATE“ erhalten Sie die neuesten Anzeigen zuerst.</p></details>
+ </div>
+
+ <h2 class="section-title">Ähnliche Actors</h2>
+ <div class="related-actors">
+ <a class="related-actor" href="/actors/karriere-at-scraper/de/"><span class="name">karriere.at Scraper</span><span class="summary">Stellenanzeigen von karriere.at, einem weiteren Jobportal für den österreichischen Markt.</span></a>
+ <a class="related-actor" href="/actors/stepstone-de-scraper/de/"><span class="name">StepStone Scraper</span><span class="summary">StepStone.de: Gehaltsangaben, Kontaktdaten und Bundesland-Filter für den deutschen Markt.</span></a>
+ <a class="related-actor" href="/actors/arbeit-swiss-scraper/de/"><span class="name">Arbeit.Swiss Scraper</span><span class="summary">Arbeit.Swiss: das staatliche Stellenportal der Schweiz (Job-Room.ch) mit Kantonsfilter.</span></a>
+ <a class="related-actor" href="/actors/jobs-ch-scraper/de/"><span class="name">Jobs.ch Scraper</span><span class="summary">Jobs.ch: Schweizer Jobbörse mit Abdeckung über Branchen und Kantone.</span></a>
+ <a class="related-actor" href="/actors/linkedin-scraper/de/"><span class="name">LinkedIn Scraper</span><span class="summary">Öffentliche LinkedIn-Stellenanzeigen ohne Login: Ort, Anstellungsart, Remote-Optionen.</span></a>
+ </div>
+
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/ams-at-scraper?fpr=0khfbz&amp;fp_sid=a-ams-at-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/lyA2bsuiNWQk8Uqy2/source?addFromActorId=lyA2bsuiNWQk8Uqy2&amp;fpr=0khfbz&amp;fp_sid=a-ams-at-scraper-de" class="btn-secondary">Jetzt testen — kostenloser Einstieg</a>
+ </div>
+ </div>
+
+ <div id="site-footer"></div>
+
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
+</body>
+</html>
