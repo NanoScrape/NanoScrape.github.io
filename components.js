@@ -418,10 +418,178 @@
  });
  }
 
+
+ // ==========================================================================
+ // ASK AI ROW (actor pages, tutorials, templates)
+ // ==========================================================================
+ // "Copy as Markdown / Ask ChatGPT / Ask Claude / Ask Google AI", same row as
+ // the JobFeed docs. The Markdown is built from the page's own main content at
+ // click time, so nothing is written per page.
+
+ var ASK = {
+ en: { copy: 'Copy as Markdown', copied: 'Copied', failed: 'Copy failed', gpt: 'Ask ChatGPT', claude: 'Ask Claude', google: 'Ask Google AI', label: 'Use this page with AI',
+ actor: 'Read {url} and explain how to use the {name} on Apify for my use case: which inputs to set, what the output contains and what a run costs.',
+ tutorial: 'Read {url} and walk me through the tutorial "{name}" step by step, then help me adapt it to my use case.',
+ templates: 'Read {url} and help me pick the right NanoScrape template for my workflow.' },
+ de: { copy: 'Als Markdown kopieren', copied: 'Kopiert', failed: 'Kopieren fehlgeschlagen', gpt: 'ChatGPT fragen', claude: 'Claude fragen', google: 'Google KI fragen', label: 'Diese Seite mit KI nutzen',
+ actor: 'Lies {url} und erkläre mir, wie ich {name} auf Apify für meinen Anwendungsfall nutze: welche Eingaben ich setze, was die Ausgabe enthält und was ein Lauf kostet. Antworte auf Deutsch.',
+ tutorial: 'Lies {url} und führe mich Schritt für Schritt durch das Tutorial „{name}“. Hilf mir danach, es an meinen Anwendungsfall anzupassen. Antworte auf Deutsch.',
+ templates: 'Lies {url} und hilf mir, die passende NanoScrape-Vorlage für meinen Workflow zu finden. Antworte auf Deutsch.' },
+ fr: { copy: 'Copier en Markdown', copied: 'Copié', failed: 'Échec de la copie', gpt: 'Demander à ChatGPT', claude: 'Demander à Claude', google: 'Demander à Google IA', label: 'Utiliser cette page avec une IA',
+ actor: 'Lis {url} et explique-moi comment utiliser {name} sur Apify pour mon cas d’usage : quelles entrées définir, ce que contient la sortie et ce que coûte une exécution. Réponds en français.',
+ tutorial: 'Lis {url} et guide-moi étape par étape dans le tutoriel « {name} », puis aide-moi à l’adapter à mon cas d’usage. Réponds en français.',
+ templates: 'Lis {url} et aide-moi à choisir le bon modèle NanoScrape pour mon workflow. Réponds en français.' },
+ zh: { copy: '复制为 Markdown', copied: '已复制', failed: '复制失败', gpt: '问 ChatGPT', claude: '问 Claude', google: '问 Google AI', label: '用 AI 使用本页',
+ actor: '阅读 {url}，并解释如何在 Apify 上针对我的用例使用 {name}：需要设置哪些输入、输出包含什么、每次运行的费用是多少。请用中文回答。',
+ tutorial: '阅读 {url}，一步步带我完成教程“{name}”，然后帮我把它应用到我的用例。请用中文回答。',
+ templates: '阅读 {url}，帮我为我的工作流选择合适的 NanoScrape 模板。请用中文回答。' }
+ };
+ var ACTOR_HUBS = { 'job-scrapers': 1, directories: 1, marketplaces: 1, social: 1, ecommerce: 1, enrichment: 1, tools: 1, 'real-estate': 1, reviews: 1, 'search-news': 1, switzerland: 1, germany: 1, austria: 1, usa: 1, uk: 1, 'job-boards': 1 };
+
+ function mdInline(node) {
+ var out = '';
+ for (var c = node.firstChild; c; c = c.nextSibling) out += mdNode(c, true);
+ return out;
+ }
+ function mdNode(n, inline) {
+ if (n.nodeType === 3) return n.nodeValue.replace(/\s+/g, ' ');
+ if (n.nodeType !== 1) return '';
+ var tag = n.tagName.toLowerCase();
+ if (/^(script|style|svg|button|noscript|template|iframe|form|input|select|textarea|nav)$/.test(tag)) return '';
+ if (n.classList.contains('ns-askai') || n.classList.contains('copy-btn') || n.getAttribute('aria-hidden') === 'true') return '';
+ if (n.classList.contains('lang-panel') && !n.classList.contains('is-active')) return '';
+ if (n.classList.contains('spec') && n.querySelector('.label') && n.querySelector('.value')) return '\n- **' + n.querySelector('.label').textContent.trim() + ':** ' + n.querySelector('.value').textContent.trim() + '\n';
+ var txt;
+ switch (tag) {
+ case 'br': return '\n';
+ case 'strong': case 'b': txt = mdInline(n).trim(); return txt ? '**' + txt + '**' : '';
+ case 'em': case 'i': txt = mdInline(n).trim(); return txt ? '_' + txt + '_' : '';
+ case 'code': return n.parentNode && n.parentNode.tagName === 'PRE' ? n.textContent : '`' + n.textContent + '`';
+ case 'a':
+ txt = mdInline(n).trim();
+ var href = n.getAttribute('href');
+ if (!txt) return '';
+ if (!href || href.charAt(0) === '#' || /^javascript:/i.test(href)) return txt;
+ return '[' + txt + '](' + n.href + ')';
+ case 'img': return n.getAttribute('alt') ? '![' + n.getAttribute('alt') + '](' + n.src + ')' : '';
+ }
+ if (inline && !/^(div|p|ul|ol|li|table|pre|h[1-6]|section|article|blockquote|details|figure|dl)$/.test(tag)) return mdInline(n);
+ switch (tag) {
+ case 'h1': case 'h2': case 'h3': case 'h4': case 'h5': case 'h6':
+ return '\n\n' + '######'.slice(0, +tag.charAt(1)) + ' ' + mdInline(n).trim() + '\n\n';
+ case 'p': case 'summary': case 'dt': case 'dd': return '\n\n' + mdInline(n).trim() + '\n\n';
+ case 'pre': return '\n\n```\n' + n.textContent.replace(/\n+$/, '') + '\n```\n\n';
+ case 'blockquote': return '\n\n' + mdBlocks(n).trim().replace(/^/gm, '> ') + '\n\n';
+ case 'ul': case 'ol':
+ var items = [], k = 0;
+ for (var c = n.firstChild; c; c = c.nextSibling) {
+ if (c.nodeType !== 1 || c.tagName !== 'LI') continue;
+ k++;
+ var body = mdBlocks(c).trim().replace(/\n{2,}/g, '\n').replace(/\n/g, '\n   ');
+ items.push((tag === 'ol' ? k + '. ' : '- ') + body);
+ }
+ return '\n\n' + items.join('\n') + '\n\n';
+ case 'table':
+ var rows = n.querySelectorAll('tr'), lines = [];
+ for (var r = 0; r < rows.length; r++) {
+ var cells = rows[r].querySelectorAll('th,td'), vals = [];
+ for (var j = 0; j < cells.length; j++) vals.push(mdInline(cells[j]).trim().replace(/\|/g, '\\|').replace(/\s*\n\s*/g, ' '));
+ lines.push('| ' + vals.join(' | ') + ' |');
+ if (r === 0) lines.push('|' + vals.map(function () { return ' --- '; }).join('|') + '|');
+ }
+ return '\n\n' + lines.join('\n') + '\n\n';
+ }
+ return '\n' + mdBlocks(n) + '\n';
+ }
+ function mdBlocks(node) {
+ var out = '', run = '';
+ for (var c = node.firstChild; c; c = c.nextSibling) {
+ var isInline = c.nodeType === 3 || (c.nodeType === 1 && /^(a|span|strong|b|em|i|code|br|img|small|sup|sub|abbr|time|mark|label)$/i.test(c.tagName));
+ if (isInline) { run += mdNode(c, true); continue; }
+ if (run.trim()) out += '\n\n' + run.trim() + '\n\n';
+ run = '';
+ out += mdNode(c, false);
+ }
+ if (run.trim()) out += '\n\n' + run.trim() + '\n\n';
+ return out;
+ }
+ function pageMarkdown(root, title) {
+ var md = mdBlocks(root).replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+ var url = location.origin + location.pathname;
+ if (md.indexOf('# ') !== 0) md = '# ' + title + '\n\n' + md;
+ return md.replace(/^(# [^\n]*\n)/, '$1\nSource: ' + url + '\n') + '\n';
+ }
+
+ function copyText(text) {
+ if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+ return new Promise(function (resolve, reject) {
+ var ta = document.createElement('textarea');
+ ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.top = '-1000px';
+ document.body.appendChild(ta); ta.select();
+ var ok = false;
+ try { ok = document.execCommand('copy'); } catch (e) {}
+ document.body.removeChild(ta);
+ ok ? resolve() : reject();
+ });
+ }
+
+ function renderAskAi() {
+ var ctx = detectContext();
+ var kind = null, root = null;
+ if (ctx.isActorPage && !ACTOR_HUBS[ctx.actorSlug]) { kind = 'actor'; root = document.querySelector('.detail'); }
+ else if (ctx.isTutorialDetail) { kind = 'tutorial'; root = document.querySelector('article.article'); }
+ else if (ctx.section === 'templates') { kind = 'templates'; root = document.querySelector('main.hub') || document.querySelector('main'); }
+ if (!root) return;
+ var h1 = root.querySelector('h1');
+ if (!h1) return;
+ var anchor = root.querySelector('.ctas, .meta-row') || h1;
+ var a = ASK[ctx.currentLang] || ASK.en;
+ var name = h1.textContent.replace(/\s+/g, ' ').trim();
+ if (kind === 'actor') {
+ var ld = document.querySelectorAll('script[type="application/ld+json"]');
+ for (var i = 0; i < ld.length; i++) {
+ try {
+ var j = JSON.parse(ld[i].textContent), list = [].concat(j['@graph'] || j);
+ for (var k = 0; k < list.length; k++) if (/SoftwareApplication|Product/.test(list[k]['@type']) && list[k].name) { name = list[k].name; i = ld.length; break; }
+ } catch (e) {}
+ }
+ }
+ var url = location.origin + location.pathname;
+ var prompt = a[kind].replace('{url}', url).replace('{name}', name);
+ var q = encodeURIComponent(prompt);
+ var ICON = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">';
+ var row = document.createElement('div');
+ row.className = 'ns-askai';
+ row.setAttribute('role', 'group');
+ row.setAttribute('aria-label', a.label);
+ row.innerHTML =
+ '<button type="button" class="ns-askai-btn" data-askai-copy>' + ICON + '<rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>' + esc(a.copy) + '</span></button>' +
+ '<a class="ns-askai-btn" target="_blank" rel="noopener noreferrer" href="https://chatgpt.com/?hint=search&amp;q=' + q + '">' + ICON + '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>' + esc(a.gpt) + '</a>' +
+ '<a class="ns-askai-btn" target="_blank" rel="noopener noreferrer" href="https://claude.ai/new?q=' + q + '">' + ICON + '<path d="m12 3 1.9 5.8L20 10l-6.1 1.2L12 17l-1.9-5.8L4 10l6.1-1.2z"/></svg>' + esc(a.claude) + '</a>' +
+ '<a class="ns-askai-btn" target="_blank" rel="noopener noreferrer" href="https://www.google.com/search?udm=50&amp;q=' + q + '">' + ICON + '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>' + esc(a.google) + '</a>' +
+ '<span class="ns-askai-status" role="status" aria-live="polite"></span>';
+ anchor.parentNode.insertBefore(row, anchor.nextSibling);
+ var btn = row.querySelector('[data-askai-copy]'), label = btn.querySelector('span'), status = row.querySelector('.ns-askai-status');
+ btn.addEventListener('click', function () {
+ copyText(pageMarkdown(root, name)).then(function () { label.textContent = a.copied; status.textContent = a.copied; },
+ function () { label.textContent = a.failed; status.textContent = a.failed; });
+ setTimeout(function () { label.textContent = a.copy; status.textContent = ''; }, 2500);
+ });
+ var st = document.createElement('style');
+ st.textContent = '.ns-askai{display:flex;flex-wrap:wrap;align-items:center;gap:8px 20px;margin:-16px 0 32px;font-size:0.84rem}' +
+ '.ns-askai-btn{display:inline-flex;align-items:center;gap:6px;min-height:32px;background:none;border:0;padding:0;color:#7a99ba;font:inherit;font-size:0.84rem;cursor:pointer;text-decoration:none}' +
+ '.ns-askai-btn:hover,.ns-askai-btn:focus-visible{color:#dce8f5;text-decoration:none}' +
+ '.ns-askai-btn:focus-visible{outline:2px solid #0047ff;outline-offset:2px;border-radius:4px}' +
+ '.ns-askai-status{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}' +
+ '.meta-row + .ns-askai,h1 + .ns-askai{margin:0 0 28px}';
+ document.head.appendChild(st);
+ }
+
  injectStyles();
  renderHeader();
  renderFooter();
  hideMissingActorLangs();
+ renderAskAi();
 
  window.NanoScrapeComponents = { languages: LANGUAGES, strings: T, detectContext: detectContext, homeUrl: homeUrl };
 })();
