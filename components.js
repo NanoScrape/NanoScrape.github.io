@@ -585,11 +585,38 @@
  document.head.appendChild(st);
  }
 
+ // ==========================================================================
+ // PHONE WIDTH: wide tables scroll inside their own box, not the whole page
+ // ==========================================================================
+
+ function wrapTables() {
+ var tables = document.querySelectorAll('table.compare-table, .detail table, article.article table');
+ for (var i = 0; i < tables.length; i++) {
+ var t = tables[i];
+ if (t.parentNode.classList && t.parentNode.classList.contains('ns-table-scroll')) continue;
+ var box = document.createElement('div');
+ box.className = 'ns-table-scroll';
+ box.setAttribute('tabindex', '0');
+ box.setAttribute('role', 'region');
+ box.setAttribute('aria-label', (t.querySelector('th') || {}).textContent || 'Table');
+ t.parentNode.insertBefore(box, t);
+ box.appendChild(t);
+ }
+ var st = document.createElement('style');
+ st.textContent = '.ns-table-scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;margin-bottom:32px}' +
+ '.ns-table-scroll>table{margin-bottom:0}' +
+ '.ns-table-scroll:focus-visible{outline:2px solid #0047ff;outline-offset:2px;border-radius:4px}' +
+ '.ns-table-scroll th:first-child,.ns-table-scroll td:first-child{position:sticky;left:0;z-index:1;background:var(--bg,#080a10);box-shadow:1px 0 0 var(--border,#1a1f2e)}' +
+ '@media (max-width:480px){.detail .specs{grid-template-columns:repeat(2,minmax(0,1fr))}.detail .spec{overflow-wrap:anywhere}}';
+ document.head.appendChild(st);
+ }
+
  injectStyles();
  renderHeader();
  renderFooter();
  hideMissingActorLangs();
  renderAskAi();
+ wrapTables();
 
  window.NanoScrapeComponents = { languages: LANGUAGES, strings: T, detectContext: detectContext, homeUrl: homeUrl };
 })();
