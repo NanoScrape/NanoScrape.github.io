@@ -72,7 +72,7 @@
  var currentLang = 'en';
 
  // Tutorials: /{lang}/tutorials/{slug}/ for non-EN, /tutorials/{slug}/ for EN.
- var tutorialLangMatch = path.match(/^\/([a-z]{2})\/tutorials\//);
+ var tutorialLangMatch = path.match(/^\/([a-z]{2})\/(tutorials|guides)\//);
  if (tutorialLangMatch) currentLang = tutorialLangMatch[1];
 
  for (var i = 0; i < LANGUAGES.length; i++) {

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Every business in a city, with phone and website: the exact inputs | NanoScrape</title>
+  <meta name="description" content="Three real runs you can copy: dentists in London from Google Maps, Zahnärzte in Hamburg from Das Telefonbuch, Installateure in Austria from Herold. Exact inputs, row counts and measured costs.">
+  <meta property="og:title" content="Every business in a city, with phone and website: the exact inputs">
+  <meta property="og:description" content="Three real runs you can copy, with the exact inputs, row counts and measured costs.">
+  <meta property="og:url" content="https://www.nanoscrape.com/guides/google-maps-leads/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/guides/google-maps-leads/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/guides/google-maps-leads/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/guides/google-maps-leads/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/guides/google-maps-leads/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .article { max-width: 760px; margin: 0 auto; padding: 16px 16px 64px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 16px; }
+    .breadcrumb a { color: var(--muted); }
+    .kicker { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; margin-bottom: 16px; }
+    .kicker strong { color: var(--white); }
+    .article h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px; color: var(--white); }
+    .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
+    .article h2 { font-size: 1.4rem; font-weight: 700; margin: 48px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.1rem; font-weight: 700; margin: 24px 0 8px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 16px; }
+    .article li { margin-bottom: 8px; }
+    .article li strong { color: var(--white); }
+    .ctas { display: flex; gap: 12px; margin: 0 0 24px; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 8px; font-weight: 600; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn-primary:focus-visible, .btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    /* 3-line summary right under the CTA: what you get, what it costs, how long */
+    .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 32px; }
+    .fact { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; }
+    .fact .v { display: block; color: var(--white); font-weight: 700; font-size: 1.05rem; }
+    .fact .k { display: block; color: var(--muted); font-size: 0.8rem; }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 24px; }
+    .toc ol { margin: 0; }
+    .toc a { color: var(--text); }
+    .step { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 4px 12px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 8px; }
+    .code-block { position: relative; margin: 8px 0 24px; }
+    .code-block > pre { margin: 0; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .code-block .copy-btn { position: absolute; top: 8px; right: 8px; min-height: 32px; padding: 4px 12px; font-size: 0.75rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 12px 16px; margin: 16px 0; font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .article figure { margin: 24px 0; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; text-align: center; }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); min-height: 32px; }
+    .faq details p { margin: 8px 0 0; }
+    .end-cta { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-top: 48px; }
+    .end-cta h2 { margin-top: 0; }
+    .end-cta .ctas { margin-bottom: 0; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); overflow-wrap: anywhere; }
+    .small { font-size: 0.85rem; color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .compare-table th, .compare-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    /* Recipe: portrait Short frame (720x1280) beside the text; stacked and smaller on phones */
+    .recipe { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: start; }
+    .recipe .frame { margin: 0; }
+    .recipe .frame img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.6rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .facts { grid-template-columns: 1fr; }
+      .recipe { grid-template-columns: 1fr; }
+      .recipe .frame { max-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; Guides</nav>
+
+    <span class="kicker">The guide for <strong>LEADS</strong></span>
+    <h1>Every business in a city, with phone and website: the exact inputs</h1>
+    <p class="lead">You saw a Short and commented LEADS. Here are the exact inputs we used, ready to paste. Each recipe was run for real: the row counts, run times and costs are read from those runs.</p>
+
+    <div class="ctas">
+      <a class="btn-primary" target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Open the Google Maps Scraper</a>
+      <a class="btn-secondary" href="#recipes">Show me the inputs</a>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><span class="v">98 dentists</span><span class="k">London, with phone and address</span></div>
+      <div class="fact"><span class="v">$0.095</span><span class="k">measured, run tNDZZvDvw0339ft06, 2026-10-14</span></div>
+      <div class="fact"><span class="v">13 seconds</span><span class="k">run time, about 2 minutes to set up</span></div>
+    </div>
+
+    <h2 id="recipes">Pick a recipe</h2>
+    <div class="recipe-table">
+      <table class="compare-table">
+        <thead><tr><th>Recipe</th><th>Rows</th><th>Measured cost</th><th>Run took</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#google-maps">Google Maps: dentists in London</a></td><td>98</td><td>$0.095</td><td>13 s</td></tr>
+          <tr><td><a href="#telefonbuch">Das Telefonbuch: Zahnärzte in Hamburg</a></td><td>100</td><td>$0.50</td><td>3 min</td></tr>
+          <tr><td><a href="#herold">Herold: Installateure in Österreich</a></td><td>300</td><td>$1.55</td><td>24 min</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">Cost is the actor's pay-per-event charge at the prices recorded in each run (all three on 2026-10-14). Apify platform usage is extra and small; each recipe lists it.</p>
+
+    <!-- RECIPE 1 -->
+    <section class="step" id="google-maps">
+      <span class="step-number">RECIPE 1</span>
+      <h2>Dentists in London (Google Maps)</h2>
+      <div class="recipe">
+        <figure class="frame">
+          <img src="img/google-maps-dentists-london-epic-hero.jpg" alt="One real row from the run: a London dental clinic with phone, address, website and rating" width="720" height="1280" loading="lazy">
+        </figure>
+        <div>
+          <p>Actor: <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Google Maps Scraper on Apify</a> · <a href="/actors/google-maps-scraper/">our page</a></p>
+          <h3>What you get</h3>
+          <p>One row per place. Main fields: <code class="code-inline">title</code>, <code class="code-inline">category</code>, <code class="code-inline">address</code>, <code class="code-inline">phone</code>, <code class="code-inline">website</code>, <code class="code-inline">rating</code>, <code class="code-inline">review_count</code>, <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>, <code class="code-inline">open_hours</code>, <code class="code-inline">link</code>, <code class="code-inline">place_id</code>. The schema has more (price range, status, owner, images, and social links when add-ons are on).</p>
+          <p>In the source run: 98 rows. All 98 had title, phone, address, category and rating. 97 had a website.</p>
+        </div>
+      </div>
+      <h3>Input (paste this)</h3>
+      <div class="code-block">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>{
+  "searchStrings": ["dentists in London"],
+  "maxResultsPerQuery": 100,
+  "language": "en"
+}</pre>
+      </div>
+      <p>Change the text in <code class="code-inline">searchStrings</code> to any "business type in city". Add more strings to search several cities in one run.</p>
+      <h3>Measured cost and time</h3>
+      <p>Run tNDZZvDvw0339ft06 (2026-10-14):</p>
+      <ul>
+        <li>98 places at $0.00097 each = $0.0951</li>
+        <li>1 start event at $0.00005</li>
+        <li><strong>Total events: about $0.095</strong>, plus $0.0008 platform usage</li>
+        <li>Run time: 13 seconds</li>
+      </ul>
+      <h3>Steps</h3>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">the actor</a>.</li>
+        <li>Switch the input to JSON and paste the block above.</li>
+        <li>Press Start.</li>
+        <li>When it finishes, open the Output tab and export as CSV or Excel.</li>
+      </ol>
+      <h3>What next</h3>
+      <ul>
+        <li>Find emails: feed the <code class="code-inline">website</code> column into <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Website Email Scraper</a> (<a href="/actors/website-email-scraper/">our page</a>).</li>
+        <li>Import the CSV into your CRM or a spreadsheet.</li>
+        <li>Schedule the actor to run monthly in Apify (Schedules tab).</li>
+      </ul>
+    </section>
+
+    <!-- RECIPE 2 -->
+    <section class="step" id="telefonbuch">
+      <span class="step-number">RECIPE 2</span>
+      <h2>Zahnärzte in Hamburg (Das Telefonbuch)</h2>
+      <div class="recipe">
+        <figure class="frame">
+          <img src="img/telefonbuch-zahnarzt-hamburg-epic-hero.jpg" alt="One real row from the run: a Hamburg dental practice with phone, address and website" width="720" height="1280" loading="lazy">
+        </figure>
+        <div>
+          <p>Actor: <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telefonbuch-de-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Das Telefonbuch Scraper on Apify</a> · <a href="/actors/telefonbuch-de-scraper/">our page</a></p>
+          <h3>What you get</h3>
+          <p>One row per business. With <code class="code-inline">includeDetails</code> on: <code class="code-inline">name</code>, <code class="code-inline">description</code>, <code class="code-inline">address</code>, <code class="code-inline">street</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">city</code>, <code class="code-inline">phone</code>, <code class="code-inline">fax</code>, <code class="code-inline">mobile</code>, <code class="code-inline">email</code>, <code class="code-inline">website</code>, <code class="code-inline">category</code>, <code class="code-inline">opening_hours</code>, <code class="code-inline">rating</code>, <code class="code-inline">review_count</code>, <code class="code-inline">recent_reviews</code>, <code class="code-inline">source_url</code>.</p>
+          <p>In the source run: 100 rows. 94 had a phone, 77 a website, 77 an email, 96 an address, 64 opening hours. <code class="code-inline">mobile</code> was empty in all 100.</p>
+        </div>
+      </div>
+      <h3>Input (paste this)</h3>
+      <div class="code-block">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>{
+  "searchQuery": "Zahnarzt",
+  "location": "Hamburg",
+  "maxResults": 100,
+  "searchType": "business",
+  "includeDetails": true
+}</pre>
+      </div>
+      <p>Keep <code class="code-inline">searchType</code> on <code class="code-inline">business</code>. The other value, <code class="code-inline">person</code>, searches private people.</p>
+      <h3>Measured cost and time</h3>
+      <p>Run pdvNyJcfcWnxtHdKS (2026-10-14):</p>
+      <ul>
+        <li>100 full profiles at $0.005 each = $0.50</li>
+        <li>1 start event at $0.001; search-result events charged: 0</li>
+        <li><strong>Total events: $0.501</strong>, plus $0.0046 platform usage</li>
+        <li>Run time: 3 minutes</li>
+      </ul>
+      <h3>Steps</h3>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/telefonbuch-de-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">the actor</a>.</li>
+        <li>Paste the input above.</li>
+        <li>Press Start.</li>
+        <li>Export the dataset as CSV or Excel.</li>
+      </ol>
+      <h3>What next</h3>
+      <ul>
+        <li>Emails are already in 77 of 100 rows. For the rest, run the <code class="code-inline">website</code> column through <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Website Email Scraper</a>.</li>
+        <li>Import to your CRM.</li>
+        <li>Schedule it monthly to catch new practices.</li>
+      </ul>
+    </section>
+
+    <!-- RECIPE 3 -->
+    <section class="step" id="herold">
+      <span class="step-number">RECIPE 3</span>
+      <h2>Installateure in Österreich (Herold)</h2>
+      <div class="recipe">
+        <figure class="frame">
+          <img src="img/herold-installateur-oesterreich-epic-hero.jpg" alt="One real row from the run: an Austrian installer with phone, town and website" width="720" height="1280" loading="lazy">
+        </figure>
+        <div>
+          <p>Actor: <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Herold.at Scraper on Apify</a> · <a href="/actors/herold-at-scraper/">our page</a></p>
+          <h3>What you get</h3>
+          <p>One row per business: <code class="code-inline">name</code>, <code class="code-inline">phone</code>, <code class="code-inline">email</code>, <code class="code-inline">address</code>, <code class="code-inline">city</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">category</code>, <code class="code-inline">website</code>, <code class="code-inline">opening_hours</code>, <code class="code-inline">description</code>, <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>, <code class="code-inline">social_links</code>, <code class="code-inline">rating_score</code>, <code class="code-inline">rating_count</code>, <code class="code-inline">founding_year</code>, <code class="code-inline">company_register_id</code>, <code class="code-inline">source_url</code>.</p>
+          <p>In the source run: 300 rows. 300 had phone and name, 299 email, 299 address, 293 website, 274 opening hours.</p>
+        </div>
+      </div>
+      <h3>Input (paste this)</h3>
+      <div class="code-block">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre>{
+  "keyword": "Installateur",
+  "maxResults": 300,
+  "includeDetails": true,
+  "outputLanguage": "en"
+}</pre>
+      </div>
+      <p>No <code class="code-inline">location</code> means all of Austria. Add <code class="code-inline">"location": "Wien"</code> (or any city) to narrow it.</p>
+      <div class="callout">For a cheap first test, set <code class="code-inline">"maxResults": 50</code>. At the same prices that is 50 × $0.005 + $0.05 start = <strong>about $0.30</strong> (an estimate, not a measured run).</div>
+      <h3>Measured cost and time</h3>
+      <p>Run pZ2a21xCRbtuLLgkp (2026-10-14):</p>
+      <ul>
+        <li>300 detail pages at $0.005 each = $1.50</li>
+        <li>1 start event at $0.05; search-result events charged: 0</li>
+        <li><strong>Total events: $1.55</strong>, plus $0.065 platform usage</li>
+        <li>Run time: 24 minutes</li>
+      </ul>
+      <h3>Steps</h3>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">the actor</a>.</li>
+        <li>Paste the input above.</li>
+        <li>Press Start. Detail pages make this one slower.</li>
+        <li>Export as CSV or Excel.</li>
+      </ol>
+      <h3>What next</h3>
+      <ul>
+        <li>Emails are already in 299 of 300 rows.</li>
+        <li>Import to your CRM.</li>
+        <li>Schedule monthly, or run one city at a time with <code class="code-inline">location</code>.</li>
+      </ul>
+    </section>
+
+    <h2 id="mcp">Using it with Claude and other AI agents</h2>
+    <p>Apify has an MCP server at <code class="code-inline">https://mcp.apify.com</code>. According to Apify's docs, it lets AI apps find and run Actors from the Apify Store and read their results. Sign-in is by OAuth (recommended) or an API token. Running Actors needs an Apify account.</p>
+    <p>From the docs: <code class="code-inline">call-actor</code> runs an Actor and returns the run status and storage IDs, not the output. To read the rows, the agent uses <code class="code-inline">get-dataset-items</code> on the run's dataset. You can limit what the agent sees with a <code class="code-inline">tools</code> query parameter on the URL.</p>
+    <p>See <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp">Apify's MCP documentation</a> for setup. We have not tested these three actors through MCP ourselves.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details><summary>Can I do another city or trade?</summary><p>Yes. Change the search text or <code class="code-inline">location</code>. The fields stay the same. How many rows you get depends on the city and the site.</p></details>
+      <details><summary>Can I get emails?</summary><p>Telefonbuch and Herold return an email when the listing has one (77 of 100 and 299 of 300 in these runs). Google Maps does not list emails, so take the <code class="code-inline">website</code> column and run <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Website Email Scraper</a>.</p></details>
+      <details><summary>How often should I re-run?</summary><p>Business listings change slowly. Monthly is a reasonable start. You can set it up under Schedules in Apify. Each run is billed again.</p></details>
+      <details><summary>What does the free plan cover?</summary><p>New Apify accounts get a monthly free credit; check <a target="_blank" rel="noopener" href="https://apify.com/pricing?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Apify's pricing page</a> for the current amount. At about $5, using the measured costs above and including platform usage: roughly 50 runs like recipe 1 ($0.096 each), about 9 like recipe 2 ($0.51 each), about 3 like recipe 3 ($1.61 each). This is arithmetic on our three runs, not a guarantee.</p></details>
+      <details><summary>Is this legal?</summary><p>It depends on what you do with the data. See the note below.</p></details>
+    </div>
+
+    <h2 id="compliance">Compliance note</h2>
+    <p>These actors collect business listings that are publicly shown on the source sites. Personal data (for example a sole trader's name or private number) is your responsibility. You must comply with GDPR (UK GDPR for London), national data-protection and marketing laws, and each site's terms of use. For cold outreach, check the rules for your country first, and ask a qualified lawyer if you are unsure.</p>
+
+    <div class="end-cta">
+      <h2>Start with recipe 1</h2>
+      <p>98 London dentists for about ten cents. Change the city and trade to yours.</p>
+      <div class="ctas">
+        <a class="btn-primary" target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=g-google-maps-leads">Open the Google Maps Scraper</a>
+        <a class="btn-secondary" href="/de/guides/google-maps-leads/" hreflang="de" lang="de">Auf Deutsch</a>
+      </div>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <script>
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
