@@ -312,6 +312,7 @@
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
         <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
         <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
+        <li><a href="#beispiel-berlin">Beispiel: Fitnessstudios in Berlin</a></li>
         <li><a href="#emails">E-Mails und Anreicherung</a></li>
         <li><a href="#claude-prompt">Prompt für Claude</a></li>
         <li><a href="#felder">Wichtige Felder</a></li>
@@ -435,6 +436,52 @@
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Zahnarztpraxen mit Hamburger PLZ (ohne Dentallabore) und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung, ohne Praxen ohne Website.</code></pre></div>
     <p>Die Bereinigung machst du in Google Sheets (Daten → Datenbereinigung → Duplikate entfernen nach <code class="code-inline">place_id</code>, dann filtern) oder lässt Claude sie mit dem Prompt erledigen. Für einen günstigen ersten Test nimm 3 oder 4 Stadtteile und setze <code class="code-inline">maxResultsPerQuery</code> auf 50.</p>
+
+    <h2 id="beispiel-berlin">Beispiel: alle Fitnessstudios in Berlin</h2>
+    <div class="example"><figure><img src="assets/beispiel-berlin.jpg" alt="Karte der Berliner Stadtgrenze mit einem Punkt pro gefundenem Fitnessstudio" width="720" height="640" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Berliner Fitnessstudios. Wie in Hamburg läuft <strong>eine Suche pro Ortsteil</strong>, hier 30 Suchen mit bis zu 200 Orten.</p><ul><li><strong>2.768 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 1.597.</li><li>Nur die Kategorien Fitnessstudio, Fitnessraum und Spa- und Fitnessstudio, nur Berlin mit PLZ 10000 bis 14999, ohne Outdoor- und Calisthenics-Parks: 582 Orte. <strong>511 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>447 mit Telefon, 473 mit Website, 340 mit 4,5 oder besser bewertet. Die meisten liegen in den PLZ 10117 (18), 10245 (13) und 12555 (12).</li></ul><p>Kosten, geschätzt: 2.768 Orte × 0,001 $ = <strong>etwa 2,80 $</strong> im Free-Plan. Unser Testlauf am 20.10.2026 lief lokal in 5 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <details><summary>Eingabe mit allen 30 Ortsteilen anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Fitnessstudio in Berlin-Friedrichshain",
+    "Fitnessstudio in Berlin-Prenzlauer Berg",
+    "Fitnessstudio in Berlin-Mitte",
+    "Fitnessstudio in Berlin-Gesundbrunnen",
+    "Fitnessstudio in Berlin-Wedding",
+    "Fitnessstudio in Berlin-Moabit",
+    "Fitnessstudio in Berlin-Wilmersdorf",
+    "Fitnessstudio in Berlin-Kreuzberg",
+    "Fitnessstudio in Berlin-Neukölln",
+    "Fitnessstudio in Berlin-Schöneberg",
+    "Fitnessstudio in Berlin-Tempelhof",
+    "Fitnessstudio in Berlin-Charlottenburg",
+    "Fitnessstudio in Berlin-Weißensee",
+    "Fitnessstudio in Berlin-Lichtenberg",
+    "Fitnessstudio in Berlin-Spandau",
+    "Fitnessstudio in Berlin-Steglitz",
+    "Fitnessstudio in Berlin-Zehlendorf",
+    "Fitnessstudio in Berlin-Pankow",
+    "Fitnessstudio in Berlin-Köpenick",
+    "Fitnessstudio in Berlin-Tegel",
+    "Fitnessstudio in Berlin-Treptow",
+    "Fitnessstudio in Berlin-Hellersdorf",
+    "Fitnessstudio in Berlin-Marzahn",
+    "Fitnessstudio in Berlin-Reinickendorf",
+    "Fitnessstudio in Berlin-Karlshorst",
+    "Fitnessstudio in Berlin-Lichterfelde",
+    "Fitnessstudio in Berlin-Friedenau",
+    "Fitnessstudio in Berlin-Rudow",
+    "Fitnessstudio in Berlin-Britz",
+    "Fitnessstudio in Berlin-Adlershof"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Berliner Ortsteil („Fitnessstudio in Berlin-Mitte“, „Fitnessstudio in Berlin-Kreuzberg“ und so weiter für diese Ortsteile: Friedrichshain, Prenzlauer Berg, Mitte, Gesundbrunnen, Wedding, Moabit, Wilmersdorf, Kreuzberg, Neukölln, Schöneberg, Tempelhof, Charlottenburg, Weißensee, Lichtenberg, Spandau, Steglitz, Zehlendorf, Pankow, Köpenick, Tegel, Treptow, Hellersdorf, Marzahn, Reinickendorf, Karlshorst, Lichterfelde, Friedenau, Rudow, Britz, Adlershof), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Fitnessstudios mit Berliner PLZ (ohne Outdoor-Parks) und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
+
 
     <h2 id="emails">E-Mails und Anreicherung</h2>
     <p>Mit <code class="code-inline">"enableEmailExtraction": true</code> besucht der Actor die Website jedes Orts und sucht dort E-Mail-Adressen, Telefonnummern und Social-Media-Links. Sie landen in derselben Zeile in <code class="code-inline">emails_from_website</code>, <code class="code-inline">phones_from_website</code> und <code class="code-inline">social_urls</code>.</p>

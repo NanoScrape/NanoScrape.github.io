@@ -515,7 +515,7 @@ Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, Website, Bewertung u
 ohne Praxen ohne Website.</code></pre></div>
 
     <h2 id="examples">Examples from our Shorts</h2>
-    <p>Two complete runs behind our YouTube Shorts, with the exact input, a Claude prompt and the numbers after clean-up. Both use the same trick for a big city: <strong>one search per district</strong> instead of one search for the whole city, then duplicates removed by <code class="code-inline">place_id</code>. Both were our own test runs on 2026-10-19; the costs are estimates from the row count and the current price.</p>
+    <p>Complete runs behind our YouTube Shorts, with the exact input, a Claude prompt and the numbers after clean-up. All use the same trick for a big city: <strong>one search per district</strong> instead of one search for the whole city, then duplicates removed by <code class="code-inline">place_id</code>. They were our own test runs on 2026-10-19 (London, Manchester) and 2026-10-20 (Austin); the costs are estimates from the row count and the current price.</p>
 
     <h3 id="example-london">Dentists in London: 1,415 practices</h3>
     <div class="example"><figure><img src="assets/example-london.jpg" alt="Five real rows from the run: London dental practices with phone and address" width="720" height="1280" loading="lazy"></figure><div><p>33 searches, one per borough ("dentist in Camden, London" and so on), up to 200 places each.</p><ul><li><strong>4,002 rows</strong> came back; neighbouring boroughs overlap.</li><li>Duplicates removed, dental categories only (dentist, orthodontist, endodontist, periodontist, implant clinic), London postcodes only: <strong>1,415 practices</strong>.</li><li>1,214 have a website, 966 are rated 4.5 or higher.</li><li>Cost estimate: 4,002 places × $0.001 = <strong>about $4.00</strong> on the free plan.</li></ul></div></div>
@@ -611,6 +611,52 @@ When it's done, remove duplicates by place_id, keep only dental practices with a
 Before you start the run, tell me what it will cost and wait for my OK.
 When it's done, remove duplicates by place_id and keep only the categories Plumber and Heating contractor. Keep a business if its address has a Greater Manchester postcode (M, SK, OL, BL, WN or WA), or if it has no address but its coordinates are inside latitude 53.33 to 53.69 and longitude -2.73 to -1.91: many plumbers are service-area businesses without a street address. Give me a table with name, phone, website, rating and postcode, sorted by rating.</code></pre></div>
     <p class="small">For a cheaper first test, keep 3 or 4 districts and set <code class="code-inline">maxResultsPerQuery</code> to 50. In German: the same method for <a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/#beispiel-hamburg">all dentists in Hamburg</a>.</p>
+
+    <h3 id="example-austin">Gyms in Austin, Texas: 179 gyms</h3>
+    <div class="example"><figure><img src="assets/example-austin.jpg" alt="Map of the Austin city limits with one dot per gym from the run" width="720" height="640" loading="lazy"><figcaption>City outline © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</figcaption></figure><div><p>30 searches, one per neighborhood ("gym in Zilker, Austin, TX" and so on), up to 200 places each.</p><ul><li><strong>2,782 rows</strong> came back, 1,268 after removing duplicates. About half were hotels and apartment buildings that list a gym.</li><li>Categories Gym, Fitness center, Boxing gym and Muay Thai boxing gym, a 787xx ZIP code, a phone or a website, and no apartment, residence, hotel, clubhouse, park, outdoor, yoga or pilates in the name: 200. Of those, <strong>179 gyms</strong> are inside the Austin city limits; the other 21 have an Austin mailing address in places like Westlake or Belterra.</li><li>166 have a phone, 168 a website, 155 both; 133 are rated 4.5 or higher. Top ZIP codes: 78704 (27), 78702 (13), 78757 (12), 78751 (11), 78745 (10), 78758 (10).</li><li>Cost estimate: 2,782 places × $0.001 = <strong>about $2.80</strong> on the free plan.</li></ul></div></div>
+    <details><summary>Show the input with all 30 neighborhoods</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchStrings": [
+    "gym in Downtown, Austin, TX",
+    "gym in East Austin, Austin, TX",
+    "gym in South Congress, Austin, TX",
+    "gym in Zilker, Austin, TX",
+    "gym in Hyde Park, Austin, TX",
+    "gym in North Loop, Austin, TX",
+    "gym in Mueller, Austin, TX",
+    "gym in Riverside, Austin, TX",
+    "gym in Montopolis, Austin, TX",
+    "gym in South Lamar, Austin, TX",
+    "gym in Bouldin Creek, Austin, TX",
+    "gym in Travis Heights, Austin, TX",
+    "gym in Clarksville, Austin, TX",
+    "gym in Tarrytown, Austin, TX",
+    "gym in Allandale, Austin, TX",
+    "gym in Crestview, Austin, TX",
+    "gym in North Burnet, Austin, TX",
+    "gym in The Domain, Austin, TX",
+    "gym in Brentwood, Austin, TX",
+    "gym in Windsor Park, Austin, TX",
+    "gym in Cherrywood, Austin, TX",
+    "gym in Govalle, Austin, TX",
+    "gym in Dove Springs, Austin, TX",
+    "gym in Onion Creek, Austin, TX",
+    "gym in Circle C Ranch, Austin, TX",
+    "gym in Oak Hill, Austin, TX",
+    "gym in Barton Hills, Austin, TX",
+    "gym in Rosedale, Austin, TX",
+    "gym in Northwest Hills, Austin, TX",
+    "gym in Anderson Mill, Austin, TX"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "en"
+}</code></pre></div>
+    </details>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/google-maps-scraper with one search per Austin neighborhood ("gym in Downtown, Austin, TX", "gym in Zilker, Austin, TX", and so on for these neighborhoods: Downtown, East Austin, South Congress, Zilker, Hyde Park, North Loop, Mueller, Riverside, Montopolis, South Lamar, Bouldin Creek, Travis Heights, Clarksville, Tarrytown, Allandale, Crestview, North Burnet, The Domain, Brentwood, Windsor Park, Cherrywood, Govalle, Dove Springs, Onion Creek, Circle C Ranch, Oak Hill, Barton Hills, Rosedale, Northwest Hills, Anderson Mill), up to 200 results per search, language en.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, remove duplicates by place_id and keep only the categories Gym, Fitness center, Boxing gym and Muay Thai boxing gym with a 787xx ZIP code and a phone or website. Drop places whose name contains apartment, residence, hotel, clubhouse, park, outdoor, yoga or pilates. Give me a table with name, phone, website, rating and ZIP code, sorted by rating.</code></pre></div>
+
 
     <h2 id="fields">Key output fields</h2>
     <p>Each place row in the dataset includes:</p>
