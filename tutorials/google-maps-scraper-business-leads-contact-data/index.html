@@ -13,6 +13,7 @@
   <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
   <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/">
   <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/">
   <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/fr/tutorials/scraper-google-maps/">
   <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/">
   <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
@@ -282,6 +283,14 @@
     #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
     .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
     .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
   </style>
 </head>
 <body>
@@ -325,6 +334,7 @@
         <li><a href="#advanced-queries">Advanced: structured queries</a></li>
         <li><a href="#mcp">Connect to AI agents via MCP</a></li>
         <li><a href="#claude-prompt">Copy-paste prompt for Claude</a></li>
+        <li><a href="#examples">Examples from our Shorts</a></li>
         <li><a href="#fields">Key output fields</a></li>
         <li><a href="#cost">What it costs</a></li>
         <li><a href="#faq">FAQ</a></li>
@@ -504,6 +514,104 @@ Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung,
 ohne Praxen ohne Website.</code></pre></div>
 
+    <h2 id="examples">Examples from our Shorts</h2>
+    <p>Two complete runs behind our YouTube Shorts, with the exact input, a Claude prompt and the numbers after clean-up. Both use the same trick for a big city: <strong>one search per district</strong> instead of one search for the whole city, then duplicates removed by <code class="code-inline">place_id</code>. Both were our own test runs on 2026-10-19; the costs are estimates from the row count and the current price.</p>
+
+    <h3 id="example-london">Dentists in London: 1,415 practices</h3>
+    <div class="example"><figure><img src="assets/example-london.jpg" alt="Five real rows from the run: London dental practices with phone and address" width="720" height="1280" loading="lazy"></figure><div><p>33 searches, one per borough ("dentist in Camden, London" and so on), up to 200 places each.</p><ul><li><strong>4,002 rows</strong> came back; neighbouring boroughs overlap.</li><li>Duplicates removed, dental categories only (dentist, orthodontist, endodontist, periodontist, implant clinic), London postcodes only: <strong>1,415 practices</strong>.</li><li>1,214 have a website, 966 are rated 4.5 or higher.</li><li>Cost estimate: 4,002 places × $0.001 = <strong>about $4.00</strong> on the free plan.</li></ul></div></div>
+    <details><summary>Show the input with all 33 boroughs</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchStrings": [
+    "dentist in City of London, London",
+    "dentist in Westminster, London",
+    "dentist in Camden, London",
+    "dentist in Islington, London",
+    "dentist in Hackney, London",
+    "dentist in Tower Hamlets, London",
+    "dentist in Southwark, London",
+    "dentist in Lambeth, London",
+    "dentist in Kensington and Chelsea, London",
+    "dentist in Hammersmith and Fulham, London",
+    "dentist in Wandsworth, London",
+    "dentist in Lewisham, London",
+    "dentist in Greenwich, London",
+    "dentist in Newham, London",
+    "dentist in Barking and Dagenham, London",
+    "dentist in Redbridge, London",
+    "dentist in Havering, London",
+    "dentist in Waltham Forest, London",
+    "dentist in Haringey, London",
+    "dentist in Enfield, London",
+    "dentist in Barnet, London",
+    "dentist in Harrow, London",
+    "dentist in Brent, London",
+    "dentist in Ealing, London",
+    "dentist in Hillingdon, London",
+    "dentist in Hounslow, London",
+    "dentist in Richmond upon Thames, London",
+    "dentist in Kingston upon Thames, London",
+    "dentist in Merton, London",
+    "dentist in Sutton, London",
+    "dentist in Croydon, London",
+    "dentist in Bromley, London",
+    "dentist in Bexley, London"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "en"
+}</code></pre></div>
+    </details>
+    <p>Claude prompt (set up the MCP server as in <a href="#mcp">Connect to AI agents via MCP</a>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/google-maps-scraper with one search per London borough ("dentist in City of London, London", "dentist in Westminster, London", and so on for all 33 boroughs), at most 200 results per search, language en.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, remove duplicates by place_id, keep only dental practices with a London postcode, and give me a table with name, phone, website, rating and postcode, sorted by rating, and leave out practices without a website.</code></pre></div>
+
+    <h3 id="example-manchester">Plumbers around Manchester: 426 businesses</h3>
+    <div class="example"><figure><img src="assets/example-manchester.jpg" alt="All 426 plumbers from the run placed on a map of the Manchester area by their coordinates" width="720" height="1280" loading="lazy"></figure><div><p>30 searches, one per area ("plumber in Didsbury, Manchester" and so on), up to 200 places each.</p><ul><li><strong>1,841 rows</strong> came back, 802 after removing duplicates.</li><li>Categories Plumber and Heating contractor, with a Greater Manchester postcode (M, SK, OL, BL, WN, WA) or no address but coordinates around Manchester: <strong>426 plumbers</strong>. That includes Stockport, Sale, Urmston and other towns around the city, so it is not every plumber in Manchester.</li><li>289 have a website, 283 are rated 4.5 or higher, 409 have a phone. Top postcode districts: M20 (18), M33 (13), M9 (12), SK8 (10), M25 (9), SK4 (9).</li><li>Cost estimate: 1,841 places × $0.001 = <strong>about $1.85</strong> on the free plan.</li></ul></div></div>
+    <div class="callout tip"><strong>Service-area businesses.</strong> Many plumbers show a service area on Google Maps instead of a street address: 161 of the 426 had none. Filtering by postcode alone would drop about a third of them, so the prompt also keeps listings without an address whose coordinates fall around Manchester.</div>
+    <details><summary>Show the input with all 30 areas</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchStrings": [
+    "plumber in City Centre, Manchester",
+    "plumber in Ancoats, Manchester",
+    "plumber in Ardwick, Manchester",
+    "plumber in Hulme, Manchester",
+    "plumber in Moss Side, Manchester",
+    "plumber in Whalley Range, Manchester",
+    "plumber in Chorlton, Manchester",
+    "plumber in Chorlton-cum-Hardy, Manchester",
+    "plumber in Didsbury, Manchester",
+    "plumber in West Didsbury, Manchester",
+    "plumber in Withington, Manchester",
+    "plumber in Fallowfield, Manchester",
+    "plumber in Rusholme, Manchester",
+    "plumber in Levenshulme, Manchester",
+    "plumber in Longsight, Manchester",
+    "plumber in Gorton, Manchester",
+    "plumber in Openshaw, Manchester",
+    "plumber in Clayton, Manchester",
+    "plumber in Beswick, Manchester",
+    "plumber in Miles Platting, Manchester",
+    "plumber in Newton Heath, Manchester",
+    "plumber in Moston, Manchester",
+    "plumber in Harpurhey, Manchester",
+    "plumber in Blackley, Manchester",
+    "plumber in Crumpsall, Manchester",
+    "plumber in Cheetham Hill, Manchester",
+    "plumber in Burnage, Manchester",
+    "plumber in Northenden, Manchester",
+    "plumber in Wythenshawe, Manchester",
+    "plumber in Baguley, Manchester"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "en"
+}</code></pre></div>
+    </details>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/google-maps-scraper with one search per Manchester area ("plumber in City Centre, Manchester", "plumber in Didsbury, Manchester", and so on for these areas: City Centre, Ancoats, Ardwick, Hulme, Moss Side, Whalley Range, Chorlton, Chorlton-cum-Hardy, Didsbury, West Didsbury, Withington, Fallowfield, Rusholme, Levenshulme, Longsight, Gorton, Openshaw, Clayton, Beswick, Miles Platting, Newton Heath, Moston, Harpurhey, Blackley, Crumpsall, Cheetham Hill, Burnage, Northenden, Wythenshawe, Baguley), at most 200 results per search, language en.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, remove duplicates by place_id and keep only the categories Plumber and Heating contractor. Keep a business if its address has a Greater Manchester postcode (M, SK, OL, BL, WN or WA), or if it has no address but its coordinates are inside latitude 53.33 to 53.69 and longitude -2.73 to -1.91: many plumbers are service-area businesses without a street address. Give me a table with name, phone, website, rating and postcode, sorted by rating.</code></pre></div>
+    <p class="small">For a cheaper first test, keep 3 or 4 districts and set <code class="code-inline">maxResultsPerQuery</code> to 50. In German: the same method for <a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/#beispiel-hamburg">all dentists in Hamburg</a>.</p>
+
     <h2 id="fields">Key output fields</h2>
     <p>Each place row in the dataset includes:</p>
     <ul>
@@ -571,6 +679,7 @@ ohne Praxen ohne Website.</code></pre></div>
       <li><a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a>: Automate Google Maps data collection into your own n8n workflow with no code.</li>
       <li><a href="/tutorials/google-maps-reviews-scraper/">Google Maps Reviews Scraper</a>: How to extract individual customer reviews from Google Maps at scale.</li>
       <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-business-leads-con-ec8bb0">Google Maps Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
+      <li><a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/">Google Maps Scraper Tutorial (Deutsch)</a>: the same tutorial in German, with all dentists in Hamburg as the example.</li>
       <li><a href="/tutorials/">All NanoScrape tutorials</a>: Step-by-step guides for scraping Instagram, Reddit, YouTube, and more.</li>
     </ul>
 

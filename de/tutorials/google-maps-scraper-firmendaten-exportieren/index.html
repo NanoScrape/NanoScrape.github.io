@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps Scraper: Firmendaten als Tabelle exportieren | NanoScrape</title>
+  <meta name="description" content="Firmendaten von Google Maps als CSV oder Excel: Name, Adresse, Telefon, Website, Bewertung. Ohne API-Schlüssel und ohne Code, mit Claude-Prompt und echtem Beispiel (498 Zahnärzte in Hamburg).">
+  <meta name="primary-keyword" content="google maps scraper">
+  <meta property="og:title" content="Google Maps Scraper: Firmendaten als Tabelle exportieren | NanoScrape">
+  <meta property="og:description" content="Firmendaten von Google Maps als CSV oder Excel: Name, Adresse, Telefon, Website, Bewertung. Ohne API-Schlüssel und ohne Code, mit Claude-Prompt und echtem Beispiel (498 Zahnärzte in Hamburg).">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/fr/tutorials/scraper-google-maps/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Firmendaten von Google Maps exportieren",
+  "description": "Firmendaten von Google Maps als CSV oder Excel: Name, Adresse, Telefon, Website, Bewertung. Ohne API-Schlüssel und ohne Code, mit Claude-Prompt und echtem Beispiel (498 Zahnärzte in Hamburg).",
+  "totalTime": "PT10M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.10"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Google Maps Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des Google Maps Scrapers auf Apify, klicke auf Try for free und registriere dich."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Suchbegriffe eintragen",
+      "text": "Trage im Feld searchStrings Branche und Ort ein, zum Beispiel Steuerberater in München, und setze maxResultsPerQuery."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Start. Die Ergebnisse erscheinen im Tab Output."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Output auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Google Maps Scraper: Firmendaten mit Telefon, Website und Bewertung exportieren",
+  "description": "Firmendaten von Google Maps als CSV oder Excel: Name, Adresse, Telefon, Website, Bewertung. Ohne API-Schlüssel und ohne Code, mit Claude-Prompt und echtem Beispiel (498 Zahnärzte in Hamburg).",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Brauche ich einen Google-API-Schlüssel?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Der Actor nutzt nicht die Google Places API. Du brauchst nur ein Apify-Konto."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bekomme ich E-Mail-Adressen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Maps zeigt keine E-Mails. Mit enableEmailExtraction sucht der Actor sie auf der Website jedes Orts, oder du gibst die Website-Spalte in den Website Email Scraper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum nicht einfach „Zahnarzt Hamburg“ suchen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Maps zeigt pro Suche nur eine begrenzte Zahl von Orten, eine Suche deckt also nur einen Teil einer großen Stadt ab. Eine Suche pro Stadtteil deckt viel mehr ab; dafür zahlst du die Überschneidungen, die du danach entfernst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der Google Maps Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0,001 $ pro gefundenem Ort im Free-Plan, auf bezahlten Apify-Plänen weniger. Das Beispiel Hamburg mit 3.812 Orten kostet geschätzt etwa 3,80 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich Claude?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Claude erledigt Kostenprüfung, Lauf und Bereinigung nur in einem Schritt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Geht das für andere Städte und Branchen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, weltweit. Nimm eine Suche pro Stadtteil deiner Stadt und ersetze die Branche durch deine. Die Felder bleiben gleich."
+      }
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Google Maps Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/de/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; Google Maps Scraper</nav>
+
+    <h1>Google Maps Scraper: Firmendaten mit Telefon, Website und Bewertung exportieren</h1>
+    <p class="lead">Du willst eine Liste von Firmen aus Google Maps, mit Telefon, Website und Bewertung, als Tabelle? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren">Google Maps Scraper</a> auf Apify holt sie dir zu jedem Suchbegriff, ohne Google-API-Schlüssel und ohne Code. Hier sind die Eingaben, ein Prompt für Claude und ein echtes Beispiel: alle Zahnärzte in Hamburg.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 10 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 0,001 $ pro Ort im Free-Plan</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console oder Claude mit MCP</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#claude-prompt" class="btn-secondary">Claude-Prompt kopieren</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suchbegriffe eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
+        <li><a href="#emails">E-Mails und Anreicherung</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude</a></li>
+        <li><a href="#felder">Wichtige Felder</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren">Google Maps Scraper</a> sucht auf Google Maps nach deinen Suchbegriffen und legt jeden gefundenen Ort als Zeile in einer Tabelle ab. Du brauchst keinen Google-API-Schlüssel und keinen Code. Pro Ort bekommst du unter anderem:</p>
+    <ul>
+      <li><strong>Name, Kategorie und Adresse</strong>, die Adresse auch zerlegt in Straße, PLZ, Ort und Land (<code class="code-inline">complete_address</code>).</li>
+      <li><strong>Telefon und Website</strong>, wenn der Eintrag sie hat.</li>
+      <li><strong>Bewertung und Anzahl Bewertungen</strong>, Öffnungszeiten und Status (geöffnet oder dauerhaft geschlossen).</li>
+      <li><strong>Koordinaten</strong> (<code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>) und die dauerhafte Google-ID <code class="code-inline">place_id</code>, mit der du Duplikate entfernst.</li>
+    </ul>
+    <p>E-Mail-Adressen stehen nicht auf Google Maps. Wie du sie trotzdem bekommst, steht weiter unten bei <a href="#emails">E-Mails und Anreicherung</a>.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren">Seite des Google Maps Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suchbegriffe eintragen</h2>
+      <p>Schreib Branche und Ort zusammen in einen Suchbegriff, einen pro Zeile. Im JSON-Editor sieht das so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Steuerberater in München",
+    "Physiotherapie in Köln"
+  ],
+  "maxResultsPerQuery": 50,
+  "language": "de"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchStrings</code>: deine Suchbegriffe. Jeder läuft als eigene Google-Maps-Suche, alle Ergebnisse landen in einer Tabelle.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: wie viele Orte pro Suche höchstens. 20 für einen schnellen Test, 200 für große Städte.</li>
+        <li><code class="code-inline">maxTotalResults</code>: optionale Obergrenze über alle Suchen. Gut, um die Kosten zu deckeln.</li>
+        <li><code class="code-inline">language</code>: <code class="code-inline">de</code> für deutsche Namen und Kategorien.</li>
+      </ul>
+      <div class="callout tip"><strong>Große Stadt?</strong> Google Maps zeigt pro Suche nur einen Teil der Orte einer großen Stadt. Eine Suche pro Stadtteil deckt viel mehr ab. Wie das aussieht, zeigt das <a href="#beispiel-hamburg">Beispiel Hamburg</a>.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten</h2>
+      <p>Klicke auf <strong>Start</strong>. Die Ergebnisse erscheinen im Tab <strong>Output</strong>, während der Lauf noch läuft. Kleine Läufe mit unter 100 Orten sind meist in unter einer Minute fertig.</p>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <p>Im Tab <strong>Output</strong> klickst du auf <strong>Export</strong> und wählst CSV, Excel oder JSON. CSV und Excel öffnest du direkt in Google Sheets oder Excel; verschachtelte Felder wie <code class="code-inline">complete_address</code> werden dabei in eigene Spalten aufgeteilt.</p>
+    </div>
+
+    <h2 id="beispiel-hamburg">Beispiel: alle Zahnärzte in Hamburg</h2>
+    <div class="example"><figure><img src="assets/beispiel-hamburg.jpg" alt="Ein echter Eintrag aus dem Lauf: eine Hamburger Zahnarztpraxis mit Telefon, Adresse, Webseite und Bewertung" width="720" height="1280" loading="lazy"></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Hamburger Zahnärzten. Statt einer Suche „Zahnarzt Hamburg“ läuft <strong>eine Suche pro Stadtteil</strong>, 46 Suchen mit bis zu 200 Orten.</p><ul><li><strong>3.812 Einträge</strong> kamen zurück. Benachbarte Stadtteile überschneiden sich, dieselbe Praxis taucht also mehrfach auf.</li><li>Nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code>, nur Zahnarzt-Kategorien, nur PLZ 20xxx bis 22xxx mit „Hamburg“ in der Adresse und ohne Dentallabore blieben <strong>498 Praxen</strong>.</li><li>422 davon haben eine Webseite, 342 sind mit 4,5 oder besser bewertet.</li></ul><p>Kosten, geschätzt: 3.812 Orte × 0,001 $ = <strong>etwa 3,80 $</strong> im Free-Plan. Unser Testlauf am 19.10.2026 lief lokal in 8 Teilen, etwa 9 Minuten; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <p>Die Eingabe für Apify (Tab <strong>Input</strong>, auf JSON umstellen, einfügen, Start):</p>
+    <details><summary>Eingabe mit allen 46 Stadtteilen anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Zahnarzt in Hamburg-Altstadt",
+    "Zahnarzt in Hamburg-Neustadt",
+    "Zahnarzt in Hamburg-St. Georg",
+    "Zahnarzt in Hamburg-St. Pauli",
+    "Zahnarzt in Hamburg-HafenCity",
+    "Zahnarzt in Hamburg-Hamm",
+    "Zahnarzt in Hamburg-Horn",
+    "Zahnarzt in Hamburg-Billstedt",
+    "Zahnarzt in Hamburg-Rothenburgsort",
+    "Zahnarzt in Hamburg-Altona",
+    "Zahnarzt in Hamburg-Ottensen",
+    "Zahnarzt in Hamburg-Bahrenfeld",
+    "Zahnarzt in Hamburg-Blankenese",
+    "Zahnarzt in Hamburg-Osdorf",
+    "Zahnarzt in Hamburg-Lurup",
+    "Zahnarzt in Hamburg-Rissen",
+    "Zahnarzt in Hamburg-Eimsbüttel",
+    "Zahnarzt in Hamburg-Harvestehude",
+    "Zahnarzt in Hamburg-Rotherbaum",
+    "Zahnarzt in Hamburg-Eppendorf",
+    "Zahnarzt in Hamburg-Lokstedt",
+    "Zahnarzt in Hamburg-Niendorf",
+    "Zahnarzt in Hamburg-Stellingen",
+    "Zahnarzt in Hamburg-Eidelstedt",
+    "Zahnarzt in Hamburg-Schnelsen",
+    "Zahnarzt in Hamburg-Winterhude",
+    "Zahnarzt in Hamburg-Barmbek",
+    "Zahnarzt in Hamburg-Uhlenhorst",
+    "Zahnarzt in Hamburg-Hohenfelde",
+    "Zahnarzt in Hamburg-Fuhlsbüttel",
+    "Zahnarzt in Hamburg-Langenhorn",
+    "Zahnarzt in Hamburg-Ohlsdorf",
+    "Zahnarzt in Hamburg-Wandsbek",
+    "Zahnarzt in Hamburg-Eilbek",
+    "Zahnarzt in Hamburg-Rahlstedt",
+    "Zahnarzt in Hamburg-Bramfeld",
+    "Zahnarzt in Hamburg-Volksdorf",
+    "Zahnarzt in Hamburg-Poppenbüttel",
+    "Zahnarzt in Hamburg-Sasel",
+    "Zahnarzt in Hamburg-Farmsen-Berne",
+    "Zahnarzt in Hamburg-Jenfeld",
+    "Zahnarzt in Hamburg-Bergedorf",
+    "Zahnarzt in Hamburg-Lohbrügge",
+    "Zahnarzt in Hamburg-Harburg",
+    "Zahnarzt in Hamburg-Wilhelmsburg",
+    "Zahnarzt in Hamburg-Neugraben-Fischbek"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude (Einrichtung siehe <a href="#claude-prompt">Claude-Prompt</a>). Claude nennt dir zuerst die Kosten und wartet auf dein OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Hamburger Stadtteil („Zahnarzt in Hamburg-Altstadt“, „Zahnarzt in Hamburg-Eppendorf“ und so weiter für diese Stadtteile: Altstadt, Neustadt, St. Georg, St. Pauli, HafenCity, Hamm, Horn, Billstedt, Rothenburgsort, Altona, Ottensen, Bahrenfeld, Blankenese, Osdorf, Lurup, Rissen, Eimsbüttel, Harvestehude, Rotherbaum, Eppendorf, Lokstedt, Niendorf, Stellingen, Eidelstedt, Schnelsen, Winterhude, Barmbek, Uhlenhorst, Hohenfelde, Fuhlsbüttel, Langenhorn, Ohlsdorf, Wandsbek, Eilbek, Rahlstedt, Bramfeld, Volksdorf, Poppenbüttel, Sasel, Farmsen-Berne, Jenfeld, Bergedorf, Lohbrügge, Harburg, Wilhelmsburg, Neugraben-Fischbek), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Zahnarztpraxen mit Hamburger PLZ (ohne Dentallabore) und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung, ohne Praxen ohne Website.</code></pre></div>
+    <p>Die Bereinigung machst du in Google Sheets (Daten → Datenbereinigung → Duplikate entfernen nach <code class="code-inline">place_id</code>, dann filtern) oder lässt Claude sie mit dem Prompt erledigen. Für einen günstigen ersten Test nimm 3 oder 4 Stadtteile und setze <code class="code-inline">maxResultsPerQuery</code> auf 50.</p>
+
+    <h2 id="emails">E-Mails und Anreicherung</h2>
+    <p>Mit <code class="code-inline">"enableEmailExtraction": true</code> besucht der Actor die Website jedes Orts und sucht dort E-Mail-Adressen, Telefonnummern und Social-Media-Links. Sie landen in derselben Zeile in <code class="code-inline">emails_from_website</code>, <code class="code-inline">phones_from_website</code> und <code class="code-inline">social_urls</code>.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Steuerberater in München"
+  ],
+  "maxResultsPerQuery": 50,
+  "language": "de",
+  "enableEmailExtraction": true
+}</code></pre></div>
+    <p>Alternativ gibst du die Spalte <code class="code-inline">website</code> später in den <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren">Website Email Scraper</a>. Mit einem eigenen Gemini-, Groq- oder OpenRouter-Schlüssel kann der Actor außerdem Ansprechpartner, offene Stellen und einen persönlichen Einstiegssatz pro Firma erzeugen; die Details stehen im <a href="/tutorials/google-maps-scraper-business-leads-contact-data/#enrichment">englischen Tutorial</a>.</p>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein und ersetzt die Suche durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit der Suche
+"Steuerberater in München" und höchstens 100 Ergebnissen, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
+    <p class="small">Für eine ganze Stadt nimm den Prompt aus dem <a href="#beispiel-hamburg">Beispiel Hamburg</a>. Getestet haben wir den Actor und die Eingaben, nicht die Prompts über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
+
+    <h2 id="felder">Wichtige Felder</h2>
+    <ul>
+      <li><code class="code-inline">title</code>: Name des Orts wie auf Google Maps.</li>
+      <li><code class="code-inline">category</code> / <code class="code-inline">categories</code>: Hauptkategorie und alle Kategorien.</li>
+      <li><code class="code-inline">address</code> und <code class="code-inline">complete_address</code>: Adresse als Text und zerlegt (Straße, PLZ, Ort, Land).</li>
+      <li><code class="code-inline">phone</code>, <code class="code-inline">website</code>: Kontakt, wenn vorhanden.</li>
+      <li><code class="code-inline">rating</code>, <code class="code-inline">review_count</code>: Bewertung (1 bis 5) und Anzahl Bewertungen.</li>
+      <li><code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>: Koordinaten.</li>
+      <li><code class="code-inline">opening_hours</code>, <code class="code-inline">status</code>: Öffnungszeiten und ob der Ort geöffnet ist.</li>
+      <li><code class="code-inline">place_id</code>, <code class="code-inline">link</code>: dauerhafte Google-ID und Link zum Eintrag.</li>
+    </ul>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro gefundenem Ort ab, nicht pro Lauf (Preise laut Apify, Stand 19.10.2026):</p>
+    <ul>
+      <li>Ort: 0,001 $ im Free-Plan (1 $ pro 1.000 Orte), 0,00097 $ auf Bronze, 0,00089 $ auf Silver, 0,00075 $ ab Gold.</li>
+      <li>Actor-Start: 0,00005 $ pro Lauf, dazu etwas Plattformnutzung.</li>
+    </ul>
+    <p>Du zahlst für jeden zurückgegebenen Ort, auch für Duplikate, die du danach entfernst. Ein Test mit 2 Suchen und je 50 Orten kostet also höchstens etwa 0,10 $. Der Free-Plan von Apify enthält ein monatliches Guthaben; den aktuellen Betrag findest du auf <a target="_blank" rel="noopener" href="https://apify.com/pricing?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren">Apifys Preisseite</a>.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Brauche ich einen Google-API-Schlüssel?</summary>
+        <p>Nein. Der Actor nutzt nicht die Google Places API. Du brauchst nur ein Apify-Konto.</p>
+      </details>
+      <details>
+        <summary>Bekomme ich E-Mail-Adressen?</summary>
+        <p>Google Maps zeigt keine E-Mails. Mit <code class="code-inline">enableEmailExtraction</code> sucht der Actor sie auf der Website jedes Orts, oder du gibst die Website-Spalte in den Website Email Scraper.</p>
+      </details>
+      <details>
+        <summary>Warum nicht einfach „Zahnarzt Hamburg“ suchen?</summary>
+        <p>Google Maps zeigt pro Suche nur eine begrenzte Zahl von Orten, eine Suche deckt also nur einen Teil einer großen Stadt ab. Eine Suche pro Stadtteil deckt viel mehr ab; dafür zahlst du die Überschneidungen, die du danach entfernst.</p>
+      </details>
+      <details>
+        <summary>Was kostet der Google Maps Scraper?</summary>
+        <p>0,001 $ pro gefundenem Ort im Free-Plan, auf bezahlten Apify-Plänen weniger. Das Beispiel Hamburg mit 3.812 Orten kostet geschätzt etwa 3,80 $.</p>
+      </details>
+      <details>
+        <summary>Brauche ich Claude?</summary>
+        <p>Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Claude erledigt Kostenprüfung, Lauf und Bereinigung nur in einem Schritt.</p>
+      </details>
+      <details>
+        <summary>Geht das für andere Städte und Branchen?</summary>
+        <p>Ja, weltweit. Nimm eine Suche pro Stadtteil deiner Stadt und ersetze die Branche durch deine. Die Felder bleiben gleich.</p>
+      </details>
+    </div>
+
+    <h2 id="recht">Hinweis zu Datenschutz und Recht</h2>
+    <p>Der Actor sammelt Einträge, die auf Google Maps öffentlich angezeigt werden. Für personenbezogene Daten (zum Beispiel den Namen eines Einzelunternehmers oder eine private Nummer) bist du verantwortlich. Du musst die DSGVO, nationale Datenschutz- und Werbegesetze (in Deutschland zum Beispiel das UWG) und die Nutzungsbedingungen von Google einhalten. Prüfe vor Kaltakquise die Regeln und frag im Zweifel eine Anwältin oder einen Anwalt.</p>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/google-maps-scraper/de/">Google Maps Scraper, Actor-Seite</a>: Felder, Preise und Vergleich.</li>
+      <li><a href="/tutorials/google-maps-scraper-business-leads-contact-data/">Google Maps Scraper Tutorial (Englisch)</a>: alle Eingaben, KI-Anreicherung und strukturierte Suchen.</li>
+      <li><a href="/de/tutorials/herold-scraper-firmendaten-exportieren/">Herold Scraper Tutorial</a>: Firmendaten aus Österreichs Gelben Seiten.</li>
+      <li><a href="/actors/website-email-scraper/">Website Email Scraper</a>: E-Mails auf den gefundenen Webseiten finden.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/de/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Kopiert!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Fehlgeschlagen';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

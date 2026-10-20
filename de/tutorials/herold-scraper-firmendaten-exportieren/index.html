@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Herold Scraper: Firmendaten aus Österreich exportieren | NanoScrape</title>
+  <meta name="description" content="Firmen aus Herold.at als CSV oder Excel: Name, Telefon, E-Mail, Adresse, Website. Ohne Code, mit Claude-Prompt und echtem Lauf (300 Installateure, 1,55 $).">
+  <meta name="primary-keyword" content="herold scraper">
+  <meta property="og:title" content="Herold Scraper: Firmendaten aus Österreich exportieren | NanoScrape">
+  <meta property="og:description" content="Firmen aus Herold.at als CSV oder Excel: Name, Telefon, E-Mail, Adresse, Website. Ohne Code, mit Claude-Prompt und echtem Lauf (300 Installateure, 1,55 $).">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Firmendaten von Herold.at exportieren",
+  "description": "Firmen aus Herold.at als CSV oder Excel: Name, Telefon, E-Mail, Adresse, Website. Ohne Code, mit Claude-Prompt und echtem Lauf (300 Installateure, 1,55 $).",
+  "totalTime": "PT10M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.25"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Herold.at Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des Herold.at Scrapers auf Apify, klicke auf Try for free und registriere dich."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Branche und Ort eintragen",
+      "text": "Trage keyword und optional location ein und setze maxResults."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Start. Die Ergebnisse erscheinen im Tab Output."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Output auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Herold Scraper: Firmendaten aus Österreichs Gelben Seiten exportieren",
+  "description": "Firmen aus Herold.at als CSV oder Excel: Name, Telefon, E-Mail, Adresse, Website. Ohne Code, mit Claude-Prompt und echtem Lauf (300 Installateure, 1,55 $).",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-20",
+  "dateModified": "2026-10-20",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Bekomme ich E-Mail-Adressen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, wenn der Herold-Eintrag eine zeigt; oft steht sie schon in der Trefferliste. Für den Rest gibst du die Website-Spalte in den Website Email Scraper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wann brauche ich includeDetails?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Wenn du Website, Öffnungszeiten oder Koordinaten willst. Ohne Detailseiten ist der Lauf schneller und kostet 0,002 $ statt 0,005 $ pro Betrieb."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum dauerte der Beispiellauf 24 Minuten?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mit includeDetails öffnet der Actor für jeden der 300 Betriebe die Detailseite einzeln."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der Herold Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0,05 $ pro Lauf plus 0,002 $ pro Betrieb aus der Trefferliste oder 0,005 $ mit Detailseite. 300 Installateure mit Details kosteten gemessen 1,55 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich Claude?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Claude erledigt Kostenprüfung, Lauf und Tabelle nur in einem Schritt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Geht das für ganz Österreich?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Ohne location sucht der Actor in ganz Österreich, bis maxResults erreicht ist."
+      }
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Herold Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/herold-scraper-firmendaten-exportieren/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/de/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; Herold Scraper</nav>
+
+    <h1>Herold Scraper: Firmendaten aus Österreichs Gelben Seiten exportieren</h1>
+    <p class="lead">Du brauchst österreichische Betriebe einer Branche mit Telefon, E-Mail und Adresse, als Tabelle? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren">Herold.at Scraper</a> auf Apify holt sie aus Österreichs Gelben Seiten, ohne Code. Hier sind die Eingaben, ein Prompt für Claude und ein echter Lauf: 300 Installateure für 1,55 $.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> Beispiellauf mit 300 Betrieben: 1,55 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console oder Claude mit MCP</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#claude-prompt" class="btn-secondary">Claude-Prompt kopieren</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Branche und Ort</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#beispiel-installateure">Beispiel: Installateure in Österreich</a></li>
+        <li><a href="#emails">E-Mails und Anreicherung</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude</a></li>
+        <li><a href="#felder">Wichtige Felder</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p><a target="_blank" rel="noopener" href="https://www.herold.at/">Herold.at</a> sind Österreichs Gelbe Seiten. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren">Herold.at Scraper</a> sucht dort nach Branche und Ort und legt jeden Betrieb als Zeile in einer Tabelle ab. Schon aus der Trefferliste bekommst du:</p>
+    <ul>
+      <li><strong>Name, Branche, Adresse</strong> mit 4-stelliger PLZ und Ort.</li>
+      <li><strong>Telefon und E-Mail</strong>, wenn der Eintrag sie zeigt. Herold zeigt beides oft direkt in der Trefferliste.</li>
+    </ul>
+    <p>Mit <code class="code-inline">includeDetails</code> öffnet der Actor zusätzlich die Detailseite jedes Betriebs. Dann kommen, soweit vorhanden, <strong>Website, Öffnungszeiten, Beschreibung, Koordinaten</strong>, Bewertung, Gründungsjahr und Social-Media-Links dazu.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren">Seite des Herold.at Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Branche und Ort eintragen</h2>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "keyword": "Elektriker",
+  "location": "Wien",
+  "maxResults": 100,
+  "includeDetails": false
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">keyword</code>: Branche oder Leistung, zum Beispiel „Installateur“, „Tischler“, „Steuerberater“.</li>
+        <li><code class="code-inline">location</code>: Stadt oder Region, zum Beispiel „Wien“ oder „Graz“. Leer lassen für ganz Österreich.</li>
+        <li><code class="code-inline">maxResults</code>: wie viele Betriebe höchstens (Standard 100).</li>
+        <li><code class="code-inline">includeDetails</code>: Detailseiten öffnen für Website, Öffnungszeiten und Koordinaten. Langsamer und teurer, siehe <a href="#kosten">Kosten</a>.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten</h2>
+      <p>Klicke auf <strong>Start</strong>. Ohne Detailseiten ist ein Lauf mit 100 Betrieben schnell fertig; mit Detailseiten dauert er länger, weil der Actor jede Seite einzeln öffnet (im Beispiel unten 24 Minuten für 300 Betriebe).</p>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <p>Im Tab <strong>Output</strong> klickst du auf <strong>Export</strong> und wählst CSV, Excel oder JSON.</p>
+    </div>
+
+    <h2 id="beispiel-installateure">Beispiel: Installateure in Österreich</h2>
+    <div class="example"><figure><img src="assets/beispiel-installateure.jpg" alt="Ein echter Eintrag aus dem Lauf: ein österreichischer Installateur mit Telefon, Ort und Webseite" width="720" height="1280" loading="lazy"></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Installateuren in Österreich. Ein echter Lauf auf Apify (pZ2a21xCRbtuLLgkp, 14.10.2026), Suchbegriff „Installateur“, ohne Ort, mit Detailseiten:</p><ul><li><strong>300 Betriebe</strong>, so viele wie <code class="code-inline">maxResults</code> erlaubt. Das sind nicht alle Installateure Österreichs; setz den Wert höher für mehr.</li><li>Alle 300 mit Telefon, 293 mit Webseite.</li><li>Kosten gemessen: 300 × 0,005 $ + 0,05 $ Start = <strong>1,55 $</strong>, dazu 0,065 $ Plattformnutzung. Laufzeit 24 Minuten.</li></ul></div></div>
+    <p>Die Eingabe für Apify (Tab <strong>Input</strong>, auf JSON umstellen, einfügen, Start):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "keyword": "Installateur",
+  "maxResults": 300,
+  "includeDetails": true,
+  "enableContactExtraction": false,
+  "enableJobExtraction": false,
+  "enableBrowserFallback": false,
+  "outputLanguage": "en"
+}</code></pre></div>
+    <p>Oder mit Claude (Einrichtung siehe <a href="#claude-prompt">Claude-Prompt</a>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/herold-at-scraper mit dem Suchbegriff "Installateur", höchstens 300 Ergebnissen und Detailseiten (includeDetails true).
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, E-Mail, Website und Ort, sortiert nach Ort.</code></pre></div>
+    <p>Mit <code class="code-inline">"location": "Wien"</code> grenzt du auf eine Stadt ein. Für einen günstigen ersten Test setz <code class="code-inline">maxResults</code> auf 50: mit Detailseiten etwa 0,30 $ (Schätzung zu denselben Preisen).</p>
+
+    <h2 id="emails">E-Mails und Anreicherung</h2>
+    <p>Herold liefert eine E-Mail, wenn der Eintrag eine hat. Für den Rest gibst du die Spalte <code class="code-inline">website</code> (mit <code class="code-inline">includeDetails</code>) in den <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren">Website Email Scraper</a>. Mit einem eigenen Gemini-, Groq- oder OpenRouter-Schlüssel kann der Actor außerdem Ansprechpartner (<code class="code-inline">enableContactExtraction</code>) und offene Stellen (<code class="code-inline">enableJobExtraction</code>) von den Firmen-Websites holen; die Kosten dafür rechnet dein KI-Anbieter ab.</p>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/herold-at-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein und ersetzt Branche und Ort durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/herold-at-scraper mit dem Suchbegriff "Elektriker",
+Ort "Wien" und höchstens 100 Ergebnissen, ohne Detailseiten.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, E-Mail, Adresse und PLZ.</code></pre></div>
+    <p class="small">Getestet haben wir den Actor und die Eingaben, nicht die Prompts über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
+
+    <h2 id="felder">Wichtige Felder</h2>
+    <ul>
+      <li><code class="code-inline">name</code>, <code class="code-inline">category</code>, <code class="code-inline">keywords</code>: Betrieb und Branche.</li>
+      <li><code class="code-inline">phone</code>, <code class="code-inline">email</code>: Kontakt, oft schon aus der Trefferliste.</li>
+      <li><code class="code-inline">address</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">city</code>: Adresse.</li>
+      <li><code class="code-inline">website</code>, <code class="code-inline">opening_hours</code>, <code class="code-inline">description</code>, <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>: mit <code class="code-inline">includeDetails</code>.</li>
+      <li><code class="code-inline">rating_score</code>, <code class="code-inline">rating_count</code>, <code class="code-inline">founding_year</code>, <code class="code-inline">social_links</code>: wenn der Eintrag sie hat.</li>
+      <li><code class="code-inline">detail_url</code>, <code class="code-inline">source_url</code>: Links zum Eintrag und zur Suche.</li>
+    </ul>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Betrieb ab (Preise laut Apify, Stand 19.10.2026):</p>
+    <ul>
+      <li>Actor-Start: 0,05 $ pro Lauf.</li>
+      <li>Betrieb aus der Trefferliste (ohne Detailseiten): 0,002 $.</li>
+      <li>Betrieb mit Detailseite (<code class="code-inline">includeDetails</code>): 0,005 $ statt 0,002 $.</li>
+    </ul>
+    <p>Beispiele: 100 Betriebe aus der Trefferliste = 0,05 $ + 100 × 0,002 $ = 0,25 $. 300 Betriebe mit Detailseiten = 1,55 $ (gemessen, siehe Beispiel oben). Den aktuellen Gratis-Betrag des Free-Plans findest du auf <a target="_blank" rel="noopener" href="https://apify.com/pricing?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren">Apifys Preisseite</a>.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Bekomme ich E-Mail-Adressen?</summary>
+        <p>Ja, wenn der Herold-Eintrag eine zeigt; oft steht sie schon in der Trefferliste. Für den Rest gibst du die Website-Spalte in den Website Email Scraper.</p>
+      </details>
+      <details>
+        <summary>Wann brauche ich includeDetails?</summary>
+        <p>Wenn du Website, Öffnungszeiten oder Koordinaten willst. Ohne Detailseiten ist der Lauf schneller und kostet 0,002 $ statt 0,005 $ pro Betrieb.</p>
+      </details>
+      <details>
+        <summary>Warum dauerte der Beispiellauf 24 Minuten?</summary>
+        <p>Mit <code class="code-inline">includeDetails</code> öffnet der Actor für jeden der 300 Betriebe die Detailseite einzeln.</p>
+      </details>
+      <details>
+        <summary>Was kostet der Herold Scraper?</summary>
+        <p>0,05 $ pro Lauf plus 0,002 $ pro Betrieb aus der Trefferliste oder 0,005 $ mit Detailseite. 300 Installateure mit Details kosteten gemessen 1,55 $.</p>
+      </details>
+      <details>
+        <summary>Brauche ich Claude?</summary>
+        <p>Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Claude erledigt Kostenprüfung, Lauf und Tabelle nur in einem Schritt.</p>
+      </details>
+      <details>
+        <summary>Geht das für ganz Österreich?</summary>
+        <p>Ja. Ohne <code class="code-inline">location</code> sucht der Actor in ganz Österreich, bis <code class="code-inline">maxResults</code> erreicht ist.</p>
+      </details>
+    </div>
+
+    <h2 id="recht">Hinweis zu Datenschutz und Recht</h2>
+    <p>Dieser Actor sammelt Branchen-Einträge, die auf Herold.at öffentlich angezeigt werden. Für personenbezogene Daten (zum Beispiel den Namen eines Einzelunternehmers oder eine private Nummer) bist du verantwortlich. Du musst die DSGVO, österreichische Datenschutz- und Werbegesetze und die Nutzungsbedingungen von Herold einhalten. Prüfe vor Kaltakquise die Regeln und frag im Zweifel eine Anwältin oder einen Anwalt.</p>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/herold-at-scraper/de/">Herold.at Scraper, Actor-Seite</a>: alle Felder und Preise.</li>
+      <li><a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/">Google Maps Scraper Tutorial</a>: Firmendaten aus Google Maps, weltweit.</li>
+      <li><a href="/actors/website-email-scraper/">Website Email Scraper</a>: E-Mails auf den gefundenen Webseiten finden.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/herold-at-scraper?fpr=0khfbz&amp;fp_sid=t-herold-scraper-firmendaten-exportieren" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/de/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Kopiert!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Fehlgeschlagen';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
