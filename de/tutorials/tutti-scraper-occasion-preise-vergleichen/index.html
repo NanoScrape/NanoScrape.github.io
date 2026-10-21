@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Occasion-Preise auf tutti.ch vergleichen | NanoScrape</title>
+  <meta name="description" content="Angebotspreise für Occasionen auf tutti.ch sammeln und vergleichen: Median, Zustand, Versand, Kanton. Mit echtem Beispiellauf zum iPhone 15, Kosten 0,75 $.">
+  <meta name="primary-keyword" content="tutti.ch preise vergleichen">
+  <meta property="og:title" content="Occasion-Preise auf tutti.ch vergleichen | NanoScrape">
+  <meta property="og:description" content="Angebotspreise auf tutti.ch als Tabelle: Median, Zustand, Versand und Kanton. Schritt für Schritt, ohne Code, mit Beispiel zum iPhone 15.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/tutti-scraper-occasion-preise-vergleichen/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Occasion-Preise auf tutti.ch vergleichen | NanoScrape">
+  <meta name="twitter:description" content="Angebotspreise auf tutti.ch als Tabelle: Median, Zustand, Versand und Kanton, mit Beispiel zum iPhone 15.">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/tutti-scraper-occasion-preise-vergleichen/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Occasion-Preise auf tutti.ch vergleichen",
+  "description": "Mit dem Tutti.ch Scraper auf Apify Inserate zu einem Produkt exportieren und Preise, Zustand und Versand auswerten.",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Eine tutti.ch-Suche"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Tutti.ch Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des Tutti.ch Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Suche eintragen",
+      "text": "Kopiere die tutti.ch-Such-URL in das Feld searchUrls, setze maxResults, sortBy auf newest und includeDetails auf true."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Save and Run. Die Inserate erscheinen im Tab Dataset, sobald der Lauf fertig ist."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren und auswerten",
+      "text": "Exportiere als CSV, Excel oder JSON, filtere Zubehör und andere Modelle heraus und berechne Median und Quartile von price_chf."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Occasion-Preise auf tutti.ch vergleichen",
+  "description": "Anleitung, mit dem Tutti.ch Scraper auf Apify Angebotspreise für Occasionen zu sammeln, mit Beispiellauf zum iPhone 15.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/tutti-scraper-occasion-preise-vergleichen/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Sind das Verkaufspreise oder Angebotspreise?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Es sind Angebotspreise. tutti.ch zeigt den Preis, den die Verkäuferin oder der Verkäufer verlangt, nicht den Preis, zu dem das Gerät später den Besitzer wechselt. Der Median der Angebote ist ein guter Richtwert für den Markt, aber keine Verkaufsstatistik. Oft wird noch verhandelt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie finde ich die tutti.ch-Suche, die ich eingeben soll?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Suche auf tutti.ch nach deinem Produkt, stelle Kategorie, Preis oder Region ein und kopiere die URL aus dem Browser in das Feld searchUrls. Eine einfache Stichwortsuche geht auch direkt, zum Beispiel https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015. Der Actor liest die Filter aus der URL."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum stehen Hüllen und andere Modelle in den Ergebnissen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Stichwortsuche von tutti.ch ist unscharf. Im Beispiellauf waren von 150 Inseraten 52 in anderen Kategorien (vor allem Zubehör), 5 weitere Hüllen und Folien unter 100 CHF und 6 andere Modelle wie iPhone 12 oder 17. Übrig blieben 87 Inserate. Diese Filter legst du nach dem Lauf selbst auf die Tabelle, der Actor filtert nicht nach Produkt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Woher kommen Zustand und Versand?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Aus der Detailseite. Zustand (properties.Zustand) und Versand (properties[\"Versand verfügbar\"]) füllt der Actor nur mit includeDetails auf true. Ohne Details sind properties leer, der Lauf ist dafür günstiger. Nicht jedes Inserat nennt beides: im Beispiel fehlte der Zustand bei 1 und der Versand bei 1 von 87 Inseraten."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der Lauf?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Im Free-Plan 0,005 $ pro Lauf, dazu 0,003 $ pro Inserat aus der Trefferliste oder 0,005 $ pro Inserat mit Detailseite. Der Beispiellauf mit 150 Inseraten (149 mit Details, 1 ohne) kostete damit etwa 0,75 $. Jedes Inserat wird nur einmal berechnet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Daten verwenden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt von deinem Anwendungsfall ab. Preisdaten sind unkritisch, die Felder seller_name, phone und email können aber Personendaten von Privatpersonen enthalten. In der Schweiz gelten dafür das nDSG und das UWG. Für eine Preisanalyse brauchst du diese Felder nicht, lass sie beim Export weg. Das ist keine Rechtsberatung."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "tutti.ch Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/tutti-scraper-occasion-preise-vergleichen/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; tutti.ch Scraper</nav>
+
+    <h1>Occasion-Preise auf tutti.ch vergleichen</h1>
+    <p class="lead">Du verkaufst gebrauchte Ware weiter oder bepreist Occasionen in deinem Shop und willst wissen, was ein Gerät auf <a target="_blank" rel="noopener" href="https://www.tutti.ch">tutti.ch</a> wirklich kostet? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de">Tutti.ch Scraper</a> holt die Inserate zu deiner Suche und liefert sie als Tabelle: Preis, Kanton, Zustand, Versand und Datum. Daraus rechnest du Median und Quartile in Excel oder lässt Claude rechnen. Ohne Code.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 10 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 150 Inserate mit Details: 0,75 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console (ohne Code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-iphone-preise">Beispiel: iPhone 15 in der ganzen Schweiz</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude zum Kopieren</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suche eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#filter">Welche Einstellungen es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>tutti.ch bietet keine Export-Funktion für Suchergebnisse. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de">Tutti.ch Scraper</a> liest die Inserate einer Suche (Stichwort, Kategorie, Preis, Region, so wie du sie auf tutti.ch einstellst) und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Jede Zeile ist ein Inserat, hier gekürzt, mit erfundenen Beispielwerten zur Veranschaulichung der Struktur:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "id": "12345678",
+  "title": "iPhone 15 Pro Max 256 GB",
+  "price": "450.-",
+  "price_chf": 450,
+  "category": "cellPhones",
+  "location": "Bern",
+  "canton": "BE",
+  "seller_type": "private",
+  "posted_at": "2026-10-20T10:00:00+02:00",
+  "properties": { "Versand verfügbar": "Ja", "Zustand": "Gebraucht" },
+  "source_url": "https://www.tutti.ch/de/vi/12345678"
+}</code></pre></div>
+    <div class="callout warn"><strong>Angebotspreise, keine Verkaufspreise.</strong> Die Tabelle zeigt, was Anbieter verlangen. Zu welchem Preis ein Gerät am Ende verkauft wird, steht nicht in den Daten. Wenn ein Inserat verschwindet, siehst du nicht, ob es verkauft oder zurückgezogen wurde.</div>
+
+    <h2 id="felder">Alle Felder im Überblick</h2>
+    <p>So sind die Felder laut Ausgabe-Schema des Actors aufgebaut. Ohne <code class="code-inline">includeDetails</code> fehlen die Felder, die nur auf der Detailseite stehen. Dazu gehört <code class="code-inline">properties</code> mit Zustand und Versand.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Eindeutige Inserate-ID</td></tr>
+        <tr><td><code class="code-inline">title / description</code></td><td>Text</td><td>Titel und Text des Inserats</td></tr>
+        <tr><td><code class="code-inline">price / price_chf / currency</code></td><td>Text / Zahl</td><td>Preis als Text (&bdquo;450.-&ldquo;) und als Zahl in CHF. Fehlt im Inserat ein Preis, bleibt das Feld leer</td></tr>
+        <tr><td><code class="code-inline">category / category_label / category_path</code></td><td>Text</td><td>Kategorie-Kennung (zum Beispiel cellPhones); lesbarer Name und Pfad nur mit Details</td></tr>
+        <tr><td><code class="code-inline">location / canton / postcode</code></td><td>Text</td><td>Ort, Kanton als Kürzel und Postleitzahl</td></tr>
+        <tr><td><code class="code-inline">seller_type / seller_plan</code></td><td>Text</td><td>private oder professional, bei Profis der Plan</td></tr>
+        <tr><td><code class="code-inline">posted_at</code></td><td>Text</td><td>Zeitpunkt der Veröffentlichung</td></tr>
+        <tr><td><code class="code-inline">properties</code></td><td>Objekt</td><td>Zustand und Versand, nur mit includeDetails</td></tr>
+        <tr><td><code class="code-inline">image_url / image_count / image_urls</code></td><td>Text / Zahl</td><td>Titelbild, Anzahl Bilder; alle Bild-URLs nur mit Details</td></tr>
+        <tr><td><code class="code-inline">latitude / longitude / seller_id / seller_member_since</code></td><td>Zahl / Text</td><td>nur mit Details</td></tr>
+        <tr><td><code class="code-inline">is_highlighted / listing_source</code></td><td>Wahrheitswert / Text</td><td>ob das Inserat beworben ist, und ob es von tutti oder einer Partnerseite kommt</td></tr>
+        <tr><td><code class="code-inline">seller_name / phone / email</code></td><td>Text</td><td>Angaben der Anbieter. Können Personendaten sein, siehe FAQ</td></tr>
+        <tr><td><code class="code-inline">source_url / scraped_at</code></td><td>Text</td><td>Link zum Inserat und Zeitpunkt des Abrufs</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+    <div class="callout"><strong>Nicht jedes Feld ist immer gefüllt.</strong> Telefon und E-Mail stehen nur, wenn der Anbieter sie im Inserat nennt. Zustand und Versand fehlen bei Inseraten, in denen der Anbieter sie nicht angegeben hat.</div>
+
+    <h2 id="beispiel-iphone-preise">Beispiel: iPhone 15 in der ganzen Schweiz</h2>
+    <p>Du bepreist gebrauchte iPhones 15 und willst wissen, was Anbieter auf tutti.ch dafür verlangen. Wir haben die Suche einmal lokal laufen lassen (21.10.2026): Stichwort &bdquo;iphone 15&ldquo;, ganze Schweiz, die 150 neuesten Inserate, mit Detailseiten. Die 150 Inserate stammen aus rund vier Tagen (17. bis 21.10.2026). Aussortiert haben wir nach dem Lauf <strong>63 Inserate</strong>: 52 in anderen Kategorien als Handys (fast alles Zubehör wie Hüllen, Schutzgläser und Ladegeräte), 5 Hüllen und Folien in der Kategorie Handys (Preis unter 100 CHF) und 6 andere Modelle (iPhone 12, SE, 16 und 17). Übrig blieben <strong>87 Inserate</strong>:</p>
+    <ul>
+      <li><strong>Preis:</strong> Der Median der Angebote liegt bei <strong>470 CHF</strong>. Das untere Quartil liegt bei 394,50 CHF, das obere bei 500 CHF, die Spanne reicht von 199 bis 999 CHF.</li>
+      <li><strong>Nach Modell</strong> (aus dem Titel gelesen): Pro Max 33 Inserate, Median 490 CHF. Pro 34 Inserate, Median 475 CHF. Plus 3 Inserate, Median 400 CHF. Standard oder im Titel nicht genannt 17 Inserate, Median 350 CHF.</li>
+      <li><strong>Zustand:</strong> 83 Inserate sind als &bdquo;Gebraucht&ldquo; eingetragen (Median 470 CHF), 2 als &bdquo;Neu&ldquo;, 1 als &bdquo;Defekt&ldquo; (199 CHF), bei 1 fehlt die Angabe.</li>
+      <li><strong>Versand:</strong> 62 von 87 Inseraten bieten Versand an, 24 nicht, bei 1 fehlt die Angabe.</li>
+      <li><strong>Kantone:</strong> Die Inserate verteilen sich auf 19 Kantone. Am meisten gibt es in Zürich (25, Median 470 CHF), Aargau (11) und Bern (10). 84 Inserate sind von Privaten, 3 von Profis.</li>
+      <li><strong>Alter:</strong> Die 150 neuesten Inserate sind zwischen dem 17. und dem 21.10.2026 eingestellt worden, im Schnitt kommen also rund 35 neue Inserate pro Tag dazu.</li>
+    </ul>
+    <p>Bei einem Teil der Abrufe antwortete tutti.ch kurz mit Fehler 429 (zu viele Anfragen); der Actor hat wiederholt, 1 Detailseite fehlt. Dieses Inserat hat deshalb keinen Zustand und keinen Versand.</p>
+    <div class="callout tip"><strong>Die Suche ist unscharf.</strong> tutti.ch liefert zum Stichwort auch Zubehör und andere Modelle. Rechne mit Aussortieren nach dem Lauf, oder schränke die Such-URL vorher auf die Kategorie Handys ein. Das spart Kosten.</div>
+    <p>Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchUrls": ["https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015"],
+  "maxResults": 150,
+  "maxResultsPerQuery": 150,
+  "sortBy": "newest",
+  "includeDetails": true
+}</code></pre></div>
+    <ul>
+      <li><code class="code-inline">searchUrls</code>: die tutti.ch-Suche. Hier eine Stichwortsuche in der ganzen Schweiz. Du kannst auch eine URL mit Kategorie- und Preisfiltern einfügen.</li>
+      <li><code class="code-inline">maxResults</code> und <code class="code-inline">maxResultsPerQuery</code>: Obergrenze für den ganzen Lauf und pro Such-URL. Wir haben beide auf 150 gesetzt. Tipp: Der Standard pro Such-URL ist 100. Wenn du mehr als 100 willst, musst du <code class="code-inline">maxResultsPerQuery</code> mit erhöhen, sonst hört der Lauf bei 100 auf.</li>
+      <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> holt die neuesten Inserate zuerst.</li>
+      <li><code class="code-inline">includeDetails</code>: <code class="code-inline">true</code> holt pro Inserat die Detailseite. Nur damit bekommst du Zustand und Versand.</li>
+    </ul>
+    <p><strong>Kosten dieses Laufs: etwa 0,75 $</strong> (Free-Plan, 149 Inserate mit Details, 1 ohne, plus Start). Die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</p>
+    <div class="callout warn"><strong>Eine Momentaufnahme.</strong> Das sind die 150 neuesten Inserate zu einer unscharfen Stichwortsuche, nicht alle iPhone-15-Inserate der Schweiz. Ein anderer Tag oder eine andere Stichprobengrösse gibt andere Zahlen.</div>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/tutti-ch-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein und ersetzt die Suche durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/tutti-ch-scraper mit diesem Input:
+{"searchUrls": ["https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015"],
+ "maxResults": 150, "maxResultsPerQuery": 150, "sortBy": "newest", "includeDetails": true}
+Bevor du den Lauf startest, sag mir, was er kostet, und warte auf mein OK.
+Wenn er fertig ist: Behalte nur Inserate mit category cellPhones, price_chf ab 100 und
+"15" im Titel, und nenne mir, wie viele du aussortiert hast. Gib mir dann Anzahl,
+Quartile und Median von price_chf, den Median getrennt nach Pro Max, Pro, Plus und
+Standard (nach Titel), die Verteilung von properties.Zustand, den Anteil mit
+properties["Versand verfügbar"] = Ja, die Kantone mit den meisten Inseraten und
+die fünf neuesten Inserate mit Titel, Preis, Kanton und posted_at.</code></pre></div>
+    <p>Getestet haben wir den Actor und die Eingaben, nicht die Prompts über MCP. Claude formuliert die Kostenangabe und die Auswertung eventuell anders.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de">Seite des Tutti.ch Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suche eintragen</h2>
+      <p>Suche auf tutti.ch nach deinem Produkt. Stelle bei Bedarf Kategorie, Preis und Region ein und kopiere die URL aus der Adresszeile in das Feld <code class="code-inline">searchUrls</code>. Ein kleiner Testlauf sieht so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchUrls": ["https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015"],
+  "maxResults": 20,
+  "sortBy": "newest",
+  "includeDetails": true
+}</code></pre></div>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResults</code> auf 10 bis 20. So siehst du für wenige Cent, ob die Treffer zu deinem Produkt passen.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt, im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Mehrere Suchen in einem Lauf gehen so:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchUrls": [
+    "https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015",
+    "https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2014"
+  ],
+  "maxResults": 200,
+  "maxResultsPerQuery": 100,
+  "includeDetails": true
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren und auswerten</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong>.</li>
+        <li>Klicke auf <strong>Export</strong> und wähle CSV, Excel oder JSON. Mit der Feld-Auswahl exportierst du nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">title</code>, <code class="code-inline">price_chf</code>, <code class="code-inline">canton</code>, <code class="code-inline">category</code>, <code class="code-inline">posted_at</code> und <code class="code-inline">source_url</code>. Die Felder mit Personenbezug (<code class="code-inline">seller_name</code>, <code class="code-inline">phone</code>, <code class="code-inline">email</code>) brauchst du für eine Preisanalyse nicht.</li>
+        <li>Filtere in Excel auf <code class="code-inline">category</code> gleich <code class="code-inline">cellPhones</code> und entferne Zeilen unter einem Mindestpreis, damit Hüllen und Folien nicht in den Median fliessen. Danach rechnest du Median und Quartile von <code class="code-inline">price_chf</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Einstellungen es gibt</h2>
+    <ul>
+      <li><strong>Such-URL</strong> (<code class="code-inline">searchUrls</code>): beliebige tutti.ch-Suchen mit Stichwort, Kategorie, Preis und Region, oder ein einzelnes Inserat.</li>
+      <li><strong>Anzahl</strong> (<code class="code-inline">maxResults</code>, <code class="code-inline">maxResultsPerQuery</code>): Obergrenze für den ganzen Lauf und pro Such-URL.</li>
+      <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>): newest, oldest, cheapest, expensive oder relevant. Steht in der URL schon <code class="code-inline">sorting=</code>, gilt der Wert aus der URL.</li>
+      <li><strong>Alter</strong> (<code class="code-inline">maxAgeHours</code>): nur Inserate der letzten N Stunden. Zusammen mit <code class="code-inline">sortBy</code> newest hört der Actor auf zu blättern, sobald er ältere sieht.</li>
+      <li><strong>Details</strong> (<code class="code-inline">includeDetails</code>): Zustand, Versand, Koordinaten, alle Bilder. Kostet pro Inserat etwas mehr.</li>
+    </ul>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tutti-ch-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchUrls": ["https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015"], "maxResults": 50, "sortBy": "newest", "includeDetails": true}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für einen regelmässigen Preisverlauf legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an, zum Beispiel einmal pro Woche, und speicherst den Median jedes Laufs.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab (Preise live aus dem Apify Store, Stand 21.10.2026, Free-Plan; höhere Apify-Pläne zahlen etwas weniger):</p>
+    <ul>
+      <li>Start: 0,005 $ pro Lauf.</li>
+      <li>Inserat aus der Trefferliste (<code class="code-inline">includeDetails</code> aus): 0,003 $ pro Ergebnis.</li>
+      <li>Inserat mit Detailseite (<code class="code-inline">includeDetails</code> an): 0,005 $ pro Ergebnis.</li>
+    </ul>
+    <p>Jedes Inserat wird nur einmal berechnet, entweder als Treffer oder mit Details. Rechenbeispiel für den Lauf oben: 0,005 $ Start + 149 x 0,005 $ (mit Details) + 1 x 0,003 $ (Detailseite nicht abrufbar, wird als Treffer berechnet) = 0,753 $, also etwa 0,75 $. Ohne Details kosten dieselben 150 Inserate 0,005 $ + 150 x 0,003 $ = 0,455 $, also etwa 0,46 $, du bekommst dann aber weder Zustand noch Versand. Annahmen: Free-Plan-Preise, ein Startereignis pro Lauf. Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Wiederverkauf</h3>
+    <p>Prüfe vor dem Einkauf, was Anbieter für ein Modell verlangen, und rechne mit dem unteren Quartil als realistischem Einkaufspreis. Inserate mit Zustand &bdquo;Defekt&ldquo; trennst du vom Rest, damit sie den Median nicht verzerren.</p>
+    <h3>Preise im eigenen Shop</h3>
+    <p>Setze deine Occasionspreise gegen den Median der Angebote auf tutti.ch. Mit <code class="code-inline">canton</code> siehst du, ob Preise regional abweichen, und mit dem Versand-Anteil, wie viele Anbieter überhaupt verschicken.</p>
+    <h3>Preisverlauf und neue Angebote</h3>
+    <p>Mit einem wöchentlichen Zeitplan und <code class="code-inline">sortBy</code> newest siehst du, wie sich der Median über die Wochen entwickelt, zum Beispiel nach einem neuen Modell. Mit <code class="code-inline">maxAgeHours</code> holst du nur frische Inserate.</p>
+    <div class="callout"><strong>Datenschutz.</strong> Preise und Kategorien sind unkritisch. Namen, Telefonnummern und E-Mail-Adressen von Privatpersonen sind Personendaten. In der Schweiz gelten dafür das nDSG und das UWG, bei Werbung per Telefon oder E-Mail besonders. Für eine Preisanalyse lässt du diese Felder weg. Das ist keine Rechtsberatung.</div>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Sind das Verkaufspreise oder Angebotspreise?</summary>
+        <p>Es sind Angebotspreise. tutti.ch zeigt den Preis, den die Verkäuferin oder der Verkäufer verlangt, nicht den Preis, zu dem das Gerät später den Besitzer wechselt. Der Median der Angebote ist ein guter Richtwert für den Markt, aber keine Verkaufsstatistik. Oft wird noch verhandelt.</p>
+      </details>
+      <details>
+        <summary>Wie finde ich die tutti.ch-Suche, die ich eingeben soll?</summary>
+        <p>Suche auf tutti.ch nach deinem Produkt, stelle Kategorie, Preis oder Region ein und kopiere die URL aus dem Browser in das Feld searchUrls. Eine einfache Stichwortsuche geht auch direkt, zum Beispiel https://www.tutti.ch/de/li/ganze-schweiz?q=iphone%2015. Der Actor liest die Filter aus der URL.</p>
+      </details>
+      <details>
+        <summary>Warum stehen Hüllen und andere Modelle in den Ergebnissen?</summary>
+        <p>Die Stichwortsuche von tutti.ch ist unscharf. Im Beispiellauf waren von 150 Inseraten 52 in anderen Kategorien (vor allem Zubehör), 5 weitere Hüllen und Folien unter 100 CHF und 6 andere Modelle wie iPhone 12 oder 17. Übrig blieben 87 Inserate. Diese Filter legst du nach dem Lauf selbst auf die Tabelle, der Actor filtert nicht nach Produkt.</p>
+      </details>
+      <details>
+        <summary>Woher kommen Zustand und Versand?</summary>
+        <p>Aus der Detailseite. Zustand (properties.Zustand) und Versand (properties["Versand verfügbar"]) füllt der Actor nur mit includeDetails auf true. Ohne Details sind properties leer, der Lauf ist dafür günstiger. Nicht jedes Inserat nennt beides: im Beispiel fehlte der Zustand bei 1 und der Versand bei 1 von 87 Inseraten.</p>
+      </details>
+      <details>
+        <summary>Was kostet der Lauf?</summary>
+        <p>Im Free-Plan 0,005 $ pro Lauf, dazu 0,003 $ pro Inserat aus der Trefferliste oder 0,005 $ pro Inserat mit Detailseite. Der Beispiellauf mit 150 Inseraten (149 mit Details, 1 ohne) kostete damit etwa 0,75 $. Jedes Inserat wird nur einmal berechnet.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab. Preisdaten sind unkritisch, die Felder seller_name, phone und email können aber Personendaten von Privatpersonen enthalten. In der Schweiz gelten dafür das nDSG und das UWG. Für eine Preisanalyse brauchst du diese Felder nicht, lass sie beim Export weg. Das ist keine Rechtsberatung.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/tutti-ch-scraper/de/">Tutti.ch Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de">Tutti.ch Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/actors/homegate-scraper/de/">Homegate Scraper, Actor-Seite</a>: Immobilieninserate von homegate.ch.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-tutti-ch-scraper-occasion-preise-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
+
