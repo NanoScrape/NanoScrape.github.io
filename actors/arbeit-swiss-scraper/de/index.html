@@ -4,9 +4,9 @@
  <meta charset="UTF-8">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Arbeit.Swiss scrapen — Schweizer Staatsstellen, alle 26 Kantone | NanoScrape</title>
- <meta name="description" content="Stellenanzeigen von Arbeit.Swiss extrahieren, dem offiziellen Schweizer Stellenportal. HTTP-only Go-Scraper mit HMAC-SHA512-Authentifizierung. Alle Kantone abgedeckt. Ab $0,003/Ergebnis.">
+ <meta name="description" content="Stellenanzeigen von Arbeit.Swiss extrahieren, dem offiziellen Schweizer Stellenportal. HTTP-only Scraper ohne Browser, direkt über die öffentliche Job-Room-API. Filter nach Kanton. Ab $0,003/Ergebnis.">
  <meta property="og:title" content="Arbeit.Swiss Scraper — Offizielles Schweizer Stellenportal | NanoScrape">
- <meta property="og:description" content="Das Schweizer Staatsstellen-Portal scrapen. HMAC-SHA512-Auth wird automatisch abgewickelt. Alle Kantone, alle Sprachen.">
+ <meta property="og:description" content="Das Schweizer Staatsstellen-Portal scrapen. Filter nach Kanton, Pensum und Datum, Volltext und Kontaktdaten.">
  <meta property="og:url" content="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/de/">
  <meta property="og:type" content="website">
  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -31,7 +31,7 @@
  "name": "Arbeit.Swiss Scraper",
  "applicationCategory": "DeveloperApplication",
  "operatingSystem": "Cloud (Apify)",
- "description": "HTTP-only scraper for Arbeit.Swiss, Switzerland's official government employment service. HMAC-SHA512 authentication, ~12MB Docker image, 128MB RAM. Covers all 26 cantons.",
+ "description": "HTTP-only scraper for Arbeit.Swiss, Switzerland's official government employment service. Uses the public Job-Room API, 512 MB RAM, canton filter via cantonCodes. Covers all 26 cantons.",
  "offers": {
  "@type": "Offer",
  "price": "0.003",
@@ -99,7 +99,7 @@
 
  <div class="detail">
  <h1>Arbeit.Swiss scrapen — offizielle Schweizer Stellendaten, alle 26 Kantone</h1>
- <p class="lead">Strukturierte Vakanzdaten vom offiziellen öffentlichen Arbeitsvermittlungsdienst der Schweiz abrufen. Arbeit.Swiss wird vom SECO (Staatssekretariat für Wirtschaft) betrieben und listet Stellen, die private Jobbörsen häufig nicht führen. Unser Scraper wickelt die HMAC-SHA512-API-Authentifizierung der Plattform automatisch ab und liefert saubere Daten ohne jeglichen Browser-Overhead.</p>
+ <p class="lead">Strukturierte Vakanzdaten vom offiziellen öffentlichen Arbeitsvermittlungsdienst der Schweiz abrufen. Arbeit.Swiss wird vom SECO (Staatssekretariat für Wirtschaft) betrieben und listet Stellen, die private Jobbörsen häufig nicht führen. Unser Scraper fragt die öffentliche Job-Room-API direkt ab und liefert saubere Daten ohne Browser.</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=a-arbeit-swiss-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
@@ -107,21 +107,21 @@
  </div>
 
  <div class="specs">
- <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+ <div class="spec"><div class="label">Laufzeit</div><div class="value">Node.js, HTTP</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">512 MB</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Direkt, bei Sperre Proxy</div></div>
  <div class="spec"><div class="label">Abdeckung</div><div class="value">Schweiz (Staat)</div></div>
  <div class="spec"><div class="label">Preise</div><div class="value">$0,003/Job</div></div>
- <div class="spec"><div class="label">Anti-Bot</div><div class="value">HMAC-SHA512-Auth</div></div>
+ <div class="spec"><div class="label">Browser</div><div class="value">Nicht nötig</div></div>
  </div>
 
  <h2 class="section-title">Was Sie scrapen können</h2>
  <ul>
  <li><strong>Staatliche Stellenangebote</strong> — bei Schweizer RAV (Regionale Arbeitsvermittlungszentren) registrierte Stellen</li>
- <li><strong>Vollständige Stellendetails</strong> — Beschreibung, Anforderungen, benötigte Sprachen, Startdatum, Vertragsdauer</li>
- <li><strong>Arbeitgeberdaten</strong> — Firmenname, Kanton, Branchenklassifikation</li>
+ <li><strong>Vollständige Stellendetails</strong> — Beschreibung, Anforderungen, Pensum, Startdatum, Vertragsart, Kontaktperson</li>
+ <li><strong>Arbeitgeberdaten</strong> — Firmenname, Ort, PLZ, Kanton, Bewerbungs-E-Mail</li>
  <li><strong>Kantonale Filterung</strong> — gezielt einzelne Schweizer Kantone ansteuern (Zürich, Bern, Genf usw.)</li>
- <li><strong>Mehrsprachige Inserate</strong> — Stellen auf Deutsch, Französisch, Italienisch und Rätoromanisch</li>
+ <li><strong>Mehrsprachige Inserate</strong> — Stellen auf Deutsch, Französisch und Italienisch</li>
  <li><strong>Multi-Query</strong> — mehrere Suchbegriffe in einem Lauf zusammenfassen</li>
  </ul>
 
@@ -140,7 +140,8 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-
  -H "Content-Type: application/json" \
  -d '{
  "searchQueries": ["informatiker"],
- "canton": "ZH",
+ "cantonCodes": ["ZH"],
+ "sortBy": "newest",
  "maxResultsPerQuery": 100,
  "includeJobDetails": true
  }'
@@ -159,11 +160,10 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-
  <h2 class="section-title">Im Vergleich</h2>
  <table class="compare-table">
  <tr><th>Merkmal</th><th>NanoScrape</th><th>Alternativen</th></tr>
- <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>N/A (keine Alternativen)</td></tr>
- <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>N/A</td></tr>
- <tr><td>Auth-Handling</td><td class="highlight">HMAC-SHA512 automatisch</td><td>N/A</td></tr>
+  <tr><td>RAM-Verbrauch</td><td class="highlight">512 MB</td><td>N/A</td></tr>
+ <tr><td>Browser</td><td class="highlight">Nicht nötig (HTTP)</td><td>N/A</td></tr>
  <tr><td>Kantonsabdeckung</td><td class="highlight">Alle 26</td><td>N/A</td></tr>
- <tr><td>Sprachunterstützung</td><td>DE, FR, IT, RM</td><td>N/A</td></tr>
+ <tr><td>Sprachunterstützung</td><td>DE, FR, IT</td><td>N/A</td></tr>
  <tr><td>Verfügbarkeit</td><td class="highlight">Einziger Scraper auf Apify</td><td>Keiner verfügbar</td></tr>
  </table>
 
@@ -174,10 +174,10 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-
  <tr><td>company</td><td>string</td><td>Kanton Zürich</td></tr>
  <tr><td>location</td><td>string</td><td>Zürich, ZH</td></tr>
  <tr><td>canton</td><td>string</td><td>ZH</td></tr>
- <tr><td>language</td><td>string</td><td>de</td></tr>
- <tr><td>description</td><td>string</td><td>Vollständige Stellenbeschreibung</td></tr>
+ <tr><td>workload_min / workload_max</td><td>number</td><td>80 / 100</td></tr>
+ <tr><td>description_full</td><td>string</td><td>Vollständige Stellenbeschreibung</td></tr>
  <tr><td>start_date</td><td>string</td><td>2026-06-01</td></tr>
- <tr><td>url</td><td>string</td><td>https://arbeit.swiss/...</td></tr>
+ <tr><td>source_url</td><td>string</td><td>https://www.job-room.ch/...</td></tr>
  <tr><td>posted_at</td><td>string</td><td>2026-04-18</td></tr>
  <tr><td>search_query</td><td>string</td><td>informatiker</td></tr>
  </table>

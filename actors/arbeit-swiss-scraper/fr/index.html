@@ -5,7 +5,7 @@
  <meta name="robots" content="noindex, follow">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Scraper Arbeit.Swiss — Portail suisse de l'emploi public | NanoScrape</title>
- <meta name="description" content="Extrayez les offres d'emploi d'Arbeit.Swiss, le service public suisse de l'emploi. Scraper HTTP-only en Go avec authentification HMAC-SHA512. Tous les cantons couverts. A partir de 0,003$/r&eacute;sultat.">
+ <meta name="description" content="Extrayez les offres d'emploi d'Arbeit.Swiss, le service public suisse de l'emploi. Scraper HTTP sans navigateur, via l'API publique Job-Room. Filtre par canton. A partir de 0,003$/r&eacute;sultat.">
  <link rel="canonical" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/fr/">
  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/">
  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/de/">
@@ -79,7 +79,7 @@
 
  <div class="detail">
  <h1>Extraire les offres du portail officiel suisse de l'emploi — 26 cantons couverts</h1>
- <p class="lead">Acc&eacute;dez aux donn&eacute;es structur&eacute;es d'Arbeit.Swiss, le service public de l'emploi g&eacute;r&eacute; par le SECO. Ce portail gouvernemental r&eacute;f&eacute;rence des postes souvent absents des sites priv&eacute;s. Notre scraper g&egrave;re automatiquement l'authentification HMAC-SHA512, sans navigateur.</p>
+ <p class="lead">Acc&eacute;dez aux donn&eacute;es structur&eacute;es d'Arbeit.Swiss, le service public de l'emploi g&eacute;r&eacute; par le SECO. Ce portail gouvernemental r&eacute;f&eacute;rence des postes souvent absents des sites priv&eacute;s. Notre scraper interroge directement l'API publique Job-Room, sans navigateur.</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=a-arbeit-swiss-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
@@ -87,12 +87,12 @@
  </div>
 
  <div class="specs">
- <div class="spec"><div class="label">Image Docker</div><div class="value">~12MB</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+ <div class="spec"><div class="label">Runtime</div><div class="value">Node.js, HTTP</div></div>
+ <div class="spec"><div class="label">RAM</div><div class="value">512 MB</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Direct, proxy si bloqu&eacute;</div></div>
  <div class="spec"><div class="label">Couverture</div><div class="value">Suisse (Gov)</div></div>
  <div class="spec"><div class="label">Tarifs</div><div class="value">0,003$/offre</div></div>
- <div class="spec"><div class="label">Anti-Bot</div><div class="value">Auth HMAC-SHA512</div></div>
+ <div class="spec"><div class="label">Navigateur</div><div class="value">Non requis</div></div>
  </div>
 
  <h2 class="section-title">Ce que vous pouvez extraire</h2>
@@ -120,7 +120,8 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-
  -H "Content-Type: application/json" \
  -d '{
  "searchQueries": ["informatiker"],
- "canton": "ZH",
+ "cantonCodes": ["ZH"],
+ "sortBy": "newest",
  "maxResultsPerQuery": 100
  }'
 
@@ -138,9 +139,8 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-
  <h2 class="section-title">Comparaison</h2>
  <table class="compare-table">
  <tr><th>Caract&eacute;ristique</th><th>NanoScrape</th><th>Alternatives</th></tr>
- <tr><td>Image Docker</td><td class="highlight">~12MB</td><td>N/A (aucune alternative)</td></tr>
- <tr><td>RAM</td><td class="highlight">128MB</td><td>N/A</td></tr>
- <tr><td>Authentification</td><td class="highlight">HMAC-SHA512 auto</td><td>N/A</td></tr>
+  <tr><td>RAM</td><td class="highlight">512 MB</td><td>N/A</td></tr>
+ <tr><td>Navigateur</td><td class="highlight">Non requis (HTTP)</td><td>N/A</td></tr>
  <tr><td>Couverture cantons</td><td class="highlight">26 cantons</td><td>N/A</td></tr>
  <tr><td>Langues</td><td>DE, FR, IT, RM</td><td>N/A</td></tr>
  <tr><td>Disponibilit&eacute;</td><td class="highlight">Seul scraper sur Apify</td><td>Aucun disponible</td></tr>
