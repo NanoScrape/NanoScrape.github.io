@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jobware Scraper: Stellenanzeigen als CSV exportieren | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von Jobware.de als CSV oder Excel exportieren: Suchbegriff, Stadt, Umkreis. Schritt für Schritt, ohne Code, mit echtem Beispiellauf.">
+  <meta name="primary-keyword" content="jobware scrapen">
+  <meta property="og:title" content="Jobware Scraper: Stellenanzeigen exportieren | NanoScrape">
+  <meta property="og:description" content="Stellenanzeigen von Jobware.de als CSV, Excel oder JSON. Schritt für Schritt, ohne Code.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/jobware-scraper-stellenanzeigen-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/jobware-scraper-stellenanzeigen-exportieren/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Stellenanzeigen von Jobware.de exportieren",
+  "description": "Mit dem Jobware.de Scraper auf Apify Stellenanzeigen suchen und als CSV, Excel oder JSON herunterladen.",
+  "totalTime": "PT5M",
+  "supply": [
+    {"@type": "HowToSupply", "name": "Kostenloses Apify-Konto"},
+    {"@type": "HowToSupply", "name": "Ein oder mehrere Suchbegriffe"}
+  ],
+  "tool": [
+    {"@type": "HowToTool", "name": "Jobware.de Scraper (Apify)"}
+  ],
+  "step": [
+    {"@type": "HowToStep", "name": "Apify-Konto anlegen", "text": "Öffne die Seite des Jobware.de Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."},
+    {"@type": "HowToStep", "name": "Suchbegriffe und Ort eintragen", "text": "Trage im Feld Search Keywords einen oder mehrere Suchbegriffe ein, wähle Stadt und Umkreis und setze die Limits maxResultsPerQuery und maxResults."},
+    {"@type": "HowToStep", "name": "Actor starten", "text": "Klicke auf Save and Run. Die Ergebnisse erscheinen im Tab Dataset, sobald der Lauf fertig ist."},
+    {"@type": "HowToStep", "name": "Daten exportieren", "text": "Klicke im Tab Dataset auf Export und wähle CSV, Excel oder JSON."}
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Jobware Scraper: Stellenanzeigen exportieren",
+  "description": "Anleitung zum Export von Stellenanzeigen von Jobware.de mit dem Jobware.de Scraper auf Apify, mit Beispiellauf und Kosten.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {"@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"}
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/jobware-scraper-stellenanzeigen-exportieren/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Brauche ich Programmierkenntnisse für den Jobware-Scraper?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst."}},
+    {"@type": "Question", "name": "Welche Daten bekomme ich von Jobware.de?", "acceptedAnswer": {"@type": "Answer", "text": "Titel, Arbeitgeber, Ort, Beschäftigungsart, Arbeitszeit, Homeoffice-Angabe, Gehalt (wenn genannt), Veröffentlichungs- und Ablaufdatum, Link zur Originalanzeige, Bewerbungslink und mit includeDetails auch Volltext und Anforderungen. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab."}},
+    {"@type": "Question", "name": "Warum ist das Gehaltsfeld bei den meisten Anzeigen leer?", "acceptedAnswer": {"@type": "Answer", "text": "Weil die meisten Anzeigen kein Gehalt nennen. Im Beispiellauf mit 30 Anzeigen hatten 4 eine Gehaltsangabe. Der Actor schätzt kein Gehalt, er übernimmt nur, was in der Anzeige steht."}},
+    {"@type": "Question", "name": "Bekomme ich mit sortBy date die 30 neuesten Anzeigen?", "acceptedAnswer": {"@type": "Answer", "text": "Nicht unbedingt. Die Suche von Jobware liefert nach Relevanz. Der Actor sortiert die gesammelten Treffer nach Datum. Mit einem kleinen Limit bekommst du also die relevantesten Treffer, nach Datum sortiert. Für alle Anzeigen setze das Limit höher oder auf 0."}},
+    {"@type": "Question", "name": "Was kostet der Jobware-Scraper?", "acceptedAnswer": {"@type": "Answer", "text": "0,005 $ pro Lauf, dazu 0,00375 $ pro Anzeige aus der Trefferliste oder 0,00875 $ pro Anzeige mit Detailseite. 30 Anzeigen mit Details kosten damit etwa 0,27 $."}},
+    {"@type": "Question", "name": "Darf ich die Daten verwenden?", "acceptedAnswer": {"@type": "Answer", "text": "Das hängt von deinem Anwendungsfall ab, besonders bei Angaben zu Personen, etwa Ansprechpartner oder E-Mail-Adresse in der Bewerbungsangabe. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest."}}
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/de/tutorials/"},
+    {"@type": "ListItem", "position": 3, "name": "Jobware Scraper", "item": "https://www.nanoscrape.com/de/tutorials/jobware-scraper-stellenanzeigen-exportieren/"}
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; Jobware Scraper</nav>
+
+    <h1>Jobware Scraper: Stellenanzeigen als CSV exportieren</h1>
+    <p class="lead">Du suchst Stellenanzeigen für Fach- und Führungskräfte von Jobware.de und willst sie in Excel oder in eine eigene Auswertung bekommen? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de">Jobware.de Scraper</a> holt die Anzeigen zu deinen Suchbegriffen und deiner Stadt und liefert sie als Tabelle: Titel, Arbeitgeber, Ort, Datum, Gehalt (wenn angegeben) und Link zur Anzeige. Ohne Code, in wenigen Minuten.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 30 Anzeigen mit Details: ca. 0,27 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console oder Claude mit MCP</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+      <a href="#claude-prompt" class="btn-secondary">Claude-Prompt kopieren</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-controller-frankfurt">Beispiel: Controller in Frankfurt am Main</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#filter">Welche Filter es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>Jobware.de bietet keine Export-Funktion für Stellenanzeigen. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de">Jobware-Scraper</a> holt die Anzeigen zu deinen Suchbegriffen und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Jobware richtet sich an Fach- und Führungskräfte, die Anzeigen sind also eher Controlling, IT, Ingenieurwesen und Management als Aushilfsjobs. Der Actor arbeitet ohne Login und ohne Browser.</p>
+    <p>Wir haben ihn einmal lokal laufen lassen, mit dem Suchbegriff &bdquo;Controller&ldquo; in Frankfurt am Main. Das Ergebnis steht im <a href="#beispiel-controller-frankfurt">Beispiel weiter unten</a>.</p>
+
+    <h2 id="felder">Alle Felder im Überblick</h2>
+    <p>So sind die Felder laut Ausgabe-Schema des Actors aufgebaut. Ohne <code class="code-inline">includeDetails</code> fehlen die Felder, die nur auf der Detailseite stehen (zum Beispiel Volltext und Anforderungen).</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Eindeutige Anzeigen-ID, zum Beispiel jw-2070127905</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Titel der Anzeige</td></tr>
+        <tr><td><code class="code-inline">company</code></td><td>Text</td><td>Arbeitgeber (bei Personalberatungen der Name der Beratung)</td></tr>
+        <tr><td><code class="code-inline">location</code></td><td>Text</td><td>Ort der Stelle</td></tr>
+        <tr><td><code class="code-inline">canton</code></td><td>Text</td><td>Bundesland als Kürzel, zum Beispiel HE (der Feldname stammt aus dem gemeinsamen Schema aller Job-Actors)</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Beschäftigungsart, zum Beispiel full-time</td></tr>
+        <tr><td><code class="code-inline">workload_min / workload_max</code></td><td>Zahl</td><td>Arbeitszeit in Prozent</td></tr>
+        <tr><td><code class="code-inline">remote_option</code></td><td>Text</td><td>Homeoffice-Angabe, falls vorhanden (zum Beispiel hybrid)</td></tr>
+        <tr><td><code class="code-inline">salary_text</code></td><td>Text</td><td>Gehalt, wie es in der Anzeige steht</td></tr>
+        <tr><td><code class="code-inline">salary_min / salary_max</code></td><td>Zahl</td><td>Gehalt als Zahl aus salary_text (salary_max bleibt bei einer einzelnen Zahl leer)</td></tr>
+        <tr><td><code class="code-inline">salary_currency / salary_period / salary_source</code></td><td>Text</td><td>Währung (EUR), Zeitraum (year, month oder hour) und Quelle der Angabe (im Beispiellauf immer stated, also so in der Anzeige genannt)</td></tr>
+        <tr><td><code class="code-inline">description_snippet</code></td><td>Text</td><td>Kurzbeschreibung</td></tr>
+        <tr><td><code class="code-inline">description_full</code></td><td>Text</td><td>Voller Anzeigentext (mit includeDetails)</td></tr>
+        <tr><td><code class="code-inline">requirements</code></td><td>Liste</td><td>Genannte Anforderungen und Kenntnisse</td></tr>
+        <tr><td><code class="code-inline">company_description / company_url / company_logo_url / company_rating / company_review_count / company_benefits / company_social_urls</code></td><td>Text / Zahl / Liste</td><td>Firmenangaben, soweit Jobware sie liefert</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Bewerbungslink und, falls angegeben, Bewerbungs-E-Mail</td></tr>
+        <tr><td><code class="code-inline">contact_salutation, contact_firstname, contact_lastname, contact_email, contact_phone, contact_position, contact_raw</code></td><td>Text</td><td>Ansprechperson, falls die Anzeige eine nennt</td></tr>
+        <tr><td><code class="code-inline">posted_at</code></td><td>Datum</td><td>Veröffentlichungsdatum mit Uhrzeit (UTC)</td></tr>
+        <tr><td><code class="code-inline">expires_at</code></td><td>Datum</td><td>Ablaufdatum der Anzeige</td></tr>
+        <tr><td><code class="code-inline">job_status / top_listing</code></td><td>Text / Boolean</td><td>Status der Anzeige und Markierung als hervorgehobene Anzeige</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link zur Originalanzeige und Plattform (jobware.de)</td></tr>
+        <tr><td><code class="code-inline">country / search_query / scraped_at</code></td><td>Text</td><td>Land (DE), der Suchbegriff, der die Anzeige gefunden hat, und Zeitpunkt des Abrufs</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+
+    <h2 id="beispiel-controller-frankfurt">Beispiel: Controller in Frankfurt am Main</h2>
+    <p>Wir haben den Actor am 21.10.2026 lokal mit diesem Input laufen lassen:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Controller"],
+  "city": "Frankfurt am Main",
+  "radius": 25,
+  "sortBy": "date",
+  "maxResultsPerQuery": 30,
+  "maxResults": 30,
+  "includeDetails": true
+}</code></pre></div>
+    <p>Die Suche meldete <strong>88 Treffer</strong> für diese Kombination. Wir haben bei 30 gestoppt, also nicht an einer Seitengrenze (eine Seite hat bis zu 100 Treffer). Bei höherem Limit hätte der Actor alle 88 geholt. Der Lauf lieferte 30 Anzeigen mit Details und war nach wenigen Sekunden fertig (lokal gemessen, Zeiten auf Apify können abweichen). Drei Ergebnisse, gekürzt und ohne Kontaktangaben von Personen:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">[
+  {
+    "id": "jw-2070127905",
+    "title": "Controller (m/w/d)",
+    "company": "a-team Zeitarbeit und Personalmanagement GmbH",
+    "location": "Frankfurt am Main",
+    "canton": "HE",
+    "employment_type": "full-time",
+    "workload_min": 100,
+    "workload_max": 100,
+    "remote_option": "hybrid",
+    "salary_text": "60.000 €",
+    "salary_min": 60000,
+    "salary_currency": "EUR",
+    "salary_period": "year",
+    "salary_source": "stated",
+    "posted_at": "2026-10-21T03:04:34.000Z",
+    "expires_at": "2027-04-20T21:59:59.000Z",
+    "source_url": "https://www.jobware.de/job/controller-m-w-d-064713753",
+    "source_platform": "jobware.de",
+    "search_query": "Controller"
+  },
+  {
+    "id": "jw-2069000065",
+    "title": "Financial Controller (m/w/d)",
+    "company": "adesta GmbH & Co. KG",
+    "location": "Frankfurt am Main",
+    "remote_option": "hybrid",
+    "salary_text": "65.000€ - 75.000€ pro Jahr",
+    "salary_min": 65000,
+    "salary_max": 75000,
+    "salary_period": "year",
+    "posted_at": "2026-10-17T23:41:16.000Z",
+    "source_url": "https://www.jobware.de/job/financial-controller-m-w-d-064683801"
+  },
+  {
+    "id": "jw-2068941705",
+    "title": "Projektleiter Schaltanlagenbau Hoch- und Höchstspannung (w/m/d)",
+    "company": "Brunel GmbH NL Mannheim",
+    "location": "Frankfurt am Main",
+    "salary_text": null,
+    "posted_at": "2026-10-17T09:26:58.000Z",
+    "source_url": "https://www.jobware.de/job/projektleiter-schaltanlagenbau-hoch-und-hoechstspannung-w-m-d-064681585"
+  }
+]</code></pre></div>
+    <p>So waren die Felder bei den 30 Anzeigen gefüllt:</p>
+    <ul>
+      <li><strong>30 von 30:</strong> Titel, Arbeitgeber, Ort, Beschäftigungsart, Arbeitszeit, Anzeigentext, Anforderungen, Veröffentlichungs- und Ablaufdatum, Link zur Anzeige, Bewerbungslink.</li>
+      <li><strong>26 von 30:</strong> Bewerbungs-E-Mail. <strong>24 von 30:</strong> Bundesland-Kürzel. <strong>14 von 30:</strong> Homeoffice-Angabe (immer hybrid).</li>
+      <li><strong>4 von 30:</strong> Gehalt. Das ist wenig. Die meisten Anzeigen nennen kein Gehalt.</li>
+      <li><strong>9 von 30:</strong> Telefonnummer einer Ansprechperson, <strong>1 von 30:</strong> Name einer Ansprechperson. Diese Felder enthalten Angaben zu Personen, prüfe vor der Weiterverwendung die Rechtslage.</li>
+      <li><strong>0 von 30:</strong> Firmenwebsite, Firmenbeschreibung, Firmenlogo, Bewertung und Benefits.</li>
+    </ul>
+    <div class="callout warn"><strong>Prüfe die Treffer.</strong> Von den 30 Anzeigen lagen 19 in Frankfurt am Main, die anderen zum Beispiel in Weiterstadt, Offenbach, Friedberg, Hannover oder Berlin. Es waren auch Titel dabei, die nur am Rand mit Controlling zu tun haben (etwa Kita-Leitung oder Patientenadministration). Und viele Anzeigen kommen von Personalberatungen, nicht vom Endarbeitgeber. Nutze mehrere genaue Suchbegriffe und filtere die Tabelle danach.</div>
+    <div class="callout"><strong>Zur Sortierung:</strong> Die Suche von Jobware liefert nach Relevanz. Mit <code class="code-inline">sortBy</code> <code class="code-inline">date</code> sortiert der Actor die gesammelten Treffer nach Datum. Mit Limit 30 bekommst du also die 30 relevantesten Treffer, nach Datum sortiert, und nicht unbedingt die 30 neuesten. Sortiere in der Tabelle zusätzlich nach <code class="code-inline">posted_at</code>.</div>
+    <p class="small">Der Beispiellauf lief lokal ohne Apify-Proxy (der Actor verlangt auf Apify einen Proxy, wir haben ihn für den Test aus einer Kopie des Codes entfernt) und wurde nicht auf Apify abgerechnet. Die Kosten dafür findest du unter <a href="#kosten">Kosten</a>.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de">Seite des Jobware-Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suche und Ort eintragen</h2>
+      <p>Im Feld <code class="code-inline">searchQueries</code> trägst du ein oder mehrere Suchbegriffe ein. Jeder Begriff läuft als eigene Suche, doppelte Anzeigen werden über alle Begriffe hinweg entfernt. Den Ort gibst du bei <code class="code-inline">city</code> an, die Umkreissuche bei <code class="code-inline">radius</code>. Das war der Input des Beispiellaufs (siehe oben).</p>
+      <ul>
+        <li><code class="code-inline">city</code>: Stadt, zum Beispiel &bdquo;Frankfurt am Main&ldquo; oder &bdquo;München&ldquo;. Leer heißt ganz Deutschland.</li>
+        <li><code class="code-inline">radius</code>: Umkreis in Kilometern, 0 bis 200 (Standard 25).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: Obergrenze pro Suchbegriff (Standard 100, 0 heißt unbegrenzt).</li>
+        <li><code class="code-inline">maxResults</code>: Obergrenze über alle Suchbegriffe zusammen (0 heißt unbegrenzt).</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">date</code> sortiert die gesammelten Treffer nach Datum, die neuesten zuerst. <code class="code-inline">relevance</code> oder leer behält die Reihenfolge der Seite.</li>
+        <li><code class="code-inline">includeDetails</code>: <code class="code-inline">true</code> holt zusätzlich die Detailseite jeder Anzeige (Standard). <code class="code-inline">false</code> ist schneller und günstiger, liefert aber weniger Felder.</li>
+      </ul>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResults</code> auf 10 bis 30. So siehst du in kurzer Zeit, ob die Treffer zu deinem Suchbegriff passen, und zahlst nur wenige Cent.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt, im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Mehrere Suchbegriffe in einem Lauf sehen so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Controller", "Finanzbuchhalter", "Business Analyst"],
+  "city": "München",
+  "maxResultsPerQuery": 50,
+  "includeDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong>.</li>
+        <li>Klicke auf <strong>Export</strong>.</li>
+        <li>Wähle das Format: CSV, Excel, JSON und weitere stehen zur Auswahl. Mit der Feld-Auswahl exportierst du nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">salary_text</code>, <code class="code-inline">posted_at</code> und <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Filter es gibt</h2>
+    <p>Der Actor filtert bei der Suche nach diesen Angaben:</p>
+    <ul>
+      <li><strong>Suchbegriff</strong> (<code class="code-inline">searchQueries</code>), <strong>Stadt</strong> (<code class="code-inline">city</code>) und <strong>Umkreis</strong> (<code class="code-inline">radius</code>).</li>
+      <li><strong>Beschäftigungsart</strong> (<code class="code-inline">employmentType</code>): <code class="code-inline">vollzeit</code>, <code class="code-inline">teilzeit</code>, <code class="code-inline">werkstudent</code>, <code class="code-inline">praktikum</code> oder <code class="code-inline">ausbildung</code>. Leer heißt alle.</li>
+      <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>): nach Datum oder nach Relevanz, siehe Hinweis im Beispiel.</li>
+      <li><strong>Alter der Anzeigen</strong> (<code class="code-inline">maxAgeHours</code>): wirkt nur zusammen mit <code class="code-inline">sortBy</code> <code class="code-inline">date</code>. Der Actor hört auf, sobald er drei Anzeigen hintereinander findet, die älter sind. Weil die Suche nach Relevanz liefert, kann er dabei zu früh stoppen. Für vollständige Listen lässt du das Feld leer.</li>
+      <li><strong>Mengen</strong>: <code class="code-inline">maxResultsPerQuery</code> und <code class="code-inline">maxResults</code>.</li>
+      <li><strong>Einzelne Anzeigen</strong> (<code class="code-inline">directUrls</code>): Links von Jobware-Anzeigen, die du gezielt abrufen willst, zum Beispiel um zu prüfen, ob sie noch online sind.</li>
+    </ul>
+    <p>Einen Filter für Gehalt oder Branche gibt es nicht. Das erledigst du danach in der Tabelle, etwa mit <code class="code-inline">salary_min</code> und <code class="code-inline">remote_option</code>.</p>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobware-de-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Controller"], "city": "Frankfurt am Main", "radius": 25, "maxResults": 50, "sortBy": "date"}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für Abrufe, die regelmäßig laufen sollen, legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an. Vergleiche die Ergebnisse mit dem letzten Abruf (Feld <code class="code-inline">id</code>), damit du nur neue Anzeigen weiterverarbeitest.</p>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/jobware-de-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein und ersetzt die Suche durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/jobware-de-scraper mit
+searchQueries ["Controller"], city "Frankfurt am Main", radius 25, sortBy "date",
+maxResultsPerQuery 30, maxResults 30 und includeDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, gib mir eine Tabelle mit Titel, Arbeitgeber, Ort, Gehalt, Veröffentlichungsdatum und Link,
+sortiert nach Veröffentlichungsdatum, und nenne mir, wie viele Anzeigen ein Gehalt haben.</code></pre></div>
+    <p class="small">Getestet haben wir den Actor und die Eingaben, nicht die Prompts über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab (Preise laut Apify Store, Stand 21.10.2026):</p>
+    <ul>
+      <li>Start: 0,005 $ pro Lauf.</li>
+      <li>Anzeige aus der Trefferliste (<code class="code-inline">includeDetails</code> aus): 0,00375 $ pro Ergebnis.</li>
+      <li>Anzeige mit Detailseite (<code class="code-inline">includeDetails</code> an): 0,00875 $ pro Ergebnis.</li>
+    </ul>
+    <p>Jede Anzeige wird nur einmal berechnet, entweder als Treffer oder mit Details, nicht beides. Rechenbeispiel für den Lauf oben: 30 Anzeigen mit Details = 0,005 $ + 30 x 0,00875 $ = 0,2675 $, also etwa 0,27 $. Dieselben 30 Anzeigen ohne Details kosten 0,005 $ + 30 x 0,00375 $ = 0,1175 $, also etwa 0,12 $. Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Stellenmarkt für Fach- und Führungskräfte beobachten</h3>
+    <p>Lass regelmäßig dieselbe Suche laufen und zähle, wie viele Anzeigen pro Woche für eine Rolle und eine Region dazukommen oder welche Arbeitgeber am häufigsten suchen.</p>
+    <h3>Gehälter vergleichen</h3>
+    <p>Mit <code class="code-inline">salary_min</code>, <code class="code-inline">salary_max</code> und <code class="code-inline">salary_period</code> vergleichst du die Angaben aus den Anzeigen. Rechne mit wenigen Treffern: Im Beispiel hatten 4 von 30 Anzeigen ein Gehalt.</p>
+    <h3>Personalberatungen und Arbeitgeber auseinanderhalten</h3>
+    <p>Viele Anzeigen stammen von Personalberatungen. Mit <code class="code-inline">company</code> und dem Anzeigentext trennst du Direktarbeitgeber von Vermittlern, etwa für eine Marktübersicht.</p>
+    <h3>Eigene Jobliste füttern</h3>
+    <p>Über <code class="code-inline">source_url</code> verlinkst du auf die Originalanzeige. Mit <code class="code-inline">expires_at</code> entfernst du abgelaufene Anzeigen aus deiner Liste.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Brauche ich Programmierkenntnisse für den Jobware-Scraper?</summary>
+        <p>Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst.</p>
+      </details>
+      <details>
+        <summary>Welche Daten bekomme ich von Jobware.de?</summary>
+        <p>Titel, Arbeitgeber, Ort, Beschäftigungsart, Arbeitszeit, Homeoffice-Angabe, Gehalt (wenn genannt), Veröffentlichungs- und Ablaufdatum, Link zur Originalanzeige, Bewerbungslink und mit includeDetails auch Volltext und Anforderungen. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab.</p>
+      </details>
+      <details>
+        <summary>Warum ist das Gehaltsfeld bei den meisten Anzeigen leer?</summary>
+        <p>Weil die meisten Anzeigen kein Gehalt nennen. Im Beispiellauf mit 30 Anzeigen hatten 4 eine Gehaltsangabe. Der Actor schätzt kein Gehalt, er übernimmt nur, was in der Anzeige steht.</p>
+      </details>
+      <details>
+        <summary>Bekomme ich mit sortBy date die 30 neuesten Anzeigen?</summary>
+        <p>Nicht unbedingt. Die Suche von Jobware liefert nach Relevanz. Der Actor sortiert die gesammelten Treffer nach Datum. Mit einem kleinen Limit bekommst du also die relevantesten Treffer, nach Datum sortiert. Für alle Anzeigen setze das Limit höher oder auf 0.</p>
+      </details>
+      <details>
+        <summary>Was kostet der Jobware-Scraper?</summary>
+        <p>0,005 $ pro Lauf, dazu 0,00375 $ pro Anzeige aus der Trefferliste oder 0,00875 $ pro Anzeige mit Detailseite. 30 Anzeigen mit Details kosten damit etwa 0,27 $.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab, besonders bei Angaben zu Personen, etwa Ansprechpartner oder E-Mail-Adresse in der Bewerbungsangabe. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/jobware-de-scraper/de/">Jobware.de Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de">Jobware.de Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/">meinestadt.de Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für meinestadt.de.</li>
+      <li><a href="/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/">StepStone Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für StepStone.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online (Englisch)</a>: Stellenanzeigen von 110+ Jobbörsen mit einem Aufruf.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobware-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobware-scraper-stellenanzeigen-exportieren-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

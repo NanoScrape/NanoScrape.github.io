@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stellenanzeigen.de Scraper: Stellenanzeigen als CSV exportieren | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von stellenanzeigen.de als CSV oder Excel exportieren: Suchbegriff, Stadt, Radius. Schritt für Schritt, ohne Code, mit echtem Beispiel.">
+  <meta name="primary-keyword" content="stellenanzeigen.de scrapen">
+  <meta property="og:title" content="stellenanzeigen.de Scraper: Stellenanzeigen exportieren | NanoScrape">
+  <meta property="og:description" content="Stellenanzeigen von stellenanzeigen.de als CSV, Excel oder JSON. Schritt für Schritt, ohne Code.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Stellenanzeigen von stellenanzeigen.de exportieren",
+  "description": "Mit dem Stellenanzeigen.de Scraper auf Apify Stellenanzeigen suchen und als CSV, Excel oder JSON herunterladen.",
+  "totalTime": "PT5M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Ein oder mehrere Suchbegriffe"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Stellenanzeigen.de Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des Stellenanzeigen.de Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Suchbegriff und Ort eintragen",
+      "text": "Trage im Feld searchQueries einen oder mehrere Suchbegriffe ein, gib bei location eine Stadt an und setze maxResults."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Save and Run. Die Ergebnisse erscheinen im Tab Dataset, sobald der Lauf fertig ist."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Dataset auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "stellenanzeigen.de Scraper: Stellenanzeigen als CSV exportieren",
+  "description": "Anleitung zum Export von Stellenanzeigen von stellenanzeigen.de mit dem Stellenanzeigen.de Scraper auf Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Brauche ich Programmierkenntnisse für den stellenanzeigen.de-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kann ich Stellenangebote von stellenanzeigen.de als Excel exportieren?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Im Tab Dataset des Laufs wählst du unter Export das Format Excel oder CSV. JSON und weitere Formate stehen ebenfalls zur Auswahl."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Welche Daten bekomme ich von stellenanzeigen.de?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Titel, Arbeitgeber, Ort, Beschäftigungsart, Branchen, Veröffentlichungs- und Ablaufdatum, Link zur Originalanzeige und Bewerbungslink. Mit includeJobDetails kommen Volltext, Anforderungen und Benefits dazu. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum fehlt bei vielen Anzeigen das Gehalt?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weil nicht jede Anzeige ein Gehalt nennt. Im Beispiellauf mit 17 Anzeigen hatten 4 eine Gehaltsangabe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Gibt es einen Filter für das Veröffentlichungsdatum?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja. Mit postedWithinDays begrenzt du die Suche auf die letzten 1, 7 oder 30 Tage. Andere Werte nimmt der Actor an, die Seite rundet sie aber möglicherweise auf eine dieser Stufen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der stellenanzeigen.de-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "0,005 $ pro Lauf, dazu 0,0025 $ pro Anzeige aus der Trefferliste oder 0,0075 $ pro Anzeige mit Detailseite. 17 Anzeigen mit Details kosten damit etwa 0,13 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Daten verwenden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt von deinem Anwendungsfall ab, besonders bei Kontaktangaben von Personen, etwa einer E-Mail-Adresse in der Bewerbungsangabe. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "stellenanzeigen.de Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; stellenanzeigen.de Scraper</nav>
+
+    <h1>stellenanzeigen.de Scraper: Stellenanzeigen als CSV exportieren</h1>
+    <p class="lead">Du willst Stellenangebote von stellenanzeigen.de als Excel- oder CSV-Tabelle haben? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de">Stellenanzeigen.de Scraper</a> holt die Anzeigen zu deinem Suchbegriff und deiner Stadt und liefert sie als Tabelle: Titel, Arbeitgeber, Ort, Datum, Gehalt (wenn angegeben) und Link zur Anzeige. Ohne Code, in wenigen Minuten.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 17 Anzeigen mit Details: ca. 0,13 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console (ohne Code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+      <a href="#claude-prompt" class="btn-secondary">Claude-Prompt kopieren</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-buchhaltung-koeln">Beispiel: Buchhaltung in Köln</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#filter">Welche Filter es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>stellenanzeigen.de bietet keine Export-Funktion für Suchergebnisse. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de">stellenanzeigen.de-Scraper</a> ruft die Anzeigen zu deinen Suchbegriffen ab und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Pro Anzeige gibt es mehr als 50 Felder. Welche davon gefüllt sind, hängt von der Anzeige ab.</p>
+    <p>Wir haben den Actor einmal lokal mit dem Suchbegriff &bdquo;Buchhaltung&ldquo; in Köln laufen lassen. Die Details dazu stehen unten im <a href="#beispiel-buchhaltung-koeln">Beispiel</a>.</p>
+
+    <h2 id="felder">Alle Felder im Überblick</h2>
+    <p>So sind die Felder laut Ausgabe-Schema des Actors aufgebaut. Ohne <code class="code-inline">includeJobDetails</code> fehlen die Felder, die nur auf der Detailseite stehen, zum Beispiel Volltext, Anforderungen und Benefits.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Eindeutige Anzeigen-ID, zum Beispiel SDE-118408</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Titel der Anzeige</td></tr>
+        <tr><td><code class="code-inline">company / company_name</code></td><td>Text</td><td>Arbeitgeber</td></tr>
+        <tr><td><code class="code-inline">location / locations / work_address</code></td><td>Text / Liste</td><td>Ort, Orte der Stelle und Arbeitsadresse (zum Teil nur mit PLZ und Ort)</td></tr>
+        <tr><td><code class="code-inline">canton / country</code></td><td>Text</td><td>Bundesland als Kürzel (im Beispiellauf NW) und Land (DE)</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Beschäftigungsart, im Beispiellauf full-time, part-time oder temporary</td></tr>
+        <tr><td><code class="code-inline">workload_min / workload_max / workload_text</code></td><td>Zahl / Text</td><td>Arbeitszeit in Prozent bzw. als Text, falls genannt</td></tr>
+        <tr><td><code class="code-inline">hours_per_week / hours_per_week_min / hours_per_week_max</code></td><td>Zahl</td><td>Wochenstunden, falls genannt</td></tr>
+        <tr><td><code class="code-inline">remote_option</code></td><td>Text</td><td>Homeoffice-Angabe, zum Beispiel hybrid</td></tr>
+        <tr><td><code class="code-inline">salary_text</code></td><td>Text</td><td>Gehalt, wie es in der Anzeige steht, mit Zeitraum (EUR/year, EUR/month)</td></tr>
+        <tr><td><code class="code-inline">salary_min / salary_max / salary_currency</code></td><td>Zahl / Text</td><td>Gehalt als Zahl aus salary_text und Währung</td></tr>
+        <tr><td><code class="code-inline">industries</code></td><td>Liste</td><td>Branchen bzw. Berufsfelder der Anzeige</td></tr>
+        <tr><td><code class="code-inline">experience_months</code></td><td>Zahl</td><td>Geforderte Berufserfahrung in Monaten, falls angegeben</td></tr>
+        <tr><td><code class="code-inline">description_snippet</code></td><td>Text</td><td>Kurzbeschreibung</td></tr>
+        <tr><td><code class="code-inline">description_full / description_html / description_md</code></td><td>Text</td><td>Voller Anzeigentext als Text, HTML und Markdown</td></tr>
+        <tr><td><code class="code-inline">requirements / company_benefits</code></td><td>Liste</td><td>Genannte Anforderungen und Benefits des Arbeitgebers</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Bewerbungslink und, falls angegeben, Bewerbungs-E-Mail</td></tr>
+        <tr><td><code class="code-inline">direct_apply</code></td><td>Boolean</td><td>Bewerbung direkt über stellenanzeigen.de möglich</td></tr>
+        <tr><td><code class="code-inline">company_url / company_logo_url / company_description</code></td><td>Text</td><td>Firmenwebsite, Logo und Firmenbeschreibung, soweit vorhanden</td></tr>
+        <tr><td><code class="code-inline">company_rating / company_review_count / company_social_urls</code></td><td>Zahl / Liste</td><td>Bewertung und Social-Media-Links, soweit vorhanden</td></tr>
+        <tr><td><code class="code-inline">contact_salutation, contact_firstname, contact_lastname, contact_email, contact_phone, contact_position, contact_raw</code></td><td>Text</td><td>Ansprechperson, falls die Anzeige eine nennt</td></tr>
+        <tr><td><code class="code-inline">posted_at / originally_posted_at / posted_at_datetime</code></td><td>Datum</td><td>Veröffentlichungsdatum und ursprüngliches Datum der Anzeige</td></tr>
+        <tr><td><code class="code-inline">expires_at</code></td><td>Datum</td><td>Ablaufdatum der Anzeige</td></tr>
+        <tr><td><code class="code-inline">job_status / is_sponsored / top_listing</code></td><td>Text / Boolean</td><td>Status der Anzeige (online, offline, expired) und Markierung als hervorgehobene Anzeige</td></tr>
+        <tr><td><code class="code-inline">reference_number / external_job_id</code></td><td>Text</td><td>Referenznummer der Anzeige bzw. ID beim Arbeitgeber</td></tr>
+        <tr><td><code class="code-inline">source_url / job_url / source_platform</code></td><td>Text</td><td>Link zur Originalanzeige und Plattform (stellenanzeigen.de)</td></tr>
+        <tr><td><code class="code-inline">search_query / scraped_at</code></td><td>Text</td><td>Der Suchbegriff, der die Anzeige gefunden hat, und Zeitpunkt des Abrufs</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+
+    <h2 id="beispiel-buchhaltung-koeln">Beispiel: Buchhaltung in Köln</h2>
+    <p>Wir haben den Actor lokal mit diesem Input laufen lassen (ohne Apify Proxy, mit Detailseiten):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Buchhaltung"
+  ],
+  "location": "Köln",
+  "radius": 30,
+  "maxResultsPerQuery": 30,
+  "maxResults": 30,
+  "sortBy": "newest",
+  "includeJobDetails": true
+}</code></pre></div>
+    <p>Die Suche fand 48 Treffer auf einer Seite (die Seite liefert höchstens 50 pro Abruf). Davon hat der Actor 17 Anzeigen gespeichert. Die übrigen 31 waren bezahlte oder &bdquo;ähnliche&ldquo; Anzeigen, in deren Titel &bdquo;Buchhaltung&ldquo; nicht vorkommt. Der Actor lässt sie aus und berechnet sie nicht. Das Limit von 30 wurde nicht erreicht, und auch das Seitenlimit nicht: Bei dieser Suche gab es nicht mehr Treffer. Drei Ergebnisse, gekürzt und ohne Bewerbungs- und Kontaktdaten:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">[
+  {
+    "id": "SDE-118408",
+    "title": "Bilanzbuchhalter mit Schwerpunkt Steuern (w/m/d)",
+    "company": "DE-CIX",
+    "location": "Köln, Nordrhein-Westfalen",
+    "canton": "NW",
+    "employment_type": "full-time",
+    "salary_text": "36.000 - 48.000 EUR/year",
+    "salary_min": 36000,
+    "salary_max": 48000,
+    "salary_currency": "EUR",
+    "industries": [
+      "Finanzbuchhaltung",
+      "Rechnungswesen",
+      "Steuerwesen"
+    ],
+    "posted_at": "2026-10-16T00:00:00.000Z",
+    "expires_at": "2026-10-31T21:59:00.000Z",
+    "source_url": "https://www.stellenanzeigen.de/job/bilanzbuchhalter-mit-schwerpunkt-steuern-w-m-d-koeln-sde-118408/",
+    "source_platform": "stellenanzeigen.de",
+    "country": "DE",
+    "search_query": "Buchhaltung"
+  },
+  {
+    "id": "SDE-124016",
+    "title": "Erfahrener Buchhalter (w/m/d)",
+    "company": "Caritasverband für die Stadt Köln e. V.",
+    "location": "Köln, Nordrhein-Westfalen",
+    "employment_type": "full-time",
+    "salary_text": "3.708 - 4.786 EUR/month",
+    "salary_min": 3708,
+    "salary_max": 4786,
+    "posted_at": "2026-10-02T00:00:00.000Z",
+    "expires_at": "2026-11-01T21:59:00.000Z",
+    "search_query": "Buchhaltung"
+  },
+  {
+    "id": "YF-51557",
+    "title": "Spezialist Finanzbuchhaltung &amp; Rechnungswesen (m/w/d) - Allrounder mit Gestaltungsspielraum - Teilzeit",
+    "company": "KölnTourismus GmbH | Cologne Tourist Board",
+    "location": "Köln, Nordrhein-Westfalen",
+    "employment_type": "temporary",
+    "remote_option": "hybrid",
+    "workload_text": "30 Stunden",
+    "posted_at": "2026-10-19T00:00:00.000Z",
+    "expires_at": "2026-11-27T21:59:00.000Z",
+    "search_query": "Buchhaltung"
+  }
+]</code></pre></div>
+    <p>Wie voll die Felder waren (17 Anzeigen):</p>
+    <ul>
+      <li><strong>Immer gefüllt (17 von 17):</strong> Titel, Arbeitgeber, Ort, Beschäftigungsart, Veröffentlichungs- und Ablaufdatum, Link, Bewerbungslink, Volltext und Kurzbeschreibung.</li>
+      <li><strong>Meistens:</strong> Branchen und Arbeitsadresse (je 16), Bundesland (16), Referenznummer (16), Berufserfahrung (11), Anforderungen (11), Bewerbungs-E-Mail (11), Benefits (10), Homeoffice-Angabe (8).</li>
+      <li><strong>Selten:</strong> Gehalt (4), Wochenstunden (3), Arbeitszeit in Prozent (2). Firmenwebsite, Firmenbeschreibung und Bewertung waren bei keiner Anzeige gefüllt.</li>
+    </ul>
+    <div class="callout warn"><strong>Prüfe die Orte.</strong> Der Suchradius war 30 km. Die meisten Anzeigen lagen in Köln, andere in Bonn, Düsseldorf oder Wesseling. Eine Anzeige hatte als Ort nur &bdquo;Deutschland&ldquo; (bundesweit), eine lag in Berlin. Filtere die Tabelle bei Bedarf nach <code class="code-inline">location</code>. Außerdem ist die Reihenfolge nicht streng nach Datum: Eine hervorgehobene Anzeige kann vor neueren stehen. Sortiere deshalb nach <code class="code-inline">posted_at</code>.</div>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/stellenanzeigen-de-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein und ersetzt Suchbegriff und Stadt durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/stellenanzeigen-de-scraper mit
+searchQueries ["Buchhaltung"], location "Köln", radius 30, maxResults 30, sortBy "newest", includeJobDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, gib mir eine Tabelle mit Titel, Arbeitgeber, Ort, Gehalt, Veröffentlichungsdatum und Link, sortiert nach Datum.</code></pre></div>
+    <p>Getestet haben wir den Actor und die Eingaben, nicht die Prompts über MCP. Claude formuliert die Kostenangabe eventuell anders.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de">Seite des stellenanzeigen.de-Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suche und Ort eintragen</h2>
+      <p>Im Feld <code class="code-inline">searchQueries</code> trägst du ein oder mehrere Suchbegriffe ein. Jeder Begriff läuft als eigene Suche, doppelte Anzeigen werden über alle Begriffe hinweg entfernt. Den Ort gibst du bei <code class="code-inline">location</code> an, den Umkreis bei <code class="code-inline">radius</code>. Das war der Input des Beispiels (siehe oben). Die wichtigsten Felder:</p>
+      <ul>
+        <li><code class="code-inline">location</code>: Stadt oder Region, zum Beispiel &bdquo;Köln&ldquo; oder &bdquo;Hamburg&ldquo;. Leer heißt ganz Deutschland.</li>
+        <li><code class="code-inline">radius</code>: Umkreis in Kilometern, 0 bis 200. Der Wert wird auf 10-km-Schritte gerundet, bei 0 gilt der Standard der Seite (30 km).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: Obergrenze pro Suchbegriff (Standard 100).</li>
+        <li><code class="code-inline">maxResults</code>: Obergrenze über alle Suchbegriffe zusammen (0 heißt unbegrenzt).</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> sortiert nach Datum, die neuesten zuerst (Standard). <code class="code-inline">relevance</code> nutzt die Standard-Reihenfolge der Seite.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> holt zusätzlich die Detailseite jeder Anzeige (Standard). <code class="code-inline">false</code> ist schneller und günstiger, liefert aber weniger Felder.</li>
+      </ul>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResults</code> auf 10 bis 30. So siehst du in kurzer Zeit, ob die Treffer zu deinem Suchbegriff passen, und zahlst nur wenige Cent.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt, im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Mehrere Suchbegriffe in einem Lauf sehen so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Buchhaltung",
+    "Bilanzbuchhalter",
+    "Lohnbuchhalter"
+  ],
+  "location": "Köln",
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong>.</li>
+        <li>Klicke auf <strong>Export</strong>.</li>
+        <li>Wähle das Format: CSV, Excel, JSON und weitere stehen zur Auswahl. Mit der Feld-Auswahl exportierst du nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">salary_text</code> und <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Filter es gibt</h2>
+    <p>Der Actor filtert bei der Suche nach diesen Angaben:</p>
+    <ul>
+      <li><strong>Suchbegriff</strong> (<code class="code-inline">searchQueries</code>), <strong>Ort</strong> (<code class="code-inline">location</code>) und <strong>Umkreis</strong> (<code class="code-inline">radius</code>).</li>
+      <li><strong>Veröffentlichungszeitraum</strong> (<code class="code-inline">postedWithinDays</code>): letzte 1, 7 oder 30 Tage. 0 schaltet den Filter aus.</li>
+      <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>): neueste zuerst oder nach Relevanz.</li>
+      <li><strong>Mengen</strong>: <code class="code-inline">maxResultsPerQuery</code> und <code class="code-inline">maxResults</code>.</li>
+      <li><strong>Einzelne Anzeigen</strong> (<code class="code-inline">directUrls</code>): Links von Anzeigen, die du gezielt abrufen willst, zum Beispiel um zu prüfen, ob sie noch online sind. Der Actor liefert dann den Status (online, offline oder expired).</li>
+    </ul>
+    <p>Einen Filter für Beschäftigungsart oder Gehalt gibt es nicht. Das erledigst du danach in der Tabelle, etwa mit <code class="code-inline">employment_type</code> und <code class="code-inline">salary_min</code>.</p>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stellenanzeigen-de-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Buchhaltung"], "location": "Köln", "radius": 30, "maxResults": 50, "sortBy": "newest"}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für Abrufe, die regelmäßig laufen sollen, legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an. Setze <code class="code-inline">sortBy</code> auf <code class="code-inline">newest</code> und <code class="code-inline">postedWithinDays</code> auf 1 oder 7, und vergleiche die Ergebnisse mit dem letzten Abruf (Feld <code class="code-inline">id</code>), damit du nur neue Anzeigen weiterverarbeitest.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab (Preise laut Apify Store, Stand 21.10.2026):</p>
+    <ul>
+      <li>Start: 0,005 $ pro Lauf.</li>
+      <li>Anzeige aus der Trefferliste (<code class="code-inline">includeJobDetails</code> aus): 0,0025 $ pro Ergebnis.</li>
+      <li>Anzeige mit Detailseite (<code class="code-inline">includeJobDetails</code> an, auch bei <code class="code-inline">directUrls</code>): 0,0075 $ pro Ergebnis.</li>
+    </ul>
+    <p>Jede Anzeige wird nur einmal berechnet, entweder als Treffer oder mit Details, nicht beides. Verworfene Anzeigen (siehe Beispiel) kosten nichts. Rechenbeispiel: 17 Anzeigen mit Details = 0,005 $ + 17 x 0,0075 $ = 0,1325 $, also etwa 0,13 $. Dieselben 17 Anzeigen ohne Details würden etwa 0,05 $ kosten. Den Preis haben wir aus den Store-Preisen und der Abrechnungslogik im Code berechnet; beim lokalen Lauf wurde nichts abgerechnet. Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Regionalen Stellenmarkt beobachten</h3>
+    <p>Lass regelmäßig die neuesten Anzeigen für eine Stadt und einen Beruf laufen und zähle, wie viele pro Woche dazukommen oder welche Arbeitgeber am häufigsten suchen.</p>
+    <h3>Gehälter vergleichen</h3>
+    <p>Mit <code class="code-inline">salary_min</code> und <code class="code-inline">salary_max</code> vergleichst du die Angaben aus den Anzeigen. Beachte, dass nur wenige Anzeigen ein Gehalt nennen und die Angabe je nach Anzeige pro Jahr oder pro Monat steht (<code class="code-inline">salary_text</code>).</p>
+    <h3>Eigene Jobliste oder Stellenportal füttern</h3>
+    <p>Über <code class="code-inline">source_url</code> verlinkst du auf die Originalanzeige. Mit <code class="code-inline">expires_at</code> entfernst du abgelaufene Anzeigen aus deiner Liste, mit <code class="code-inline">directUrls</code> prüfst du, ob eine Anzeige noch online ist.</p>
+    <h3>Arbeitgeber finden</h3>
+    <p>Die Spalten <code class="code-inline">company</code>, <code class="code-inline">location</code> und <code class="code-inline">industries</code> zeigen dir, welche Firmen in deiner Region gerade einstellen. Die Firmenwebsite war im Beispiel nicht gefüllt, die suchst du bei Bedarf separat.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Brauche ich Programmierkenntnisse für den stellenanzeigen.de-Scraper?</summary>
+        <p>Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst.</p>
+      </details>
+      <details>
+        <summary>Kann ich Stellenangebote von stellenanzeigen.de als Excel exportieren?</summary>
+        <p>Ja. Im Tab Dataset des Laufs wählst du unter Export das Format Excel oder CSV. JSON und weitere Formate stehen ebenfalls zur Auswahl.</p>
+      </details>
+      <details>
+        <summary>Welche Daten bekomme ich von stellenanzeigen.de?</summary>
+        <p>Titel, Arbeitgeber, Ort, Beschäftigungsart, Branchen, Veröffentlichungs- und Ablaufdatum, Link zur Originalanzeige und Bewerbungslink. Mit includeJobDetails kommen Volltext, Anforderungen und Benefits dazu. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab.</p>
+      </details>
+      <details>
+        <summary>Warum fehlt bei vielen Anzeigen das Gehalt?</summary>
+        <p>Weil nicht jede Anzeige ein Gehalt nennt. Im Beispiellauf mit 17 Anzeigen hatten 4 eine Gehaltsangabe.</p>
+      </details>
+      <details>
+        <summary>Gibt es einen Filter für das Veröffentlichungsdatum?</summary>
+        <p>Ja. Mit postedWithinDays begrenzt du die Suche auf die letzten 1, 7 oder 30 Tage. Andere Werte nimmt der Actor an, die Seite rundet sie aber möglicherweise auf eine dieser Stufen.</p>
+      </details>
+      <details>
+        <summary>Was kostet der stellenanzeigen.de-Scraper?</summary>
+        <p>0,005 $ pro Lauf, dazu 0,0025 $ pro Anzeige aus der Trefferliste oder 0,0075 $ pro Anzeige mit Detailseite. 17 Anzeigen mit Details kosten damit etwa 0,13 $.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab, besonders bei Kontaktangaben von Personen, etwa einer E-Mail-Adresse in der Bewerbungsangabe. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/stellenanzeigen-de-scraper/de/">Stellenanzeigen.de Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de">Stellenanzeigen.de Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/">meinestadt.de Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für meinestadt.de.</li>
+      <li><a href="/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/">StepStone Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für StepStone.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online (Englisch)</a>: Stellenanzeigen von 110+ Jobbörsen mit einem Aufruf.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-stellenanzeigen-scraper-stellenanzeigen-exportieren-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
