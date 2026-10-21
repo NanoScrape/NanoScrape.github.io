@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StepStone.de Scraper: Stellenanzeigen als CSV exportieren | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von StepStone.de als CSV oder Excel exportieren: Suchbegriff, Ort, Radius und Filter. Schritt für Schritt, ohne Code, mit echtem Beispiel für Recruiter.">
+  <meta name="primary-keyword" content="stepstone stellenanzeigen exportieren">
+  <meta property="og:title" content="StepStone.de Scraper: Stellenanzeigen exportieren | NanoScrape">
+  <meta property="og:description" content="Stellenanzeigen von StepStone.de als CSV, Excel oder JSON. Mit Beispiel: Wer stellt Elektriker in Berlin ein?">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Stellenanzeigen von StepStone.de exportieren",
+  "description": "Mit dem StepStone.de Scraper auf Apify Stellenanzeigen suchen und als CSV, Excel oder JSON herunterladen.",
+  "totalTime": "PT5M",
+  "supply": [
+    { "@type": "HowToSupply", "name": "Kostenloses Apify-Konto" },
+    { "@type": "HowToSupply", "name": "Ein oder mehrere Suchbegriffe und ein Ort" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "StepStone.de Scraper (Apify)" }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des StepStone.de Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Suchbegriff und Ort eintragen",
+      "text": "Trage im Feld Search Keywords einen oder mehrere Suchbegriffe ein, gib Ort und Radius an und setze maxResultsPerQuery."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Save and Run. Die Ergebnisse erscheinen im Tab Dataset, sobald der Lauf fertig ist."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Dataset auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "StepStone.de Scraper: Stellenanzeigen exportieren",
+  "description": "Anleitung zum Export von Stellenanzeigen von StepStone.de mit dem StepStone.de Scraper auf Apify, mit Beispiel für Recruiter und Personalagenturen.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Brauche ich Programmierkenntnisse für den StepStone-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Welche Daten bekomme ich von StepStone?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Titel, Arbeitgeber, Ort, Bundesland, Beschäftigungsart, Gehalt (wenn angegeben), Veröffentlichungsdatum, Link zur Originalanzeige und mit includeJobDetails auch Volltext, Anforderungen, Benefits, Branche und Firmenangaben. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum ist das Gehaltsfeld bei den meisten Anzeigen leer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Weil die meisten Anzeigen kein Gehalt nennen. Im Beispiellauf mit 249 Anzeigen für Elektriker in Berlin hatten nur 5 eine Gehaltsangabe."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie bekomme ich nur neue Anzeigen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mit postedWithinDays (1, 7 oder 30 Tage) und sortBy newest. Bei regelmäßigen Läufen vergleichst du die Ergebnisse zusätzlich mit dem letzten Abruf, zum Beispiel über das Feld id."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der StepStone-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Auf dem Free-Plan 0,003 $ pro Anzeige aus der Trefferliste, dazu 0,005 $ pro Anzeige mit Detailseite und 0,001 $ für den Start. 249 Anzeigen mit Details kosten damit rund 2,00 $, ohne Details rund 0,75 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Daten verwenden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt von deinem Anwendungsfall ab, besonders bei Kontaktangaben von Personen, etwa Name, E-Mail oder Telefonnummer einer Ansprechperson. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/de/tutorials/" },
+    { "@type": "ListItem", "position": 3, "name": "StepStone.de Scraper", "item": "https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/" }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; StepStone.de Scraper</nav>
+
+    <h1>StepStone.de Scraper: Stellenanzeigen als Tabelle exportieren</h1>
+    <p class="lead">Du willst wissen, welche Firmen auf StepStone gerade wen suchen, und die Anzeigen in Excel oder in eine eigene Auswertung bekommen? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de">StepStone.de Scraper</a> holt die Anzeigen zu deinem Suchbegriff und Ort und liefert sie als Tabelle: Titel, Arbeitgeber, Ort, Datum, Gehalt (wenn angegeben) und Link zur Anzeige. Ohne Code, in wenigen Minuten.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 249 Anzeigen mit Details: ca. 2,00 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console (ohne Code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-elektriker-berlin">Beispiel: Wer stellt gerade Elektriker in Berlin ein?</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#filter">Welche Filter es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>StepStone bietet keine Export-Funktion für Stellenanzeigen. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de">StepStone.de Scraper</a> holt die Anzeigen zu deinen Suchbegriffen und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Pro Anzeige bekommst du unter anderem:</p>
+    <ul>
+      <li><strong>Titel, Arbeitgeber und Ort</strong>, dazu Bundesland, Postleitzahl und alle Orte, die in der Anzeige stehen.</li>
+      <li><strong>Gehalt</strong>, wenn der Arbeitgeber eines nennt, als Text und als Zahl.</li>
+      <li><strong>Veröffentlichungsdatum</strong> und Link zur Originalanzeige.</li>
+      <li><strong>Mit Details:</strong> Volltext, Anforderungen, Benefits, Branche und Angaben zum Arbeitgeber (Website, Adresse, Größe).</li>
+    </ul>
+
+    <h2 id="felder">Alle Felder im Überblick</h2>
+    <p>So sind die wichtigsten Felder laut Ausgabe-Schema des Actors aufgebaut. Das Schema hat noch weitere Felder, zum Beispiel Logo, Labels und Markierungen für gesponserte Anzeigen. Ohne <code class="code-inline">includeJobDetails</code> fehlen die Felder, die nur auf der Detailseite stehen.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Eindeutige Anzeigen-ID</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Titel der Anzeige</td></tr>
+        <tr><td><code class="code-inline">company</code></td><td>Text</td><td>Arbeitgeber</td></tr>
+        <tr><td><code class="code-inline">location / locations</code></td><td>Text / Liste</td><td>Ort und alle in der Anzeige genannten Orte</td></tr>
+        <tr><td><code class="code-inline">state / state_code / post_code</code></td><td>Text</td><td>Bundesland (Name und Kürzel) und Postleitzahl</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Beschäftigungsart, zum Beispiel Vollzeit</td></tr>
+        <tr><td><code class="code-inline">remote_option / work_from_home</code></td><td>Text</td><td>Homeoffice-Angabe von StepStone</td></tr>
+        <tr><td><code class="code-inline">salary_text</code></td><td>Text</td><td>Gehalt, wie es in der Anzeige steht</td></tr>
+        <tr><td><code class="code-inline">salary_min / salary_max</code></td><td>Zahl</td><td>Gehalt als Zahl</td></tr>
+        <tr><td><code class="code-inline">salary_currency / salary_period</code></td><td>Text</td><td>Währung und Zeitraum (yearly, monthly oder hourly)</td></tr>
+        <tr><td><code class="code-inline">industry</code></td><td>Text</td><td>Branche bzw. Fachgebiet der Anzeige</td></tr>
+        <tr><td><code class="code-inline">description_snippet / description_full / description_md</code></td><td>Text</td><td>Kurzvorschau, Volltext und Markdown-Fassung</td></tr>
+        <tr><td><code class="code-inline">requirements / company_benefits</code></td><td>Liste</td><td>Anforderungen (Ihr Profil) und Benefits</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Link des Bewerbungsbuttons und, falls vorhanden, Bewerbungs-E-Mail</td></tr>
+        <tr><td><code class="code-inline">contact_firstname, contact_lastname, contact_email, contact_phone</code></td><td>Text</td><td>Ansprechperson, nur wenn die Anzeige sie ausdrücklich nennt</td></tr>
+        <tr><td><code class="code-inline">company_url / company_website / company_job_count</code></td><td>Text / Zahl</td><td>Firmenprofil auf StepStone, externe Website und Zahl der offenen Stellen</td></tr>
+        <tr><td><code class="code-inline">company_address / company_size</code></td><td>Text</td><td>Adresse und Größenklasse laut Firmenprofil</td></tr>
+        <tr><td><code class="code-inline">posted_at / expires_at</code></td><td>Datum</td><td>Veröffentlichungs- und Ablaufdatum</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link zur Originalanzeige und Plattform (stepstone.de)</td></tr>
+        <tr><td><code class="code-inline">search_query / scraped_at</code></td><td>Text</td><td>Suchbegriff, der die Anzeige gefunden hat, und Zeitpunkt des Abrufs</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+    <div class="callout"><strong>Nicht jedes Feld ist immer gefüllt.</strong> Gehalt, Ansprechperson und Bewerbungs-E-Mail stehen nur in einem Teil der Anzeigen. Das Gehalt war im Beispiel unten bei 5 von 249 Anzeigen angegeben.</div>
+
+    <h2 id="beispiel-elektriker-berlin">Beispiel: Wer stellt gerade Elektriker in Berlin ein?</h2>
+    <p>Für Recruiter und Personalagenturen ist die erste Frage oft: Welche Firmen suchen gerade in meiner Region und meinem Berufsfeld? Wir haben dafür den Actor einmal lokal laufen lassen (21. Oktober 2026): Suchbegriff &bdquo;Elektriker&ldquo;, Berlin und 25 km Umkreis, neueste Anzeigen zuerst. Das Ergebnis:</p>
+    <ul>
+      <li><strong>249 Stellenanzeigen von 88 Firmen.</strong></li>
+      <li><strong>245 davon</strong> wurden zwischen dem 18. und 21. Oktober 2026 veröffentlicht. Die Liste zeigt also vor allem, was gerade neu ausgeschrieben ist.</li>
+      <li><strong>Größter Arbeitgeber:</strong> Tesla Manufacturing Brandenburg SE mit 122 Anzeigen, das ist knapp die Hälfte aller Treffer. Wer nach Firmen zählt, sieht so schnell, dass ein Arbeitgeber die Liste dominiert.</li>
+      <li><strong>Nur 5 Anzeigen</strong> hatten eine Gehaltsangabe. Für Gehaltsvergleiche reicht diese Suche daher nicht.</li>
+    </ul>
+    <p>Die Eingabe für diese Suche sieht so aus:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker"],
+  "location": "Berlin",
+  "radius": 25,
+  "maxResultsPerQuery": 400,
+  "sortBy": "newest",
+  "includeJobDetails": true
+}</code></pre></div>
+    <p>Pro Suchbegriff liest der Actor standardmäßig bis zu 10 Ergebnisseiten mit je bis zu 25 Zeilen (<code class="code-inline">maxPagesFetched</code>), also höchstens etwa 250 Anzeigen. 249 liegt knapp darunter: StepStone kann für diese Suche also noch mehr Anzeigen haben. Willst du alle, erhöhe <code class="code-inline">maxPagesFetched</code>; <code class="code-inline">maxResultsPerQuery</code> (hier 400) begrenzt dann die Menge.</p>
+    <p>Die Auswertung nach Firmen machst du in der exportierten Tabelle mit einer Pivot-Tabelle auf der Spalte <code class="code-inline">company</code>, oder du lässt Claude das erledigen. Verbinde dafür den Apify MCP Server als eigenen Konnektor mit dieser URL (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp">Apifys MCP-Dokumentation</a>). Sie beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein. Claude nennt dir zuerst die Kosten und wartet auf dein OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/stepstone-de-scraper mit
+searchQueries ["Elektriker"], location "Berlin", radius 25, sortBy "newest", maxResultsPerQuery 400.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Gruppiere die Anzeigen danach nach Arbeitgeber (company) und gib mir eine Tabelle mit Firma,
+Anzahl Anzeigen und dem frühesten und spätesten posted_at, sortiert nach Anzahl absteigend.
+Nenne am Ende, wie viele Anzeigen insgesamt, von wie vielen Firmen und wie viele mit Gehaltsangabe.</code></pre></div>
+    <p>Getestet haben wir den Actor und die Eingaben, nicht den Prompt über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
+    <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan rund 2,00 $ (mit Details) oder rund 0,75 $ (ohne Details). Die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</div>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de">Seite des StepStone.de Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suche und Ort eintragen</h2>
+      <p>Im Feld <code class="code-inline">searchQueries</code> (&bdquo;Search Keywords&ldquo;) trägst du ein oder mehrere Suchbegriffe ein. Jeder Begriff läuft als eigene Suche, doppelte Anzeigen werden über alle Begriffe hinweg entfernt. Den Ort gibst du bei <code class="code-inline">location</code> an, den Umkreis bei <code class="code-inline">radius</code>. Eine kleine Test-Eingabe:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker"],
+  "location": "Berlin",
+  "radius": 25,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 20,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">location</code>: Stadt, Region oder Bundesland als Text, zum Beispiel &bdquo;München&ldquo; oder &bdquo;Sachsen&ldquo;.</li>
+        <li><code class="code-inline">radius</code>: Umkreis in Kilometern. Das Schema nennt 0, 5, 10, 25, 50, 100, 150 oder 200 (Standard 25).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: Obergrenze pro Suchbegriff (Standard 100). <code class="code-inline">maxResults</code> begrenzt die Summe über alle Suchbegriffe.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> (neueste zuerst, Standard) oder <code class="code-inline">relevance</code>.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> holt zusätzlich die Detailseite jeder Anzeige (Standard). <code class="code-inline">false</code> ist schneller und günstiger, liefert aber weniger Felder.</li>
+      </ul>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResultsPerQuery</code> auf 10 bis 30. So siehst du schnell, ob die Treffer zu deinem Suchbegriff passen, und zahlst nur wenige Cent.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt, im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Mehrere Suchbegriffe in einem Lauf sehen so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker", "Elektroniker", "Elektroinstallateur"],
+  "location": "Berlin",
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong>.</li>
+        <li>Klicke auf <strong>Export</strong>.</li>
+        <li>Wähle das Format: CSV, Excel, JSON und weitere stehen zur Auswahl. Mit der Feld-Auswahl exportierst du nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">salary_text</code> und <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Filter es gibt</h2>
+    <p>Laut Eingabe-Schema filtert der Actor nach diesen Angaben:</p>
+    <ul>
+      <li><strong>Suchbegriff</strong> (<code class="code-inline">searchQueries</code>), <strong>Ort</strong> (<code class="code-inline">location</code>) und <strong>Umkreis</strong> (<code class="code-inline">radius</code>). Alternativ <code class="code-inline">bundesland</code>, das nur gilt, wenn <code class="code-inline">location</code> leer ist.</li>
+      <li><strong>Veröffentlichung</strong> (<code class="code-inline">postedWithinDays</code>): Anzeigen der letzten 1, 7 oder 30 Tage. Andere Werte werden auf diese Stufen gerundet (bis 7 Tage auf 7, darüber auf 30).</li>
+      <li><strong>Beschäftigungsart</strong> (<code class="code-inline">employmentType</code>): Vollzeit, Teilzeit, Praktikum, Trainee, befristet oder freiberuflich. Dazu <code class="code-inline">stepstoneContractTypes</code> für Feste Anstellung, Werkstudent, Ausbildung, Handelsvertreter, Arbeitnehmerüberlassung und Franchise.</li>
+      <li><strong>Erfahrung</strong> (<code class="code-inline">experienceLevel</code>): Berufseinsteiger, Professional, Management oder Executive.</li>
+      <li><strong>Titel</strong> (<code class="code-inline">titleFilter</code>): nur Anzeigen, deren Titel eine Phrase enthält. Mehrere Phrasen trennst du mit Komma. Das hilft, weil die StepStone-Suche auch Treffer aus dem Anzeigentext liefert.</li>
+      <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>) und <strong>Mengen</strong> (<code class="code-inline">maxResultsPerQuery</code>, <code class="code-inline">maxResults</code>, <code class="code-inline">maxPagesFetched</code>).</li>
+      <li><strong>Eigene Such-Links</strong> (<code class="code-inline">searchUrls</code>): Du suchst auf stepstone.de mit allen Filtern, die du brauchst, und fügst die Adresse der Ergebnisseite ein. <strong>Einzelne Anzeigen</strong> (<code class="code-inline">directUrls</code>) rufst du gezielt ab, zum Beispiel um zu prüfen, ob sie noch online sind.</li>
+    </ul>
+    <p>Einen Filter nach Gehalt gibt es nicht. Das erledigst du danach in der Tabelle mit <code class="code-inline">salary_min</code> und <code class="code-inline">salary_max</code>.</p>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Elektriker"], "location": "Berlin", "radius": 25, "sortBy": "newest", "postedWithinDays": 7, "maxResultsPerQuery": 100}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für Abrufe, die regelmäßig laufen sollen, legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an. Setze <code class="code-inline">sortBy</code> auf <code class="code-inline">newest</code>, nutze <code class="code-inline">postedWithinDays</code> und vergleiche die Ergebnisse mit dem letzten Abruf (Feld <code class="code-inline">id</code>), damit du nur neue Anzeigen weiterverarbeitest.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab. Diese Preise nennt die Apify-Store-Seite des Actors für den Free-Plan (Stand 21.10.2026); bezahlte Apify-Pläne sind etwas günstiger:</p>
+    <ul>
+      <li>Start: 0,001 $ pro Lauf.</li>
+      <li>Anzeige aus der Trefferliste (<code class="code-inline">job-serp-result</code>): 0,003 $ pro Anzeige.</li>
+      <li>Detailseite (<code class="code-inline">job-detail-result</code>): zusätzlich 0,005 $ pro Anzeige.</li>
+    </ul>
+    <p>Jede gelieferte Anzeige kostet also 0,003 $. Hat der Actor auch die Detailseite geholt, kommen 0,005 $ dazu, zusammen 0,008 $. Anzeigen, die nicht gespeichert werden (zum Beispiel weil sie nicht mehr online sind), werden nicht berechnet.</p>
+    <p>Rechenbeispiel für die Suche oben (249 Anzeigen):</p>
+    <ul>
+      <li><strong>Mit Details:</strong> 0,001 $ + 249 x 0,008 $ = 1,993 $, also rund 2,00 $.</li>
+      <li><strong>Ohne Details</strong> (<code class="code-inline">includeJobDetails</code> auf <code class="code-inline">false</code>): 0,001 $ + 249 x 0,003 $ = 0,748 $, also rund 0,75 $.</li>
+    </ul>
+    <p>Wenn der Lauf wegen des Zeitlimits früher stoppt, kann ein Teil der Anzeigen nur mit Daten aus der Trefferliste ankommen und dann auch nur so berechnet werden. Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Recruiting und Personalagenturen</h3>
+    <p>Zähle pro Arbeitgeber, wer in deinem Berufsfeld und deiner Region gerade viele Stellen ausschreibt. Mit <code class="code-inline">company_website</code> und, wenn die Anzeige sie nennt, den <code class="code-inline">contact_*</code>-Feldern bereitest du eine Ansprache vor. Beachte dabei die Hinweise im FAQ zur Datennutzung.</p>
+    <h3>Marktanalyse</h3>
+    <p>Lass regelmäßig die neuesten Anzeigen für einen Beruf laufen und beobachte, wie viele pro Woche dazukommen, welche Branchen (<code class="code-inline">industry</code>) und Orte vorne liegen und wie stark einzelne Arbeitgeber das Bild prägen.</p>
+    <h3>Eigene Jobliste oder Stellenportal füttern</h3>
+    <p>Über <code class="code-inline">source_url</code> verlinkst du auf die Originalanzeige. Mit <code class="code-inline">expires_at</code> entfernst du abgelaufene Anzeigen aus deiner Liste.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Brauche ich Programmierkenntnisse für den StepStone-Scraper?</summary>
+        <p>Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst.</p>
+      </details>
+      <details>
+        <summary>Welche Daten bekomme ich von StepStone?</summary>
+        <p>Titel, Arbeitgeber, Ort, Bundesland, Beschäftigungsart, Gehalt (wenn angegeben), Veröffentlichungsdatum, Link zur Originalanzeige und mit includeJobDetails auch Volltext, Anforderungen, Benefits, Branche und Firmenangaben. Welche Felder gefüllt sind, hängt von der einzelnen Anzeige ab.</p>
+      </details>
+      <details>
+        <summary>Warum ist das Gehaltsfeld bei den meisten Anzeigen leer?</summary>
+        <p>Weil die meisten Anzeigen kein Gehalt nennen. Im Beispiellauf mit 249 Anzeigen für Elektriker in Berlin hatten nur 5 eine Gehaltsangabe.</p>
+      </details>
+      <details>
+        <summary>Wie bekomme ich nur neue Anzeigen?</summary>
+        <p>Mit postedWithinDays (1, 7 oder 30 Tage) und sortBy newest. Bei regelmäßigen Läufen vergleichst du die Ergebnisse zusätzlich mit dem letzten Abruf, zum Beispiel über das Feld id.</p>
+      </details>
+      <details>
+        <summary>Was kostet der StepStone-Scraper?</summary>
+        <p>Auf dem Free-Plan 0,003 $ pro Anzeige aus der Trefferliste, dazu 0,005 $ pro Anzeige mit Detailseite und 0,001 $ für den Start. 249 Anzeigen mit Details kosten damit rund 2,00 $, ohne Details rund 0,75 $.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab, besonders bei Kontaktangaben von Personen, etwa Name, E-Mail oder Telefonnummer einer Ansprechperson. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/stepstone-de-scraper/de/">StepStone.de Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de">StepStone.de Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/de/tutorials/arbeitsagentur-scraper-stellenanzeigen-exportieren/">Arbeitsagentur Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für arbeitsagentur.de.</li>
+      <li><a href="/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/">meinestadt.de Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für meinestadt.de.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online (Englisch)</a>: Stellenanzeigen von 110+ Jobbörsen mit einem Aufruf.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-stellenanzeigen-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

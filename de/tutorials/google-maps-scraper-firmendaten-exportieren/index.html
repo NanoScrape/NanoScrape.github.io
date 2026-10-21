@@ -99,7 +99,7 @@
     }
   },
   "datePublished": "2026-10-20",
-  "dateModified": "2026-10-20",
+  "dateModified": "2026-10-21",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/"
 }
   </script>
@@ -313,6 +313,7 @@
         <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
         <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
         <li><a href="#beispiel-berlin">Beispiel: Fitnessstudios in Berlin</a></li>
+        <li><a href="#beispiel-muenchen">Beispiel: Friseure in München</a></li>
         <li><a href="#emails">E-Mails und Anreicherung</a></li>
         <li><a href="#claude-prompt">Prompt für Claude</a></li>
         <li><a href="#felder">Wichtige Felder</a></li>
@@ -482,6 +483,47 @@ Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Zahnarztpraxen
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Fitnessstudios mit Berliner PLZ (ohne Outdoor-Parks) und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
 
+
+    <h2 id="beispiel-muenchen">Beispiel: alle Friseure in München</h2>
+    <div class="example"><figure><img src="assets/beispiel-muenchen.jpg" alt="Karte der Münchner Stadtgrenze mit einem Punkt pro gefundenem Friseursalon" width="659" height="720" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Münchner Friseuren. Es läuft <strong>eine Suche pro Stadtbezirk</strong>, hier 26 Suchen mit bis zu 200 Orten („Friseur in Maxvorstadt, München“ und so weiter).</p><ul><li><strong>2.737 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 1.451.</li><li>Nur die Kategorien Friseursalon, Coiffeur und Herrenfriseur: 1.362. Innerhalb der Münchner Stadtgrenze (nach Koordinaten): 1.133. <strong>1.111 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>1.099 mit Telefon, 819 mit Website, 924 mit 4,5 oder besser bewertet. Die meisten liegen in den PLZ 80469 (68), 80333 (46), 80331 (40), 81667 (39), 80339 (36) und 80337 (32).</li></ul><p>Kosten, geschätzt: 2.737 Orte × 0,001 $ = <strong>etwa 2,74 $</strong> im Free-Plan. Unser Testlauf am 21.10.2026 lief lokal in 5 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <details><summary>Eingabe mit allen 26 Stadtbezirken anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Friseur in Altstadt-Lehel, München",
+    "Friseur in Ludwigsvorstadt-Isarvorstadt, München",
+    "Friseur in Maxvorstadt, München",
+    "Friseur in Schwabing-West, München",
+    "Friseur in Au-Haidhausen, München",
+    "Friseur in Sendling, München",
+    "Friseur in Sendling-Westpark, München",
+    "Friseur in Schwanthalerhöhe, München",
+    "Friseur in Neuhausen-Nymphenburg, München",
+    "Friseur in Moosach, München",
+    "Friseur in Milbertshofen-Am Hart, München",
+    "Friseur in Schwabing-Freimann, München",
+    "Friseur in Bogenhausen, München",
+    "Friseur in Berg am Laim, München",
+    "Friseur in Trudering-Riem, München",
+    "Friseur in Ramersdorf-Perlach, München",
+    "Friseur in Obergiesing-Fasangarten, München",
+    "Friseur in Untergiesing-Harlaching, München",
+    "Friseur in Thalkirchen-Obersendling, München",
+    "Friseur in Forstenried-Fürstenried-Solln, München",
+    "Friseur in Hadern, München",
+    "Friseur in Pasing-Obermenzing, München",
+    "Friseur in Aubing-Lochhausen-Langwied, München",
+    "Friseur in Allach-Untermenzing, München",
+    "Friseur in Feldmoching-Hasenbergl, München",
+    "Friseur in Laim, München"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Münchner Stadtbezirk („Friseur in Maxvorstadt, München“, „Friseur in Schwabing-West, München“ und so weiter für diese Stadtbezirke: Altstadt-Lehel, Ludwigsvorstadt-Isarvorstadt, Maxvorstadt, Schwabing-West, Au-Haidhausen, Sendling, Sendling-Westpark, Schwanthalerhöhe, Neuhausen-Nymphenburg, Moosach, Milbertshofen-Am Hart, Schwabing-Freimann, Bogenhausen, Berg am Laim, Trudering-Riem, Ramersdorf-Perlach, Obergiesing-Fasangarten, Untergiesing-Harlaching, Thalkirchen-Obersendling, Forstenried-Fürstenried-Solln, Hadern, Pasing-Obermenzing, Aubing-Lochhausen-Langwied, Allach-Untermenzing, Feldmoching-Hasenbergl, Laim), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Friseursalons, Coiffeure und Herrenfriseure innerhalb der Münchner Stadtgrenze mit Telefon oder Website und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
 
     <h2 id="emails">E-Mails und Anreicherung</h2>
     <p>Mit <code class="code-inline">"enableEmailExtraction": true</code> besucht der Actor die Website jedes Orts und sucht dort E-Mail-Adressen, Telefonnummern und Social-Media-Links. Sie landen in derselben Zeile in <code class="code-inline">emails_from_website</code>, <code class="code-inline">phones_from_website</code> und <code class="code-inline">social_urls</code>.</p>

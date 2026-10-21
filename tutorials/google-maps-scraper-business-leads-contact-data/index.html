@@ -109,7 +109,7 @@
     }
   },
   "datePublished": "2026-07-31",
-  "dateModified": "2026-07-31",
+  "dateModified": "2026-10-21",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-maps-scraper-business-leads-contact-data/"
 }
   </script>
@@ -515,7 +515,7 @@ Wenn er fertig ist, gib mir eine Tabelle mit Name, Telefon, Website, Bewertung u
 ohne Praxen ohne Website.</code></pre></div>
 
     <h2 id="examples">Examples from our Shorts</h2>
-    <p>Complete runs behind our YouTube Shorts, with the exact input, a Claude prompt and the numbers after clean-up. All use the same trick for a big city: <strong>one search per district</strong> instead of one search for the whole city, then duplicates removed by <code class="code-inline">place_id</code>. They were our own test runs on 2026-10-19 (London, Manchester) and 2026-10-20 (Austin); the costs are estimates from the row count and the current price.</p>
+    <p>Complete runs behind our YouTube Shorts, with the exact input, a Claude prompt and the numbers after clean-up. All use the same trick for a big city: <strong>one search per district</strong> instead of one search for the whole city, then duplicates removed by <code class="code-inline">place_id</code>. They were our own test runs on 2026-10-19 (London, Manchester), 2026-10-20 (Austin) and 2026-10-21 (Dallas); the costs are estimates from the row count and the current price.</p>
 
     <h3 id="example-london">Dentists in London: 1,415 practices</h3>
     <div class="example"><figure><img src="assets/example-london.jpg" alt="Five real rows from the run: London dental practices with phone and address" width="720" height="1280" loading="lazy"></figure><div><p>33 searches, one per borough ("dentist in Camden, London" and so on), up to 200 places each.</p><ul><li><strong>4,002 rows</strong> came back; neighbouring boroughs overlap.</li><li>Duplicates removed, dental categories only (dentist, orthodontist, endodontist, periodontist, implant clinic), London postcodes only: <strong>1,415 practices</strong>.</li><li>1,214 have a website, 966 are rated 4.5 or higher.</li><li>Cost estimate: 4,002 places × $0.001 = <strong>about $4.00</strong> on the free plan.</li></ul></div></div>
@@ -658,6 +658,51 @@ Before you start the run, tell me what it will cost and wait for my OK.
 When it's done, remove duplicates by place_id and keep only the categories Gym, Fitness center, Boxing gym and Muay Thai boxing gym with a 787xx ZIP code and a phone or website. Drop places whose name contains apartment, residence, hotel, clubhouse, park, outdoor, yoga or pilates. Give me a table with name, phone, website, rating and ZIP code, sorted by rating.</code></pre></div>
 
 
+    <h3 id="example-dallas">Roofers in Dallas, Texas: 412 roofing contractors</h3>
+    <div class="example"><figure><img src="assets/example-dallas.jpg" alt="Map of the Dallas city limits with one dot per roofing contractor from the run" width="659" height="720" loading="lazy"><figcaption>City outline © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</figcaption></figure><div><p>30 searches, one per neighborhood ("roofing contractor in Oak Cliff, Dallas, TX" and so on), up to 200 places each.</p><ul><li><strong>2,172 rows</strong> came back, 1,140 after removing duplicates.</li><li>Category Roofing contractor: 888. Inside the Dallas city limits (by coordinates): 423. With a phone or a website: <strong>412 roofers</strong>. 61 of them have no ZIP code: they serve an area and show no street address, but their pin is inside the city.</li><li>409 have a phone, 315 a website; 314 are rated 4.5 or higher. Top ZIP codes: 75243 (32), 75201 (25), 75208 (20), 75238 (20), 75204 (14), 75206 (14).</li><li>Cost estimate: 2,172 places × $0.001 = <strong>about $2.17</strong> on the free plan.</li></ul></div></div>
+    <details><summary>Show the input with all 30 neighborhoods</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchStrings": [
+    "roofing contractor in Downtown, Dallas, TX",
+    "roofing contractor in Uptown, Dallas, TX",
+    "roofing contractor in Deep Ellum, Dallas, TX",
+    "roofing contractor in Oak Lawn, Dallas, TX",
+    "roofing contractor in Bishop Arts, Dallas, TX",
+    "roofing contractor in Oak Cliff, Dallas, TX",
+    "roofing contractor in Lakewood, Dallas, TX",
+    "roofing contractor in East Dallas, Dallas, TX",
+    "roofing contractor in Lake Highlands, Dallas, TX",
+    "roofing contractor in Preston Hollow, Dallas, TX",
+    "roofing contractor in North Dallas, Dallas, TX",
+    "roofing contractor in Far North Dallas, Dallas, TX",
+    "roofing contractor in Lower Greenville, Dallas, TX",
+    "roofing contractor in Knox-Henderson, Dallas, TX",
+    "roofing contractor in Design District, Dallas, TX",
+    "roofing contractor in The Cedars, Dallas, TX",
+    "roofing contractor in Fair Park, Dallas, TX",
+    "roofing contractor in South Dallas, Dallas, TX",
+    "roofing contractor in Pleasant Grove, Dallas, TX",
+    "roofing contractor in Kessler Park, Dallas, TX",
+    "roofing contractor in Casa Linda, Dallas, TX",
+    "roofing contractor in White Rock, Dallas, TX",
+    "roofing contractor in Vickery Meadow, Dallas, TX",
+    "roofing contractor in Love Field, Dallas, TX",
+    "roofing contractor in Bluffview, Dallas, TX",
+    "roofing contractor in Red Bird, Dallas, TX",
+    "roofing contractor in Mountain Creek, Dallas, TX",
+    "roofing contractor in Kleberg, Dallas, TX",
+    "roofing contractor in Wynnewood, Dallas, TX",
+    "roofing contractor in Lochwood, Dallas, TX"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "en"
+}</code></pre></div>
+    </details>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/google-maps-scraper with one search per Dallas neighborhood ("roofing contractor in Downtown, Dallas, TX", "roofing contractor in Oak Cliff, Dallas, TX", and so on for these neighborhoods: Downtown, Uptown, Deep Ellum, Oak Lawn, Bishop Arts, Oak Cliff, Lakewood, East Dallas, Lake Highlands, Preston Hollow, North Dallas, Far North Dallas, Lower Greenville, Knox-Henderson, Design District, The Cedars, Fair Park, South Dallas, Pleasant Grove, Kessler Park, Casa Linda, White Rock, Vickery Meadow, Love Field, Bluffview, Red Bird, Mountain Creek, Kleberg, Wynnewood, Lochwood), up to 200 results per search, language en.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, remove duplicates by place_id and keep only the category Roofing contractor with a phone or website. Keep a business only if its coordinates are inside the Dallas city limits. Give me a table with name, phone, website, rating and ZIP code, sorted by rating.</code></pre></div>
+
     <h2 id="fields">Key output fields</h2>
     <p>Each place row in the dataset includes:</p>
     <ul>
@@ -721,7 +766,7 @@ When it's done, remove duplicates by place_id and keep only the categories Gym, 
     <h2>Related resources</h2>
     <ul>
       <li><a href="/actors/google-maps-scraper/">Google Maps Scraper actor page</a>: Full specs, pricing tiers, and comparison with alternatives.</li>
-      <li><a href="/tutorials/scrape-google-maps/">How to Scrape Google Maps (quick-start guide)</a>: A shorter step-by-step guide focused on getting your first results in under 5 minutes.</li>
+      <li><a href="/tutorials/google-maps-api-alternative/">Google Maps API alternative</a>: When the official Places API is too limited or too expensive, and what to use instead.</li>
       <li><a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a>: Automate Google Maps data collection into your own n8n workflow with no code.</li>
       <li><a href="/tutorials/google-maps-reviews-scraper/">Google Maps Reviews Scraper</a>: How to extract individual customer reviews from Google Maps at scale.</li>
       <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-business-leads-con-ec8bb0">Google Maps Scraper on Apify</a>: Full actor documentation, all input parameters, and the complete field reference.</li>
