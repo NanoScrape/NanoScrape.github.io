@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor Competitor Careers Pages | NanoScrape</title>
+  <meta name="description" content="See which roles, teams and locations competitors are hiring for. Pull their careers pages into one table and re-run it weekly to spot new openings.">
+  <meta name="primary-keyword" content="monitor competitor careers pages">
+  <meta property="og:title" content="Monitor Competitor Careers Pages | NanoScrape">
+  <meta property="og:description" content="See which roles, teams and locations competitors are hiring for. Pull their careers pages into one table and re-run it weekly to spot new openings.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Monitor Competitor Careers Pages | NanoScrape">
+  <meta name="twitter:description" content="See which roles, teams and locations competitors are hiring for. Pull their careers pages into one table and re-run it weekly to spot new openings.">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Monitor Competitor Careers Pages for Hiring Signals",
+  "description": "Use the NanoScrape Website Job Extractor on Apify to pull the open roles of competitor companies into one table, then schedule it to see new openings.",
+  "totalTime": "PT10M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "1.47"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of competitor careers page URLs"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Website Job Extractor"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "List your competitors",
+      "text": "Collect the careers page URL of each competitor you want to watch."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Configure the input",
+      "text": "Add one company object per competitor with career_urls and set maxResultsPerCompany to 0 for all jobs."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run the actor",
+      "text": "Start the run and wait for the dataset. Each row is one open role."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Group the roles",
+      "text": "Count roles per company, team, location and remote share."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule it",
+      "text": "Run it weekly and compare job_url values to find new openings."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Monitor Competitor Careers Pages for Hiring Signals",
+  "description": "See which roles, teams and locations competitors are hiring for. Pull their careers pages into one table and re-run it weekly to spot new openings.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which careers pages does it work on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pages that sit on a supported applicant tracking system (the README lists 19, among them Greenhouse, Workday, Lever, Personio and SmartRecruiters) are read through the system's own job list. Other company career pages are read with an AI model. Pages that only show jobs after JavaScript runs need the optional browser fallback."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need an AI key for this?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not for the Greenhouse boards in the example: their rows come straight from the job list. Career pages that are not on a supported system use an AI model. Without your own Gemini, Groq or OpenRouter key the actor uses its managed model, which has its own, higher job price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I see only the new openings after a re-run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run the actor on an Apify schedule and compare the job_url values of the new dataset with the previous one. Jobs that are in the new run but not in the old one are new, jobs that are gone were filled or withdrawn. You can also set postedWithinDays to keep only recent postings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the department column empty in the example?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For these seven Greenhouse boards the job list did not return a department, so the example groups roles by keywords in the job title instead. The team labels are our own rules, not the company's. Check the department field on your own targets first."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I limit the run to certain roles or locations?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. keywords keeps jobs whose title contains one of your words, location keeps a city, region or country, and maxResultsPerCompany caps the jobs per company. These filters run before charging, so jobs that do not match are not billed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it cost to watch a competitor list?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One charge per job row and one per company. The example run with 351 jobs from 7 companies costs about $1.47 with your own AI key and about $4.28 without one. See the cost section for the math."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Monitor Competitor Careers Pages for Hiring Signals",
+      "item": "https://www.nanoscrape.com/tutorials/monitor-competitor-careers-pages/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Monitor competitor careers pages</nav>
+
+    <h1>How to Monitor Competitor Careers Pages for Hiring Signals</h1>
+    <p class="lead">What a competitor hires for shows where it is investing: engineers for a new product, account executives for a new region, a finance team before a funding round. The NanoScrape Website Job Extractor on Apify reads a list of careers pages into one table, so you can count roles by company, team and location, and run it again every week to see what is new.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.004 per job with your own AI key, $0.012 per job without; $0.01 per company</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Website Job Extractor</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=t-monitor-competitor-careers" class="btn-primary">Open the Website Job Extractor on Apify</a>
+      <a href="#example-competitor-hiring" class="btn-secondary">See the example</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#step-1">Step 1: List the careers pages</a></li>
+        <li><a href="#step-2">Step 2: Configure and run</a></li>
+        <li><a href="#step-3">Step 3: Count roles by team, location and remote</a></li>
+        <li><a href="#step-4">Step 4: Repeat on a schedule</a></li>
+        <li><a href="#example-competitor-hiring">Example: seven database companies</a></li>
+        <li><a href="#mcp">Connect to AI agents via MCP</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#fields">Key output fields</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=t-monitor-competitor-careers">Website Job Extractor</a> takes a careers page (or a company homepage) and returns one dataset row per open role. When the page runs on a supported applicant tracking system such as Greenhouse, Workday, Lever or Personio, it reads the system's own job list, so the rows are complete and consistent. Other careers pages are read with an AI model.</p>
+    <ul>
+      <li><strong>One row per role</strong>: <code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">job_url</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">ats_system</code>, and, where the page gives them, <code class="code-inline">department</code>, <code class="code-inline">employment_type</code>, salary and a description.</li>
+      <li><strong>A summary row per company</strong> (<code class="code-inline">_type: job_extraction_done</code>) with how many jobs the site reports and how many were pushed, so you can check that nothing was cut off.</li>
+      <li><strong>Filters</strong> for <code class="code-inline">keywords</code>, <code class="code-inline">location</code> and <code class="code-inline">postedWithinDays</code>, applied before you are charged.</li>
+    </ul>
+    <p>Careers pages are public job ads, so this is company data, not personal data. Keep it that way: do not collect the names or contact details of recruiters or hiring managers unless you have a legal basis under GDPR/DSGVO (in Switzerland: nDSG), and check the careers page's terms of use.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>List the careers pages</h2>
+      <p>Open each competitor's careers page in your browser and copy the address of the page that lists the jobs. If it is hosted on an applicant tracking system (for example <span class="code-inline">job-boards.greenhouse.io/company</span> or <span class="code-inline">company.wd1.myworkdayjobs.com</span>), use that address. Pass it as <code class="code-inline">career_urls</code>. If you only know the homepage, pass it as <code class="code-inline">website_url</code> and the actor looks for the careers page itself, but a direct address is faster and more reliable.</p>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Configure and run</h2>
+      <p>Create a free <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=t-monitor-competitor-careers">Apify account</a>, open the actor and fill in the Input tab, or paste JSON like this (a shortened version of the example below):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "companies": [
+    {
+      "company_id": "fivetran",
+      "company_name": "Fivetran",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/fivetran"
+      ]
+    }
+  ],
+  "maxResultsPerCompany": 0,
+  "includeJobDetails": false
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">maxResultsPerCompany: 0</code> means all open jobs (the default is 200 per company).</li>
+        <li><code class="code-inline">includeJobDetails: false</code> skips the per-job detail pages. That is faster and enough for counting roles; leave it out if you need full descriptions.</li>
+        <li>No AI key is needed for supported systems. For other careers pages add your own Gemini, Groq or OpenRouter key, or leave the key fields empty to use the managed model at the higher job price.</li>
+      </ul>
+      <p>Click <strong>Start</strong>. When the run shows SUCCEEDED, open the Dataset tab and export JSON or CSV.</p>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Count roles by team, location and remote</h2>
+      <p>Group the rows with a spreadsheet pivot, a short script or Claude (prompt below). Three groupings answer most questions:</p>
+      <ul>
+        <li><strong>Roles per company</strong>: who is growing fastest. Use the <code class="code-inline">jobs_total_reported_by_site</code> value on the summary row as a cross-check.</li>
+        <li><strong>Roles per team</strong>: use <code class="code-inline">department</code> when the page provides it. When it is empty, group by keywords in <code class="code-inline">title</code> (engineer, account executive, marketing, accountant).</li>
+        <li><strong>Roles per location and remote share</strong>: from <code class="code-inline">location</code> and <code class="code-inline">workplace_type</code>. A new office city in the list is often the first public sign of a new market.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Repeat on a schedule</h2>
+      <p>In Apify Console open <strong>Schedules</strong>, create a weekly schedule and attach the saved input. Every run creates a new dataset. To find the new openings, compare the <code class="code-inline">job_url</code> values of the latest dataset with the previous one: URLs only in the new run are new roles, URLs only in the old run were filled or withdrawn. Use <code class="code-inline">job_url</code> rather than <code class="code-inline">job_id</code>: on some boards the id field holds a requisition code that is not unique per posting. This prompt does the comparison for you:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Look at the two most recent runs of santamaria-automations/website-job-extractor on my account. Compare the job_url values: list the roles that are in the newer run but not in the older one, grouped by company and team, and list how many roles disappeared per company.</code></pre></div>
+    </div>
+
+    <h2 id="example-competitor-hiring">Example: what seven database companies are hiring for</h2>
+    <p>Situation: you sell to data teams and want to know where seven database and data-integration vendors are putting their headcount: engineering, sales, or support, and in which regions.</p>
+    <p>We ran the actor on the Greenhouse careers pages of Fivetran, Neo4j, SingleStore, Starburst, Cockroach Labs, Yugabyte and PlanetScale, with all jobs per company and no detail pages. The run returned 351 job rows and 7 summary rows. Every company's pushed count matched the number its board reports. We dropped 5 rows that are not real openings (3 &quot;talent community&quot; entries and 2 &quot;general application&quot; entries), which leaves <strong>346 open roles</strong>. These are the findings:</p>
+    <ul>
+      <li><strong>Size</strong>: Fivetran 175 roles, Neo4j 60, SingleStore 41, Starburst 31, Cockroach Labs 14, Yugabyte 14, PlanetScale 11. There are 251 distinct company and title pairs: the same title posted in several cities counts once per city.</li>
+      <li><strong>Teams</strong> (grouped by keywords in the job title): Engineering 142 (41%), Sales 84 (24%), finance, people, legal and IT 43, solutions engineering and support 30, product and design 22, marketing 16, other 9. Neo4j is the most engineering-heavy with 36 of its 60 roles. Fivetran has 36 finance, people and legal roles, 21% of its list, the largest back-office share.</li>
+      <li><strong>Regions</strong> (from the location text): US 198 (57%), Europe and Middle East 81, India and Asia-Pacific 55, Canada 7, 5 unclear. Neo4j is the European outlier: 41 of its 60 roles are in Europe, mostly London and Malm&ouml;.</li>
+      <li><strong>Remote</strong>: 60 of 346 roles (17%) name Remote in the location: Fivetran 31, Neo4j 20, PlanetScale 5, Cockroach Labs 2, Yugabyte 2, SingleStore and Starburst none. PlanetScale has the highest share, 5 of 11.</li>
+      <li><strong>Freshness</strong> (<code class="code-inline">posted_at</code> is the board's first-published date): 50 roles were first published in the 14 days before the run and 113 in the last 30 days. Fivetran accounts for 57 of those 113. The median role is 52 days old; Yugabyte's median is 101 days, so its list is mostly long-open roles.</li>
+    </ul>
+    <p>How the numbers were made: the department field was empty on all seven boards, so the team labels come from our own keyword rules on the job title and will misplace some roles. Regions come from the location text. The counts were computed from the dataset with a script, not by hand. Data collected on 2026-10-21.</p>
+    <div class="callout tip"><strong>About the AI model.</strong> For these seven boards no AI model reads the job lists: the rows come from the Greenhouse job list. Our test run was started on a local machine with a local model configured only because the actor requires some provider setting. The hosted actor uses its managed OpenRouter model (deepseek/deepseek-chat-v3-0324) when you give no key, or your own Gemini, Groq or OpenRouter key.</div>
+    <p class="small">Cost for this run: 351 job rows and 7 companies. With your own AI key that is 351 &times; $0.004 + 7 &times; $0.01 + the actor start fee of $0.00005 = about $1.47. With no key (managed model) the job price is $0.012, so 351 &times; $0.012 + 7 &times; $0.01 = about $4.28. Prices are the current Apify Store prices, checked on 2026-10-21.</p>
+    <p>Input used (one company object per careers page):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "companies": [
+    {
+      "company_id": "fivetran",
+      "company_name": "Fivetran",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/fivetran"
+      ]
+    },
+    {
+      "company_id": "neo4j",
+      "company_name": "Neo4j",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/neo4j"
+      ]
+    },
+    {
+      "company_id": "singlestore",
+      "company_name": "SingleStore",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/singlestore"
+      ]
+    },
+    {
+      "company_id": "starburst",
+      "company_name": "Starburst",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/starburst"
+      ]
+    },
+    {
+      "company_id": "cockroach-labs",
+      "company_name": "Cockroach Labs",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/cockroachlabs"
+      ]
+    },
+    {
+      "company_id": "yugabyte",
+      "company_name": "Yugabyte",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/yugabyte"
+      ]
+    },
+    {
+      "company_id": "planetscale",
+      "company_name": "PlanetScale",
+      "career_urls": [
+        "https://job-boards.greenhouse.io/planetscale"
+      ]
+    }
+  ],
+  "maxResultsPerCompany": 0,
+  "includeJobDetails": false
+}</code></pre></div>
+    <p>Claude prompt (set up the MCP server as in <a href="#mcp">Connect to AI agents via MCP</a>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/website-job-extractor with these seven careers pages (company_id, name, URL): fivetran https://job-boards.greenhouse.io/fivetran, neo4j https://job-boards.greenhouse.io/neo4j, singlestore https://job-boards.greenhouse.io/singlestore, starburst https://job-boards.greenhouse.io/starburst, cockroach-labs https://job-boards.greenhouse.io/cockroachlabs, yugabyte https://job-boards.greenhouse.io/yugabyte, planetscale https://job-boards.greenhouse.io/planetscale. Pass each URL as career_urls of its company, set maxResultsPerCompany to 0 and includeJobDetails to false.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, ignore the rows with a _type field and the talent community or general application rows. Then give me: (1) open roles per company; (2) roles per team, grouping by keywords in the job title (Engineering, Sales, Solutions and support, Product and design, Marketing, Finance/People/Legal/IT, Other), in total and per company; (3) roles per region (US, Europe, India/APAC, Canada) from the location text; (4) how many locations say Remote; (5) how many roles were first posted in the last 14 and 30 days (posted_at). Finish with three sentences on where each company is investing.</code></pre></div>
+    <p class="small">For your own market, replace the seven companies with 5 to 10 competitors, keep <code class="code-inline">maxResultsPerCompany</code> at 0 and read the <code class="code-inline">jobs_total_reported_by_site</code> value on each summary row to check that the full list came back. Companies that run on Workday or another large system can have thousands of roles: add <code class="code-inline">keywords</code> or <code class="code-inline">location</code> there.</p>
+
+    <h2 id="mcp">Connect to AI agents via MCP</h2>
+    <p>The actor is available as an MCP (Model Context Protocol) tool. Paste this server URL into any MCP-compatible client (Claude Desktop, Claude.ai, Cursor, VS Code):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/website-job-extractor</code></pre></div>
+    <p>The client then fills in the input from plain English. The prompt in the example asks Claude to tell you the cost first and wait for your OK before it starts a run.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The actor uses pay-per-event billing on Apify. These are the current Store prices:</p>
+    <ul>
+      <li><strong>Job extracted</strong> (<code class="code-inline">job-result</code>): $0.004 per job when you bring your own AI key.</li>
+      <li><strong>Job extracted, managed model</strong> (<code class="code-inline">job-result-managed</code>): $0.012 per job when you give no key.</li>
+      <li><strong>Company processed</strong> (<code class="code-inline">company-enriched</code>): $0.01 per company, charged once per company.</li>
+      <li><strong>Actor start</strong>: $0.00005 per run.</li>
+      <li>With <code class="code-inline">includeJobDetails: true</code>, jobs read from an employer's own site add a detail event on top; jobs from supported systems do not.</li>
+    </ul>
+    <p>A weekly watch on 7 companies like the example costs about $1.47 per run with your own key. The Apify free plan includes monthly credit that covers several such runs.</p>
+
+    <h2 id="fields">Key output fields</h2>
+    <ul>
+      <li><code class="code-inline">company_id</code> / <code class="code-inline">company_name</code>: the values from your input.</li>
+      <li><code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">workplace_type</code>: the role, where it is, and remote when the location says so.</li>
+      <li><code class="code-inline">posted_at</code>: first-published date where the system gives one.</li>
+      <li><code class="code-inline">job_url</code> / <code class="code-inline">application_url</code>: the posting and the apply link.</li>
+      <li><code class="code-inline">department</code>, <code class="code-inline">employment_type</code>, <code class="code-inline">salary_range</code>: filled when the page provides them, otherwise null.</li>
+      <li><code class="code-inline">ats_system</code> / <code class="code-inline">ats_url</code>: which job system the rows were read from.</li>
+      <li><code class="code-inline">_type: job_extraction_done</code>: the per-company summary row; skip it when you count roles.</li>
+    </ul>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Which careers pages does it work on?</summary>
+        <p>Pages that sit on a supported applicant tracking system (the README lists 19, among them Greenhouse, Workday, Lever, Personio and SmartRecruiters) are read through the system's own job list. Other company career pages are read with an AI model. Pages that only show jobs after JavaScript runs need the optional browser fallback.</p>
+      </details>
+      <details>
+        <summary>Do I need an AI key for this?</summary>
+        <p>Not for the Greenhouse boards in the example: their rows come straight from the job list. Career pages that are not on a supported system use an AI model. Without your own Gemini, Groq or OpenRouter key the actor uses its managed model, which has its own, higher job price.</p>
+      </details>
+      <details>
+        <summary>How do I see only the new openings after a re-run?</summary>
+        <p>Run the actor on an Apify schedule and compare the job_url values of the new dataset with the previous one. Jobs that are in the new run but not in the old one are new, jobs that are gone were filled or withdrawn. You can also set postedWithinDays to keep only recent postings.</p>
+      </details>
+      <details>
+        <summary>Why is the department column empty in the example?</summary>
+        <p>For these seven Greenhouse boards the job list did not return a department, so the example groups roles by keywords in the job title instead. The team labels are our own rules, not the company's. Check the department field on your own targets first.</p>
+      </details>
+      <details>
+        <summary>Can I limit the run to certain roles or locations?</summary>
+        <p>Yes. keywords keeps jobs whose title contains one of your words, location keeps a city, region or country, and maxResultsPerCompany caps the jobs per company. These filters run before charging, so jobs that do not match are not billed.</p>
+      </details>
+      <details>
+        <summary>What does it cost to watch a competitor list?</summary>
+        <p>One charge per job row and one per company. The example run with 351 jobs from 7 companies costs about $1.47 with your own AI key and about $4.28 without one. See the cost section for the math.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/website-job-extractor/">Website Job Extractor actor page</a>: specs, supported job systems and pricing.</li>
+      <li><a href="/tutorials/scrape-fortune-500-company-jobs/">Scrape Fortune 500 company jobs</a>: the same actor on large Workday, Oracle and iCIMS career sites.</li>
+      <li><a href="/tutorials/how-to-scrape-workday-jobs/">How to scrape Workday jobs</a>: when a competitor's careers page is a Workday site.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to scrape every job online</a>: job boards and careers pages compared.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=t-monitor-competitor-careers">Website Job Extractor on Apify</a>: full documentation and all input parameters.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor?fpr=0khfbz&amp;fp_sid=t-monitor-competitor-careers" class="btn-primary">Open the Website Job Extractor on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

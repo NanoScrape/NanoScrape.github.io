@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>work.swiss Scraper: Export Swiss Jobs to CSV | NanoScrape</title>
+  <meta name="description" content="Export Swiss job listings from work.swiss (Job-Room, official SECO and RAV data) to CSV or Excel. Filter by canton and workload. No code.">
+  <meta name="primary-keyword" content="work.swiss scraper">
+  <meta property="og:title" content="work.swiss Scraper: Export Swiss Jobs to CSV | NanoScrape">
+  <meta property="og:description" content="Jobs from the official Swiss Job-Room as CSV, Excel or JSON. Step by step, no code.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/arbeit-swiss-scraper-stellen-exportieren/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Export job listings from work.swiss (Swiss Job-Room)",
+  "description": "Use the Arbeit.Swiss Scraper on Apify to search jobs in the Swiss Job-Room by keyword, canton and workload, and download them as CSV, Excel or JSON.",
+  "totalTime": "PT5M",
+  "supply": [
+    {"@type": "HowToSupply", "name": "Free Apify account"},
+    {"@type": "HowToSupply", "name": "One or more search keywords"}
+  ],
+  "tool": [
+    {"@type": "HowToTool", "name": "Arbeit.Swiss Scraper (Apify)"}
+  ],
+  "step": [
+    {"@type": "HowToStep", "name": "Create an Apify account", "text": "Open the Arbeit.Swiss Scraper page on Apify, click Try for free and sign up with Google or email."},
+    {"@type": "HowToStep", "name": "Enter keyword and canton", "text": "Enter one or more keywords in searchQueries, set the canton in cantonCodes and set maxResults."},
+    {"@type": "HowToStep", "name": "Run the Actor", "text": "Click Save and Run. The results appear in the Dataset tab when the run has finished."},
+    {"@type": "HowToStep", "name": "Export the data", "text": "In the Dataset tab, click Export and choose CSV, Excel or JSON."}
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "work.swiss Scraper: Export Swiss Jobs to CSV",
+  "description": "How to export job listings from the Swiss Job-Room (work.swiss, also arbeit.swiss) with the Arbeit.Swiss Scraper on Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"},
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {"@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"}
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "Do I need to code to scrape work.swiss?",
+     "acceptedAnswer": {"@type": "Answer", "text": "No. In the Apify Console you fill in a form, click Save and Run and download the table. You only need code if you want to call the Actor from your own system through the API."}},
+    {"@type": "Question", "name": "Is work.swiss the same as arbeit.swiss and the SECO Job-Room?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Yes. work.swiss (English), arbeit.swiss (German), travail.swiss (French) and lavoro.swiss (Italian) are the four language versions of the Job-Room run by SECO, the Swiss State Secretariat for Economic Affairs (job-room.ch). The Actor reads the shared data, so you get the same jobs whichever language the site uses."}},
+    {"@type": "Question", "name": "Does the data include salaries?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Usually not. The fields salary_min, salary_max, salary_currency and salary_period exist in the schema, but the Job-Room does not publish salaries. In the example run, none of the 30 jobs had a salary."}},
+    {"@type": "Question", "name": "How many jobs do I get per search?",
+     "acceptedAnswer": {"@type": "Answer", "text": "By default at most 100 per keyword (maxResultsPerQuery). Set both maxResultsPerQuery and maxResults to 0 to get every match; the Actor then fetches 100 jobs per page until the list ends. For scale: in the example, the Job-Room reported 345 matches for logistics in the canton of Bern."}},
+    {"@type": "Question", "name": "How do I get only new jobs?",
+     "acceptedAnswer": {"@type": "Answer", "text": "Set postedWithinDays to 1 for the last 24 hours or 7 for the last week. The filter runs on the Job-Room side. Without it, the default is 60 days. For recurring runs, also compare the id field with your previous export."}},
+    {"@type": "Question", "name": "How much does the work.swiss scraper cost?",
+     "acceptedAnswer": {"@type": "Answer", "text": "$0.003 per job plus $0.00005 per run start. The detail page is included. 30 jobs with full text cost about $0.09."}},
+    {"@type": "Question", "name": "Am I allowed to use this data?",
+     "acceptedAnswer": {"@type": "Answer", "text": "That depends on your use case, especially for personal contact details. Some listings name a contact person with email or phone. Check data protection rules (the Swiss FADP, and the GDPR if EU residents are involved) before you store or reuse such data."}}
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/"},
+    {"@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/tutorials/"},
+    {"@type": "ListItem", "position": 3, "name": "work.swiss Scraper", "item": "https://www.nanoscrape.com/tutorials/work-swiss-scraper-export-job-room-listings/"}
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; work.swiss Scraper</nav>
+
+    <h1>work.swiss Scraper: Export Swiss Jobs to CSV</h1>
+    <p class="lead">Need job listings from the official Swiss Job-Room (work.swiss, also known as arbeit.swiss) in Excel or in your own analysis? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en">Arbeit.Swiss Scraper</a> collects the jobs for your keywords and cantons and returns them as a table: title, employer, place, canton, workload percentage, date and a link to the listing. No code, a few minutes.</p>
+
+    <p><a href="/de/tutorials/arbeit-swiss-scraper-stellen-exportieren/" hreflang="de" lang="de">German version</a></p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Level:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> 30 jobs with full text: about $0.09</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console (no code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+      <a href="#claude-prompt" class="btn-secondary">Copy the Claude prompt</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#fields">All fields</a></li>
+        <li><a href="#example-logistics-bern">Example: logistics in the canton of Bern</a></li>
+        <li><a href="#step-1">Step 1: Create an Apify account</a></li>
+        <li><a href="#step-2">Step 2: Enter keyword and canton</a></li>
+        <li><a href="#step-3">Step 3: Run the Actor</a></li>
+        <li><a href="#step-4">Step 4: Export the data</a></li>
+        <li><a href="#claude-prompt">Prompt for Claude</a></li>
+        <li><a href="#filters">Available filters</a></li>
+        <li><a href="#api">API and schedule</a></li>
+        <li><a href="#cost">Cost</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>The Job-Room, run by SECO (the Swiss State Secretariat for Economic Affairs), has no export function for jobs. Employers and the regional employment centres (RAV) post vacancies there, including some that may not appear on private job boards. The same data is served under four addresses: work.swiss (English), arbeit.swiss (German), travail.swiss (French) and lavoro.swiss (Italian). The Actor collects it in one run and stores it as a table you can download as CSV, Excel or JSON.</p>
+    <p>The Actor reads only publicly visible listings. You do not need a Job-Room account or an API key.</p>
+    <p>Two Swiss terms appear in the data. A canton (Kanton) is one of the 26 Swiss states, given as a two-letter code such as BE for Bern or ZH for Zürich. Workload (Pensum) is the job's share of a full-time position, in percent.</p>
+
+    <h2 id="fields">All fields at a glance</h2>
+    <p>This is the field list from the Actor's output schema. Without <code class="code-inline">includeJobDetails</code>, the full listing text is missing and you only get the short snippet.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Field</th><th style="padding:8px">Type</th><th style="padding:8px">Content</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Unique Job-Room ID of the job (UUID)</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Job title</td></tr>
+        <tr><td><code class="code-inline">company</code></td><td>Text</td><td>Employer; for recruitment agencies, the agency name</td></tr>
+        <tr><td><code class="code-inline">location / city / postal_code</code></td><td>Text</td><td>Place of work as &ldquo;place, canton&rdquo;, plus place and postal code of the workplace (not the company's head office)</td></tr>
+        <tr><td><code class="code-inline">canton / country</code></td><td>Text</td><td>Canton code (for example BE) and country (CH)</td></tr>
+        <tr><td><code class="code-inline">job_status</code></td><td>Text</td><td>online, offline, expired or unknown</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Employment type, in the example full-time or part-time</td></tr>
+        <tr><td><code class="code-inline">workload_min / workload_max</code></td><td>Number</td><td>Workload percentage</td></tr>
+        <tr><td><code class="code-inline">contract_type</code></td><td>Text</td><td>permanent or temporary</td></tr>
+        <tr><td><code class="code-inline">start_date / starts_immediately / end_date</code></td><td>Date / Boolean</td><td>Start date, &ldquo;start immediately&rdquo; flag, and end date for fixed-term jobs</td></tr>
+        <tr><td><code class="code-inline">work_forms</code></td><td>List</td><td>Special working patterns such as shift, night or Sunday work</td></tr>
+        <tr><td><code class="code-inline">description_snippet</code></td><td>Text</td><td>Short excerpt of the description</td></tr>
+        <tr><td><code class="code-inline">description_full / description_md</code></td><td>Text</td><td>Full listing text as plain text and as Markdown (with details)</td></tr>
+        <tr><td><code class="code-inline">posted_at / expires_at</code></td><td>Date</td><td>Publication and expiry of the listing (day precision)</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link to the job on job-room.ch and the platform (arbeit.swiss)</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Application link and, if given, application email</td></tr>
+        <tr><td><code class="code-inline">company_url</code></td><td>Text</td><td>Employer website or profile, if available</td></tr>
+        <tr><td><code class="code-inline">contact_salutation, contact_firstname, contact_lastname, contact_email, contact_phone</code></td><td>Text</td><td>Contact person, if the listing names one</td></tr>
+        <tr><td><code class="code-inline">salary_min / salary_max / salary_currency / salary_period</code></td><td>Number / Text</td><td>Salary where given. The Job-Room usually does not publish salaries</td></tr>
+        <tr><td><code class="code-inline">remote_option / requirements</code></td><td>Text / List</td><td>In the schema, but not kept as structured data by the Job-Room. Empty in the example run</td></tr>
+        <tr><td><code class="code-inline">search_query / scraped_at</code></td><td>Text</td><td>The keyword that found the job, and the time of collection</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+
+    <h2 id="example-logistics-bern">Example: logistics in the canton of Bern</h2>
+    <p>We ran the Actor once locally (21 Oct 2026): keyword &ldquo;Logistik&rdquo; (German for logistics, since most listings are in German), canton of Bern, newest first, at most 30 jobs, with full listing text. This was the input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Logistik"],
+  "cantonCodes": ["BE"],
+  "sortBy": "newest",
+  "maxResults": 30,
+  "includeJobDetails": true
+}</code></pre></div>
+    <p>The run returned 30 jobs and finished after a few seconds (measured locally; times on Apify can differ). The Job-Room reported 345 matches for this search in the last 60 days. The run therefore stopped at our <code class="code-inline">maxResults</code> limit, not because there were no more jobs. Three results, shortened and without contact persons:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">[
+  {
+    "id": "409c48a9-7faa-48d1-b61c-7cb66591158c",
+    "title": "Betriebsangestellte:r",
+    "company": "Jungfraubahnen Management AG",
+    "location": "Eigergletscher, BE",
+    "postal_code": "3823",
+    "canton": "BE",
+    "job_status": "online",
+    "employment_type": "full-time",
+    "workload_min": 100,
+    "workload_max": 100,
+    "contract_type": "permanent",
+    "starts_immediately": false,
+    "posted_at": "2026-10-21T00:00:00.000Z",
+    "expires_at": "2026-11-20T00:00:00.000Z",
+    "source_url": "https://www.job-room.ch/job-search/409c48a9-7faa-48d1-b61c-7cb66591158c",
+    "source_platform": "arbeit.swiss",
+    "search_query": "Logistik"
+  },
+  {
+    "id": "38dcda54-688f-4336-aaf9-3f78ed9731c9",
+    "title": "Teamleitung SAP Services / Business Analyst Order-to-Cash (OTC) 80-100% (m/w/d)",
+    "company": "Sanitas Troesch AG",
+    "location": "Bern, BE",
+    "postal_code": "3018",
+    "canton": "BE",
+    "employment_type": "full-time",
+    "workload_min": 100,
+    "contract_type": "permanent",
+    "posted_at": "2026-10-21T00:00:00.000Z",
+    "search_query": "Logistik"
+  },
+  {
+    "id": "7d3a3ce7-2a00-4f90-ac8d-17445bf115d9",
+    "title": "Fachspezialist/-in Administration",
+    "company": "Institut für Virologie und Immunologie IVI",
+    "location": "Mittelhäusern, BE",
+    "canton": "BE",
+    "employment_type": "full-time",
+    "workload_min": 100,
+    "contract_type": "permanent",
+    "posted_at": "2026-10-21T00:00:00.000Z",
+    "search_query": "Logistik"
+  }
+]</code></pre></div>
+    <p>How many of the 30 jobs had each field filled:</p>
+    <ul>
+      <li><strong>Always (30 of 30):</strong> title, employer, place, postal code, canton, workload, contract type, publication and expiry date, link, listing text (plain and Markdown).</li>
+      <li><strong>Application link:</strong> 29 of 30. It usually leads to the listing on another job board, for example jobs.ch or jobscout24.ch.</li>
+      <li><strong>Application email and contact person:</strong> 1 of 30.</li>
+      <li><strong>Never filled:</strong> salary, company website, start date, remote information, requirements.</li>
+    </ul>
+    <div class="callout warn"><strong>Check the matches.</strong> The keyword also searches the listing text. In the example, &ldquo;Logistik&rdquo; appeared somewhere in all 30 jobs, but only 5 had it in the title. The others were, for example, operations staff or an SAP team lead. Use precise keywords or the <code class="code-inline">titleFilter</code> option (see below). Job titles are mostly in German, French or Italian, so search in the language of the canton.</div>
+    <div class="callout"><strong>Day precision.</strong> <code class="code-inline">posted_at</code> holds only the date; the time is always 00:00. All jobs in the selection above were posted on 20 or 21 October.</div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create an Apify account</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en">Arbeit.Swiss Scraper page on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email.</li>
+        <li>You land in the Apify Console on the Actor's <strong>Input</strong> tab. The monthly free credit of the Free plan is enough for small runs.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Enter keyword and canton</h2>
+      <p>In <code class="code-inline">searchQueries</code>, enter one or more keywords. Each keyword runs as its own search, and duplicate jobs are removed across all keywords. In <code class="code-inline">cantonCodes</code>, enter the canton as a code, for example <code class="code-inline">["BE"]</code> or <code class="code-inline">["ZH", "SG"]</code>. Empty means all of Switzerland.</p>
+      <ul>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> sorts by date, newest first (default). <code class="code-inline">oldest</code> reverses the order. The Job-Room has no relevance sorting.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: cap per keyword (default 100, 0 means unlimited).</li>
+        <li><code class="code-inline">maxResults</code>: cap across all keywords together (0 means unlimited).</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> also fetches the full listing text (default).</li>
+      </ul>
+      <div class="callout tip"><strong>Start small.</strong> For your first run, set <code class="code-inline">maxResults</code> to 10 to 30. You see quickly whether the matches fit your keyword, and you pay only a few cents.</div>
+      <div class="callout warn"><strong>Default: last 60 days only.</strong> Without further settings, the Job-Room returns jobs that went online in the last 60 days. Use <code class="code-inline">postedWithinDays</code> to choose a shorter period.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run the Actor and check the result</h2>
+      <p>Click <strong>Save and Run</strong> at the bottom. On the run page, the <strong>Log</strong> tab shows progress and the <strong>Dataset</strong> tab shows the results as a table. Several keywords and cantons in one run look like this (&ldquo;Pflege&rdquo; is nursing care, &ldquo;Lagerist&rdquo; warehouse worker, &ldquo;Buchhaltung&rdquo; bookkeeping):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Pflege", "Lagerist", "Buchhaltung"],
+  "cantonCodes": ["ZH", "BE"],
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Export the data</h2>
+      <ol>
+        <li>In the run, open the <strong>Dataset</strong> tab.</li>
+        <li>Click <strong>Export</strong>.</li>
+        <li>Choose the format: CSV, Excel, JSON and more. With the field selection you export only the columns you need, for example <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">workload_min</code>, <code class="code-inline">posted_at</code> and <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="claude-prompt">Prompt for Claude to copy</h2>
+    <p>In Claude, add the Apify MCP server as a custom connector with this URL (see <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apify's MCP documentation</a>). The URL limits Claude to this one Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/arbeit-swiss-scraper</code></pre></div>
+    <p>Then paste this prompt and replace keyword and canton with your own. Claude tells you the cost first and waits for your OK before the run starts:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the Actor santamaria-automations/arbeit-swiss-scraper with the keyword
+"Logistik", canton BE, sortBy newest and at most 30 results.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it is done, give me a table with title, employer, place, workload and date, newest first.</code></pre></div>
+    <p class="small">We tested the Actor and the inputs, not the prompts over MCP; Claude may word the cost statement differently.</p>
+
+    <h2 id="filters">Available filters</h2>
+    <p>The Actor filters the search by these settings:</p>
+    <ul>
+      <li><strong>Keyword</strong> (<code class="code-inline">searchQueries</code>) and <strong>canton</strong> (<code class="code-inline">cantonCodes</code>, several allowed).</li>
+      <li><strong>Workload</strong> (<code class="code-inline">workloadMin</code> and <code class="code-inline">workloadMax</code>, in percent, default 10 to 100).</li>
+      <li><strong>Age of the listing</strong> (<code class="code-inline">postedWithinDays</code>): 1 means 24 hours, 7 means one week. The filter runs at the Job-Room, so you pay only for the matches. The older setting <code class="code-inline">onlineSinceDays</code> defaults to 60.</li>
+      <li><strong>Title</strong> (<code class="code-inline">titleFilter</code>): a comma-separated list of terms, for example <code class="code-inline">Laborant, Chemiker, QC</code>. Only jobs with one of these terms in the title are kept. The filter applies before the details are fetched, so filtered-out jobs cost nothing.</li>
+      <li><strong>Sorting</strong> (<code class="code-inline">sortBy</code>): newest or oldest first.</li>
+      <li><strong>Volume</strong>: <code class="code-inline">maxResultsPerQuery</code> and <code class="code-inline">maxResults</code>.</li>
+    </ul>
+    <p>There is no filter for industry, salary or contract type. You do that afterwards in the table, for example with <code class="code-inline">contract_type</code> and <code class="code-inline">employment_type</code>.</p>
+
+    <h2 id="api">Fetch by API and on a schedule</h2>
+    <p>You can also call the Actor from your own scripts, n8n or Make. This call starts a run and returns the results directly (Apify endpoint <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~arbeit-swiss-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Logistik"], "cantonCodes": ["BE"], "sortBy": "newest", "maxResults": 50}'</code></pre></div>
+    <p>You find your API token in the Apify Console under Settings &rarr; API &amp; Integrations. For recurring exports, create a schedule in the Console under <strong>Schedules</strong>. Set <code class="code-inline">postedWithinDays</code> to 1 for daily runs and compare the results with your last export (field <code class="code-inline">id</code>) so you only process new jobs.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor charges per result (prices from the Apify Store, Free plan, as of 21 Oct 2026):</p>
+    <ul>
+      <li>Start: $0.00005 per run.</li>
+      <li>Job in the result: $0.003 per job.</li>
+    </ul>
+    <p>Each job is charged once, when it is saved to the result. The full listing text (<code class="code-inline">includeJobDetails</code>) costs nothing extra. Worked example: 30 jobs = $0.00005 + 30 x $0.003 = $0.09005, about $0.09. All 345 matches of the example (logistics, canton of Bern, 60 days) would cost about $1.04. You can always find the current prices on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en">Actor's Apify page</a>.</p>
+
+    <h2 id="use-cases">What people use the data for</h2>
+    <h3>Track the Swiss labour market by canton</h3>
+    <p>Run the newest jobs for an occupation and a canton on a schedule and count how many appear per week, or which employers advertise most. The data comes from the official SECO platform.</p>
+    <h3>Source roles for candidates and relocation clients</h3>
+    <p>Recruiters and relocation firms can filter by canton and workload and open the original listing through <code class="code-inline">source_url</code>. Use <code class="code-inline">expires_at</code> and <code class="code-inline">job_status</code> to drop expired listings from your list.</p>
+    <h3>Find employers that are hiring</h3>
+    <p>The <code class="code-inline">company</code> column shows who is hiring in your region. Note that recruitment agencies can appear there too.</p>
+    <h3>Analyse workload and fixed-term jobs</h3>
+    <p>With <code class="code-inline">workload_min</code>, <code class="code-inline">workload_max</code> and <code class="code-inline">contract_type</code> you can see how many jobs are part-time or temporary.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need to code to scrape work.swiss?</summary>
+        <p>No. In the Apify Console you fill in a form, click Save and Run and download the table. You only need code if you want to call the Actor from your own system through the API.</p>
+      </details>
+      <details>
+        <summary>Is work.swiss the same as arbeit.swiss and the SECO Job-Room?</summary>
+        <p>Yes. work.swiss (English), arbeit.swiss (German), travail.swiss (French) and lavoro.swiss (Italian) are the four language versions of the Job-Room run by SECO, the Swiss State Secretariat for Economic Affairs (job-room.ch). The Actor reads the shared data, so you get the same jobs whichever language the site uses.</p>
+      </details>
+      <details>
+        <summary>Does the data include salaries?</summary>
+        <p>Usually not. The fields salary_min, salary_max, salary_currency and salary_period exist in the schema, but the Job-Room does not publish salaries. In the example run, none of the 30 jobs had a salary.</p>
+      </details>
+      <details>
+        <summary>How many jobs do I get per search?</summary>
+        <p>By default at most 100 per keyword (maxResultsPerQuery). Set both maxResultsPerQuery and maxResults to 0 to get every match; the Actor then fetches 100 jobs per page until the list ends. For scale: in the example, the Job-Room reported 345 matches for logistics in the canton of Bern.</p>
+      </details>
+      <details>
+        <summary>How do I get only new jobs?</summary>
+        <p>Set postedWithinDays to 1 for the last 24 hours or 7 for the last week. The filter runs on the Job-Room side. Without it, the default is 60 days. For recurring runs, also compare the id field with your previous export.</p>
+      </details>
+      <details>
+        <summary>How much does the work.swiss scraper cost?</summary>
+        <p>$0.003 per job plus $0.00005 per run start. The detail page is included. 30 jobs with full text cost about $0.09.</p>
+      </details>
+      <details>
+        <summary>Am I allowed to use this data?</summary>
+        <p>That depends on your use case, especially for personal contact details. Some listings name a contact person with email or phone. Check data protection rules (the Swiss FADP, and the GDPR if EU residents are involved) before you store or reuse such data.</p>
+      </details>
+    </div>
+
+    <h2>Related links</h2>
+    <ul>
+      <li><a href="/actors/arbeit-swiss-scraper/">Arbeit.Swiss Scraper, Actor page</a>: input fields, output fields and pricing at a glance.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en">Arbeit.Swiss Scraper on Apify</a>: the Actor with documentation and all parameters.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: job listings from 110+ job boards with one call.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-work-swiss-scraper-export-job-room-listings-en" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

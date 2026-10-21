@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JobScout24 Scraper: Stellen als CSV exportieren | NanoScrape</title>
+  <meta name="description" content="Stellenanzeigen von JobScout24.ch als CSV oder Excel exportieren: Suchbegriff, Region, Sortierung. Mit echtem Beispiellauf für Informatik in Bern.">
+  <meta name="primary-keyword" content="jobscout24 stellenanzeigen exportieren">
+  <meta property="og:title" content="JobScout24 Scraper: Stellen exportieren | NanoScrape">
+  <meta property="og:description" content="Stellenanzeigen von JobScout24.ch als CSV, Excel oder JSON. Schritt für Schritt, ohne Code, mit Beispiel für Informatik in Bern.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="JobScout24 Scraper: Stellen exportieren | NanoScrape">
+  <meta name="twitter:description" content="Stellenanzeigen von JobScout24.ch als CSV, Excel oder JSON. Schritt für Schritt, ohne Code, mit Beispiel für Informatik in Bern.">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Stellenanzeigen von JobScout24.ch exportieren",
+  "description": "Mit dem JobScout24.ch Scraper auf Apify Stellenanzeigen suchen und als CSV, Excel oder JSON herunterladen.",
+  "totalTime": "PT5M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Ein oder mehrere Suchbegriffe"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "JobScout24.ch Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des JobScout24.ch Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Suchbegriff und Region eintragen",
+      "text": "Trage im Feld Search Keywords einen oder mehrere Suchbegriffe ein, wähle eine Region und setze maxResultsPerQuery."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Save and Run. Die Ergebnisse erscheinen im Tab Dataset, sobald der Lauf fertig ist."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Dataset auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "JobScout24 Scraper: Stellenanzeigen exportieren",
+  "description": "Anleitung zum Export von Stellenanzeigen von JobScout24.ch mit dem JobScout24.ch Scraper auf Apify, mit Beispiel für Informatik in Bern.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Brauche ich Programmierkenntnisse für den JobScout24-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Wie viele Anzeigen kann ich pro Lauf holen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Actor holt die Trefferliste seitenweise, im Beispiellauf mit 24 Anzeigen pro Seite, und hört bei höchstens 100 Seiten auf. Mit maxResultsPerQuery begrenzt du jeden Suchbegriff, mit maxResults den ganzen Lauf. Der Standard ist 100 pro Suchbegriff, 0 heisst unbegrenzt."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum stehen in der Tabelle auch Stellen aus anderen Kantonen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Filter region schränkt die Suche auf JobScout24 ein, ist aber keine strenge Kantonsgrenze. Im Beispiellauf mit region bern waren 65 von 298 Anzeigen im Kanton Bern, die übrigen verteilten sich auf 22 weitere Kantone und Regionen. Filtere nach dem Lauf auf die Spalte canton, wenn du nur einen Kanton brauchst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Sind Kontaktpersonen in der Tabelle enthalten?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Actor kann Kontaktangaben von der Detailseite lesen, wenn eine Anzeige sie nennt. Im Beispiellauf war bei keiner der 298 Anzeigen eine Kontakt-E-Mail oder Telefonnummer gefüllt, 5 Anzeigen hatten eine Bewerbungs-E-Mail und 11 einen Bewerbungslink. Prüfe die Datenlage für deine Suche selbst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der JobScout24-Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pay-per-Event: 0,00005 $ für den Start und 0,003 $ pro Ergebnis im Dataset. Der Beispiellauf mit 298 Anzeigen kostet damit 0,00005 $ + 298 x 0,003 $ = 0,89405 $, also etwa 0,89 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Daten verwenden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt von deinem Anwendungsfall ab, besonders bei Angaben zu Kontaktpersonen. In der Schweiz gelten das nDSG und das UWG, im EU-Raum die DSGVO. Das ist keine Rechtsberatung. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "JobScout24 Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; JobScout24 Scraper</nav>
+
+    <h1>JobScout24 Scraper: Stellenanzeigen als CSV oder Excel exportieren</h1>
+    <p class="lead">Du suchst Stellenanzeigen von JobScout24.ch und willst sie in Excel oder in eine eigene Auswertung bekommen? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de">JobScout24.ch Scraper</a> holt die Anzeigen zu deinen Suchbegriffen und deiner Region und liefert sie als Tabelle: Titel, Firma, Ort, Kanton, Pensum, Datum und Link zur Anzeige. Ohne Code, in wenigen Minuten.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 298 Stellen mit Details: ca. 0,89 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console (ohne Code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-informatik-bern">Beispiel: Informatik in Bern</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Suche und Region eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#filter">Welche Filter es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p>Auf JobScout24.ch gibt es keine Export-Funktion für Stellenanzeigen. Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de">JobScout24-Scraper</a> holt die Anzeigen zu deinen Suchbegriffen und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Jede Zeile ist eine Anzeige, hier gekürzt und mit Platzhaltern zur Veranschaulichung der Struktur:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "id": "...",
+  "title": "...",
+  "company": "...",
+  "location": "...",
+  "canton": "BE",
+  "employment_type": "...",
+  "workload_min": 80,
+  "workload_max": 100,
+  "salary_text": "...",
+  "posted_at": "...",
+  "source_url": "https://www.jobscout24.ch/...",
+  "source_platform": "jobscout24.ch",
+  "search_query": "..."
+}</code></pre></div>
+    <p>Die Werte hängen von der einzelnen Anzeige ab. Ein echter Lauf mit Zahlen steht weiter unten im Beispiel.</p>
+
+    <h2 id="felder">Alle Felder im Überblick</h2>
+    <p>So sind die Felder laut Ausgabe-Schema des Actors aufgebaut. Ohne <code class="code-inline">includeJobDetails</code> fehlen die Felder, die nur auf der Detailseite stehen (zum Beispiel der volle Anzeigentext und die Kontaktangaben).</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Eindeutige Anzeigen-ID</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Titel der Anzeige</td></tr>
+        <tr><td><code class="code-inline">company</code></td><td>Text</td><td>Arbeitgeber oder inserierende Firma</td></tr>
+        <tr><td><code class="code-inline">location / canton / country</code></td><td>Text</td><td>Ort, Kanton als Kürzel (BE, ZH ...) und Land</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Beschäftigungsart, zum Beispiel full-time oder part-time</td></tr>
+        <tr><td><code class="code-inline">workload_min / workload_max</code></td><td>Zahl</td><td>Pensum in Prozent</td></tr>
+        <tr><td><code class="code-inline">remote_option</code></td><td>Text</td><td>Home-Office-Angabe, falls vorhanden</td></tr>
+        <tr><td><code class="code-inline">salary_text</code></td><td>Text</td><td>Gehaltsangabe als Text, falls die Anzeige eine nennt</td></tr>
+        <tr><td><code class="code-inline">description_snippet / description_full / description_md</code></td><td>Text</td><td>Kurzbeschreibung und voller Anzeigentext (nur mit Detailseite)</td></tr>
+        <tr><td><code class="code-inline">requirements</code></td><td>Liste</td><td>Genannte Anforderungen, falls erkannt</td></tr>
+        <tr><td><code class="code-inline">posted_at / expires_at</code></td><td>Text</td><td>Veröffentlichungs- und Ablaufdatum</td></tr>
+        <tr><td><code class="code-inline">contact_salutation, contact_firstname, contact_lastname, contact_email, contact_phone, contact_position, contact_raw</code></td><td>Text</td><td>Kontaktangaben, falls die Anzeige sie nennt</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Bewerbungslink und Bewerbungs-E-Mail, falls angegeben</td></tr>
+        <tr><td><code class="code-inline">company_url</code></td><td>Text</td><td>Firmenprofil auf JobScout24</td></tr>
+        <tr><td><code class="code-inline">company_description, company_rating, company_review_count, company_social_urls, company_benefits</code></td><td>Text / Zahl / Liste</td><td>Firmenangaben, soweit auf JobScout24 vorhanden</td></tr>
+        <tr><td><code class="code-inline">top_listing / job_status</code></td><td>Wahrheitswert / Text</td><td>Ob die Anzeige als Top-Inserat markiert ist, und ihr Status</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link zur Originalanzeige und Plattform (jobscout24.ch)</td></tr>
+        <tr><td><code class="code-inline">search_query / scraped_at</code></td><td>Text</td><td>Suchbegriff, der die Anzeige gefunden hat, und Zeitpunkt des Abrufs</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+    <div class="callout"><strong>Nicht jedes Feld ist immer gefüllt.</strong> Gehalt, Kontaktangaben und Firmenangaben stehen nur dann in der Tabelle, wenn die Anzeige oder das Firmenprofil sie nennt. Im Beispiel unten waren das Gehalt bei 83 von 298 Anzeigen und die Kontaktfelder bei keiner.</div>
+
+    <h2 id="beispiel-informatik-bern">Beispiel: Informatik-Stellen in Bern</h2>
+    <p>Du suchst Informatik-Stellen rund um Bern und willst wissen, wer inseriert und wie viele Stellen es gibt. Wir haben die Suche einmal lokal laufen lassen (21.10.2026): Suchbegriff &bdquo;Informatiker&ldquo;, Region Bern, neueste zuerst, mit Detailseiten, begrenzt auf 300 Anzeigen. Das Ergebnis:</p>
+    <ul>
+      <li><strong>298 Anzeigen</strong> in der Tabelle, von <strong>138 Firmen</strong>. Der Actor las 15 Trefferseiten mit je 24 Anzeigen und nahm die ersten 300; 2 davon waren beim Abruf offline und wurden übersprungen.</li>
+      <li><strong>65 Anzeigen</strong> sind im Kanton Bern, <strong>59</strong> in Zürich. Die Anzeigen verteilen sich auf 23 Kantons- und Regionsangaben. Die Region Bern ist also keine strenge Kantonsgrenze.</li>
+      <li>Eine einzelne inserierende Firma, <strong>yellowshark, hat 81 Anzeigen</strong> (27,2 Prozent). Ohne sie bleiben 217 Anzeigen von 137 Firmen.</li>
+      <li><strong>255 Anzeigen</strong> nennen ein Pensum. Bei <strong>132</strong> ist es genau 100 Prozent, bei <strong>123</strong> beginnt es unter 100 Prozent, meist als Spanne wie 80 bis 100. Nur 4 Anzeigen sind als <code class="code-inline">part-time</code> markiert, das Feld <code class="code-inline">employment_type</code> taugt dafür also nicht. Nimm <code class="code-inline">workload_min</code>.</li>
+      <li><strong>83 Anzeigen</strong> nennen ein Jahresgehalt in CHF. Der Median der Untergrenze liegt bei <strong>90 000</strong>, der der Obergrenze bei <strong>105 000</strong>.</li>
+      <li><strong>101 Anzeigen</strong> sind höchstens 7 Tage alt (ab 14.10.2026), 24 stammen vom Lauftag. Einige ältere Anzeigen stehen trotzdem dabei, 14 sind vor dem 1. Juli 2026 erschienen.</li>
+    </ul>
+    <p>Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Informatiker"
+  ],
+  "region": "bern",
+  "sortBy": "newest",
+  "maxResultsPerQuery": 300,
+  "includeJobDetails": true
+}</code></pre></div>
+    <ul>
+      <li><code class="code-inline">searchQueries</code>: ein oder mehrere Suchbegriffe, jeder läuft als eigene Suche.</li>
+      <li><code class="code-inline">region</code>: eine der Regionen des Actors, hier <code class="code-inline">bern</code>.</li>
+      <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> sortiert die neuesten Anzeigen nach oben.</li>
+      <li><code class="code-inline">maxResultsPerQuery</code>: Obergrenze pro Suchbegriff. Hier war sie mit 300 erreicht, die Suche hätte also mehr Treffer geliefert.</li>
+      <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> holt zusätzlich die Detailseite jeder Anzeige.</li>
+    </ul>
+    <p>Die Kosten dieses Laufs: <strong>0,00005 $ + 298 x 0,003 $ = 0,89405 $, also etwa 0,89 $</strong> (Preise live aus dem Apify Store, Stand 21.10.2026). Mehr dazu im Abschnitt <a href="#kosten">Kosten</a>.</p>
+    <p>Die Auswertung kannst du in Excel machen. Oder du lässt Claude das über den Apify-MCP-Server erledigen (mehr dazu in den <a href="/tutorials/how-to-scrape-every-job-online/">weiterführenden Links</a>). Ein Prompt dafür:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Actor santamaria-automations/jobscout24-ch-scraper über den Apify MCP Server.
+Bevor du den Lauf startest, sag mir, was er kostet, und warte auf mein OK.
+Input:
+{"searchQueries": ["Informatiker"], "region": "bern", "sortBy": "newest", "maxResultsPerQuery": 300, "includeJobDetails": true}
+Hole alle Anzeigen, die der Lauf liefert (bis 300). Dann:
+1. Zähle die Anzeigen und die verschiedenen Firmen (Feld company).
+2. Zeige die 10 Firmen mit den meisten Anzeigen.
+3. Zähle die Anzeigen pro Kanton (Feld canton) und nenne die Zahl für BE.
+4. Zähle, wie viele Anzeigen ein Pensum haben (workload_min gefüllt) und wie viele davon unter 100 Prozent beginnen.
+5. Zähle die Anzeigen mit salary_text und nenne den Median von Untergrenze und Obergrenze.
+Rechne nur mit den gelieferten Daten und nenne die Zahlen als Tabelle.</code></pre></div>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de">Seite des JobScout24-Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Suche und Region eintragen</h2>
+      <p>Im Feld <code class="code-inline">searchQueries</code> trägst du ein oder mehrere Suchbegriffe ein. Jeder Begriff läuft als eigene Suche, doppelte Anzeigen werden über alle Begriffe hinweg entfernt. Die Region wählst du bei <code class="code-inline">region</code> aus. Ein kleiner Testlauf sieht so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Informatiker"],
+  "region": "bern",
+  "maxResultsPerQuery": 20,
+  "sortBy": "newest",
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">maxResultsPerQuery</code>: Obergrenze pro Suchbegriff (Standard 100, 0 heisst unbegrenzt).</li>
+        <li><code class="code-inline">maxResults</code>: Obergrenze über alle Suchbegriffe zusammen (0 heisst unbegrenzt).</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> (Standard) sortiert nach Datum, die neuesten zuerst. Weitere Werte sind <code class="code-inline">relevance</code>, <code class="code-inline">title</code>, <code class="code-inline">company</code> und <code class="code-inline">location</code>.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> (Standard) holt zusätzlich die Detailseite jeder Anzeige. <code class="code-inline">false</code> ist schneller, liefert aber weniger Felder.</li>
+      </ul>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResultsPerQuery</code> auf 10 bis 30. So siehst du in kurzer Zeit, ob die Treffer zu deinem Suchbegriff passen, und zahlst nur wenige Cent.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt, im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Mehrere Suchbegriffe in einem Lauf sehen so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Informatiker", "Software Engineer", "System Engineer"],
+  "region": "bern",
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong>.</li>
+        <li>Klicke auf <strong>Export</strong>.</li>
+        <li>Wähle das Format: CSV, Excel, JSON und weitere stehen zur Auswahl. Mit der Feld-Auswahl exportierst du nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">workload_min</code> und <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Filter es gibt</h2>
+    <p>Der Actor filtert bei der Suche nach diesen Angaben:</p>
+    <ul>
+      <li><strong>Suchbegriff</strong> (<code class="code-inline">searchQueries</code>) und <strong>Region</strong> (<code class="code-inline">region</code>): Zürich, Bern, Basel, Aargau, Ostschweiz, Zentralschweiz, Romandie, Tessin, Graubünden, Wallis oder Remote.</li>
+      <li><strong>Kategorie</strong> (<code class="code-inline">category</code>): zum Beispiel IT, Finanzen, Verkauf, Gesundheit oder Bau.</li>
+      <li><strong>Beschäftigungsart</strong> (<code class="code-inline">employmentType</code>): full-time, part-time, temporary, apprenticeship oder internship.</li>
+      <li><strong>Alter der Anzeige</strong> (<code class="code-inline">postedWithinDays</code> oder <code class="code-inline">maxAgeHours</code>): nur Anzeigen der letzten N Tage oder Stunden. JobScout24 zeigt das Alter nur in ganzen Tagen, ohne Detailseiten gilt <code class="code-inline">maxAgeHours</code> deshalb pro Kalendertag.</li>
+      <li><strong>Titel</strong> (<code class="code-inline">titleFilter</code>): kommagetrennte Begriffe, zum Beispiel &bdquo;Engineer, Entwickler&ldquo;. Behalten wird, wessen Titel einen Begriff enthält. Aussortierte Anzeigen werden vor dem Abruf der Detailseite entfernt, du zahlst dafür keine Details.</li>
+      <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>).</li>
+      <li><strong>Einzelne Anzeigen</strong> (<code class="code-inline">directUrls</code>): zum Beispiel um zu prüfen, ob eine Stelle noch online ist.</li>
+    </ul>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~jobscout24-ch-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Informatiker"], "region": "bern", "sortBy": "newest", "maxResultsPerQuery": 100}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für Abrufe, die regelmässig laufen sollen, legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an. Setze <code class="code-inline">sortBy</code> auf <code class="code-inline">newest</code>, <code class="code-inline">postedWithinDays</code> auf die Länge deines Intervalls und vergleiche die Ergebnisse mit dem letzten Abruf (Feld <code class="code-inline">id</code>), damit du nur neue Anzeigen weiterverarbeitest.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab (Preise live aus dem Apify Store, Stand 21.10.2026):</p>
+    <ul>
+      <li>Start: 0,00005 $ pro Lauf.</li>
+      <li>Ergebnis im Dataset: 0,003 $ pro Anzeige. Der Preis ist derselbe mit und ohne Detailseiten.</li>
+    </ul>
+    <p>Rechenbeispiel für die Suche oben mit 298 Anzeigen: 0,00005 $ + 298 x 0,003 $ = 0,89405 $, also etwa 0,89 $. Annahmen: jede Anzeige wird einmal berechnet, ein Startereignis pro Lauf. Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Recruiting</h3>
+    <p>Sieh, welche Firmen in deiner Region für ein Berufsbild Leute suchen, wie viele Stellen offen sind und welche Pensen sie anbieten. Die Spalte <code class="code-inline">company</code> zeigt auch, wenn eine Firma viele Anzeigen auf einmal schaltet, wie im Beispiel.</p>
+    <h3>Marktbeobachtung</h3>
+    <p>Lass den Lauf regelmässig laufen und zähle, wie viele Stellen pro Woche und Kanton dazukommen. Wenn eine Anzeige ein Gehalt nennt, steht es als Text in <code class="code-inline">salary_text</code>.</p>
+    <h3>Stellen-Überwachung</h3>
+    <p>Mit <code class="code-inline">directUrls</code> prüfst du eine Liste von Anzeigen-Links und siehst, welche noch online sind. Offline Anzeigen werden übersprungen.</p>
+    <div class="callout warn"><strong>Datenschutz.</strong> Wenn du Kontaktangaben zu Personen speicherst oder weiterverwendest, gelten in der Schweiz das nDSG und das UWG (zum Beispiel bei unerwünschter Werbung), im EU-Raum die DSGVO. Das ist keine Rechtsberatung.</div>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Brauche ich Programmierkenntnisse für den JobScout24-Scraper?</summary>
+        <p>Nein. In der Apify Console füllst du ein Formular aus, klickst auf Save and Run und lädst die Tabelle herunter. Code brauchst du nur, wenn du den Actor per API in ein eigenes System einbauen willst.</p>
+      </details>
+      <details>
+        <summary>Wie viele Anzeigen kann ich pro Lauf holen?</summary>
+        <p>Der Actor holt die Trefferliste seitenweise, im Beispiellauf mit 24 Anzeigen pro Seite, und hört bei höchstens 100 Seiten auf. Mit maxResultsPerQuery begrenzt du jeden Suchbegriff, mit maxResults den ganzen Lauf. Der Standard ist 100 pro Suchbegriff, 0 heisst unbegrenzt.</p>
+      </details>
+      <details>
+        <summary>Warum stehen in der Tabelle auch Stellen aus anderen Kantonen?</summary>
+        <p>Der Filter region schränkt die Suche auf JobScout24 ein, ist aber keine strenge Kantonsgrenze. Im Beispiellauf mit region bern waren 65 von 298 Anzeigen im Kanton Bern, die übrigen verteilten sich auf 22 weitere Kantone und Regionen. Filtere nach dem Lauf auf die Spalte canton, wenn du nur einen Kanton brauchst.</p>
+      </details>
+      <details>
+        <summary>Sind Kontaktpersonen in der Tabelle enthalten?</summary>
+        <p>Der Actor kann Kontaktangaben von der Detailseite lesen, wenn eine Anzeige sie nennt. Im Beispiellauf war bei keiner der 298 Anzeigen eine Kontakt-E-Mail oder Telefonnummer gefüllt, 5 Anzeigen hatten eine Bewerbungs-E-Mail und 11 einen Bewerbungslink. Prüfe die Datenlage für deine Suche selbst.</p>
+      </details>
+      <details>
+        <summary>Was kostet der JobScout24-Scraper?</summary>
+        <p>Pay-per-Event: 0,00005 $ für den Start und 0,003 $ pro Ergebnis im Dataset. Der Beispiellauf mit 298 Anzeigen kostet damit 0,00005 $ + 298 x 0,003 $ = 0,89405 $, also etwa 0,89 $.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab, besonders bei Angaben zu Kontaktpersonen. In der Schweiz gelten das nDSG und das UWG, im EU-Raum die DSGVO. Das ist keine Rechtsberatung. Prüfe das für deinen Fall, bevor du Daten speicherst oder weiterverwendest.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/jobscout24-ch-scraper/de/">JobScout24.ch Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de">JobScout24.ch Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/de/tutorials/jobs-ch-scraper-stellenanzeigen-exportieren/">jobs.ch Scraper: Stellenanzeigen exportieren</a>: Das gleiche Vorgehen für jobs.ch.</li>
+      <li><a href="/actors/arbeit-swiss-scraper/de/">Arbeit.Swiss Scraper, Actor-Seite</a>: Stellen von arbeit.swiss, der Schweizer Stellenplattform des Bundes.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online (Englisch)</a>: Stellenanzeigen von 110+ Jobbörsen mit einem Aufruf.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-jobscout24-scraper-stellenanzeigen-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mietpreise pro m² von homegate.ch auswerten | NanoScrape</title>
+  <meta name="description" content="Mietpreis pro m² aus homegate.ch-Inseraten berechnen: Median nach Zimmerzahl und PLZ. Mit echtem Beispiellauf zu 213 Mietinseraten in Winterthur.">
+  <meta name="primary-keyword" content="homegate mietpreise pro m2">
+  <meta property="og:title" content="Mietpreise pro m² von homegate.ch auswerten | NanoScrape">
+  <meta property="og:description" content="Mietpreis pro m² aus homegate.ch-Inseraten: Median nach Zimmerzahl und PLZ, mit Beispiellauf aus Winterthur.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/homegate-scraper-mietpreise-pro-m2/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Mietpreise pro m² von homegate.ch auswerten | NanoScrape">
+  <meta name="twitter:description" content="Mietpreis pro m² aus homegate.ch-Inseraten: Median nach Zimmerzahl und PLZ, mit Beispiellauf aus Winterthur.">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/homegate-scraper-mietpreise-pro-m2/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Mietpreise pro m² von homegate.ch auswerten",
+  "description": "Mit dem Homegate.ch Scraper auf Apify Mietinserate einer Stadt laden und daraus den Mietpreis pro Quadratmeter berechnen.",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Eine Stadt oder eine homegate.ch-Such-URL"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Homegate.ch Scraper (Apify)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Excel, Google Sheets oder Claude"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des Homegate.ch Scrapers auf Apify, klicke auf Try for free und registriere dich mit Google oder E-Mail."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Stadt und Anzahl eintragen",
+      "text": "Wähle bei listingType den Wert rent, trage bei city die Stadt ein und setze maxResults auf die gewünschte Obergrenze."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Save and Run. Die Inserate erscheinen im Tab Dataset, sobald der Lauf fertig ist."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Exportieren und Preis pro m² berechnen",
+      "text": "Exportiere das Dataset als CSV oder Excel und teile in einer neuen Spalte price durch area_sqm. Entferne vorher Zeilen ohne Fläche."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Mietpreise pro m² von homegate.ch auswerten",
+  "description": "Anleitung, wie du aus homegate.ch-Mietinseraten mit dem Homegate.ch Scraper auf Apify den Mietpreis pro Quadratmeter berechnest, mit Beispiel aus Winterthur.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/homegate-scraper-mietpreise-pro-m2/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Ist der Preis im Feld price die Brutto- oder die Nettomiete?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Im Feld price steht die Bruttomiete, also inklusive Nebenkosten. Der Actor übernimmt dafür den Bruttopreis aus dem Inserat. Die Nettomiete steht in price_net, die Nebenkosten in price_extra. Im Beispiellauf ergab price_net plus price_extra bei allen 147 Inseraten mit beiden Werten genau price."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Sind das Bestandsmieten oder Angebotsmieten?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Angebotsmieten. Du siehst, was Vermieter und Verwaltungen heute auf homegate.ch verlangen, nicht, was bestehende Mieter zahlen. Bei laufenden Mietverhältnissen können die Mieten tiefer liegen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum fehlen bei manchen Inseraten Fläche oder Zimmerzahl?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Der Actor gibt nur aus, was im Inserat steht. Im Beispiellauf hatten 12 der 192 Wohnungen keine Wohnfläche und werden in der Auswertung nicht berücksichtigt. Für den Preis pro m² brauchst du immer area_sqm."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich includeDetails für die Auswertung?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Preis, Zimmer, Fläche, Postleitzahl und Koordinaten stehen schon in den Suchresultaten. includeDetails ist auf false gesetzt und kostet 0,003 $ pro Inserat statt 0,008 $. Die Detailseite brauchst du nur, wenn du zum Beispiel Angaben zur Inserentin oder zum Inserenten willst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet der Homegate.ch Scraper?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Im Free-Plan 0,00005 $ pro Lauf (bei 128 MB Speicher), dazu 0,003 $ pro Inserat aus den Suchresultaten oder 0,008 $ pro Inserat mit Detailseite. Die Beispielsuche mit 213 Inseraten kostet damit etwa 0,64 $."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Daten verwenden?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt von deinem Anwendungsfall ab. Für Preisauswertungen brauchst du keine Namen oder Telefonnummern von Privatpersonen. Wenn du Kontaktangaben speicherst oder anschreibst, gelten das Datenschutzgesetz (nDSG) und das Gesetz gegen den unlauteren Wettbewerb (UWG). Das ist keine Rechtsberatung."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "homegate.ch Mietpreise pro m²",
+      "item": "https://www.nanoscrape.com/de/tutorials/homegate-scraper-mietpreise-pro-m2/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; homegate.ch Mietpreise pro m²</nav>
+
+    <h1>Mietpreise pro m² von homegate.ch auswerten</h1>
+    <p class="lead">Du willst wissen, was eine Mietwohnung in einer Schweizer Stadt pro Quadratmeter kostet, zum Beispiel als Vermieter, Bewirtschafterin, für einen Umzug oder für eine Marktanalyse? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de">Homegate.ch Scraper</a> holt die Mietinserate einer Stadt als Tabelle mit Preis, Zimmerzahl, Wohnfläche und Postleitzahl. Daraus rechnest du den Preis pro m². Hier mit einem echten Lauf für Winterthur.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 10 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 213 Inserate: ca. 0,64 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console, Excel oder Claude</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#felder">Die Felder für den Preis pro m²</a></li>
+        <li><a href="#beispiel-mieten-winterthur">Beispiel: Mietwohnungen in Winterthur</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Stadt eintragen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Exportieren und rechnen</a></li>
+        <li><a href="#filter">Welche Filter es gibt</a></li>
+        <li><a href="#api">API und Zeitplan</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#datenschutz">Hinweis zu Datenschutz</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p><a target="_blank" rel="noopener" href="https://www.homegate.ch/">homegate.ch</a> zeigt Mietpreise pro Inserat, aber nicht pro Quadratmeter und ohne Export. Der Actor liest die Inserate zu deiner Suche und legt sie als Tabelle ab, die du als CSV, Excel oder JSON herunterladen kannst. Jede Zeile ist ein Inserat, hier gekürzt und mit erfundenen Beispielwerten zur Veranschaulichung der Struktur:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "id": "...",
+  "title": "...",
+  "price": 2000,
+  "price_net": 1800,
+  "price_extra": 200,
+  "currency": "CHF",
+  "rooms": 3.5,
+  "area_sqm": 80,
+  "postal_code": "8400",
+  "city": "Winterthur",
+  "canton": "ZH",
+  "property_type": "apartment",
+  "source_url": "https://www.homegate.ch/rent/...",
+  "listed_at": "..."
+}</code></pre></div>
+    <p>Die Werte hängen vom einzelnen Inserat ab. Ein echter Lauf mit Zahlen steht weiter unten im Beispiel.</p>
+
+    <h2 id="felder">Die Felder für den Preis pro m²</h2>
+    <p>Diese Felder brauchst du für die Auswertung. Sie stehen laut Ausgabe-Schema des Actors in den Suchresultaten, du musst <code class="code-inline">includeDetails</code> dafür nicht einschalten.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Feld</th><th style="padding:8px">Typ</th><th style="padding:8px">Inhalt</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">price</code></td><td>Zahl</td><td>Bruttomiete pro Monat in CHF, also inklusive Nebenkosten (im Code der Wert &bdquo;gross&ldquo; aus dem Inserat)</td></tr>
+        <tr><td><code class="code-inline">price_net</code></td><td>Zahl</td><td>Nettomiete ohne Nebenkosten, falls das Inserat sie nennt</td></tr>
+        <tr><td><code class="code-inline">price_extra</code></td><td>Zahl</td><td>Nebenkosten, falls das Inserat sie nennt</td></tr>
+        <tr><td><code class="code-inline">rooms</code></td><td>Zahl</td><td>Zimmerzahl, zum Beispiel 2.5, 3.5 oder 4.5</td></tr>
+        <tr><td><code class="code-inline">area_sqm</code></td><td>Zahl</td><td>Wohnfläche in m², falls das Inserat sie nennt</td></tr>
+        <tr><td><code class="code-inline">floor</code></td><td>Zahl</td><td>Stockwerk, falls angegeben</td></tr>
+        <tr><td><code class="code-inline">postal_code / city / canton / address</code></td><td>Text</td><td>Postleitzahl, Ort, Kanton als Kürzel und Adresse</td></tr>
+        <tr><td><code class="code-inline">latitude / longitude</code></td><td>Zahl</td><td>Koordinaten, zum Beispiel für eine Karte</td></tr>
+        <tr><td><code class="code-inline">property_type</code></td><td>Text</td><td>Objektart: apartment, house und weitere</td></tr>
+        <tr><td><code class="code-inline">features</code></td><td>Liste</td><td>Ausstattung, zum Beispiel balcony, parking, elevator</td></tr>
+        <tr><td><code class="code-inline">listed_at / available_from</code></td><td>Text</td><td>Datum des Inserats und Bezugstermin, falls angegeben</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link zum Inserat und Plattform (homegate.ch)</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+    <div class="callout"><strong>Nicht jedes Feld ist immer gefüllt.</strong> Im Beispiellauf hatten 189 von 213 Inseraten eine Wohnfläche und 181 eine Nettomiete. Ohne <code class="code-inline">area_sqm</code> kannst du keinen Preis pro m² rechnen.</div>
+
+    <h2 id="beispiel-mieten-winterthur">Beispiel: Mietwohnungen in Winterthur</h2>
+    <p><strong>Situation:</strong> Du verwaltest oder vermietest Wohnungen in Winterthur und willst wissen, wo deine Mieten im Markt liegen. Wir haben die Suche einmal lokal laufen lassen (21.10.2026): alle Mietinserate der Stadt Winterthur, ohne Detailseiten, mit Obergrenze 400. Der Actor fand 213 Inserate und stoppte nach der letzten Trefferseite, die Obergrenze griff also nicht. Das Ergebnis:</p>
+    <ul>
+      <li><strong>213 Inserate</strong> im Dataset, davon 192 Wohnungen. Dazu kamen 10 Häuser, 10 Hobbyräume und 1 Kellerabteil. Diese 21 haben wir weggelassen.</li>
+      <li>Von den 192 Wohnungen hatten <strong>12 keine Wohnfläche</strong>. <strong>11 weitere</strong> haben wir als unplausibel entfernt: 9 Zimmer mit weniger als 20 m² (WG- und möblierte Zimmer, CHF 59 bis 88 pro m²) und 2 Einträge mit mehr als 250 m² (ein Fehler mit 300 m² bei einem Inserat, das im Titel 40 m² nennt, und ein 7.5-Zimmer-Hausteil mit 283 m²). Die Regel war: Fläche 20 bis 250 m² und CHF 10 bis 80 pro m². Übrig blieben <strong>169 Wohnungen</strong>.</li>
+      <li>Der <strong>Median</strong> der Bruttomiete liegt bei <strong>CHF 28.67 pro m² und Monat</strong>. Das mittlere Viertel der Wohnungen liegt zwischen CHF 25.83 und CHF 32.53.</li>
+      <li>Nach Zimmerzahl: <strong>2.5 Zimmer CHF 31.25</strong> (31 Wohnungen, Median 67 m², Median-Bruttomiete CHF 2085), <strong>3.5 Zimmer CHF 28.27</strong> (52 Wohnungen, 92 m², CHF 2635), <strong>4.5 Zimmer CHF 25.99</strong> (32 Wohnungen, 112 m², CHF 2930). Kleine Wohnungen kosten pro m² mehr. Die übrigen 54 Wohnungen haben andere Zimmerzahlen (zum Beispiel 2, 3, 4 oder 5.5) und stehen nicht in dieser Zeile.</li>
+      <li>Nach Postleitzahl: <strong>8400</strong> CHF 30.92 (83 Wohnungen), <strong>8406</strong> CHF 28.53 (18), <strong>8405</strong> CHF 27.33 (15), <strong>8404</strong> CHF 26.46 (41), <strong>8408</strong> CHF 24.94 (12).</li>
+      <li>Das <strong>günstigste Viertel</strong> (bis CHF 25.83 pro m²): 43 Wohnungen, Median CHF 23.80, Median-Fläche 104 m². Das <strong>teuerste Viertel</strong> (ab CHF 32.53): 43 Wohnungen, Median CHF 36.36, Median-Fläche 60 m².</li>
+    </ul>
+    <p>So haben wir gerechnet: Preis pro m² = <code class="code-inline">price</code> geteilt durch <code class="code-inline">area_sqm</code>, mit der Bruttomiete. Die Nettomiete fehlt bei 21 der 169 Wohnungen, deshalb ist die Bruttomiete der verlässlichere Vergleichswert. Bei allen 147 Inseraten mit Netto- und Nebenkosten ergab <code class="code-inline">price_net</code> plus <code class="code-inline">price_extra</code> genau <code class="code-inline">price</code>.</p>
+    <div class="callout warn"><strong>Angebotsmieten, eine Momentaufnahme.</strong> Du siehst, was heute auf homegate.ch ausgeschrieben ist, nicht was bestehende Mieter zahlen. Die Postleitzahlen 8404 bis 8408 haben nur 12 bis 41 Wohnungen. Nimm solche Zahlen als Richtwert, nicht als Marktbericht.</div>
+    <p>Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "listingType": "rent",
+  "city": "Winterthur",
+  "maxResults": 400,
+  "includeDetails": false
+}</code></pre></div>
+    <ul>
+      <li><code class="code-inline">listingType</code>: <code class="code-inline">rent</code> für Mietinserate, <code class="code-inline">buy</code> für Kaufinserate.</li>
+      <li><code class="code-inline">city</code>: Stadt, zum Beispiel Winterthur, Luzern oder Bern. Der Actor baut daraus die Such-URL auf homegate.ch.</li>
+      <li><code class="code-inline">maxResults</code>: Obergrenze für die Anzahl Inserate. 400 lag über den 213 Treffern.</li>
+      <li><code class="code-inline">includeDetails</code>: <code class="code-inline">false</code> reicht für diese Auswertung und ist günstiger.</li>
+    </ul>
+    <p>Die Kosten dieses Laufs findest du im Abschnitt <a href="#kosten">Kosten</a>. Die Auswertung kannst du in Excel machen, mit einer Spalte <code class="code-inline">price / area_sqm</code> und einer Pivot-Tabelle. Oder du lässt Claude das über den Apify-MCP-Server erledigen. Ein Prompt dafür:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Actor santamaria-automations/homegate-scraper mit diesem Input:
+{"listingType": "rent", "city": "Winterthur", "maxResults": 400,
+ "includeDetails": false}
+Bevor du den Lauf startest, sag mir, was er kostet, und warte auf mein OK.
+Werte danach die Ergebnisse so aus:
+1. Behalte nur property_type = apartment mit gefülltem area_sqm.
+   Entferne Einträge mit Fläche unter 20 m² oder über 250 m² und
+   Preis pro m² ausserhalb von CHF 10 bis 80. Sag mir, wie viele du
+   in jeder Gruppe entfernt hast.
+2. Preis pro m² = price (Bruttomiete) geteilt durch area_sqm.
+3. Zeige den Median insgesamt, das untere und obere Quartil, dann den
+   Median pro Zimmerzahl (2.5, 3.5, 4.5) und pro postal_code, jeweils
+   mit der Anzahl Wohnungen.
+4. Nenne Anzahl, Median pro m² und Median-Fläche für das günstigste
+   und das teuerste Viertel.
+Zeige keine Namen oder Telefonnummern von Inserenten.</code></pre></div>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de">Seite des Homegate.ch Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors. Für kleine Läufe reicht das monatliche Gratis-Guthaben des Free-Plans.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Stadt eintragen</h2>
+      <p>Wähle bei <code class="code-inline">listingType</code> den Wert <code class="code-inline">rent</code> und trage bei <code class="code-inline">city</code> deine Stadt ein. Ein kleiner Testlauf sieht so aus:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "listingType": "rent",
+  "city": "Luzern",
+  "maxResults": 20,
+  "includeDetails": false
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">maxResults</code>: Obergrenze für die Anzahl Inserate (Standard 100).</li>
+        <li><code class="code-inline">roomsMin</code>, <code class="code-inline">priceMin</code>, <code class="code-inline">priceMax</code>: Mindest-Zimmerzahl und Preisgrenzen in CHF pro Monat.</li>
+        <li><code class="code-inline">searchUrls</code>: eigene Such-URLs von homegate.ch. Wenn du sie angibst, überschreiben sie Stadt und Kanton.</li>
+      </ul>
+      <div class="callout tip"><strong>Starte klein.</strong> Setze beim ersten Lauf <code class="code-inline">maxResults</code> auf 20. So siehst du in kurzer Zeit, ob die Stadt die richtigen Inserate liefert, und zahlst nur wenige Rappen.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten und Ergebnis ansehen</h2>
+      <p>Klicke unten auf <strong>Save and Run</strong>. Auf der Lauf-Seite siehst du im Tab <strong>Log</strong> den Fortschritt und im Tab <strong>Dataset</strong> die Ergebnisse als Tabelle. Der Beispiellauf mit 213 Inseraten lief lokal rund eine Minute. Bricht ein Lauf mit einer Fehlermeldung ab, starte ihn später noch einmal.</p>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Exportieren und Preis pro m² rechnen</h2>
+      <ol>
+        <li>Öffne im Lauf den Tab <strong>Dataset</strong> und klicke auf <strong>Export</strong>.</li>
+        <li>Wähle CSV, Excel oder JSON. Exportiere nur die Spalten, die du brauchst, zum Beispiel <code class="code-inline">price</code>, <code class="code-inline">rooms</code>, <code class="code-inline">area_sqm</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">property_type</code> und <code class="code-inline">source_url</code>.</li>
+        <li>Filtere in Excel auf <code class="code-inline">property_type</code> = apartment und lösche Zeilen ohne <code class="code-inline">area_sqm</code>.</li>
+        <li>Lege eine Spalte <code class="code-inline">price / area_sqm</code> an. Prüfe die kleinsten und grössten Werte von Hand. Zimmer in WGs und Fehler im Inserat verzerren sonst den Median.</li>
+        <li>Fasse mit einer Pivot-Tabelle nach <code class="code-inline">rooms</code> oder <code class="code-inline">postal_code</code> zusammen und nimm den Median.</li>
+      </ol>
+    </div>
+
+    <h2 id="filter">Welche Filter es gibt</h2>
+    <p>Der Actor filtert bei der Suche nach diesen Angaben:</p>
+    <ul>
+      <li><strong>Mieten oder kaufen</strong> (<code class="code-inline">listingType</code>: rent oder buy).</li>
+      <li><strong>Ort</strong> (<code class="code-inline">city</code>) oder <strong>Kanton</strong> (<code class="code-inline">canton</code>, zum Beispiel ZH, BE, BS). Der Kanton gilt, wenn keine Stadt gesetzt ist.</li>
+      <li><strong>Preis</strong> (<code class="code-inline">priceMin</code> und <code class="code-inline">priceMax</code>) in CHF.</li>
+      <li><strong>Zimmer</strong> (<code class="code-inline">roomsMin</code>): Mindestzahl, zum Beispiel 3.5.</li>
+      <li><strong>Eigene Such-URLs</strong> (<code class="code-inline">searchUrls</code>): Stelle die Suche auf homegate.ch ein, kopiere die URL aus dem Browser und füge sie ein. Das ist der Weg für eine bestimmte Postleitzahl oder weitere Filter.</li>
+      <li><strong>Detailseiten</strong> (<code class="code-inline">includeDetails</code>): holt zusätzlich die Detailseite jedes Inserats, mit voller Beschreibung und Angaben zur Inserentin oder zum Inserenten.</li>
+    </ul>
+
+    <h2 id="api">Per API und automatisch abrufen</h2>
+    <p>Du kannst den Actor auch aus eigenen Skripten, n8n oder Make aufrufen. Dieser Aufruf startet einen Lauf und gibt die Ergebnisse direkt zurück (Apify-Endpunkt <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~homegate-scraper/run-sync-get-dataset-items?token=DEIN_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"listingType": "rent", "city": "Winterthur", "maxResults": 400, "includeDetails": false}'</code></pre></div>
+    <p>Deinen API-Token findest du in der Apify Console unter Settings &rarr; API &amp; Integrations. Für Abrufe, die regelmässig laufen sollen, legst du in der Console unter <strong>Schedules</strong> einen Zeitplan an, zum Beispiel einmal im Monat. Speichere jeden Abruf mit Datum, dann siehst du, wie sich der Median pro m² über die Zeit entwickelt.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Der Actor rechnet pro Ergebnis ab (Preise live aus dem Apify Store, Stand 21.10.2026, Free-Plan; höhere Apify-Pläne zahlen etwas weniger):</p>
+    <ul>
+      <li>Start: 0,00005 $ pro Lauf (ein Ereignis pro GB Speicher, mindestens eins).</li>
+      <li>Inserat aus den Suchresultaten (<code class="code-inline">includeDetails</code> aus, Standard): 0,003 $ pro Ergebnis.</li>
+      <li>Inserat mit Detailseite (<code class="code-inline">includeDetails</code> an): 0,008 $ pro Ergebnis.</li>
+    </ul>
+    <p>Jedes Inserat wird nur einmal berechnet, entweder als Treffer oder mit Details. Rechenbeispiel für die Suche oben mit 213 Inseraten: 0,00005 $ + 213 x 0,003 $ = 0,63905 $, also etwa 0,64 $. Mit Detailseiten wären es 0,00005 $ + 213 x 0,008 $ = 1,70405 $, also etwa 1,70 $. Annahmen: Free-Plan-Preise, jedes der 213 Inserate wird einmal berechnet, ein Startereignis pro Lauf (bei 128 MB Speicher). Die aktuellen Preise findest du immer auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wofür Leute die Daten nutzen</h2>
+    <h3>Vermieter und Bewirtschaftung</h3>
+    <p>Vergleiche deine Mieten mit den ausgeschriebenen Wohnungen in derselben Postleitzahl und mit gleicher Zimmerzahl. So siehst du, ob eine Wohnung bei der Neuvermietung zu tief oder zu hoch angesetzt ist. Die Mieten bei einer Neuvermietung musst du trotzdem nach den mietrechtlichen Vorgaben prüfen.</p>
+    <h3>Relocation und Umzug</h3>
+    <p>Rechne für zwei Städte oder Quartiere den Median pro m² aus und vergleiche, wie viel Fläche du für dein Budget bekommst. Mit <code class="code-inline">latitude</code> und <code class="code-inline">longitude</code> legst du die Inserate auf eine Karte.</p>
+    <h3>Marktanalyse</h3>
+    <p>Lass denselben Lauf jeden Monat laufen und vergleiche Median, Quartile und Anzahl Inserate. Mit <code class="code-inline">listingType</code> <code class="code-inline">buy</code> holst du Kaufinserate im selben Schema. Prüfe dort zuerst an einem kleinen Lauf, welche Felder gefüllt sind.</p>
+
+    <h2 id="datenschutz">Hinweis zu Datenschutz</h2>
+    <p>Für die Auswertung oben brauchst du keine Angaben zu Personen. Wir haben keine Namen oder Telefonnummern von Inserentinnen und Inserenten verwendet. Mit <code class="code-inline">includeDetails</code> kann der Actor Kontaktangaben der Inserenten liefern. Dabei können Daten von Privatpersonen dabei sein. Wenn du solche Daten speicherst oder jemanden damit anschreibst, gelten in der Schweiz das revidierte Datenschutzgesetz (nDSG) und das Gesetz gegen den unlauteren Wettbewerb (UWG). Für Personen aus der EU kann die DSGVO dazukommen. Das ist keine Rechtsberatung.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Ist der Preis im Feld price die Brutto- oder die Nettomiete?</summary>
+        <p>Im Feld price steht die Bruttomiete, also inklusive Nebenkosten. Der Actor übernimmt dafür den Bruttopreis aus dem Inserat. Die Nettomiete steht in price_net, die Nebenkosten in price_extra. Im Beispiellauf ergab price_net plus price_extra bei allen 147 Inseraten mit beiden Werten genau price.</p>
+      </details>
+      <details>
+        <summary>Sind das Bestandsmieten oder Angebotsmieten?</summary>
+        <p>Angebotsmieten. Du siehst, was Vermieter und Verwaltungen heute auf homegate.ch verlangen, nicht, was bestehende Mieter zahlen. Bei laufenden Mietverhältnissen können die Mieten tiefer liegen.</p>
+      </details>
+      <details>
+        <summary>Warum fehlen bei manchen Inseraten Fläche oder Zimmerzahl?</summary>
+        <p>Der Actor gibt nur aus, was im Inserat steht. Im Beispiellauf hatten 12 der 192 Wohnungen keine Wohnfläche und werden in der Auswertung nicht berücksichtigt. Für den Preis pro m² brauchst du immer area_sqm.</p>
+      </details>
+      <details>
+        <summary>Brauche ich includeDetails für die Auswertung?</summary>
+        <p>Nein. Preis, Zimmer, Fläche, Postleitzahl und Koordinaten stehen schon in den Suchresultaten. includeDetails ist auf false gesetzt und kostet 0,003 $ pro Inserat statt 0,008 $. Die Detailseite brauchst du nur, wenn du zum Beispiel Angaben zur Inserentin oder zum Inserenten willst.</p>
+      </details>
+      <details>
+        <summary>Was kostet der Homegate.ch Scraper?</summary>
+        <p>Im Free-Plan 0,00005 $ pro Lauf (bei 128 MB Speicher), dazu 0,003 $ pro Inserat aus den Suchresultaten oder 0,008 $ pro Inserat mit Detailseite. Die Beispielsuche mit 213 Inseraten kostet damit etwa 0,64 $.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Daten verwenden?</summary>
+        <p>Das hängt von deinem Anwendungsfall ab. Für Preisauswertungen brauchst du keine Namen oder Telefonnummern von Privatpersonen. Wenn du Kontaktangaben speicherst oder anschreibst, gelten das Datenschutzgesetz (nDSG) und das Gesetz gegen den unlauteren Wettbewerb (UWG). Das ist keine Rechtsberatung.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/homegate-scraper/de/">Homegate.ch Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preise im Überblick.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de">Homegate.ch Scraper auf Apify</a>: Der Actor mit Dokumentation und allen Parametern.</li>
+      <li><a href="/actors/tutti-ch-scraper/de/">Tutti.ch Scraper, Actor-Seite</a>: Kleinanzeigen aus der Schweiz.</li>
+      <li><a href="/actors/immowelt-de-scraper/de/">Immowelt.de Scraper, Actor-Seite</a>: Immobilienangebote aus Deutschland.</li>
+      <li><a href="/de/tutorials/">Alle Tutorials auf Deutsch</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/homegate-scraper?fpr=0khfbz&amp;fp_sid=t-homegate-scraper-mietpreise-pro-m2-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

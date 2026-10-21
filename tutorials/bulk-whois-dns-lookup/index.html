@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bulk WHOIS and DNS Lookup for a Domain List | NanoScrape</title>
+  <meta name="description" content="Look up registrar, expiry dates, name servers, MX email provider and SPF/DMARC for a list of domains in one run. Measured example with 50 domains.">
+  <meta name="primary-keyword" content="bulk whois lookup">
+  <meta property="og:title" content="Bulk WHOIS and DNS Lookup for a Domain List | NanoScrape">
+  <meta property="og:description" content="Look up registrar, expiry dates, name servers, MX email provider and SPF/DMARC for a list of domains in one run. Measured example with 50 domains.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Bulk WHOIS and DNS Lookup for a Domain List | NanoScrape">
+  <meta name="twitter:description" content="Look up registrar, expiry dates, name servers, MX email provider and SPF/DMARC for a list of domains in one run. Measured example with 50 domains.">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Bulk WHOIS and DNS Lookup for a List of Domains",
+  "description": "Use the NanoScrape Domain WHOIS & DNS Lookup actor on Apify to get registrar, creation and expiry dates, name servers, email provider and SPF/DMARC for a list of domains.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.15"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of domains"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape Domain WHOIS & DNS Lookup"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the actor",
+      "text": "Open the Domain WHOIS & DNS Lookup actor on Apify and sign in or create a free account."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste your domains",
+      "text": "Paste one domain per line into the Domains field. URLs and www. prefixes are cleaned up automatically."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Choose what to fetch",
+      "text": "Leave WHOIS and DNS switched on, or switch one off to save time."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run the actor",
+      "text": "Click Start. A list of 50 domains finishes in about a minute."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export the dataset",
+      "text": "Download the dataset as JSON, CSV or Excel from the Dataset tab."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Bulk WHOIS and DNS Lookup for a List of Domains",
+  "description": "Look up registrar, expiry dates, name servers, MX email provider and SPF/DMARC for a list of domains in one run. Measured example with 50 domains.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which domain endings work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Any ending that a public RDAP server or WHOIS server answers for. In our 50-domain run, .com, .io, .de, .fr, .eu and others returned a registrar. The two .de domains returned no registrar and no dates because the registry shows less data, and one .eu domain returned no dates. The DNS side works for every domain."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I get the owner's name and email?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mostly not. Most registrars hide private contact data. The registrant fields in the output are filled when the registry publishes them, and often contain only a note such as \"redacted for privacy\" or a link to a contact form. Do not plan around personal contact data from WHOIS. For business contacts use a website crawl, such as the Website Email Scraper."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does it know the email provider?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It reads the MX records and matches the host names against a list of providers such as Google Workspace and Microsoft 365. If a company puts a mail filter in front of its mailbox, the MX points to the filter, and the result is \"Other / Self-hosted\". In our run, two domains were filtered through Proofpoint and showed as Other for that reason."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does has_dkim prove DKIM is set up?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It means at least one common selector name (for example google or selector1) resolves, or a DKIM text record sits at the domain. A company with a custom selector name can show false. In our run, 48 of 50 showed true."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How current is the expiry date?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the date the registry reports for the current registration term, calculated against the day of the run in days_until_expiry. A domain that expires in 40 days is not necessarily at risk, because most companies renew automatically. Use the field to spot unusual ones, not to predict lapses."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I run it on a schedule or on thousands of domains?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Domains are processed six at a time, which keeps the load on registries low. Set a schedule in Apify Console or call the actor over the API, and compare the datasets from two runs to see changes in registrar, name servers or email provider."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Bulk WHOIS and DNS Lookup for a List of Domains",
+      "item": "https://www.nanoscrape.com/tutorials/bulk-whois-dns-lookup/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Bulk WHOIS and DNS Lookup</nav>
+
+    <h1>Bulk WHOIS and DNS Lookup for a List of Domains</h1>
+    <p class="lead">You have a list of domains from a CRM export, a brand-protection watchlist or a client network, and you need to know who registered them, when they expire, where the mail goes and whether email spoofing protection is set up. The NanoScrape Domain WHOIS &amp; DNS Lookup on Apify returns that for each domain in one flat row, without API keys. We ran it on 50 European SaaS domains: it took about a minute and cost $0.151.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.003 per domain plus $0.001 per run; free tier covers the first $5/month</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape Domain WHOIS &amp; DNS Lookup</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/domain-whois-dns?fpr=0khfbz&amp;fp_sid=t-bulk-whois-dns-lookup" class="btn-primary">Open the Domain WHOIS &amp; DNS Lookup on Apify</a>
+      <a href="#cost" class="btn-secondary">See pricing details</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#step-1">Step 1: Paste your domains</a></li>
+        <li><a href="#step-2">Step 2: Choose what to fetch</a></li>
+        <li><a href="#step-3">Step 3: Run and export</a></li>
+        <li><a href="#fields">Key output fields</a></li>
+        <li><a href="#mcp">Connect to AI agents via MCP</a></li>
+        <li><a href="#example-saas-domains">Example: 50 European SaaS domains</a></li>
+        <li><a href="#use-cases">Lead qualification, brand protection, IT audits</a></li>
+        <li><a href="#compliance">Data protection note</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/domain-whois-dns?fpr=0khfbz&amp;fp_sid=t-bulk-whois-dns-lookup">Domain WHOIS &amp; DNS Lookup</a> takes a list of domains and returns one record per domain. It queries the registry's RDAP service and WHOIS together and merges them, then asks a DNS resolver (Google Public DNS by default) for the records.</p>
+    <ul>
+      <li><strong>Registration data</strong>: registrar, creation, update and expiry dates, plus <code class="code-inline">age_days</code> and <code class="code-inline">days_until_expiry</code> already calculated, name servers, status codes and the DNSSEC flag.</li>
+      <li><strong>DNS records</strong>: A, AAAA, MX, TXT, NS, CNAME and SOA.</li>
+      <li><strong>Email setup</strong>: <code class="code-inline">email_provider</code> detected from the MX records, SPF and DMARC present or not (with the raw record and the DMARC policy), and a DKIM check on common selector names.</li>
+      <li><strong>Clean input</strong>: URLs, <code class="code-inline">www.</code> prefixes and duplicates are normalised. A subdomain is looked up in DNS as given, and WHOIS uses its registrable domain.</li>
+    </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Paste your domains</h2>
+      <ol>
+        <li>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/domain-whois-dns?fpr=0khfbz&amp;fp_sid=t-bulk-whois-dns-lookup">the actor page on Apify</a> and click <strong>Try for free</strong>. A free account includes $5 of credit every month.</li>
+        <li>In the <strong>Domains</strong> field, enter one domain per line. <code class="code-inline">https://www.example.com/pricing</code> becomes <code class="code-inline">example.com</code>.</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "domains": [
+    "spotify.com",
+    "sap.com",
+    "mollie.com"
+  ]
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Choose what to fetch</h2>
+      <ul>
+        <li><code class="code-inline">includeWhois</code> (default <code class="code-inline">true</code>): registrar, dates, name servers.</li>
+        <li><code class="code-inline">includeDNS</code> (default <code class="code-inline">true</code>): DNS records, SPF, DMARC, DKIM and the email provider.</li>
+        <li><code class="code-inline">dnsRecordTypes</code>: the record types to query. The default asks for all seven.</li>
+        <li><code class="code-inline">useDNSServer</code>: the resolver, default <code class="code-inline">8.8.8.8:53</code>. Try <code class="code-inline">1.1.1.1:53</code> or <code class="code-inline">9.9.9.9:53</code> if one is rate-limited.</li>
+        <li><code class="code-inline">timeoutSeconds</code>: per-query timeout, default 10.</li>
+      </ul>
+      <div class="callout tip">Each domain is billed once, whether you switch WHOIS, DNS or both on.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and export</h2>
+      <ol>
+        <li>Click <strong>Start</strong>. The log shows one line per domain; domains are processed six at a time.</li>
+        <li>Open the <strong>Dataset</strong> tab when the status reads <strong>SUCCEEDED</strong>.</li>
+        <li>Use <strong>Export</strong> to download JSON, CSV or Excel, or fetch <code class="code-inline">/items?format=json</code> over the Apify API.</li>
+      </ol>
+    </div>
+
+    <h2 id="fields">Key output fields</h2>
+    <ul>
+      <li><code class="code-inline">domain</code>, <code class="code-inline">registrable_domain</code>, <code class="code-inline">registered</code>: the normalised name, the name used for WHOIS, and whether the registry knows it (<code class="code-inline">false</code> means not registered).</li>
+      <li><code class="code-inline">whois.registrar</code>, <code class="code-inline">whois.created_date</code>, <code class="code-inline">whois.expires_date</code>, <code class="code-inline">whois.age_days</code>, <code class="code-inline">whois.days_until_expiry</code>, <code class="code-inline">whois.name_servers</code>, <code class="code-inline">whois.status</code>, <code class="code-inline">whois.dnssec</code>.</li>
+      <li><code class="code-inline">dns.a</code>, <code class="code-inline">dns.aaaa</code>, <code class="code-inline">dns.mx</code>, <code class="code-inline">dns.txt</code>, <code class="code-inline">dns.ns</code>, <code class="code-inline">dns.cname</code>, <code class="code-inline">dns.soa</code>.</li>
+      <li><code class="code-inline">email_provider</code>, <code class="code-inline">has_spf</code>, <code class="code-inline">spf_record</code>, <code class="code-inline">has_dmarc</code>, <code class="code-inline">dmarc_record</code>, <code class="code-inline">dmarc_policy</code>, <code class="code-inline">has_dkim</code>, <code class="code-inline">dkim_selectors</code>.</li>
+      <li><code class="code-inline">error</code>, <code class="code-inline">scraped_at</code>: set when a lookup failed, and the time of the lookup.</li>
+    </ul>
+
+    <h2 id="mcp">Connect to AI agents via MCP</h2>
+    <p>The actor is available as an MCP tool. Paste this server URL into any MCP-compatible client such as Claude Desktop, Claude.ai, Cursor or VS Code:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/domain-whois-dns</code></pre></div>
+    <p>Then ask in plain English, for example: "Check these 20 domains and tell me which ones have no DMARC record." The example below has a longer prompt that asks for the cost first.</p>
+
+    <h2 id="example-saas-domains">Example: 50 European SaaS domains</h2>
+    <p><strong>Situation:</strong> you sell email security or deliverability services and want to know how well a sector protects its mail, which mail platform it runs on and which domains are up for renewal, before you write to anyone.</p>
+    <p>We looked up the homepages of 50 SaaS and tech companies with European roots on 2026-10-21, with WHOIS and DNS both on and the default resolver. The run used the actor's own local run mode on one machine, not an Apify cloud run. It took about a minute, all 50 lookups returned a record, and none had an error. Registrant details are not shown here, only counts.</p>
+    <ul>
+      <li><strong>Email provider (from MX)</strong>: 40 use Google Workspace, 5 Microsoft 365, 1 OVH Mail and 4 show as "Other / Self-hosted". Two of those four (atlassian.com, contentful.com) point their MX at Proofpoint, a mail filter, so the mailbox platform behind it is not visible.</li>
+      <li><strong>Email authentication</strong>: all 50 have an SPF record and all 50 have a DMARC record. The DMARC policies split into 28 <code class="code-inline">reject</code>, 19 <code class="code-inline">quarantine</code> and 3 <code class="code-inline">none</code>, so 3 of 50 publish a record that only monitors. DKIM selectors were found for 48 of 50.</li>
+      <li><strong>Registrars</strong>: of the 48 domains that returned a registrar name, MarkMonitor holds 9, Amazon Registrar 8, Gandi 7 and OVH 5. The other 19 are spread over 13 more registrars (one of them comes back under two spellings). The two .de domains returned no registrar.</li>
+      <li><strong>Domain age</strong>: the median is 19.7 years (7,202 days), based on the 47 domains with a creation date. The youngest are n8n.io and lemlist.com, both under 10 years old. personio.de, taxfix.de and bolt.eu returned no creation date and were left out of the median.</li>
+      <li><strong>Expiry</strong>: 27 of the 47 domains with an expiry date are due within 12 months, and 5 within 90 days. This is the end of the current registration term. Most companies renew automatically, so treat it as a renewal calendar, not a warning.</li>
+      <li><strong>Other</strong>: 8 of 50 have DNSSEC switched on.</li>
+    </ul>
+    <p><strong>Cost:</strong> 1 actor start at $0.001 + 50 domains × $0.003 = <strong>$0.151</strong> on the Apify Free plan, at the Store price on 2026-10-21. We ran it locally, so we paid nothing for this run.</p>
+    <details><summary>Show the exact input with all 50 domains</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "domains": [
+    "spotify.com",
+    "sap.com",
+    "atlassian.com",
+    "mollie.com",
+    "adyen.com",
+    "messagebird.com",
+    "bird.com",
+    "typeform.com",
+    "personio.de",
+    "celonis.com",
+    "n8n.io",
+    "contentful.com",
+    "mambu.com",
+    "deepl.com",
+    "trustpilot.com",
+    "elastic.co",
+    "zendesk.com",
+    "intercom.com",
+    "pipedrive.com",
+    "hotjar.com",
+    "paddle.com",
+    "sendinblue.com",
+    "brevo.com",
+    "sennder.com",
+    "taxfix.de",
+    "lemlist.com",
+    "payfit.com",
+    "alan.com",
+    "qonto.com",
+    "algolia.com",
+    "doctolib.fr",
+    "mirakl.com",
+    "contentsquare.com",
+    "dataiku.com",
+    "ovhcloud.com",
+    "sumup.com",
+    "bolt.eu",
+    "pleo.io",
+    "unity.com",
+    "klarna.com",
+    "tink.com",
+    "vinted.com",
+    "miro.com",
+    "productboard.com",
+    "cleverreach.com",
+    "userlike.com",
+    "wefox.com",
+    "awin.com",
+    "zalando.com",
+    "tomtom.com"
+  ],
+  "includeWhois": true,
+  "includeDNS": true,
+  "dnsRecordTypes": [
+    "A",
+    "AAAA",
+    "MX",
+    "TXT",
+    "NS",
+    "CNAME",
+    "SOA"
+  ],
+  "useDNSServer": "8.8.8.8:53",
+  "timeoutSeconds": 10
+}</code></pre></div>
+    </details>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/domain-whois-dns with includeWhois and includeDNS on, and these 50 domains: spotify.com, sap.com, atlassian.com, mollie.com, adyen.com, messagebird.com, bird.com, typeform.com, personio.de, celonis.com, n8n.io, contentful.com, mambu.com, deepl.com, trustpilot.com, elastic.co, zendesk.com, intercom.com, pipedrive.com, hotjar.com, paddle.com, sendinblue.com, brevo.com, sennder.com, taxfix.de, lemlist.com, payfit.com, alan.com, qonto.com, algolia.com, doctolib.fr, mirakl.com, contentsquare.com, dataiku.com, ovhcloud.com, sumup.com, bolt.eu, pleo.io, unity.com, klarna.com, tink.com, vinted.com, miro.com, productboard.com, cleverreach.com, userlike.com, wefox.com, awin.com, zalando.com, tomtom.com.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, tell me: how many domains use Google Workspace, Microsoft 365 or another email provider (email_provider); how many have a DMARC record and how the policies split into reject, quarantine and none (dmarc_policy); the registrars used, most common first; the median domain age in years from whois.age_days, ignoring domains without a creation date; and which domains expire within 365 days (whois.days_until_expiry). List the domains with no WHOIS dates separately.</code></pre></div>
+
+    <h2 id="use-cases">Lead qualification, brand protection, IT audits</h2>
+    <ul>
+      <li><strong>Lead qualification</strong>: filter a prospect list by <code class="code-inline">email_provider</code> to tailor the pitch, or by <code class="code-inline">has_dmarc</code> and <code class="code-inline">dmarc_policy</code> to find companies that publish no enforcement policy. Domain age separates new startups from old companies.</li>
+      <li><strong>Brand protection</strong>: look up look-alike domains you already found and sort by <code class="code-inline">age_days</code>. A domain a few weeks old with an MX record is worth a closer look. <code class="code-inline">registered: false</code> tells you which spellings are still free.</li>
+      <li><strong>IT audits</strong>: list every domain your company or client holds with registrar, expiry date and name servers, and flag those with no SPF or DMARC. Run it monthly and compare the datasets.</li>
+    </ul>
+
+    <h2 id="compliance">Data protection note</h2>
+    <p>WHOIS and DNS data about a company's domain is public technical data. Registrant fields can contain personal data when the holder is a private person or sole trader. Under the GDPR you need a legal basis to store or use it, and in most cases you will not need those fields at all. Using the results for unsolicited marketing is governed by local rules on top of that, such as the UWG in Germany and Austria and the TKG in Austria. Check them before you contact anyone. This is not legal advice.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The actor uses pay-per-event billing on Apify. There are two events:</p>
+    <ul>
+      <li><strong>Actor start</strong> (<code class="code-inline">enrichment-start</code>): $0.001, charged once per run.</li>
+      <li><strong>Domain lookup completed</strong> (<code class="code-inline">enrichment-result</code>): $0.003 per domain.</li>
+    </ul>
+    <p>The two add up: 100 domains cost $0.001 + 100 × $0.003 = $0.301, and 1,000 domains cost $3.001. The free Apify tier includes $5 each month, enough for about 1,600 domains. There is no subscription.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Which domain endings work?</summary>
+        <p>Any ending that a public RDAP server or WHOIS server answers for. In our 50-domain run, .com, .io, .de, .fr, .eu and others returned a registrar. The two .de domains returned no registrar and no dates because the registry shows less data, and one .eu domain returned no dates. The DNS side works for every domain.</p>
+      </details>
+      <details>
+        <summary>Do I get the owner's name and email?</summary>
+        <p>Mostly not. Most registrars hide private contact data. The registrant fields in the output are filled when the registry publishes them, and often contain only a note such as &quot;redacted for privacy&quot; or a link to a contact form. Do not plan around personal contact data from WHOIS. For business contacts use a website crawl, such as the Website Email Scraper.</p>
+      </details>
+      <details>
+        <summary>How does it know the email provider?</summary>
+        <p>It reads the MX records and matches the host names against a list of providers such as Google Workspace and Microsoft 365. If a company puts a mail filter in front of its mailbox, the MX points to the filter, and the result is &quot;Other / Self-hosted&quot;. In our run, two domains were filtered through Proofpoint and showed as Other for that reason.</p>
+      </details>
+      <details>
+        <summary>Does has_dkim prove DKIM is set up?</summary>
+        <p>It means at least one common selector name (for example google or selector1) resolves, or a DKIM text record sits at the domain. A company with a custom selector name can show false. In our run, 48 of 50 showed true.</p>
+      </details>
+      <details>
+        <summary>How current is the expiry date?</summary>
+        <p>It is the date the registry reports for the current registration term, calculated against the day of the run in days_until_expiry. A domain that expires in 40 days is not necessarily at risk, because most companies renew automatically. Use the field to spot unusual ones, not to predict lapses.</p>
+      </details>
+      <details>
+        <summary>Can I run it on a schedule or on thousands of domains?</summary>
+        <p>Yes. Domains are processed six at a time, which keeps the load on registries low. Set a schedule in Apify Console or call the actor over the API, and compare the datasets from two runs to see changes in registrar, name servers or email provider.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/domain-whois-dns/">Domain WHOIS &amp; DNS Lookup actor page</a>: specs and pricing.</li>
+      <li><a href="/actors/website-tech-detector/">Website Tech Detector</a>: find the CMS, analytics and frameworks on the same domains.</li>
+      <li><a href="/actors/website-email-scraper/">Website Email Scraper</a>: pull business email addresses from the websites on your list.</li>
+      <li><a href="/tutorials/extract-emails-from-websites-bulk/">Extract emails from websites in bulk</a>: the next step after the domain check.</li>
+      <li><a href="/actors/email-verifier/">Email Verifier</a>: check addresses before you send.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/domain-whois-dns?fpr=0khfbz&amp;fp_sid=t-bulk-whois-dns-lookup" class="btn-primary">Open the Domain WHOIS &amp; DNS Lookup on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

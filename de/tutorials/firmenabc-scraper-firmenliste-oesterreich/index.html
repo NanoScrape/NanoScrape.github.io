@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tischler in Graz: Firmenliste mit Telefon und E-Mail | NanoScrape</title>
+  <meta name="description" content="Firmenliste Tischler in Graz aus FirmenABC als CSV oder Excel: 113 Firmen im Testlauf, Felder, Eingabe, Kosten (ca. 0,57 $) und Hinweise zu DSGVO und UWG.">
+  <meta name="primary-keyword" content="firmenliste österreich">
+  <meta property="og:title" content="Tischler in Graz: Firmenliste mit Telefon und E-Mail | NanoScrape">
+  <meta property="og:description" content="Firmenliste Tischler in Graz aus FirmenABC als CSV oder Excel: 113 Firmen im Testlauf, Felder, Eingabe, Kosten (ca. 0,57 $) und Hinweise zu DSGVO und UWG.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Firmenliste Tischler in Graz aus FirmenABC exportieren",
+  "description": "Firmenliste Tischler in Graz aus FirmenABC als CSV oder Excel: 113 Firmen im Testlauf, Felder, Eingabe, Kosten (ca. 0,57 $) und Hinweise zu DSGVO und UWG.",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Kostenloses Apify-Konto"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "FirmenABC.at Scraper (Apify)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Apify-Konto anlegen",
+      "text": "Öffne die Seite des FirmenABC-Scrapers auf Apify, klicke auf Try for free und registriere dich."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Branchen-URL eintragen",
+      "text": "Trage die FirmenABC-Adresse der Branche und des Bezirks bei searchUrls ein und setze maxResults."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Actor starten",
+      "text": "Klicke auf Start. Die Ergebnisse erscheinen im Tab Output."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Daten exportieren",
+      "text": "Klicke im Tab Output auf Export und wähle CSV, Excel oder JSON."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Tischler in Graz: Firmenliste mit Telefon, E-Mail und Website exportieren",
+  "description": "Firmenliste Tischler in Graz aus FirmenABC als CSV oder Excel: 113 Firmen im Testlauf, Felder, Eingabe, Kosten (ca. 0,57 $) und Hinweise zu DSGVO und UWG.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Warum liefert /firmen/stmk/graz einen Fehler?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "FirmenABC kennt Graz als Bezirk, nicht als Unterseite der Steiermark. Die Stadt heißt dort „Graz (Stadt)“ und hat die Adresse /firmen/graz-stadt_Ld. Die Branchenseite hängt daran, zum Beispiel /tischler_CQR. Den Branchencode findest du, indem du auf der Bezirksseite eine Oberkategorie öffnest und dort „Tischler“ suchst."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Bekomme ich für jede Firma E-Mail, Telefon und Website?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Im Testlauf mit 113 Tischlern in Graz hatten 65 eine E-Mail, 64 eine Telefonnummer und 55 eine Website. 40 Einträge hatten keines der drei Felder, nur eine Adresse. Die Quote kann bei anderen Branchen und Städten anders ausfallen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet die Liste?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Mit Detailseiten (includeDetails true) kostet jede Firma 0,005 $, dazu einmal 0,005 $ für den Start. Der Testlauf mit 113 Firmen kostet damit etwa 0,57 $. Das Detail-Ereignis ersetzt das Such-Ereignis (0,002 $), beide werden nicht addiert."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kann ich ein ganzes Bundesland oder ganz Österreich abfragen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ja, über die Bundesland-Seiten, zum Beispiel /firmen/stmk, oder über das Schlagwort-Feld searchQuery. Das Schlagwort sucht aber in ganz Österreich; das Feld location wird ignoriert. Für eine einzelne Stadt nimmst du eine Bezirks- oder Branchen-URL in searchUrls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Brauche ich Claude?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Der MCP-Link ist nur eine Option."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Darf ich die Adressen für Kaltakquise nutzen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Das hängt vom Einzelfall ab. Lies dazu den Abschnitt zu Datenschutz und Recht. Er ersetzt keine Rechtsberatung."
+      }
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "FirmenABC Scraper",
+      "item": "https://www.nanoscrape.com/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/de/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; FirmenABC Scraper</nav>
+
+    <h1>Tischler in Graz: Firmenliste mit Telefon, E-Mail und Website exportieren</h1>
+    <p class="lead">Du brauchst eine Firmenliste für eine Branche in einer österreichischen Stadt, mit Telefon, E-Mail und Website, als Tabelle? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-firmenabc-scraper-firmenliste-oesterreich-de">FirmenABC-Scraper</a> auf Apify holt sie von FirmenABC, ohne Code. Hier sind die Eingabe, der Export und ein echter Testlauf mit den Tischlern in Graz.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Dauer:</strong> 5 Minuten</div>
+      <div class="meta-item"><strong>Kosten:</strong> 0,005 $ pro Firma mit Details</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify Console oder Claude mit MCP</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-firmenabc-scraper-firmenliste-oesterreich-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#claude-prompt" class="btn-secondary">Claude-Prompt kopieren</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#das-bekommst-du">Das bekommst du</a></li>
+        <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Branchen-URL finden</a></li>
+        <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
+        <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
+        <li><a href="#beispiel-tischler-graz">Beispiel: Tischler in Graz</a></li>
+        <li><a href="#felder">Felder</a></li>
+        <li><a href="#claude-prompt">Prompt für Claude</a></li>
+        <li><a href="#kosten">Kosten</a></li>
+        <li><a href="#anwendungen">Anwendungen</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#recht">Datenschutz und Recht</a></li>
+      </ol>
+    </div>
+
+    <h2 id="das-bekommst-du">Das bekommst du</h2>
+    <p><a target="_blank" rel="noopener" href="https://www.firmenabc.at/">FirmenABC</a> ist ein österreichisches Firmenverzeichnis. Der Actor liest eine Branchen- oder Bezirksseite und legt jede Firma als Zeile in einer Tabelle ab. Pro Eintrag bekommst du:</p>
+    <ul>
+      <li><strong>Name, Kategorie und Adresse</strong> mit PLZ und Ort.</li>
+      <li><strong>Telefon, Fax, E-Mail und Website</strong>, soweit der Eintrag sie zeigt.</li>
+      <li><strong>Koordinaten</strong> (Breiten- und Längengrad) für eine Karte.</li>
+      <li><strong>Beschreibung, Öffnungszeiten, Bewertung und Mitarbeiterzahl</strong>, wenn vorhanden. Im Testlauf unten waren diese Felder fast leer.</li>
+    </ul>
+    <p>Der Standard ist <code class="code-inline">includeDetails: true</code>: Der Actor öffnet dann die Detailseite jeder Firma. Ohne Detailseiten bekommst du nur die Felder aus der Trefferliste, dafür günstiger.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Apify-Konto anlegen</h2>
+      <ol>
+        <li>Öffne die <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-firmenabc-scraper-firmenliste-oesterreich-de">Seite des FirmenABC-Scrapers auf Apify</a>.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail.</li>
+        <li>Du landest in der Apify Console im Tab <strong>Input</strong> des Actors.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Branchen-URL finden und eintragen</h2>
+      <p>Für eine einzelne Stadt nimmst du eine FirmenABC-Adresse in <code class="code-inline">searchUrls</code>. So findest du sie:</p>
+      <ol>
+        <li>Öffne <code class="code-inline">firmenabc.at/firmen/stmk</code> (Bundesland Steiermark). Dort steht der Bezirk „Graz (Stadt)“ mit der Adresse <code class="code-inline">/firmen/graz-stadt_Ld</code>.</li>
+        <li>Öffne den Bezirk, dann eine Oberkategorie wie „Bauen, Wohnen, Einrichten“. Dort steht „Tischler“ mit dem Code <code class="code-inline">_CQR</code>.</li>
+        <li>Die fertige Adresse lautet <code class="code-inline">https://www.firmenabc.at/firmen/graz-stadt_Ld/tischler_CQR</code>.</li>
+      </ol>
+      <div class="callout tip"><strong>Tipp:</strong> <code class="code-inline">/firmen/stmk/graz</code> gibt einen 404-Fehler. Graz hängt bei FirmenABC nicht unter der Steiermark, sondern ist ein eigener Bezirk (<code class="code-inline">graz-stadt_Ld</code>).</div>
+<div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchUrls": [
+    "https://www.firmenabc.at/firmen/graz-stadt_Ld/tischler_CQR"
+  ],
+  "maxResults": 150,
+  "includeDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchUrls</code>: eine oder mehrere FirmenABC-Seiten (Bundesland, Bezirk oder Branche im Bezirk). Gültige Bundesland-Kürzel: wien, noe, ooe, stmk, sbg, tirol, ktn, vbg, bgld.</li>
+        <li><code class="code-inline">maxResults</code>: wie viele Firmen höchstens (Standard 100, erlaubt 1 bis 10000).</li>
+        <li><code class="code-inline">includeDetails</code>: Detailseiten öffnen für Telefon, E-Mail, Website und mehr. Langsamer, dafür reicher.</li>
+        <li><code class="code-inline">searchQuery</code>: Schlagwort wie „tischler“, sucht aber in ganz Österreich. Das Feld <code class="code-inline">location</code> wird ignoriert. Für eine Stadt nimm deshalb eine URL.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Actor starten</h2>
+      <p>Klicke auf <strong>Start</strong>. Der Actor liest die Trefferseiten und öffnet bei <code class="code-inline">includeDetails</code> zusätzlich jede Detailseite. Das Ergebnis erscheint live im Tab <strong>Output</strong>.</p>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Daten exportieren</h2>
+      <p>Im Tab <strong>Output</strong> klickst du auf <strong>Export</strong> und wählst CSV, Excel oder JSON. Die CSV-Datei öffnest du direkt in Excel oder Google Sheets.</p>
+    </div>
+
+    <h2 id="beispiel-tischler-graz">Beispiel: Tischler in Graz</h2>
+    <p>Du willst Tischlereien in Graz anschreiben oder anrufen und brauchst dafür eine Liste mit Kontaktfeldern. Wir haben den Actor einmal lokal auf unserem Rechner laufen lassen (kein Apify-Cloud-Lauf, direkte Verbindung, 21.10.2026) mit der Eingabe aus Schritt 2 (<code class="code-inline">maxResults</code> 150, mit Detailseiten). Der Lauf dauerte 80 Sekunden.</p>
+    <ul>
+      <li><strong>113 Firmen</strong>, alle mit eindeutiger FirmenABC-ID. Das Limit von 150 wurde nicht erreicht, die Branchenseite hatte also nicht mehr Einträge. Alle 113 haben eine Adresse, 104 eine PLZ (alle beginnen mit 80, also Graz), 103 haben „Graz“ im Ortsfeld.</li>
+      <li><strong>65 mit E-Mail, 64 mit Telefonnummer, 55 mit Website.</strong> 47 Firmen haben alle drei Felder, 56 haben Telefon und E-Mail.</li>
+      <li><strong>40 Einträge ohne Telefon, E-Mail und Website</strong>, nur mit Adresse. Eine Liste für Telefon- oder E-Mail-Ansprache ist damit etwa zwei Drittel so lang wie die Trefferzahl (73 von 113 haben mindestens eines der drei Felder).</li>
+      <li><strong>Koordinaten bei 89 Firmen</strong>, brauchbar für eine Karte oder eine Tour-Planung.</li>
+      <li><strong>Rechtsform nur aus dem Namen ablesbar:</strong> Es gibt kein eigenes Feld dafür. 32 Namen enthalten „GmbH“, 10 „e.U.“ (eingetragene Einzelunternehmen). Bei den übrigen 71 sagt der Name nichts. Beschreibung (6), Bewertung (1), Mitarbeiterzahl (0) und Öffnungszeiten (0) sind praktisch leer. Plane die Liste also nicht nach Firmengröße.</li>
+    </ul>
+    <p>Die Quoten stammen aus dieser einen Abfrage und können bei anderen Branchen und Städten anders ausfallen. Auf der Seite stehen bewusst keine Firmennamen, Nummern oder Adressen: Viele Einträge sind Einzelunternehmer, deren Name auch ihre Person ist.</p>
+    <p class="small">Auf Apify läuft der Actor über Apifys Proxy; lokal gab es keinen. Die Zahlen oben stammen aus dem lokalen Lauf.</p>
+
+    <h2 id="felder">Felder im Ergebnis</h2>
+    <p>Die wichtigsten Felder laut Output-Schema des Actors:</p>
+    <table class="compare-table" style="width:100%;border-collapse:collapse;margin-bottom:20px;font-size:0.9rem">
+      <thead><tr><th align="left">Feld</th><th align="left">Inhalt</th></tr></thead>
+      <tbody>
+        <tr><td><code class="code-inline">id</code>, <code class="code-inline">name</code></td><td>FirmenABC-ID und Firmenname</td></tr>
+        <tr><td><code class="code-inline">address</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">city</code>, <code class="code-inline">country</code></td><td>Adresse</td></tr>
+        <tr><td><code class="code-inline">phone</code>, <code class="code-inline">fax</code></td><td>Telefon und Fax</td></tr>
+        <tr><td><code class="code-inline">email</code>, <code class="code-inline">website</code></td><td>E-Mail und Website</td></tr>
+        <tr><td><code class="code-inline">latitude</code>, <code class="code-inline">longitude</code></td><td>Koordinaten</td></tr>
+        <tr><td><code class="code-inline">categories</code></td><td>Branchen des Eintrags</td></tr>
+        <tr><td><code class="code-inline">description</code>, <code class="code-inline">opening_hours</code>, <code class="code-inline">employee_count</code></td><td>Beschreibung, Öffnungszeiten, Mitarbeiterzahl (selten gefüllt)</td></tr>
+        <tr><td><code class="code-inline">rating</code>, <code class="code-inline">review_count</code></td><td>Bewertung und Anzahl</td></tr>
+        <tr><td><code class="code-inline">source_url</code>, <code class="code-inline">source_platform</code>, <code class="code-inline">scraped_at</code></td><td>Quelle und Zeitstempel</td></tr>
+      </tbody>
+    </table>
+    <p>Fehlt bei einer anderen Abfrage die E-Mail, kannst du die Spalte <code class="code-inline">website</code> an den <a href="/actors/website-email-scraper/de/">Website Email Scraper</a> geben.</p>
+
+    <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+<div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/firmenabc-at-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein:</p>
+<div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/firmenabc-at-scraper mit dieser Eingabe:
+{"searchUrls": ["https://www.firmenabc.at/firmen/graz-stadt_Ld/tischler_CQR"], "maxResults": 150, "includeDetails": true}
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, zähle: wie viele Firmen insgesamt, wie viele mit Telefon, mit E-Mail, mit Website und mit Koordinaten,
+wie viele mit mindestens einem der drei Kontaktfelder und wie viele Namen "GmbH" oder "e.U." enthalten.
+Gib mir nur diese Zahlen und keine Namen, Nummern oder Adressen.</code></pre></div>
+    <p class="small">Getestet haben wir den Actor und die Eingabe, nicht den Prompt über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Mit Detailseiten kostet jede Firma <strong>0,005 $</strong>, also 5 $ pro 1.000. Dazu kommt pro Lauf einmal der Start mit 0,005 $. Das Ereignis „Business details extracted“ ersetzt das Ereignis „Business found“ (0,002 $); beide werden pro Firma nicht zusammen berechnet. Der Beispiellauf mit 113 Firmen kostet auf Apify damit 113 &times; 0,005 $ + 0,005 $ = <strong>etwa 0,57 $</strong>. Der lokale Testlauf hat nichts gekostet. Ohne Detailseiten (<code class="code-inline">includeDetails</code> aus) kostet eine Firma 0,002 $, dafür fehlen die meisten Kontaktfelder. Den aktuellen Gratis-Betrag des Free-Plans findest du auf <a target="_blank" rel="noopener" href="https://apify.com/pricing?fpr=0khfbz&amp;fp_sid=t-firmenabc-scraper-firmenliste-oesterreich-de">Apifys Preisseite</a>. Mehr auf der <a href="/actors/firmenabc-at-scraper/de/">Actor-Seite</a>.</p>
+
+    <h2 id="anwendungen">Anwendungen</h2>
+    <ul>
+      <li><strong>Lokale Firmenlisten:</strong> alle Einträge einer Branche in einer Stadt als Tabelle für Vertrieb oder Marktanalyse.</li>
+      <li><strong>Kartenansicht:</strong> mit Breiten- und Längengrad die Standorte auf einer Karte zeigen.</li>
+      <li><strong>Wettbewerbsübersicht:</strong> Anbieter und Standorte einer Region nebeneinander sehen.</li>
+      <li><strong>Weitere Verarbeitung:</strong> Liste ins CRM laden oder die Website-Spalte an den Email Scraper geben.</li>
+    </ul>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Warum liefert /firmen/stmk/graz einen Fehler?</summary>
+        <p>FirmenABC kennt Graz als Bezirk, nicht als Unterseite der Steiermark. Die Stadt heißt dort „Graz (Stadt)“ und hat die Adresse /firmen/graz-stadt_Ld. Die Branchenseite hängt daran, zum Beispiel /tischler_CQR. Den Branchencode findest du, indem du auf der Bezirksseite eine Oberkategorie öffnest und dort „Tischler“ suchst.</p>
+      </details>
+      <details>
+        <summary>Bekomme ich für jede Firma E-Mail, Telefon und Website?</summary>
+        <p>Nein. Im Testlauf mit 113 Tischlern in Graz hatten 65 eine E-Mail, 64 eine Telefonnummer und 55 eine Website. 40 Einträge hatten keines der drei Felder, nur eine Adresse. Die Quote kann bei anderen Branchen und Städten anders ausfallen.</p>
+      </details>
+      <details>
+        <summary>Was kostet die Liste?</summary>
+        <p>Mit Detailseiten (includeDetails true) kostet jede Firma 0,005 $, dazu einmal 0,005 $ für den Start. Der Testlauf mit 113 Firmen kostet damit etwa 0,57 $. Das Detail-Ereignis ersetzt das Such-Ereignis (0,002 $), beide werden nicht addiert.</p>
+      </details>
+      <details>
+        <summary>Kann ich ein ganzes Bundesland oder ganz Österreich abfragen?</summary>
+        <p>Ja, über die Bundesland-Seiten, zum Beispiel /firmen/stmk, oder über das Schlagwort-Feld searchQuery. Das Schlagwort sucht aber in ganz Österreich; das Feld location wird ignoriert. Für eine einzelne Stadt nimmst du eine Bezirks- oder Branchen-URL in searchUrls.</p>
+      </details>
+      <details>
+        <summary>Brauche ich Claude?</summary>
+        <p>Nein. Die Schritte 1 bis 4 funktionieren komplett in der Apify Console. Der MCP-Link ist nur eine Option.</p>
+      </details>
+      <details>
+        <summary>Darf ich die Adressen für Kaltakquise nutzen?</summary>
+        <p>Das hängt vom Einzelfall ab. Lies dazu den Abschnitt zu Datenschutz und Recht. Er ersetzt keine Rechtsberatung.</p>
+      </details>
+    </div>
+
+    <h2 id="recht">Hinweis zu Datenschutz und Recht</h2>
+    <p>Der Actor sammelt Einträge, die auf FirmenABC öffentlich angezeigt werden. Bei Einzelunternehmern ist der Firmenname oft der Name einer Person, E-Mail und Telefon sind dann personenbezogene Daten. Für deren Verarbeitung bist du verantwortlich und musst die DSGVO einhalten. In Österreich gilt für Werbeanrufe und Werbe-E-Mails ohne vorherige Einwilligung zusätzlich § 174 TKG 2021; auch das UWG kann bei unlauterer Werbung eine Rolle spielen. Prüfe das vor jeder Kaltakquise und beachte die Nutzungsbedingungen von FirmenABC. Das ist keine Rechtsberatung; frag im Zweifel eine Anwältin oder einen Anwalt.</p>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/firmenabc-at-scraper/de/">FirmenABC Scraper, Actor-Seite</a>: alle Felder und Preise.</li>
+      <li><a href="/de/tutorials/herold-scraper-firmendaten-exportieren/">Herold Scraper Tutorial</a>: Firmendaten aus Österreichs Gelben Seiten.</li>
+      <li><a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/">Google Maps Scraper Tutorial</a>: Firmendaten aus Google Maps.</li>
+      <li><a href="/actors/website-email-scraper/de/">Website Email Scraper</a>: E-Mails auf den Websites der Firmen finden.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-firmenabc-scraper-firmenliste-oesterreich-de" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/de/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Kopiert!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Fehlgeschlagen';
+      setTimeout(function() { btn.textContent = 'Kopieren'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

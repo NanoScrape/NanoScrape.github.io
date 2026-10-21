@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape StepStone: Export German Jobs to CSV | NanoScrape</title>
+  <meta name="description" content="Export job listings from StepStone.de to CSV, Excel or JSON, no code. Step by step, with a real example: who is hiring electricians in Berlin right now.">
+  <meta name="primary-keyword" content="stepstone scraper">
+  <meta property="og:title" content="Scrape StepStone: Export German Job Listings to CSV | NanoScrape">
+  <meta property="og:description" content="Export StepStone.de job listings to CSV, Excel or JSON. Example: who is hiring electricians in Berlin?">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Export job listings from StepStone.de",
+  "description": "Use the StepStone.de Scraper on Apify to search job listings and download them as CSV, Excel or JSON.",
+  "totalTime": "PT5M",
+  "supply": [
+    { "@type": "HowToSupply", "name": "Free Apify account" },
+    { "@type": "HowToSupply", "name": "One or more search terms and a location" }
+  ],
+  "tool": [
+    { "@type": "HowToTool", "name": "StepStone.de Scraper (Apify)" }
+  ],
+  "step": [
+    { "@type": "HowToStep", "name": "Create an Apify account", "text": "Open the StepStone.de Scraper page on Apify, click Try for free and sign up with Google or email." },
+    { "@type": "HowToStep", "name": "Enter search term and location", "text": "Enter one or more search terms in Search Keywords, set the location and radius, and set maxResultsPerQuery." },
+    { "@type": "HowToStep", "name": "Start the Actor", "text": "Click Save and Run. The results appear in the Dataset tab when the run has finished." },
+    { "@type": "HowToStep", "name": "Export the data", "text": "In the Dataset tab, click Export and choose CSV, Excel or JSON." }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Scrape StepStone: Export German Job Listings to CSV",
+  "description": "How to export job listings from StepStone.de with the StepStone.de Scraper on Apify, with an example for recruiters and staffing agencies.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": { "@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com" },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": { "@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png" }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I need to know how to code to scrape StepStone?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. In the Apify Console you fill in a form, click Save and Run and download the table. You only need code if you want to call the Actor through the API from your own system." }
+    },
+    {
+      "@type": "Question",
+      "name": "What data do I get from StepStone?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Title, employer, location, federal state (Bundesland), employment type, salary (when stated), publication date, a link to the original ad and, with includeJobDetails, the full text, requirements, benefits, industry and employer details. Which fields are filled depends on the individual ad." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is the salary field empty for most listings?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Because most German job ads do not state a salary. In the example run with 249 listings for electricians in Berlin, only 5 had a salary." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get only new listings?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Use postedWithinDays (1, 7 or 30 days) and sortBy newest. For recurring runs, also compare the results with your last pull, for example by the id field." }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does the StepStone scraper cost?",
+      "acceptedAnswer": { "@type": "Answer", "text": "On the Free plan it costs $0.003 per listing from the results page, plus $0.005 per listing with its detail page and $0.001 per run start. 249 listings with details cost about $2.00, without details about $0.75." }
+    },
+    {
+      "@type": "Question",
+      "name": "Am I allowed to use the data?",
+      "acceptedAnswer": { "@type": "Answer", "text": "That depends on your use case, especially for personal contact details such as the name, email or phone number of a contact person. Check this for your case before you store or reuse the data. In Germany and the EU, data protection law (GDPR) applies to personal data." }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.nanoscrape.com/" },
+    { "@type": "ListItem", "position": 2, "name": "Tutorials", "item": "https://www.nanoscrape.com/tutorials/" },
+    { "@type": "ListItem", "position": 3, "name": "StepStone.de Scraper", "item": "https://www.nanoscrape.com/tutorials/stepstone-scraper-export-german-jobs/" }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; StepStone.de Scraper</nav>
+
+    <h1>How to Scrape StepStone: Export German Job Listings to CSV</h1>
+    <p class="lead">Want to know which companies are hiring on StepStone, the largest German job board, and get the listings into Excel or your own analysis? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs">StepStone.de Scraper</a> collects the listings for your search term and location and returns them as a table: title, employer, location, date, salary (when stated) and a link to the ad. No code, a few minutes. <a href="/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/" hreflang="de">German version</a>.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Level:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> 249 listings with details: about $2.00</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console (no code)</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#fields">All fields</a></li>
+        <li><a href="#example-electricians-berlin">Example: who is hiring electricians in Berlin?</a></li>
+        <li><a href="#step-1">Step 1: Create an Apify account</a></li>
+        <li><a href="#step-2">Step 2: Enter search and location</a></li>
+        <li><a href="#step-3">Step 3: Start the Actor</a></li>
+        <li><a href="#step-4">Step 4: Export the data</a></li>
+        <li><a href="#filters">Available filters</a></li>
+        <li><a href="#api">API and schedules</a></li>
+        <li><a href="#cost">Cost</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>StepStone has no export function for job listings. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs">StepStone.de Scraper</a> collects the listings for your search terms and stores them as a table you can download as CSV, Excel or JSON. For each listing you get, among other things:</p>
+    <ul>
+      <li><strong>Title, employer and location</strong>, plus the federal state (Bundesland), postcode and every location named in the ad.</li>
+      <li><strong>Salary</strong>, when the employer states one, as text and as numbers.</li>
+      <li><strong>Publication date</strong> and a link to the original ad.</li>
+      <li><strong>With details:</strong> full text, requirements, benefits, industry and employer information (website, address, size).</li>
+    </ul>
+
+    <h2 id="fields">All fields at a glance</h2>
+    <p>These are the main fields according to the Actor's output schema. The schema has more, for example logo, labels and markers for sponsored ads. Without <code class="code-inline">includeJobDetails</code>, the fields that only exist on the detail page are missing.</p>
+    <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:0.9rem;margin-bottom:20px">
+        <thead><tr style="text-align:left;color:var(--white);border-bottom:1px solid var(--border)"><th style="padding:8px">Field</th><th style="padding:8px">Type</th><th style="padding:8px">Content</th></tr></thead>
+        <tbody class="ftable">
+        <tr><td><code class="code-inline">id</code></td><td>Text</td><td>Unique listing ID</td></tr>
+        <tr><td><code class="code-inline">title</code></td><td>Text</td><td>Listing title</td></tr>
+        <tr><td><code class="code-inline">company</code></td><td>Text</td><td>Employer</td></tr>
+        <tr><td><code class="code-inline">location / locations</code></td><td>Text / list</td><td>Location and all locations named in the ad</td></tr>
+        <tr><td><code class="code-inline">state / state_code / post_code</code></td><td>Text</td><td>Federal state (name and code) and postcode</td></tr>
+        <tr><td><code class="code-inline">employment_type</code></td><td>Text</td><td>Employment type, for example full-time</td></tr>
+        <tr><td><code class="code-inline">remote_option / work_from_home</code></td><td>Text</td><td>Home-office information from StepStone</td></tr>
+        <tr><td><code class="code-inline">salary_text</code></td><td>Text</td><td>Salary as written in the ad</td></tr>
+        <tr><td><code class="code-inline">salary_min / salary_max</code></td><td>Number</td><td>Salary as numbers</td></tr>
+        <tr><td><code class="code-inline">salary_currency / salary_period</code></td><td>Text</td><td>Currency and period (yearly, monthly or hourly)</td></tr>
+        <tr><td><code class="code-inline">industry</code></td><td>Text</td><td>Industry or field of the ad</td></tr>
+        <tr><td><code class="code-inline">description_snippet / description_full / description_md</code></td><td>Text</td><td>Short preview, full text and Markdown version</td></tr>
+        <tr><td><code class="code-inline">requirements / company_benefits</code></td><td>List</td><td>Requirements (the "Ihr Profil" section) and benefits</td></tr>
+        <tr><td><code class="code-inline">apply_url / apply_email</code></td><td>Text</td><td>Link of the apply button and, if present, an application email</td></tr>
+        <tr><td><code class="code-inline">contact_firstname, contact_lastname, contact_email, contact_phone</code></td><td>Text</td><td>Contact person, only when the ad names one explicitly</td></tr>
+        <tr><td><code class="code-inline">company_url / company_website / company_job_count</code></td><td>Text / number</td><td>Company profile on StepStone, external website and number of open jobs</td></tr>
+        <tr><td><code class="code-inline">company_address / company_size</code></td><td>Text</td><td>Address and size class from the company profile</td></tr>
+        <tr><td><code class="code-inline">posted_at / expires_at</code></td><td>Date</td><td>Publication and expiry date</td></tr>
+        <tr><td><code class="code-inline">source_url / source_platform</code></td><td>Text</td><td>Link to the original ad and platform (stepstone.de)</td></tr>
+        <tr><td><code class="code-inline">search_query / scraped_at</code></td><td>Text</td><td>Search term that found the listing and time of the pull</td></tr>
+        </tbody>
+      </table></div>
+      <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
+    <div class="callout"><strong>Not every field is always filled.</strong> Salary, contact person and application email appear in only some listings. In the example below, 5 of 249 listings stated a salary.</div>
+
+    <h2 id="example-electricians-berlin">Example: who is hiring electricians in Berlin?</h2>
+    <p>For recruiters and staffing agencies placing candidates in Germany, the first question is often which companies are hiring in a given region and trade right now. We ran the Actor once locally (21 October 2026) with the search term "Elektriker" (German for electrician), Berlin with a 25 km radius, newest listings first. The result:</p>
+    <ul>
+      <li><strong>249 job listings from 88 companies.</strong></li>
+      <li><strong>245 of them</strong> were published between 18 and 21 October 2026, so the list mostly shows what has just been advertised.</li>
+      <li><strong>Largest employer:</strong> Tesla Manufacturing Brandenburg SE with 122 listings, almost half of all hits. Counting by company shows quickly when one employer dominates a list.</li>
+      <li><strong>Only 5 listings</strong> stated a salary, so this search is not enough for salary benchmarking.</li>
+    </ul>
+    <p>The input for this search looks like this:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker"],
+  "location": "Berlin",
+  "radius": 25,
+  "maxResultsPerQuery": 400,
+  "sortBy": "newest",
+  "includeJobDetails": true
+}</code></pre></div>
+    <p>By default the Actor reads up to 10 result pages per search term, with up to 25 rows each (<code class="code-inline">maxPagesFetched</code>), so about 250 listings at most. 249 is just below that cap, which means StepStone may have more listings for this search. If you want all of them, raise <code class="code-inline">maxPagesFetched</code>; <code class="code-inline">maxResultsPerQuery</code> (400 here) then limits the volume.</p>
+    <p>To count by company, make a pivot table on the <code class="code-inline">company</code> column of the exported table, or let Claude do it. Connect the Apify MCP server as a custom connector with this URL (see <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apify's MCP documentation</a>). It limits Claude to this one Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</code></pre></div>
+    <p>Then paste this prompt. Claude tells you the cost first and waits for your OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the Actor santamaria-automations/stepstone-de-scraper with
+searchQueries ["Elektriker"], location "Berlin", radius 25, sortBy "newest", maxResultsPerQuery 400.
+Before you start the run, tell me what it will cost and wait for my OK.
+Then group the listings by employer (company) and give me a table with company,
+number of listings and the earliest and latest posted_at, sorted by number of listings descending.
+At the end, tell me how many listings in total, from how many companies, and how many state a salary.</code></pre></div>
+    <p>We tested the Actor and the inputs, not the prompt through MCP; Claude may word the cost statement differently.</p>
+    <div class="callout"><strong>Cost of this run:</strong> about $2.00 on the Free plan with details, or about $0.75 without details. The calculation is in the <a href="#cost">Cost</a> section.</div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Create an Apify account</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs">StepStone.de Scraper page on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email.</li>
+        <li>You land in the Apify Console on the Actor's <strong>Input</strong> tab. For small runs, the monthly free credit of the Free plan is enough.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Enter search and location</h2>
+      <p>In <code class="code-inline">searchQueries</code> ("Search Keywords") enter one or more search terms. Each term runs as its own search, and duplicate listings are removed across all terms. Enter the place in <code class="code-inline">location</code> and the radius in <code class="code-inline">radius</code>. Use German search terms, since the listings are in German. A small test input:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker"],
+  "location": "Berlin",
+  "radius": 25,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 20,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">location</code>: a city, region or federal state as text, for example "München" (Munich) or "Sachsen" (Saxony).</li>
+        <li><code class="code-inline">radius</code>: radius in kilometres. The schema lists 0, 5, 10, 25, 50, 100, 150 or 200 (default 25).</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: upper limit per search term (default 100). <code class="code-inline">maxResults</code> limits the total across all search terms.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> (newest first, default) or <code class="code-inline">relevance</code>.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> also fetches the detail page of each listing (default). <code class="code-inline">false</code> is faster and cheaper but returns fewer fields.</li>
+      </ul>
+      <div class="callout tip"><strong>Start small.</strong> For your first run, set <code class="code-inline">maxResultsPerQuery</code> to 10 to 30. You see quickly whether the hits match your search term, and you pay only a few cents.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Start the Actor and check the result</h2>
+      <p>Click <strong>Save and Run</strong> at the bottom. On the run page, the <strong>Log</strong> tab shows progress and the <strong>Dataset</strong> tab shows the results as a table. Several search terms in one run look like this:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Elektriker", "Elektroniker", "Elektroinstallateur"],
+  "location": "Berlin",
+  "maxResultsPerQuery": 50,
+  "includeJobDetails": false
+}</code></pre></div>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Export the data</h2>
+      <ol>
+        <li>Open the <strong>Dataset</strong> tab of the run.</li>
+        <li>Click <strong>Export</strong>.</li>
+        <li>Choose the format: CSV, Excel, JSON and more are available. With the field selection you export only the columns you need, for example <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">salary_text</code> and <code class="code-inline">source_url</code>.</li>
+      </ol>
+    </div>
+
+    <h2 id="filters">Available filters</h2>
+    <p>According to the input schema, the Actor filters by these settings:</p>
+    <ul>
+      <li><strong>Search term</strong> (<code class="code-inline">searchQueries</code>), <strong>location</strong> (<code class="code-inline">location</code>) and <strong>radius</strong> (<code class="code-inline">radius</code>). Alternatively <code class="code-inline">bundesland</code> (federal state), which applies only when <code class="code-inline">location</code> is empty.</li>
+      <li><strong>Publication</strong> (<code class="code-inline">postedWithinDays</code>): listings from the last 1, 7 or 30 days. Other values are rounded to these levels (up to 7 days to 7, above that to 30).</li>
+      <li><strong>Employment type</strong> (<code class="code-inline">employmentType</code>): full-time, part-time, internship, trainee, fixed-term or freelance. Also <code class="code-inline">stepstoneContractTypes</code> for permanent position, working student (Werkstudent), apprenticeship (Ausbildung), sales representative, agency work (Arbeitnehmerüberlassung) and franchise.</li>
+      <li><strong>Experience</strong> (<code class="code-inline">experienceLevel</code>): entry level, professional, management or executive.</li>
+      <li><strong>Title</strong> (<code class="code-inline">titleFilter</code>): only listings whose title contains a phrase. Separate several phrases with commas. This helps because StepStone's search also returns hits from the ad text.</li>
+      <li><strong>Sorting</strong> (<code class="code-inline">sortBy</code>) and <strong>volume</strong> (<code class="code-inline">maxResultsPerQuery</code>, <code class="code-inline">maxResults</code>, <code class="code-inline">maxPagesFetched</code>).</li>
+      <li><strong>Your own search links</strong> (<code class="code-inline">searchUrls</code>): search on stepstone.de with all the filters you need and paste the address of the results page. <strong>Single listings</strong> (<code class="code-inline">directUrls</code>) can be fetched on purpose, for example to check whether they are still online.</li>
+    </ul>
+    <p>There is no salary filter. Do that afterwards in the table with <code class="code-inline">salary_min</code> and <code class="code-inline">salary_max</code>.</p>
+
+    <h2 id="api">Fetch by API and on a schedule</h2>
+    <p>You can also call the Actor from your own scripts, n8n or Make. This call starts a run and returns the results directly (Apify endpoint <code class="code-inline">run-sync-get-dataset-items</code>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~stepstone-de-scraper/run-sync-get-dataset-items?token=YOUR_APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchQueries": ["Elektriker"], "location": "Berlin", "radius": 25, "sortBy": "newest", "postedWithinDays": 7, "maxResultsPerQuery": 100}'</code></pre></div>
+    <p>You find your API token in the Apify Console under Settings &rarr; API &amp; Integrations. For pulls that should run regularly, create a schedule in the Console under <strong>Schedules</strong>. Set <code class="code-inline">sortBy</code> to <code class="code-inline">newest</code>, use <code class="code-inline">postedWithinDays</code> and compare the results with your last pull (field <code class="code-inline">id</code>) so you only process new listings.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor charges per result. These are the prices on the Actor's Apify Store page for the Free plan (as of 21 October 2026); paid Apify plans are somewhat cheaper:</p>
+    <ul>
+      <li>Start: $0.001 per run.</li>
+      <li>Listing from the results page (<code class="code-inline">job-serp-result</code>): $0.003 per listing.</li>
+      <li>Detail page (<code class="code-inline">job-detail-result</code>): an additional $0.005 per listing.</li>
+    </ul>
+    <p>Every delivered listing therefore costs $0.003. If the Actor also fetched the detail page, $0.005 is added, $0.008 in total. Listings that are not saved (for example because they are no longer online) are not charged.</p>
+    <p>Worked example for the search above (249 listings):</p>
+    <ul>
+      <li><strong>With details:</strong> $0.001 + 249 x $0.008 = $1.993, about $2.00.</li>
+      <li><strong>Without details</strong> (<code class="code-inline">includeJobDetails</code> set to <code class="code-inline">false</code>): $0.001 + 249 x $0.003 = $0.748, about $0.75.</li>
+    </ul>
+    <p>If the run stops early because of the time limit, some listings may arrive with results-page data only and are then charged as such. You can always find the current prices on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs">Actor's Apify page</a>.</p>
+
+    <h2 id="use-cases">What people use the data for</h2>
+    <h3>Recruiting and staffing agencies</h3>
+    <p>Count by employer to see who is advertising many positions in your field and region. With <code class="code-inline">company_website</code> and, where the ad names one, the <code class="code-inline">contact_*</code> fields, you can prepare outreach. Note the guidance in the FAQ on using the data.</p>
+    <h3>Market analysis</h3>
+    <p>Run the newest listings for an occupation regularly and watch how many are added per week, which industries (<code class="code-inline">industry</code>) and places lead, and how strongly single employers shape the picture.</p>
+    <h3>Feeding your own job list or job board</h3>
+    <p>Use <code class="code-inline">source_url</code> to link to the original ad. Use <code class="code-inline">expires_at</code> to remove expired listings from your list.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Do I need to know how to code to scrape StepStone?</summary>
+        <p>No. In the Apify Console you fill in a form, click Save and Run and download the table. You only need code if you want to call the Actor through the API from your own system.</p>
+      </details>
+      <details>
+        <summary>What data do I get from StepStone?</summary>
+        <p>Title, employer, location, federal state (Bundesland), employment type, salary (when stated), publication date, a link to the original ad and, with includeJobDetails, the full text, requirements, benefits, industry and employer details. Which fields are filled depends on the individual ad.</p>
+      </details>
+      <details>
+        <summary>Why is the salary field empty for most listings?</summary>
+        <p>Because most German job ads do not state a salary. In the example run with 249 listings for electricians in Berlin, only 5 had a salary.</p>
+      </details>
+      <details>
+        <summary>How do I get only new listings?</summary>
+        <p>Use postedWithinDays (1, 7 or 30 days) and sortBy newest. For recurring runs, also compare the results with your last pull, for example by the id field.</p>
+      </details>
+      <details>
+        <summary>How much does the StepStone scraper cost?</summary>
+        <p>On the Free plan it costs $0.003 per listing from the results page, plus $0.005 per listing with its detail page and $0.001 per run start. 249 listings with details cost about $2.00, without details about $0.75.</p>
+      </details>
+      <details>
+        <summary>Am I allowed to use the data?</summary>
+        <p>That depends on your use case, especially for personal contact details such as the name, email or phone number of a contact person. Check this for your case before you store or reuse the data. In Germany and the EU, data protection law (GDPR) applies to personal data.</p>
+      </details>
+    </div>
+
+    <h2>Related links</h2>
+    <ul>
+      <li><a href="/actors/stepstone-de-scraper/">StepStone.de Scraper, Actor page</a>: input fields, output fields and pricing at a glance.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs">StepStone.de Scraper on Apify</a>: the Actor with documentation and all parameters.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: job listings from 110+ job boards with one call.</li>
+      <li><a href="/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/" hreflang="de">German version of this tutorial</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-stepstone-scraper-export-german-jobs" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

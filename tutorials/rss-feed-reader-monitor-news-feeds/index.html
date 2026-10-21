@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Feed Reader: Monitor Many News Feeds | NanoScrape</title>
+  <meta name="description" content="Read 10 to 20 RSS, Atom or JSON feeds in one Apify run, keep only new items and export them to CSV or Excel. Includes a measured run on 14 AI blogs.">
+  <meta name="primary-keyword" content="rss feed reader">
+  <meta property="og:title" content="RSS Feed Reader: Monitor Many News Feeds | NanoScrape">
+  <meta property="og:description" content="Read 10 to 20 RSS, Atom or JSON feeds in one Apify run, keep only new items and export them to CSV or Excel. Includes a measured run on 14 AI blogs.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RSS Feed Reader: Monitor Many News Feeds | NanoScrape">
+  <meta name="twitter:description" content="Read 10 to 20 RSS, Atom or JSON feeds in one Apify run, keep only new items and export them to CSV or Excel. Includes a measured run on 14 AI blogs.">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to Monitor Many RSS and Atom News Feeds in One Run and Export New Items to a Spreadsheet",
+  "description": "Read 10 to 20 RSS, Atom or JSON feeds in one Apify run, keep only new items and export them to CSV or Excel. Includes a measured run on 14 AI blogs.",
+  "totalTime": "PT5M",
+  "estimatedCost": {
+    "@type": "MonetaryAmount",
+    "currency": "USD",
+    "value": "0.029"
+  },
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "List of RSS, Atom or JSON feed URLs"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "NanoScrape RSS Feed Reader"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Collect the feed URLs",
+      "text": "Find the RSS or Atom URL of each blog or news site. Many sites link it in the page head or at /feed or /rss."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste them into feedUrls",
+      "text": "Open the actor on Apify and paste one URL per line. Set maxItemsPerFeed and, for scheduled runs, filterByDate."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it",
+      "text": "Click Start. A run with 14 feeds takes a few seconds."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Export to a spreadsheet",
+      "text": "Open the Dataset tab, filter to the feed_item records and download CSV or Excel. Schedule the actor to repeat it."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Monitor Many RSS and Atom News Feeds in One Run and Export New Items to a Spreadsheet",
+  "description": "Read 10 to 20 RSS, Atom or JSON feeds in one Apify run, keep only new items and export them to CSV or Excel. Includes a measured run on 14 AI blogs.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-10-21",
+  "dateModified": "2026-10-21",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the actor fetch the full article text from the article page?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It reads what the feed itself contains. Some feeds ship the full article in the item body, others only a one-paragraph summary. In our run of 14 feeds, 8 included full text in every item and 6 included none. For the missing ones you would pass the item_link URLs to a page extractor in a second step."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I get only new items on each scheduled run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set filterByDate to an ISO date, for example 2026-10-14 or 2026-10-14T00:00:00Z, and update it to the date of your last run. Items older than that date are skipped. The actor does not remember earlier runs on its own, so keep item_guid or item_link in your spreadsheet and drop rows you already have."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does it cost to read 14 feeds?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "One run costs $0.001 for the start plus $0.002 per feed that was parsed successfully, so 14 feeds cost $0.029. There is no charge per item. Feeds that fail to load are not charged. These are the Apify Free-plan prices on the Store page."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which feed formats does it read?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "RSS 2.0, Atom 1.0 and JSON Feed 1.0 and 1.1. The format is detected automatically, so you can mix them in one feedUrls list, and the feed_type field tells you which one each feed was."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a limit on items per feed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "maxItemsPerFeed caps how many items are read from each feed, starting from the top of the feed. The cap is applied before the date filter, so with a low cap and filterByDate you only look at the newest items. Most blog feeds list only 10 to 30 items anyway."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I schedule it?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. In Apify Console open the actor, choose Schedules and pick an interval such as daily or hourly. Connect the dataset to Google Sheets, a webhook or the Apify API to push new rows to your spreadsheet."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "How to Monitor Many RSS and Atom News Feeds in One Run and Export New Items to a Spreadsheet",
+      "item": "https://www.nanoscrape.com/tutorials/rss-feed-reader-monitor-news-feeds/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; RSS Feed Reader</nav>
+
+    <h1>How to Monitor Many RSS and Atom News Feeds in One Run and Export New Items to a Spreadsheet</h1>
+    <p class="lead">Tracking competitor blogs, industry news and press releases by hand means opening a dozen sites every morning. Almost all of them publish an RSS or Atom feed. The NanoScrape RSS Feed Reader on Apify reads many feeds in one run, returns one row per article with title, link, date, author, summary, image and categories, and lets you download the result as CSV or Excel. We ran it on 14 public AI and data blogs: 234 items in about three seconds for $0.029.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 5 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.001 per run plus $0.002 per feed; no charge per item</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, NanoScrape RSS Feed Reader</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">Open the RSS Feed Reader on Apify</a>
+      <a href="#cost" class="btn-secondary">See pricing details</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#what-you-get">What you get</a></li>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#step-1">Step 1: Collect the feed URLs</a></li>
+        <li><a href="#step-2">Step 2: Configure the run</a></li>
+        <li><a href="#step-3">Step 3: Run and export</a></li>
+        <li><a href="#schedule">Run it on a schedule</a></li>
+        <li><a href="#mcp">Connect to AI agents via MCP</a></li>
+        <li><a href="#claude-prompt">Copy-paste prompt for Claude</a></li>
+        <li><a href="#examples">Example: industry news</a></li>
+        <li><a href="#fields">Key output fields</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="what-you-get">What you get</h2>
+    <p>The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz">NanoScrape RSS Feed Reader</a> takes a list of feed URLs and returns structured records. It detects RSS 2.0, Atom 1.0 and JSON Feed automatically, so you can mix them in one run. For every article you get the title, link, publication date, author, summary, categories, featured image and, when the feed ships it, the full HTML body. It also adds one summary row per feed with the item count and the newest and oldest dates, and a failed feed does not stop the others.</p>
+    <p>It reads the feed file only. It does not open the article pages, so what you get is what each publisher puts into its feed.</p>
+
+    <h2 id="prerequisites">Prerequisites</h2>
+    <ul>
+      <li>A free Apify account. The free plan includes monthly credit, far more than this tutorial needs.</li>
+      <li>The feed URLs of the sites you want to follow. Look for the RSS icon, a link tagged "RSS" or "Atom" in the page source, or try /feed and /rss on the site.</li>
+    </ul>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Collect the feed URLs</h2>
+      <ol>
+        <li>List the sources you care about: competitor blogs, industry news sites, vendor release notes, press-release pages.</li>
+        <li>Open each feed URL in a browser once. You should see XML or JSON text, not a login page.</li>
+        <li>Skip sources whose feed returns an error. In our test, four candidate feeds were not usable from a plain request (two returned 404, one 403, one 429), so we swapped them for other blogs before the run.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Configure the run</h2>
+      <p>Open <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz">the actor on Apify</a>, click <strong>Try for free</strong> and fill the input form. The same input as JSON:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "feedUrls": [
+    "https://blog.apify.com/rss/",
+    "https://hnrss.org/frontpage"
+  ],
+  "maxItemsPerFeed": 30,
+  "includeContent": true,
+  "filterByDate": "2026-10-14"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">feedUrls</code>: the list of RSS, Atom or JSON Feed URLs.</li>
+        <li><code class="code-inline">maxItemsPerFeed</code>: how many items to read from the top of each feed (default 100).</li>
+        <li><code class="code-inline">includeContent</code>: keep the full HTML body of each item (default true). Turn it off for smaller output when you only need titles and links.</li>
+        <li><code class="code-inline">filterByDate</code>: only return items newer than this ISO date, for example 2026-10-14. Leave it empty to get everything in the feed.</li>
+        <li><code class="code-inline">fetchTimeoutSeconds</code>: timeout per feed in seconds (default 30).</li>
+      </ul>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run and export</h2>
+      <ol>
+        <li>Click <strong>Start</strong>. A run with 14 feeds finished in about three seconds on our machine.</li>
+        <li>Open the <strong>Dataset</strong> tab. Each article has <code class="code-inline">type</code> set to <code class="code-inline">feed_item</code>; each feed has one <code class="code-inline">feed_summary</code> row.</li>
+        <li>Filter to <code class="code-inline">feed_item</code> and use <strong>Export</strong> to download CSV or Excel for Google Sheets or Excel. JSON and XML are also available.</li>
+      </ol>
+      <div class="callout tip">Use <code class="code-inline">item_guid</code> or <code class="code-inline">item_link</code> as the unique key in your spreadsheet. The same article shows up again on the next run, and this is how you spot rows you already have.</div>
+    </div>
+
+    <h2 id="schedule">Run it on a schedule</h2>
+    <p>In Apify Console open the actor and choose <strong>Schedules</strong>, then pick daily or hourly. Set <code class="code-inline">filterByDate</code> to the day of your last run so you only receive new items. The actor keeps no memory between runs, so the date filter and the item key above are how you avoid duplicates. Send the dataset on to Google Sheets, a webhook or the Apify API to append new rows automatically.</p>
+
+    <h2 id="mcp">Connect to AI agents via MCP</h2>
+    <p>The actor is available as an MCP (Model Context Protocol) tool. Paste this server URL into an MCP-compatible client such as Claude Desktop, Claude.ai, Cursor or VS Code:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/rss-feed-reader</code></pre></div>
+    <p>Then ask in plain English, for example "Read these five competitor blog feeds and list everything published this week."</p>
+
+    <h2 id="claude-prompt">Copy-paste prompt for Claude</h2>
+    <p>With the MCP server connected, this prompt asks Claude to tell you the cost first and wait for your OK. Replace the feed URLs with your own.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/rss-feed-reader with the feed URLs https://blog.apify.com/rss/ and https://openai.com/news/rss.xml, maxItemsPerFeed 20.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, give me a table with feed, title, link and publication date for items from the last 7 days, newest first.</code></pre></div>
+
+    <h2 id="examples">Example: industry news</h2>
+    <h3 id="example-industry-news">14 AI and data blogs: 234 items, 156 from the last 7 days</h3>
+    <p><strong>Situation:</strong> you follow the AI and data industry and want one table of what the main vendors and news sites published this week, instead of opening 14 sites.</p>
+    <p>We read 14 public feeds (company engineering blogs and AI sections of tech news sites), at most 30 items per feed, full text on. It was our own local test run on 2026-10-21, from a normal home connection, with no proxy. The week is the 7 days before the run, from 2026-10-14 15:07 UTC. Sources are named by their web host because several feeds call themselves just "AI".</p>
+    <ul>
+      <li><strong>248 records</strong> came back: 234 articles and 14 feed summary rows. All 14 feeds loaded, and every article has a publication date.</li>
+      <li><strong>156 of 234 articles (67%) were published in the last 7 days.</strong> The busiest feeds were aws.amazon.com, towardsdatascience.com and techcrunch.com with 20 each, but those three feeds only list their latest 20 items, so 20 means "everything in the feed". openai.com had 15, blog.cloudflare.com 13 and huggingface.co 12. blog.google had only 1 in the week (its 20 items reach back to 1 September).</li>
+      <li><strong>Only 104 articles (44%) contain full text.</strong> 8 feeds ship the body in every item (for example blog.apify.com, aws.amazon.com, blog.cloudflare.com, github.blog); 6 never do (openai.com, huggingface.co, databricks.com, blog.google, towardsdatascience.com, techcrunch.com) and give a summary instead. The median full-text body is about 17,400 characters of HTML.</li>
+      <li><strong>110 articles (47%) have a featured image</strong>, from 9 of the 14 feeds. 90 have both full text and an image.</li>
+      <li>Summary text is present for 194 articles (83%), categories for 191 (82%) and an author for 152 (65%). 20 items carry a media enclosure.</li>
+      <li>Two feeds hit the 30-item cap (openai.com, huggingface.co); raise <code class="code-inline">maxItemsPerFeed</code> if you want to go further back.</li>
+    </ul>
+    <p><strong>Cost:</strong> 1 run start at $0.001 plus 14 feeds at $0.002 = <strong>$0.029</strong> on the Free plan. The 234 articles cost nothing extra.</p>
+    <details><summary>Show the per-source counts</summary>
+      <ul>
+        <li>aws.amazon.com: 20 items, 20 in the last 7 days</li>
+        <li>towardsdatascience.com: 20 items, 20 in the last 7 days</li>
+        <li>techcrunch.com: 20 items, 20 in the last 7 days</li>
+        <li>openai.com: 30 items, 15 in the last 7 days</li>
+        <li>blog.cloudflare.com: 20 items, 13 in the last 7 days</li>
+        <li>huggingface.co: 30 items, 12 in the last 7 days</li>
+        <li>www.databricks.com: 10 items, 10 in the last 7 days</li>
+        <li>netflixtechblog.com: 10 items, 10 in the last 7 days</li>
+        <li>www.theverge.com: 10 items, 10 in the last 7 days</li>
+        <li>www.technologyreview.com: 10 items, 7 in the last 7 days</li>
+        <li>blog.apify.com: 15 items, 6 in the last 7 days</li>
+        <li>engineering.fb.com: 9 items, 6 in the last 7 days</li>
+        <li>github.blog: 10 items, 6 in the last 7 days</li>
+        <li>blog.google: 20 items, 1 in the last 7 days</li>
+      </ul>
+    </details>
+    <p>The exact input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "feedUrls": [
+    "https://blog.apify.com/rss/",
+    "https://openai.com/news/rss.xml",
+    "https://huggingface.co/blog/feed.xml",
+    "https://www.databricks.com/feed",
+    "https://aws.amazon.com/blogs/machine-learning/feed/",
+    "https://blog.google/technology/ai/rss/",
+    "https://engineering.fb.com/feed/",
+    "https://netflixtechblog.com/feed",
+    "https://blog.cloudflare.com/rss/",
+    "https://github.blog/feed/",
+    "https://towardsdatascience.com/feed",
+    "https://techcrunch.com/category/artificial-intelligence/feed/",
+    "https://www.technologyreview.com/topic/artificial-intelligence/feed",
+    "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"
+  ],
+  "maxItemsPerFeed": 30,
+  "includeContent": true,
+  "fetchTimeoutSeconds": 30
+}</code></pre></div>
+    <p>Claude prompt (set up the MCP server as in <a href="#mcp">Connect to AI agents via MCP</a>):</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/rss-feed-reader with these 14 feed URLs: https://blog.apify.com/rss/, https://openai.com/news/rss.xml, https://huggingface.co/blog/feed.xml, https://www.databricks.com/feed, https://aws.amazon.com/blogs/machine-learning/feed/, https://blog.google/technology/ai/rss/, https://engineering.fb.com/feed/, https://netflixtechblog.com/feed, https://blog.cloudflare.com/rss/, https://github.blog/feed/, https://towardsdatascience.com/feed, https://techcrunch.com/category/artificial-intelligence/feed/, https://www.technologyreview.com/topic/artificial-intelligence/feed, https://www.theverge.com/rss/ai-artificial-intelligence/index.xml. Set maxItemsPerFeed to 30 and includeContent to true.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, ignore the feed_summary rows and use only the feed_item rows. Give me a table with one row per feed: the feed host, the number of items, and the number published in the last 7 days. Then tell me how many items have item_content and how many have item_image, as counts and percentages, and name the feeds that never include full text. Finally list the 10 newest items with feed, title, link and publication date.</code></pre></div>
+    <p>Do the 7-day count in the spreadsheet or in Claude after the run, as above. If you only ever want the last week, set <code class="code-inline">filterByDate</code> in the input instead and the actor skips older items.</p>
+
+    <h2 id="fields">Key output fields</h2>
+    <ul>
+      <li><code class="code-inline">type</code>: <code class="code-inline">feed_item</code> for an article, <code class="code-inline">feed_summary</code> for the per-feed summary row.</li>
+      <li><code class="code-inline">feed_title</code>, <code class="code-inline">feed_url</code>, <code class="code-inline">feed_type</code>: feed name, feed URL and detected format.</li>
+      <li><code class="code-inline">item_title</code>, <code class="code-inline">item_link</code>, <code class="code-inline">item_guid</code>: article title, link and unique ID.</li>
+      <li><code class="code-inline">item_published</code>, <code class="code-inline">item_updated</code>: publication and update time.</li>
+      <li><code class="code-inline">item_author</code>: author, where the feed has one.</li>
+      <li><code class="code-inline">item_content</code>: full HTML body, only if the feed includes it and <code class="code-inline">includeContent</code> is on.</li>
+      <li><code class="code-inline">item_description</code>: short summary or excerpt.</li>
+      <li><code class="code-inline">item_image</code>: featured image URL; <code class="code-inline">item_categories</code>: categories or tags; <code class="code-inline">item_enclosures</code>: audio or video attachments such as podcast files.</li>
+      <li>Summary rows add <code class="code-inline">items_count</code>, <code class="code-inline">latest_item_date</code> and <code class="code-inline">oldest_item_date</code>. <code class="code-inline">error</code> is set when a feed could not be read.</li>
+    </ul>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The actor uses pay-per-event billing on Apify:</p>
+    <ul>
+      <li><strong>Actor start</strong>: $0.001 once per run.</li>
+      <li><strong>Feed parsed</strong>: $0.002 per feed that loaded and was parsed. Feeds that fail are not charged.</li>
+      <li>No charge per article, so a feed with 100 items costs the same as one with 5.</li>
+    </ul>
+    <p>Examples at these prices: 14 feeds in one run cost $0.029; the same run once a day for 30 days costs $0.87. A run with 100 feeds costs $0.201.</p>
+
+    <div class="callout warn"><strong>Compliance note.</strong> Feeds are published for syndication, but article text and images are still protected by copyright. Use the data for monitoring, research and internal summaries, check each publisher's terms before you republish content, and link back to the source. Author names in feeds are personal data under GDPR; do not build profiles of individuals from them.</div>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Does the actor fetch the full article text from the article page?</summary>
+        <p>No. It reads what the feed itself contains. Some feeds ship the full article in the item body, others only a one-paragraph summary. In our run of 14 feeds, 8 included full text in every item and 6 included none. For the missing ones you would pass the item_link URLs to a page extractor in a second step.</p>
+      </details>
+      <details>
+        <summary>How do I get only new items on each scheduled run?</summary>
+        <p>Set filterByDate to an ISO date, for example 2026-10-14 or 2026-10-14T00:00:00Z, and update it to the date of your last run. Items older than that date are skipped. The actor does not remember earlier runs on its own, so keep item_guid or item_link in your spreadsheet and drop rows you already have.</p>
+      </details>
+      <details>
+        <summary>What does it cost to read 14 feeds?</summary>
+        <p>One run costs $0.001 for the start plus $0.002 per feed that was parsed successfully, so 14 feeds cost $0.029. There is no charge per item. Feeds that fail to load are not charged. These are the Apify Free-plan prices on the Store page.</p>
+      </details>
+      <details>
+        <summary>Which feed formats does it read?</summary>
+        <p>RSS 2.0, Atom 1.0 and JSON Feed 1.0 and 1.1. The format is detected automatically, so you can mix them in one feedUrls list, and the feed_type field tells you which one each feed was.</p>
+      </details>
+      <details>
+        <summary>Is there a limit on items per feed?</summary>
+        <p>maxItemsPerFeed caps how many items are read from each feed, starting from the top of the feed. The cap is applied before the date filter, so with a low cap and filterByDate you only look at the newest items. Most blog feeds list only 10 to 30 items anyway.</p>
+      </details>
+      <details>
+        <summary>Can I schedule it?</summary>
+        <p>Yes. In Apify Console open the actor, choose Schedules and pick an interval such as daily or hourly. Connect the dataset to Google Sheets, a webhook or the Apify API to push new rows to your spreadsheet.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/rss-feed-reader/">RSS Feed Reader actor page</a>: specs and pricing.</li>
+      <li><a href="/tutorials/google-news-scraper-rss-feed/">Google News scraper</a>: search news by keyword when no feed exists.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz">RSS Feed Reader on Apify</a>: full documentation and input reference.</li>
+      <li><a href="/tutorials/">All NanoScrape tutorials</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/rss-feed-reader?fpr=0khfbz" class="btn-primary">Open the RSS Feed Reader on Apify</a>
+      <a href="/actors/" class="btn-secondary">Browse all actors</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
