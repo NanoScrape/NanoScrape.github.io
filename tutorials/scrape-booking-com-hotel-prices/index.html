@@ -102,7 +102,7 @@
     }
   },
   "datePublished": "2026-08-04",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-booking-com-hotel-prices/"
 }
   </script>
@@ -328,6 +328,8 @@
         <li><a href="#step-3">Step 3: Run and watch the results</a></li>
         <li><a href="#step-4">Step 4: Export your results</a></li>
         <li><a href="#example-lisbon">Example: one weekend in Lisbon</a></li>
+        <li><a href="#example-wien">Example: Christmas market weekend in Vienna</a></li>
+        <li><a href="#example-barcelona">Example: December long weekend in Barcelona</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#use-cases">Common use cases</a></li>
         <li><a href="#n8n-automation">Automate with n8n</a></li>
@@ -470,6 +472,46 @@ curl "https://api.apify.com/v2/datasets/{DATASET_ID}/items?format=json&amp;token
 Before you start the run, tell me what it will cost and wait for my OK.
 When it's done, keep only properties whose coordinates are inside the Lisbon municipality. Work out the price per night as price_total divided by the number of nights. Tell me the median price per night, how many stays cost under 100 EUR per night, how many have a review score of 9 or higher, how many offer free cancellation, and the median price of the five-star hotels. Then give me a table of the top 10 districts by number of stays, with the median price per night in each.</code></pre></div>
     <p>Change the dates to compare weekends, or schedule the same input every day in Apify to track how prices move as the date gets closer.</p>
+
+    <h2 id="example-wien">Example: Christmas market weekend in Vienna, 400 stays</h2>
+    <p>On the last weekend of November, Vienna's Christmas markets are open and the city is busy. A hotel or revenue manager wants to see what the city charges that weekend.</p>
+    <div class="example"><figure><img src="assets/example-wien.jpg" alt="Map of Vienna with one dot per property from the run" width="659" height="720" loading="lazy"><figcaption>City outline © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</figcaption></figure><div><p>Vienna, check-in Friday 27 November 2026, check-out Sunday 29 November, 2 adults, 1 room, prices in EUR, sorted by popularity, up to 400 properties. Run on 21 October 2026.</p><ul><li><strong>400 properties</strong> came back, all inside the city of Vienna (by coordinates).</li><li>Median price: <strong>€235 per night</strong> (total price for the stay divided by 2 nights). 271 stays cost over €200 per night, only 42 under €150.</li><li>85 have a review score of 9 or higher, and 97 offer free cancellation. 11 are five-star hotels, with a median of €539 per night.</li><li>Cost estimate: 400 properties × $0.003 + $0.001 for the run = <strong>about $1.20</strong> on the free plan.</li></ul></div></div>
+    <p>Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "destination": "Vienna",
+  "destType": "CITY",
+  "checkin": "2026-11-27",
+  "checkout": "2026-11-29",
+  "adults": 2,
+  "rooms": 1,
+  "currency": "EUR",
+  "sortBy": "POPULARITY",
+  "maxResults": 400
+}</code></pre></div>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/booking-com-scraper for Vienna (destType CITY), check-in 2026-11-27, check-out 2026-11-29, 2 adults, 1 room, currency EUR, sorted by popularity, up to 400 results.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, keep only properties whose coordinates are inside the city of Vienna. Work out the price per night as price_total divided by the number of nights. Tell me the median price per night, how many stays cost over 200 EUR and under 150 EUR per night, how many have a review score of 9 or higher, how many offer free cancellation, and the median price of the five-star hotels.</code></pre></div>
+
+    <h2 id="example-barcelona">Example: the December long weekend in Barcelona, 395 stays</h2>
+    <p>Spain's Puente de diciembre (6 and 8 December) makes early December a busy weekend for city trips. One run shows what Barcelona charges.</p>
+    <div class="example"><figure><img src="assets/example-barcelona.jpg" alt="Map of Barcelona with one dot per property from the run" width="659" height="720" loading="lazy"><figcaption>City outline © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</figcaption></figure><div><p>Barcelona, check-in Friday 4 December 2026, check-out Sunday 6 December, 2 adults, 1 room, prices in EUR, sorted by popularity, up to 400 properties. Run on 22 October 2026.</p><ul><li><strong>400 properties</strong> came back. 395 are inside the city of Barcelona (by coordinates).</li><li>Median price: <strong>€149 per night</strong> (total price for the stay divided by 2 nights), from €55 to €432. 199 stays cost under €150 per night, 31 under €100, and 70 over €200.</li><li>45 have a review score of 9 or higher, and 97 offer free cancellation.</li><li>Most stays are in Eixample (136), Ciutat Vella (113), Sant Martí (42) and Sants-Montjuïc (39).</li><li>Cost estimate: 400 properties × $0.003 + $0.001 for the run = <strong>about $1.20</strong> on the free plan.</li></ul></div></div>
+    <p>Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "destination": "Barcelona",
+  "destType": "CITY",
+  "checkin": "2026-12-04",
+  "checkout": "2026-12-06",
+  "adults": 2,
+  "rooms": 1,
+  "currency": "EUR",
+  "sortBy": "POPULARITY",
+  "maxResults": 400
+}</code></pre></div>
+    <p>Claude prompt:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/booking-com-scraper for Barcelona (destType CITY), check-in 2026-12-04, check-out 2026-12-06, 2 adults, 1 room, currency EUR, sorted by popularity, up to 400 results.
+Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, keep only properties whose coordinates are inside the city of Barcelona. Work out the price per night as price_total divided by the number of nights. Tell me the median, lowest and highest price per night, how many stays cost under 100 EUR, under 150 EUR and over 200 EUR per night, how many have a review score of 9 or higher and how many offer free cancellation. Then give me a table of the top 10 districts by number of stays, with the median price per night in each.</code></pre></div>
 
     <h2 id="pricing">Pricing</h2>
     <p>The actor uses pay-per-result billing with no monthly fee and no minimum spend.</p>
