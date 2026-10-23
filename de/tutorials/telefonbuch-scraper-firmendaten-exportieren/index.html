@@ -303,6 +303,7 @@
         <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
         <li><a href="#beispiel">Beispiel: Steuerberater in Hamburg</a></li>
         <li><a href="#beispiel-frankfurt">Beispiel: Autowerkstätten in Frankfurt</a></li>
+        <li><a href="#beispiel-berlin">Beispiel: Steuerberater in Berlin</a></li>
         <li><a href="#felder">Felder</a></li>
         <li><a href="#emails">E-Mails und Anreicherung</a></li>
         <li><a href="#api">API und Schedule</a></li>
@@ -413,6 +414,28 @@ searchQuery "Autowerkstatt", location "Frankfurt am Main", searchType "business"
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Behalte danach nur Einträge in Frankfurt am Main und gib mir eine Tabelle mit Name, Adresse, Telefon, Website und Bewertung.</code></pre></div>
     <p class="small">Kosten auf Apify, geschätzt: 0,001 $ + 116 x 0,005 $ = 0,581 $, also etwa 0,58 $ im Free-Plan. Den lokalen Lauf haben wir nicht auf Apify abgerechnet.</p>
+
+    <h2 id="beispiel-berlin">Beispiel: Steuerberater in Berlin</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu Berliner Steuerberatern. Lokaler Lauf am 23.10.2026 mit dieser Eingabe:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQuery": "Steuerberater",
+  "location": "Berlin",
+  "searchType": "business",
+  "maxResults": 500,
+  "includeDetails": true
+}</code></pre></div>
+    <ul>
+      <li><strong>477 Einträge</strong>, ohne doppelte Einträge. Das Limit von 500 wurde nicht erreicht.</li>
+      <li>Wir haben nur Einträge in Berlin behalten, deren erste Kategorie Steuerberatung ist: <strong>463 Einträge</strong>.</li>
+      <li>451 davon mit Telefonnummer, 305 mit Website.</li>
+      <li>Etwa die Hälfte der Einträge trägt den Namen einer Person, also einzelne Berater statt einer Kanzlei. Prüfe solche Zeilen vor einer Ansprache, siehe <a href="#recht">Datenschutz und Recht</a>.</li>
+    </ul>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/telefonbuch-de-scraper mit
+searchQuery "Steuerberater", location "Berlin", searchType "business", maxResults 500, includeDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Behalte danach nur Einträge in Berlin, deren erste Kategorie Steuerberatung ist, und gib mir eine Tabelle mit Name, Adresse, Telefon und Website.</code></pre></div>
+    <p class="small">Kosten auf Apify im Free-Plan: höchstens 0,001 $ + 477 x 0,005 $ = 2,386 $, also bis zu etwa 2,39 $. Einträge, deren Detailseite nicht gelesen werden konnte, kosten nur 0,002 $. Den lokalen Lauf haben wir nicht auf Apify abgerechnet.</p>
 
     <h2 id="felder">Felder im Ergebnis</h2>
     <p>Die wichtigsten Felder laut Output-Schema des Actors:</p>

@@ -279,6 +279,7 @@
         <li><a href="#felder">Alle Felder</a></li>
         <li><a href="#beispiel-elektriker-berlin">Beispiel: Wer stellt gerade Elektriker in Berlin ein?</a></li>
         <li><a href="#beispiel-sap-frankfurt">Beispiel: SAP-Berater in Frankfurt und Rhein-Main</a></li>
+        <li><a href="#beispiel-pflege-muenchen">Beispiel: Pflegefachkräfte in München</a></li>
         <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
         <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
@@ -387,6 +388,31 @@ Behalte danach nur Anzeigen mit einem Ort im Rhein-Main-Gebiet (Frankfurt, Wiesb
 Neu-Isenburg und Nachbarorte), ohne Anzeigen mit vier oder mehr Orten in locations, ohne Praktika und duale Studiengänge.
 Gib mir eine Tabelle mit Firma, Anzahl Anzeigen und ob Homeoffice möglich ist (work_from_home oder remote_option), sortiert nach Anzahl absteigend.</code></pre></div>
     <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan 0,001 $ + 248 x 0,008 $ = 1,985 $, also rund 1,99 $ (mit Details). Abgerechnet auf Apify haben wir genau diesen Lauf nicht; die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</div>
+
+    <h2 id="beispiel-pflege-muenchen">Beispiel: Wer sucht gerade Pflegefachkräfte in München?</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu Pflege-Stellen in München. Lokaler Lauf am 23.10.2026: Suchbegriff &bdquo;Pflegefachkraft&ldquo;, München und 25 km Umkreis, neueste Anzeigen zuerst, mit Detailseiten. Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQueries": ["Pflegefachkraft"],
+  "location": "München",
+  "radius": 25,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 300,
+  "includeJobDetails": true
+}</code></pre></div>
+    <ul>
+      <li><strong>248 Stellenanzeigen</strong> kamen zurück, ohne doppelte Anzeigen.</li>
+      <li>200 davon haben einen Pflege-Titel (Pflege, Kranken, Alten, Gesundheits oder Intensiv im Titel). So fallen zum Beispiel Physiotherapie und Wohnbereichsleitung heraus.</li>
+      <li>147 davon nennen München als Ort. StepStone mischt in Umkreissuchen auch weiter entfernte Orte, etwa Starnberg oder Fürstenfeldbruck.</li>
+      <li>Ohne die 4 Anzeigen mit meinestadt.de als Firma bleiben <strong>143 Stellen von 48 Arbeitgebern</strong>. Allein das Bayerische Rote Kreuz hat 49 davon.</li>
+      <li>Ausbildungsplätze mit passendem Titel sind mitgezählt. Unter den Arbeitgebern können auch Personaldienstleister sein.</li>
+    </ul>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/stepstone-de-scraper mit
+searchQueries ["Pflegefachkraft"], location "München", radius 25, sortBy "newest", maxResultsPerQuery 300, includeJobDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Behalte danach nur Anzeigen, deren Titel Pflege, Kranken, Alten, Gesundheits oder Intensiv enthält und deren Ort München ist, und lass Anzeigen mit meinestadt.de als Firma weg.
+Gib mir eine Tabelle mit Firma und Anzahl Anzeigen, sortiert nach Anzahl absteigend.</code></pre></div>
+    <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan 0,001 $ + 248 x 0,008 $ = 1,985 $, also rund 1,99 $ (mit Details). Den lokalen Lauf haben wir nicht auf Apify abgerechnet; die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</div>
 
     <div class="step" id="schritt-1">
       <span class="step-number">SCHRITT 1</span>
