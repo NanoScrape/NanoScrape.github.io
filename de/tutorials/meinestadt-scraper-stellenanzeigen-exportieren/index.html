@@ -95,7 +95,7 @@
     }
   },
   "datePublished": "2026-10-21",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/"
 }
   </script>
@@ -298,6 +298,7 @@
       <ol>
         <li><a href="#das-bekommst-du">Das bekommst du</a></li>
         <li><a href="#felder">Alle Felder</a></li>
+        <li><a href="#beispiel-muenchen">Beispiel: Erzieher in München</a></li>
         <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
         <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
@@ -391,6 +392,29 @@
       <style>.ftable td{padding:8px;border-bottom:1px solid var(--border);vertical-align:top}</style>
     <div class="callout"><strong>Nicht jedes Feld ist immer gefüllt.</strong> Im Beispiellauf waren Anzeigentext, Anforderungen und Benefits bei allen 20 Anzeigen da, die Bewerbungs-E-Mail bei 10, die Firmenwebsite bei 10 und die Firmenbeschreibung bei 3. Bewertungen und Ansprechpersonen blieben leer.</div>
 
+    <h2 id="beispiel-muenchen">Beispiel: Wer sucht gerade Erzieher in München?</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu Erzieher-Stellen in München. Lokaler Lauf am 23.10.2026 mit dem Titelfilter (<code class="code-inline">titleFilter</code>): Der Actor behält nur Anzeigen, deren Titel &bdquo;Erzieher&ldquo; enthält. Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQuery": "Erzieher",
+  "city": "München",
+  "radius": 20,
+  "maxResults": 300,
+  "maxResultsPerQuery": 300,
+  "titleFilter": "Erzieher",
+  "includeDetails": true
+}</code></pre></div>
+    <ul>
+      <li><strong>107 Anzeigen</strong> kamen zurück, alle mit &bdquo;Erzieher&ldquo; im Titel.</li>
+      <li>Ohne die Anzeigen des Jobportals joblocal blieben <strong>70 Stellen von 24 Arbeitgebern</strong>.</li>
+      <li>Unter den Arbeitgebern können auch Personaldienstleister sein. Prüfe die Liste, bevor du sie nutzt.</li>
+    </ul>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/meinestadt-de-scraper mit
+searchQuery "Erzieher", city "München", radius 20, maxResults 300, maxResultsPerQuery 300, titleFilter "Erzieher", includeDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Lass danach die Anzeigen des Jobportals joblocal weg und gib mir eine Tabelle mit Arbeitgeber, Anzahl Stellen, Ort und Arbeitszeit (employment_type), sortiert nach Anzahl absteigend.</code></pre></div>
+    <p class="small">Kosten auf Apify, geschätzt: 0,005 $ + 107 x 0,0085 $ = 0,9145 $, also etwa 0,91 $ im Free-Plan (mit Details). Den lokalen Lauf haben wir nicht auf Apify abgerechnet.</p>
+
     <div class="step" id="schritt-1">
       <span class="step-number">SCHRITT 1</span>
       <h2>Apify-Konto anlegen</h2>
@@ -453,6 +477,7 @@
       <li><strong>Suchbegriff</strong> (<code class="code-inline">searchQueries</code>), <strong>Stadt</strong> (<code class="code-inline">city</code>) und <strong>Umkreis</strong> (<code class="code-inline">radius</code>).</li>
       <li><strong>Sortierung</strong> (<code class="code-inline">sortBy</code>): neueste zuerst oder nach Relevanz. Bei <code class="code-inline">newest</code> lässt der Actor bezahlte Spitzenplatz-Anzeigen und Anzeigen ohne Datum aus.</li>
       <li><strong>Mengen</strong>: <code class="code-inline">maxResultsPerQuery</code> und <code class="code-inline">maxResults</code>.</li>
+      <li><strong>Titelfilter</strong> (<code class="code-inline">titleFilter</code>): Begriffe mit Komma getrennt, zum Beispiel <code class="code-inline">Erzieher, Pädagog</code>. Der Actor behält nur Anzeigen, deren Titel einen davon enthält (Groß- und Kleinschreibung egal).</li>
       <li><strong>Einzelne Anzeigen</strong> (<code class="code-inline">directUrls</code>): Links von Anzeigen, die du gezielt abrufen willst, zum Beispiel um zu prüfen, ob sie noch online sind.</li>
     </ul>
     <p>Einen Filter für Beschäftigungsart, Gehalt oder Veröffentlichungszeitraum gibt es nicht. Das erledigst du danach in der Tabelle, etwa mit <code class="code-inline">employment_type</code>, <code class="code-inline">salary_min</code> und <code class="code-inline">posted_at</code>.</p>
