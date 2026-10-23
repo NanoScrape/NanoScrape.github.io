@@ -312,6 +312,7 @@
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
         <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
         <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
+        <li><a href="#beispiel-hamburg-technik">Beispiel: Technik der Zahnarzt-Websites</a></li>
         <li><a href="#beispiel-berlin">Beispiel: Fitnessstudios in Berlin</a></li>
         <li><a href="#beispiel-muenchen">Beispiel: Friseure in München</a></li>
         <li><a href="#beispiel-koeln">Beispiel: Physiotherapie in Köln</a></li>
@@ -440,6 +441,23 @@
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Zahnarztpraxen mit Hamburger PLZ (ohne Dentallabore) und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung, ohne Praxen ohne Website.</code></pre></div>
     <p>Die Bereinigung machst du in Google Sheets (Daten → Datenbereinigung → Duplikate entfernen nach <code class="code-inline">place_id</code>, dann filtern) oder lässt Claude sie mit dem Prompt erledigen. Für einen günstigen ersten Test nimm 3 oder 4 Stadtteile und setze <code class="code-inline">maxResultsPerQuery</code> auf 50.</p>
+
+    <h2 id="beispiel-hamburg-technik">Beispiel: Mit welcher Technik laufen die Websites der Hamburger Zahnärzte?</h2>
+    <p>Das Add-on <strong>Tech-Stack</strong> (<code class="code-inline">enableTechStack</code>, kein API-Key nötig) erkennt auf jeder Website CMS, Frameworks, Analytics, Server und CDN anhand bekannter Muster im Code und in den Headern.</p>
+    <p>Wir haben denselben Erkennungs-Actor, den das Add-on nutzt, lokal am 23.10.2026 auf die <strong>393 verschiedenen Websites</strong> der 498 Hamburger Praxen von oben laufen lassen (manche Praxen teilen sich eine Website, wir zählen jede Website einmal). 376 davon antworteten normal (HTTP 200):</p>
+    <ul>
+      <li><strong>166 laufen mit WordPress</strong>, davon 70 mit dem Plugin Yoast SEO und 33 mit dem Page-Builder Elementor.</li>
+      <li><strong>25</strong> nutzen einen Baukasten (Wix, Jimdo oder Squarespace).</li>
+      <li>Bei <strong>155</strong> wurde kein CMS erkannt. Das heißt nicht, dass es keins gibt: Manche Systeme hinterlassen keine erkennbaren Spuren.</li>
+    </ul>
+    <p>Wer das nutzt: Anbieter von WordPress-Wartung, Hosting oder SEO, die gezielt Praxen mit einem bestimmten System ansprechen wollen. Skripte, die erst nach der Cookie-Zustimmung laden, sieht der Check nicht. Fehlende Analytics in den Daten heißen also nicht, dass eine Website keine nutzt.</p>
+    <p>In einem Lauf: Ergänze die Hamburg-Eingabe oben um diese Zeile:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">"enableTechStack": true</code></pre></div>
+    <p>Kosten, geschätzt: Das Add-on rechnet der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-tech-detector?fpr=0khfbz">Website Tech Stack Detector</a> in deinem Apify-Konto ab, 0,001 $ pro Lauf plus 0,005 $ pro Website. Für unsere 393 Websites sind das 0,001 $ + 393 × 0,005 $ = <strong>etwa 1,97 $</strong>, zusätzlich zu den Orten. In einem kombinierten Lauf prüft das Add-on jeden Ort mit Website vor dem Filtern, rechne also mit etwas mehr.</p>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit derselben Eingabe wie im Hamburg-Beispiel (eine Suche pro Stadtteil, maxResultsPerQuery 200, Sprache de) und zusätzlich enableTechStack true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, behalte eine Zeile pro Website und zähle, wie viele Websites WordPress nutzen, wie viele davon Yoast SEO oder Elementor, wie viele Wix, Jimdo oder Squarespace und bei wie vielen kein CMS erkannt wurde. Gib mir dann eine Tabelle der WordPress-Praxen mit Name, Website und Telefon.</code></pre></div>
 
     <h2 id="beispiel-berlin">Beispiel: alle Fitnessstudios in Berlin</h2>
     <div class="example"><figure><img src="assets/beispiel-berlin.jpg" alt="Karte der Berliner Stadtgrenze mit einem Punkt pro gefundenem Fitnessstudio" width="720" height="640" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Berliner Fitnessstudios. Wie in Hamburg läuft <strong>eine Suche pro Ortsteil</strong>, hier 30 Suchen mit bis zu 200 Orten.</p><ul><li><strong>2.768 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 1.597.</li><li>Nur die Kategorien Fitnessstudio, Fitnessraum und Spa- und Fitnessstudio, nur Berlin mit PLZ 10000 bis 14999, ohne Outdoor- und Calisthenics-Parks: 582 Orte. <strong>511 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>447 mit Telefon, 473 mit Website, 340 mit 4,5 oder besser bewertet. Die meisten liegen in den PLZ 10117 (18), 10245 (13) und 12555 (12).</li></ul><p>Kosten, geschätzt: 2.768 Orte × 0,001 $ = <strong>etwa 2,80 $</strong> im Free-Plan. Unser Testlauf am 20.10.2026 lief lokal in 5 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
