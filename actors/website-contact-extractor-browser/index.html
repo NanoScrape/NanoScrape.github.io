@@ -250,20 +250,67 @@
     </div>
     <h2 class="section-title">What you can scrape — 12 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>company_id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
-      <tr><td><code>company_name</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
-      <tr><td><code>website_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
-      <tr><td><code>discovered_urls</code></td><td>object | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
-      <tr><td><code>company_data</code></td><td>object</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>contacts</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>metrics</code></td><td>object</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>status</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>browser_extraction</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>extraction_mode</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
-      <tr><td><code>error_message</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>company_id</code></td><td>string</td><td>test-1</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company_name</code></td><td>string</td><td>Liip</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>website_url</code></td><td>string</td><td>https://www.liip.ch</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>discovered_urls</code></td><td>object | null</td><td><code>{"career_page_url": "https://jobs.liip.ch/", "team_page_url": "https://www.liip.</code></td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company_data</code></td><td>object</td><td><code>{"general_email": "contact@liip.ch", "hr_email": null, "general_phone": "+41 435</code></td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-10-23T04:18:32.350Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>contacts</code></td><td>array</td><td><code>[]</code></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>metrics</code></td><td>object</td><td><code>{"pages_crawled": 5, "llm_calls": 0, "tokens_input": 0, "tokens_output": 0, "llm</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>status</code></td><td>string</td><td>partial</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>browser_extraction</code></td><td>boolean</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>extraction_mode</code></td><td>string</td><td>no_llm</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>error_message</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
     </table>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;company_id&quot;: &quot;test-1&quot;,
+  &quot;company_name&quot;: &quot;Liip&quot;,
+  &quot;website_url&quot;: &quot;https://www.liip.ch&quot;,
+  &quot;contacts&quot;: [],
+  &quot;company_data&quot;: {
+    &quot;general_email&quot;: &quot;contact@liip.ch&quot;,
+    &quot;hr_email&quot;: null,
+    &quot;general_phone&quot;: &quot;+41 435 881 378&quot;,
+    &quot;address&quot;: &quot;Rue Etraz 4, CH-1003 Lausanne, CH&quot;,
+    &quot;industry&quot;: null,
+    &quot;description&quot;: &quot;Digital Agentur für Web und App Entwicklung, User Experience und New Work in der Schweiz: Zürich, Bern, Basel, Fribourg, Lausanne und St. Gallen.&quot;,
+    &quot;employee_count_estimate&quot;: null,
+    &quot;social_urls&quot;: {
+      &quot;linkedin&quot;: &quot;https://www.linkedin.com/company/267051&quot;,
+      &quot;instagram&quot;: &quot;https://www.instagram.com/liip_ch&quot;
+    },
+    &quot;other_emails&quot;: [],
+    &quot;other_phones&quot;: [
+      &quot;+41 265 880 336&quot;,
+      &quot;0900 - 1200&quot;,
+      &quot;043 588 13 78&quot;,
+      &quot;026 588 03 36&quot;
+    ]
+  },
+  &quot;discovered_urls&quot;: {
+    &quot;career_page_url&quot;: &quot;https://jobs.liip.ch/&quot;,
+    &quot;team_page_url&quot;: &quot;https://www.liip.ch/de/team&quot;,
+    &quot;contact_page_url&quot;: &quot;https://www.liip.ch/de/contact&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;pages_crawled&quot;: 5,
+    &quot;llm_calls&quot;: 0,
+    &quot;tokens_input&quot;: 0,
+    &quot;tokens_output&quot;: 0,
+    &quot;llm_model&quot;: &quot;&quot;,
+    &quot;llm_provider&quot;: &quot;&quot;,
+    &quot;processing_time_ms&quot;: 102276
+  },
+  &quot;llm_call_details&quot;: [],
+  &quot;status&quot;: &quot;partial&quot;,
+  &quot;browser_extraction&quot;: true,
+  &quot;extraction_mode&quot;: &quot;no_llm&quot;,
+  &quot;error_message&quot;: null,
+  &quot;scraped_at&quot;: &quot;2026-10-23T04:18:32.350Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Cost math</h2>
     <p>Priced at <strong>$0.0200</strong> per company processed (browser). 10 company processed (browser)s ≈ $0.20, 100 ≈ $2.00, 1,000 ≈ $20.00. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
     <h2 class="section-title">Integrations</h2>
@@ -408,7 +455,7 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/website-contact-extractor-browser?fpr=0khfbz&amp;fp_sid=a-website-contact-extractor-browser" class="btn-primary">Open on Apify &rarr;</a>
     </div>
-    <p class="footer-verify">Actor v1.1.2 · Maintained by NanoScrape (santamaria-automations on Apify)
+    <p class="footer-verify">Last verified run: <strong>2026-10-23</strong> · Actor v1.1.9 · Maintained by NanoScrape (santamaria-automations on Apify)
     </p>
   </div>
 
