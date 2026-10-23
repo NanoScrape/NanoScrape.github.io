@@ -98,7 +98,7 @@
     }
   },
   "datePublished": "2026-10-21",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/arbeit-swiss-scraper-stellen-exportieren/"
 }
   </script>
@@ -311,6 +311,7 @@
         <li><a href="#das-bekommst-du">Das bekommst du</a></li>
         <li><a href="#felder">Alle Felder</a></li>
         <li><a href="#beispiel-logistik-bern">Beispiel: Logistik im Kanton Bern</a></li>
+        <li><a href="#beispiel-bern">Beispiel: Elektroinstallateure im Kanton Bern</a></li>
         <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
         <li><a href="#schritt-2">Schritt 2: Stichwort und Kanton eintragen</a></li>
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
@@ -423,6 +424,36 @@
     </ul>
     <div class="callout warn"><strong>Prüfe die Treffer.</strong> Das Stichwort sucht auch im Anzeigentext. Im Beispiel kam &bdquo;Logistik&ldquo; in allen 30 Stellen irgendwo vor, aber nur 5 hatten es im Titel. Die anderen waren zum Beispiel Betriebsangestellte oder SAP-Teamleitung. Nutze genaue Stichwörter oder den Filter <code class="code-inline">titleFilter</code> (siehe unten).</div>
     <div class="callout"><strong>Datum auf den Tag genau.</strong> <code class="code-inline">posted_at</code> enthält nur das Datum, die Uhrzeit ist immer 00:00. Auch die Stellen der Auswahl oben stammen alle vom 20. oder 21. Oktober.</div>
+
+    <h2 id="beispiel-bern">Beispiel: Elektroinstallateure im Kanton Bern</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu Elektro-Stellen im Kanton Bern. Lokaler Lauf am 21.10.2026: Stichwort &bdquo;Elektroinstallateur&ldquo;, Kanton Bern, Stellen der letzten 30 Tage, neueste zuerst, mit vollem Anzeigentext:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "keywords": [
+    "Elektroinstallateur"
+  ],
+  "cantonCodes": [
+    "BE"
+  ],
+  "sortBy": "newest",
+  "onlineSinceDays": 30,
+  "maxResultsPerQuery": 300,
+  "includeJobDetails": true
+}</code></pre></div>
+    <ul>
+      <li><strong>253 Stellen von 72 Firmen</strong>, veröffentlicht zwischen dem 21.09. und dem 21.10.2026.</li>
+      <li>Wir haben Personalvermittler mit einer Namensliste aussortiert (119 Zeilen) und nur Titel mit Elektr, Automatik, Monteur oder Install behalten: 109 Stellen. Ohne 20 Lehrstellen bleiben <strong>89 Stellen von 39 Arbeitgebern</strong>.</li>
+      <li><strong>22 davon</strong> sind auch in Teilzeit ausgeschrieben.</li>
+    </ul>
+    <div class="callout warn"><strong>Prüfe die Arbeitgeber.</strong> Eine Namensliste erkennt nicht jeden kleinen Personalvermittler. Schau dir die Firmen an, bevor du sie ansprichst.</div>
+    <p>Mit Claude: Verbinde den Apify MCP Server als eigenen Konnektor mit dieser URL (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Sie beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/arbeit-swiss-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein. Claude nennt dir zuerst die Kosten und wartet auf dein OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/arbeit-swiss-scraper mit
+keywords ["Elektroinstallateur"], cantonCodes ["BE"], sortBy "newest", onlineSinceDays 30, maxResultsPerQuery 300, includeJobDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Behalte danach nur Titel mit Elektr, Automatik, Monteur oder Install, ohne Lehrstellen, und markiere Arbeitgeber, die nach Personalvermittlung aussehen.
+Gib mir eine Tabelle mit Arbeitgeber, Anzahl Stellen, Ort und Pensum (workload_min bis workload_max), sortiert nach Anzahl absteigend.</code></pre></div>
+    <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan 0,00005 $ + 253 x 0,003 $ = 0,759 $, also etwa 0,76 $. Der volle Anzeigentext kostet nichts extra. Der Lauf lief lokal über einen eigenen Proxy und wurde nicht auf Apify abgerechnet.</div>
 
     <div class="step" id="schritt-1">
       <span class="step-number">SCHRITT 1</span>

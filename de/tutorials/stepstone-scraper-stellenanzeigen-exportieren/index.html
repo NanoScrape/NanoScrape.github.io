@@ -89,7 +89,7 @@
     }
   },
   "datePublished": "2026-10-21",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/"
 }
   </script>
@@ -278,6 +278,7 @@
         <li><a href="#das-bekommst-du">Das bekommst du</a></li>
         <li><a href="#felder">Alle Felder</a></li>
         <li><a href="#beispiel-elektriker-berlin">Beispiel: Wer stellt gerade Elektriker in Berlin ein?</a></li>
+        <li><a href="#beispiel-sap-frankfurt">Beispiel: SAP-Berater in Frankfurt und Rhein-Main</a></li>
         <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
         <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
@@ -358,6 +359,34 @@ Anzahl Anzeigen und dem frühesten und spätesten posted_at, sortiert nach Anzah
 Nenne am Ende, wie viele Anzeigen insgesamt, von wie vielen Firmen und wie viele mit Gehaltsangabe.</code></pre></div>
     <p>Getestet haben wir den Actor und die Eingaben, nicht den Prompt über MCP; Claude formuliert die Kostenangabe eventuell anders.</p>
     <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan rund 2,00 $ (mit Details) oder rund 0,75 $ (ohne Details). Die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</div>
+
+    <h2 id="beispiel-sap-frankfurt">Beispiel: SAP-Berater in Frankfurt und Rhein-Main</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu SAP-Beratern in Frankfurt. Wir haben den Actor am 21.10.2026 lokal laufen lassen: Suchbegriff &bdquo;SAP Berater&ldquo;, Frankfurt am Main und 25 km Umkreis, neueste Anzeigen zuerst, mit Detailseiten. Das war der Input:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQuery": "SAP Berater",
+  "location": "Frankfurt am Main",
+  "radius": 25,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 300,
+  "includeJobDetails": true,
+  "maxPagesFetched": 10
+}</code></pre></div>
+    <ul>
+      <li><strong>248 Stellenanzeigen</strong> kamen zurück, nach 10 Ergebnisseiten (<code class="code-inline">maxPagesFetched</code>). StepStone kann für diese Suche also noch mehr Anzeigen haben.</li>
+      <li>StepStone mischt in Umkreissuchen auch Anzeigen mit vielen Orten und bundesweite Anzeigen. Wir haben nur Orte im Rhein-Main-Gebiet behalten (Frankfurt, Wiesbaden, Eschborn, Darmstadt, Mainz, Offenbach, Neu-Isenburg und weitere), Anzeigen mit vier oder mehr Orten weggelassen und ein Praktikum und ein duales Studium entfernt: <strong>97 Stellen von 60 Firmen</strong>.</li>
+      <li><strong>56 davon</strong> nennen eine Homeoffice-Möglichkeit.</li>
+      <li>Gehälter werten wir nicht aus: Nur wenige Anzeigen nennen eins.</li>
+    </ul>
+    <p>Für eine reine Stadtansicht filterst du die exportierte Tabelle nach der Spalte <code class="code-inline">locations</code>. Mit Claude geht das in einem Schritt. Verbinde den Apify MCP Server als eigenen Konnektor mit dieser URL (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Sie beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/stepstone-de-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein. Claude nennt dir zuerst die Kosten und wartet auf dein OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/stepstone-de-scraper mit
+searchQuery "SAP Berater", location "Frankfurt am Main", radius 25, sortBy "newest", maxResultsPerQuery 300, includeJobDetails true, maxPagesFetched 10.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Behalte danach nur Anzeigen mit einem Ort im Rhein-Main-Gebiet (Frankfurt, Wiesbaden, Eschborn, Darmstadt, Mainz, Offenbach,
+Neu-Isenburg und Nachbarorte), ohne Anzeigen mit vier oder mehr Orten in locations, ohne Praktika und duale Studiengänge.
+Gib mir eine Tabelle mit Firma, Anzahl Anzeigen und ob Homeoffice möglich ist (work_from_home oder remote_option), sortiert nach Anzahl absteigend.</code></pre></div>
+    <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan 0,001 $ + 248 x 0,008 $ = 1,985 $, also rund 1,99 $ (mit Details). Abgerechnet auf Apify haben wir genau diesen Lauf nicht; die Rechnung steht im Abschnitt <a href="#kosten">Kosten</a>.</div>
 
     <div class="step" id="schritt-1">
       <span class="step-number">SCHRITT 1</span>

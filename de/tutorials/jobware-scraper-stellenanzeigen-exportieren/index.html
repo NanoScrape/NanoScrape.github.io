@@ -63,7 +63,7 @@
     "logo": {"@type": "ImageObject", "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"}
   },
   "datePublished": "2026-10-21",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/jobware-scraper-stellenanzeigen-exportieren/"
 }
   </script>
@@ -212,6 +212,7 @@
         <li><a href="#das-bekommst-du">Das bekommst du</a></li>
         <li><a href="#felder">Alle Felder</a></li>
         <li><a href="#beispiel-controller-frankfurt">Beispiel: Controller in Frankfurt am Main</a></li>
+        <li><a href="#beispiel-stuttgart">Beispiel: Ingenieure in Stuttgart</a></li>
         <li><a href="#schritt-1">Schritt 1: Apify-Konto anlegen</a></li>
         <li><a href="#schritt-2">Schritt 2: Suche und Ort eintragen</a></li>
         <li><a href="#schritt-3">Schritt 3: Actor starten</a></li>
@@ -328,6 +329,33 @@
     <div class="callout warn"><strong>Prüfe die Treffer.</strong> Von den 30 Anzeigen lagen 19 in Frankfurt am Main, die anderen zum Beispiel in Weiterstadt, Offenbach, Friedberg, Hannover oder Berlin. Es waren auch Titel dabei, die nur am Rand mit Controlling zu tun haben (etwa Kita-Leitung oder Patientenadministration). Und viele Anzeigen kommen von Personalberatungen, nicht vom Endarbeitgeber. Nutze mehrere genaue Suchbegriffe und filtere die Tabelle danach.</div>
     <div class="callout"><strong>Zur Sortierung:</strong> Die Suche von Jobware liefert nach Relevanz. Mit <code class="code-inline">sortBy</code> <code class="code-inline">date</code> sortiert der Actor die gesammelten Treffer nach Datum. Mit Limit 30 bekommst du also die 30 relevantesten Treffer, nach Datum sortiert, und nicht unbedingt die 30 neuesten. Sortiere in der Tabelle zusätzlich nach <code class="code-inline">posted_at</code>.</div>
     <p class="small">Der Beispiellauf lief lokal ohne Apify-Proxy (der Actor verlangt auf Apify einen Proxy, wir haben ihn für den Test aus einer Kopie des Codes entfernt) und wurde nicht auf Apify abgerechnet. Die Kosten dafür findest du unter <a href="#kosten">Kosten</a>.</p>
+
+    <h2 id="beispiel-stuttgart">Beispiel: Ingenieure in Stuttgart und Umgebung</h2>
+    <p>Dieses Beispiel steckt hinter unserem Short zu Ingenieurstellen in Stuttgart. Lokaler Lauf am 21.10.2026: Suchbegriff &bdquo;Ingenieur&ldquo;, Stuttgart und 25 km Umkreis, bis zu 300 Anzeigen mit Details:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchQuery": "Ingenieur",
+  "city": "Stuttgart",
+  "radius": 25,
+  "sortBy": "date",
+  "maxResultsPerQuery": 300,
+  "includeDetails": true
+}</code></pre></div>
+    <ul>
+      <li><strong>300 Anzeigen</strong> kamen zurück, so viele wie <code class="code-inline">maxResultsPerQuery</code> erlaubt. Wie oben beschrieben sind das die relevantesten Treffer, nach Datum sortiert.</li>
+      <li>Nur Orte in der Region Stuttgart (Stuttgart, Böblingen, Sindelfingen, Ditzingen, Leonberg, Weissach und weitere), veröffentlicht zwischen dem 23.09. und dem 21.10.2026, mit &bdquo;Ingenieur&ldquo; oder &bdquo;Engineer&ldquo; im Titel und ohne ein duales Studium: <strong>55 Stellen von 29 Firmen</strong>.</li>
+      <li><strong>18 davon</strong> sind als hybrid markiert.</li>
+      <li>Viele Anzeigen kommen von Personalvermittlern, nicht vom Endarbeitgeber. Prüfe die Spalte <code class="code-inline">company</code>, bevor du nach Firmen zählst.</li>
+    </ul>
+    <p>Mit Claude: Verbinde den Apify MCP Server als eigenen Konnektor mit dieser URL (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Sie beschränkt Claude auf diesen einen Actor:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/jobware-de-scraper</code></pre></div>
+    <p>Dann fügst du diesen Prompt ein. Claude nennt dir zuerst die Kosten und wartet auf dein OK:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/jobware-de-scraper mit
+searchQuery "Ingenieur", city "Stuttgart", radius 25, sortBy "date", maxResultsPerQuery 300, includeDetails true.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Behalte danach nur Anzeigen aus der Region Stuttgart (Stuttgart, Böblingen, Sindelfingen, Ditzingen, Leonberg, Weissach und Nachbarorte)
+aus den letzten vier Wochen mit Ingenieur oder Engineer im Titel, ohne duale Studiengänge.
+Gib mir eine Tabelle mit Firma, Anzahl Anzeigen und remote_option, und markiere Firmen, die nach Personalvermittlung aussehen.</code></pre></div>
+    <div class="callout"><strong>Kosten dieses Laufs:</strong> Auf dem Free-Plan 0,005 $ + 300 x 0,00875 $ = 2,63 $ (mit Details). Ohne Details wären es 0,005 $ + 300 x 0,00375 $ = 1,13 $. Der Lauf lief lokal über einen eigenen Proxy und wurde nicht auf Apify abgerechnet.</div>
 
     <div class="step" id="schritt-1">
       <span class="step-number">SCHRITT 1</span>

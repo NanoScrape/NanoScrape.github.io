@@ -99,7 +99,7 @@
     }
   },
   "datePublished": "2026-10-20",
-  "dateModified": "2026-10-21",
+  "dateModified": "2026-10-23",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/"
 }
   </script>
@@ -314,6 +314,9 @@
         <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
         <li><a href="#beispiel-berlin">Beispiel: Fitnessstudios in Berlin</a></li>
         <li><a href="#beispiel-muenchen">Beispiel: Friseure in München</a></li>
+        <li><a href="#beispiel-koeln">Beispiel: Physiotherapie in Köln</a></li>
+        <li><a href="#beispiel-wien">Beispiel: Restaurants in Wien</a></li>
+        <li><a href="#beispiel-zuerich">Beispiel: Cafés in Zürich</a></li>
         <li><a href="#emails">E-Mails und Anreicherung</a></li>
         <li><a href="#claude-prompt">Prompt für Claude</a></li>
         <li><a href="#felder">Wichtige Felder</a></li>
@@ -525,6 +528,128 @@ Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Fitnessstudios
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Friseursalons, Coiffeure und Herrenfriseure innerhalb der Münchner Stadtgrenze mit Telefon oder Website und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
 
+    <h2 id="beispiel-koeln">Beispiel: Physiotherapiepraxen in Köln</h2>
+    <div class="example"><figure><img src="assets/beispiel-koeln.jpg" alt="Karte der Kölner Stadtgrenze mit einem Punkt pro gefundener Physiotherapiepraxis" width="659" height="720" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Kölner Physiotherapiepraxen. Es läuft <strong>eine Suche pro Stadtteil</strong>, hier 30 Suchen mit bis zu 200 Orten („Physiotherapie in Rodenkirchen, Köln“ und so weiter).</p><ul><li><strong>2.706 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 1.102.</li><li>Nur die Kategorien Physiotherapeut und Physiotherapiezentrum, ohne Osteopathen und Reha-Kliniken: 862. Innerhalb der Kölner Stadtgrenze (nach Koordinaten): 539. <strong>534 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>525 mit Telefon, 463 mit Website, 416 mit 4,5 oder besser bewertet.</li></ul><p>Kosten, geschätzt: 2.706 Orte × 0,001 $ = <strong>etwa 2,71 $</strong> im Free-Plan. Unser Testlauf am 21.10.2026 lief lokal in 5 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <details><summary>Eingabe mit allen 30 Stadtteilen anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Physiotherapie in Altstadt-Nord, Köln",
+    "Physiotherapie in Altstadt-Süd, Köln",
+    "Physiotherapie in Neustadt-Nord, Köln",
+    "Physiotherapie in Neustadt-Süd, Köln",
+    "Physiotherapie in Deutz, Köln",
+    "Physiotherapie in Rodenkirchen, Köln",
+    "Physiotherapie in Sülz, Köln",
+    "Physiotherapie in Klettenberg, Köln",
+    "Physiotherapie in Lindenthal, Köln",
+    "Physiotherapie in Braunsfeld, Köln",
+    "Physiotherapie in Ehrenfeld, Köln",
+    "Physiotherapie in Bickendorf, Köln",
+    "Physiotherapie in Nippes, Köln",
+    "Physiotherapie in Longerich, Köln",
+    "Physiotherapie in Chorweiler, Köln",
+    "Physiotherapie in Porz, Köln",
+    "Physiotherapie in Kalk, Köln",
+    "Physiotherapie in Mülheim, Köln",
+    "Physiotherapie in Dellbrück, Köln",
+    "Physiotherapie in Buchheim, Köln",
+    "Physiotherapie in Weiden, Köln",
+    "Physiotherapie in Lövenich, Köln",
+    "Physiotherapie in Zollstock, Köln",
+    "Physiotherapie in Bayenthal, Köln",
+    "Physiotherapie in Höhenberg, Köln",
+    "Physiotherapie in Brück, Köln",
+    "Physiotherapie in Rath/Heumar, Köln",
+    "Physiotherapie in Zündorf, Köln",
+    "Physiotherapie in Weidenpesch, Köln",
+    "Physiotherapie in Bocklemünd, Köln"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Kölner Stadtteil („Physiotherapie in Rodenkirchen, Köln“, „Physiotherapie in Ehrenfeld, Köln“ und so weiter für diese Stadtteile: Altstadt-Nord, Altstadt-Süd, Neustadt-Nord, Neustadt-Süd, Deutz, Rodenkirchen, Sülz, Klettenberg, Lindenthal, Braunsfeld, Ehrenfeld, Bickendorf, Nippes, Longerich, Chorweiler, Porz, Kalk, Mülheim, Dellbrück, Buchheim, Weiden, Lövenich, Zollstock, Bayenthal, Höhenberg, Brück, Rath/Heumar, Zündorf, Weidenpesch, Bocklemünd), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Physiotherapeuten und Physiotherapiezentren (keine Osteopathen, keine Reha-Kliniken) innerhalb der Kölner Stadtgrenze mit Telefon oder Website und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
+
+    <h2 id="beispiel-wien">Beispiel: Restaurants in Wien</h2>
+    <div class="example"><figure><img src="assets/beispiel-wien.jpg" alt="Karte der Wiener Stadtgrenze mit einem Punkt pro gefundenem Restaurant" width="659" height="720" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Wiener Restaurants. Es läuft <strong>eine Suche pro Bezirk</strong>, hier 23 Suchen mit bis zu 200 Orten („Restaurant in Mariahilf, Wien“ und so weiter).</p><ul><li><strong>3.635 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 2.876.</li><li>Nur Restaurant-Kategorien (Restaurant, Pizzeria, Imbiss, Trattoria, Wirtshaus, Beisl, Heuriger, Gasthaus, Osteria, Bistro): 2.604. Innerhalb der Wiener Stadtgrenze (nach Koordinaten): 2.432. <strong>2.354 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>2.273 mit Telefon, 2.014 mit Website, 1.318 mit 4,5 oder besser bewertet.</li></ul><p>Kosten, geschätzt: 3.635 Orte × 0,001 $ = <strong>etwa 3,64 $</strong> im Free-Plan. Unser Testlauf am 21.10.2026 lief lokal in 4 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <details><summary>Eingabe mit allen 23 Bezirken anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Restaurant in Innere Stadt, Wien",
+    "Restaurant in Leopoldstadt, Wien",
+    "Restaurant in Landstraße, Wien",
+    "Restaurant in Wieden, Wien",
+    "Restaurant in Margareten, Wien",
+    "Restaurant in Mariahilf, Wien",
+    "Restaurant in Neubau, Wien",
+    "Restaurant in Josefstadt, Wien",
+    "Restaurant in Alsergrund, Wien",
+    "Restaurant in Favoriten, Wien",
+    "Restaurant in Simmering, Wien",
+    "Restaurant in Meidling, Wien",
+    "Restaurant in Hietzing, Wien",
+    "Restaurant in Penzing, Wien",
+    "Restaurant in Rudolfsheim-Fünfhaus, Wien",
+    "Restaurant in Ottakring, Wien",
+    "Restaurant in Hernals, Wien",
+    "Restaurant in Währing, Wien",
+    "Restaurant in Döbling, Wien",
+    "Restaurant in Brigittenau, Wien",
+    "Restaurant in Floridsdorf, Wien",
+    "Restaurant in Donaustadt, Wien",
+    "Restaurant in Liesing, Wien"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Wiener Bezirk („Restaurant in Mariahilf, Wien“, „Restaurant in Simmering, Wien“ und so weiter für diese Bezirke: Innere Stadt, Leopoldstadt, Landstraße, Wieden, Margareten, Mariahilf, Neubau, Josefstadt, Alsergrund, Favoriten, Simmering, Meidling, Hietzing, Penzing, Rudolfsheim-Fünfhaus, Ottakring, Hernals, Währing, Döbling, Brigittenau, Floridsdorf, Donaustadt, Liesing), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Restaurants der Kategorien Restaurant, Pizzeria, Imbiss, Trattoria, Wirtshaus, Beisl, Heuriger, Gasthaus, Osteria und Bistro innerhalb der Wiener Stadtgrenze mit Telefon oder Website und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
+
+    <h2 id="beispiel-zuerich">Beispiel: Cafés in Zürich</h2>
+    <div class="example"><figure><img src="assets/beispiel-zuerich.jpg" alt="Karte der Stadtgrenze von Zürich mit einem Punkt pro gefundenem Café" width="659" height="720" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Zürcher Cafés. Es läuft <strong>eine Suche pro Quartier</strong>, hier 24 Suchen mit bis zu 200 Orten („Café in Hottingen, Zürich“ und so weiter).</p><ul><li><strong>1.841 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 792.</li><li>Nur die Kategorien Café, Coffeeshop, Kunst-Café, Kaffeegeschäft und Kaffeestand, ohne Bäckereien, Bars und Restaurants: 661. Innerhalb der Stadtgrenze von Zürich (nach Koordinaten): 480. <strong>410 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>328 mit Telefon, 380 mit Website, 203 mit 4,5 oder besser bewertet.</li></ul><p>Kosten, geschätzt: 1.841 Orte × 0,001 $ = <strong>etwa 1,84 $</strong> im Free-Plan. Unser Testlauf am 21.10.2026 lief lokal in 4 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
+    <details><summary>Eingabe mit allen 24 Quartieren anzeigen</summary>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Café in Altstadt, Zürich",
+    "Café in Enge, Zürich",
+    "Café in Wiedikon, Zürich",
+    "Café in Aussersihl, Zürich",
+    "Café in Industriequartier, Zürich",
+    "Café in Hottingen, Zürich",
+    "Café in Fluntern, Zürich",
+    "Café in Hirslanden, Zürich",
+    "Café in Riesbach, Zürich",
+    "Café in Seefeld, Zürich",
+    "Café in Wipkingen, Zürich",
+    "Café in Höngg, Zürich",
+    "Café in Oerlikon, Zürich",
+    "Café in Seebach, Zürich",
+    "Café in Affoltern, Zürich",
+    "Café in Altstetten, Zürich",
+    "Café in Albisrieden, Zürich",
+    "Café in Schwamendingen, Zürich",
+    "Café in Wollishofen, Zürich",
+    "Café in Leimbach, Zürich",
+    "Café in Witikon, Zürich",
+    "Café in Unterstrass, Zürich",
+    "Café in Oberstrass, Zürich",
+    "Café in Langstrasse, Zürich"
+  ],
+  "maxResultsPerQuery": 200,
+  "language": "de"
+}</code></pre></div>
+    </details>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit einer Suche pro Zürcher Quartier („Café in Hottingen, Zürich“, „Café in Wipkingen, Zürich“ und so weiter für diese Quartiere: Altstadt, Enge, Wiedikon, Aussersihl, Industriequartier, Hottingen, Fluntern, Hirslanden, Riesbach, Seefeld, Wipkingen, Höngg, Oerlikon, Seebach, Affoltern, Altstetten, Albisrieden, Schwamendingen, Wollishofen, Leimbach, Witikon, Unterstrass, Oberstrass, Langstrasse), höchstens 200 Ergebnissen pro Suche, Sprache de.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Cafés der Kategorien Café, Coffeeshop, Kunst-Café, Kaffeegeschäft und Kaffeestand (keine Bäckereien, Bars oder Restaurants) innerhalb der Stadtgrenze von Zürich mit Telefon oder Website und gib mir eine Tabelle mit Name, Telefon, Website, Bewertung und PLZ, sortiert nach Bewertung.</code></pre></div>
+
     <h2 id="emails">E-Mails und Anreicherung</h2>
     <p>Mit <code class="code-inline">"enableEmailExtraction": true</code> besucht der Actor die Website jedes Orts und sucht dort E-Mail-Adressen, Telefonnummern und Social-Media-Links. Sie landen in derselben Zeile in <code class="code-inline">emails_from_website</code>, <code class="code-inline">phones_from_website</code> und <code class="code-inline">social_urls</code>.</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
@@ -538,7 +663,7 @@ Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Friseursalons,
     <p>Alternativ gibst du die Spalte <code class="code-inline">website</code> später in den <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-scraper-firmendaten-exportieren-de">Website Email Scraper</a>. Mit einem eigenen Gemini-, Groq- oder OpenRouter-Schlüssel kann der Actor außerdem Ansprechpartner, offene Stellen und einen persönlichen Einstiegssatz pro Firma erzeugen; die Details stehen im <a href="/tutorials/google-maps-scraper-business-leads-contact-data/#enrichment">englischen Tutorial</a>.</p>
 
     <h2 id="claude-prompt">Prompt für Claude zum Kopieren</h2>
-    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
+    <p>Füge in Claude den Apify MCP Server als eigenen Konnektor mit dieser URL hinzu (siehe <a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/mcp?fpr=0khfbz">Apifys MCP-Dokumentation</a>). Die URL beschränkt Claude auf diesen einen Actor:</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">https://mcp.apify.com?tools=santamaria-automations/google-maps-scraper</code></pre></div>
     <p>Dann fügst du diesen Prompt ein und ersetzt die Suche durch deine. Claude nennt dir zuerst die Kosten und wartet auf dein OK, bevor der Lauf startet:</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit der Suche
