@@ -5,8 +5,8 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand | NanoScrape</title>
  <meta name="description" content="Produkte, Preise, Varianten und Bestand aus beliebigen Shopify-Shops extrahieren. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Nutzt den &ouml;ffentlichen /products.json-Endpunkt. Pay-per-Result.">
- <meta property="og:title" content="Shopify Store Scraper -- Produkte &amp; Preise | NanoScrape">
- <meta property="og:description" content="Shopify-Shop-Daten im grossen Stil scrapen. Kein Browser, ~12MB Image, 128MB RAM. Produkte, Preise, Varianten, Bestand und Bilder.">
+ <meta property="og:title" content="Shopify-Shops scrapen: Produkte, Preise und Bestand | NanoScrape">
+ <meta property="og:description" content="Produkte, Preise, Varianten und Bestand aus beliebigen Shopify-Shops extrahieren. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Nutzt den &ouml;ffentlichen /products.json-Endpunkt. Pay-per-Result.">
  <meta property="og:url" content="https://www.nanoscrape.com/actors/shopify-store-scraper/de/">
  <meta property="og:type" content="website">
  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -24,20 +24,24 @@
 
  <script type="application/ld+json">
  {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Shopify Store Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "HTTP-only Shopify store scraper. ~12MB Docker image, 128MB RAM. Extracts products, prices, variants, inventory, images, and collections from any Shopify store.",
- "offers": {
- "@type": "Offer",
- "price": "0",
- "priceCurrency": "USD",
- "description": "pay-per-result"
- },
- "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Shopify Store Scraper",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud (Apify)",
+  "description": "Produkte, Preise, Varianten und Bestand aus beliebigen Shopify-Shops extrahieren. HTTP-only Go-Scraper, ~12MB Docker-Image, 128MB RAM. Nutzt den öffentlichen /products.json-Endpunkt. Pay-per-Result.",
+  "offers": {
+   "@type": "Offer",
+   "price": "0.001",
+   "priceCurrency": "USD",
+   "description": "pay-per-result"
+  },
+  "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
+  "author": {
+   "@type": "Organization",
+   "name": "NanoScrape",
+   "url": "https://www.nanoscrape.com"
+  }
  }
  </script>
  <style>
@@ -60,10 +64,19 @@
  .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
  .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
  .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
- @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); } .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) {
+ .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+ 
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
  
         /* Prism.js code block styling (matches EN template) */
         .code-block { position: relative; margin-bottom: 24px; }
@@ -84,93 +97,54 @@
 <body>
 
  <div id="site-header"></div>
+ </div>
 
  <div class="detail">
- <h1>Shopify-Shops scrapen -- Produkte, Preise &amp; Bestand</h1>
- <p class="lead">Komplette Produktkataloge aus beliebigen Shopify-Shops extrahieren. Liefert Produkttitel, Beschreibungen, Preise, Varianten, Bestandsstatus, Bilder und Kollektionen. Nutzt Shopifys &ouml;ffentliche JSON-Endpunkte. Rein HTTP-basiert -- kein Chrome, kein Playwright.</p>
+ <h1>Shopify Store Scraper: Produktkatalog als Tabelle</h1>
+ <p class="lead">Holen Sie den Produktkatalog eines beliebigen Shopify-Shops als saubere Tabelle: Namen, Preise, Rabatte, Varianten, Bilder und Shop-Daten. Der Actor liest den öffentlichen Endpunkt <code>/products.json</code>, den Shopify-Shops bereitstellen. Kein Login nötig.</p>
 
  <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-de" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
  <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-de" class="btn-secondary">Jetzt testen</a>
  </div>
 
  <div class="specs">
- <div class="spec"><div class="label">Docker-Image</div><div class="value">~12MB</div></div>
- <div class="spec"><div class="label">RAM</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">Abdeckung</div><div class="value">Global</div></div>
- <div class="spec"><div class="label">Preise</div><div class="value">Pay-per-Result</div></div>
- <div class="spec"><div class="label">Methode</div><div class="value">&Ouml;ffentliche JSON-API</div></div>
+ <div class="spec"><div class="label">Preis</div><div class="value">$0,001/Produkt</div></div>
+ <div class="spec"><div class="label">Felder</div><div class="value">33</div></div>
+ <div class="spec"><div class="label">Shops</div><div class="value">myshopify.com und eigene Domains</div></div>
  </div>
 
- <h2 class="section-title">Was Sie scrapen k&ouml;nnen</h2>
+ <h2 class="section-title">Was Sie bekommen</h2>
  <ul>
- <li><strong>Produktkatalog</strong> -- Titel, Beschreibung, Produkttyp, Anbieter, Tags</li>
- <li><strong>Preise</strong> -- aktueller Preis, Vergleichspreis, W&auml;hrung</li>
- <li><strong>Varianten</strong> -- alle Gr&ouml;ssen-/Farb-/Stil-Varianten mit individueller Preisgestaltung</li>
- <li><strong>Bestand</strong> -- Verf&uuml;gbarkeit pro Variante</li>
- <li><strong>Bilder</strong> -- alle Produktbild-URLs in verschiedenen Gr&ouml;ssen</li>
- <li><strong>Kollektionen</strong> -- Produktkategorien und Kollektionszugeh&ouml;rigkeit</li>
+ <li><strong>Produkt:</strong> Titel, Beschreibung, Hersteller, Produkttyp, Tags, alle Bilder, Optionen (z. B. Größe, Farbe)</li>
+ <li><strong>Preise:</strong> niedrigster und höchster Variantenpreis, Vergleichspreis (zeigt Rabatte), Währung, verfügbar ja/nein</li>
+ <li><strong>Varianten</strong> (mit <code>includeVariants</code>): SKU, Einzelpreis, Optionswerte, Gewicht, Verfügbarkeit pro Variante</li>
+ <li><strong>Shop:</strong> Name, Domain, myshopify-Domain, Beschreibung, Währung, Land, Stadt und Zahl der veröffentlichten Produkte aus <code>/meta.json</code></li>
+ <li><strong>Ohne Duplikate</strong> pro Shop; Seiten werden automatisch geblättert (250 Produkte pro Seite)</li>
  </ul>
 
- <h2 class="section-title">Typische Anwendungsf&auml;lle</h2>
+ <h2 class="section-title">Typische Anwendungsfälle</h2>
  <ul>
- <li><strong>Preis&uuml;berwachung</strong> -- Wettbewerberpreise &uuml;ber Shopify-Shops hinweg verfolgen</li>
- <li><strong>Marktforschung</strong> -- Produktkataloge und Preisstrategien analysieren</li>
- <li><strong>Dropshipping-Recherche</strong> -- Trendprodukte und Lieferantenpreise finden</li>
- <li><strong>Wettbewerbsbeobachtung</strong> -- Konkurrenzbestand und neue Produktlaunches &uuml;berwachen</li>
- <li><strong>Datenanreicherung</strong> -- Produktdaten in Ihre E-Commerce-Analytics-Pipeline einspeisen</li>
+ <li><strong>Preisbeobachtung</strong>: Preise und Rabatte von Wettbewerbern auf Shopify verfolgen</li>
+ <li><strong>Marktforschung</strong>: Sortiment, Produkttypen und Preisspannen einer Nische vergleichen</li>
+ <li><strong>Produktrecherche</strong>: neue Produkte über <code>product_published_at</code> erkennen</li>
+ <li><strong>Feeds</strong>: Produktdaten in Google Sheets, eine Datenbank oder ein BI-Tool laden</li>
  </ul>
 
- <h2 class="section-title">API-Beispiel</h2>
- <div class="code-block"><pre><span class="comment"># Einen Lauf &uuml;ber die Apify-API starten</span>
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~shopify-store-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "storeUrls": [
- "https://allbirds.com",
- "https://gymshark.com"
- ],
- "maxProducts": 100
- }'
+ <h2 class="section-title">Grenzen</h2>
+ <p>Der Actor liest nur die öffentlichen Endpunkte <code>/products.json</code> und <code>/meta.json</code>. Ist <code>/products.json</code> gesperrt, versucht er <code>/collections/all/products.json</code>. Manche Shops (etwa Headless-Storefronts) sperren beide mit HTTP 403 oder 404; diese Shops werden im Laufstatus als übersprungen gemeldet. E-Mail und Telefon des Shops stehen nicht in diesen Endpunkten; dafür gibt es den <a href="/actors/shopify-leads-scraper/de/">Shopify Leads Scraper</a>.</p>
 
-<span class="comment"># Oder mit KI-Agenten via MCP verwenden:</span>
-<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/shopify-store-scraper</span></pre></div>
+ <h2 class="section-title">Beispiel-Eingabe</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">{
+  "storeUrls": [
+    "https://www.allbirds.com"
+  ],
+  "maxProductsPerStore": 100
+}</code></pre></div>
 
- <h2 class="section-title">Integrationen</h2>
- <ul>
- <li><strong>n8n / Make / Zapier</strong> -- L&auml;ufe ausl&ouml;sen und Ergebnisse per Webhook verarbeiten</li>
- <li><strong>KI-Agenten (MCP)</strong> -- Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python / Node.js</strong> -- Apify SDK f&uuml;r programmatischen Zugriff</li>
- <li><strong>Google Sheets / Airtable</strong> -- Export &uuml;ber Apify-Integrationen</li>
- </ul>
+ <h2 class="section-title">Was das kostet</h2>
+ <p>0,001 $ pro Produkt, also 1,00 $ pro 1.000 Produkte. Apify schreibt Konten im Free-Plan 5 $ Plattformguthaben pro Monat gut; damit sind die ersten Läufe gratis. Kein Monatsabo.</p>
 
- <h2 class="section-title">Im Vergleich</h2>
- <table class="compare-table">
- <tr><th>Merkmal</th><th>NanoScrape</th><th>Browser-basierte Scraper</th></tr>
- <tr><td>Docker-Image</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
- <tr><td>RAM-Verbrauch</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
- <tr><td>Kosten</td><td class="highlight">Pay-per-Result</td><td>$5 - $20/1k</td></tr>
- <tr><td>Datenquelle</td><td>&Ouml;ffentliche JSON-API</td><td>HTML-Parsing</td></tr>
- <tr><td>Geschwindigkeit (1k Produkte)</td><td class="highlight">~2 Min.</td><td>15-30 Min.</td></tr>
- <tr><td>Varianten-Extraktion</td><td>Vollst&auml;ndig</td><td>Oft unvollst&auml;ndig</td></tr>
- </table>
-
- <h2 class="section-title">Ausgabefelder</h2>
- <table class="compare-table">
- <tr><th>Feld</th><th>Typ</th><th>Beispiel</th></tr>
- <tr><td>title</td><td>string</td><td>Tree Runner Go - Alltagssneaker</td></tr>
- <tr><td>vendor</td><td>string</td><td>Allbirds</td></tr>
- <tr><td>product_type</td><td>string</td><td>Schuhe</td></tr>
- <tr><td>price</td><td>string</td><td>110.00</td></tr>
- <tr><td>compare_at_price</td><td>string</td><td>130.00</td></tr>
- <tr><td>variants</td><td>array</td><td>[{"title": "42 / Natural White", "price": "110.00", "available": true}]</td></tr>
- <tr><td>images</td><td>array</td><td>["https://cdn.shopify.com/..."]</td></tr>
- <tr><td>tags</td><td>array</td><td>["schuhe", "runners", "nachhaltig"]</td></tr>
- <tr><td>url</td><td>string</td><td>https://allbirds.com/products/...</td></tr>
- </table>
-
- 
- <!-- Auto-injected: Run directly on Apify -->
  <h2 class="section-title">Direkt auf Apify ausführen (kein Code)</h2>
  <p>Klicken Sie oben auf <strong>Auf Apify öffnen</strong>, um <code>shopify-store-scraper</code> im Browser auszuführen – kein Code, keine Installation. In der Apify-Konsole erhalten Sie:</p>
  <ul>
@@ -287,12 +261,19 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
 </div>
 
 
+ <h2 class="section-title">Verwandte Actors</h2>
+ <ul>
+ <li><a href="/actors/shopify-leads-scraper/de/">Shopify Leads Scraper</a></li>
+ <li><a href="/actors/amazon-product-scraper/de/">Amazon Product Scraper · 20 Marketplaces</a></li>
+ <li><a href="/actors/ebay-scraper/de/">eBay Product Scraper · 8 Marketplaces</a></li>
+ <li><a href="/actors/idealo-de-scraper/">Idealo.de Price Comparison Scraper</a></li>
+ <li><a href="/actors/website-tech-detector/de/">Website Tech Stack Detector</a></li>
+ </ul>
  <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-de" class="btn-primary">Auf Apify &ouml;ffnen &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-de" class="btn-secondary">Jetzt testen -- kostenloser Einstieg</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-de" class="btn-secondary">Jetzt testen — kostenloser Einstieg</a>
  </div>
  </div>
-
  <div id="site-footer"></div>
 
  <script src="/components.js?v=6"></script>
