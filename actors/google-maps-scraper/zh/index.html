@@ -154,6 +154,15 @@
  <li><strong>数据增强</strong> — 为现有商家数据库添加电话、网站和GPS数据</li>
  </ul>
 
+ <h2 class="section-title">招聘信号（附加功能）</h2>
+ <ul>
+ <li><strong>功能</strong> — 将 <code>enableHiringSignals</code> 设为 <code>true</code> 后，actor 会检查每个有网站的地点是否有在招职位。它通过我们的 <a href="/actors/job-feed/">Job Feed</a> actor 读取公司自己的招聘页面和招聘系统（ATS）。默认关闭。</li>
+ <li><strong>每个地点返回</strong> — <code>hiring_status</code>（<code>hiring</code>、<code>no_open_roles</code>、<code>not_read</code> 或 <code>no_website</code>）、<code>hiring_open_roles_count</code>、<code>hiring_roles</code> 中最多 5 个职位名称示例，以及 <code>hiring_jobs_url</code> 中的招聘页面。<code>not_read</code> 表示无法检查，不代表"没有招聘"；原因见 <code>hiring_not_read_reason</code>。</li>
+ <li><strong>适用场景</strong> — 寻找正在招聘的本地企业的猎头和人力服务机构，以及需要合适联系契机的销售团队。</li>
+ <li><strong>费用</strong> — 该附加功能不增加 Google Maps 费用。您只需在自己的账户中支付 Job Feed actor 的事件费用（以及它调用的网站和招聘页面提取器）。在我们对 40 家瑞士和德国公司的抽样中（默认每家最多 5 个职位），一个正在招聘的地点花费约 0.035 至 0.05 美元，最坏情况约每个地点 0.073 美元，无法读取的地点约 0 美元。没有网站、或网站是目录页或社交媒体主页的地点不会被发送，也不收费。</li>
+ <li><strong>限制</strong> — <code>hiringSignalsMaxPlaces</code>（默认 50，最多 500）限制每次运行检查的地点数量，其余返回 <code>not_read</code>。检查最多 50 个地点时，预计多用约 6 至 10 分钟。只能在浏览器中运行的招聘网站会被跳过，除非您开启 <code>hiringBrowserFallback</code>（更慢、费用更高）。</li>
+ </ul>
+
  <h2 class="section-title">API示例</h2>
  <div class="code-block"><pre><span class="comment"># 通过Apify API启动运行</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/runs?token=YOUR_TOKEN" \

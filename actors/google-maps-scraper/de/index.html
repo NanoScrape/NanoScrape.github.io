@@ -128,6 +128,15 @@
  <li><strong>Datenanreicherung</strong> — Telefon, Website und GPS-Daten zu bestehenden Firmendatenbanken hinzufügen</li>
  </ul>
 
+ <h2 class="section-title">Hiring-Signale (Add-on)</h2>
+ <ul>
+ <li><strong>Was es macht</strong> — mit <code>enableHiringSignals</code> auf <code>true</code> prüft der Actor jeden Ort mit Website auf offene Stellen. Er liest die Karriereseite und die Jobsysteme (ATS) der Firma über unseren <a href="/actors/job-feed/">Job-Feed</a>-Actor. Standardmäßig aus.</li>
+ <li><strong>Was Sie pro Ort erhalten</strong> — <code>hiring_status</code> (<code>hiring</code>, <code>no_open_roles</code>, <code>not_read</code> oder <code>no_website</code>), <code>hiring_open_roles_count</code>, bis zu 5 Beispieltitel in <code>hiring_roles</code> und die Karriereseite in <code>hiring_jobs_url</code>. <code>not_read</code> heißt: nicht prüfbar, nicht „stellt nicht ein“. Den Grund nennt <code>hiring_not_read_reason</code>.</li>
+ <li><strong>Wann es sich lohnt</strong> — für Personalvermittler, die lokale Firmen mit offenen Stellen suchen, und für Vertriebsteams, die einen aktuellen Anlass für die Ansprache brauchen.</li>
+ <li><strong>Kosten</strong> — Google Maps berechnet für das Add-on nichts extra. Sie zahlen nur die Events des Job-Feed-Actors (und der Website- und Karriereseiten-Extraktoren, die er aufruft) in Ihrem Konto. In unserer Stichprobe mit 40 Schweizer und deutschen Firmen und der Standardgrenze von 5 Stellen kostete ein Ort mit offenen Stellen etwa 0,035 bis 0,05 $, im ungünstigsten Fall etwa 0,073 $ pro Ort; Orte, die nicht gelesen werden konnten, kosteten etwa 0 $. Orte ohne Website oder mit einem Verzeichnis- oder Social-Media-Profil als Website werden nie gesendet und nicht berechnet.</li>
+ <li><strong>Grenzen</strong> — <code>hiringSignalsMaxPlaces</code> (Standard 50, bis 500) begrenzt, wie viele Orte pro Lauf geprüft werden; der Rest kommt als <code>not_read</code> zurück. Rechnen Sie mit etwa 6 bis 10 Minuten mehr für bis zu 50 geprüfte Orte. Karriereseiten, die nur im Browser laufen, werden übersprungen, außer Sie schalten <code>hiringBrowserFallback</code> ein (langsamer und teurer).</li>
+ </ul>
+
  <h2 class="section-title">API-Beispiel</h2>
  <div class="code-block"><pre><span class="comment"># Einen Lauf über die Apify-API starten</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/runs?token=YOUR_TOKEN" \

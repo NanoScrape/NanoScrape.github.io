@@ -94,6 +94,15 @@
  <div class="spec"><div class="label">Tarif</div><div class="value">0,001$/lieu</div></div>
  </div>
 
+ <h2 class="section-title">Signaux de recrutement (module complémentaire)</h2>
+ <ul>
+ <li><strong>Ce que ça fait</strong> — avec <code>enableHiringSignals</code> sur <code>true</code>, l’actor vérifie pour chaque lieu doté d’un site web s’il y a des postes ouverts. Il lit la page carrières et les systèmes de recrutement (ATS) de l’entreprise via notre actor <a href="/actors/job-feed/">Job Feed</a>. Désactivé par défaut.</li>
+ <li><strong>Ce que vous obtenez par lieu</strong> — <code>hiring_status</code> (<code>hiring</code>, <code>no_open_roles</code>, <code>not_read</code> ou <code>no_website</code>), <code>hiring_open_roles_count</code>, jusqu’à 5 intitulés de poste dans <code>hiring_roles</code> et la page carrières dans <code>hiring_jobs_url</code>. <code>not_read</code> signifie que nous n’avons pas pu vérifier, pas « ne recrute pas » ; la raison figure dans <code>hiring_not_read_reason</code>.</li>
+ <li><strong>Quand l’utiliser</strong> — cabinets de recrutement qui cherchent des entreprises locales qui recrutent, et équipes commerciales qui veulent une raison concrète de prendre contact.</li>
+ <li><strong>Coût</strong> — le module n’ajoute aucun frais Google Maps. Vous payez seulement les événements de l’actor Job Feed (et des extracteurs de sites et de pages carrières qu’il appelle) sur votre compte. Sur notre échantillon de 40 entreprises suisses et allemandes, avec la limite par défaut de 5 postes, un lieu qui recrute a coûté environ 0,035 à 0,05 $, au pire environ 0,073 $ par lieu, et les lieux illisibles environ 0 $. Les lieux sans site web, ou dont le site est un annuaire ou un profil de réseau social, ne sont jamais envoyés et ne sont pas facturés.</li>
+ <li><strong>Limites</strong> — <code>hiringSignalsMaxPlaces</code> (50 par défaut, jusqu’à 500) limite le nombre de lieux vérifiés par exécution ; les autres reviennent en <code>not_read</code>. Comptez environ 6 à 10 minutes de plus pour 50 lieux vérifiés. Les sites carrières qui ne fonctionnent que dans un navigateur sont ignorés, sauf si vous activez <code>hiringBrowserFallback</code> (plus lent et plus cher).</li>
+ </ul>
+
  <h2 class="section-title">Exemple d&#39;API</h2>
  <div class="code-block"><pre><span class="comment"># Lancer une ex&#233;cution via l&#39;API Apify</span>
 curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-scraper/runs?token=YOUR_TOKEN" \
