@@ -99,7 +99,7 @@
     }
   },
   "datePublished": "2026-10-20",
-  "dateModified": "2026-10-23",
+  "dateModified": "2026-10-24",
   "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/google-maps-scraper-firmendaten-exportieren/"
 }
   </script>
@@ -313,6 +313,7 @@
         <li><a href="#schritt-4">Schritt 4: Daten exportieren</a></li>
         <li><a href="#beispiel-hamburg">Beispiel: Zahnärzte in Hamburg</a></li>
         <li><a href="#beispiel-hamburg-technik">Beispiel: Technik der Zahnarzt-Websites</a></li>
+        <li><a href="#beispiel-hamburg-hiring">Beispiel: Welche Praxen Personal suchen</a></li>
         <li><a href="#beispiel-berlin">Beispiel: Fitnessstudios in Berlin</a></li>
         <li><a href="#beispiel-muenchen">Beispiel: Friseure in München</a></li>
         <li><a href="#beispiel-koeln">Beispiel: Physiotherapie in Köln</a></li>
@@ -458,6 +459,24 @@ Wenn er fertig ist, entferne Duplikate nach place_id, behalte nur Zahnarztpraxen
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit derselben Eingabe wie im Hamburg-Beispiel (eine Suche pro Stadtteil, maxResultsPerQuery 200, Sprache de) und zusätzlich enableTechStack true.
 Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
 Wenn er fertig ist, behalte eine Zeile pro Website und zähle, wie viele Websites WordPress nutzen, wie viele davon Yoast SEO oder Elementor, wie viele Wix, Jimdo oder Squarespace und bei wie vielen kein CMS erkannt wurde. Gib mir dann eine Tabelle der WordPress-Praxen mit Name, Website und Telefon.</code></pre></div>
+
+    <h2 id="beispiel-hamburg-hiring">Beispiel: Welche Hamburger Zahnarztpraxen suchen gerade Personal?</h2>
+    <p>Das Add-on <strong>Hiring-Signale</strong> (<code class="code-inline">enableHiringSignals</code>) prüft für jeden Ort mit eigener Website, ob die Firma offene Stellen hat. Es liest die Karriereseite und die Jobsysteme (ATS) der Praxis über unseren <a href="/actors/job-feed/de/">Job-Feed</a>-Actor.</p>
+    <p>Von den 498 Hamburger Praxen von oben haben <strong>408 eine eigene Website</strong>. Diese haben wir am 24.10.2026 mit dem Add-on geprüft (<code class="code-inline">hiringSignalsMaxPlaces</code> 500, Browser-Abruf aus):</p>
+    <ul>
+      <li>Die Websites von <strong>204 Praxen</strong> konnten gelesen werden. Nicht mitgezählt sind dabei das Jobportal zahnaerztehh.de und Ketten, die nur außerhalb Hamburgs suchen.</li>
+      <li><strong>77 davon</strong> haben gerade offene Stellen.</li>
+      <li>Nicht lesbare Websites (meist Seiten, die nur mit JavaScript laufen) haben wir weggelassen. Sie zählen nie als &bdquo;stellt nicht ein&ldquo;. Mit <code class="code-inline">hiringBrowserFallback</code> auf <code class="code-inline">true</code> lassen sie sich lesen, gegen Aufpreis.</li>
+    </ul>
+    <p>Pro Praxis bekommst du <code class="code-inline">hiring_status</code> (<code class="code-inline">hiring</code>, <code class="code-inline">no_open_roles</code>, <code class="code-inline">not_read</code> oder <code class="code-inline">no_website</code>), <code class="code-inline">hiring_open_roles_count</code>, bis zu 5 Beispieltitel in <code class="code-inline">hiring_roles</code> und die Karriereseite in <code class="code-inline">hiring_jobs_url</code>.</p>
+    <p>Wer das nutzt: Personalvermittler und Anbieter für Praxen, die wissen wollen, wer gerade sucht. In einem Lauf: Ergänze die Hamburg-Eingabe oben um diese Zeilen:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-json">"enableHiringSignals": true,
+"hiringSignalsMaxPlaces": 500</code></pre></div>
+    <p>Kosten: Job Feed rechnet seine eigenen Events in deinem Apify-Konto ab, ebenso die Website- und Karriereseiten-Extraktoren, die er aufruft. Richtwerte aus unserer Stichprobe stehen im Abschnitt Hiring-Signale auf der <a href="/actors/google-maps-scraper/de/">Seite des Google Maps Scrapers</a>. Orte ohne Website werden nicht geprüft.</p>
+    <p>Oder mit Claude:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Code kopieren">Kopieren</button><pre><code class="language-text">Nutze den Apify MCP Server. Starte den Actor santamaria-automations/google-maps-scraper mit derselben Eingabe wie im Hamburg-Beispiel (eine Suche pro Stadtteil, maxResultsPerQuery 200, Sprache de) und zusätzlich enableHiringSignals true und hiringSignalsMaxPlaces 500.
+Sag mir vor dem Start, was der Lauf kostet, und warte auf mein OK.
+Wenn er fertig ist, behalte nur Praxen mit hiring_status "hiring" und gib mir eine Tabelle mit Name, Website, hiring_roles und hiring_jobs_url. Sag mir danach, wie viele Praxen nicht gelesen werden konnten (not_read) und warum.</code></pre></div>
 
     <h2 id="beispiel-berlin">Beispiel: alle Fitnessstudios in Berlin</h2>
     <div class="example"><figure><img src="assets/beispiel-berlin.jpg" alt="Karte der Berliner Stadtgrenze mit einem Punkt pro gefundenem Fitnessstudio" width="720" height="640" loading="lazy"><figcaption class="small">Stadtumriss © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap-Mitwirkende</a> (ODbL)</figcaption></figure><div><p>Dieses Beispiel steckt hinter unserem Short zu Berliner Fitnessstudios. Wie in Hamburg läuft <strong>eine Suche pro Ortsteil</strong>, hier 30 Suchen mit bis zu 200 Orten.</p><ul><li><strong>2.768 Einträge</strong> kamen zurück, nach dem Entfernen von Duplikaten nach <code class="code-inline">place_id</code> noch 1.597.</li><li>Nur die Kategorien Fitnessstudio, Fitnessraum und Spa- und Fitnessstudio, nur Berlin mit PLZ 10000 bis 14999, ohne Outdoor- und Calisthenics-Parks: 582 Orte. <strong>511 davon</strong> haben eine Telefonnummer oder eine Website.</li><li>447 mit Telefon, 473 mit Website, 340 mit 4,5 oder besser bewertet. Die meisten liegen in den PLZ 10117 (18), 10245 (13) und 12555 (12).</li></ul><p>Kosten, geschätzt: 2.768 Orte × 0,001 $ = <strong>etwa 2,80 $</strong> im Free-Plan. Unser Testlauf am 20.10.2026 lief lokal in 5 Teilen; abgerechnet auf Apify haben wir genau diesen Lauf nicht.</p></div></div>
