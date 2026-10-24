@@ -4,10 +4,10 @@
  <meta charset="UTF-8">
  <meta name="robots" content="noindex, follow">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>抓取Shopify商店 -- 产品、价格与库存 | NanoScrape</title>
- <meta name="description" content="从任何Shopify商店提取产品、价格、变体和库存。纯HTTP Go抓取工具，约12MB Docker镜像，128MB内存。使用公开/products.json端点。按结果付费。">
- <meta property="og:title" content="Shopify商店抓取工具 -- 产品与价格 | NanoScrape">
- <meta property="og:description" content="大规模抓取Shopify商店数据。无需浏览器，约12MB镜像，128MB内存。产品、价格、变体、库存和图片。">
+ <title>Shopify 商店抓取器：产品、价格、库存，$1/1k | NanoScrape</title>
+ <meta name="description" content="导出任意 Shopify 商店的产品目录：产品、价格、折扣、变体、图片和商店信息，数据来自 /products.json。每 1,000 个产品 $1。">
+ <meta property="og:title" content="Shopify 商店抓取器：产品、价格和库存 | NanoScrape">
+ <meta property="og:description" content="导出任意 Shopify 商店的产品目录：产品、价格、折扣、变体、图片和商店信息，数据来自 /products.json。每 1,000 个产品 $1。">
  <meta property="og:url" content="https://www.nanoscrape.com/actors/shopify-store-scraper/zh/">
  <meta property="og:type" content="website">
  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
@@ -26,46 +26,80 @@
 
  <script type="application/ld+json">
  {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "Shopify Store Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "HTTP-only Shopify store scraper. ~12MB Docker image, 128MB RAM. Extracts products, prices, variants, inventory, images, and collections from any Shopify store.",
- "offers": {
- "@type": "Offer",
- "price": "0",
- "priceCurrency": "USD",
- "description": "pay-per-result"
- },
- "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Shopify Store Scraper",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud (Apify)",
+  "description": "导出任意 Shopify 商店的产品目录：产品、价格、折扣、变体、图片和商店信息，数据来自 /products.json。每 1,000 个产品 $1。",
+  "offers": {
+   "@type": "Offer",
+   "price": "0.001",
+   "priceCurrency": "USD",
+   "description": "pay-per-result"
+  },
+  "url": "https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz",
+  "author": {
+   "@type": "Organization",
+   "name": "NanoScrape",
+   "url": "https://www.nanoscrape.com"
+  }
  }
  </script>
  <style>
- :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ :root {
+ --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
+ --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff;
+ --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
+ }
  * { margin: 0; padding: 0; box-sizing: border-box; }
- body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
- a { color: var(--accent); text-decoration: none; } a:hover { text-decoration: underline; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, 'PingFang SC', 'Microsoft YaHei', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+
  .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
  .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
  .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+
  .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
- .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; } .btn-primary:hover { opacity: 0.9; text-decoration: none; }
- .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; } .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
  .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
  .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
- .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; } .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+
  .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
- .detail ul { padding-left: 20px; margin-bottom: 24px; } .detail li { margin-bottom: 8px; color: var(--muted); } .detail li strong { color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+
  .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
- .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; } .code-block .comment { color: var(--muted); }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+
  .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
  .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
- .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; } .compare-table td { color: var(--text); }
- .compare-table tr:hover td { background: var(--surface); } .highlight { color: var(--accent); font-weight: 700; }
- @media (max-width: 480px) { .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
- #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+
+ @media (max-width: 480px) {
+ .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; }
+ 
+ .detail h1 { font-size: 1.5rem; }
+ .specs { grid-template-columns: repeat(2, 1fr); }
+ .ctas { flex-direction: column; }
+ .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+ }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
  
         /* Prism.js code block styling (matches EN template) */
         .code-block { position: relative; margin-bottom: 24px; }
@@ -86,94 +120,54 @@
 <body>
 
  <div id="site-header"></div>
+ </div>
 
  <div class="detail">
- <h1>抓取Shopify商店 -- 产品、价格与库存</h1>
- <p class="lead">从任何Shopify商店提取完整产品目录。返回产品名称、描述、价格、变体、库存状态、图片和系列。使用Shopify的公开JSON端点。纯HTTP -- 无需Chrome，无需Playwright。</p>
+ <h1>Shopify 商店抓取器：产品目录导出为表格</h1>
+ <p class="lead">把任意 Shopify 商店的产品目录导出为整洁的表格：名称、价格、折扣、变体、图片和商店信息。该 actor 读取 Shopify 商店公开的 <code>/products.json</code> 端点，无需登录。</p>
 
  <div class="ctas">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-zh" class="btn-primary">在Apify上打开 &#8594;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-zh" class="btn-primary">在 Apify 上打开 &rarr;</a>
  <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-zh" class="btn-secondary">立即试用</a>
  </div>
 
  <div class="specs">
- <div class="spec"><div class="label">Docker镜像</div><div class="value">~12MB</div></div>
- <div class="spec"><div class="label">内存</div><div class="value">128MB</div></div>
- <div class="spec"><div class="label">代理</div><div class="value">数据中心</div></div>
- <div class="spec"><div class="label">覆盖范围</div><div class="value">全球</div></div>
- <div class="spec"><div class="label">价格</div><div class="value">按结果付费</div></div>
- <div class="spec"><div class="label">方法</div><div class="value">公开JSON API</div></div>
+ <div class="spec"><div class="label">价格</div><div class="value">$0.001/个产品</div></div>
+ <div class="spec"><div class="label">字段</div><div class="value">33</div></div>
+ <div class="spec"><div class="label">商店</div><div class="value">myshopify.com 和自有域名</div></div>
  </div>
 
- <h2 class="section-title">可抓取的数据</h2>
+ <h2 class="section-title">您能获得什么</h2>
  <ul>
- <li><strong>产品目录</strong> -- 名称、描述、产品类型、品牌、标签</li>
- <li><strong>定价</strong> -- 当前价格、对比价格、货币</li>
- <li><strong>变体</strong> -- 所有尺寸/颜色/款式变体及单独定价</li>
- <li><strong>库存</strong> -- 每个变体的可用状态</li>
- <li><strong>图片</strong> -- 多种尺寸的所有产品图片URL</li>
- <li><strong>系列</strong> -- 产品分类和系列归属</li>
+ <li><strong>产品：</strong>标题、描述、品牌、类型、标签、所有图片、选项（尺码、颜色等）</li>
+ <li><strong>价格：</strong>变体最低价和最高价、划线价（表示有折扣）、货币、是否有货</li>
+ <li><strong>变体</strong>（开启 <code>includeVariants</code>）：SKU、单价、选项值、重量、每个变体的库存状态</li>
+ <li><strong>商店：</strong>名称、域名、myshopify 域名、描述、货币、国家、城市和已发布产品数，来自 <code>/meta.json</code></li>
+ <li><strong>无重复</strong>：按商店去重；自动翻页（每页 250 个产品）</li>
  </ul>
 
- <h2 class="section-title">主要用例</h2>
+ <h2 class="section-title">主要使用场景</h2>
  <ul>
- <li><strong>价格监控</strong> -- 跨Shopify商店追踪竞争对手定价</li>
- <li><strong>市场研究</strong> -- 分析产品目录和定价策略</li>
- <li><strong>代发货研究</strong> -- 发现热门产品和供应商定价</li>
- <li><strong>竞争情报</strong> -- 监控竞争对手库存和新产品发布</li>
- <li><strong>数据补充</strong> -- 将产品数据添加到电商分析管道</li>
+ <li><strong>价格监测</strong>：跟踪 Shopify 上竞品的价格和折扣</li>
+ <li><strong>市场研究</strong>：比较某个细分市场的品类、产品类型和价格区间</li>
+ <li><strong>选品研究</strong>：通过 <code>product_published_at</code> 发现新品</li>
+ <li><strong>数据管道</strong>：把产品导入 Google Sheets、数据库或 BI 工具</li>
  </ul>
 
- <h2 class="section-title">API示例</h2>
- <div class="code-block"><pre><span class="comment"># 通过Apify API启动一次运行</span>
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~shopify-store-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "storeUrls": [
- "https://allbirds.com",
- "https://gymshark.com"
- ],
- "maxProducts": 100
- }'
+ <h2 class="section-title">限制</h2>
+ <p>该 actor 只读取公开的 <code>/products.json</code> 和 <code>/meta.json</code> 端点。如果 <code>/products.json</code> 被拦截，会尝试 <code>/collections/all/products.json</code>。部分商店（例如 headless 商店）会以 HTTP 403 或 404 拦截两者；这些商店会在运行状态中标记为已跳过。商店的邮箱和电话不在这些端点中；如需这些信息，请使用 <a href="/actors/shopify-leads-scraper/">Shopify Leads Scraper</a>。</p>
 
-<span class="comment"># 或通过MCP与AI代理一起使用：</span>
-<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/shopify-store-scraper</span></pre></div>
+ <h2 class="section-title">输入示例</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="复制代码">复制</button><pre><code class="language-json">{
+  "storeUrls": [
+    "https://www.allbirds.com"
+  ],
+  "maxProductsPerStore": 100
+}</code></pre></div>
 
- <h2 class="section-title">集成</h2>
- <ul>
- <li><strong>n8n / Make / Zapier</strong> -- 触发运行并通过Webhook处理结果</li>
- <li><strong>AI代理 (MCP)</strong> -- Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
- <li><strong>Python / Node.js</strong> -- 通过Apify SDK进行编程访问</li>
- <li><strong>Google Sheets / Airtable</strong> -- 通过Apify集成导出</li>
- </ul>
+ <h2 class="section-title">费用</h2>
+ <p>每个产品 $0.001，即每 1,000 个产品 $1.00。 Apify 每月为免费计划账户提供 5 美元使用额度，足够覆盖最初的几次运行。无需月度订阅。</p>
 
- <h2 class="section-title">对比</h2>
- <table class="compare-table">
- <tr><th>特性</th><th>NanoScrape</th><th>基于浏览器的抓取工具</th></tr>
- <tr><td>Docker镜像</td><td class="highlight">~12MB</td><td>500MB - 2GB</td></tr>
- <tr><td>内存占用</td><td class="highlight">128MB</td><td>1-4GB</td></tr>
- <tr><td>成本</td><td class="highlight">按结果付费</td><td>$5 - $20/1k</td></tr>
- <tr><td>数据来源</td><td>公开JSON API</td><td>HTML解析</td></tr>
- <tr><td>速度 (1k产品)</td><td class="highlight">约2分钟</td><td>15-30分钟</td></tr>
- <tr><td>变体提取</td><td>完整</td><td>通常不完整</td></tr>
- </table>
-
- <h2 class="section-title">输出字段</h2>
- <table class="compare-table">
- <tr><th>字段</th><th>类型</th><th>示例</th></tr>
- <tr><td>title</td><td>string</td><td>Tree Runner Go - Everyday Sneaker</td></tr>
- <tr><td>vendor</td><td>string</td><td>Allbirds</td></tr>
- <tr><td>product_type</td><td>string</td><td>Shoes</td></tr>
- <tr><td>price</td><td>string</td><td>110.00</td></tr>
- <tr><td>compare_at_price</td><td>string</td><td>130.00</td></tr>
- <tr><td>variants</td><td>array</td><td>[{"title": "9 / Natural White", "price": "110.00", "available": true}]</td></tr>
- <tr><td>images</td><td>array</td><td>["https://cdn.shopify.com/..."]</td></tr>
- <tr><td>tags</td><td>array</td><td>["shoes", "runners", "sustainable"]</td></tr>
- <tr><td>url</td><td>string</td><td>https://allbirds.com/products/...</td></tr>
- </table>
-
- 
- <!-- Auto-injected: Run directly on Apify -->
  <h2 class="section-title">直接在 Apify 上运行此 actor（无需代码）</h2>
  <p>点击上方 <strong>在 Apify 上打开</strong>，在浏览器中运行 <code>shopify-store-scraper</code> — 无需代码，无需安装。在 Apify 控制台，您可以获得：</p>
  <ul>
@@ -290,12 +284,19 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
 </div>
 
 
+ <h2 class="section-title">相关 Actor</h2>
+ <ul>
+ <li><a href="/actors/shopify-leads-scraper/">Shopify Leads Scraper</a></li>
+ <li><a href="/actors/amazon-product-scraper/zh/">Amazon Product Scraper · 20 Marketplaces</a></li>
+ <li><a href="/actors/ebay-scraper/zh/">eBay Product Scraper · 8 Marketplaces</a></li>
+ <li><a href="/actors/idealo-de-scraper/zh/">Idealo.de Price Comparison Scraper</a></li>
+ <li><a href="/actors/website-tech-detector/zh/">Website Tech Stack Detector</a></li>
+ </ul>
  <div class="ctas" style="margin-top:40px">
- <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-zh" class="btn-primary">在Apify上打开 &#8594;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-zh" class="btn-secondary">立即试用 -- 提供免费套餐</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/shopify-store-scraper?fpr=0khfbz&amp;fp_sid=a-shopify-store-scraper-zh" class="btn-primary">在 Apify 上打开 &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/iC8H00PhMkSCFs7dG/source?addFromActorId=iC8H00PhMkSCFs7dG&fpr=0khfbz&fp_sid=a-shopify-store-scraper-zh" class="btn-secondary">立即试用 — 提供免费额度</a>
  </div>
  </div>
-
  <div id="site-footer"></div>
 
  <script src="/components.js?v=6"></script>
