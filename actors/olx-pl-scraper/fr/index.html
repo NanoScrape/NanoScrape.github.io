@@ -4,13 +4,8 @@
  <meta charset="UTF-8">
  <meta name="robots" content="noindex, follow">
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
- <title>OLX.pl Scraper : annonces en Pologne, 2$/1k | NanoScrape</title>
- <meta name="description" content="Extrayez OLX.pl, une place de marché de Pologne. Retourne titre, prix PLN, état, ville, région, GPS, type vendeur, images, date. API REST officielle. Recherche par mot-clé, ville, catégorie, multi-recherche.">
- <meta property="og:title" content="OLX.pl Scraper : annonces en Pologne | NanoScrape">
- <meta property="og:description" content="Extrayez les annonces de Pologne via API REST officielle. Prix PLN, GPS, type vendeur. Multi-recherche. Paiement au résultat.">
- <meta property="og:url" content="https://www.nanoscrape.com/actors/olx-pl-scraper/fr/">
- <meta property="og:type" content="website">
- <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+ <title>OLX.pl Scraper : annonces polonaises, 2$/1k | NanoScrape</title>
+ <meta name="description" content="Annonces d'OLX.pl : titre, prix, lieu, vendeur, images et état, 20 champs par annonce. 2 $ pour 1 000 annonces. Sans connexion.">
  <link rel="canonical" href="https://www.nanoscrape.com/actors/olx-pl-scraper/fr/">
  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/olx-pl-scraper/">
  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/olx-pl-scraper/de/">
@@ -21,34 +16,8 @@
  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
- <!-- Prism.js syntax highlighting -->
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
- <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-
- <script type="application/ld+json">
- {
- "@context": "https://schema.org",
- "@type": "SoftwareApplication",
- "name": "OLX.pl Classifieds Scraper",
- "applicationCategory": "DeveloperApplication",
- "operatingSystem": "Cloud (Apify)",
- "description": "Scraper de petites annonces OLX.pl pour le site d'annonces en Pologne. Utilise l'API REST officielle d'OLX pour retourner titre, description complète, prix en PLN ou EUR, état, ville et région, coordonnées GPS, nom et type de vendeur (privé ou professionnel), toutes les images, date et URL source. Recherche par mot-clé, filtre ville, filtre catégorie, multi-recherche. 128MB RAM, HTTP-only.",
- "offers": {
- "@type": "Offer",
- "price": "0.002",
- "priceCurrency": "USD",
- "description": "per listing scraped"
- },
- "url": "https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz",
- "author": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com"}
- }
- </script>
  <style>
- :root {
- --bg: #080a10; --surface: #0e1118; --border: #1a1f2e;
- --text: #c8d1de; --muted: #6e7787; --accent: #0047ff;
- --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5;
- }
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
  * { margin: 0; padding: 0; box-sizing: border-box; }
  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
  a { color: var(--accent); text-decoration: none; }
@@ -79,12 +48,7 @@
  .compare-table tr:hover td { background: var(--surface); }
  .highlight { color: var(--accent); font-weight: 700; }
  footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
- @media (max-width: 480px) {
- .detail h1 { font-size: 1.5rem; }
- .specs { grid-template-columns: repeat(2, 1fr); }
- .ctas { flex-direction: column; }
- .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
- }
+ @media (max-width: 480px) { .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; } .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
  #site-header { min-height: 56px; }
  #site-footer { min-height: 80px; }
  
@@ -103,95 +67,87 @@
         .lang-panel { display: none; }
         .lang-panel.is-active { display: block; }
 </style>
+<!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+ <script type="application/ld+json">
+ {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "OLX.pl Scraper",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud (Apify)",
+  "description": "Annonces d'OLX.pl : titre, prix, lieu, vendeur, images et état, 20 champs par annonce. 2 $ pour 1 000 annonces. Sans connexion.",
+  "offers": {
+   "@type": "Offer",
+   "price": "0.002",
+   "priceCurrency": "USD",
+   "description": "pay-per-result"
+  },
+  "url": "https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz",
+  "author": {
+   "@type": "Organization",
+   "name": "NanoScrape",
+   "url": "https://www.nanoscrape.com"
+  }
+ }
+ </script>
 </head>
 <body>
 
  <div id="site-header"></div>
+ </div>
 
  <div class="detail">
- <h1>OLX.pl Scraper : petites annonces en Pologne</h1>
- <p class="lead">Extrayez les petites annonces d'olx.pl, une place de marché en ligne de Pologne. L'actor utilise l'API REST publique d'OLX pour retourner titre, description complète, prix en PLN ou EUR, état, ville et région, coordonnées GPS, nom et type de vendeur (privé ou professionnel), toutes les URLs d'images, date de publication et URL source. Recherchez par mot-clé, affinez par ville polonaise (warszawa, krakow, wroclaw) ou par ID de catégorie, et exécutez plusieurs requêtes en parallèle. La pagination est automatique.</p>
+ <h1>OLX.pl Scraper : les annonces d'OLX.pl en données structurées</h1>
+ <p class="lead">Extrayez les petites annonces d'OLX.pl, une plateforme polonaise d'annonces, sous forme de données structurées. Collez des URL de recherche olx.pl : l'actor renvoie une ligne par annonce avec titre, prix, lieu, informations vendeur, images et état. Sans connexion.</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz&amp;fp_sid=a-olx-pl-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz&fp_sid=a-olx-pl-scraper-fr" class="btn-secondary">Essayez maintenant</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz&fp_sid=a-olx-pl-scraper-fr" class="btn-secondary">Essayer</a>
  </div>
 
  <div class="specs">
- <div class="spec"><div class="label">Par résultat</div><div class="value">0,002$/annonce</div></div>
- <div class="spec"><div class="label">Pays</div><div class="value">Pologne</div></div>
- <div class="spec"><div class="label">Devise</div><div class="value">PLN / EUR</div></div>
+ <div class="spec"><div class="label">Prix</div><div class="value">0,002 $/annonce</div></div>
  <div class="spec"><div class="label">Proxy</div><div class="value">Résidentiel</div></div>
- <div class="spec"><div class="label">Mode</div><div class="value">HTTP-only API</div></div>
+ <div class="spec"><div class="label">Champs</div><div class="value">20</div></div>
+ <div class="spec"><div class="label">Couverture</div><div class="value">Pologne</div></div>
+ <div class="spec"><div class="label">Entrée</div><div class="value">URL de recherche olx.pl</div></div>
  </div>
 
- <h2 class="section-title">Ce que vous pouvez extraire</h2>
+ <h2 class="section-title">Ce que vous obtenez</h2>
  <ul>
- <li><strong>Toutes catégories :</strong> téléphones, électronique, mode, immobilier (nieruchomosci), voitures, emploi, services</li>
- <li><strong>Recherche :</strong> mot-clé + slug ville optionnel (warszawa, krakow, wroclaw) + ID catégorie optionnel</li>
- <li><strong>API REST :</strong> appels directs au point d'entrée public d'OLX, pas de parsing HTML</li>
- <li><strong>Tri :</strong> filter_float_price:asc, filter_float_price:desc, created_at:desc</li>
- <li><strong>Multi-recherche :</strong> plusieurs requêtes dans une exécution, avec plafonds par requête</li>
- <li><strong>Distinction vendeur :</strong> flag privé vs professionnel préservé</li>
+ <li><strong>Annonce :</strong> ID, titre, description, catégorie, état, date de publication, lien vers l'annonce</li>
+ <li><strong>Prix :</strong> prix et devise</li>
+ <li><strong>Lieu :</strong> lieu, ville, région, latitude et longitude</li>
+ <li><strong>Vendeur :</strong> nom et type (particulier ou professionnel)</li>
+ <li><strong>Images :</strong> image principale et toutes les URL d'images</li>
  </ul>
 
- <h2 class="section-title">Cas d'usage principaux</h2>
+ <h2 class="section-title">Cas d'usage</h2>
  <ul>
- <li><strong>Arbitrage téléphones d'occasion.</strong> Surveiller iPhone 15, Samsung Galaxy S24 ou Pixel 8 sous un plafond PLN à Varsovie, Cracovie ou Wroclaw</li>
- <li><strong>Veille prix de l'occasion.</strong> Suivre les prix moyens en PLN des laptops, vélos ou PlayStations en Pologne</li>
- <li><strong>Surveillance concurrence revendeurs.</strong> Snapshot quotidien d'un vendeur professionnel pour repérer les changements de prix</li>
- <li><strong>Arbitrage transfrontalier CEE.</strong> Comparer les annonces polonaises aux équivalents Bazos.sk ou Bazos.cz sur les marchés voisins</li>
- <li><strong>Cartographie du marché de l'emploi.</strong> Récupérer les postes ouverts dans n'importe quelle ville polonaise par catégorie</li>
+ <li><strong>Suivi des prix</strong> : suivre les prix de l'occasion sur le marché polonais</li>
+ <li><strong>Étude de marché</strong> : analyser l'offre par catégorie et par région</li>
+ <li><strong>Revente</strong> : surveiller régulièrement les annonces qui correspondent à vos critères</li>
+ <li><strong>Collecte de données</strong> : exporter des annonces pour vos analyses ou modèles</li>
  </ul>
 
- <h2 class="section-title">Exemple d'API</h2>
- <div class="code-block"><pre><span class="comment"># Lancer une exécution via l'API Apify</span>
-curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~olx-pl-scraper/runs?token=YOUR_TOKEN" \
- -H "Content-Type: application/json" \
- -d '{
- "searchUrls": [
-  "https://www.olx.pl/motoryzacja/samochody/audi/?search%5Bfilter_enum_model%5D%5B0%5D=a5-sportback&amp;search%5Bfilter_enum_model%5D%5B1%5D=a8&amp;search%5Bfilter_float_milage:to%5D=1000"
- ],
- "maxResults": 100
-}'
+ <h2 class="section-title">Entrée</h2>
+ <p><code>searchUrls</code> liste les URL de recherche olx.pl : réglez la recherche avec tous vos filtres sur olx.pl, puis copiez l'URL. <code>maxResults</code> (100 par défaut) limite le total d'annonces, <code>maxResultsPerQuery</code> (100 par défaut) le nombre par URL ; 0 signifie sans limite. Les données peuvent être personnelles, par exemple le nom du vendeur ; vérifiez le RGPD.</p>
 
-<span class="comment"># Ou utiliser avec des agents IA via MCP :</span>
-<span class="comment"># https://mcp.apify.com?tools=santamaria-automations/olx-pl-scraper</span></pre></div>
+ <h2 class="section-title">Exemple d'entrée</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copier le code">Copier</button><pre><code class="language-json">{
+  "searchUrls": [
+    "https://www.olx.pl/elektronika/telefony/q-iphone/"
+  ],
+  "maxResults": 50,
+  "maxResultsPerQuery": 50
+}</code></pre></div>
 
- <h2 class="section-title">Intégrations</h2>
- <ul>
- <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les nouvelles annonces via webhook</li>
- <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
- <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
- <li><strong>Google Sheets, Airtable :</strong> requêtes en entrée, annonces en sortie</li>
- </ul>
+ <h2 class="section-title">Combien ça coûte</h2>
+ <p>0,002 $ par annonce, soit 2,00 $ pour 1 000 annonces. Apify crédite 5 $ d'utilisation par mois aux comptes du plan gratuit, ce qui couvre les premiers runs. Sans abonnement mensuel.</p>
 
- <h2 class="section-title">Champs de sortie</h2>
- <table class="compare-table">
- <tr><th>Champ</th><th>Type</th><th>Exemple</th></tr>
- <tr><td>title</td><td>string</td><td>iPhone 15 Pro 256GB</td></tr>
- <tr><td>price</td><td>number</td><td>4200</td></tr>
- <tr><td>currency</td><td>string</td><td>PLN</td></tr>
- <tr><td>condition</td><td>string</td><td>used</td></tr>
- <tr><td>city</td><td>string</td><td>Warszawa</td></tr>
- <tr><td>region</td><td>string</td><td>mazowieckie</td></tr>
- <tr><td>latitude</td><td>number</td><td>52.2297</td></tr>
- <tr><td>longitude</td><td>number</td><td>21.0122</td></tr>
- <tr><td>seller_type</td><td>string</td><td>business</td></tr>
- <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
- <tr><td>source_url</td><td>string</td><td>https://www.olx.pl/d/oferta/...</td></tr>
- </table>
-
- <h2 class="section-title">Scrapers associés</h2>
- <ul>
- <li><a href="/actors/bazos-scraper/">Bazos Scraper</a>: annonces pour SK, CZ, AT, PL</li>
- <li><a href="/actors/kleinanzeigen-de-scraper/">Kleinanzeigen.de Scraper</a>: annonces en Allemagne</li>
- <li><a href="/actors/willhaben-at-scraper/">Willhaben.at Scraper</a>: annonces en Autriche</li>
- <li><a href="/actors/njuskalo-hr-scraper/">Njuskalo.hr Scraper</a>: annonces en Croatie</li>
- </ul>
-
- 
- <!-- Auto-injected: Run directly on Apify -->
  <h2 class="section-title">Exécutez cet actor directement sur Apify (sans code)</h2>
  <p>Cliquez sur <strong>Ouvrir sur Apify</strong> ci-dessus pour lancer <code>olx-pl-scraper</code> dans votre navigateur – sans code, sans installation. Dans la console Apify, vous obtenez :</p>
  <ul>
@@ -308,13 +264,21 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
 </div>
 
 
+ <h2 class="section-title">Actors associés</h2>
+ <ul>
+ <li><a href="/actors/bazos-scraper/fr/">Bazos Classifieds Scraper</a></li>
+ <li><a href="/actors/blocket-se-scraper/fr/">Blocket.se Scraper</a></li>
+ <li><a href="/actors/dba-dk-scraper/fr/">DBA.dk Scraper</a></li>
+ <li><a href="/actors/finn-no-scraper/fr/">Finn.no Scraper</a></li>
+ </ul>
  <div class="ctas" style="margin-top:40px">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/olx-pl-scraper?fpr=0khfbz&amp;fp_sid=a-olx-pl-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
- <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz&fp_sid=a-olx-pl-scraper-fr" class="btn-secondary">Essayez maintenant (version gratuite disponible)</a>
+ <a target="_blank" rel="sponsored noopener" href="https://console.apify.com/actors/hw9mhkHXXwgqdakMB/source?addFromActorId=hw9mhkHXXwgqdakMB&fpr=0khfbz&fp_sid=a-olx-pl-scraper-fr" class="btn-secondary">Essayer — démarrage gratuit</a>
  </div>
  </div>
-
  <div id="site-footer"></div>
+
+ 
 
  <script src="/components.js?v=6"></script>
  <script src="/search.js?v=6"></script>
