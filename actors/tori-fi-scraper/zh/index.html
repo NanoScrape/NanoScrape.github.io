@@ -110,7 +110,7 @@
 
  <div class="detail">
  <h1>Tori.fi 抓取器：芬兰分类广告 (Schibsted 集团)</h1>
- <p class="lead">抓取 tori.fi 分类广告，这是芬兰在线市场 (Schibsted 集团)。返回标题、EUR 价格、位置 (城市、地区或省)、品牌、状态、卖家名、所有图片 URL、发布日期与源 URL。按关键词搜索 (polkupyora、iPhone、MacBook)，多关键词查询并行运行，并可选用详情页完整数据增强。自动分页。</p>
+ <p class="lead">抓取 tori.fi 分类广告，这是芬兰在线市场 (Schibsted 集团)。粘贴任意带筛选条件的 tori.fi 搜索 URL，每条广告返回标题、EUR 价格、位置、品牌、卖家、图片和发布时长。每次运行可用多个 URL，自动分页。开启详情后另含状态、属性、完整描述、类别路径、全部图片和最后编辑时间。</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz&amp;fp_sid=a-tori-fi-scraper-zh" class="btn-primary">在 Apify 上打开 &rarr;</a>
@@ -128,11 +128,11 @@
 
  <h2 class="section-title">您可以抓取的内容</h2>
  <ul>
- <li><strong>垂类：</strong>通用售卖、电子、车辆、时尚、家居与园艺、运动</li>
- <li><strong>搜索：</strong>任意芬兰语或英语关键词，可一次运行多查询</li>
- <li><strong>SERP 数据：</strong>标题、EUR 价格、位置、品牌、所有图片、日期</li>
- <li><strong>详情增强：</strong>状态、卖家名、广告页完整描述</li>
- <li><strong>多搜索：</strong>一次排队多查询并设每查询结果上限</li>
+ <li><strong>类别：</strong>Tori 搜索 (recommerce/forsale) 的所有栏目，例如电子、时尚、家居与园艺、运动</li>
+ <li><strong>搜索：</strong>任意带筛选条件 (关键词、类别、地点、状态、价格) 的 tori.fi 搜索 URL</li>
+ <li><strong>SERP 数据：</strong>标题、EUR 价格、位置、品牌、卖家 (商家)、主图、发布时长</li>
+ <li><strong>详情增强：</strong>状态、属性 (Kunto、Merkki、Muisti 等)、完整描述、类别路径、全部图片、最后编辑时间</li>
+ <li><strong>多搜索：</strong>多个搜索 URL，设总上限 (maxResults，默认 10) 和每 URL 上限 (maxResultsPerQuery，默认 100)</li>
  <li><strong>源链接：</strong>每条 tori.fi 广告的直接 URL</li>
  </ul>
 
@@ -141,7 +141,7 @@
  <li><strong>二手自行车 (polkupyora) 套利。</strong>监控赫尔辛基、坦佩雷或图尔库价格上限以下的自行车广告，几分钟内对新库存作出反应</li>
  <li><strong>二手价格情报。</strong>跨时间追踪芬兰市场 iPhone、MacBook 或冬季装备的平均 EUR 价格</li>
  <li><strong>北欧价格比较。</strong>将 Tori.fi 价格与 Blocket.se (瑞典)、Finn.no (挪威)、DBA.dk (丹麦) 同品牌商品比较</li>
- <li><strong>经销商竞品监控。</strong>每日快照高频卖家门店，发现价格变化</li>
+ <li><strong>经销商竞品监控。</strong>每日采集某类别中的商家广告，发现价格变化</li>
  <li><strong>品牌声誉追踪。</strong>统计某品牌在分类广告中相对全新零售渠道的出现频次</li>
  </ul>
 
@@ -164,7 +164,7 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <li><strong>n8n、Make、Zapier：</strong>通过 Webhook 触发运行并处理新广告</li>
  <li><strong>AI 代理 (MCP)：</strong>Claude Desktop、Cursor、VS Code、LangChain、LlamaIndex</li>
  <li><strong>Python、Node.js：</strong>使用 Apify SDK 进行编程访问</li>
- <li><strong>Google Sheets、Airtable：</strong>查询输入，广告输出</li>
+ <li><strong>Google Sheets、Airtable：</strong>搜索 URL 输入，广告输出</li>
  </ul>
 
  <h2 class="section-title">输出字段</h2>
@@ -175,9 +175,11 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <tr><td>currency</td><td>string</td><td>EUR</td></tr>
  <tr><td>location</td><td>string</td><td>Helsinki</td></tr>
  <tr><td>brand</td><td>string</td><td>Helkama</td></tr>
- <tr><td>condition</td><td>string</td><td>Used</td></tr>
- <tr><td>seller</td><td>string</td><td>Matti K.</td></tr>
- <tr><td>image_url</td><td>string</td><td>https://images.tori.fi/...</td></tr>
+ <tr><td>condition</td><td>string</td><td>Good (需详情)</td></tr>
+ <tr><td>condition_text</td><td>string</td><td>Hyvä (需详情)</td></tr>
+ <tr><td>attributes</td><td>object</td><td>{"Kunto": "Hyvä", "Merkki": "Helkama"} (需详情)</td></tr>
+ <tr><td>seller</td><td>string</td><td>Pyöräliike Oy</td></tr>
+ <tr><td>image_url</td><td>string</td><td>https://img.tori.net/...</td></tr>
  <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
  <tr><td>source_url</td><td>string</td><td>https://www.tori.fi/...</td></tr>
  </table>

@@ -13,8 +13,6 @@
  <link rel="canonical" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/tori-fi-scraper/de/">
- <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/tori-fi-scraper/fr/">
- <link rel="alternate" hreflang="zh-CN" href="https://www.nanoscrape.com/actors/tori-fi-scraper/zh/">
  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/tori-fi-scraper/">
  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
@@ -109,7 +107,7 @@
 
  <div class="detail">
  <h1>Tori.fi Scraper: Kleinanzeigen in Finnland (Schibsted-Gruppe)</h1>
- <p class="lead">Scrapen Sie Kleinanzeigen von tori.fi, dem finnischen Online-Marktplatz (Schibsted-Gruppe). Liefert Titel, Preis in EUR, Standort (Stadt, Gebiet oder Region), Marke, Zustand, Verkäufername, alle Bild-URLs, Datum und Quell-URL. Per Keyword suchen (polkupyora, iPhone, MacBook), mehrere Keyword-Queries parallel ausführen und optional mit vollständigen Detail-Seiten-Daten anreichern. Paginierung erfolgt automatisch.</p>
+ <p class="lead">Scrapen Sie Kleinanzeigen von tori.fi, dem finnischen Online-Marktplatz (Schibsted-Gruppe). Fügen Sie eine beliebige tori.fi-Such-URL mit Ihren Filtern ein und erhalten Sie pro Anzeige Titel, Preis in EUR, Standort, Marke, Verkäufer, Bild und Alter der Anzeige. Mehrere Such-URLs pro Lauf, Paginierung automatisch. Mit Details kommen Zustand, Attribute, vollständige Beschreibung, Kategoriepfad, alle Bilder und die letzte Bearbeitung dazu.</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz&amp;fp_sid=a-tori-fi-scraper-de" class="btn-primary">Auf Apify öffnen &rarr;</a>
@@ -127,11 +125,11 @@
 
  <h2 class="section-title">Was Sie scrapen können</h2>
  <ul>
- <li><strong>Vertikale:</strong> allgemeine Verkäufe, Elektronik, Fahrzeuge, Mode, Haus und Garten, Sport</li>
- <li><strong>Suche:</strong> beliebiges Keyword auf Finnisch oder Englisch, optional Multi-Query in einem Lauf</li>
- <li><strong>SERP-Daten:</strong> Titel, EUR-Preis, Standort, Marke, alle Bilder, Datum</li>
- <li><strong>Detail-Anreicherung:</strong> Zustand, Verkäufername, vollständige Beschreibung von der Listing-Seite</li>
- <li><strong>Multi-Search:</strong> mehrere Queries gleichzeitig mit Pro-Query-Ergebnislimits</li>
+ <li><strong>Kategorien:</strong> alle Rubriken der Tori-Suche (recommerce/forsale), z. B. Elektronik, Mode, Haus und Garten, Sport</li>
+ <li><strong>Suche:</strong> jede tori.fi-Such-URL mit Filtern (Keyword, Kategorie, Ort, Zustand, Preis)</li>
+ <li><strong>SERP-Daten:</strong> Titel, EUR-Preis, Standort, Marke, Verkäufer (bei gewerblichen Anbietern), Hauptbild, Alter der Anzeige</li>
+ <li><strong>Detail-Anreicherung:</strong> Zustand, Attribute (Kunto, Merkki, Muisti …), vollständige Beschreibung, Kategoriepfad, alle Bilder, letzte Bearbeitung</li>
+ <li><strong>Multi-Search:</strong> mehrere Such-URLs mit Gesamtlimit (maxResults, Standard 10) und Limit pro URL (maxResultsPerQuery, Standard 100)</li>
  <li><strong>Quell-Link:</strong> direkte URL zu jeder tori.fi-Anzeige</li>
  </ul>
 
@@ -140,7 +138,7 @@
  <li><strong>Gebraucht-Fahrrad (polkupyora) Arbitrage.</strong> Fahrrad-Anzeigen in Helsinki, Tampere oder Turku unter einer Preisgrenze beobachten und in Minuten auf frische Inventur reagieren</li>
  <li><strong>Second-Hand-Preisanalyse.</strong> Durchschnittliche EUR-Preise für iPhones, MacBooks oder Winterausrüstung im finnischen Markt verfolgen</li>
  <li><strong>Nordischer Preisvergleich.</strong> Tori.fi-Preise mit Blocket.se (Schweden), Finn.no (Norwegen), DBA.dk (Dänemark) für dieselbe Marke vergleichen</li>
- <li><strong>Händler-Konkurrenzbeobachtung.</strong> Snapshot eines Power-Sellers täglich, um Preisänderungen zu erkennen</li>
+ <li><strong>Händler-Konkurrenzbeobachtung.</strong> Anzeigen gewerblicher Anbieter in einer Kategorie täglich erfassen, um Preisänderungen zu erkennen</li>
  <li><strong>Marken-Reputations-Tracking.</strong> Zählen, wie oft eine Marke in Kleinanzeigen vs. Neu-Retail-Kanälen erscheint</li>
  </ul>
 
@@ -163,7 +161,7 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <li><strong>n8n, Make, Zapier:</strong> Läufe auslösen und neue Anzeigen per Webhook verarbeiten</li>
  <li><strong>KI-Agenten (MCP):</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
  <li><strong>Python, Node.js:</strong> Apify SDK für programmatischen Zugriff</li>
- <li><strong>Google Sheets, Airtable:</strong> Queries rein, Anzeigen raus</li>
+ <li><strong>Google Sheets, Airtable:</strong> Such-URLs rein, Anzeigen raus</li>
  </ul>
 
  <h2 class="section-title">Ausgabefelder</h2>
@@ -174,9 +172,11 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <tr><td>currency</td><td>string</td><td>EUR</td></tr>
  <tr><td>location</td><td>string</td><td>Helsinki</td></tr>
  <tr><td>brand</td><td>string</td><td>Helkama</td></tr>
- <tr><td>condition</td><td>string</td><td>Used</td></tr>
- <tr><td>seller</td><td>string</td><td>Matti K.</td></tr>
- <tr><td>image_url</td><td>string</td><td>https://images.tori.fi/...</td></tr>
+ <tr><td>condition</td><td>string</td><td>Good (mit Details)</td></tr>
+ <tr><td>condition_text</td><td>string</td><td>Hyvä (mit Details)</td></tr>
+ <tr><td>attributes</td><td>object</td><td>{"Kunto": "Hyvä", "Merkki": "Helkama"} (mit Details)</td></tr>
+ <tr><td>seller</td><td>string</td><td>Pyöräliike Oy</td></tr>
+ <tr><td>image_url</td><td>string</td><td>https://img.tori.net/...</td></tr>
  <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
  <tr><td>source_url</td><td>string</td><td>https://www.tori.fi/...</td></tr>
  </table>

@@ -110,7 +110,7 @@
 
  <div class="detail">
  <h1>Tori.fi Scraper : petites annonces en Finlande (groupe Schibsted)</h1>
- <p class="lead">Extrayez les petites annonces de tori.fi, une place de marché en ligne de Finlande (groupe Schibsted). Retourne titre, prix en EUR, localisation (ville, zone ou région), marque, état, nom du vendeur, toutes les URLs d'images, date de publication et URL source. Recherchez par mot-clé (polkupyora, iPhone, MacBook), exécutez plusieurs requêtes en parallèle, et enrichissez en option avec les données complètes de la page détail. La pagination est automatique.</p>
+ <p class="lead">Extrayez les petites annonces de tori.fi, une place de marché en ligne de Finlande (groupe Schibsted). Collez n'importe quelle URL de recherche tori.fi avec vos filtres et obtenez par annonce titre, prix en EUR, localisation, marque, vendeur, image et ancienneté. Plusieurs URLs par exécution, pagination automatique. Avec les détails s'ajoutent état, attributs, description complète, catégorie, toutes les images et la dernière modification.</p>
 
  <div class="ctas">
  <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz&amp;fp_sid=a-tori-fi-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
@@ -128,11 +128,11 @@
 
  <h2 class="section-title">Ce que vous pouvez extraire</h2>
  <ul>
- <li><strong>Verticales :</strong> vente générale, électronique, véhicules, mode, maison et jardin, sport</li>
- <li><strong>Recherche :</strong> n'importe quel mot-clé en finnois ou anglais, multi-requête optionnelle dans une exécution</li>
- <li><strong>Données SERP :</strong> titre, prix EUR, localisation, marque, toutes les images, date</li>
- <li><strong>Enrichissement détail :</strong> état, nom du vendeur, description complète depuis la page de l'annonce</li>
- <li><strong>Multi-recherche :</strong> mettre en file plusieurs requêtes avec plafonds par requête</li>
+ <li><strong>Catégories :</strong> toutes les rubriques de la recherche Tori (recommerce/forsale), par ex. électronique, mode, maison et jardin, sport</li>
+ <li><strong>Recherche :</strong> toute URL de recherche tori.fi avec filtres (mot-clé, catégorie, lieu, état, prix)</li>
+ <li><strong>Données SERP :</strong> titre, prix EUR, localisation, marque, vendeur (professionnels), image principale, ancienneté</li>
+ <li><strong>Enrichissement détail :</strong> état, attributs (Kunto, Merkki, Muisti…), description complète, catégorie, toutes les images, dernière modification</li>
+ <li><strong>Multi-recherche :</strong> plusieurs URLs avec plafond total (maxResults, 10 par défaut) et par URL (maxResultsPerQuery, 100 par défaut)</li>
  <li><strong>Lien source :</strong> URL directe vers chaque annonce tori.fi</li>
  </ul>
 
@@ -141,7 +141,7 @@
  <li><strong>Arbitrage vélo d'occasion (polkupyora).</strong> Surveiller les annonces de vélos à Helsinki, Tampere ou Turku sous un plafond de prix et réagir au nouveau stock en minutes</li>
  <li><strong>Veille prix de l'occasion.</strong> Suivre les prix moyens en EUR des iPhones, MacBooks ou équipement d'hiver sur le marché finlandais</li>
  <li><strong>Comparaison de prix nordique.</strong> Comparer les prix Tori.fi à Blocket.se (Suède), Finn.no (Norvège), DBA.dk (Danemark) pour la même marque</li>
- <li><strong>Surveillance concurrence revendeurs.</strong> Snapshot quotidien d'un power-seller pour repérer les changements de prix</li>
+ <li><strong>Surveillance concurrence revendeurs.</strong> Relever chaque jour les annonces professionnelles d'une catégorie pour repérer les changements de prix</li>
  <li><strong>Suivi de réputation de marque.</strong> Compter combien de fois une marque apparaît en petites annonces vs canaux retail neufs</li>
  </ul>
 
@@ -164,7 +164,7 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <li><strong>n8n, Make, Zapier :</strong> déclencher des exécutions et traiter les nouvelles annonces via webhook</li>
  <li><strong>Agents IA (MCP) :</strong> Claude Desktop, Cursor, VS Code, LangChain, LlamaIndex</li>
  <li><strong>Python, Node.js :</strong> SDK Apify pour l'accès programmatique</li>
- <li><strong>Google Sheets, Airtable :</strong> requêtes en entrée, annonces en sortie</li>
+ <li><strong>Google Sheets, Airtable :</strong> URLs de recherche en entrée, annonces en sortie</li>
  </ul>
 
  <h2 class="section-title">Champs de sortie</h2>
@@ -175,9 +175,11 @@ curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scrap
  <tr><td>currency</td><td>string</td><td>EUR</td></tr>
  <tr><td>location</td><td>string</td><td>Helsinki</td></tr>
  <tr><td>brand</td><td>string</td><td>Helkama</td></tr>
- <tr><td>condition</td><td>string</td><td>Used</td></tr>
- <tr><td>seller</td><td>string</td><td>Matti K.</td></tr>
- <tr><td>image_url</td><td>string</td><td>https://images.tori.fi/...</td></tr>
+ <tr><td>condition</td><td>string</td><td>Good (avec détails)</td></tr>
+ <tr><td>condition_text</td><td>string</td><td>Hyvä (avec détails)</td></tr>
+ <tr><td>attributes</td><td>object</td><td>{"Kunto": "Hyvä", "Merkki": "Helkama"} (avec détails)</td></tr>
+ <tr><td>seller</td><td>string</td><td>Pyöräliike Oy</td></tr>
+ <tr><td>image_url</td><td>string</td><td>https://img.tori.net/...</td></tr>
  <tr><td>posted_at</td><td>string</td><td>2026-06-10T08:14:00Z</td></tr>
  <tr><td>source_url</td><td>string</td><td>https://www.tori.fi/...</td></tr>
  </table>

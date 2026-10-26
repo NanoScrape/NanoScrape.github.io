@@ -30,8 +30,8 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/tori-fi-scraper/#app",
-      "name": "Tori.fi Scraper - Finland's Largest Marketplace",
-      "description": "Scrape classified listings from Tori.fi, Finland's #1 marketplace (Schibsted). Extract title, price, location, brand, condition, images, and more. HTTP-only, 128MB, datacenter proxy.",
+      "name": "Tori.fi Scraper - Finnish Classifieds Marketplace",
+      "description": "Scrape classified listings from Tori.fi, the Finnish online classifieds marketplace. Paste any Tori.fi search URL with your filters and get one row per listing: title, price, location, brand, seller, image and posting age. Turn on details to add the condition, item attributes, full description, category path, all images and the last edit time. HTTP-only, 128 MB, datacenter proxy.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -39,12 +39,12 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.00200",
+        "price": "0.002",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.00200",
+          "price": "0.002",
           "priceCurrency": "USD",
-          "unitText": "per a classified listing ($2.00 per 1,000)"
+          "unitText": "per listing ($2.00 per 1,000; $5.00 per 1,000 with details)"
         }
       },
       "publisher": {
@@ -70,7 +70,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Tori.fi Scraper - Finland's Largest Marketplace"
+          "name": "Tori.fi Scraper - Finnish Classifieds Marketplace"
         }
       ]
     },
@@ -90,6 +90,44 @@
       "breadcrumb": {
         "@id": "https://www.nanoscrape.com/actors/tori-fi-scraper/#breadcrumb"
       }
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.nanoscrape.com/actors/tori-fi-scraper/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How much does the tori-fi-scraper cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Priced at $0.002 per listing ($2.00 per 1,000). With includeDetails on, a listing costs $0.005 instead ($5.00 per 1,000). Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why are condition, attributes and description empty?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They come from the listing page. Turn on includeDetails."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Why is seller empty on many rows?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The listing card only shows a name for business sellers. Private sellers show none."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get a search URL?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open tori.fi, search and set your filters, then copy the URL from the address bar."
+          }
+        }
+      ]
     }
   ]
 }
@@ -192,17 +230,67 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Tori.fi Scraper - Finland&#39;s Largest Marketplace</h1>
-    <p class="lead">Scrape classified listings from Tori.fi, Finland's #1 marketplace (Schibsted). Extract title, price, location, brand, condition, images, and more. HTTP-only, 128MB, datacenter proxy.</p>
+    <h1>Tori.fi Scraper - Finnish Classifieds Marketplace</h1>
+    <p class="lead">Scrape classified listings from Tori.fi, the Finnish online classifieds marketplace. Paste any Tori.fi search URL with your filters and get one row per listing: title, price, location, brand, seller, image and posting age. Turn on details to add the condition, item attributes, full description, category path, all images and the last edit time. HTTP-only, 128 MB, datacenter proxy.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/tori-fi-scraper?fpr=0khfbz&amp;fp_sid=a-tori-fi-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 listings</div></div>
+      <div class="spec"><div class="label">With details</div><div class="value">$5.00 / 1,000 listings</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
     </div>
+    <h2 class="section-title">What You Can Scrape</h2>
+    <ul>
+      <li>Any Tori.fi search URL with filters (keyword, category, location, condition, price); several URLs per run, each paginated automatically</li>
+      <li>Title, price, location, brand, seller, main image and posting age for every listing</li>
+      <li>With <code>includeDetails</code>: condition, item attributes, full description, category path, all images and last edit time</li>
+      <li>Total and per-URL caps (<code>maxResults</code>, <code>maxResultsPerQuery</code>)</li>
+    </ul>
+    <h2 class="section-title">Output fields — 20 per listing</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Description</th><th>Details only</th></tr>
+      <tr><td><code>id</code></td><td>string</td><td>Tori listing ID</td><td></td></tr>
+      <tr><td><code>title</code></td><td>string</td><td>Listing title</td><td></td></tr>
+      <tr><td><code>price</code></td><td>number</td><td>Price</td><td></td></tr>
+      <tr><td><code>currency</code></td><td>string</td><td><code>EUR</code></td><td></td></tr>
+      <tr><td><code>location</code></td><td>string</td><td>Area and city as shown on the card</td><td></td></tr>
+      <tr><td><code>brand</code></td><td>string</td><td>Brand, when the listing has one</td><td></td></tr>
+      <tr><td><code>image_url</code></td><td>string</td><td>Main image URL</td><td></td></tr>
+      <tr><td><code>image_urls</code></td><td>array</td><td>One image without details, all listing images with details</td><td></td></tr>
+      <tr><td><code>seller</code></td><td>string</td><td>Seller name when the card shows one (business sellers)</td><td></td></tr>
+      <tr><td><code>posted_at</code></td><td>string</td><td>Approximate ISO timestamp from the age on the card</td><td></td></tr>
+      <tr><td><code>posted_at_text</code></td><td>string</td><td>Age as the card shows it, e.g. <code>3 t</code></td><td></td></tr>
+      <tr><td><code>description</code></td><td>string</td><td>Listing text</td><td>yes</td></tr>
+      <tr><td><code>category</code></td><td>string</td><td>Category path</td><td>yes</td></tr>
+      <tr><td><code>condition</code></td><td>string</td><td><code>New</code>, <code>Like new</code>, <code>Good</code>, <code>Fair</code> or <code>Poor</code></td><td>yes</td></tr>
+      <tr><td><code>condition_text</code></td><td>string</td><td>The Kunto label as the site shows it, e.g. <code>Hyvä</code></td><td>yes</td></tr>
+      <tr><td><code>attributes</code></td><td>object</td><td>Item chips as label to value (Kunto, Merkki, Muisti, Malli…); labels depend on the category</td><td>yes</td></tr>
+      <tr><td><code>edited_at</code></td><td>string</td><td>Last edit time, ISO</td><td>yes</td></tr>
+      <tr><td><code>source_url</code></td><td>string</td><td>Link to the listing on Tori.fi</td><td></td></tr>
+      <tr><td><code>search_query</code></td><td>string</td><td>The search URL that produced the row</td><td></td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>ISO timestamp of the scrape</td><td></td></tr>
+    </table>
+    <h2 class="section-title">Input</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Default</th><th>Description</th></tr>
+      <tr><td><code>searchUrls</code></td><td>the prefill example search</td><td>Tori.fi search URLs; each is paginated automatically</td></tr>
+      <tr><td><code>maxResults</code></td><td>10</td><td>Maximum listings in total across all URLs (0 = unlimited, max 10000)</td></tr>
+      <tr><td><code>maxResultsPerQuery</code></td><td>100</td><td>Maximum listings per search URL (0 = unlimited, max 10000)</td></tr>
+      <tr><td><code>includeDetails</code></td><td>false</td><td>Open every listing page for condition, attributes, description, category, all images and edit time</td></tr>
+    </table>
+    <h2 class="section-title">Input example</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;searchUrls&quot;: [
+    &quot;https://www.tori.fi/recommerce/forsale/search?q=iphone&quot;
+  ],
+  &quot;maxResults&quot;: 50,
+  &quot;includeDetails&quot;: true
+}</code></pre></div>
+    <h2 class="section-title">Cost math</h2>
+    <p>Priced at <strong>$0.002</strong> per listing ($2.00 per 1,000). With <code>includeDetails</code> on, a listing costs $0.005 instead ($5.00 per 1,000): each listing is charged once, at the basic or the detail rate. The run stops cleanly when its maximum total charge is reached, so you are never charged for listings that were not delivered.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -325,6 +413,13 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
         <li>Add a new API: POST <code>https://api.apify.com/v2/acts/santamaria-automations~tori-fi-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
         <li>Initialize the call with your input, then reference the response array in workflow actions.</li>
       </ol>
+    </div>
+    <h2 class="section-title">FAQ</h2>
+    <div class="faq">
+      <details><summary>How much does the tori-fi-scraper cost?</summary><p>Priced at $0.002 per listing ($2.00 per 1,000). With includeDetails on, a listing costs $0.005 instead ($5.00 per 1,000). Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>Why are condition, attributes and description empty?</summary><p>They come from the listing page. Turn on includeDetails.</p></details>
+      <details><summary>Why is seller empty on many rows?</summary><p>The listing card only shows a name for business sellers. Private sellers show none.</p></details>
+      <details><summary>How do I get a search URL?</summary><p>Open tori.fi, search and set your filters, then copy the URL from the address bar.</p></details>
     </div>
 
     <div class="ctas" style="margin-top:40px">
