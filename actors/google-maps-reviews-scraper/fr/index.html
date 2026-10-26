@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+ <meta charset="UTF-8">
+ <meta name="robots" content="noindex, follow">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Google Maps Reviews Scraper : exporter les avis | NanoScrape</title>
+ <meta name="description" content="Avis Google Maps pour toute URL de lieu ou Place ID : note, texte, date, auteur, photos et réponse du propriétaire, une ligne par avis.">
+ <link rel="canonical" href="https://www.nanoscrape.com/actors/google-maps-reviews-scraper/fr/">
+ <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/actors/google-maps-reviews-scraper/">
+ <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/actors/google-maps-reviews-scraper/de/">
+ <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/actors/google-maps-reviews-scraper/fr/">
+ <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/actors/google-maps-reviews-scraper/">
+ <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+ <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+ <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+ <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+ <style>
+ :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+ a { color: var(--accent); text-decoration: none; }
+ a:hover { text-decoration: underline; }
+ .detail { max-width: 900px; margin: 0 auto; padding: 20px 20px 60px; }
+ .detail h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+ .detail .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 32px; max-width: 700px; }
+ .ctas { display: flex; gap: 12px; margin-bottom: 40px; flex-wrap: wrap; }
+ .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 28px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+ .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+ .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 28px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+ .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+ .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 16px; margin-bottom: 40px; }
+ .spec { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+ .spec .label { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+ .spec .value { font-size: 1.1rem; font-weight: 700; color: var(--white); }
+ .section-title { font-size: 1.3rem; font-weight: 700; margin: 40px 0 16px; color: var(--white); }
+ .detail ul { padding-left: 20px; margin-bottom: 24px; }
+ .detail li { margin-bottom: 8px; color: var(--muted); }
+ .detail li strong { color: var(--white); }
+ .code-block { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px; overflow-x: auto; margin-bottom: 24px; }
+ .code-block pre { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; }
+ .code-block .comment { color: var(--muted); }
+ .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 32px; }
+ .compare-table th, .compare-table td { padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+ .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+ .compare-table td { color: var(--text); }
+ .compare-table tr:hover td { background: var(--surface); }
+ .highlight { color: var(--accent); font-weight: 700; }
+ footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+ @media (max-width: 480px) { .lang-trigger { font-size: 0.8rem; min-height: 36px; padding: 4px 8px; } .detail h1 { font-size: 1.5rem; } .specs { grid-template-columns: repeat(2, 1fr); } .ctas { flex-direction: column; } .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; } }
+ #site-header { min-height: 56px; }
+ #site-footer { min-height: 80px; }
+ 
+        /* Prism.js code block styling (matches EN template) */
+        .code-block { position: relative; margin-bottom: 24px; }
+        .code-block > pre:not([class*="language-"]) { margin: 0; padding: 20px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.5; white-space: pre; overflow-x: auto; }
+        .code-block > pre[class*="language-"] { margin: 0; border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.5; }
+        .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+        .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+        .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+        .lang-tabs { display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+        .tab-btn { padding: 8px 14px; background: transparent; color: var(--muted); border: none; border-bottom: 2px solid transparent; cursor: pointer; font-size: 0.85rem; font-family: inherit; margin-bottom: -1px; }
+        .tab-btn:hover { color: var(--text); }
+        .tab-btn.is-active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+        .lang-panel { display: none; }
+        .lang-panel.is-active { display: block; }
+</style>
+<!-- Prism.js syntax highlighting -->
+ <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+ <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+ <script type="application/ld+json">
+ {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Google Maps Reviews Scraper",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Cloud (Apify)",
+  "description": "Avis Google Maps pour toute URL de lieu ou Place ID : note, texte, date, auteur, photos et réponse du propriétaire, une ligne par avis.",
+  "offers": {
+   "@type": "Offer",
+   "price": "0.0003",
+   "priceCurrency": "USD",
+   "description": "pay-per-result"
+  },
+  "url": "https://apify.com/santamaria-automations/google-maps-reviews-scraper?fpr=0khfbz",
+  "author": {
+   "@type": "Organization",
+   "name": "NanoScrape",
+   "url": "https://www.nanoscrape.com"
+  }
+ }
+ </script>
+</head>
+<body>
+
+ <div id="site-header"></div>
+ </div>
+
+ <div class="detail">
+ <h1>Google Maps Reviews Scraper : avis des lieux Google Maps</h1>
+ <p class="lead">Récupérez les avis de n'importe quel lieu Google Maps : note en étoiles, texte de l'avis, date, auteur, photos et réponse du propriétaire, une ligne par avis. Indiquez des URL de lieux ou des Place IDs. Sans connexion, sans clé API.</p>
+
+ <div class="ctas">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-reviews-scraper?fpr=0khfbz&amp;fp_sid=a-google-maps-reviews-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-reviews-scraper?fpr=0khfbz&amp;fp_sid=a-google-maps-reviews-scraper-fr" class="btn-secondary">Essayer</a>
+ </div>
+
+ <div class="specs">
+ <div class="spec"><div class="label">Prix</div><div class="value">0,0003 $/avis</div></div>
+ <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+ <div class="spec"><div class="label">Champs</div><div class="value">19</div></div>
+ <div class="spec"><div class="label">Entrée</div><div class="value">URL de lieux ou Place IDs</div></div>
+ </div>
+
+ <h2 class="section-title">Ce que vous obtenez</h2>
+ <ul>
+ <li><strong>Avis :</strong> ID de l'avis, note (1 à 5), texte, date, réponse du propriétaire, URL des photos</li>
+ <li><strong>Auteur :</strong> nom, lien du profil, nombre de ses avis, indicateur Local Guide (quand Google les fournit)</li>
+ <li><strong>Lieu :</strong> Place ID, Data ID, nom, URL, adresse, note globale et nombre d'avis sur chaque ligne</li>
+ <li><strong>Métadonnées :</strong> date de collecte ; les lignes sans ID d'avis sont dédoublonnées par leur contenu</li>
+ </ul>
+
+ <h2 class="section-title">Cas d'usage</h2>
+ <ul>
+ <li><strong>Suivi de réputation</strong> : récupérer par planification uniquement les nouveaux avis depuis une date</li>
+ <li><strong>Analyse concurrentielle</strong> : comparer les avis de plusieurs établissements ou concurrents</li>
+ <li><strong>Analyse de sentiment</strong> : collecter les textes d'avis pour des analyses ou des modèles d'IA</li>
+ <li><strong>Prospection</strong> : trouver des établissements aux avis faibles ou sans réponses</li>
+ </ul>
+
+ <h2 class="section-title">Entrée</h2>
+ <p>Dans <code>startUrls</code>, indiquez des URL de lieux Google Maps (l'URL complète d'un lieu avec <code>!1s0x...:0x...</code>, un lien <code>?ftid=</code>, un lien <code>?q=place_id:</code> ou un lien court <code>maps.app.goo.gl</code>), dans <code>placeIds</code> des Place IDs ou Data IDs, ou les deux. Les URL de résultats de recherche et les liens avec seulement un CID ne sont pas pris en charge. <code>maxReviewsPerPlace</code> (100 par défaut, jusqu'à 5 000) limite les avis par lieu, <code>reviewsSort</code> choisit <code>newest</code> (par défaut), <code>relevant</code>, <code>highest</code> ou <code>lowest</code>, et <code>reviewsStartDate</code> (AAAA-MM-JJ) ignore les avis plus anciens et arrête la pagination plus tôt. <code>language</code> (<code>en</code> par défaut) fixe la langue envoyée à Google. Un lieu indiqué deux fois n'est lu qu'une fois.</p>
+
+ <h2 class="section-title">Exemple d'entrée</h2>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copier le code">Copier</button><pre><code class="language-json">{
+  "startUrls": [
+    {
+      "url": "https://www.google.com/maps/place/?q=place_id:ChIJOUaXTwcKkEcRoKwC-x6RFew"
+    }
+  ],
+  "placeIds": [
+    "0x47900a074f974639:0xec15911efb02aca0"
+  ],
+  "maxReviewsPerPlace": 500,
+  "reviewsSort": "newest",
+  "reviewsStartDate": "2026-01-01",
+  "language": "en"
+}</code></pre></div>
+
+ <h2 class="section-title">Combien ça coûte</h2>
+ <p>0,0003 $ par avis, soit 0,30 $ pour 1 000 avis. Le run s'arrête proprement quand son montant maximal est atteint ; vous ne recevez aucune ligne non facturée. Apify crédite 5 $ d'utilisation par mois aux comptes du plan gratuit, ce qui couvre les premiers runs. Sans abonnement mensuel.</p>
+
+ <h2 class="section-title">Exécutez cet actor directement sur Apify (sans code)</h2>
+ <p>Cliquez sur <strong>Ouvrir sur Apify</strong> ci-dessus pour lancer <code>google-maps-reviews-scraper</code> dans votre navigateur – sans code, sans installation. Dans la console Apify, vous obtenez :</p>
+ <ul>
+  <li><strong>Test en un clic</strong> – remplissez le formulaire d'entrée ou collez l'exemple JSON ci-dessus dans l'onglet <em>Éditeur JSON</em>, puis cliquez sur <strong>Start</strong>.</li>
+  <li><strong>Sortie en direct</strong> – regardez les lignes défiler dans un tableau <em>Output</em> interactif, ou basculez vers la vue <em>JSON</em> / <em>Log</em> brute.</li>
+  <li><strong>Exportez dans n'importe quel format</strong> – téléchargez le dataset en un clic au format <strong>JSON, CSV, XML, Excel, tableau HTML, RSS ou JSONL</strong>.</li>
+  <li><strong>Planifications</strong> – lancez cet actor <strong>quotidiennement, hebdomadairement, toutes les heures ou avec un cron personnalisé</strong>. Apify gère le timing et stocke chaque dataset.</li>
+  <li><strong>Intégrations &amp; webhooks</strong> – déclenchez un webhook en cas de succès/échec, ou connectez <strong>Zapier, n8n, Make, Airbyte, Google Sheets, Slack, S3, Postgres et plus</strong> depuis l'onglet <em>Actions</em>.</li>
+  <li><strong>Coûts transparents</strong> – suivez l'usage exact face à votre <strong>quota gratuit de 5$/mois</strong> avant de dépenser un centime.</li>
+ </ul>
+
+ <!-- Auto-injected: API token guide -->
+ <h2 class="section-title">Obtenez votre jeton API Apify</h2>
+ <p>Pour lancer cet actor depuis votre propre code, il vous faut un jeton API Apify. Environ une minute :</p>
+ <ol>
+  <li><a href="https://console.apify.com/sign-up?fpr=0khfbz&amp;fp_sid=a-google-maps-reviews-scraper-fr" target="_blank" rel="sponsored noopener">Inscrivez-vous gratuitement à Apify</a> (Google, GitHub ou e-mail).</li>
+  <li>Allez dans <strong>Paramètres &rarr; Intégrations &rarr; Jetons API</strong>.</li>
+  <li>Cliquez sur <strong>Créer un nouveau jeton API</strong>. Copiez et gardez-le secret.</li>
+ </ol>
+ <p><strong>Quota gratuit :</strong> Apify crédite votre compte de <strong>5$ d'usage plateforme par mois</strong>, sans carte bancaire. Assez pour tester n'importe quel actor. Le nombre de résultats couverts dépend du prix par résultat de l'actor.</p>
+
+ <!-- Auto-injected: Call from code -->
+ <h2 class="section-title">Appeler depuis votre code</h2>
+ <p>Lancez cet actor depuis n'importe quel langage via l'API REST Apify. Remplacez <code>YOUR_TOKEN</code> par votre jeton API et adaptez le JSON d'entrée.</p>
+ <div class="lang-tabs" data-lang-group="run-actor-fr">
+  <button class="tab-btn is-active" data-lang="curl">curl</button>
+  <button class="tab-btn" data-lang="node">Node.js</button>
+  <button class="tab-btn" data-lang="python">Python</button>
+  <button class="tab-btn" data-lang="csharp">C#</button>
+  <button class="tab-btn" data-lang="java">Java</button>
+ </div>
+ <div class="code-block lang-panel is-active" data-lang="curl"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~google-maps-reviews-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{}'</code></pre></div>
+ <div class="code-block lang-panel" data-lang="node"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// npm install apify-client
+import { ApifyClient } from 'apify-client';
+
+const client = new ApifyClient({ token: 'YOUR_TOKEN' });
+const run = await client.actor('santamaria-automations/google-maps-reviews-scraper').call({});
+const { items } = await client.dataset(run.defaultDatasetId).listItems();
+console.log(items);</code></pre></div>
+ <div class="code-block lang-panel" data-lang="python"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python"># pip install apify-client
+from apify_client import ApifyClient
+
+client = ApifyClient('YOUR_TOKEN')
+run = client.actor('santamaria-automations/google-maps-reviews-scraper').call(run_input={})
+items = list(client.dataset(run['defaultDatasetId']).iterate_items())
+print(items)</code></pre></div>
+ <div class="code-block lang-panel" data-lang="csharp"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-csharp">// dotnet add package Apify.Client
+using Apify.Client;
+
+var client = new ApifyClient("YOUR_TOKEN");
+var run = await client.Actor("santamaria-automations/google-maps-reviews-scraper").CallAsync(new { });
+var items = await client.Dataset(run.DefaultDatasetId).ListItemsAsync();</code></pre></div>
+ <div class="code-block lang-panel" data-lang="java"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-java">// Maven: com.apify:apify-client
+import com.apify.client.ApifyClient;
+
+ApifyClient client = new ApifyClient("YOUR_TOKEN");
+ActorRun run = client.actor("santamaria-automations/google-maps-reviews-scraper").call(Map.of());
+List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatasetId()).listItems();</code></pre></div>
+
+ <!-- Auto-injected: MCP -->
+ <h2 class="section-title">Utiliser avec des agents IA (MCP)</h2>
+ <p>Cet actor est disponible sur le serveur MCP Apify, vous pouvez donc le piloter depuis n'importe quel client IA compatible MCP – Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex ou un agent maison – sans écrire de code.</p>
+ <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy MCP URL">Copy</button><pre><code class="language-plain">https://mcp.apify.com?tools=santamaria-automations/google-maps-reviews-scraper</code></pre></div>
+ <p><strong>Exemple de prompt une fois connecté :</strong></p>
+ <blockquote style="border-left:3px solid var(--accent);padding:12px 16px;margin:16px 0;background:var(--surface);color:var(--text);border-radius:4px">"Utilise <code>google-maps-reviews-scraper</code> pour lancer un scrape et donne-moi les résultats sous forme de tableau."</blockquote>
+ <p>Les clients avec découverte dynamique des outils (Claude.ai, VS Code) reçoivent le schéma d'entrée complet automatiquement via <code>add-actor</code>.</p>
+
+ <!-- Auto-injected: no-code -->
+ <h2 class="section-title">Utiliser avec des plateformes no-code</h2>
+ <p>Déclenchez cet actor depuis votre outil d'automatisation. Toutes les plateformes ci-dessous peuvent appeler l'API Apify en quelques clics — sans code.</p>
+ <div class="lang-tabs" data-lang-group="nocode-fr">
+  <button class="tab-btn is-active" data-lang="n8n">n8n</button>
+  <button class="tab-btn" data-lang="zapier">zapier</button>
+  <button class="tab-btn" data-lang="make">make</button>
+  <button class="tab-btn" data-lang="pipedream">pipedream</button>
+  <button class="tab-btn" data-lang="bubble">bubble</button>
+ </div>
+ <div class="lang-panel is-active" data-lang="n8n">
+  <ol>
+    <li>Ajoutez le <a target="_blank" rel="sponsored noopener" href="https://n8n.partnerlinks.io/rx97o1phofve">node Apify pour n8n</a> (installé par défaut sur n8n Cloud ; en self-hosted installez <code>@apify/n8n-nodes-apify</code>).</li>
+    <li>Définissez <strong>Actor</strong> sur <code>santamaria-automations/google-maps-reviews-scraper</code>.</li>
+    <li>Choisissez l'opération <em>Run Actor and get dataset</em>, collez votre JSON d'entrée, et connectez un node aval (Google Sheets, Postgres, webhook, …).</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="zapier">
+  <ol>
+    <li>Créez un nouveau Zap avec n'importe quel déclencheur.</li>
+    <li>Ajoutez une action <strong>Webhooks by Zapier</strong> POST vers <code>https://api.apify.com/v2/acts/santamaria-automations~google-maps-reviews-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Body : votre JSON d'entrée. Content-Type : <code>application/json</code>.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="make">
+  <ol>
+    <li>Créez un nouveau scénario.</li>
+    <li>Ajoutez un module <strong>HTTP</strong> : URL <code>https://api.apify.com/v2/acts/santamaria-automations~google-maps-reviews-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, méthode POST, body raw JSON.</li>
+    <li>Parsez la réponse avec un module <strong>JSON</strong> pour itérer les items en aval.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="pipedream">
+  <ol>
+    <li>Créez un nouveau workflow.</li>
+    <li>Ajoutez une étape <strong>HTTP Request</strong> : POST vers <code>https://api.apify.com/v2/acts/santamaria-automations~google-maps-reviews-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>.</li>
+    <li>Accédez à <code>steps.http.$return_value</code> dans les étapes suivantes.</li>
+  </ol>
+</div>
+<div class="lang-panel" data-lang="bubble">
+  <ol>
+    <li>Installez le plugin <strong>API Connector</strong>.</li>
+    <li>Ajoutez une nouvelle API : POST <code>https://api.apify.com/v2/acts/santamaria-automations~google-maps-reviews-scraper/run-sync-get-dataset-items?token=YOUR_TOKEN</code>, body type JSON.</li>
+    <li>Initialisez l'appel avec votre input, puis référencez le tableau de réponse dans les actions de workflow.</li>
+  </ol>
+</div>
+
+
+ <h2 class="section-title">Actors associés</h2>
+ <ul>
+ <li><a href="/actors/google-maps-scraper/fr/">Google Maps Scraper</a></li>
+ <li><a href="/actors/google-play-reviews-scraper/">Google Play Reviews Scraper</a></li>
+ <li><a href="/actors/app-store-reviews-scraper/">App Store Reviews Scraper</a></li>
+ <li><a href="/actors/booking-reviews-scraper/">Booking.com Reviews Scraper</a></li>
+ </ul>
+ <div class="ctas" style="margin-top:40px">
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-reviews-scraper?fpr=0khfbz&amp;fp_sid=a-google-maps-reviews-scraper-fr" class="btn-primary">Ouvrir sur Apify &rarr;</a>
+ <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/google-maps-reviews-scraper?fpr=0khfbz&amp;fp_sid=a-google-maps-reviews-scraper-fr" class="btn-secondary">Essayer — démarrage gratuit</a>
+ </div>
+ </div>
+ <div id="site-footer"></div>
+
+ 
+
+ <script src="/components.js?v=6"></script>
+ <script src="/search.js?v=6"></script>
+ <!-- Prism.js syntax highlighting -->
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+ <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+ <script>
+ // Copy-to-clipboard + tab switcher (matches EN template)
+ document.addEventListener('click', function(e) {
+   if (e.target.matches('.copy-btn')) {
+     var pre = e.target.parentElement.querySelector('pre');
+     if (!pre) return;
+     var btn = e.target;
+     navigator.clipboard.writeText(pre.textContent).then(function() {
+       var orig = btn.textContent;
+       btn.classList.add('copied'); btn.textContent = 'Copied!';
+       setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+     }).catch(function() {
+       btn.textContent = 'Copy failed';
+       setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+     });
+   }
+ });
+ document.addEventListener('click', function(e) {
+   if (!e.target.matches('.tab-btn')) return;
+   var btn = e.target;
+   var group = btn.closest('.lang-tabs');
+   if (!group) return;
+   var lang = btn.getAttribute('data-lang');
+   group.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('is-active'); });
+   btn.classList.add('is-active');
+   var panels = group.parentElement.querySelectorAll('.lang-panel');
+   panels.forEach(function(p) {
+     var prev = p.previousElementSibling;
+     while (prev && !prev.classList.contains('lang-tabs')) prev = prev.previousElementSibling;
+     if (prev === group) {
+       p.classList.toggle('is-active', p.getAttribute('data-lang') === lang);
+     }
+   });
+ });
+ </script>
+
+</body>
+</html>
