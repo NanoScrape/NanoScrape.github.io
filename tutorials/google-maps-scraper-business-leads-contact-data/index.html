@@ -703,6 +703,21 @@ When it's done, remove duplicates by place_id and keep only the categories Gym, 
 Before you start the run, tell me what it will cost and wait for my OK.
 When it's done, remove duplicates by place_id and keep only the category Roofing contractor with a phone or website. Keep a business only if its coordinates are inside the Dallas city limits. Give me a table with name, phone, website, rating and ZIP code, sorted by rating.</code></pre></div>
 
+    <h4 id="example-dallas-no-website">The 97 roofers without a website, and a call script</h4>
+    <p>315 of the 412 roofers list a website, so <strong>97 have none</strong>, and every one of those 97 has a phone number. For a web designer these are the easiest calls to make. The business clearly exists, it gets found on Google Maps, and there is nothing to send customers to. Use the same run as above and ask Claude for this list instead:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">Use the Apify MCP server. Run the actor santamaria-automations/google-maps-scraper with the search "roofing contractor in Dallas, TX" and at most 200 results. Before you start the run, tell me what it will cost and wait for my OK.
+When it's done, list only the businesses without a website: name, phone, rating and review count, sorted by review count.
+Then write me a short cold-call script that offers a free demo website and asks for a 15-minute meeting. Book the meeting first, build the site after.</code></pre></div>
+    <p>One search returns at most 200 places, so this prompt gives you part of the list. For all 97, use the 30 neighborhood searches above and add "keep only the businesses without a website".</p>
+    <p><strong>How to use the call script</strong></p>
+    <ul>
+      <li><strong>Open with what you saw.</strong> "I found you on Google Maps. You have good reviews, but there's no website linked, so people who search for you have nowhere to click."</li>
+      <li><strong>Offer something small and concrete.</strong> A free one-page demo with their name, phone, service area and reviews. No price on the first call.</li>
+      <li><strong>Ask for the meeting, not the sale.</strong> "Can I show you a draft in a 15-minute call on Thursday?" Build the demo only after they say yes, so you don't spend time on sites nobody looks at.</li>
+      <li><strong>Sort by review count.</strong> Businesses with many reviews and no website have the most to lose, and they're the easiest to start a conversation with.</li>
+      <li><strong>Respect the rules where you call.</strong> Check do-not-call rules for business numbers in your country and state, and stop when someone says no.</li>
+    </ul>
+
     <h3 id="example-phoenix">HVAC companies in Phoenix, Arizona: 662 firms</h3>
     <div class="example"><figure><img src="assets/example-phoenix.jpg" alt="Map of the Phoenix city limits with one dot per HVAC company from the run" width="659" height="720" loading="lazy"><figcaption>City outline © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)</figcaption></figure><div><p>20 searches, one per neighborhood ("HVAC contractor in Laveen, Phoenix, AZ" and so on), up to 200 places each. Run on 21 October 2026.</p><ul><li><strong>2,379 rows</strong> came back, 1,196 after removing duplicates.</li><li>Primary category HVAC contractor, Air conditioning contractor, Air conditioning repair service or Heating contractor: 1,109. Inside the Phoenix city limits (by coordinates): 678. With a phone or a website: <strong>662 HVAC firms</strong>.</li><li>658 have a phone, 484 a website; 479 are rated 4.5 or higher.</li><li>Cost estimate: 2,379 places × $0.001 = <strong>about $2.38</strong> on the free plan.</li></ul></div></div>
     <details><summary>Show the input with all 20 neighborhoods</summary>
