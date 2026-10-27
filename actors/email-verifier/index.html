@@ -106,47 +106,31 @@
           "name": "How much does the email-verifier cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.002 per email checked ($2.00 per 1,000). 10,000 emails ≈ $20.00. Apify's $5/month free tier covers the first runs. No monthly subscription."
+            "text": "Priced at $0.002 per email verified ($2.00 per 1,000). 10,000 emails ≈ $20.00. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
           "@type": "Question",
-          "name": "Does it tell me whether a mailbox exists?",
+          "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. There is no mailbox-level SMTP check. ok means no check flagged the address, not that it will receive mail."
+            "text": "12 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Why is catch_all never no?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The mail server is not asked, so a catch-all setup can be suspected but not ruled out. likely is a guess from the MX host name."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
           "@type": "Question",
-          "name": "Why is a typo domain like gnail.com marked ok?",
+          "name": "How fresh is the data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "If the domain has MX records and is not disposable, no check flags it. Typo domains are not detected."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is example.com invalid?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "It publishes a null MX, which means it does not receive mail."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I stop at a budget?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Yes, set a maximum total charge on the run. Rows stop at the limit and the status message says how many were delivered."
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -253,18 +237,59 @@
 
   <div class="detail">
     <h1>Email List Checker: Syntax, MX &amp; Disposable Domains</h1>
-    <p class="direct-answer">The NanoScrape Email List Checker is an Apify actor that checks email addresses for syntax, MX records, disposable domains and role addresses. It returns one row per address with a status (ok, risky, invalid), a catch-all guess and a 0-100 score, priced at $2 per 1,000 emails. It never contacts the recipient mail server, so it does not confirm that a mailbox exists.</p>
+    <p class="direct-answer">The NanoScrape Email Verifier Scraper is an Apify actor that extracts structured web data from Email Verifier. It returns 12 fields per result including email, status, syntax_ok, mx_ok, mx_provider, priced at $2/1k email, with no API key or monthly subscription required.</p>
     <p class="lead">Check email lists in bulk for bad syntax, missing MX records, disposable domains and role addresses (info@, sales@). Adds a catch-all heuristic and a 0-100 score per address. No mailbox-level check: it does not confirm an address exists. Pay per email.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/email-verifier?fpr=0khfbz&amp;fp_sid=a-email-verifier" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 emails</div></div>
-      <div class="spec"><div class="label">Checks</div><div class="value">Syntax, MX, disposable, role, catch-all guess</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 email</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Coverage</div><div class="value">INTL</div></div>
     </div>
+    <h2 class="section-title">What you can scrape — 12 fields per result</h2>
+    <table class="compare-table">
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>company_id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Core</td><td>—</td></tr>
+      <tr><td><code>score</code></td><td>integer</td><td><code>95</code></td><td>Reviews / rating</td><td>100%</td></tr>
+      <tr><td><code>email</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>status</code></td><td>string</td><td>ok</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>syntax_ok</code></td><td>boolean</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>mx_ok</code></td><td>boolean</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>mx_provider</code></td><td>string</td><td>google_workspace</td><td>Other</td><td>71%</td></tr>
+      <tr><td><code>disposable</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>role_account</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>catch_all</code></td><td>string</td><td>unknown</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>catch_all_method</code></td><td>string</td><td>heuristic</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>checked_at</code></td><td>string</td><td>2026-10-26T08:24:12Z</td><td>Other</td><td>100%</td></tr>
+    </table>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;emails&quot;: [
+    &quot;jane.doe@gmail.com&quot;,
+    &quot;info@apify.com&quot;,
+    &quot;throwaway@mailinator.com&quot;,
+    &quot;not-a-real-email&quot;,
+    &quot;someone@thisdomaindoesnotexist123456.com&quot;
+  ]
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;email&quot;: null,
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;syntax_ok&quot;: true,
+  &quot;mx_ok&quot;: true,
+  &quot;mx_provider&quot;: &quot;google_workspace&quot;,
+  &quot;disposable&quot;: false,
+  &quot;role_account&quot;: false,
+  &quot;catch_all&quot;: &quot;unknown&quot;,
+  &quot;catch_all_method&quot;: &quot;heuristic&quot;,
+  &quot;score&quot;: 95,
+  &quot;checked_at&quot;: &quot;2026-10-26T08:24:12Z&quot;
+}</code></pre></div>
+    <h2 class="section-title">Cost math</h2>
+    <p>Priced at <strong>$0.002</strong> per email verified ($2.00 per 1,000). 10,000 emails ≈ $20.00. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
     <h2 class="section-title">What this checker does and does not do</h2>
     <p>Each address is checked for syntax, the domain's MX records, a disposable-mail domain and a role local part (info@, support@ and similar). A catch-all guess is derived from the MX host name. <strong>There is no mailbox-level SMTP check:</strong> the actor never contacts the recipient's mail server, so it cannot tell you whether a mailbox exists or whether a message will be delivered.</p>
     <h2 class="section-title">How the status is set</h2>
@@ -289,26 +314,6 @@
       <tr><td><code>score</code></td><td>integer</td><td><code>55</code></td><td>0-100 for sorting a list, not a probability of delivery</td></tr>
       <tr><td><code>checked_at</code></td><td>string</td><td><code>2026-10-26T10:30:00Z</code></td><td>ISO 8601 timestamp of the check</td></tr>
     </table>
-    <h2 class="section-title">Input example: flat list</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;emails&quot;: [
-    &quot;jane.doe@gmail.com&quot;,
-    &quot;info@apify.com&quot;,
-    &quot;throwaway@mailinator.com&quot;
-  ]
-}</code></pre></div>
-    <h2 class="section-title">Input example: with a company_id for join-back</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;companies&quot;: [
-    {
-      &quot;company_id&quot;: &quot;acme-42&quot;,
-      &quot;emails&quot;: [
-        &quot;ceo@apify.com&quot;,
-        &quot;info@apify.com&quot;
-      ]
-    }
-  ]
-}</code></pre></div>
     <h2 class="section-title">Sample output row</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;company_id&quot;: &quot;acme-42&quot;,
@@ -324,8 +329,6 @@
   &quot;score&quot;: 55,
   &quot;checked_at&quot;: &quot;2026-10-26T10:30:00Z&quot;
 }</code></pre></div>
-    <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.002</strong> per email checked ($2.00 per 1,000). 10,000 emails ≈ $20.00. Addresses are de-duplicated before checking, and an explicit empty list checks and charges nothing. If you set a maximum total charge, the run stops delivering rows at that limit. The first runs land inside Apify's $5/mo free-tier credit, with no monthly subscription.</p>
     <h2 class="section-title">Use cases</h2>
     <ul>
       <li><strong>Pre-send list cleanup</strong>: drop addresses with broken syntax or domains without MX records before outreach</li>
@@ -459,26 +462,24 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the email-verifier cost?</summary><p>Priced at $0.002 per email checked ($2.00 per 1,000). 10,000 emails ≈ $20.00. Apify's $5/month free tier covers the first runs. No monthly subscription.</p></details>
-      <details><summary>Does it tell me whether a mailbox exists?</summary><p>No. There is no mailbox-level SMTP check. ok means no check flagged the address, not that it will receive mail.</p></details>
-      <details><summary>Why is catch_all never no?</summary><p>The mail server is not asked, so a catch-all setup can be suspected but not ruled out. likely is a guess from the MX host name.</p></details>
-      <details><summary>Why is a typo domain like gnail.com marked ok?</summary><p>If the domain has MX records and is not disposable, no check flags it. Typo domains are not detected.</p></details>
-      <details><summary>Why is example.com invalid?</summary><p>It publishes a null MX, which means it does not receive mail.</p></details>
-      <details><summary>Can I stop at a budget?</summary><p>Yes, set a maximum total charge on the run. Rows stop at the limit and the status message says how many were delivered.</p></details>
+      <details><summary>How much does the email-verifier cost?</summary><p>Priced at $0.002 per email verified ($2.00 per 1,000). 10,000 emails ≈ $20.00. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>12 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/app-store-reviews-scraper/"><span class="name">App Store Reviews Scraper</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/biospace-scraper/"><span class="name">Biospace Scraper</span><span class="summary">Extract job listings from BioSpace, a US biotech and pharma job board. Returns title, company, location, salary, discipline, career level, therapy area, full description, apply URL and posting dates. From $3 per 1,000 jobs, about $8 with full job details.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/broken-link-checker/"><span class="name">Broken Link Checker</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/compliance-scanner/"><span class="name">Compliance Scanner</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/rss-feed-reader/"><span class="name">RSS Feed Reader</span></a>
       <a class="related-actor" href="https://www.nanoscrape.com/actors/domain-whois-dns/"><span class="name">Domain Whois DNS</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/gbp-completeness-audit/"><span class="name">GBP Completeness Audit</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/"><span class="name">SSL Certificate Inspector</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/job-feed/"><span class="name">Job Feed</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/email-verifier?fpr=0khfbz&amp;fp_sid=a-email-verifier" class="btn-primary">Open on Apify &rarr;</a>
     </div>
-    <p class="footer-verify">Actor v1.1 · Maintained by NanoScrape (santamaria-automations on Apify)
+    <p class="footer-verify">Last verified run: <strong>2026-10-26</strong> · Actor v1.1.1 · Maintained by NanoScrape (santamaria-automations on Apify)
     </p>
   </div>
 
