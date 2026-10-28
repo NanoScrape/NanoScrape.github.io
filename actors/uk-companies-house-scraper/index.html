@@ -31,7 +31,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/uk-companies-house-scraper/#app",
       "name": "UK Companies House Scraper",
-      "description": "Search UK Companies House for company records: number, status, type, incorporation date and registered address, with optional officers (directors, secretaries). Pay per company.",
+      "description": "Search UK Companies House by company name or keyword. One row per company with number, status, type, incorporation date and registered address, plus optional officers. Pay-per-result.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.003",
+        "price": "0.0030",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.003",
+          "price": "0.0030",
           "priceCurrency": "USD",
           "unitText": "per company"
         }
@@ -70,13 +70,13 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Enrichment",
-          "item": "https://www.nanoscrape.com/actors/enrichment/"
+          "name": "Web Tools",
+          "item": "https://www.nanoscrape.com/actors/tools/"
         },
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "UK Companies House Scraper: Company Records and Officers"
+          "name": "UK Companies House Scraper"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "name": "How much does the uk-companies-house-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.003 per company delivered ($3.00 per 1,000). With includeOfficers on, each company whose officers are added costs $0.002 more. A run that delivers no company costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+            "text": "Priced at $0.003 per company delivered ($3.00 per 1,000). With includeOfficers on, each company whose officers are added costs $0.002 more. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,15 +114,7 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "14 fields per company: name, number, type, status, incorporation date, registered address split into locality, postal code and country, a Companies House link, optional officers, the data source, the search query and a timestamp."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How many companies can one query return?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Up to 1,000. The register's search stops there."
+            "text": "14 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
@@ -130,15 +122,7 @@
           "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "The actor returns data that is public on Companies House. Officer records can include names, correspondence addresses and birth month and year of individuals, so UK GDPR and direct-marketing rules apply to how you use them."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need an API key from the source platform?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. There is no API key field in the input. Give the actor company names or keywords and it does the rest."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -252,49 +236,155 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>UK Companies House Scraper: Company Records and Officers</h1>
-    <p class="direct-answer">The NanoScrape UK Companies House Scraper is an Apify actor that searches the UK Companies House register by name or keyword. It returns 14 fields per company including company number, status, type, incorporation date, registered address and optional officers, priced at $3 per 1,000 companies, with no API key or monthly subscription required.</p>
-    <p class="lead">Search the UK Companies House register by company name or keyword and get structured company records, with optional officers (directors and secretaries) <a href="https://find-and-update.company-information.service.gov.uk" target="_blank" rel="noopener">(source platform)</a>. Pay per result.</p>
+    <h1>UK Companies House Scraper</h1>
+    <p class="direct-answer">The NanoScrape Uk Companies House Scraper is an Apify actor that extracts structured web data from Uk Companies House. It returns 14 fields per result including company_name, company_number, address_locality, address_postal_code, address_country, priced at $3/1k company, with no API key or monthly subscription required.</p>
+    <p class="lead">Search UK Companies House by company name or keyword. One row per company with number, status, type, incorporation date and registered address, plus optional officers. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/uk-companies-house-scraper?fpr=0khfbz&amp;fp_sid=a-uk-companies-house-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000 companies</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000 company</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
       <div class="spec"><div class="label">Coverage</div><div class="value">UK</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 14 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>company_name</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>company_number</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>company_type</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>company_status</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>date_of_creation</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>company_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>registered_address</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Address</td></tr>
-      <tr><td><code>address_locality</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Address</td></tr>
-      <tr><td><code>address_postal_code</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Address</td></tr>
-      <tr><td><code>address_country</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Address</td></tr>
-      <tr><td><code>officers</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Officers</td></tr>
-      <tr><td><code>data_source</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>search_query</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>company_name</code></td><td>string</td><td>REVOLUT LTD</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company_url</code></td><td>string</td><td>https://find-and-update.company-information.service.gov.uk/company/08804411</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company_number</code></td><td>string</td><td>08804411</td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>company_type</code></td><td>string</td><td>ltd</td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>company_status</code></td><td>string</td><td>active</td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>registered_address</code></td><td>string</td><td>30 South Colonnade, London, United Kingdom, E14 5HX</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address_locality</code></td><td>string</td><td>London</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address_postal_code</code></td><td>string</td><td>E14 5HX</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address_country</code></td><td>string</td><td>United Kingdom</td><td>Location</td><td>67%</td></tr>
+      <tr><td><code>date_of_creation</code></td><td>string</td><td>2013-12-06</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-10-27T03:46:37Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>officers</code></td><td>array</td><td><code>[{"name": "FLEMING, Heather", "role": "secretary", "appointed_on": "2025-06-19",</code></td><td>Other</td><td>56%</td></tr>
+      <tr><td><code>data_source</code></td><td>string</td><td>website</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>search_query</code></td><td>string</td><td>Revolut</td><td>Other</td><td>100%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put company names or keywords in <code>queries</code>, for example <code>Revolut Ltd</code> or <code>fintech</code>. <code>maxResultsPerQuery</code> (default 50, up to 1,000, where the register's search stops) caps each query; companies are de-duplicated by company number across queries. <code>includeOfficers</code> adds current officers (name, role, appointment date, nationality, country of residence, correspondence address, birth month and year), and <code>includeResigned</code> former ones too. An empty input runs a small demo: search "tesco", 5 results.</p>
-    <h2 class="section-title">Input example — two companies with officers</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;queries&quot;: [
-    &quot;Revolut Ltd&quot;,
-    &quot;Monzo Bank Limited&quot;
+    &quot;Revolut&quot;,
+    &quot;Monzo&quot;
   ],
   &quot;maxResultsPerQuery&quot;: 10,
-  &quot;includeOfficers&quot;: true
+  &quot;includeOfficers&quot;: true,
+  &quot;includeResigned&quot;: false
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;company_name&quot;: &quot;REVOLUT LTD&quot;,
+  &quot;company_number&quot;: &quot;08804411&quot;,
+  &quot;company_type&quot;: &quot;ltd&quot;,
+  &quot;company_status&quot;: &quot;active&quot;,
+  &quot;date_of_creation&quot;: &quot;2013-12-06&quot;,
+  &quot;registered_address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+  &quot;address_locality&quot;: &quot;London&quot;,
+  &quot;address_postal_code&quot;: &quot;E14 5HX&quot;,
+  &quot;address_country&quot;: &quot;United Kingdom&quot;,
+  &quot;company_url&quot;: &quot;https://find-and-update.company-information.service.gov.uk/company/08804411&quot;,
+  &quot;officers&quot;: [
+    {
+      &quot;name&quot;: &quot;FLEMING, Heather&quot;,
+      &quot;role&quot;: &quot;secretary&quot;,
+      &quot;appointed_on&quot;: &quot;2025-06-19&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;
+    },
+    {
+      &quot;name&quot;: &quot;BRITTON, Caroline Louise&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2019-03-08&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;United Kingdom&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1965-02&quot;
+    },
+    {
+      &quot;name&quot;: &quot;GILBERT, Martin James&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2020-01-01&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;England&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1955-07&quot;
+    },
+    {
+      &quot;name&quot;: &quot;JAJODIA, Siddhartha&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2026-07-09&quot;,
+      &quot;nationality&quot;: &quot;American&quot;,
+      &quot;country_of_residence&quot;: &quot;England&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1974-12&quot;
+    },
+    {
+      &quot;name&quot;: &quot;SHERWOOD, Michael Sidney&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2020-02-21&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;United Kingdom&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1965-07&quot;
+    },
+    {
+      &quot;name&quot;: &quot;SIEVWRIGHT, John Phimister&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2021-08-01&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;Bahamas&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1955-02&quot;
+    },
+    {
+      &quot;name&quot;: &quot;STORONSKIY, Nikolay&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2013-12-06&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;United Kingdom&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1984-07&quot;
+    },
+    {
+      &quot;name&quot;: &quot;TEODOSIU, Dan&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2023-11-27&quot;,
+      &quot;nationality&quot;: &quot;Austrian&quot;,
+      &quot;country_of_residence&quot;: &quot;France&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1966-09&quot;
+    },
+    {
+      &quot;name&quot;: &quot;WILSON, Ian Douglas&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2020-02-21&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;Scotland&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1964-04&quot;
+    },
+    {
+      &quot;name&quot;: &quot;YATSENKO, Vladyslav&quot;,
+      &quot;role&quot;: &quot;director&quot;,
+      &quot;appointed_on&quot;: &quot;2017-08-11&quot;,
+      &quot;nationality&quot;: &quot;British&quot;,
+      &quot;country_of_residence&quot;: &quot;England&quot;,
+      &quot;address&quot;: &quot;30 South Colonnade, London, United Kingdom, E14 5HX&quot;,
+      &quot;birth_month_year&quot;: &quot;1983-08&quot;
+    }
+  ],
+  &quot;data_source&quot;: &quot;website&quot;,
+  &quot;search_query&quot;: &quot;Revolut&quot;,
+  &quot;scraped_at&quot;: &quot;2026-10-27T03:46:37Z&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.003</strong> per company delivered ($3.00 per 1,000). With <code>includeOfficers</code> on (off by default), each company whose officers are added costs <strong>$0.002</strong> more ($5.00 per 1,000 companies with officers). A run that delivers no company, such as a search with no hits, costs nothing, and rows stop before one that would exceed your maximum total charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <p>Priced at <strong>$0.003</strong> per company delivered ($3.00 per 1,000). With <code>includeOfficers</code> on, each company whose officers are added costs <strong>$0.002</strong> more. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put company names or keywords in <code>queries</code>, for example <code>Revolut Ltd</code> or <code>fintech</code>. <code>maxResultsPerQuery</code> (default 50, up to 1,000, where the register's search stops) caps each query; companies are de-duplicated by company number across queries. <code>includeOfficers</code> adds current officers (name, role, appointment date, nationality, country of residence, correspondence address, birth month and year), and <code>includeResigned</code> former ones too. An empty input runs a small demo: search "tesco", 5 results.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -420,23 +510,25 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the uk-companies-house-scraper cost?</summary><p>Priced at $0.003 per company delivered ($3.00 per 1,000). With includeOfficers on, each company whose officers are added costs $0.002 more. A run that delivers no company costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>14 fields per company: name, number, type, status, incorporation date, registered address split into locality, postal code and country, a Companies House link, optional officers, the data source, the search query and a timestamp.</p></details>
-      <details><summary>How many companies can one query return?</summary><p>Up to 1,000. The register's search stops there.</p></details>
-      <details><summary>Is scraping this site legal?</summary><p>The actor returns data that is public on Companies House. Officer records can include names, correspondence addresses and birth month and year of individuals, so UK GDPR and direct-marketing rules apply to how you use them.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. There is no API key field in the input. Give the actor company names or keywords and it does the rest.</p></details>
+      <details><summary>How much does the uk-companies-house-scraper cost?</summary><p>Priced at $0.003 per company delivered ($3.00 per 1,000). With includeOfficers on, each company whose officers are added costs $0.002 more. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>14 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-email-scraper/"><span class="name">Website Email Scraper</span><span class="summary">Scrape Website Email for $1/1k page crawled: address, phones, phone_sources, emails, email_sources. Runs on Apify, pay-per-result, no monthly fee.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-contact-extractor/"><span class="name">Website Contact Extractor Scraper</span><span class="summary">Scrape Website Contact Extractor for $10/1k company processed: title, address, description, company_name. Runs on Apify, pay-per-result, no monthly fee.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/google-maps-scraper/"><span class="name">Google Maps Scraper</span><span class="summary">Scrape Google Maps for $1/1k place: title, phone, address, description, rating. Runs on Apify, pay-per-result, no monthly fee.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/rss-feed-reader/"><span class="name">RSS Feed Reader</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/domain-whois-dns/"><span class="name">Domain Whois DNS</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/"><span class="name">SSL Certificate Inspector</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/job-feed/"><span class="name">Job Feed</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/seo-metadata-extractor/"><span class="name">SEO Metadata Extractor</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/uk-companies-house-scraper?fpr=0khfbz&amp;fp_sid=a-uk-companies-house-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-10-27</strong> · Actor v1.3.1 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

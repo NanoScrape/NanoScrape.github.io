@@ -31,7 +31,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/email-finder-scraper/#app",
       "name": "Email Finder: Likely Business Addresses from Name and Domain",
-      "description": "Turn a first name, last name and company domain into a ranked list of likely business email addresses, with MX check, free-mail and disposable flags and a catch-all heuristic. It does not confirm that a mailbox exists. Pay per person with candidates.",
+      "description": "Turn a first name, last name and company domain into a ranked list of likely business email addresses, with MX check, free-mail and disposable flags and a catch-all heuristic. Candidates only, no mailbox check. Pay-per-result.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -44,7 +44,7 @@
           "@type": "UnitPriceSpecification",
           "price": "0.0015",
           "priceCurrency": "USD",
-          "unitText": "per person with candidates"
+          "unitText": "per person"
         }
       },
       "publisher": {
@@ -70,8 +70,8 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Enrichment",
-          "item": "https://www.nanoscrape.com/actors/enrichment/"
+          "name": "Web Tools",
+          "item": "https://www.nanoscrape.com/actors/tools/"
         },
         {
           "@type": "ListItem",
@@ -106,55 +106,23 @@
           "name": "How much does the email-finder-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.0015 per person with at least one candidate address ($1.50 per 1,000). Rows without candidates, such as domains with no MX records or free-mail domains, are not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+            "text": "Priced at $0.0015 per person with at least one candidate address ($1.50 per 1,000). Rows without candidates are delivered and not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
           "@type": "Question",
-          "name": "Is the address real?",
+          "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Unknown. The actor does not check mailboxes and never contacts the recipient's mail server. best_guess is the most common pattern for the name, and the other candidates cover companies that use another pattern. Expect some candidates to bounce."
+            "text": "17 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Why is there no candidate for a gmail.com address?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Consumer mail domains do not follow a company pattern, so no guess is made. The row is delivered with status free_mail_domain and is not charged."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What does catch_all: likely mean?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The domain's mail host looks like shared web hosting, where catch-all setups are common. It is a guess from the host name, not a test, and it is never no."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why did my row come back with invalid_input?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "A first name, last name or domain was missing, or the domain is not a valid host name. These rows are not charged."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Is this legal?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The actor builds address patterns from names and domains you supply and looks up public DNS records. Candidate business addresses of named people are personal data, so GDPR and national direct-marketing rules apply to how you use them."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need an API key?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. No third-party API key and no login. Give the actor names and domains and it does the rest."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -269,57 +237,124 @@
 
   <div class="detail">
     <h1>Email Finder: Likely Business Addresses from Name and Domain</h1>
-    <p class="direct-answer">The NanoScrape Email Finder is an Apify actor that turns a first name, last name and company domain into a ranked list of likely business email addresses. It returns 17 fields per person including the best guess, up to nine candidates, a confidence label, the domain&#39;s MX result and free-mail, disposable and catch-all flags, priced at $1.50 per 1,000 people with candidates. It does not check whether a mailbox exists.</p>
-    <p class="lead">Give the actor a first name, a last name and a company domain. For each person it builds the common business address patterns, checks the domain's MX records, flags free-mail and disposable domains and returns the candidates ranked, with a best guess on top. The result is a likely address, not a confirmed one: the actor never contacts the recipient's mail server. Pay per result.</p>
+    <p class="direct-answer">The NanoScrape Email Finder Scraper is an Apify actor that extracts structured web data from Email Finder. It returns 17 fields per result including first_name, last_name, domain, status, reason, priced at $1.5/1k person, with no API key or monthly subscription required.</p>
+    <p class="lead">Turn a first name, last name and company domain into a ranked list of likely business email addresses, with MX check, free-mail and disposable flags and a catch-all heuristic. Candidates only, no mailbox check. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/email-finder-scraper?fpr=0khfbz&amp;fp_sid=a-email-finder-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$1.50 / 1,000 people with candidates</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$1.50 / 1,000 person</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Input</div><div class="value">Name + company domain</div></div>
-      <div class="spec"><div class="label">Mailbox check</div><div class="value">None (candidates only)</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">INTL</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 17 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>first_name</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Person</td></tr>
-      <tr><td><code>last_name</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Person</td></tr>
-      <tr><td><code>domain</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Person</td></tr>
-      <tr><td><code>status</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Result</td></tr>
-      <tr><td><code>reason</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Result</td></tr>
-      <tr><td><code>best_guess</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Candidates</td></tr>
-      <tr><td><code>best_guess_pattern</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Candidates</td></tr>
-      <tr><td><code>candidates</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Candidates</td></tr>
-      <tr><td><code>confidence</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Candidates</td></tr>
-      <tr><td><code>mx_valid</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>mx_hosts</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>mx_provider</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>free_mail</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>disposable</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>catch_all</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>catch_all_method</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Domain</td></tr>
-      <tr><td><code>checked_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>first_name</code></td><td>string</td><td>Jane</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>last_name</code></td><td>string</td><td>Doe</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>domain</code></td><td>string</td><td>apify.com</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>status</code></td><td>string</td><td>ok</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>reason</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Other</td><td>10%</td></tr>
+      <tr><td><code>best_guess</code></td><td>string</td><td>jane.doe@apify.com</td><td>Other</td><td>90%</td></tr>
+      <tr><td><code>best_guess_pattern</code></td><td>string</td><td>first.last</td><td>Other</td><td>90%</td></tr>
+      <tr><td><code>candidates</code></td><td>array</td><td><code>[{"email": "jane.doe@apify.com", "pattern": "first.last"}, {"email": "jane@apify</code></td><td>Other</td><td>90%</td></tr>
+      <tr><td><code>confidence</code></td><td>string</td><td>medium</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>mx_valid</code></td><td>boolean</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>mx_hosts</code></td><td>array</td><td><code>["aspmx.l.google.com", "alt1.aspmx.l.google.com", "alt2.aspmx.l.google.com"]</code></td><td>Other</td><td>90%</td></tr>
+      <tr><td><code>mx_provider</code></td><td>string</td><td>google_workspace</td><td>Other</td><td>90%</td></tr>
+      <tr><td><code>free_mail</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>disposable</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>catch_all</code></td><td>string</td><td>unknown</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>catch_all_method</code></td><td>string</td><td>heuristic</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>checked_at</code></td><td>string</td><td>2026-10-27T03:47:32Z</td><td>Other</td><td>100%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put people in <code>leads</code>, each with <code>firstName</code>, <code>lastName</code> and <code>domain</code>. You can give <code>fullName</code> instead of the two name fields: <code>Alex Example</code> and <code>Example, Alex</code> are split into first and last name. The domain may be a bare domain, start with <code>www.</code> or be a full URL. Names are lower-cased, accents transliterated (<code>ü</code> becomes <code>ue</code>) and everything except a-z removed. The candidates follow the common business patterns, ranked by how often they are used: <code>first.last</code>, <code>first</code>, <code>flast</code>, <code>f.last</code>, <code>firstlast</code>, <code>first_last</code>, <code>first.l</code>, <code>last.first</code>, <code>last</code>; for Alex Example at example.com the list starts with <code>alex.example@example.com</code>. Status is <code>ok</code> or <code>risky</code> (catch-all likely) when candidates were generated, and <code>no_mx</code>, <code>free_mail_domain</code>, <code>disposable_domain</code>, <code>dns_error</code> or <code>invalid_input</code> when none were. <code>confidence</code> is <code>medium</code> at most. With no <code>leads</code>, built-in sample people with placeholder names are used.</p>
-    <h2 class="section-title">Input example — two people</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;leads&quot;: [
     {
-      &quot;firstName&quot;: &quot;Alex&quot;,
-      &quot;lastName&quot;: &quot;Example&quot;,
-      &quot;domain&quot;: &quot;example.com&quot;
+      &quot;firstName&quot;: &quot;Jane&quot;,
+      &quot;lastName&quot;: &quot;Doe&quot;,
+      &quot;domain&quot;: &quot;apify.com&quot;
     },
     {
-      &quot;fullName&quot;: &quot;Sam Sample&quot;,
-      &quot;domain&quot;: &quot;https://www.example.org/&quot;
+      &quot;firstName&quot;: &quot;John&quot;,
+      &quot;lastName&quot;: &quot;Smith&quot;,
+      &quot;domain&quot;: &quot;stripe.com&quot;
+    },
+    {
+      &quot;firstName&quot;: &quot;Maria&quot;,
+      &quot;lastName&quot;: &quot;Muster&quot;,
+      &quot;domain&quot;: &quot;migros.ch&quot;
     }
   ]
 }</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;first_name&quot;: &quot;Jane&quot;,
+  &quot;last_name&quot;: &quot;Doe&quot;,
+  &quot;domain&quot;: &quot;apify.com&quot;,
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;best_guess&quot;: &quot;jane.doe@apify.com&quot;,
+  &quot;best_guess_pattern&quot;: &quot;first.last&quot;,
+  &quot;candidates&quot;: [
+    {
+      &quot;email&quot;: &quot;jane.doe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;first.last&quot;
+    },
+    {
+      &quot;email&quot;: &quot;jane@apify.com&quot;,
+      &quot;pattern&quot;: &quot;first&quot;
+    },
+    {
+      &quot;email&quot;: &quot;jdoe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;flast&quot;
+    },
+    {
+      &quot;email&quot;: &quot;j.doe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;f.last&quot;
+    },
+    {
+      &quot;email&quot;: &quot;janedoe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;firstlast&quot;
+    },
+    {
+      &quot;email&quot;: &quot;jane_doe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;first_last&quot;
+    },
+    {
+      &quot;email&quot;: &quot;jane.d@apify.com&quot;,
+      &quot;pattern&quot;: &quot;first.l&quot;
+    },
+    {
+      &quot;email&quot;: &quot;doe.jane@apify.com&quot;,
+      &quot;pattern&quot;: &quot;last.first&quot;
+    },
+    {
+      &quot;email&quot;: &quot;doe@apify.com&quot;,
+      &quot;pattern&quot;: &quot;last&quot;
+    }
+  ],
+  &quot;confidence&quot;: &quot;medium&quot;,
+  &quot;mx_valid&quot;: true,
+  &quot;mx_hosts&quot;: [
+    &quot;aspmx.l.google.com&quot;,
+    &quot;alt1.aspmx.l.google.com&quot;,
+    &quot;alt2.aspmx.l.google.com&quot;,
+    &quot;aspmx2.googlemail.com&quot;,
+    &quot;aspmx3.googlemail.com&quot;
+  ],
+  &quot;mx_provider&quot;: &quot;google_workspace&quot;,
+  &quot;free_mail&quot;: false,
+  &quot;disposable&quot;: false,
+  &quot;catch_all&quot;: &quot;unknown&quot;,
+  &quot;catch_all_method&quot;: &quot;heuristic&quot;,
+  &quot;checked_at&quot;: &quot;2026-10-27T03:47:32Z&quot;
+}</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.0015</strong> per person with at least one candidate address ($1.50 per 1,000). Rows without candidates (no MX records, free-mail or disposable domain, DNS error, missing name or domain) are delivered so you can see what happened, and are not charged. The same person given twice gives one row, an explicit empty list checks nothing and charges nothing, and the run stops before a row that would exceed your maximum total charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <p>Priced at <strong>$0.0015</strong> per person with at least one candidate address ($1.50 per 1,000). Rows without candidates are delivered and not charged. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put people in <code>leads</code>, each with <code>firstName</code>, <code>lastName</code> and <code>domain</code>. You can give <code>fullName</code> instead of the two name fields: <code>Alex Example</code> and <code>Example, Alex</code> are split into first and last name. The domain may be a bare domain, start with <code>www.</code> or be a full URL. Names are lower-cased, accents transliterated (<code>ü</code> becomes <code>ue</code>) and everything except a-z removed. The candidates follow the common business patterns, ranked by how often they are used: <code>first.last</code>, <code>first</code>, <code>flast</code>, <code>f.last</code>, <code>firstlast</code>, <code>first_last</code>, <code>first.l</code>, <code>last.first</code>, <code>last</code>; for Alex Example at example.com the list starts with <code>alex.example@example.com</code>. Status is <code>ok</code> or <code>risky</code> (catch-all likely) when candidates were generated, and <code>no_mx</code>, <code>free_mail_domain</code>, <code>disposable_domain</code>, <code>dns_error</code> or <code>invalid_input</code> when none were. <code>confidence</code> is <code>medium</code> at most. With no <code>leads</code>, built-in sample people with placeholder names are used.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -445,25 +480,25 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the email-finder-scraper cost?</summary><p>Priced at $0.0015 per person with at least one candidate address ($1.50 per 1,000). Rows without candidates, such as domains with no MX records or free-mail domains, are not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
-      <details><summary>Is the address real?</summary><p>Unknown. The actor does not check mailboxes and never contacts the recipient's mail server. best_guess is the most common pattern for the name, and the other candidates cover companies that use another pattern. Expect some candidates to bounce.</p></details>
-      <details><summary>Why is there no candidate for a gmail.com address?</summary><p>Consumer mail domains do not follow a company pattern, so no guess is made. The row is delivered with status free_mail_domain and is not charged.</p></details>
-      <details><summary>What does catch_all: likely mean?</summary><p>The domain's mail host looks like shared web hosting, where catch-all setups are common. It is a guess from the host name, not a test, and it is never no.</p></details>
-      <details><summary>Why did my row come back with invalid_input?</summary><p>A first name, last name or domain was missing, or the domain is not a valid host name. These rows are not charged.</p></details>
-      <details><summary>Is this legal?</summary><p>The actor builds address patterns from names and domains you supply and looks up public DNS records. Candidate business addresses of named people are personal data, so GDPR and national direct-marketing rules apply to how you use them.</p></details>
-      <details><summary>Do I need an API key?</summary><p>No. No third-party API key and no login. Give the actor names and domains and it does the rest.</p></details>
+      <details><summary>How much does the email-finder-scraper cost?</summary><p>Priced at $0.0015 per person with at least one candidate address ($1.50 per 1,000). Rows without candidates are delivered and not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>17 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/email-verifier/"><span class="name">Email List Checker</span><span class="summary">Check email lists for bad syntax, missing MX records, disposable domains and role addresses. Status and 0-100 score per email. $2/1k. No mailbox check.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-email-scraper/"><span class="name">Website Email Scraper</span><span class="summary">Scrape Website Email for $1/1k page crawled: address, phones, phone_sources, emails, email_sources. Runs on Apify, pay-per-result, no monthly fee.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-contact-extractor/"><span class="name">Website Contact Extractor Scraper</span><span class="summary">Scrape Website Contact Extractor for $10/1k company processed: title, address, description, company_name. Runs on Apify, pay-per-result, no monthly fee.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/rss-feed-reader/"><span class="name">RSS Feed Reader</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/domain-whois-dns/"><span class="name">Domain Whois DNS</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/ssl-certificate-inspector/"><span class="name">SSL Certificate Inspector</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/job-feed/"><span class="name">Job Feed</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/seo-metadata-extractor/"><span class="name">SEO Metadata Extractor</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/email-finder-scraper?fpr=0khfbz&amp;fp_sid=a-email-finder-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-10-27</strong> · Actor v2.0.1 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>
