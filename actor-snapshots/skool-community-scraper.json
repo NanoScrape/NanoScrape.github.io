@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/skool-community-scraper",
+  "name": "skool-community-scraper",
+  "title": "Skool Community Posts Scraper",
+  "description": "Extract posts from public Skool community feeds: title, full text, author, category, likes, comments, dates, images and post links. Several communities per run, export to CSV, JSON or Excel.",
+  "readme": "# Skool Community Posts Scraper\n\nCollect the posts of public Skool communities. For each post you get the title, text, author, likes, comment count, category, pinned flag, dates and the link to the post, in one row.\n\nTypical uses: community and topic research, tracking what members ask and share, monitoring a niche, building a content or lead research list from public discussions.\n\n## What you get\n\nOne row per post:\n\n| Field | Description |\n|-------|-------------|\n| `post_id` | Skool post identifier |\n| `title` | Post title, `null` if the post has none |\n| `content` | Post text as shown in the community feed |\n| `author_name` | Display name of the author |\n| `author_slug` | Skool handle of the author |\n| `author_url` | Link to the author profile |\n| `like_count` | Likes on the post |\n| `comment_count` | Number of comments |\n| `pinned` | `true` if the post is pinned in the community |\n| `category` | Category of the post inside the community, for example \"General\" |\n| `posted_at` | When the post was created (ISO 8601, UTC) |\n| `updated_at` | When the post was last updated |\n| `last_comment_at` | When the latest comment was written (empty if there is none) |\n| `post_url`, `post_slug` | Link to the post and its URL slug |\n| `community_name`, `community_slug`, `community_url` | The community the post belongs to |\n| `image_url` | Preview image of the post (empty if there is none) |\n| `video_links` | Video links attached to the post (empty list if none) |\n| `attachment_count` | Number of files attached to the post |\n| `source_platform`, `scraped_at` | `skool.com` and the extraction time |\n\nA post is returned once per run, even if it shows up on several pages or in several communities. Pinned posts are included and marked with `pinned`.\n\n## Input\n\n| Parameter | Default | Description |\n|-----------|---------|-------------|\n| `communityUrls` | sample community | Community URLs or slugs, for example `https://www.skool.com/chatgpt` or `chatgpt` |\n| `maxPostsPerCommunity` | 100 | Posts per community, 0 for no limit. About 30 posts are read per page, more pages are loaded as needed |\n| `maxResults` | 0 | Stop after this many posts in total, 0 for no limit |\n\nCommunities can be given as a list or as one comma separated string, as full URLs or as bare slugs. Numbers can be given as text (\"30\"). Empty input runs a small sample of about 10 posts from one public community.\n\n### Example input\n\n```json\n{\n  \"communityUrls\": [\n    \"https://www.skool.com/chatgpt\",\n    \"ai-automation-society\"\n  ],\n  \"maxPostsPerCommunity\": 100\n}\n```\n\n## Pricing\n\nPay per result: one charge for each delivered post and a small one-time start charge that is billed only once the first post is delivered (a run with no posts costs nothing). Current prices are on the Pricing tab. A run stops before a post that would exceed your maximum total charge.\n\n## Use with AI assistants\n\nCall it from Claude or another MCP client through the Apify MCP server:\n\n> \"Use the skool-community-scraper to get the latest 50 posts from the Skool community chatgpt and summarize the most discussed topics\"\n\n## FAQ\n\n**Why were some communities skipped?**\nCommunities that are members-only are skipped, because their posts are not public. The run status lists them as \"requires membership\". The other communities in the same run are still delivered.\n\n## Data protection\n\nThis actor returns only data that is publicly visible on the source pages. Results can include personal data, such as the names and handles of post authors. You are responsible for using the data lawfully, including the GDPR/DSGVO and national data-protection laws.\n",
+  "readmeSource": "actors/social-media/skool-community-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-10-27T07:53:22.860Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor run started",
+        "description": "Charged once per run, with the first delivered result",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "skool-post-result",
+        "title": "Post",
+        "description": "One Skool community post delivered",
+        "isPrimary": true,
+        "priceUsd": 0.0015,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-10-29T05:18:48.281Z"
+}
