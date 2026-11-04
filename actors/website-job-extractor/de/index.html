@@ -108,7 +108,7 @@
      "name": "Was kostet der Website Job Extractor?",
      "acceptedAnswer": {
       "@type": "Answer",
-      "text": "Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen und $0,00005 pro Actor-Start. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht."
+      "text": "Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht."
      }
     },
     {
@@ -231,7 +231,7 @@
  <div class="spec"><div class="label">Eigener LLM-Key</div><div class="value">$4 pro 1.000 Jobs</div></div>
  <div class="spec"><div class="label">Managed LLM</div><div class="value">$12 pro 1.000 Jobs</div></div>
  <div class="spec"><div class="label">Pro Unternehmen</div><div class="value">$0,01</div></div>
- <div class="spec"><div class="label">Actor-Start</div><div class="value">$0,00005</div></div>
+ 
  <div class="spec"><div class="label">Ausführung</div><div class="value">HTTP-only, 256 MB</div></div>
  <div class="spec"><div class="label">Abdeckung</div><div class="value">Weltweit, 7 Sprachen</div></div>
  </div>
@@ -262,9 +262,9 @@
  <tr><td>Job extrahiert (eigener LLM-Key)</td><td class="highlight">$0,004 ($4 pro 1.000 Jobs)</td><td>pro extrahiertem Job</td></tr>
  <tr><td>Job extrahiert (Managed LLM)</td><td class="highlight">$0,012 ($12 pro 1.000 Jobs)</td><td>pro Job, wenn Sie keinen eigenen API-Key angeben</td></tr>
  <tr><td>Unternehmen verarbeitet</td><td class="highlight">$0,01</td><td>pro Unternehmen, dessen Karriereseiten durchsucht werden</td></tr>
- <tr><td>Actor-Start</td><td>$0,00005</td><td>einmal pro Lauf</td></tr>
+ 
  </table>
- <p>Beispielrechnung mit eigenem LLM-Key: 20 Unternehmen mit zusammen 400 Jobs kosten 400 &times; $0,004 + 20 &times; $0,01 = $1,80 plus $0,00005 Startgebühr. Im Managed-LLM-Modus gilt für die Jobs der Preis von $0,012 pro Job. Mit der Option <code>managedLlmBudgetUsd</code> begrenzen Sie die LLM-Ausgaben pro Lauf. Es gibt kein Monatsabo, Sie zahlen nur für das, was Sie extrahieren.</p>
+ <p>Beispielrechnung mit eigenem LLM-Key: 20 Unternehmen mit zusammen 400 Jobs kosten 400 &times; $0,004 + 20 &times; $0,01 = $1,80. Im Managed-LLM-Modus gilt für die Jobs der Preis von $0,012 pro Job. Mit der Option <code>managedLlmBudgetUsd</code> begrenzen Sie die LLM-Ausgaben pro Lauf. Es gibt kein Monatsabo, Sie zahlen nur für das, was Sie extrahieren.</p>
 
  <h2 class="section-title">Ausgabefelder</h2>
  <p>Die Tabelle zeigt die wichtigsten Felder des Datensatzes. Ein Teil der Detailfelder ist nur mit <code>includeJobDetails</code> gefüllt und bleibt sonst <code>null</code>. Zusätzlich liefert der Actor pro Unternehmen eine Diagnosezeile (<code>_type: job_extraction_done</code>), die zeigt, wie viele Jobs gefunden wurden oder warum keine.</p>
@@ -425,7 +425,7 @@
   <li>Gehen Sie zu <strong>Einstellungen &rarr; Integrationen &rarr; API-Tokens</strong>.</li>
   <li>Klicken Sie auf <strong>Neuen API-Token erstellen</strong>. Kopieren und geheim halten.</li>
  </ol>
- <p><strong>Gratiskontingent:</strong> Apify schreibt Ihrem Konto <strong>5$ Plattformnutzung pro Monat</strong> gut, keine Kreditkarte erforderlich. Das reicht für erste Tests: Bei $0,004 pro Job entspricht das rechnerisch mehr als 1.000 Jobs (ohne Unternehmens- und Startgebühr).</p>
+ <p><strong>Gratiskontingent:</strong> Apify schreibt Ihrem Konto <strong>5$ Plattformnutzung pro Monat</strong> gut, keine Kreditkarte erforderlich. Das reicht für erste Tests: Bei $0,004 pro Job entspricht das rechnerisch mehr als 1.000 Jobs (ohne Unternehmensgebühr).</p>
 
  <h2 class="section-title">Aus Code aufrufen</h2>
  <p>Führen Sie diesen Actor aus jeder Sprache über die Apify-REST-API aus. Ersetzen Sie <code>YOUR_TOKEN</code> durch Ihren API-Token und passen Sie das JSON-Input an.</p>
@@ -533,7 +533,7 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
 
  <h2 class="section-title">Häufige Fragen</h2>
  <div class="faq">
- <details><summary>Was kostet der Website Job Extractor?</summary><p>Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen und $0,00005 pro Actor-Start. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht.</p></details>
+ <details><summary>Was kostet der Website Job Extractor?</summary><p>Mit eigenem LLM-API-Key kostet ein extrahierter Job $0,004 (also $4 pro 1.000 Jobs). Im Managed-LLM-Modus ohne eigenen Key sind es $0,012 pro Job ($12 pro 1.000 Jobs). Hinzu kommen $0,01 pro verarbeitetem Unternehmen. Abgerechnet wird nutzungsbasiert über Apify, ein Monatsabo gibt es nicht.</p></details>
  <details><summary>Brauche ich einen eigenen LLM-API-Key?</summary><p>Nein. Lassen Sie die Key-Felder leer, dann nutzt der Actor ein verwaltetes OpenRouter-Modell (Managed-LLM-Modus). Wenn Sie lieber einen eigenen Key von Gemini, Groq oder OpenRouter verwenden, zahlen Sie nur den günstigeren Preis pro Job.</p></details>
  <details><summary>Welche Daten liefert der Actor?</summary><p>Pro Job unter anderem Titel, Beschreibung, Standort, Beschäftigungsart, Abteilung, Veröffentlichungsdatum, Job- und Bewerbungs-URL sowie das erkannte ATS-System. Mit der Option includeJobDetails kommen Gehalt, Pensum, Ansprechperson, Bewerbungsfrist, Sprachen und weitere Detailfelder hinzu, soweit sie in der Anzeige stehen.</p></details>
  <details><summary>Wie finde ich die Karriereseite eines Unternehmens?</summary><p>Sie müssen sie nicht kennen. Übergeben Sie nur die Firmenwebsite (website_url). Der Actor sucht die Karriereseite über die Navigation der Startseite und gängige Subdomains wie jobs.domain.ch oder karriere.domain.ch. Kennen Sie die Karriere-URL bereits, übergeben Sie sie direkt als career_urls.</p></details>
