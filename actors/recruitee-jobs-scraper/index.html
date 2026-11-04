@@ -30,8 +30,8 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/recruitee-jobs-scraper/#app",
-      "name": "Recruitee Jobs Scraper: Open Jobs from Company Career Sites",
-      "description": "Extract open jobs from Recruitee company career sites with title, location, department, employment type, description, posting date, stated salary and apply URL. One row per job. Pay per result.",
+      "name": "Recruitee Jobs Scraper: Company Career Sites",
+      "description": "Scrape open jobs from Recruitee company career sites: title, location, department, employment type, workplace type, stated salary, full description, posting date and apply URL. Pay-per-result.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.001",
+        "price": "0.0010",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.001",
+          "price": "0.0010",
           "priceCurrency": "USD",
           "unitText": "per job"
         }
@@ -76,7 +76,7 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Recruitee Jobs Scraper: Open Jobs from Company Career Sites"
+          "name": "Recruitee Jobs Scraper: Company Career Sites"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "name": "How much does the recruitee-jobs-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.001 per job delivered ($1.00 per 1,000). Duplicate and filtered-out jobs are never charged, and a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+            "text": "Priced at $0.001 per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,31 +114,15 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "25 fields per job: job IDs, title, company, department, employment type, location with city and country code, remote flag and workplace type, full description HTML, apply and job URLs, publication and update dates, language, and a salary range when the posting states one. Fields the career site does not provide stay empty."
+            "text": "29 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I find a company's Recruitee career site?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Open the company's careers page and look at the address of a job. If it is a Recruitee address, pass that URL or the company name from it."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I search all Recruitee companies by keyword?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Give the career site URL or company name of each company you follow. Keywords only filter the titles of the jobs on those sites."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is the salary empty?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Salary fields are filled only when the posting states a salary range. Nothing is estimated."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -146,7 +130,7 @@
           "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. No Recruitee account and no API key. Give the actor career site URLs or company names and it does the rest."
+            "text": "No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side."
           }
         },
         {
@@ -260,65 +244,90 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Recruitee Jobs Scraper: Open Jobs from Company Career Sites</h1>
-    <p class="direct-answer">The NanoScrape Recruitee Jobs Scraper is an Apify actor that extracts open jobs from Recruitee company career sites. It returns 25 fields per job including title, location with city and country, department, employment type, workplace type, full description, posting date, stated salary and apply URL, priced at $1 per 1,000 jobs, with no API key or monthly subscription required.</p>
-    <p class="lead">Get the open jobs of any company that hires through Recruitee. Paste a career site URL such as <code>bunq.recruitee.com</code> or just the company name and get title, location, apply URL and, when the site provides them, department, employment type, workplace type, description, posting date and a stated salary <a href="https://recruitee.com" target="_blank" rel="noopener">(source platform)</a>. Pay per result.</p>
+    <h1>Recruitee Jobs Scraper: Company Career Sites</h1>
+    <p class="direct-answer">The NanoScrape Recruitee Jobs Scraper is an Apify actor that extracts job listings from recruitee.com. It returns 29 fields per result including title, company, location, city, description, priced at $1/1k job, with no API key or monthly subscription required.</p>
+    <p class="lead">Scrape open jobs from Recruitee company career sites: title, location, department, employment type, workplace type, stated salary, full description, posting date and apply URL <a href="https://recruitee.com/" target="_blank" rel="noopener">(source platform)</a>. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/recruitee-jobs-scraper?fpr=0khfbz&amp;fp_sid=a-recruitee-jobs-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 jobs</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 job</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">INTL</div></div>
     </div>
-    <h2 class="section-title">What you can scrape — 25 fields per result</h2>
+    <h2 class="section-title">What you can scrape — 29 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>ats_job_id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>title</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>company</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>ats_platform</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>location</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>city</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>country</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>department</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>employment_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>remote</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>workplace_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>apply_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>job_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>created_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>updated_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>language</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>salary_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_min</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_max</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_period</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_source</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>id</code></td><td>string</td><td>recruitee-8bf24525-2802495</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>ats_job_id</code></td><td>string</td><td>2802495</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>title</code></td><td>string</td><td>Working Student Graphic / 3D Design (m/f/d)</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>apply_url</code></td><td>string</td><td>https://everdrop.recruitee.com/o/working-student-graphic-3d-design-mfd/c/new</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>job_url</code></td><td>string</td><td>https://everdrop.recruitee.com/o/working-student-graphic-3d-design-mfd</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company</code></td><td>string</td><td>everdrop GmbH</td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>location</code></td><td>string | null</td><td>München, Bayern, Germany</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>city</code></td><td>string | null</td><td>München</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>country</code></td><td>string | null</td><td>DE</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>country_source</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Location</td><td>—</td></tr>
+      <tr><td><code>additional_locations</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Location</td><td>—</td></tr>
+      <tr><td><code>description</code></td><td>string | null</td><td>&lt;h3 style="text-align:center;"&gt;&lt;strong&gt;&lt;span style="color:#31859B"&gt;THIS IS THE JOB&lt;/spa...</td><td>Description</td><td>100%</td></tr>
+      <tr><td><code>salary_min</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_max</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_period</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_source</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>employment_type</code></td><td>string | null</td><td>Internship</td><td>Employment</td><td>100%</td></tr>
+      <tr><td><code>remote</code></td><td>boolean</td><td><code>false</code></td><td>Employment</td><td>100%</td></tr>
+      <tr><td><code>department</code></td><td>string | null</td><td>Marketing/Communication</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>posted_at_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td><td>—</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-11-02T13:18:22Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>ats_platform</code></td><td>string</td><td>recruitee</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>language</code></td><td>string | null</td><td>en</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>workplace_type</code></td><td>string | null</td><td>on_site</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>created_at</code></td><td>string | null</td><td>2026-10-29T14:28:07Z</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>updated_at</code></td><td>string | null</td><td>2026-10-29T14:28:07Z</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>hiring_organization</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put career sites in <code>companies</code>: <code>https://{company}.recruitee.com</code>, a posting URL (<code>/o/{job-title}</code>, reduced to its career site) or the bare company name (<code>bunq</code> is <code>https://bunq.recruitee.com</code>). <code>keywords</code> keeps jobs whose title matches a keyword, and <code>location</code> or <code>countries</code> (ISO-2 codes such as <code>CH</code>) keep jobs in a place; keywords filter the sites you list, they do not search other companies. <code>postedWithinDays</code> drops older jobs, <code>sortBy</code> is <code>newest</code> (default) or <code>relevance</code>. <code>maxJobsPerCompany</code> (default 50) and <code>maxResults</code> (default 100) cap the run, <code>0</code> for no limit. <code>includeDescription</code> (default on) adds the description HTML. URLs of other job systems are skipped and never charged. An empty input reads one sample career site.</p>
-    <h2 class="section-title">Input example — career sites, title keywords, last 30 days</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;companies&quot;: [
-    &quot;https://bunq.recruitee.com&quot;,
-    &quot;everdrop&quot;
+    &quot;https://bunq.recruitee.com&quot;
   ],
-  &quot;keywords&quot;: [
-    &quot;engineer&quot;,
-    &quot;data&quot;
-  ],
-  &quot;postedWithinDays&quot;: 30,
-  &quot;sortBy&quot;: &quot;newest&quot;,
-  &quot;maxJobsPerCompany&quot;: 25
+  &quot;maxResults&quot;: 30,
+  &quot;includeDescription&quot;: true
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;recruitee-8bf24525-2802495&quot;,
+  &quot;ats_job_id&quot;: &quot;2802495&quot;,
+  &quot;title&quot;: &quot;Working Student Graphic / 3D Design (m/f/d)&quot;,
+  &quot;company&quot;: &quot;everdrop GmbH&quot;,
+  &quot;ats_platform&quot;: &quot;recruitee&quot;,
+  &quot;location&quot;: &quot;München, Bayern, Germany&quot;,
+  &quot;department&quot;: &quot;Marketing/Communication&quot;,
+  &quot;employment_type&quot;: &quot;Internship&quot;,
+  &quot;remote&quot;: false,
+  &quot;workplace_type&quot;: &quot;on_site&quot;,
+  &quot;city&quot;: &quot;München&quot;,
+  &quot;country&quot;: &quot;DE&quot;,
+  &quot;description&quot;: &quot;&lt;h3 style=&#92;&quot;text-align:center;&#92;&quot;&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#31859B&#92;&quot;&gt;THIS IS THE JOB&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;At everdrop we are creating innovative, plastic-free household and personal care essentials, that prove that sustainability, performance, and outstanding aesthetics go hand in hand. Our design team shapes every single touchpoint of the brand - from retail packaging on the shelves to digital campaigns. As a Working Student in our Design Team, you will be deeply integrated into our creative process. You’ll help bring visual concepts to life and ensure flawless execution across print and digital platforms.&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;As &lt;/span&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Working Student Graphic / 3D Design (m/f/d)&lt;/span&gt;&lt;/strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt; these will be your tasks:&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Support the development and execution of visual assets for all brand channels, from initial concepts to final artwork.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Assist in creating 3D renderings, product mockups, and visualizations for presentations and marketing purposes.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Help prepare print-ready artwork and ensure technical accuracy throughout the prepress process&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3 style=&#92;&quot;text-align:center;&#92;&quot;&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#31859B&#92;&quot;&gt;DAS BIST DU&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;If you are passionately committed to sustainability and highly motivated to make the world a little cleaner with us, then we think you are really great! If you also like to work proactively and in a team, and you see every small and large challenge as an opportunity to get even better – then we are already a little bit smitten. Finally, if you also have the following skills and experience, we are almost certain: This could be the start of a great love story!&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Currently enrolled in Graphic Design, Communication Design, Marketing, or a related field, with initial practical experience in graphic design, pre-press/print design, and 3D rendering.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Fluent in German or very good English skills (C1 Level), based in the Munich area with the ability to work on-site at least once a week, and available for 16–20 hours/week (full-time optional between semesters).&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;You are confident in Adobe Creative Cloud (especially Illustrator, Photoshop, InDesign), have an eye for typography, composition, colors, and materials, and a solid understanding of packaging design and print-ready prepress files.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Experience with 3D rendering and visualization software (e.g., Blender) is a strong plus.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;An organized, structured natural communicator with excellent written and verbal skills who stays calm and keeps the overview during stressful phases.&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Ideally you bring an understanding of German culture, lifestyle, and e-commerce.&lt;/span&gt;&lt;br&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h3 style=&#92;&quot;text-align:center;&#92;&quot;&gt;&lt;/h3&gt;&lt;h3 style=&#92;&quot;text-align:center;&#92;&quot;&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#31859B&#92;&quot;&gt;THIS IS EVERDROP&lt;/span&gt;&lt;/strong&gt;&lt;/h3&gt;&lt;h4&gt;&lt;span style=&#92;&quot;font-size:1.1em&#92;&quot;&gt;&lt;br&gt;&lt;/span&gt;&lt;strong&gt;&lt;span style=&#92;&quot;font-size:1.1em&#92;&quot;&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Our Mission 💚🌱🌎&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/h4&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;We want to change the world – together with you! &lt;/span&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;everdrop&#39;s everyday products help people easily reduce their ecological footprint in the household.&lt;/span&gt;&lt;/strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt; We started with our cleaning tabs in 2020. Since then, our household and personal care products have already saved &lt;/span&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;more than 20 million single-use plastic bottles&lt;/span&gt;&lt;/strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt; and thousands of tons of unnecessary CO2 emissions and chemical raw materials. By the way, we have been a certified &lt;/span&gt;&lt;u&gt;&lt;a rel=&#92;&quot;noopener&#92;&quot; target=&#92;&quot;_blank&#92;&quot; href=&#92;&quot;https://bcorporation.eu/&#92;&quot;&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;B Corp&lt;/span&gt;&lt;/a&gt;&lt;/u&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt; since 2023. And with your help, we want to take everdrop to the next level. Join our mission – and help us make a sustainable lifestyle so easy that it becomes the new standard in our society.&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;h4&gt;&lt;strong&gt;&lt;span style=&#92;&quot;font-size:1.1em&#92;&quot;&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Our Benefits&amp;nbsp;&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;span style=&#92;&quot;font-size:1.1em&#92;&quot;&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;🍲💪🏡&lt;/span&gt;&lt;/span&gt;&lt;/h4&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;varied, meaningful, and purpose-driven work&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;great team spirit and regular team events&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;a beautiful, bright, spacious office near the Isar&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;an outdoor fitness facility next to the office (can be used anytime)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;a monthly voucher for everdrop products in our employee shop&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Family and Friends discount codes for everdrop and other Startups for Tomorrow companies&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Membership with FutureBens &amp;amp; Corporate Benefits&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;flexible working hours&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;an additional 2 days paid vacation per year for your own environmental or charitable projects (&#92;&quot;Green &amp;amp; Social Impact Days&#92;&quot;)&lt;/span&gt;&lt;/p&gt;&lt;/li&gt;&lt;li&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;your own MacBook, as long as you work at everdrop&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;h4&gt;&lt;strong&gt;&lt;span style=&#92;&quot;font-size:1.1em&#92;&quot;&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;Our values 💛🏳️‍🌈🤝‍&lt;/span&gt;&lt;/span&gt;&lt;/strong&gt;&lt;/h4&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;At everdrop, we want to live a culture of inclusion, diversity, and equal opportunities. The commitment to making the world a little better is part of our daily actions. Above all, we want to promote awareness for our planet and for other people.&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;One example of how we want to create awareness in the workplace: Menstruating colleagues who suffer from pain can easily take one or more &#92;&quot;Power Days&#92;&quot;, which are additional paid days off. And this without questions, without justification. Another example: Our &#92;&quot;Green &amp;amp; Social Impact Days&#92;&quot; are two additional paid days off per year that you can dedicate to your own projects for the environment or for your community. We also try to be as mindful as possible in our hiring process.&lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;We treat every person equally, regardless of origin, gender, religion, age, appearance, language, culture, nationality, marital status, sexual orientation, or physical disability.&lt;/span&gt;&lt;/strong&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt; &lt;/span&gt;&lt;/p&gt;&lt;p style=&#92;&quot;min-height: 1.7em;&#92;&quot;&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&#92;&quot;color:#121317&#92;&quot;&gt;We are certainly not perfect – but we want to get better every day and learn something new with every step. That&#39;s what every journey is all about. Are you coming along?&lt;/span&gt;&lt;/p&gt;&quot;,
+  &quot;apply_url&quot;: &quot;https://everdrop.recruitee.com/o/working-student-graphic-3d-design-mfd/c/new&quot;,
+  &quot;job_url&quot;: &quot;https://everdrop.recruitee.com/o/working-student-graphic-3d-design-mfd&quot;,
+  &quot;language&quot;: &quot;en&quot;,
+  &quot;created_at&quot;: &quot;2026-10-29T14:28:07Z&quot;,
+  &quot;updated_at&quot;: &quot;2026-10-29T14:28:07Z&quot;,
+  &quot;scraped_at&quot;: &quot;2026-11-02T13:18:22Z&quot;,
+  &quot;salary_text&quot;: null,
+  &quot;salary_min&quot;: null,
+  &quot;salary_max&quot;: null,
+  &quot;salary_currency&quot;: null,
+  &quot;salary_period&quot;: null,
+  &quot;salary_source&quot;: null
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.001</strong> per job delivered ($1.00 per 1,000). Duplicates are removed before anything is charged, filtered-out jobs are never charged, and a career site that is not found costs nothing. The full description and any stated salary come with the job at no extra charge, and the run ends cleanly at your maximum total charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <p>Priced at <strong>$0.001</strong> per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put career sites in <code>companies</code>: <code>https://{company}.recruitee.com</code>, a posting URL (<code>/o/{job-title}</code>, reduced to its career site) or the bare company name (<code>bunq</code> is <code>https://bunq.recruitee.com</code>). <code>keywords</code> keeps jobs whose title matches a keyword, and <code>location</code> or <code>countries</code> (ISO-2 codes such as <code>CH</code>) keep jobs in a place; keywords filter the sites you list, they do not search other companies. <code>postedWithinDays</code> drops older jobs, <code>sortBy</code> is <code>newest</code> (default) or <code>relevance</code>. <code>maxJobsPerCompany</code> (default 50) and <code>maxResults</code> (default 100) cap the run, <code>0</code> for no limit. <code>includeDescription</code> (default on) adds the description HTML. URLs of other job systems are skipped and never charged. An empty input reads one sample career site.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -444,25 +453,29 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the recruitee-jobs-scraper cost?</summary><p>Priced at $0.001 per job delivered ($1.00 per 1,000). Duplicate and filtered-out jobs are never charged, and a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>25 fields per job: job IDs, title, company, department, employment type, location with city and country code, remote flag and workplace type, full description HTML, apply and job URLs, publication and update dates, language, and a salary range when the posting states one. Fields the career site does not provide stay empty.</p></details>
-      <details><summary>How do I find a company's Recruitee career site?</summary><p>Open the company's careers page and look at the address of a job. If it is a Recruitee address, pass that URL or the company name from it.</p></details>
-      <details><summary>Can I search all Recruitee companies by keyword?</summary><p>No. Give the career site URL or company name of each company you follow. Keywords only filter the titles of the jobs on those sites.</p></details>
-      <details><summary>Why is the salary empty?</summary><p>Salary fields are filled only when the posting states a salary range. Nothing is estimated.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. No Recruitee account and no API key. Give the actor career site URLs or company names and it does the rest.</p></details>
+      <details><summary>How much does the recruitee-jobs-scraper cost?</summary><p>Priced at $0.001 per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>29 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/smartrecruiters-jobs-scraper/"><span class="name">SmartRecruiters Jobs Scraper</span><span class="summary">Scrape open jobs from SmartRecruiters company boards: title, location, department, employment type, salary, description, apply URL. $1 per 1,000 jobs.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/workable-jobs-scraper/"><span class="name">Workable Jobs Scraper</span><span class="summary">Scrape open jobs from Workable boards (apply.workable.com): title, location, department, employment type, posting date, apply URL. $1 per 1,000 jobs.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/greenhouse-lever-ashby-jobs-scraper/"><span class="name">Greenhouse, Lever &amp; Ashby Jobs Scraper</span><span class="summary">Scrape Greenhouse Lever Ashby Jobs for $1/1k job: title, company, location, city, description. Runs on Apify, pay-per-result, no monthly fee.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/career-site-jobs-scraper/"><span class="name">Career Site Jobs Scraper</span><span class="summary">Scrape Career Site Jobs for $1/1k job: title, company, location, city, description. Runs on Apify, pay-per-result, no monthly fee.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/indeed-http-scraper/"><span class="name">Indeed HTTP Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/glassdoor-scraper/"><span class="name">Glassdoor Scraper</span><span class="summary">Glassdoor (General, Global): 20+ countries with employer rating, review count, salary estimate flag, and optional employer profile (HQ, size, CEO). Unique review-quality signal alongside job data.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-job-extractor/"><span class="name">Website Job Extractor</span><span class="summary">Website Job Extractor (Career Pages, Global): AI-powered extraction from any company career page. Auto-detects ATS, handles pagination, and validates output.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/"><span class="name">StepStone Scraper</span><span class="summary">StepStone.de (General, Germany): German job portal. Salary info, contact details, Bundesland filter, and optional LLM extraction for requirements and benefits.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/linkedin-scraper/"><span class="name">LinkedIn Scraper</span><span class="summary">LinkedIn Jobs (Professional, Global): public LinkedIn job listings. Location, job type, experience level, remote options, company info, and description. No login required.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/"><span class="name">Jobs.ch Scraper</span><span class="summary">Jobs.ch (General, Switzerland): Swiss job board powered by JobCloud. Swiss job market data across all industries and cantons.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/seek-scraper/"><span class="name">Seek.com.au Scraper</span><span class="summary">Seek / JobStreet / JobsDB (General, APAC): 40 fields across 8 countries (AU, NZ, SG, MY, ID, PH, HK, TH). Contact email/phone, work arrangement, and classifications. One actor for all APAC job boards.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/"><span class="name">Arbeit.Swiss Scraper</span><span class="summary">Arbeit.Swiss (Government, Switzerland): Switzerland&#39;s official public employment service (Job-Room.ch). Canton filter, workload percentage, RAV-registered government listings. Official source.</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/recruitee-jobs-scraper?fpr=0khfbz&amp;fp_sid=a-recruitee-jobs-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-02</strong> · Actor v0.1.2 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>
