@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SEC EDGAR Scraper: 10-K, 10-Q, 8-K Filings, $0.50/1k | NanoScrape</title>
-  <meta name="description" content="Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000 filings.">
+  <meta name="description" content="Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000">
   <meta property="og:title" content="SEC EDGAR Scraper: 10-K, 10-Q, 8-K Filings, $0.50/1k | NanoScrape">
-  <meta property="og:description" content="Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000 filings.">
+  <meta property="og:description" content="Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000">
   <meta property="og:url" content="https://www.nanoscrape.com/actors/sec-edgar-filings-scraper/">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://www.nanoscrape.com/og/og-actors.png">
@@ -31,7 +31,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/sec-edgar-filings-scraper/#app",
       "name": "SEC EDGAR Filings Scraper: 10-K, 10-Q, 8-K and Company Data",
-      "description": "Extract SEC EDGAR filings by ticker, CIK, company name or full-text search with form type, dates, 8-K items, document links and company profile. One row per filing. Pay per result.",
+      "description": "Scrape SEC EDGAR filings by ticker, CIK, company name or full-text search: form type, filing and report dates, 8-K items, document links and the company profile. Pay-per-result.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -85,7 +85,7 @@
       "@id": "https://www.nanoscrape.com/actors/sec-edgar-filings-scraper/#webpage",
       "url": "https://www.nanoscrape.com/actors/sec-edgar-filings-scraper/",
       "name": "SEC EDGAR Scraper: 10-K, 10-Q, 8-K Filings, $0.50/1k | NanoScrape",
-      "description": "Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000 filings.",
+      "description": "Scrape SEC EDGAR filings by ticker, CIK, company or full-text search: form type, dates, 8-K items, document links, company profile. $0.50 per 1,000",
       "inLanguage": "en",
       "isPartOf": {
         "@id": "https://www.nanoscrape.com/#website"
@@ -106,7 +106,7 @@
           "name": "How much does the sec-edgar-filings-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "$0.0005 per filing delivered ($0.50 per 1,000 filings), with the company profile included. A run that finds nothing costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+            "text": "Priced at $0.0005 per filing delivered ($0.50 per 1,000), company profile included. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,39 +114,23 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "43 fields per filing: accession number, CIK, company name, tickers and exchanges, form type, filing, report and acceptance dates, act, file and film number, 8-K items, size, XBRL flags, main document name and description, filing and document links, industry code, entity type, filer category, state of incorporation, fiscal year end, business and mailing address, phone, EIN, LEI and websites where filed, plus the matching document for full-text searches."
+            "text": "43 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Does it download the filing documents?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. It returns filing metadata and links to the filing page and main document on sec.gov. It does not download or parse the documents."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
           "@type": "Question",
-          "name": "Why does 10-K not return 10-K/A?",
+          "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Form types match exactly. Add 10-K/A to formTypes to get amendments as well."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How far back does it go?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Company lookups read the recent filings list (at least one year, usually the latest 1,000); switch on includeOlderFilings for older pages. Full-text search covers filings from 2001 on."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need an API key?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. The data comes from the public EDGAR interfaces, and the actor stays below the request limits of the SEC fair access policy."
+            "text": "No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side."
           }
         },
         {
@@ -261,82 +245,149 @@
 
   <div class="detail">
     <h1>SEC EDGAR Filings Scraper: 10-K, 10-Q, 8-K and Company Data</h1>
-    <p class="direct-answer">The NanoScrape SEC EDGAR Filings Scraper is an Apify actor that extracts filing records from the public EDGAR interfaces of the U.S. Securities and Exchange Commission by ticker, CIK, company name or full-text search. It returns 43 fields per filing including accession number, form type, filing and report dates, 8-K items, file size, XBRL flags, filing and document links, and the company profile with industry code, addresses, phone, fiscal year end and exchanges, priced at $0.50 per 1,000 filings, with no API key or monthly subscription required.</p>
-    <p class="lead">Get filings from the <a href="https://www.sec.gov/edgar/search/" target="_blank" rel="noopener">SEC EDGAR</a> database by ticker, CIK or company name, or search the text of filings. Get form type, filing and report dates, 8-K item numbers, XBRL flags, links to the filing and its main document, and the company profile. Public EDGAR data, no API key needed. Pay per result.</p>
+    <p class="direct-answer">The NanoScrape Sec Edgar Filings Scraper is an Apify actor that extracts business listings from sec.gov. It returns 43 fields per result including phone, company_name, accession_number, cik, ticker, priced at $0.5/1k filing, with no API key or monthly subscription required.</p>
+    <p class="lead">Scrape SEC EDGAR filings by ticker, CIK, company name or full-text search: form type, filing and report dates, 8-K items, document links and the company profile <a href="https://www.sec.gov/edgar/search/" target="_blank" rel="noopener">(source platform)</a>. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sec-edgar-filings-scraper?fpr=0khfbz&amp;fp_sid=a-sec-edgar-filings-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$0.50 / 1,000 filings</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.50 / 1,000 filing</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">All EDGAR filers</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 43 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>accession_number</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>cik</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>company_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>ticker</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>tickers</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>exchanges</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>form_type</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>filing_date</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>report_date</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>acceptance_datetime</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>act</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>file_number</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>film_number</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>items</code></td><td>array</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>core_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>size</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>is_xbrl</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>is_inline_xbrl</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>is_xbrl_numeric</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>primary_document</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>primary_doc_description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>filing_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>document_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Filing</td></tr>
-      <tr><td><code>sic</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>sic_description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>entity_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>filer_category</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>state_of_incorporation</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>fiscal_year_end</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>business_address</code></td><td>object | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>mailing_address</code></td><td>object | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>phone</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>ein</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>lei</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>website</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>investor_website</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>search_query</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>search_score</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>matched_document_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>matched_document_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>matched_document_description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>matched_document_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Full-text search</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>company_name</code></td><td>string | null</td><td>Apple Inc.</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>filing_url</code></td><td>string</td><td>https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/0000320193-26-000026-...</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>document_url</code></td><td>string | null</td><td>https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/aapl-20260926.htm</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>matched_document_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td><td>—</td></tr>
+      <tr><td><code>matched_document_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td><td>—</td></tr>
+      <tr><td><code>business_address</code></td><td>object | null</td><td><code>{"street1": "ONE APPLE PARK WAY", "street2": null, "city": "CUPERTINO", "state":</code></td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>mailing_address</code></td><td>object | null</td><td><code>{"street1": "ONE APPLE PARK WAY", "street2": null, "city": "CUPERTINO", "state":</code></td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>primary_doc_description</code></td><td>string | null</td><td>10-K</td><td>Description</td><td>88%</td></tr>
+      <tr><td><code>sic_description</code></td><td>string | null</td><td>Electronic Computers</td><td>Description</td><td>100%</td></tr>
+      <tr><td><code>matched_document_description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Description</td><td>—</td></tr>
+      <tr><td><code>search_score</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Reviews / rating</td><td>—</td></tr>
+      <tr><td><code>filing_date</code></td><td>string | null</td><td>2026-11-03</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>report_date</code></td><td>string | null</td><td>2026-09-26</td><td>Metadata</td><td>62%</td></tr>
+      <tr><td><code>acceptance_datetime</code></td><td>string | null</td><td>2026-11-03T13:05:15.000Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>filer_category</code></td><td>string | null</td><td>Large accelerated filer</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-11-03T13:45:30Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>accession_number</code></td><td>string</td><td>0000320193-26-000026</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>cik</code></td><td>string</td><td>0000320193</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>ticker</code></td><td>string | null</td><td>AAPL</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>tickers</code></td><td>array</td><td><code>["AAPL"]</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>exchanges</code></td><td>array</td><td><code>["Nasdaq"]</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>form_type</code></td><td>string</td><td>10-K</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>act</code></td><td>string | null</td><td>34</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>file_number</code></td><td>string | null</td><td>001-36743</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>film_number</code></td><td>string | null</td><td>261514222</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>items</code></td><td>array</td><td><code>[]</code></td><td>Other</td><td>50%</td></tr>
+      <tr><td><code>core_type</code></td><td>string | null</td><td>XBRL</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>size</code></td><td>integer | null</td><td><code>10902198</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>is_xbrl</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>is_inline_xbrl</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>is_xbrl_numeric</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>primary_document</code></td><td>string | null</td><td>aapl-20260926.htm</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>sic</code></td><td>string | null</td><td>3571</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>entity_type</code></td><td>string | null</td><td>operating</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>state_of_incorporation</code></td><td>string | null</td><td>CA</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiscal_year_end</code></td><td>string | null</td><td>0926</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>phone</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>ein</code></td><td>string | null</td><td>942404110</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>lei</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>website</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>investor_website</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>search_query</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>matched_document_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put tickers (<code>AAPL</code>), CIK numbers (<code>320193</code>) or company names in <code>companies</code>; a name uses the best match in the SEC company list. <code>searchQuery</code> searches the text of filings from 2001 on, for example <code>"going concern"</code> in quotes for an exact phrase; with companies given, the search is limited to them. <code>formTypes</code> keeps only these forms, such as <code>10-K</code>, <code>8-K</code> or <code>S-1</code>; a form matches exactly, so list <code>10-K/A</code> too for amendments. <code>dateFrom</code> and <code>dateTo</code> limit the filing date. <code>maxResults</code> (default 100) caps the filings of the run, shared equally between companies. <code>includeOlderFilings</code> also reads the older filing pages of each company. An empty input runs a small sample.</p>
-    <h2 class="section-title">Input example — annual, quarterly and 8-K filings of two companies in 2026</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;companies&quot;: [
-    &quot;AAPL&quot;,
-    &quot;MSFT&quot;
+    &quot;AAPL&quot;
   ],
   &quot;formTypes&quot;: [
     &quot;10-K&quot;,
     &quot;10-Q&quot;,
     &quot;8-K&quot;
   ],
-  &quot;dateFrom&quot;: &quot;2026-01-01&quot;,
-  &quot;maxResults&quot;: 100
+  &quot;maxResults&quot;: 30
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;accession_number&quot;: &quot;0000320193-26-000026&quot;,
+  &quot;cik&quot;: &quot;0000320193&quot;,
+  &quot;company_name&quot;: &quot;Apple Inc.&quot;,
+  &quot;ticker&quot;: &quot;AAPL&quot;,
+  &quot;tickers&quot;: [
+    &quot;AAPL&quot;
+  ],
+  &quot;exchanges&quot;: [
+    &quot;Nasdaq&quot;
+  ],
+  &quot;form_type&quot;: &quot;10-K&quot;,
+  &quot;filing_date&quot;: &quot;2026-11-03&quot;,
+  &quot;report_date&quot;: &quot;2026-09-26&quot;,
+  &quot;acceptance_datetime&quot;: &quot;2026-11-03T13:05:15.000Z&quot;,
+  &quot;act&quot;: &quot;34&quot;,
+  &quot;file_number&quot;: &quot;001-36743&quot;,
+  &quot;film_number&quot;: &quot;261514222&quot;,
+  &quot;items&quot;: [],
+  &quot;core_type&quot;: &quot;XBRL&quot;,
+  &quot;size&quot;: 10902198,
+  &quot;is_xbrl&quot;: true,
+  &quot;is_inline_xbrl&quot;: true,
+  &quot;is_xbrl_numeric&quot;: true,
+  &quot;primary_document&quot;: &quot;aapl-20260926.htm&quot;,
+  &quot;primary_doc_description&quot;: &quot;10-K&quot;,
+  &quot;filing_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/0000320193-26-000026-index.htm&quot;,
+  &quot;document_url&quot;: &quot;https://www.sec.gov/Archives/edgar/data/320193/000032019326000026/aapl-20260926.htm&quot;,
+  &quot;sic&quot;: &quot;3571&quot;,
+  &quot;sic_description&quot;: &quot;Electronic Computers&quot;,
+  &quot;entity_type&quot;: &quot;operating&quot;,
+  &quot;filer_category&quot;: &quot;Large accelerated filer&quot;,
+  &quot;state_of_incorporation&quot;: &quot;CA&quot;,
+  &quot;fiscal_year_end&quot;: &quot;0926&quot;,
+  &quot;business_address&quot;: {
+    &quot;street1&quot;: &quot;ONE APPLE PARK WAY&quot;,
+    &quot;street2&quot;: null,
+    &quot;city&quot;: &quot;CUPERTINO&quot;,
+    &quot;state&quot;: &quot;CA&quot;,
+    &quot;state_name&quot;: &quot;CA&quot;,
+    &quot;zip&quot;: &quot;95014&quot;,
+    &quot;country&quot;: null,
+    &quot;is_foreign&quot;: null,
+    &quot;foreign_region&quot;: null
+  },
+  &quot;mailing_address&quot;: {
+    &quot;street1&quot;: &quot;ONE APPLE PARK WAY&quot;,
+    &quot;street2&quot;: null,
+    &quot;city&quot;: &quot;CUPERTINO&quot;,
+    &quot;state&quot;: &quot;CA&quot;,
+    &quot;state_name&quot;: &quot;CA&quot;,
+    &quot;zip&quot;: &quot;95014&quot;,
+    &quot;country&quot;: null,
+    &quot;is_foreign&quot;: false,
+    &quot;foreign_region&quot;: null
+  },
+  &quot;phone&quot;: null,
+  &quot;ein&quot;: &quot;942404110&quot;,
+  &quot;lei&quot;: null,
+  &quot;website&quot;: null,
+  &quot;investor_website&quot;: null,
+  &quot;search_query&quot;: null,
+  &quot;search_score&quot;: null,
+  &quot;matched_document_name&quot;: null,
+  &quot;matched_document_type&quot;: null,
+  &quot;matched_document_description&quot;: null,
+  &quot;matched_document_url&quot;: null,
+  &quot;scraped_at&quot;: &quot;2026-11-03T13:45:30Z&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced per filing delivered: <strong>$0.0005</strong> per filing ($0.50 per 1,000), company profile included. A ticker that does not exist is skipped and not charged, a run that finds nothing costs nothing, and the run ends cleanly at your maximum total charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <p>Priced at <strong>$0.0005</strong> per filing delivered ($0.50 per 1,000), company profile included. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put tickers (<code>AAPL</code>), CIK numbers (<code>320193</code>) or company names in <code>companies</code>; a name uses the best match in the SEC company list. <code>searchQuery</code> searches the text of filings from 2001 on, for example <code>"going concern"</code> in quotes for an exact phrase; with companies given, the search is limited to them. <code>formTypes</code> keeps only these forms, such as <code>10-K</code>, <code>8-K</code> or <code>S-1</code>; a form matches exactly, so list <code>10-K/A</code> too for amendments. <code>dateFrom</code> and <code>dateTo</code> limit the filing date. <code>maxResults</code> (default 100) caps the filings of the run, shared equally between companies. <code>includeOlderFilings</code> also reads the older filing pages of each company. An empty input runs a small sample.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -462,25 +513,26 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the sec-edgar-filings-scraper cost?</summary><p>$0.0005 per filing delivered ($0.50 per 1,000 filings), with the company profile included. A run that finds nothing costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>43 fields per filing: accession number, CIK, company name, tickers and exchanges, form type, filing, report and acceptance dates, act, file and film number, 8-K items, size, XBRL flags, main document name and description, filing and document links, industry code, entity type, filer category, state of incorporation, fiscal year end, business and mailing address, phone, EIN, LEI and websites where filed, plus the matching document for full-text searches.</p></details>
-      <details><summary>Does it download the filing documents?</summary><p>No. It returns filing metadata and links to the filing page and main document on sec.gov. It does not download or parse the documents.</p></details>
-      <details><summary>Why does 10-K not return 10-K/A?</summary><p>Form types match exactly. Add 10-K/A to formTypes to get amendments as well.</p></details>
-      <details><summary>How far back does it go?</summary><p>Company lookups read the recent filings list (at least one year, usually the latest 1,000); switch on includeOlderFilings for older pages. Full-text search covers filings from 2001 on.</p></details>
-      <details><summary>Do I need an API key?</summary><p>No. The data comes from the public EDGAR interfaces, and the actor stays below the request limits of the SEC fair access policy.</p></details>
+      <details><summary>How much does the sec-edgar-filings-scraper cost?</summary><p>Priced at $0.0005 per filing delivered ($0.50 per 1,000), company profile included. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>43 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/uk-companies-house-scraper/"><span class="name">UK Companies House Scraper</span><span class="summary">Search UK Companies House by name or keyword: company number, status, type, incorporation date, address, officers. $3 per 1,000 companies, no API key.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/crunchbase-scraper/"><span class="name">Crunchbase Scraper</span><span class="summary">Scrape company profiles from Crunchbase. Extract funding data, investors, team size, categories, and contact details for startups and established companies.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/zefix-ch-scraper/"><span class="name">Zefix Scraper</span><span class="summary">Scrape Zefix.ch, the Swiss commercial register: company name, UID, legal form, seat, canton, status, purpose, SOGC date. $5/1k companies, pay per result.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/google-news-scraper/"><span class="name">Google News Scraper</span><span class="summary">Scrape Google News for $1/1k article found: title, source, source_domain, url, url_resolved. Runs on Apify, pay-per-result, no monthly fee.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/telefonbuch-de-scraper/"><span class="name">Das Telefonbuch Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/google-maps-scraper/"><span class="name">Google Maps Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/dasoertliche-de-scraper/"><span class="name">Dasoertliche Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/11880-de-scraper/"><span class="name">11880 Scraper</span><span class="summary">Extract business listings from 11880.com, a German business directory. Returns name, address, phone, mobile, fax, email, website, category, services, opening hours, GPS coordinates, company description, and legal form. No login required. Pay-per-result.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/kompass-scraper/"><span class="name">Kompass Scraper</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/sec-edgar-filings-scraper?fpr=0khfbz&amp;fp_sid=a-sec-edgar-filings-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-03</strong> · Actor v1.0.2 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

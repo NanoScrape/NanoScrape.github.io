@@ -30,8 +30,8 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/personio-jobs-scraper/#app",
-      "name": "Personio Jobs Scraper: Open Jobs from Company Career Sites",
-      "description": "Extract open jobs from Personio company career sites with title, location, department, employment type, description, posting date, stated salary and apply URL. One row per job. Pay per result.",
+      "name": "Personio Jobs Scraper: Company Career Sites",
+      "description": "Scrape open jobs from Personio company career sites: title, location, department, employment type, workplace type, stated salary, full description, posting date and apply URL. Pay-per-result.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.001",
+        "price": "0.0010",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.001",
+          "price": "0.0010",
           "priceCurrency": "USD",
           "unitText": "per job"
         }
@@ -76,7 +76,7 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Personio Jobs Scraper: Open Jobs from Company Career Sites"
+          "name": "Personio Jobs Scraper: Company Career Sites"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "name": "How much does the personio-jobs-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.001 per job delivered ($1.00 per 1,000). Duplicate and filtered-out jobs are never charged, and a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
+            "text": "Priced at $0.001 per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,31 +114,15 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "29 fields per job: job IDs, title, company, department, employment type, location with city and country code, remote flag and workplace type, full description HTML, apply and job URLs, publication and update dates, language, and a salary range when the posting states one. Fields the career site does not provide stay empty."
+            "text": "30 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I find a company's Personio career site?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Open the company's careers page and look at the address of a job. If it is a Personio address, pass that URL or the company name from it."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I search all Personio companies by keyword?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Give the career site URL or company name of each company you follow. Keywords only filter the titles of the jobs on those sites."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is the salary empty?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Salary fields are filled only when the posting states a salary range. Nothing is estimated."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -146,7 +130,7 @@
           "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. No Personio account and no API key. Give the actor career site URLs or company names and it does the rest."
+            "text": "No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side."
           }
         },
         {
@@ -260,68 +244,95 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Personio Jobs Scraper: Open Jobs from Company Career Sites</h1>
-    <p class="direct-answer">The NanoScrape Personio Jobs Scraper is an Apify actor that extracts open jobs from Personio company career sites. It returns 29 fields per job including title, location with city and country, department, employment type, workplace type, full description, posting date, stated salary and apply URL, priced at $1 per 1,000 jobs, with no API key or monthly subscription required.</p>
-    <p class="lead">Get the open jobs of any company that hires through Personio. Paste a career site URL such as <code>personio-gmbh.jobs.personio.de</code> or just the company name and get title, location, apply URL and, when the site provides them, department, employment type, description and creation date <a href="https://www.personio.com" target="_blank" rel="noopener">(source platform)</a>. Pay per result.</p>
+    <h1>Personio Jobs Scraper: Company Career Sites</h1>
+    <p class="direct-answer">The NanoScrape Personio Jobs Scraper is an Apify actor that extracts job listings from personio.com. It returns 30 fields per result including title, company, location, city, description, priced at $1/1k job, with no API key or monthly subscription required.</p>
+    <p class="lead">Scrape open jobs from Personio company career sites: title, location, department, employment type, workplace type, stated salary, full description, posting date and apply URL <a href="https://www.personio.com/" target="_blank" rel="noopener">(source platform)</a>. Pay-per-result.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/personio-jobs-scraper?fpr=0khfbz&amp;fp_sid=a-personio-jobs-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 jobs</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 job</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">INTL</div></div>
     </div>
-    <h2 class="section-title">What you can scrape — 29 fields per result</h2>
+    <h2 class="section-title">What you can scrape — 30 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>ats_job_id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>title</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>company</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>ats_platform</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>location</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>city</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>country</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>country_source</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>department</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
-      <tr><td><code>employment_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>language</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>salary_min</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_max</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_period</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>salary_source</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td></tr>
-      <tr><td><code>remote</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>workplace_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>apply_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>job_url</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Job</td></tr>
-      <tr><td><code>created_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>posted_at_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>updated_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>additional_locations</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Location</td></tr>
-      <tr><td><code>hiring_organization</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>id</code></td><td>string</td><td>personio-28136a58-2848771</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>ats_job_id</code></td><td>string</td><td>2848771</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>title</code></td><td>string</td><td>Senior Key Account Manager (m/w/d) - Partnervertrieb / Krankenversicherungen</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>apply_url</code></td><td>string</td><td>https://ottonova.jobs.personio.de/job/2848771</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>job_url</code></td><td>string</td><td>https://ottonova.jobs.personio.de/job/2848771</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>company</code></td><td>string</td><td>ottonova Krankenversicherung AG - 9698</td><td>Company</td><td>100%</td></tr>
+      <tr><td><code>company_legacy</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Company</td><td>—</td></tr>
+      <tr><td><code>location</code></td><td>string | null</td><td>München</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>city</code></td><td>string | null</td><td>München</td><td>Location</td><td>92%</td></tr>
+      <tr><td><code>country</code></td><td>string | null</td><td>DE</td><td>Location</td><td>92%</td></tr>
+      <tr><td><code>country_source</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Location</td><td>—</td></tr>
+      <tr><td><code>additional_locations</code></td><td>array | null</td><td><code>["Köln"]</code></td><td>Location</td><td>50%</td></tr>
+      <tr><td><code>description</code></td><td>string | null</td><td>&lt;h3&gt;DEIN TEAM&lt;/h3&gt;ottonova ist als einzige rein digitale private Krankenversicherung am...</td><td>Description</td><td>100%</td></tr>
+      <tr><td><code>salary_min</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_max</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_period</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>salary_source</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Salary</td><td>—</td></tr>
+      <tr><td><code>employment_type</code></td><td>string | null</td><td>Full-time</td><td>Employment</td><td>100%</td></tr>
+      <tr><td><code>remote</code></td><td>boolean</td><td><code>false</code></td><td>Employment</td><td>100%</td></tr>
+      <tr><td><code>department</code></td><td>string | null</td><td>B2B Sales</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>posted_at_text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td><td>—</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-11-03T14:17:45Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>ats_platform</code></td><td>string</td><td>personio</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>language</code></td><td>string | null</td><td>de</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>workplace_type</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>created_at</code></td><td>string | null</td><td>2026-10-19T11:16:02Z</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>updated_at</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>hiring_organization</code></td><td>string | null</td><td>ottonova Krankenversicherung AG - 9698</td><td>Other</td><td>83%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put career sites in <code>companies</code>: <code>https://{company}.jobs.personio.de</code> or <code>.jobs.personio.com</code>, a posting URL (<code>/job/{id}</code>, reduced to its career site) or the bare company name (<code>personio-gmbh</code> is <code>https://personio-gmbh.jobs.personio.de</code>). <code>keywords</code> keeps jobs whose title matches a keyword, and <code>location</code> or <code>countries</code> (ISO-2 codes such as <code>CH</code>) keep jobs in a place; keywords filter the sites you list, they do not search other companies. <code>postedWithinDays</code> drops older jobs, <code>sortBy</code> is <code>newest</code> (default) or <code>relevance</code>. <code>maxJobsPerCompany</code> (default 50) and <code>maxResults</code> (default 100) cap the run, <code>0</code> for no limit. <code>includeDescription</code> (default on) adds the description HTML. URLs of other job systems are skipped and never charged. An empty input reads one sample career site.</p>
-    <h2 class="section-title">Input example — career sites, title keywords, last 30 days</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;companies&quot;: [
     &quot;https://personio-gmbh.jobs.personio.de&quot;
   ],
-  &quot;keywords&quot;: [
-    &quot;engineer&quot;,
-    &quot;data&quot;
+  &quot;maxResults&quot;: 30,
+  &quot;includeDescription&quot;: true
+}</code></pre></div>
+    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  &quot;id&quot;: &quot;personio-28136a58-2848771&quot;,
+  &quot;ats_job_id&quot;: &quot;2848771&quot;,
+  &quot;title&quot;: &quot;Senior Key Account Manager (m/w/d) - Partnervertrieb / Krankenversicherungen&quot;,
+  &quot;company&quot;: &quot;ottonova Krankenversicherung AG - 9698&quot;,
+  &quot;ats_platform&quot;: &quot;personio&quot;,
+  &quot;location&quot;: &quot;München&quot;,
+  &quot;department&quot;: &quot;B2B Sales&quot;,
+  &quot;employment_type&quot;: &quot;Full-time&quot;,
+  &quot;remote&quot;: false,
+  &quot;workplace_type&quot;: null,
+  &quot;city&quot;: &quot;München&quot;,
+  &quot;country&quot;: &quot;DE&quot;,
+  &quot;description&quot;: &quot;&lt;h3&gt;DEIN TEAM&lt;/h3&gt;ottonova ist als einzige rein digitale private Krankenversicherung am Markt innovativ, zeitgemäß und anders. Immer wieder neue Ideen zu entwickeln und umzusetzen, Partnerschaften einzugehen, und ottonova stetig voranzubringen – das treibt uns im Business Development jeden Tag aufs Neue an. Unser Ziel ist es, Perspektiven für die Zukunft von ottonova zu finden und zu etablieren.&lt;br&gt;&lt;br&gt;Um das zu tun, suchen wir aufgeschlossene und ideenreiche Netzwerker*innen.&lt;br&gt;&lt;strong&gt;Suchst du nach einem Umfeld, in dem du deine Leidenschaft für den B2B Bereich (Partnervertrieb) einbringen und dein Können weiter ausbauen kannst?&lt;/strong&gt; Dann bist du bei uns richtig! Bei uns hast du die Chance, den Partnervertrieb in einem dynamischen Versicherungsunternehmen kennenzulernen und dich weiterzuentwickeln. Werde Teil unseres Teams und unterstütze uns als &lt;strong&gt;(Senior) &lt;/strong&gt;&lt;strong&gt;Key Account Manager (m/w/d) für den Partnervertrieb&lt;/strong&gt; in München oder Köln.&lt;br&gt;&lt;br&gt;In unserem Team arbeiten wir zukunftsorientiert, kommunikativ und digital – immer mit dem Blick darauf, den passenden Service für unsere Vertriebspartner zu finden. Wichtig ist uns dabei unsere Zusammenarbeit als Team: Freude am Arbeiten, gemeinsames gestalten und vorantreiben und Teamgeist gehören für uns genauso dazu, wie flache Hierarchien und kurze Entscheidungswege.&lt;br&gt;&lt;strong&gt;Be a part of our B2B Team!&lt;/strong&gt;&lt;h3&gt;DEIN WIRKUNGSBEREICH&lt;/h3&gt;Als (Senior) Key Account Manager (m/w/d) im B2B Partnervertrieb unterstützt du unser Team bei der Vielzahl an vertrieblichen Tätigkeiten. Dein Aufgabenfeld ist dabei vielseitig:&lt;br&gt;&lt;ul&gt;&lt;li&gt;Du wirst gemessen an deinen vertrieblichen Erfolgen, der Gewinnung von neuen Kunden und Partnern, somit steht das Neugeschäft klar im Vordergrund&lt;/li&gt;&lt;li&gt;Du bringst dich aktiv in die Betreuung unserer aktuellen Vertriebspartner und Maklerpools ein und gestaltest die Beziehungen aktiv&lt;/li&gt;&lt;li&gt;Du führst Verhandlungen und präsentierst ottonova bei Partnern, Roadshows, Messen und Veranstaltungen&lt;/li&gt;&lt;li&gt;Du erfasst Anforderungen und Bedarfe unserer Partner und leitest daraus kreative Ideen ab – von neuen Kooperationsmodellen über Vertriebsaktionen und Schulungsformate bis hin zu digitalen Services, die unsere Produkte, Prozesse und Beziehungen erfolgreicher machen&lt;/li&gt;&lt;li&gt;Du gibst dein Wissen weiter, unterstützt uns im B2B-Team fachlich und bist aktiv in bereichsübergreifende Projekte eingebunden&lt;/li&gt;&lt;/ul&gt;&lt;h3&gt;DEIN PROFIL&lt;/h3&gt;Grundlage deines Profils bildet eine abgeschlossene Ausbildung im Finanz- oder Versicherungsbereich (z.B. als Versicherungskaufleute (m/w/d) oder Versicherungsfachwirte (m/w/d)). Optimalerweise mit Schwerpunkt auf Krankenversicherung&lt;br&gt;&lt;ul&gt;&lt;li&gt;Du bringst idealerweise 5–10 Jahre Berufserfahrung im Vertrieb bei einem Versicherer, Makler, Pool oder in einem vergleichbaren Vertriebsnetzwerk mit – mit Schwerpunkt Krankenvollversicherung&lt;/li&gt;&lt;li&gt;Du hast nachweisliche Erfolge in der Neugewinnung, Betreuung und im Ausbau von Vertriebspartnern in der privaten Krankenversicherung und verfügst über ein belastbares Netzwerk im Maklermarkt&lt;/li&gt;&lt;li&gt;Du überzeugst mit Verhandlungsgeschick und Präsentationsstärke und fühlst dich sowohl im persönlichen Miteinander als auch in der digitalen Arbeit wohl&lt;/li&gt;&lt;li&gt;Du bringst dich mit deinen Fähigkeiten und innovativen Ideen ein, denkst unternehmerisch und möchtest den Partnervertrieb aktiv mitgestalten&lt;/li&gt;&lt;li&gt;Du arbeitest proaktiv, selbstständig und verantwortungsvoll – ein verbindliches Auftreten, Abschlussstärke und eine ausgeprägte Dienstleistungs- und Kundenorientierung runden dein Profil ab&lt;/li&gt;&lt;/ul&gt;&lt;br&gt;Daneben bringst du Reisebereitschaft mit und freust du dich darauf, in einer Startup-Atmosphäre zu arbeiten – du bist motiviert, Prozesse und Strukturen mit gestalten und „Extrameilen“ zu gehen.&lt;h3&gt;WORAUF DU DICH FREUEN DARFST&lt;/h3&gt;&lt;strong&gt;Bei ottonova hast du die Möglichkeit, eines der spannendsten neuen Unternehmen am Markt mitzugestalten.&lt;/strong&gt; Hier erwarten dich ein erfahrenes, hochmotiviertes und buntes Team und Freiräume, um eigene Ideen einzubringen und voranzutreiben.&lt;br&gt; &lt;br&gt;Als Krankenversicherung sind wir der Gesundheit verpflichtet – auch bei unseren Mitarbeitenden. Da Obst, Kaffee und Müsli bei uns zur Ausstattung gehören, bieten wir dir eine Vielzahl anderer Benefits an:&lt;ul&gt;&lt;li&gt;Sport- &amp;amp; Fitness – Zuschuss&lt;/li&gt;&lt;li&gt;Betriebliche Krankenversicherung&lt;/li&gt;&lt;li&gt;Betriebliche Altersvorsorge&lt;/li&gt;&lt;li&gt;Fahrtkostenzuschuss&lt;/li&gt;&lt;li&gt;Corporate Benefits&lt;/li&gt;&lt;li&gt;Weiterbildungen&lt;/li&gt;&lt;li&gt;ottonova Balance – hybrides Arbeiten&lt;/li&gt;&lt;li&gt;30 Tage Urlaub, sowie 24. &amp;amp; 31. Dezember frei&lt;/li&gt;&lt;li&gt;ottobike – Fahrrad-Leasing&lt;/li&gt;&lt;li&gt;Ticket Plus City Card &lt;/li&gt;&lt;li&gt;Mitarbeitende-werben-Mitarbeitende&lt;/li&gt;&lt;/ul&gt; &lt;br&gt;ottonova fördert einen gegenseitig verantwortungs-, respekt- und humorvollen Umgang mit klarem Wertesystem. Unsere Vielfalt ist eine Stärke, denn sie macht das ottonova-Team kreativer und produktiver. Wir schätzen jedes Individuum und unterstützen die persönliche und berufliche Entwicklung mit vollem Einsatz.&lt;h3&gt;URL&lt;/h3&gt;senior-kam&lt;h3&gt;Über uns&lt;/h3&gt;&lt;strong&gt;ottonova &lt;/strong&gt;ist die erste digitale private Krankenversicherung Deutschlands. Mit der eigens entwickelten App und vielen weiteren innovativen und digitalen Services sorgen wir für Beratung auf Augenhöhe und schnelle Prozesse, wenn es um die Gesundheit unserer Kunden geht. Die einzigartige Kombination aus Versicherungsunternehmen, Tech-Expertise und persönlicher Kundenberatung ist einmalig in der InsurTech-Branche: Mehr als 170 Mitarbeiter*innen arbeiten jeden Tag daran, die Versicherungsbranche zu digitalisieren und ganz neue Services anzubieten unseren Kunden einen noch besseren Umgang mit ihrer Krankenversicherung zu ermöglichen - denn Krankenversicherung kann auch Spaß machen.&quot;,
+  &quot;apply_url&quot;: &quot;https://ottonova.jobs.personio.de/job/2848771&quot;,
+  &quot;job_url&quot;: &quot;https://ottonova.jobs.personio.de/job/2848771&quot;,
+  &quot;language&quot;: &quot;de&quot;,
+  &quot;created_at&quot;: &quot;2026-10-19T11:16:02Z&quot;,
+  &quot;updated_at&quot;: null,
+  &quot;scraped_at&quot;: &quot;2026-11-03T14:17:45Z&quot;,
+  &quot;salary_text&quot;: null,
+  &quot;salary_min&quot;: null,
+  &quot;salary_max&quot;: null,
+  &quot;salary_currency&quot;: null,
+  &quot;salary_period&quot;: null,
+  &quot;salary_source&quot;: null,
+  &quot;additional_locations&quot;: [
+    &quot;Köln&quot;
   ],
-  &quot;postedWithinDays&quot;: 30,
-  &quot;sortBy&quot;: &quot;newest&quot;,
-  &quot;maxJobsPerCompany&quot;: 25
+  &quot;hiring_organization&quot;: &quot;ottonova Krankenversicherung AG - 9698&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.001</strong> per job delivered ($1.00 per 1,000). Duplicates are removed before anything is charged, filtered-out jobs are never charged, and a career site that is not found costs nothing. The full description and any stated salary come with the job at no extra charge, and the run ends cleanly at your maximum total charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <p>Priced at <strong>$0.001</strong> per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put career sites in <code>companies</code>: <code>https://{company}.jobs.personio.de</code> or <code>.jobs.personio.com</code>, a posting URL (<code>/job/{id}</code>, reduced to its career site) or the bare company name (<code>personio-gmbh</code> is <code>https://personio-gmbh.jobs.personio.de</code>). <code>keywords</code> keeps jobs whose title matches a keyword, and <code>location</code> or <code>countries</code> (ISO-2 codes such as <code>CH</code>) keep jobs in a place; keywords filter the sites you list, they do not search other companies. <code>postedWithinDays</code> drops older jobs, <code>sortBy</code> is <code>newest</code> (default) or <code>relevance</code>. <code>maxJobsPerCompany</code> (default 50) and <code>maxResults</code> (default 100) cap the run, <code>0</code> for no limit. <code>includeDescription</code> (default on) adds the description HTML. URLs of other job systems are skipped and never charged. An empty input reads one sample career site.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -447,25 +458,29 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the personio-jobs-scraper cost?</summary><p>Priced at $0.001 per job delivered ($1.00 per 1,000). Duplicate and filtered-out jobs are never charged, and a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>29 fields per job: job IDs, title, company, department, employment type, location with city and country code, remote flag and workplace type, full description HTML, apply and job URLs, publication and update dates, language, and a salary range when the posting states one. Fields the career site does not provide stay empty.</p></details>
-      <details><summary>How do I find a company's Personio career site?</summary><p>Open the company's careers page and look at the address of a job. If it is a Personio address, pass that URL or the company name from it.</p></details>
-      <details><summary>Can I search all Personio companies by keyword?</summary><p>No. Give the career site URL or company name of each company you follow. Keywords only filter the titles of the jobs on those sites.</p></details>
-      <details><summary>Why is the salary empty?</summary><p>Salary fields are filled only when the posting states a salary range. Nothing is estimated.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. No Personio account and no API key. Give the actor career site URLs or company names and it does the rest.</p></details>
+      <details><summary>How much does the personio-jobs-scraper cost?</summary><p>Priced at $0.001 per job ($1.00 per 1,000). Filtered-out and duplicate jobs are not charged; a career site that is not found costs nothing. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>30 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/recruitee-jobs-scraper/"><span class="name">Recruitee Jobs Scraper</span><span class="summary">Scrape open jobs from Recruitee career sites: title, location, department, employment type, description, posting date, apply URL. $1 per 1,000 jobs.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/teamtailor-jobs-scraper/"><span class="name">Teamtailor Jobs Scraper</span><span class="summary">Scrape open jobs from Teamtailor career sites: title, location, department, employment type, description, posting date, apply URL. $1 per 1,000 jobs.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/smartrecruiters-jobs-scraper/"><span class="name">SmartRecruiters Jobs Scraper</span><span class="summary">Scrape open jobs from SmartRecruiters company boards: title, location, department, employment type, salary, description, apply URL. $1 per 1,000 jobs.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/career-site-jobs-scraper/"><span class="name">Career Site Jobs Scraper</span><span class="summary">Scrape Career Site Jobs for $1/1k job: title, company, location, city, description. Runs on Apify, pay-per-result, no monthly fee.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/indeed-http-scraper/"><span class="name">Indeed HTTP Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/glassdoor-scraper/"><span class="name">Glassdoor Scraper</span><span class="summary">Glassdoor (General, Global): 20+ countries with employer rating, review count, salary estimate flag, and optional employer profile (HQ, size, CEO). Unique review-quality signal alongside job data.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-job-extractor/"><span class="name">Website Job Extractor</span><span class="summary">Website Job Extractor (Career Pages, Global): AI-powered extraction from any company career page. Auto-detects ATS, handles pagination, and validates output.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/stepstone-de-scraper/"><span class="name">StepStone Scraper</span><span class="summary">StepStone.de (General, Germany): German job portal. Salary info, contact details, Bundesland filter, and optional LLM extraction for requirements and benefits.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/linkedin-scraper/"><span class="name">LinkedIn Scraper</span><span class="summary">LinkedIn Jobs (Professional, Global): public LinkedIn job listings. Location, job type, experience level, remote options, company info, and description. No login required.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/jobs-ch-scraper/"><span class="name">Jobs.ch Scraper</span><span class="summary">Jobs.ch (General, Switzerland): Swiss job board powered by JobCloud. Swiss job market data across all industries and cantons.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/seek-scraper/"><span class="name">Seek.com.au Scraper</span><span class="summary">Seek / JobStreet / JobsDB (General, APAC): 40 fields across 8 countries (AU, NZ, SG, MY, ID, PH, HK, TH). Contact email/phone, work arrangement, and classifications. One actor for all APAC job boards.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/arbeit-swiss-scraper/"><span class="name">Arbeit.Swiss Scraper</span><span class="summary">Arbeit.Swiss (Government, Switzerland): Switzerland&#39;s official public employment service (Job-Room.ch). Canton filter, workload percentage, RAV-registered government listings. Official source.</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/personio-jobs-scraper?fpr=0khfbz&amp;fp_sid=a-personio-jobs-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-03</strong> · Actor v0.1.2 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>
