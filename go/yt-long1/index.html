@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Find Clients with Claude + Google Maps: Prompts and Setup | NanoScrape</title>
+  <meta name="description" content="Setup steps, copy-paste prompts and real run costs from the video: connect Apify to Claude and find web design leads on Google Maps.">
+  <link rel="canonical" href="https://www.nanoscrape.com/go/yt-long1/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; }
+    .article li strong { color: var(--white); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre { margin: 0; padding: 18px 20px; padding-right: 76px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre-wrap; word-break: break-word; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); word-break: break-all; }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .table-wrap { overflow-x: auto; margin: 12px 0 16px; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--white); font-weight: 600; background: var(--surface); }
+    .small { font-size: 0.9rem; color: var(--muted); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Find clients with Claude + Google Maps</nav>
+
+    <h1>Find Clients with Claude + Google Maps</h1>
+    <p class="lead">Everything from the video in one place: how to connect Apify to Claude, the exact prompts to copy, and what the runs really cost.</p>
+
+    <p>The video shows how a web designer can use Claude with the Google Maps Scraper to find local businesses with no website or an outdated one, rank them, spot practices that are hiring, and draft an honest first message.</p>
+    <p class="small">The voice in the video is AI-generated. The screen recordings are real.</p>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=go-yt-long1" class="btn-primary">Open the Google Maps Scraper on Apify</a>
+      <a href="/tutorials/google-maps-scraper-business-leads-contact-data/" class="btn-secondary">Full Google Maps Scraper guide</a>
+    </div>
+
+    <h2 id="setup">1. Connect Apify to Claude</h2>
+    <ol>
+      <li>In Claude, open <strong>Customize</strong>, then <strong>Connectors</strong>.</li>
+      <li>Click the plus and choose <strong>Add custom connector</strong>.</li>
+      <li>Give it a name and paste this URL: <span class="code-inline">https://mcp.apify.com</span>. Add it.</li>
+      <li>Sign in with your Apify account. That's the whole setup.</li>
+    </ol>
+
+    <h2 id="permissions">2. Permissions and a spending limit</h2>
+    <p>Do this before you start a chat. Open the Apify connector and look at its tools.</p>
+    <ul>
+      <li><strong>Read-only tools: Always allow.</strong> Claude can check a run and read the results without asking you every time.</li>
+      <li><strong>Call Actor: keep it on ask.</strong> This is the step that starts a scraper, and the step that costs money. You approve each run.</li>
+      <li><strong>Start a new chat after changing permissions.</strong> An already open chat keeps its old permissions.</li>
+      <li><strong>Put a limit in every prompt</strong>, like "Keep the cost under $1". Claude passes it to Apify as a cap on the run.</li>
+    </ul>
+
+    <h2 id="prompts">3. Copy-paste prompts</h2>
+    <p>Replace the city and the business type with your own.</p>
+
+    <h3 id="prompt-freshness">Outdated websites (Glendale example)</h3>
+    <div class="code-block"><button class="copy-btn" aria-label="Copy prompt">Copy</button><pre>Use the Apify Actor santamaria-automations/google-maps-scraper: search "handyman in Glendale, AZ", max 30 businesses, with the website freshness check add-on. Show me a table of the businesses whose website hasn't been updated in 6+ months, with phone, website and the last update date. Keep the cost under $1.</pre></div>
+
+    <h3 id="prompt-ranking">Rank a city export (Chicago example)</h3>
+    <p>Export your Google Maps Scraper results as CSV, attach the file in Claude, then send:</p>
+    <div class="code-block"><button class="copy-btn" aria-label="Copy prompt">Copy</button><pre>This CSV is every plumber in Chicago from Google Maps. Keep only plumbers with no website, rated 4.5 or higher, with at least 50 reviews. Rank them by number of reviews. Show a table with name, rating, reviews and phone, and tell me how many plumbers had no website in total and how many had a rating of 4.5 or higher.</pre></div>
+    <p class="small">The Chicago list in the video was pulled ahead of time with the same scraper. Claude ranks the file, it does not run a new scrape for this step.</p>
+
+    <h3 id="prompt-hiring">Who is hiring right now (Austin example)</h3>
+    <div class="code-block"><button class="copy-btn" aria-label="Copy prompt">Copy</button><pre>Use the Apify Actor santamaria-automations/google-maps-scraper: search "dentist in Austin, TX", max 20 businesses, with Hiring Signals turned on. Show me a table of the practices that are hiring right now, with the open job titles, phone and website. Keep the cost under $1.</pre></div>
+
+    <h3 id="prompt-message">First message</h3>
+    <p>In the same chat, after a result table, replace the business name and the findings with what Claude actually found:</p>
+    <div class="code-block"><button class="copy-btn" aria-label="Copy prompt">Copy</button><pre>Write me a short, honest first message to [business name]. Mention what you actually found ([for example: sitemap last updated April 2026, footer still says 2025]). Offer to show them a refreshed homepage draft on a 15-minute call. No fake urgency, no made up stats.</pre></div>
+
+    <h2 id="cost">4. What it cost</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Run in the video</th><th>What it did</th><th>Cost of that run</th></tr></thead>
+        <tbody>
+          <tr><td>Glendale handyman</td><td>30 places, plus the website freshness check</td><td>about $0.08</td></tr>
+          <tr><td>Austin dentists</td><td>20 places, plus the hiring check</td><td>about $0.18</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small">Each figure is one run, not a price list. Claude's own estimate in the chat can be lower, read your Apify usage.</p>
+
+    <h2 id="caveats">5. Before you pitch</h2>
+    <div class="callout warn">
+      <ul style="margin-bottom:0">
+        <li><strong>No website on Google is not always no website.</strong> Some businesses never added the link. Check before you pitch.</li>
+        <li><strong>"Not checked" means unknown, not "not hiring".</strong> If a business shows as not checked, the scraper couldn't tell either way.</li>
+        <li><strong>Send from your own address</strong>, one business at a time, and keep the message honest.</li>
+      </ul>
+    </div>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=go-yt-long1" class="btn-primary">Open the Google Maps Scraper on Apify</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <script>
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
