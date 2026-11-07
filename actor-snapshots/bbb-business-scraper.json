@@ -1,0 +1,33 @@
+{
+  "slug": "nanodata/bbb-business-scraper",
+  "name": "bbb-business-scraper",
+  "title": "BBB Business Scraper",
+  "description": "Search Better Business Bureau (bbb.org) for businesses by keyword and city. Get name, phone, address, BBB rating, accreditation, categories and profile links. Pay per result.",
+  "readme": "# BBB Business Scraper\n\nSearch the Better Business Bureau (bbb.org) by keyword and city and export the business listings as structured data. Each row holds the business name, phone numbers, address, BBB letter rating, accreditation flag, categories, coordinates and the link to the BBB profile.\n\n## What you get\n\nFor every business on the search results pages the actor returns every public field the listing shows:\n\n- Identity: business name, listing id, business id, local BBB id and name\n- Contact: street address, city, state, postal code, all listed phone numbers\n- Reputation: BBB letter rating, numeric rating score, accreditation flag, charity flags\n- Categories: main category and the full category list with ids\n- Location: latitude and longitude, service area details when listed\n- Links: profile URL, logo, request a quote page, leave a review page\n- Search context: the term, the location, the results page, the position and the total hits reported for the search\n\nFields the listing does not show are returned as `null`.\n\n## Pricing\n\nThis actor uses pay per event pricing.\n\n| Event name | When it is charged | Price |\n|---|---|---|\n| `actor-start` | Once per run, together with the first delivered rows | $0.001 per run |\n| `bbb-business-result` | For each business delivered to the dataset | $0.002 per business ($2.00 per 1,000) |\n\nA run that finds nothing delivers no rows and is not charged. If you set a maximum charge for the run, the actor stops cleanly when the limit is reached and keeps the rows already delivered.\n\n## Input\n\n| Field | Type | Description |\n|---|---|---|\n| `searchTerms` | list of text | Business types or names, for example `plumber`. Each term is searched in every location. |\n| `locations` | list of text | City and state as written on bbb.org, for example `Austin, TX`. |\n| `country` | `USA` or `CAN` | Country of the locations. Default `USA`. |\n| `maxResultsPerQuery` | number | Businesses to collect for each term and location pair. A results page holds 15 businesses. Default 40, maximum 1000. |\n\nAn empty input runs a small demo: `plumber` in `Austin, TX`, 5 results.\n\n### Example: two cities\n\n```json\n{\n  \"searchTerms\": [\"plumber\"],\n  \"locations\": [\"Austin, TX\", \"Denver, CO\"],\n  \"maxResultsPerQuery\": 40\n}\n```\n\n### Example: several terms, Canada\n\n```json\n{\n  \"searchTerms\": [\"roofing contractor\", \"electrician\"],\n  \"locations\": [\"Toronto, ON\"],\n  \"country\": \"CAN\",\n  \"maxResultsPerQuery\": 30\n}\n```\n\nEvery term is combined with every location. Two terms and three locations make six searches.\n\n## Output sample\n\n```json\n{\n  \"id\": \"0825_1000203125_367267\",\n  \"businessId\": \"1000203125\",\n  \"bbbId\": \"0825\",\n  \"bbbName\": \"BBB Heart of Texas\",\n  \"businessName\": \"Benjamin BL Plumbing\",\n  \"address\": \"4801 S Congress Ave\",\n  \"city\": \"Austin\",\n  \"state\": \"TX\",\n  \"postalCode\": \"78745-2398\",\n  \"phone\": \"(512) 559-4805\",\n  \"phones\": [\"(512) 559-4805\"],\n  \"rating\": \"A+\",\n  \"ratingScore\": 100,\n  \"accredited\": true,\n  \"primaryCategory\": \"Plumber\",\n  \"categories\": [{\"id\": \"10113-000\", \"name\": \"Plumber\"}, {\"id\": \"10113-300\", \"name\": \"Plumbing Renovation\"}],\n  \"latitude\": 30.2133,\n  \"longitude\": -97.7695,\n  \"profileUrl\": \"https://www.bbb.org/us/tx/austin/profile/plumber/benjamin-bl-plumbing-0825-1000203125\",\n  \"serviceAreasSummary\": [\"Williamson County,  TX\", \"Austin, TX\", \"Travis, TX\"],\n  \"searchTerm\": \"plumber\",\n  \"searchLocation\": \"Austin, TX\",\n  \"country\": \"USA\",\n  \"page\": 2,\n  \"position\": 16,\n  \"totalResultsForQuery\": 2539,\n  \"scrapedAt\": \"2026-11-05T11:09:05Z\"\n}\n```\n\n## FAQ\n\n**Does it open the business profile pages?**\nNo. The actor reads the search results pages only. Details that exist only on a profile page, such as complaint counts, hours or years in business, are not included. Every row carries `profileUrl` so you can follow up on the businesses you care about.\n\n**How many businesses can one search return?**\nThat depends on bbb.org. The search reports its own total in `totalResultsForQuery`. The actor collects up to `maxResultsPerQuery` for each search.\n\n**What happens if bbb.org shows a verification page instead of results?**\nThe actor stops that search, does not try to get past the page, and says so in the run status message. Rows already collected are kept. If every search ends this way the run finishes with an error status and nothing is charged. Try again later.\n\n**What if a search finds nothing?**\nThe run finishes successfully with the status message \"No businesses found for these searches\" and is not charged.\n\n**Can I run it again after an interruption?**\nYes. Progress is saved after every batch. A run that is restarted by the platform continues where it stopped and does not deliver or charge the same rows twice.\n\n**The same business appears for two searches. Is it delivered twice?**\nNo. Each business is delivered once per run.\n\n**Is the data public?**\nYes. The actor collects what bbb.org shows publicly on its search pages. Check the terms of the site and the laws that apply to you before you use the data, especially for outreach.\n",
+  "readmeSource": "actors/directories/bbb-business-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-11-06T08:08:22.000Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor run started",
+        "description": "Charged once per run, together with the first delivered business",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "bbb-business-result",
+        "title": "BBB business scraped",
+        "description": "One BBB business profile delivered to the dataset",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-11-07T05:19:15.421Z"
+}

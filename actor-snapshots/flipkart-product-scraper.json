@@ -1,0 +1,41 @@
+{
+  "slug": "nanodata/flipkart-product-scraper",
+  "name": "flipkart-product-scraper",
+  "title": "Flipkart Product Scraper",
+  "description": "Search Flipkart (India) and get product rows with price, list price, discount, rating, availability, images and key specs. Optional product page details with seller. Pay per result.",
+  "readme": "# Flipkart Product Scraper\n\nSearch Flipkart India by keyword and get one row per product: title, brand, price, list price, discount, rating, availability, images and key specs. You can also open every product page to add the seller, description, colour, shipping, return policy and the reviews shown on the page.\n\nUse it for price tracking, catalog research, competitor checks and market sizing on the Indian online market.\n\n## What you get\n\nFor every search result the actor returns:\n\n- Product id, listing id, item id, title, subtitle (size, colour, weight) and product link\n- Brand\n- Price, list price (MRP), currency, discount percent and discount amount\n- Star rating, number of ratings, number of written reviews\n- Availability and an in-stock flag\n- Offer notes shown on the card, for example \"Only 3 left\" or \"Bank Offer\"\n- Main image and all card images\n- Key specs, category, warranty line and the Flipkart Assured flag\n- Position in the search results, result page, the search query and the total number of results Flipkart reports\n\nWith product page details turned on, each row also has seller name, seller id, description, colour, free shipping flag, return policy, large images and the top reviews shown on the page (title, rating, date, text).\n\n## Pricing\n\nYou pay per event. No monthly fee.\n\n| Event name | When it is charged | Price |\n|---|---|---|\n| `actor-start` | Once per run, together with the first delivered rows | $0.001 per run |\n| `flipkart-product-result` | Once per product row delivered | $0.001 per product ($1.00 per 1,000) |\n| `flipkart-product-detail` | Once per product whose page was read, only when product page details are on | $0.003 per product page read ($3.00 per 1,000) |\n\nA run with a max total charge stops cleanly when the limit is reached. Rows are never delivered past the limit.\n\n## Input\n\n| Field | Type | Default | Description |\n|---|---|---|---|\n| `searchQueries` | list of text | none | Words to search for, for example `laptop` or `running shoes`. An empty input runs a small demo: the query `laptop`, 5 results. |\n| `maxResultsPerQuery` | number | 50 | Products per query, from 1 to 1000. One result page holds about 24 to 40 products. |\n| `includeDetails` | true or false | false | Read the product page of every result and add seller and page details. Adds one request and one paid event per product. |\n\nNetwork settings are optional and prefilled. The default works for most runs.\n\nNumbers and true or false values may be given as text (`\"50\"`, `\"true\"`). A list may be given as one text with commas or line breaks. A value that cannot be read stops the run at the start with a short message, before anything is charged.\n\n### Example: two searches\n\n```json\n{\n  \"searchQueries\": [\"laptop\", \"running shoes\"],\n  \"maxResultsPerQuery\": 50\n}\n```\n\n### Example: one search with product page details\n\n```json\n{\n  \"searchQueries\": [\"wireless earbuds\"],\n  \"maxResultsPerQuery\": 20,\n  \"includeDetails\": true\n}\n```\n\n## Output sample\n\n```json\n{\n  \"product_id\": \"COMHDZVEH5XGAYBF\",\n  \"listing_id\": \"LSTCOMHDZVEH5XGAYBF1RFKFE\",\n  \"item_id\": \"ITM135E9FA4A5AA3\",\n  \"title\": \"HP 15 (i5 14th Gen) Intel Core 5 120U - (16 GB/512 GB SSD/Windows 11 Home) Thin and Light Laptop\",\n  \"subtitle\": \"15.6 Inch, Natural Silver, 1.59 Kg, With MS Office\",\n  \"brand\": \"HP\",\n  \"url\": \"https://www.flipkart.com/hp-15-i5-14th-gen-intel-core-5-120u-16-gb-512-gb-ssd-windows-11-home-thin-light-laptop/p/itm135e9fa4a5aa3?pid=COMHDZVEH5XGAYBF\",\n  \"price\": 81500,\n  \"mrp\": 89900,\n  \"currency\": \"INR\",\n  \"discount_percent\": 9,\n  \"discount_amount\": 8400,\n  \"rating\": 4.1,\n  \"rating_count\": 951,\n  \"review_count\": 71,\n  \"availability\": \"IN_STOCK\",\n  \"in_stock\": true,\n  \"offer_tags\": [\"Only 3 left\", \"Bank Offer\"],\n  \"key_specs\": [\"Intel Core 5 Processor\", \"16 GB DDR4 RAM\", \"512 GB SSD\"],\n  \"flipkart_assured\": true,\n  \"position\": 28,\n  \"page\": 2,\n  \"search_query\": \"laptop\",\n  \"search_total_results\": 1431,\n  \"seller_name\": null,\n  \"details_fetched\": false,\n  \"scraped_at\": \"2026-11-05T10:00:00Z\"\n}\n```\n\nFields that Flipkart does not show for a product are returned as `null`.\n\n## FAQ\n\n**Which country and currency does it cover?**\nFlipkart India. Prices are in Indian rupees (INR).\n\n**Why are some ratings, availability values or key specs empty?**\nFlipkart sometimes returns a shorter version of a result page that has no ratings, availability or specs. The actor asks once more when it sees that, but not every page improves. Prices, list prices, discounts, titles, brands, images and links are in both versions. Turn on product page details to fill rating and availability from the product page.\n\n**Why does a nonsense search still return products?**\nFlipkart matches loosely and shows the closest products it has. The actor returns what the site shows. A search the site cannot match at all returns no rows, and nothing is charged.\n\n**Why are there fewer rows than I asked for?**\nFlipkart repeats some products between pages and some searches have fewer results than the limit. Repeated products are removed, so each product appears once per run.\n\n**Does it read the seller for every product?**\nOnly with product page details on. Search results do not show the seller.\n\n**What happens if the run is restarted?**\nProgress is saved after every page. A restarted run continues where it stopped. It does not add the same rows twice and does not charge the same batch twice.\n\n**What if Flipkart blocks or slows down?**\nThe actor keeps a low request rate, retries a refused page once with a fresh connection and stops after three server errors in a row. If every request was refused, the run ends with an error and a clear message. Nothing is charged for pages that were not delivered.\n\n**Can I search by category or filter?**\nNot in this version. Use search words, for example `men running shoes size 9`.\n\n**Is it legal to use?**\nThe actor reads public product pages only. You are responsible for using the data in line with the site terms and local law.\n",
+  "readmeSource": "actors/ecommerce/flipkart-product-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-11-06T08:08:22.000Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor run started",
+        "description": "Charged once per run, together with the first delivered product",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "flipkart-product-result",
+        "title": "Flipkart product scraped",
+        "description": "One Flipkart product row delivered to the dataset",
+        "isPrimary": true,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "flipkart-product-detail",
+        "title": "Flipkart product page read",
+        "description": "One product page read for product details (only when details are on)",
+        "isPrimary": false,
+        "priceUsd": 0.003,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-11-07T05:19:11.124Z"
+}

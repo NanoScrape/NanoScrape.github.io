@@ -1,0 +1,33 @@
+{
+  "slug": "santamaria-automations/tripadvisor-scraper",
+  "name": "tripadvisor-scraper",
+  "title": "TripAdvisor Scraper: Hotels, Restaurants and Attractions",
+  "description": "Get hotel, restaurant and attraction listings from TripAdvisor list pages: name, link, location ID, rating, review count, price level, cuisines, address, coordinates, phone, ranking and image. No login needed.",
+  "readme": "# TripAdvisor Scraper\n\nGet hotel, restaurant and attraction listings from [TripAdvisor](https://www.tripadvisor.com/) list pages. Paste the address of a list page, such as the restaurants of a city, and the actor returns one record per listing: name, link, location ID, rating, review count, price level, cuisines and categories, address, coordinates, phone, ranking, image and opening hours. No login and no API key are needed.\n\n## What you get\n\n- One record per listing from a TripAdvisor list page, 30 listings per page.\n- Several pages in one run. Set `maxResults` and the actor reads as many pages as it needs.\n- Each listing once per run, even if it shows up on more than one page.\n- A run that is interrupted continues where it stopped. Listings already delivered are not delivered or charged again.\n- You pay only for listings that were saved to the dataset.\n\n## Use with AI agents (MCP)\n\nConnect this actor to any MCP-compatible AI client, such as Claude Desktop, Cursor, VS Code, LangChain or LlamaIndex.\n\n**MCP server URL:**\n\n```\nhttps://mcp.apify.com?tools=santamaria-automations/tripadvisor-scraper\n```\n\n**Example prompt once connected:**\n\n> \"Use `tripadvisor-scraper` to list the first 60 restaurants in Paris from TripAdvisor with their ratings, review counts and addresses as a CSV.\"\n\n## Data extracted\n\n| Field | Example |\n|-------|---------|\n| `id` | `\"1109767\"` |\n| `location_id` | `\"1109767\"` |\n| `geo_id` | `\"187147\"` |\n| `name` | `\"Le Train Bleu\"` |\n| `listing_type` | `\"restaurant\"` |\n| `url` | `\"https://www.tripadvisor.com/Restaurant_Review-g187147-d1109767-Reviews-Le_Train_Bleu-Paris_Ile_de_France.html\"` |\n| `rating` | `4` |\n| `review_count` | `7562` |\n| `price_level` | `\"$$$$\"` |\n| `cuisines` | `[\"French\"]` |\n| `categories` | `[\"Restaurants\"]` |\n| `address` | `\"Place Louis Armand Gare de Lyon, 75012 Paris France\"` |\n| `city` | `\"Paris\"` |\n| `country` | `\"France\"` |\n| `postal_code` | `\"75012\"` |\n| `latitude`, `longitude` | `48.84495`, `2.373383` |\n| `phone` | `\"+33 1 43 43 09 06\"` |\n| `menu_url` | Menu link, when the page shows one |\n| `description` | Short description, when the page shows one |\n| `image_url` | Main photo |\n| `rank` | `1` |\n| `ranking_text` | `\"#1 in Paris Restaurants\"` |\n| `opening_hours` | `[\"Sunday 11:15-14:30\", \"Sunday 19:00-22:30\"]` |\n| `is_sponsored` | `false` |\n| `source_url` | The list page the row came from |\n| `page` | `1` |\n| `scraped_at` | `\"2026-11-05T10:00:00Z\"` |\n\nFields that a page does not show are returned empty. List pages do not show a long description for most listings.\n\n## Pricing\n\nPay-per-event pricing. You pay only for listings that were saved to the dataset.\n\n| Event | Price |\n|-------|-------|\n| Actor start (`actor-start`) | $0.001 |\n| Listing scraped (`tripadvisor-listing-result`) | $2.50 / 1,000 |\n\nThe start event is charged once per run, together with the first saved listing. A run that returns nothing is not charged. If you set a maximum cost per run, the actor stops before it goes over that limit.\n\n## Input\n\n| Field | Type | Description | Default |\n|-------|------|-------------|---------|\n| `locationUrls` | string[] | TripAdvisor list pages, for example `https://www.tripadvisor.com/Restaurants-g187147-Paris_Ile_de_France.html`. Hotels, restaurants and things to do list pages work. | none |\n| `directUrls` | string[] | Single listing pages (Hotel_Review, Restaurant_Review, Attraction_Review). One page gives one record. | none |\n| `maxResults` | integer | Most listings to return across all inputs. 0 uses 100. | `100` |\n\nAt least one of `locationUrls` or `directUrls` is required.\n\n## Usage examples\n\n### First 40 restaurants in Paris\n\n```json\n{\n  \"locationUrls\": [\"https://www.tripadvisor.com/Restaurants-g187147-Paris_Ile_de_France.html\"],\n  \"maxResults\": 40\n}\n```\n\n### Hotels in two cities\n\n```json\n{\n  \"locationUrls\": [\n    \"https://www.tripadvisor.com/Hotels-g187791-Rome_Lazio.html\",\n    \"https://www.tripadvisor.com/Hotels-g187497-Barcelona_Catalonia.html\"\n  ],\n  \"maxResults\": 100\n}\n```\n\n### One listing page\n\n```json\n{\n  \"directUrls\": [\n    \"https://www.tripadvisor.com/Restaurant_Review-g187147-d719424-Reviews-Le_Jules_Verne-Paris_Ile_de_France.html\"\n  ]\n}\n```\n\n## Output\n\nResults are saved to the default dataset. Export them as JSON, CSV or Excel, or read them through the API.\n\n## FAQ\n\n**Which pages should I use?**\nList pages, such as the restaurants, hotels or things to do of a city. They give 30 listings per request, which keeps runs fast and cost low.\n\n**How many listings can I get from one list?**\nTripAdvisor shows up to a few hundred pages for a list. The actor reads pages until it has `maxResults` listings or the list ends.\n\n**What does a run cost?**\n$0.001 to start plus $2.50 per 1,000 listings. A run of 40 listings costs about $0.10.\n\n**What status does a run end with?**\nThe run status says how many listings were delivered. If TripAdvisor refuses every request, the run fails and nothing is charged. If a page has no listings, the run ends normally and says so.\n\n**Can I get reviews?**\nThis actor returns listing data: rating summary, address, contact details and ranking. It does not return the text of individual reviews.\n",
+  "readmeSource": "actors/directories/tripadvisor-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-11-05T11:43:41.000Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor start",
+        "description": "Actor start",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "tripadvisor-listing-result",
+        "title": "Tripadvisor listing result",
+        "description": "Tripadvisor listing result",
+        "isPrimary": false,
+        "priceUsd": 0.0025,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-11-07T05:19:09.742Z"
+}
