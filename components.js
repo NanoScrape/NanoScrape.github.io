@@ -586,6 +586,57 @@
  }
 
  // ==========================================================================
+ // SUB-ID ATTRIBUTION: a /go/ stub can forward ?fp_sid=<arm id>; affiliate
+ // links that already carry our referral param get that sub-ID. The value is
+ // kept in sessionStorage for this tab only: no cookies, no personal data.
+ // A later program = one more SUBID_HOSTS entry. The id pattern must match
+ // SUBID_RE in scripts/make-short-links.py.
+ // ==========================================================================
+
+ var SUBID_RE = /^(am|aj|bm|bj|c|br)-[a-z0-9-]{1,36}$/;
+ var SUBID_KEY = 'ns_subid';
+ var APIFY_SUBID = { refParam: 'fpr', refValue: '0khfbz', subIdParam: 'fp_sid' };
+ var SUBID_HOSTS = {
+ 'apify.com': APIFY_SUBID,
+ 'console.apify.com': APIFY_SUBID,
+ 'docs.apify.com': APIFY_SUBID
+ };
+
+ function currentSubId() {
+ var v = null;
+ try { v = new URLSearchParams(location.search).get('fp_sid'); } catch (e) { v = null; }
+ if (v && SUBID_RE.test(v)) {
+ try { sessionStorage.setItem(SUBID_KEY, v); } catch (e) {}
+ return v;
+ }
+ try { v = sessionStorage.getItem(SUBID_KEY); } catch (e) { v = null; }
+ return v && SUBID_RE.test(v) ? v : null;
+ }
+
+ function applySubId(a, subId) {
+ var u;
+ try { u = new URL(a.getAttribute('href'), location.href); } catch (e) { return; }
+ if (u.protocol !== 'https:' || !Object.prototype.hasOwnProperty.call(SUBID_HOSTS, u.hostname)) return;
+ var cfg = SUBID_HOSTS[u.hostname];
+ if (u.searchParams.get(cfg.refParam) !== cfg.refValue) return;
+ if (u.searchParams.get(cfg.subIdParam) === subId) return;
+ u.searchParams.set(cfg.subIdParam, subId);
+ a.setAttribute('href', u.toString());
+ }
+
+ function attributeLinks() {
+ var subId = currentSubId();
+ if (!subId) return;
+ var links = document.querySelectorAll('a[href]');
+ for (var i = 0; i < links.length; i++) applySubId(links[i], subId);
+ // links rendered later (search palette, Ask AI) get it on click
+ document.addEventListener('click', function (e) {
+ var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+ if (a) applySubId(a, subId);
+ }, true);
+ }
+
+ // ==========================================================================
  // PHONE WIDTH: wide tables scroll inside their own box, not the whole page
  // ==========================================================================
 
@@ -617,6 +668,7 @@
  hideMissingActorLangs();
  renderAskAi();
  wrapTables();
+ attributeLinks();
 
  window.NanoScrapeComponents = { languages: LANGUAGES, strings: T, detectContext: detectContext, homeUrl: homeUrl };
 })();
