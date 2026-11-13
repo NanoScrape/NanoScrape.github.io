@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>If Apify Rotated Your API Token (November 2026): Fix n8n, Make, Zapier and API Integrations | NanoScrape</title>
+  <meta name="description" content="Apify's November 2026 security incident: what the status page says, where to get your current API token, and how to update n8n, Make, Zapier, scripts and webhooks.">
+  <meta property="og:title" content="If Apify Rotated Your API Token (November 2026): Fix n8n, Make, Zapier and API Integrations">
+  <meta property="og:description" content="Apify's November 2026 security incident: what the status page says, where to get your current API token, and how to update n8n, Make, Zapier, scripts and webhooks.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/apify-token-rotation-fix-integrations/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/apify-token-rotation-fix-integrations/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .article { max-width: 760px; margin: 0 auto; padding: 16px 16px 64px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 16px; }
+    .breadcrumb a { color: var(--muted); }
+    .kicker { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px; margin-bottom: 16px; }
+    .kicker strong { color: var(--white); }
+    .article h1 { font-size: 2rem; font-weight: 800; line-height: 1.2; margin-bottom: 12px; color: var(--white); }
+    .lead { font-size: 1.1rem; color: var(--muted); margin-bottom: 24px; }
+    .article h2 { font-size: 1.4rem; font-weight: 700; margin: 48px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.1rem; font-weight: 700; margin: 24px 0 8px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 16px; }
+    .article li { margin-bottom: 8px; }
+    .article li strong { color: var(--white); }
+    .ctas { display: flex; gap: 12px; margin: 0 0 24px; flex-wrap: wrap; }
+    .btn-primary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border: 1px solid var(--border); color: var(--text); padding: 12px 24px; border-radius: 8px; font-weight: 600; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .btn-primary:focus-visible, .btn-secondary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+    /* 3-line summary right under the CTA: what you get, what it costs, how long */
+    .facts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-bottom: 32px; }
+    .fact { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; }
+    .fact .v { display: block; color: var(--white); font-weight: 700; font-size: 1.05rem; }
+    .fact .k { display: block; color: var(--muted); font-size: 0.8rem; }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 24px; }
+    .toc ol { margin: 0; }
+    .toc a { color: var(--text); }
+    .step { border-top: 1px solid var(--border); padding-top: 24px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 4px 12px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 8px; }
+    .code-block { position: relative; margin: 8px 0 24px; }
+    .code-block > pre { margin: 0; padding: 16px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .code-block .copy-btn { position: absolute; top: 8px; right: 8px; min-height: 32px; padding: 4px 12px; font-size: 0.75rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 12px 16px; margin: 16px 0; font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    .article figure { margin: 24px 0; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; text-align: center; }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin-bottom: 8px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); min-height: 32px; }
+    .faq details p { margin: 8px 0 0; }
+    .end-cta { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-top: 48px; }
+    .end-cta h2 { margin-top: 0; }
+    .end-cta .ctas { margin-bottom: 0; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); overflow-wrap: anywhere; }
+    .small { font-size: 0.85rem; color: var(--muted); }
+    .compare-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+    .compare-table th, .compare-table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+    .compare-table th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; }
+    /* Recipe: portrait Short frame (720x1280) beside the text; stacked and smaller on phones */
+    .recipe { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 24px; align-items: start; }
+    .recipe .frame { margin: 0; }
+    .recipe .frame img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.6rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .facts { grid-template-columns: 1fr; }
+      .recipe { grid-template-columns: 1fr; }
+      .recipe .frame { max-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Apify token rotation</nav>
+
+    <span class="kicker">Updated <strong>13 Nov 2026</strong></span>
+    <h1>If Apify rotated your API token: fix n8n, Make, Zapier and API integrations</h1>
+    <p class="lead">Apify reported a security incident in November 2026. If your integrations stopped authenticating, this page shows where to get your current token and how to put it back into n8n, Make, Zapier, your scripts and your webhooks.</p>
+
+    <div class="ctas">
+      <a class="btn-primary" target="_blank" rel="noopener" href="https://status.apify.com/incidents/sxd1dj5j6749">Read Apify's status page</a>
+      <a class="btn-secondary" href="#token">Show me the steps</a>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <ol>
+        <li><a href="#what-happened">What happened</a></li>
+        <li><a href="#token">Get your current API token</a></li>
+        <li><a href="#n8n">n8n</a></li>
+        <li><a href="#make">Make</a></li>
+        <li><a href="#zapier">Zapier</a></li>
+        <li><a href="#api">Scripts, CLI and plain API calls</a></li>
+        <li><a href="#webhooks">Apify integrations, webhooks and GitHub</a></li>
+        <li><a href="#schedules">Schedules inside Apify</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="what-happened">What happened</h2>
+    <p>According to <a target="_blank" rel="noopener" href="https://status.apify.com/incidents/sxd1dj5j6749">Apify's status page</a>:</p>
+    <ul>
+      <li>On <strong>9 and 10 November 2026</strong>, an unauthorized third party gained access to parts of Apify's internal systems. Apify detected the activity on <strong>11 November</strong>, cut off access and started an investigation, which is still ongoing.</li>
+      <li>As a precaution, Apify <strong>revoked some OAuth connections to external integrations</strong>, including GitHub, and rotated various critical internal secrets.</li>
+      <li>If the investigation shows that your tokens were affected, Apify <strong>rotates them for you and notifies you</strong>. Users of integrations other than GitHub get a separate email asking them to reconnect.</li>
+    </ul>
+    <div class="callout">
+      <strong>Start with your inbox.</strong> If you got an email from Apify about this, follow its instructions first. The status page has the latest updates; this page only covers the practical fixes.
+    </div>
+
+    <section class="step" id="token">
+      <span class="step-number">STEP 1</span>
+      <h2>Get your current API token</h2>
+      <ol>
+        <li>Open Apify Console and go to <strong>Settings &rarr; API &amp; Integrations</strong> (<a target="_blank" rel="noopener" href="https://console.apify.com/settings/integrations">console.apify.com/settings/integrations</a>).</li>
+        <li>Copy the token, or create a new one with a description, such as "n8n" or "Make". Apify's docs recommend a separate token per service, so you can rotate one without breaking the others.</li>
+        <li>Don't paste tokens into chats, tickets or shared docs.</li>
+      </ol>
+      <p class="small">Integrations that use OAuth (Make, Zapier, n8n Cloud's OAuth2 credential) don't need the token copied. You reconnect the account instead, as shown below.</p>
+    </section>
+
+    <section class="step" id="n8n">
+      <span class="step-number">STEP 2</span>
+      <h2>n8n</h2>
+      <ul>
+        <li><strong>API key credential ("Apify API")</strong>: open <strong>Credentials</strong>, open your Apify API credential, paste the new token and click <strong>Save</strong>. Every workflow that uses this credential picks it up.</li>
+        <li><strong>OAuth2 credential ("Apify OAuth2 API", n8n Cloud)</strong>: open the credential, click <strong>Connect my account</strong> and authorize with your Apify account again.</li>
+        <li>Run one workflow manually to check that the Apify node authenticates.</li>
+      </ul>
+    </section>
+
+    <section class="step" id="make">
+      <span class="step-number">STEP 3</span>
+      <h2>Make</h2>
+      <ul>
+        <li>Open <strong>Connections</strong> in Make, find your Apify connection and reauthorize it (OAuth), or update the API token if the connection uses one.</li>
+        <li>If you prefer a clean start, open an Apify module, add a new connection (OAuth is the method Apify recommends), and select it in every scenario that used the old one.</li>
+        <li>Run each scenario once to confirm.</li>
+      </ul>
+    </section>
+
+    <section class="step" id="zapier">
+      <span class="step-number">STEP 4</span>
+      <h2>Zapier</h2>
+      <ul>
+        <li>Zapier connects to Apify through an OAuth consent screen. Reconnect your Apify connection in Zapier's app connections, or open the Apify step in a Zap, click <strong>Connect to Apify</strong>, choose your account and click <strong>Allow Access</strong>.</li>
+        <li>Make sure every Zap with an Apify step uses the working connection, then click <strong>Test</strong> on the trigger or action.</li>
+      </ul>
+    </section>
+
+    <section class="step" id="api">
+      <span class="step-number">STEP 5</span>
+      <h2>Scripts, CLI and plain API calls</h2>
+      <p>Replace the old token wherever your code reads it: <span class="code-inline">.env</span> files, CI/CD secrets, server environment variables and cloud function settings. The Apify SDKs and CLI read <span class="code-inline">APIFY_TOKEN</span>.</p>
+      <div class="code-block">
+        <button class="copy-btn" type="button">Copy</button>
+        <pre># .env (never commit this file)
+APIFY_TOKEN=your_new_token
+
+# Apify CLI: log in again
+apify login
+
+# Plain API call: send the token in the Authorization header
+curl -H "Authorization: Bearer $APIFY_TOKEN" https://api.apify.com/v2/users/me</pre>
+      </div>
+      <p>Apify accepts the token in the <span class="code-inline">Authorization</span> header or as a <span class="code-inline">token</span> query parameter; the docs recommend the header. Search your code and saved links for <span class="code-inline">token=</span>: dataset export links and bookmarked API URLs with the old token in them stop working.</p>
+    </section>
+
+    <section class="step" id="webhooks">
+      <span class="step-number">STEP 6</span>
+      <h2>Apify integrations, webhooks and GitHub</h2>
+      <ul>
+        <li><strong>Webhooks</strong> that Apify sends to your server keep firing. Check the receiving side: if it calls the Apify API back (for example to download a dataset), it needs the new token.</li>
+        <li><strong>Integrations set up inside Apify Console</strong> (Actor or task integrations with outside services): open them and reconnect any that show an error or ask you to sign in again.</li>
+        <li><strong>Actors built from private GitHub repos</strong>: the status page says to reconnect GitHub: open an Actor built from GitHub &rarr; "Change provider" &rarr; GitHub &rarr; authorize (once per account and per organization).</li>
+        <li><strong>Actor or task inputs that contain a token</strong>, for example an Actor that calls another Apify account: update the token in that input.</li>
+      </ul>
+    </section>
+
+    <h2 id="schedules">Schedules inside Apify</h2>
+    <p>Schedules and saved tasks in Apify Console run under your account. They don't use a token you handed to another tool, so a token change doesn't stop them. The exception is the last item above: if the input of a scheduled Actor or task contains a token, update that input.</p>
+
+    <h2>Our Actors</h2>
+    <p>If you are reconnecting anyway, these are our most-used Actors on Apify:</p>
+    <ul>
+        <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a>: business leads, phones, emails, reviews. <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-apify-token-rotation-fix-integrations">Open on Apify</a></li>
+        <li><a href="/actors/stepstone-de-scraper/">StepStone.de Jobs Scraper</a>: German job listings with contacts and benefits. <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-apify-token-rotation-fix-integrations">Open on Apify</a></li>
+        <li><a href="/actors/instagram-scraper/">Instagram Scraper</a>: public profiles and recent posts. <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/instagram-scraper?fpr=0khfbz&amp;fp_sid=t-apify-token-rotation-fix-integrations">Open on Apify</a></li>
+        <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper</a>: price, stock and reviews by ASIN. <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-product-scraper?fpr=0khfbz&amp;fp_sid=t-apify-token-rotation-fix-integrations">Open on Apify</a></li>
+        <li><a href="/actors/trustpilot-scraper/">Trustpilot Reviews Scraper</a>: company reviews and ratings. <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/trustpilot-scraper?fpr=0khfbz&amp;fp_sid=t-apify-token-rotation-fix-integrations">Open on Apify</a></li>
+    </ul>
+    <p class="small">More: <a href="/actors/">all NanoScrape Actors</a> and <a href="/tutorials/">step-by-step tutorials</a>.</p>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <script>
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
