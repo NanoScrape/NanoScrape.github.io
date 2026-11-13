@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jobs Near Me in Germany: Local Job Search Export | NanoScrape</title>
+  <meta name="description" content="Collect all local jobs within a radius of a German city from meinestadt.de and export them to a sheet. Step by step with Apify, real input and output.">
+  <meta name="primary-keyword" content="jobs near me germany">
+  <meta property="og:title" content="Jobs Near Me in Germany: Local Job Search Export | NanoScrape">
+  <meta property="og:description" content="Find jobs near a German city, including the small towns around it: one search by city and radius, exported to Google Sheets.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to find jobs near a German city with meinestadt.de",
+  "description": "Use the meinestadt.de Jobs Scraper on Apify to collect all jobs within a radius of a German city, then group them by town in Google Sheets.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "meinestadt.de Jobs Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the meinestadt.de Actor",
+      "text": "Open the meinestadt.de Jobs Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to the JSON input and paste searchQueries, city, radius, sortBy, titleFilter, maxResultsPerQuery and includeDetails for your keyword and city."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one job with title, company, location, employment_type, salary fields, posted_at and source_url."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Group by town",
+      "text": "Export CSV, import it into Google Sheets and use a QUERY formula to count the ads per town. Schedule a weekly run to see new ads."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to find jobs near you in Germany with meinestadt.de",
+  "description": "Collect all local jobs within a radius of a German city from meinestadt.de and export them to a sheet. Step by step with Apify, real input and output.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this find every job near a city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It finds the ads published on meinestadt.de for your keyword, city and radius. Jobs that are advertised only on other boards or on a company's own site are not in it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the radius work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "You give a city and a radius in kilometers. The default is 30 and the maximum is 200. The location field of each row tells you which town around the city the job is in."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do I get jobs that do not match my keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Later result pages on meinestadt.de mix in less related jobs. Set titleFilter to keep only rows whose title contains your words. Rows that do not match are dropped before details are loaded and are not charged."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to build a list for one city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pay per event. A job with full details is $8.50 per 1,000 results, so 100 jobs with details are about $0.85. The price for rows without details is on the Pricing tab of the Actor page on Apify."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Jobs near a German city",
+      "item": "https://www.nanoscrape.com/tutorials/jobs-near-me-germany-meinestadt/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Jobs near a German city</nav>
+
+    <h1>How to find jobs near you in Germany with meinestadt.de</h1>
+    <p class="lead">You want every job within reach of a German city, not only the ones in the city itself? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt">meinestadt.de Jobs Scraper</a> searches meinestadt.de by city and radius and returns each ad with employer, town, workload, salary where stated and a link. A short Google Sheets step then shows how many openings each town around you has. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 jobs with details about $0.85</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why search by radius</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Work with the list</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">Why search by radius, not by city name</h2>
+    <p>A normal job search finds ads in one city. When you live in a town like Trier, the better job may be 25 km away in a smaller place that the big boards barely list. meinestadt.de is a local portal that covers cities and small towns, and it searches by city plus radius. The Actor runs that search for you, returns every ad as one row, and tells you the town of each ad, so you can see where the work is within reach. The <a href="/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">German export tutorial</a> covers the plain CSV export. This page is about the local view: one city, one radius, grouped by town.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the meinestadt.de Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt">meinestadt.de Jobs Scraper on Apify</a>. The <a href="/actors/meinestadt-de-scraper/">Actor page on NanoScrape</a> lists every output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: IT administrator jobs within 30 km of Trier, newest first. Replace the keyword and the city with yours.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "IT-Administrator"
+  ],
+  "city": "Trier",
+  "radius": 30,
+  "sortBy": "newest",
+  "titleFilter": "Administrator",
+  "maxResultsPerQuery": 50,
+  "includeDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: the job title or keyword, in German as the ads are written. Add more, for example &ldquo;Systemadministrator&rdquo;; duplicates are removed across keywords.</li>
+        <li><code class="code-inline">city</code> and <code class="code-inline">radius</code>: the city and the search radius in km (default 30, up to 200). Leave <code class="code-inline">city</code> empty to search all of Germany.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> puts the newest ads first and skips paid top-slot ads and ads without a date. <code class="code-inline">relevance</code> keeps the ranking of the website.</li>
+        <li><code class="code-inline">titleFilter</code>: keeps only jobs whose title contains one of your words (comma-separated), so loosely related ads do not end up in your list.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: the most jobs per keyword. Start at 10 for a test.</li>
+        <li><code class="code-inline">includeDetails</code>: on by default. It opens every ad to add the full description, salary and requirements. Off gives only the basic data from the result list.</li>
+      </ul>
+      <div class="callout tip"><strong>Narrow title filter?</strong> Matching ads often sit on later result pages. The Actor keeps paging until it reaches your limit or the results end. If you want an early stop, set <code class="code-inline">titleFilterMaxEmptyPages</code>.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run ends, open the <strong>Dataset</strong> tab. Each row is one job. This is the sample item from the Actor documentation, shortened to the fields that matter for a local search (the contact fields are left out):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "ms-100016063616",
+  "title": "IT-Administrator (m/w/d)",
+  "company": "Europäische Rechtsakademie Trier",
+  "location": "Trier",
+  "canton": "RP",
+  "employment_type": "full-time",
+  "workload_min": 100,
+  "workload_max": 100,
+  "salary_text": "40800 EUR - 57600 EUR/Jahr",
+  "salary_min": 40800,
+  "salary_max": 57600,
+  "salary_currency": "EUR",
+  "requirements": [
+    "IT-Sicherheit",
+    "CRM-System",
+    "Linux"
+  ],
+  "posted_at": "2026-11-12T00:00:00Z",
+  "source_url": "https://jobs.meinestadt.de/trier/premium?id=100016063616",
+  "country": "DE"
+}</code></pre></div>
+      <p>The fields you need for a local job list:</p>
+      <ul>
+        <li><code class="code-inline">location</code>: the town of the ad. Group by it to see where jobs are within your radius.</li>
+        <li><code class="code-inline">company</code> and <code class="code-inline">title</code>: the employer and the job.</li>
+        <li><code class="code-inline">employment_type</code> and <code class="code-inline">workload_min / workload_max</code>: full-time or part-time, and the workload in percent.</li>
+        <li><code class="code-inline">salary_text</code>, <code class="code-inline">salary_min</code> and <code class="code-inline">salary_max</code>: salary where the ad states it.</li>
+        <li><code class="code-inline">posted_at</code> and <code class="code-inline">source_url</code>: the date and the link to the ad.</li>
+      </ul>
+      <p>This tutorial does not use any contact fields. Apply through the link in the ad, and check the data-protection rules for your use before you store personal data.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Turn the ads into a local job list</h2>
+      <ol>
+        <li>In the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong> and select <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">employment_type</code>, <code class="code-inline">salary_text</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>.</li>
+        <li>Import the file into Google Sheets (File &rarr; Import) as a sheet called <em>jobs</em>. With the order above, the title is column A, the company B and the town C.</li>
+        <li>On a new sheet, count the ads per town to see which places around the city have the most openings:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=QUERY(jobs!A:G, "select C, count(A) where A is not null group by C order by count(A) desc", 1)</code></pre></div>
+      <ol start="4">
+        <li>To list the newest ads, sort the <em>jobs</em> sheet by <code class="code-inline">posted_at</code>, newest first. Use <code class="code-inline">source_url</code> to open the full ad.</li>
+      </ol>
+      <h3>Keep it fresh with a schedule</h3>
+      <p>In the Apify Console, open <strong>Schedules</strong> and run the same input once a week with <code class="code-inline">sortBy</code> set to <code class="code-inline">newest</code>. Paste each new export under the old one and use <code class="code-inline">id</code> to drop ads you already have.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>Pay per event: <strong>$8.50 per 1,000 job results with full details</strong> ($0.0085 each). This guide turns details on (<code class="code-inline">includeDetails</code>), so 10 jobs &asymp; $0.09, 100 &asymp; $0.85, 1,000 &asymp; $8.50. A first test with 10 jobs is about $0.09. The price for rows without details, the full event list and any upcoming price change are on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt">Actor's Apify page</a>.</p>
+
+    <h2 id="use-cases">Who uses a local job list like this</h2>
+    <ul>
+      <li><strong>Job seekers</strong> who want work within commuting distance, including the smaller towns around a city.</li>
+      <li><strong>Local recruiters and staffing teams</strong> who watch which employers in a region advertise, and for which roles.</li>
+      <li><strong>Regional job portals and career services</strong> that want a weekly overview of local openings.</li>
+    </ul>
+    <p>Need more than one board? The <a href="/tutorials/how-to-scrape-every-job-online/">job feed Actor covers 110+ job boards</a> with one call.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does this find every job near a city?</summary>
+        <p>No. It finds the ads published on meinestadt.de for your keyword, city and radius. Jobs that are advertised only on other boards or on a company's own site are not in it.</p>
+      </details>
+      <details>
+        <summary>How does the radius work?</summary>
+        <p>You give a city and a radius in kilometers. The default is 30 and the maximum is 200. The location field of each row tells you which town around the city the job is in.</p>
+      </details>
+      <details>
+        <summary>Why do I get jobs that do not match my keyword?</summary>
+        <p>Later result pages on meinestadt.de mix in less related jobs. Set titleFilter to keep only rows whose title contains your words. Rows that do not match are dropped before details are loaded and are not charged.</p>
+      </details>
+      <details>
+        <summary>How much does it cost to build a list for one city?</summary>
+        <p>Pay per event. A job with full details is $8.50 per 1,000 results, so 100 jobs with details are about $0.85. The price for rows without details is on the Pricing tab of the Actor page on Apify.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/meinestadt-de-scraper/">meinestadt.de Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/de/tutorials/meinestadt-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">meinestadt.de Stellenanzeigen exportieren (Deutsch)</a></li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: 110+ job boards with one call.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt">meinestadt.de Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/meinestadt-de-scraper?fpr=0khfbz&amp;fp_sid=t-jobs-near-me-germany-meinestadt" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
