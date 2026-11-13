@@ -482,7 +482,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
   "scraped_at": "2026-09-01T13:20:20Z"
 }</code></pre></div>
       <div class="callout"><strong>Verified with a live smoke run on 2026-09-01.</strong> The example above is real output from a run with the exact input shown in this section, capped at 5 jobs per company. A few field-shape notes: <code class="code-inline">company</code> is the lowercase URL slug (not the full display name); <code class="code-inline">created_at</code> for Workday is a human-readable string like "Posted Today" or "Posted 5 Days Ago" (not ISO); <code class="code-inline">description</code> is <code class="code-inline">null</code> when <code class="code-inline">includeDescription: false</code>. Real charge was $0.006 for 5 job results + $0.001 start.</div>
-      <div class="callout tip"><strong>Batch tip.</strong> Put all your career-site URLs into one run. You pay per job returned: $0.001 per job plus $0.001 per run start, so a run that returns 10,000 jobs costs about $10. Set <code class="code-inline">maxJobsPerCompany</code> to cap the cost of a first test run.</div>
+      <div class="callout tip"><strong>Batch tip.</strong> Put all your career-site URLs into one run. You pay per job returned: $0.001 per job, so a run that returns 10,000 jobs costs about $10. Set <code class="code-inline">maxJobsPerCompany</code> to cap the cost of a first test run.</div>
       <h3>F500 companies you can scrape today with this actor</h3>
       <ul>
         <li><strong>Workday (118):</strong> NVIDIA, Centene, Verizon, Marathon Petroleum, Target, Bank of America, Johnson &amp; Johnson, Allstate, Salesforce, Truist, PNC, Fifth Third Bancorp, and 106 more.</li>
@@ -761,19 +761,16 @@ https://mcp.apify.com?tools=santamaria-automations/career-site-jobs-scraper,sant
     <h2 id="cost">What it costs to sweep the F500</h2>
     <p>Assuming an average of ~500 open roles per Fortune 500 company (bigger for retailers, smaller for pure-play tech), a full sweep processes about 200,000 jobs.</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">TIER 1 - Career Site Jobs Scraper (285 companies x ~500 jobs avg)
-  Actor start:      $0.001
   Job results:      142,500 x $0.001 = $142.50
   Subtotal:                          ~$142.50
 
 TIER 2 - Website Job Extractor HTTP (103 companies x ~350 jobs avg)
-  Actor start:      $0.00005
   Companies:        103 x $0.01     = $1.03
   Job results:      36,050 x $0.004  = $144.20
   LLM tokens:       Gemini free tier = $0.00
   Subtotal:                          ~$145.23
 
 TIER 3 - Website Job Extractor Browser (101 companies x ~200 jobs avg)
-  Actor start:      $0.0001
   Companies:        101 x $0.03      = $3.03
   Job results:      20,200 x $0.006  = $121.20
   Subtotal:                          ~$124.23
