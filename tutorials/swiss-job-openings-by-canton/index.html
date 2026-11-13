@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swiss Job Openings by Canton: Pivot in Google Sheets | NanoScrape</title>
+  <meta name="description" content="Count open positions for one occupation by Swiss canton from official job-room.ch data and compare regional demand with a Google Sheets pivot table.">
+  <meta name="primary-keyword" content="swiss job openings by canton">
+  <meta property="og:title" content="Swiss Job Openings by Canton: Pivot in Google Sheets | NanoScrape">
+  <meta property="og:description" content="Count open positions for one occupation by Swiss canton from official job-room.ch data and compare regional demand with a Google Sheets pivot table.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Count Swiss job openings by canton and compare them in Google Sheets",
+  "description": "Count open positions for one occupation by Swiss canton from official job-room.ch data and compare regional demand with a Google Sheets pivot table.",
+  "totalTime": "PT10M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Actor",
+      "text": "Open the Arbeit.Swiss Scraper on Apify and switch the input editor to JSON."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Set searchQueries to one occupation, titleFilter to the same term, leave cantonCodes empty and set maxResultsPerQuery as a ceiling."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it and read the output",
+      "text": "Click Save and Run, then check the canton, id and workload fields in the Dataset tab."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Build the pivot",
+      "text": "Export the dataset as CSV, import it into Google Sheets and insert a pivot table with canton as rows and a count of id as values."
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Count Swiss job openings by canton and compare them in Google Sheets",
+  "description": "Count open positions for one occupation by Swiss canton from official job-room.ch data and compare regional demand with a Google Sheets pivot table.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/"
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I count open positions per canton without scraping every listing?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For a single canton, yes: set statsMode to only and cantonCodes to that canton. You get the platform-reported total for the query, and no per-result charge. For a full comparison across all cantons you need the listings, because the pivot groups them by the canton field."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does my pivot have a blank canton row?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not every listing states a canton. In the Actor's field table canton is filled for about 92% of rows. Keep the blank group visible in the pivot instead of hiding it, so your totals stay honest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why use titleFilter for a count?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The search also returns ads where your term appears only in the description. A welding job that mentions &ldquo;Pflege der Maschinen&rdquo; would count as a nursing position. With titleFilter, only ads whose title contains the term are kept, and you are not charged for the rest."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does the count cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The price is $3.00 / 1,000 result, so 100 results &asymp; $0.30 and 1,000 results &asymp; $3.00. Set maxResultsPerQuery to limit the spend."
+      }
+    }
+  ]
+}
+  </script>
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Swiss job openings by canton",
+      "item": "https://www.nanoscrape.com/tutorials/swiss-job-openings-by-canton/"
+    }
+  ]
+}
+  </script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+      .code-block pre, .code-block code { white-space: pre-wrap !important; word-break: break-word; overflow-wrap: anywhere; }
+    .article table { display:block; max-width:100%; overflow-x:auto; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Swiss job openings by canton</nav>
+
+    <h1>Count Swiss job openings by canton and compare them in Google Sheets</h1>
+    <p class="lead">Which Swiss cantons hire the most nurses, electricians or accountants right now? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-swiss-job-openings-by-canton">Arbeit.Swiss Scraper</a> pulls the listings of one occupation from the official Swiss job platform, and a pivot table in Google Sheets turns them into a canton-by-canton count. Every number comes from your own run. This tutorial covers the comparison; if you only want a plain export, see the <a href="/tutorials/work-swiss-scraper-export-job-room-listings/">export tutorial</a>.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-swiss-job-openings-by-canton" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <h2 id="why">Why a pivot table, and what the data is</h2>
+    <p>The Swiss federal job platform (job-room.ch, shown as arbeit.swiss, travail.swiss, lavoro.swiss and work.swiss) lets you search by canton, but it does not give you a table that compares cantons side by side. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-swiss-job-openings-by-canton">Arbeit.Swiss Scraper</a> returns every matching listing as one row, and each row carries a two-letter <code class="code-inline">canton</code> code. Count the rows per canton and you have a regional demand comparison for one occupation.</p>
+    <p>Two limits to keep in mind. First, you count the listings on this platform, not every vacancy in Switzerland, so use the numbers to compare cantons with each other rather than as a total for the labour market. Second, only count what your table contains: the counts come from your run, never from an estimate.</p>
+
+    <h2 id="step-1">Step 1: Open the Actor</h2>
+    <ol>
+      <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-swiss-job-openings-by-canton">Arbeit.Swiss Scraper on Apify</a> and click <strong>Try for free</strong>. Apify's free plan includes monthly platform credit, which is enough for a first count.</li>
+      <li>You land on the <strong>Input</strong> tab. Switch the input editor to <strong>JSON</strong> so you can paste the settings below.</li>
+    </ol>
+
+    <h2 id="step-2">Step 2: Paste this input</h2>
+    <p>One occupation, all cantons. Leave <code class="code-inline">cantonCodes</code> out: an empty list means all cantons, which is what a comparison needs. This example counts nursing (&ldquo;Pflege&rdquo;); swap in your own term, in German, French or Italian.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Pflege"],
+  "titleFilter": "Pflege",
+  "onlineSinceDays": 60,
+  "maxResultsPerQuery": 1000,
+  "sortBy": "newest"
+}</code></pre></div>
+    <ul>
+      <li><code class="code-inline">searchQueries</code>: the occupation. Use one term per run, so every row belongs to the same question.</li>
+      <li><code class="code-inline">titleFilter</code>: keeps only ads whose <em>title</em> contains the term, applied before the details are fetched and before you are charged. The search also matches ads that only mention the word in the text, and those would inflate some cantons.</li>
+      <li><code class="code-inline">onlineSinceDays</code>: only listings posted in the last 60 days (also the default). Use the same value every time you repeat the count.</li>
+      <li><code class="code-inline">maxResultsPerQuery</code>: the ceiling per term. If your table ends up with exactly this many rows, the cap was hit: raise it and run again, otherwise the cantons are cut off unevenly.</li>
+    </ul>
+
+    <h2 id="step-3">Step 3: Run it and read the output</h2>
+    <p>Click <strong>Save and Run</strong>. When the run finishes, the <strong>Dataset</strong> tab holds one row per listing. This is one real row from the Actor (shortened to the fields that matter here; values unchanged). It came from a &ldquo;Pflege&rdquo; search and is a good reminder of why <code class="code-inline">titleFilter</code> exists: the word only appears in the ad text, in &ldquo;Wartung und Pflege der Maschinen&rdquo;.</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "37004c37-29f6-4ac8-944a-981c57415d4a",
+  "title": "Anlagen- und Apparatebauer/in mit Schweisskenntnissen und Abkantpressen",
+  "company": "STA Personal AG",
+  "location": "Dällikon, ZH",
+  "city": "Dällikon",
+  "postal_code": "8108",
+  "country": "CH",
+  "canton": "ZH",
+  "job_status": "online",
+  "employment_type": "full-time",
+  "workload_min": 100,
+  "workload_max": 100,
+  "contract_type": "permanent",
+  "posted_at": "2026-11-12T00:00:00.000Z",
+  "expires_at": "2027-01-11T00:00:00.000Z",
+  "source_url": "https://www.job-room.ch/job-search/37004c37-29f6-4ac8-944a-981c57415d4a",
+  "source_platform": "arbeit.swiss",
+  "search_query": "Pflege",
+  "scraped_at": "2026-11-12T11:49:48.033Z"
+}</code></pre></div>
+    <p>The fields for this task:</p>
+    <ul>
+      <li><code class="code-inline">canton</code>: the two-letter canton code (ZH, BE, AG and so on). This is your pivot row. In the Actor's field table it is filled for about 92% of rows, so expect a blank group in the pivot.</li>
+      <li><code class="code-inline">id</code>: unique per listing, so counting it counts positions.</li>
+      <li><code class="code-inline">company</code>, <code class="code-inline">city</code>: use them to see which employers or cities sit behind a canton's number.</li>
+      <li><code class="code-inline">workload_min</code> and <code class="code-inline">workload_max</code>: the Pensum, the workload in percent. 100 is full-time.</li>
+      <li><code class="code-inline">posted_at</code>: the posting date, handy for a week-by-week count.</li>
+    </ul>
+
+    <h2 id="step-4">Step 4: Build the pivot table in Google Sheets</h2>
+    <ol>
+      <li>In the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong>, and select only these fields in this order: <code class="code-inline">id</code>, <code class="code-inline">title</code>, <code class="code-inline">canton</code>, <code class="code-inline">company</code>, <code class="code-inline">workload_min</code>. Download the file.</li>
+      <li>In Google Sheets choose <strong>File &rarr; Import &rarr; Upload</strong> and replace the current sheet, so the data starts in A1 with <code class="code-inline">id</code> in column A and <code class="code-inline">canton</code> in column C.</li>
+      <li>Select the data and choose <strong>Insert &rarr; Pivot table</strong> (new sheet).</li>
+      <li>Under <strong>Rows</strong> add <code class="code-inline">canton</code>. Under <strong>Values</strong> add <code class="code-inline">id</code> and set it to <strong>COUNTA</strong> (or COUNTUNIQUE if you ran several overlapping terms). Set <strong>Sort by</strong> to the count, descending.</li>
+      <li>Add a second value, <code class="code-inline">workload_min</code>, summarised by <strong>AVERAGE</strong>, to see whether a canton's positions skew part-time.</li>
+    </ol>
+    <p>Prefer a formula to the pivot editor? This one returns the same canton ranking and refreshes when you paste new data into the sheet:</p>
+    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=QUERY(A:E,"select C, count(A) where C is not null group by C order by count(A) desc label C 'Canton', count(A) 'Open positions'",1)</code></pre></div>
+    <p>To compare the cantons fairly, also read the counts next to each canton's size. A big canton has more listings simply because it has more people, so divide by population or by the number of employers if your question is about intensity rather than volume. The population figures are yours to add from an official statistics table; the Actor does not provide them.</p>
+    <div class="callout tip"><strong>Check one canton cheaply.</strong> If you want to verify a single canton against the platform's own total, set <code class="code-inline">cantonCodes</code> to that canton and <code class="code-inline">statsMode</code> to <code class="code-inline">only</code>. The Actor then returns the platform-reported total for the query instead of the listings, with no per-result charge.</div>
+
+    <h3>Repeat it every month</h3>
+    <p>A single count is a snapshot. To see whether demand moves, run the same input on a monthly <strong>Schedule</strong> in the Apify Console, import each result as a new tab, and put the monthly pivots side by side. Keep the term, <code class="code-inline">onlineSinceDays</code> and cap identical, or the months are not comparable.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor's price is <strong>$3.00 / 1,000 result</strong>, charged per result in the dataset. That makes 100 results &asymp; $0.30 and 1,000 results &asymp; $3.00. Your cost is the number of rows in your table times that price, so the <code class="code-inline">maxResultsPerQuery</code> value of 1000 in the input above also caps the spend for this run at about $3.00. Check the current price on the <a href="/actors/arbeit-swiss-scraper/">Actor page</a>.</p>
+
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Can I count open positions per canton without scraping every listing?</summary>
+        <p>For a single canton, yes: set statsMode to only and cantonCodes to that canton. You get the platform-reported total for the query, and no per-result charge. For a full comparison across all cantons you need the listings, because the pivot groups them by the canton field.</p>
+      </details>
+      <details>
+        <summary>Why does my pivot have a blank canton row?</summary>
+        <p>Not every listing states a canton. In the Actor's field table canton is filled for about 92% of rows. Keep the blank group visible in the pivot instead of hiding it, so your totals stay honest.</p>
+      </details>
+      <details>
+        <summary>Why use titleFilter for a count?</summary>
+        <p>The search also returns ads where your term appears only in the description. A welding job that mentions &ldquo;Pflege der Maschinen&rdquo; would count as a nursing position. With titleFilter, only ads whose title contains the term are kept, and you are not charged for the rest.</p>
+      </details>
+      <details>
+        <summary>How much does the count cost?</summary>
+        <p>The price is $3.00 / 1,000 result, so 100 results &asymp; $0.30 and 1,000 results &asymp; $3.00. Set maxResultsPerQuery to limit the spend.</p>
+      </details>
+    </div>
+
+    <h2>Related</h2>
+    <ul>
+      <li><a href="/actors/arbeit-swiss-scraper/">Arbeit.Swiss Scraper, Actor page</a>: fields, input and price at a glance.</li>
+      <li><a href="/tutorials/work-swiss-scraper-export-job-room-listings/">work.swiss Scraper: export Swiss jobs to CSV</a>: a plain export for one canton.</li>
+      <li><a href="/de/tutorials/arbeit-swiss-scraper-stellen-exportieren/" hreflang="de" lang="de">arbeit.swiss Scraper: Stellenanzeigen exportieren</a> (German).</li>
+      <li><a href="/tutorials/jobs-ch-scraper-export-swiss-jobs/">jobs.ch Scraper tutorial</a>: the commercial Swiss job board.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to scrape every job online</a>: 110+ job boards with one call.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeit-swiss-scraper?fpr=0khfbz&amp;fp_sid=t-swiss-job-openings-by-canton" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

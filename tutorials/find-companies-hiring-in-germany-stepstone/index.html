@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find Companies Hiring in Germany via StepStone | NanoScrape</title>
+  <meta name="description" content="Build a list of companies hiring for a role in a German city, grouped by company with open roles, size and website. Step by step with Apify and Sheets.">
+  <meta name="primary-keyword" content="find companies hiring in germany">
+  <meta property="og:title" content="Find Companies Hiring in Germany via StepStone | NanoScrape">
+  <meta property="og:description" content="Turn StepStone job ads into a company lead list: who is hiring for a role in your German city, and how many open roles.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to find companies hiring in a German city with StepStone",
+  "description": "Use the StepStone Scraper on Apify to collect job ads for a role in a German city, then group them by company in Google Sheets to get a hiring-company lead list.",
+  "totalTime": "PT20M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "StepStone Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the StepStone Actor",
+      "text": "Open the StepStone Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to the JSON input and paste searchQueries, location, radius, postedWithinDays, titleFilter and includeJobDetails for your role and city."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one ad with company, company_url, company_website, company_job_count, company_size and industry."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Group by company",
+      "text": "Export CSV, import it into Google Sheets and use UNIQUE, COUNTIF and TEXTJOIN to get one row per company with the number of open roles. Remove staffing firms and schedule a weekly run."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to find companies hiring in Germany with StepStone",
+  "description": "Build a list of companies hiring for a role in a German city, grouped by company with open roles, size and website. Step by step with Apify and Sheets.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this list every company hiring in a city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It lists the companies that advertise on StepStone for your search term, location and time window. Companies that hire only through their own site or other boards are not in it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I hide recruitment agencies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This Actor has no agency filter. Agencies show up under their own name, so remove those rows in the sheet, for example by a keyword list in a helper column."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is company_website empty for some companies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The website comes from the company profile and is not published for every company. Use company_url, the StepStone profile, or a search for the company name to find it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to build a list for one city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pay per event: $0.003 per job ad, plus $0.005 when the ad includes full details. With details on, 100 ads are about $0.80. You are charged per ad, and one company can have several ads."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Companies hiring in Germany",
+      "item": "https://www.nanoscrape.com/tutorials/find-companies-hiring-in-germany-stepstone/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Companies hiring in Germany</nav>
+
+    <h1>How to find companies hiring in Germany with StepStone</h1>
+    <p class="lead">You want to know which companies in a German city are hiring for a given role, for example sales in München, so you can offer them candidates, software or services? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone">StepStone Scraper</a> collects the ads, and a short Google Sheets pivot turns them into one row per company with the number of open roles, the job titles, company size, industry and website. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 20 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 ads about $0.80</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why group by company</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Build the company list</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">Why group by company</h2>
+    <p>A StepStone search returns one row per job ad. For a lead list you want one row per <em>company</em>: who is hiring for this role in this city, and how many roles are open. A company with five open sales positions is a different prospect than one with a single ad. The Actor gives you the ads; a short pivot in Google Sheets turns them into the company list. The <a href="/tutorials/stepstone-scraper-export-german-jobs/">general StepStone export tutorial</a> covers the plain job export and all filters. This page is only about the company view.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the StepStone Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone">StepStone Scraper on Apify</a>. The <a href="/actors/stepstone-de-scraper/">Actor page on NanoScrape</a> lists every output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: all sales roles (&ldquo;Vertrieb&rdquo;) in and around München, posted in the last 30 days. Replace the keyword and city with yours.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Vertrieb"
+  ],
+  "location": "München",
+  "radius": 25,
+  "postedWithinDays": 30,
+  "sortBy": "newest",
+  "titleFilter": "Vertrieb",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: the role, in German as the ads are written. Add synonyms, for example &ldquo;Vertriebsmitarbeiter&rdquo; or &ldquo;Account Manager&rdquo;; duplicates are removed by job ID.</li>
+        <li><code class="code-inline">location</code> and <code class="code-inline">radius</code>: city and radius in km (default 25).</li>
+        <li><code class="code-inline">postedWithinDays</code>: 30 keeps the list to companies hiring now, not last year.</li>
+        <li><code class="code-inline">titleFilter</code>: keeps only ads whose title contains the term, so a company that merely mentions sales in the text does not end up in your list.</li>
+        <li><code class="code-inline">includeJobDetails</code>: keep it <code class="code-inline">true</code>. The company profile fields used below (website, size, industry, job count) come from the detail page.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: start at 20 for a test, then raise it.</li>
+      </ul>
+      <div class="callout tip"><strong>Narrow title filter, broad keyword?</strong> The Actor scans up to 10 result pages per query before it applies the title filter. If you filter narrowly, raise <code class="code-inline">maxPagesFetched</code> so enough pages are read.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run ends, open the <strong>Dataset</strong> tab. Each row is one ad. This is a real item from the Actor (a Dortmund IT ad, shortened to the fields that matter for this task; the long description, requirements and benefits fields are left out):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "14692006",
+  "title": "Werkstudent C# Softwareentwicklung (m/w/d)",
+  "company": "Materna Information &amp; Communications SE",
+  "location": "Dortmund",
+  "state": "Nordrhein-Westfalen",
+  "employment_type": "full-time",
+  "posted_at": "2026-11-12T10:03:08.597Z",
+  "source_url": "https://www.stepstone.de/stellenangebote--Werkstudent-C-Softwareentwicklung-m-w-d-Dortmund-Materna-Information-Communications-SE--14692006-inline.htm...",
+  "company_url": "https://www.stepstone.de/cmp/de/Materna-Information-Communications-SE-4261/jobs.html",
+  "company_website": "https://www.materna.de/",
+  "company_job_count": 15,
+  "company_size": "1000+ Mitarbeiter",
+  "industry": "IT, IT-Softwareentwicklung",
+  "company_address_city": "Dortmund",
+  "search_query": "Software Engineer",
+  "scraped_at": "2026-11-12T10:43:51Z"
+}</code></pre></div>
+      <p>The fields you need for a company list:</p>
+      <ul>
+        <li><code class="code-inline">company</code>: the grouping key.</li>
+        <li><code class="code-inline">company_url</code>: the company's profile on StepStone, with all of its ads.</li>
+        <li><code class="code-inline">company_website</code>: the company's own site, a good starting point for outreach. It is not filled for every company, so expect gaps.</li>
+        <li><code class="code-inline">company_job_count</code>: how many jobs the company has open on StepStone in total, not only in your city.</li>
+        <li><code class="code-inline">company_size</code> and <code class="code-inline">industry</code>: to pick the segment you can serve.</li>
+        <li><code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>: the evidence for your first message (&ldquo;I saw your ad for ...&rdquo;).</li>
+      </ul>
+      <p>This tutorial does not use any contact-person fields. Reach companies through their public channels, and check the data-protection rules for your use before you store personal data.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Turn the ads into a company list</h2>
+      <ol>
+        <li>In the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong> and select the fields <code class="code-inline">company</code>, <code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">company_url</code>, <code class="code-inline">company_website</code>, <code class="code-inline">company_job_count</code>, <code class="code-inline">company_size</code>, <code class="code-inline">industry</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>.</li>
+        <li>Import the file into Google Sheets (File &rarr; Import) as a new sheet called <em>jobs</em>. The columns are A to J in the order above.</li>
+        <li>On a new sheet <em>companies</em>, put this in A2 to list each company once:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=SORT(UNIQUE(jobs!A2:A))</code></pre></div>
+      <ol start="4">
+        <li>In B2, count the open ads in your search for that company, and drag down:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=COUNTIF(jobs!A:A, A2)</code></pre></div>
+      <ol start="5">
+        <li>In C2, list the job titles so you see what they are hiring for:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=TEXTJOIN(" | ", TRUE, FILTER(jobs!B:B, jobs!A:A = A2))</code></pre></div>
+      <ol start="6">
+        <li>Add the website with <code class="code-inline">=XLOOKUP(A2, jobs!A:A, jobs!E:E)</code> and do the same for company size (column G). Then sort by column B, largest first.</li>
+      </ol>
+      <p>You now have one row per company with the number of open roles and the titles, ready to go through. Two checks before you use the list. First, <strong>staffing and recruiting firms</strong> advertise on StepStone too, and this Actor has no filter to hide them, so delete those rows by name if you only want companies hiring for themselves. Second, the list covers companies that advertise on StepStone, not every company that is hiring.</p>
+      <h3>Keep it fresh with a schedule</h3>
+      <p>In the Apify Console, open <strong>Schedules</strong> and run the same input once a week, with <code class="code-inline">sortBy</code> set to <code class="code-inline">newest</code>. Paste each new export under the old one and use <code class="code-inline">id</code> to drop ads you already have. New companies appearing in the list are the ones that just started hiring.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>Pay per event: <strong>$0.003 per job ad, +$0.005 with full details</strong>. This guide turns details on (<code>includeJobDetails</code>), so each ad is about $0.008: 10 ads &asymp; $0.08, 100 &asymp; $0.80, 1,000 &asymp; $8.00. A first test with 20 ads is about $0.16. With details off, each ad is $0.003. The full event list, and any upcoming price change, is on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone">Actor's Apify page</a>. Prices are per ad, not per company, so a company with several ads costs several results.</p>
+
+    <h2 id="use-cases">Who uses a company list like this</h2>
+    <ul>
+      <li><strong>Recruiting agencies</strong> look for employers in their niche with open roles and several ads at once, a sign of a hiring need.</li>
+      <li><strong>Sales teams</strong> selling HR software, payroll, relocation or employer-branding services use the open role as a reason to get in touch.</li>
+      <li><strong>Job seekers and career coaches</strong> use it to see which companies in a city hire for a role, and to approach them directly.</li>
+    </ul>
+    <p>Need more than one board? The <a href="/tutorials/how-to-scrape-every-job-online/">job feed Actor covers 110+ job boards</a> with one call.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does this list every company hiring in a city?</summary>
+        <p>No. It lists the companies that advertise on StepStone for your search term, location and time window. Companies that hire only through their own site or other boards are not in it.</p>
+      </details>
+      <details>
+        <summary>Can I hide recruitment agencies?</summary>
+        <p>This Actor has no agency filter. Agencies show up under their own name, so remove those rows in the sheet, for example by a keyword list in a helper column.</p>
+      </details>
+      <details>
+        <summary>Why is company_website empty for some companies?</summary>
+        <p>The website comes from the company profile and is not published for every company. Use company_url, the StepStone profile, or a search for the company name to find it.</p>
+      </details>
+      <details>
+        <summary>How much does it cost to build a list for one city?</summary>
+        <p>Pay per event: $0.003 per job ad, plus $0.005 when the ad includes full details. With details on, 100 ads are about $0.80. You are charged per ad, and one company can have several ads.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/stepstone-de-scraper/">StepStone Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/tutorials/stepstone-scraper-export-german-jobs/">Scrape StepStone: Export German Jobs to CSV</a>: the plain job export with all filters.</li>
+      <li><a href="/de/tutorials/stepstone-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">StepStone Stellenanzeigen exportieren (Deutsch)</a></li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: 110+ job boards with one call.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone">StepStone Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stepstone-de-scraper?fpr=0khfbz&amp;fp_sid=t-find-companies-hiring-in-germany-stepstone" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

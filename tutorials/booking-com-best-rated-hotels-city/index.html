@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Best-Rated Hotels in a City: Booking.com to Sheets | NanoScrape</title>
+  <meta name="description" content="Build a shortlist of the best-rated hotels in any city for your dates: sort Booking.com by review score, filter by review count, finish in Google Sheets.">
+  <meta name="primary-keyword" content="best rated hotels booking.com">
+  <meta property="og:title" content="Best-Rated Hotels in a City: Booking.com to Sheets | NanoScrape">
+  <meta property="og:description" content="Build a shortlist of the best-rated hotels in any city for your dates: sort Booking.com by review score, filter by review count, finish in Google Sheets.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to find the best-rated hotels in a city for your dates",
+  "description": "Use the Booking.com Scraper on Apify to collect hotels for a city and dates sorted by review score, then rank them by score and review count in Google Sheets.",
+  "totalTime": "PT10M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Booking.com Scraper (Apify)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Actor",
+      "text": "Open the Booking.com Scraper on Apify, click Try for free and sign up, then switch the Input tab to JSON view."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Enter destination, destType, checkin, checkout, adults, rooms, currency, sortBy REVIEW_SCORE and maxResults."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, open the Dataset tab and check review_score, review_count, price_per_night, is_sold_out and free_cancellation."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Build the shortlist in Google Sheets",
+      "text": "Export the chosen fields as CSV, import it into Google Sheets and use a SORT and FILTER formula to keep hotels with enough reviews that are not sold out, best score first."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to find the best-rated hotels in a city for your dates",
+  "description": "Build a shortlist of the best-rated hotels in any city for your dates: sort Booking.com by review score, filter by review count, finish in Google Sheets.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How many reviews should a hotel have before I trust its score?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no fixed number. As a rule of thumb, 100 to 200 reviews is a reasonable minimum in a large city, and 30 to 50 can be enough in a small town. Set the number in the FILTER formula and move it up or down until the list has a size you can read."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does sortBy REVIEW_SCORE already give me the best hotels?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It puts the highest scores first, but hotels with very few reviews can sit near the top. That is why the sheet step filters on review_count. Use sortBy as a pre-sort and the sheet as the final decision."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I compare several cities?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Run the Actor once per city, or create one Task per city, and import each CSV into its own tab. Use the same dates and the same minimum review count so the lists are comparable."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The price is $3.00 / 1,000 hotel until 16 Nov 2026 and $2.00 / 1,000 hotel from 17 Nov 2026. 200 hotels cost about $0.60 at the old price and $0.40 at the new one. Apify's free plan includes monthly platform credit."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Best-rated hotels in a city",
+      "item": "https://www.nanoscrape.com/tutorials/booking-com-best-rated-hotels-city/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Best-rated hotels in a city</nav>
+
+    <h1>How to find the best-rated hotels in a city for your dates</h1>
+    <p class="lead">You are choosing a hotel in a city and want the places guests rate highest, not just the most popular ones. This guide builds a shortlist from Booking.com: the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city">Booking.com Scraper</a> collects hotels for your dates with review score and number of reviews, and Google Sheets turns them into a ranked list. No code. It is for travellers who plan carefully, travel planners and event organisers who book rooms for a group.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 200 hotels &asymp; $0.40&ndash;$0.60</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why score alone fails</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Build the shortlist in Sheets</a></li>
+        <li><a href="#schedule">Re-run for new dates</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">Why score alone gives a bad shortlist</h2>
+    <p>A hotel with a 9.6 from 14 guests is not better than one with a 9.0 from 3,000. If you only sort a city by score, small and new places float to the top. If you only sort by popularity, you get the biggest hotels, not the best. A useful shortlist needs both numbers side by side: <code class="code-inline">review_score</code> and <code class="code-inline">review_count</code>. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city">Booking.com Scraper</a> returns both for every hotel, so you can set your own minimum number of reviews and sort what is left.</p>
+    <p>Prices and availability depend on your dates, so you give the check-in and check-out day. A hotel that is sold out on your dates is marked, and you can drop it from the list. This guide is about picking the best-rated places. If you want a price comparison across many stays instead, see the <a href="/tutorials/scrape-booking-com-hotel-prices/">general Booking.com scraping tutorial</a>.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city">Booking.com Scraper on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, which is enough for a few shortlist runs.</li>
+        <li>You land on the <strong>Input</strong> tab. Switch to <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>This asks for up to 200 hotels in Lisbon for a two-night stay, two adults, one room, already sorted by review score. Swap the city and the dates for yours.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "destination": "Lisbon",
+  "destType": "CITY",
+  "checkin": "2026-12-04",
+  "checkout": "2026-12-06",
+  "adults": 2,
+  "rooms": 1,
+  "currency": "EUR",
+  "sortBy": "REVIEW_SCORE",
+  "maxResults": 200
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">destination</code> and <code class="code-inline">destType</code>: the city name and its type (<code class="code-inline">CITY</code>, <code class="code-inline">REGION</code>, <code class="code-inline">COUNTRY</code>, <code class="code-inline">HOTEL</code> or <code class="code-inline">DISTRICT</code>). Use <code class="code-inline">DISTRICT</code> if you only care about one area.</li>
+        <li><code class="code-inline">checkin</code> and <code class="code-inline">checkout</code>: dates as <code class="code-inline">YYYY-MM-DD</code>. Use the real dates of your trip, because sold-out status and prices follow them.</li>
+        <li><code class="code-inline">adults</code>, <code class="code-inline">children</code>, <code class="code-inline">rooms</code>: the group size. It changes which hotels have space.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">REVIEW_SCORE</code> puts the highest-rated hotels first. The other values are <code class="code-inline">POPULARITY</code> (default), <code class="code-inline">PRICE</code> and <code class="code-inline">DISTANCE</code>.</li>
+        <li><code class="code-inline">maxResults</code>: the upper limit of hotels. 200 is a good start for a big city, because the new places with few reviews take up some of the top positions, and you filter them out in the sheet. Set a lower number for a first test.</li>
+        <li><code class="code-inline">currency</code>: the ISO code for prices, for example EUR, CHF or USD.</li>
+      </ul>
+      <div class="callout tip"><strong>Start small.</strong> Run once with <code class="code-inline">maxResults</code> set to 20. You see in a minute whether the city and dates are right, and the cost is a few cents.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the status turns to <em>Succeeded</em>, open the <strong>Dataset</strong> tab. Each row is one hotel. Below is a real item from the Actor, shortened to the fields that matter for this task (a Berlin hotel from a test run, so you can see the shape; your rows will be from your city):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "name": "Hotel Castell am Kurfürstendamm",
+  "url": "https://www.booking.com/hotel/de/hotelcastell.html",
+  "star_rating": 3,
+  "review_score": 7.4,
+  "review_count": 1213,
+  "review_score_word": "Very Good",
+  "city": "Berlin",
+  "district": "Charlottenburg-Wilmersdorf, Berlin",
+  "distance_from_center": "2.8 miles from downtown",
+  "price_per_night": 75.33,
+  "price_total": 75.33,
+  "nights": 1,
+  "currency": "EUR",
+  "free_cancellation": false,
+  "is_sold_out": false,
+  "scraped_at": "2026-11-11T06:17:25.393Z"
+}</code></pre></div>
+      <p>The fields you use for the shortlist:</p>
+      <ul>
+        <li><code class="code-inline">review_score</code>: the guest score on a scale up to 10. <code class="code-inline">review_score_word</code> is Booking.com's label for it, such as <em>Very Good</em>.</li>
+        <li><code class="code-inline">review_count</code>: how many reviews the score is based on. This is your confidence filter.</li>
+        <li><code class="code-inline">price_per_night</code>, <code class="code-inline">price_total</code>, <code class="code-inline">nights</code>, <code class="code-inline">currency</code>: the price for your dates.</li>
+        <li><code class="code-inline">is_sold_out</code> and <code class="code-inline">free_cancellation</code>: whether you can book it, and whether you can cancel for free.</li>
+        <li><code class="code-inline">district</code>, <code class="code-inline">distance_from_center</code>, <code class="code-inline">latitude</code>, <code class="code-inline">longitude</code>: where it is.</li>
+        <li><code class="code-inline">star_rating</code> and <code class="code-inline">url</code>: the official class (not always given) and the link to the hotel page.</li>
+      </ul>
+      <p>Not every field is filled for every hotel. For example, <code class="code-inline">star_rating</code> and <code class="code-inline">free_cancellation_until</code> are missing for some.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Turn it into a shortlist in Google Sheets</h2>
+      <ol>
+        <li>In the Dataset tab, click <strong>Export</strong>, select only these fields, in this order: <code class="code-inline">name</code>, <code class="code-inline">review_score</code>, <code class="code-inline">review_count</code>, <code class="code-inline">price_per_night</code>, <code class="code-inline">currency</code>, <code class="code-inline">free_cancellation</code>, <code class="code-inline">is_sold_out</code>, <code class="code-inline">distance_from_center</code>, <code class="code-inline">url</code>. Choose <strong>CSV</strong>.</li>
+        <li>In Google Sheets, use <strong>File &rarr; Import &rarr; Upload</strong> and replace the sheet. The columns are now A to I.</li>
+        <li>In a second tab, paste this formula in cell A1. It keeps hotels with at least 200 reviews that are not sold out, and sorts them by score, best first:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=SORT(FILTER(Sheet1!A2:I, Sheet1!C2:C&gt;=200, Sheet1!G2:G=FALSE), 2, FALSE)</code></pre></div>
+      <ol start="4">
+        <li>Change <code>200</code> to fit the city. In a small town 50 reviews can already be a solid base; in a capital you might want 500.</li>
+        <li>To keep to a budget, add a condition to the filter, for example <code>Sheet1!D2:D&lt;=150</code>. To keep only flexible bookings, add <code>Sheet1!F2:F=TRUE</code>.</li>
+      </ol>
+      <h3>Optional: one fair score for hotels with few reviews</h3>
+      <p>If you want a single column that pulls small samples toward the middle, add this in column J of the first tab and sort by it. It is our own simple weighting, not a Booking.com number. The 7.5 and the 50 are values you can change: 7.5 is the score a hotel with no reviews starts from, and 50 is how many reviews it takes to move away from that start.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=(B2*C2+7.5*50)/(C2+50)</code></pre></div>
+      <p>Then read the top 10 to 15 rows, open the <code class="code-inline">url</code> for the final choice, and look at the guest comments there. The score tells you which hotels are worth the click; it does not replace reading a few reviews.</p>
+    </div>
+
+    <h2 id="schedule">Re-run it when your dates change</h2>
+    <p>Save the input as an Apify <strong>Task</strong>, change <code class="code-inline">checkin</code> and <code class="code-inline">checkout</code> when you plan another trip, and run it again. In <strong>Schedules</strong> you can start it weekly to see when a favourite becomes sold out. With <a target="_blank" rel="noopener" href="https://apify.com/integrations">n8n, Make or Zapier</a> you can send each new dataset straight into the sheet. Apify also has a Google Sheets integration for that.</p>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The price is <strong>$3.00 / 1,000 hotel</strong> until 16 Nov 2026 and <strong>$2.00 / 1,000 hotel</strong> from 17 Nov 2026, billed per result on Apify. Cost example: 200 hotels &asymp; $0.60 at the old price, &asymp; $0.40 at the new one. A shortlist for one city and one set of dates is therefore well under a dollar. The current price is always shown on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city">Actor page</a>. Check there for the current price before large runs.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How many reviews should a hotel have before I trust its score?</summary>
+        <p>There is no fixed number. As a rule of thumb, 100 to 200 reviews is a reasonable minimum in a large city, and 30 to 50 can be enough in a small town. Set the number in the FILTER formula and move it up or down until the list has a size you can read.</p>
+      </details>
+      <details>
+        <summary>Does sortBy REVIEW_SCORE already give me the best hotels?</summary>
+        <p>It puts the highest scores first, but hotels with very few reviews can sit near the top. That is why the sheet step filters on review_count. Use sortBy as a pre-sort and the sheet as the final decision.</p>
+      </details>
+      <details>
+        <summary>Can I compare several cities?</summary>
+        <p>Yes. Run the Actor once per city, or create one Task per city, and import each CSV into its own tab. Use the same dates and the same minimum review count so the lists are comparable.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>The price is $3.00 / 1,000 hotel until 16 Nov 2026 and $2.00 / 1,000 hotel from 17 Nov 2026. 200 hotels cost about $0.60 at the old price and $0.40 at the new one. Apify&#x27;s free plan includes monthly platform credit.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/booking-com-scraper/">Booking.com Scraper, Actor page</a>: input fields, output fields and price at a glance.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city">Booking.com Scraper on Apify</a>: the Actor with documentation and all parameters.</li>
+      <li><a href="/tutorials/scrape-booking-com-hotel-prices/">How to Scrape Booking.com: Hotels, Prices, and Availability</a>: price comparison across stays.</li>
+      <li><a href="/compare/booking-com-scraper-vs-voyager-booking-scraper/">Booking.com Scraper vs Voyager</a>: Apify Store prices compared.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/booking-com-scraper?fpr=0khfbz&amp;fp_sid=t-booking-com-best-rated-hotels-city" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

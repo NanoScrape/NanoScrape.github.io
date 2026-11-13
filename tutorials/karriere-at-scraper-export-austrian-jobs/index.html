@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Export Karriere.at Jobs to a Spreadsheet | NanoScrape</title>
+  <meta name="description" content="Export Austrian job listings from karriere.at to Google Sheets or Excel: search Pflege, get salary and employer, sort by date. About $0.50 per 100 jobs.">
+  <meta name="primary-keyword" content="karriere.at jobs export">
+  <meta property="og:title" content="Export Karriere.at Jobs to a Spreadsheet | NanoScrape">
+  <meta property="og:description" content="Search karriere.at for a keyword such as Pflege and export the jobs with salary, employer and apply link to a spreadsheet. Step by step, no code.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to export Austrian jobs from karriere.at to a spreadsheet",
+  "description": "Use the Karriere.at Scraper on Apify to search Austrian job listings for a keyword and turn them into a sortable spreadsheet in Google Sheets or Excel.",
+  "totalTime": "PT10M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Actor",
+      "text": "Open the Karriere.at Scraper on Apify and sign up for a free account."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Paste the JSON input with your keyword (for example Pflege), datePosted, sortBy, maxResultsPerQuery and includeJobDetails set to true."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run it and read the output",
+      "text": "Click Save and Run. Each row in the Dataset tab is one job with title, company, location, salary, posted_at and apply link."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Turn it into a spreadsheet",
+      "text": "Export the Dataset as CSV with the columns you need, import it into Google Sheets, sort by posted_at and filter by employment type and salary."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to export Austrian jobs from karriere.at to a spreadsheet",
+  "description": "Use the Karriere.at Scraper on Apify to search Austrian job listings for a keyword and turn them into a sortable spreadsheet in Google Sheets or Excel.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I search several keywords in one run?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Put several terms in searchQueries, for example Pflege, Krankenpfleger and Altenpflege. Each term runs as its own search, and an ad that appears under more than one term is returned once. The search_query column tells you which term found each ad."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I limit the export to one city or state?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Add location (for example Graz or Wien) or bundesland to the input. You can combine them with employmentType (Vollzeit, Teilzeit, Geringfuegig, Lehrstelle or Praktikum) and datePosted (1, 7 or 30 days)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are some salary cells empty?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many ads do not state a salary. salary_min, salary_max and salary_text are filled only when the ad gives one. Some ads give just a minimum, as in the sample row, so salary_max stays empty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does an export of 100 jobs cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "On the actor page the price is $5.00 / 1,000 job with detail-page enrichment, so 100 jobs are about $0.50. With includeJobDetails off the per-job price is lower and some fields are missing."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Karriere.at export",
+      "item": "https://www.nanoscrape.com/tutorials/karriere-at-scraper-export-austrian-jobs/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Karriere.at export</nav>
+
+    <h1>How to export Austrian jobs from karriere.at to a spreadsheet</h1>
+    <p class="lead">You need the current job ads from Austria for one keyword, for example &ldquo;Pflege&rdquo; (nursing and care), in a spreadsheet you can sort, filter and share? karriere.at shows the ads one search page at a time and has no export button. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs">Karriere.at Scraper</a> runs your search, opens every ad and returns one row per job with title, employer, city, salary, posting date and the link to apply. This guide is for recruiters, career coaches and analysts who want a clean list in Google Sheets or Excel in about ten minutes, without code.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Time:</strong> 10 minutes</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 jobs &asymp; $0.50</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs">Karriere.at Scraper on Apify</a>.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to <strong>JSON</strong> view so you can paste the input below.</li>
+      </ol>
+    </div>
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>This searches karriere.at for &ldquo;Pflege&rdquo; (nursing and care), keeps ads from the last 30 days, puts the newest first and fetches the detail page of each ad, so you get salary, description and apply link:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Pflege"],
+  "datePosted": "30",
+  "sortBy": "date",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: one or more keywords. Each runs as its own search and duplicate ads are removed. Add &ldquo;Krankenpfleger&rdquo; or &ldquo;Altenpflege&rdquo; to widen the list.</li>
+        <li><code class="code-inline">datePosted</code>: age of the ads in days (1, 7 or 30).</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">date</code> puts the newest ads first.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: upper limit per keyword. Keep it at 10 for a first test.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> adds the detail page. <code class="code-inline">false</code> is faster and cheaper but returns fewer fields.</li>
+      </ul>
+      <p>To narrow the list by place, add <code class="code-inline">location</code> (for example <code class="code-inline">"Graz"</code>) or <code class="code-inline">bundesland</code>, and <code class="code-inline">employmentType</code> (Vollzeit, Teilzeit, Geringfuegig, Lehrstelle or Praktikum). German keywords work best because the ads are written in German.</p>
+      <div class="callout tip"><strong>Start small.</strong> Set <code class="code-inline">maxResultsPerQuery</code> to 10 on the first run, check that the rows fit your keyword, then raise it.</div>
+    </div>
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run finishes, open the <strong>Dataset</strong> tab. Every row is one ad. This is a real item from a run with the keyword &ldquo;Pflege&rdquo;, shortened: the full ad text (<code class="code-inline">description_md</code>) and the contact fields are left out here.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "7900750",
+  "title": "Fachsozialbetreuer:in oder Pflegeassistent:in - Wohnverbund Messequartier",
+  "company": "LebensGroß GmbH",
+  "location": "Graz",
+  "country": "AT",
+  "salary_min": 2867.2,
+  "salary_max": null,
+  "salary_currency": "EUR",
+  "salary_period": "monthly",
+  "salary_text": "ab 2.867,20 € monatlich",
+  "employment_type": "part-time",
+  "remote_option": "hybrid",
+  "description_snippet": "Fachsozialbetreuer:in oder Pflegeassistent:in, Wohnverbund Messequartier, Teilzeit, Graz, Oktober 2026 smart bewerben Wer wir sind LebensGroß begleitet Menschen in unterschiedlichen...",
+  "posted_at": "2026-11-04",
+  "source_url": "https://www.karriere.at/jobs/7900750",
+  "source_platform": "karriere.at",
+  "apply_url": "https://bewerben.karriere.at/5X86Wwxb",
+  "company_url": "https://www.karriere.at/f/lebensgro%C3%9F-gmbh",
+  "search_query": "Pflege",
+  "scraped_at": "2026-11-09T06:19:02Z",
+  "detail_status": "ok"
+}</code></pre></div>
+      <p>The fields you will use in the spreadsheet:</p>
+      <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">company</code> and <code class="code-inline">location</code>: what the job is, who offers it, and the city.</li>
+        <li><code class="code-inline">employment_type</code>: <code class="code-inline">part-time</code> here (Teilzeit in the ad). Use it to filter full-time against part-time.</li>
+        <li><code class="code-inline">salary_text</code>, <code class="code-inline">salary_min</code>, <code class="code-inline">salary_max</code>, <code class="code-inline">salary_period</code>: the salary exactly as the ad states it, and as numbers you can sort. In this ad only a minimum is given, so <code class="code-inline">salary_max</code> is empty. Ads without a stated salary leave these cells empty.</li>
+        <li><code class="code-inline">posted_at</code>: publication date as <code class="code-inline">YYYY-MM-DD</code>, which sorts correctly as text.</li>
+        <li><code class="code-inline">source_url</code>, <code class="code-inline">apply_url</code> and <code class="code-inline">company_url</code>: the ad, the application link and the employer profile on karriere.at.</li>
+        <li><code class="code-inline">remote_option</code>: remote, hybrid or onsite, when the ad says so.</li>
+      </ul>
+      <div class="callout"><strong>Contact fields.</strong> When an ad names a contact person, the Actor can return the name, email and phone in <code class="code-inline">contact_*</code> fields. That is personal data, so leave those columns out of the export unless you have a reason to keep them.</div>
+    </div>
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Turn it into a spreadsheet you can sort</h2>
+      <ol>
+        <li>In the <strong>Dataset</strong> tab click <strong>Export</strong>, choose <strong>CSV</strong> and pick only these fields: <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">employment_type</code>, <code class="code-inline">salary_text</code>, <code class="code-inline">salary_min</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>, <code class="code-inline">apply_url</code>. Fewer columns keep the sheet readable.</li>
+        <li>In Google Sheets choose <strong>File &rarr; Import &rarr; Upload</strong> and replace the current sheet. In Excel use <strong>Data &rarr; From Text/CSV</strong> and select UTF-8 if the umlauts look wrong.</li>
+        <li>Sort by <code class="code-inline">posted_at</code> (Z to A) so the newest ads are on top.</li>
+        <li>Turn on <strong>Data &rarr; Create a filter</strong>. Filter <code class="code-inline">employment_type</code> to <code class="code-inline">part-time</code> or <code class="code-inline">full-time</code>, and <code class="code-inline">salary_min</code> to &ldquo;not empty&rdquo; to see only ads that state a salary.</li>
+        <li>Add a clickable link column: <code class="code-inline">=HYPERLINK(H2,"Open ad")</code> if <code class="code-inline">source_url</code> is in column H.</li>
+        <li>See who hires the most: <strong>Insert &rarr; Pivot table</strong>, rows = <code class="code-inline">company</code>, values = count of <code class="code-inline">title</code>.</li>
+      </ol>
+      <p>To keep the list fresh, create a <strong>Schedule</strong> in the Apify Console (weekly), set <code class="code-inline">datePosted</code> to <code class="code-inline">"7"</code> and add each new export below the old rows. The ad number in <code class="code-inline">id</code> lets you remove duplicates with <strong>Data &rarr; Data cleanup &rarr; Remove duplicates</strong>. If you prefer automation, an n8n or Make scenario with an Apify step and a Google Sheets step does the same without manual uploads.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor charges per result and has no monthly fee. Price from the <a href="/actors/karriere-at-scraper/">actor page</a>: <strong>$5.00 / 1,000 job with detail-page enrichment</strong>, which is $0.0050 per job. 10 jobs &asymp; $0.05, 100 jobs &asymp; $0.50, 1,000 jobs &asymp; $5.00. With <code class="code-inline">includeJobDetails</code> off, each job costs less but has fewer fields. Apify's free plan includes monthly platform credit, so the first runs cost nothing out of pocket. Current prices are always on the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs">Actor's Apify page</a>.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Can I search several keywords in one run?</summary>
+        <p>Yes. Put several terms in searchQueries, for example Pflege, Krankenpfleger and Altenpflege. Each term runs as its own search, and an ad that appears under more than one term is returned once. The search_query column tells you which term found each ad.</p>
+      </details>
+      <details>
+        <summary>How do I limit the export to one city or state?</summary>
+        <p>Add location (for example Graz or Wien) or bundesland to the input. You can combine them with employmentType (Vollzeit, Teilzeit, Geringfuegig, Lehrstelle or Praktikum) and datePosted (1, 7 or 30 days).</p>
+      </details>
+      <details>
+        <summary>Why are some salary cells empty?</summary>
+        <p>Many ads do not state a salary. salary_min, salary_max and salary_text are filled only when the ad gives one. Some ads give just a minimum, as in the sample row, so salary_max stays empty.</p>
+      </details>
+      <details>
+        <summary>How much does an export of 100 jobs cost?</summary>
+        <p>On the actor page the price is $5.00 / 1,000 job with detail-page enrichment, so 100 jobs are about $0.50. With includeJobDetails off the per-job price is lower and some fields are missing.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/karriere-at-scraper/">Karriere.at Scraper, actor page</a>: input fields, output fields and price at a glance.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs">Karriere.at Scraper on Apify</a>: the Actor with all parameters.</li>
+      <li><a href="/actors/stepstone-at-scraper/">StepStone.at Scraper, actor page</a>: a second Austrian job board for the same search.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: job listings from 110+ job boards with one call.</li>
+      <li><a href="/tutorials/stepstone-scraper-export-german-jobs/">StepStone Scraper: export German jobs</a>: the same spreadsheet workflow for Germany.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/karriere-at-scraper?fpr=0khfbz&amp;fp_sid=t-karriere-at-scraper-export-austrian-jobs" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

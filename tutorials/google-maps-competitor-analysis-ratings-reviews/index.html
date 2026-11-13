@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Maps Competitor Analysis: Ratings and Reviews | NanoScrape</title>
+  <meta name="description" content="Compare local competitors' Google Maps ratings and review counts in one sheet. Rank dentists, gyms or shops in your city and spot gaps. Step by step.">
+  <meta name="primary-keyword" content="google maps competitor analysis">
+  <meta property="og:title" content="Google Maps Competitor Analysis: Ratings and Reviews | NanoScrape">
+  <meta property="og:description" content="Rank your local competitors by Google Maps rating and review count, and find who leads and where the gaps are.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to compare local competitors' ratings and reviews on Google Maps",
+  "description": "Use the Google Maps Scraper on Apify to collect rating and review count for local competitors, then rank them in Google Sheets and find the gaps.",
+  "totalTime": "PT20M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Maps Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Google Maps Actor",
+      "text": "Open the Google Maps Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to JSON input and paste searchStrings, maxResultsPerQuery, language and includeReviewCount for your category and city."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run and open the Dataset tab. Each row has title, category, rating, review_count, website and place_id."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Rank and find gaps",
+      "text": "Export CSV, import into Google Sheets, remove duplicates by place_id, rank with rating times LOG10 of review count, then filter for beatable leaders, newcomers and weak profiles. Schedule a monthly run."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Google Maps competitor analysis: compare ratings and review counts",
+  "description": "Compare local competitors' Google Maps ratings and review counts in one sheet. Rank dentists, gyms or shops in your city and spot gaps. Step by step.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does a search return at most 120 places?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Google Maps shows about 120 results for one search. To cover a large city, run several searches with district names in the search strings and remove duplicates by place_id."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is rating the same as review_rating?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "In the real item both carry the same average star value (4.3 in the example). Use rating for your sheet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the review count exact?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is the count Google Maps shows for the place at the time of the run. Counts change daily, so compare runs from the same day each month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does a competitor comparison cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor page lists $1.00 / 1,000 place, so 100 competitors cost about $0.10."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Google Maps competitor analysis",
+      "item": "https://www.nanoscrape.com/tutorials/google-maps-competitor-analysis-ratings-reviews/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Google Maps competitor analysis</nav>
+
+    <h1>Google Maps competitor analysis: compare ratings and review counts</h1>
+    <p class="lead">You want to know how your business stands against the local competition on Google Maps: who has the most reviews, who has the best rating, who is easy to beat? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews">Google Maps Scraper</a> returns rating and review count for every business in a search, and a few Google Sheets formulas turn them into a ranking with the gaps visible. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 20 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 places about $0.10</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">What you can compare</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Rank and find the gaps</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">What you can compare</h2>
+    <p>Every Google Maps listing shows a star rating and a review count. Together they tell you how visible and how well liked a business is in its area. Looking them up one by one for 100 competitors takes hours. The Actor returns them as a table, so you can rank all competitors in one sheet. For this tutorial, a business owner compares the dentists in one city. The same steps work for any local category: gyms, garages, restaurants, law firms. This page is about ranking competitors; for lead and contact exports see the <a href="/tutorials/google-maps-scraper-business-leads-contact-data/">business leads tutorial</a>, and for the text of individual reviews the <a href="/tutorials/google-maps-reviews-scraper/">reviews scraper tutorial</a>.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Google Maps Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews">Google Maps Scraper on Apify</a>. The <a href="/actors/google-maps-scraper/">Actor page on NanoScrape</a> lists all output fields.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for this test.</li>
+        <li>Switch the <strong>Input</strong> tab to <strong>JSON</strong>.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: dentists in Zürich, German-language results. Put the location inside the search string, as you would type it into Google Maps.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchStrings": [
+    "Zahnarzt Zürich"
+  ],
+  "maxResultsPerQuery": 120,
+  "language": "de",
+  "includeReviewCount": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchStrings</code>: category plus place. Add one string per district or neighbourhood (for example &ldquo;Zahnarzt Zürich Oerlikon&rdquo;) to reach more competitors.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: 120 is the maximum Google Maps returns for one search. A big city needs several district searches; places found twice are not a problem, you remove duplicates in the sheet by <code class="code-inline">place_id</code>.</li>
+        <li><code class="code-inline">language</code>: language of the Maps interface, for example <code class="code-inline">de</code> or <code class="code-inline">en</code>.</li>
+        <li><code class="code-inline">includeReviewCount</code>: keep it <code class="code-inline">true</code>. It makes sure each place carries <code class="code-inline">review_count</code>, the number you rank by.</li>
+      </ul>
+      <div class="callout tip"><strong>Test first.</strong> Set <code class="code-inline">maxResultsPerQuery</code> to 20 on your first run. You see in seconds whether the search term returns the right kind of business.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong> and open the <strong>Dataset</strong> tab when it finishes. Each row is one place. This is a real item from the Actor, a restaurant instead of a dentist, shortened to the fields used here:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "place_id": "ChIJp1xmvDxawokR--2ZxQQ7NeM",
+  "title": "The Paris Café",
+  "category": "American restaurant",
+  "address": "The Paris Café, 119 South Street, 119 Peck Slip, New York, NY 10038",
+  "website": "https://www.pariscafenyc.com/",
+  "rating": 4.3,
+  "review_rating": 4.3,
+  "review_count": 989,
+  "status": "OPERATIONAL",
+  "link": "https://www.google.com/maps/place/The+Paris+Caf%C3%A9/@40.707304,-74.001578,17z/data=!3...",
+  "search_query": "restaurants in Paris",
+  "_rank": 1,
+  "scraped_at": "2026-11-12T05:32:03Z"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">category</code> and <code class="code-inline">address</code>: who it is and where. Use <code class="code-inline">category</code> to drop places that are not your competitors, for example a dental lab among the dentists.</li>
+        <li><code class="code-inline">rating</code> (also given as <code class="code-inline">review_rating</code>): the average stars.</li>
+        <li><code class="code-inline">review_count</code>: the number of reviews. Reach and trust are in this number as much as in the stars.</li>
+        <li><code class="code-inline">website</code>: empty means the business has no site linked on its profile.</li>
+        <li><code class="code-inline">_rank</code>: the position in the Maps result list for your search, a rough view of who Google shows first.</li>
+        <li><code class="code-inline">place_id</code> and <code class="code-inline">link</code>: a stable ID to match places between runs, and the Maps page.</li>
+        <li><code class="code-inline">status</code>: for example <code class="code-inline">OPERATIONAL</code>. Filter out places that are closed.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Rank competitors and find the gaps</h2>
+      <ol>
+        <li>In the Dataset tab click <strong>Export</strong>, choose CSV with the fields <code class="code-inline">title</code>, <code class="code-inline">category</code>, <code class="code-inline">address</code>, <code class="code-inline">rating</code>, <code class="code-inline">review_count</code>, <code class="code-inline">website</code>, <code class="code-inline">_rank</code>, <code class="code-inline">place_id</code>, <code class="code-inline">link</code>. Import it into Google Sheets. The columns are A to I in that order.</li>
+        <li>Remove duplicate places: Data &rarr; Data cleanup &rarr; Remove duplicates, on column H (<code class="code-inline">place_id</code>).</li>
+        <li>Add a ranking score in column J. Stars alone mislead: 5.0 from 6 reviews is weaker evidence than 4.7 from 400. This simple rule of thumb weights stars by review volume:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=D2 * LOG10(E2 + 1)</code></pre></div>
+      <ol start="4">
+        <li>Sort by column J, highest first. The top rows are your strongest competitors on Maps.</li>
+      </ol>
+      <p>Then read the gaps off the table with three quick filters:</p>
+      <ul>
+        <li><strong>Beatable leaders:</strong> many reviews but a rating below about 4.2. Customers of these businesses have a reason to look elsewhere.</li>
+        <li><strong>Newcomers to watch:</strong> a high rating with few reviews. They are good but not yet visible; they can grow fast.</li>
+        <li><strong>Weak profiles:</strong> <code class="code-inline">website</code> empty. Where do you stand against them on review count?</li>
+      </ul>
+      <p>Put your own business in the list (search for its name, or find its row) and see its position on <code class="code-inline">rating</code>, <code class="code-inline">review_count</code> and <code class="code-inline">_rank</code> against the top ten. The distance in review count tells you how many reviews you need to catch up.</p>
+      <h3>Track it every month</h3>
+      <p>In the Apify Console open <strong>Schedules</strong> and run the same input monthly. Add each export as a new sheet and match rows by <code class="code-inline">place_id</code> with <code class="code-inline">XLOOKUP</code> to subtract last month's <code class="code-inline">review_count</code>. The competitors with the biggest increase are the ones actively collecting reviews.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor page lists the price as <strong>$1.00 / 1,000 place</strong>. Cost math from the Actor page: 10 places &asymp; $0.01, 100 &asymp; $0.10, 1,000 &asymp; $1.00. One full search with 120 places is therefore about $0.12. Reviews are a separate, opt-in charge and are not needed for this comparison, so leave <code class="code-inline">includeReviews</code> off. Check the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews">Actor's Apify page</a> for the full list of charges.</p>
+
+    <h2 id="use-cases">Who uses this</h2>
+    <ul>
+      <li><strong>Local business owners</strong> benchmark their profile against the competition before they invest in a review campaign.</li>
+      <li><strong>Marketing and local SEO agencies</strong> prepare a competitor slide for a client pitch in minutes.</li>
+      <li><strong>Franchise and multi-location managers</strong> compare their branches with the neighbours in each town.</li>
+    </ul>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Why does a search return at most 120 places?</summary>
+        <p>Google Maps shows about 120 results for one search. To cover a large city, run several searches with district names in the search strings and remove duplicates by place_id.</p>
+      </details>
+      <details>
+        <summary>Is rating the same as review_rating?</summary>
+        <p>In the real item both carry the same average star value (4.3 in the example). Use rating for your sheet.</p>
+      </details>
+      <details>
+        <summary>Is the review count exact?</summary>
+        <p>It is the count Google Maps shows for the place at the time of the run. Counts change daily, so compare runs from the same day each month.</p>
+      </details>
+      <details>
+        <summary>How much does a competitor comparison cost?</summary>
+        <p>The Actor page lists $1.00 / 1,000 place, so 100 competitors cost about $0.10.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/tutorials/google-maps-scraper-business-leads-contact-data/">Business leads and contact data from Google Maps</a></li>
+      <li><a href="/tutorials/google-maps-reviews-scraper/">Google Maps Reviews Scraper</a>: the text of the reviews.</li>
+      <li><a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a>: automate the run.</li>
+      <li><a href="/tutorials/google-maps-api-alternative/">Google Maps data without the Places API</a></li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews">Google Maps Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=t-google-maps-competitor-analysis-ratings-reviews" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor New jobs.ch Listings Every Morning | NanoScrape</title>
+  <meta name="description" content="Get only new jobs.ch listings each morning: schedule the Jobs.ch Scraper on Apify and remove already-seen ads by job id in Google Sheets or n8n.">
+  <meta name="primary-keyword" content="monitor new jobs.ch listings">
+  <meta property="og:title" content="Monitor New jobs.ch Listings Every Morning | NanoScrape">
+  <meta property="og:description" content="Set up a morning jobs.ch alert: an Apify schedule plus a dedup step by job id in Google Sheets or n8n, so you only see new listings.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to get only new jobs.ch listings every morning",
+  "description": "Run the Jobs.ch Scraper on an Apify schedule and remove already-seen ads by job id in Google Sheets or n8n, so each morning shows only new listings.",
+  "totalTime": "PT20M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "A jobs.ch search (keyword and place)"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "A Google Sheets spreadsheet"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Jobs.ch Scraper (Apify)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "n8n"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Actor",
+      "text": "Open the Jobs.ch Scraper on Apify and sign in."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input and save a task",
+      "text": "Paste the JSON with searchQueries, locations, publicationDate 3 and sortBy newest, test it once and save it as a task."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule it",
+      "text": "In Apify Schedules, create a schedule with the cron expression 0 7 * * * in the Europe/Zurich timezone and attach the task."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Dedup by job id",
+      "text": "Compare each ad's id with the ids stored in a Seen sheet, using a FILTER formula in Google Sheets or a Code node in n8n, and keep only the new ones."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Monitor New jobs.ch Listings Every Morning",
+  "description": "Get only new jobs.ch listings each morning: schedule the Jobs.ch Scraper on Apify and remove already-seen ads by job id in Google Sheets or n8n.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I get only new jobs.ch listings each day?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Run the Jobs.ch Scraper on a daily Apify schedule with publicationDate set to 3 and sortBy set to newest. Then compare the id of each ad against the ids you already stored, in Google Sheets or n8n, and keep only the ids you have not seen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why does the same ad show up two days in a row?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The age filter works in whole days and an ad stays online for weeks. A search for the last 3 days therefore returns ads you already saw yesterday. The dedup step by id removes them."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which field should I use to recognise an ad?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use id. It is unique per ad on jobs.ch and is also part of the source_url. Do not use the title, because the same employer can post the same title in several places."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does a daily job monitor cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor charges $5.00 / 1,000 job detail result, counted per ad the run returns. If a morning run returns 20 ads, that is 600 results a month, about $3.00."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Monitor new jobs.ch listings",
+      "item": "https://www.nanoscrape.com/tutorials/monitor-new-jobs-ch-listings/"
+    }
+  ]
+}
+  </script>
+
+<style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Monitor new jobs.ch listings</nav>
+
+    <h1>How to Get Only New jobs.ch Listings Every Morning</h1>
+    <p class="lead">You search jobs.ch for the same role every day and want to see only what is new since yesterday. Here you set up the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-jobs-ch-listings">Jobs.ch Scraper</a> on an Apify schedule that runs every morning, then remove the ads you have already seen by their job id in Google Sheets or n8n. What is left is a short list of new ads.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 20 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Intermediate</div>
+      <div class="meta-item"><strong>Cost:</strong> 20 new ads a day for a month: about $3.00</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console, Google Sheets or n8n</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-jobs-ch-listings" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#idea">The idea in three parts</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste this input</a></li>
+        <li><a href="#step-3">Step 3: Run, read, schedule</a></li>
+        <li><a href="#step-4">Step 4: Keep only new listings</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="idea">The idea in three parts</h2>
+    <p>jobs.ch can email you alerts, but an alert is a message, not data you can filter, share with a team or push into a CRM. Here you build your own alert with three parts:</p>
+    <ol>
+      <li><strong>A saved search</strong> that returns the latest ads for your keyword and place.</li>
+      <li><strong>An Apify schedule</strong> that runs it every morning.</li>
+      <li><strong>A dedup step</strong> that compares the ads against the <code class="code-inline">id</code> values you have already seen, so only new ones land in your sheet.</li>
+    </ol>
+    <p>The dedup step is needed because a daily search does not return only today's ads. The age filter works in whole days, and an ad stays visible for weeks. If you ran the search with no memory, you would get the same ad again every day. If you only want a one-off export of a search, the <a href="/tutorials/jobs-ch-scraper-export-swiss-jobs/">jobs.ch export tutorial</a> is the shorter route.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <p>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-jobs-ch-listings">Jobs.ch Scraper on Apify</a> and click <strong>Try for free</strong>. Sign up with Google or email. Apify's free plan includes monthly platform credit. You will set up everything in the Apify Console and in Google Sheets or n8n.</p>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Switch the input to <strong>JSON</strong> and paste the following. It is an example search for site managers (&ldquo;Projektleiter Bau&rdquo;) in Zürich. Replace the keyword and place with yours.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": ["Projektleiter Bau"],
+  "locations": ["Zürich"],
+  "language": "de",
+  "publicationDate": "3",
+  "sortBy": "newest",
+  "searchMode": "classic",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">publicationDate</code>: <code class="code-inline">"3"</code> keeps ads from the last 3 days. The allowed values are 1, 3, 7 and 30. Three days instead of one is on purpose: if a run fails or you skip a day, nothing slips through, and the dedup step removes the overlap.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> puts the newest ads first, which is the setting for scheduled runs.</li>
+        <li><code class="code-inline">searchMode</code>: <code class="code-inline">classic</code> matches your exact keyword. <code class="code-inline">semantic</code> (the default) also finds related terms.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: a ceiling per keyword. Set it above the number of ads you expect in three days.</li>
+        <li><code class="code-inline">includeJobDetails</code>: <code class="code-inline">true</code> adds the full ad data such as <code class="code-inline">posted_at</code> and <code class="code-inline">expires_at</code>. For a plain alert you can switch it off to save cost; check the price on the <a href="/actors/jobs-ch-scraper/">actor page</a>.</li>
+      </ul>
+      <p>You can also add <code class="code-inline">cantons</code>, <code class="code-inline">employmentType</code>, <code class="code-inline">workloadMin</code> and <code class="code-inline">companyFilter</code>. If you already have a search set up on jobs.ch, paste its URL into <code class="code-inline">startUrls</code> instead.</p>
+      <p>Click <strong>Save &amp; Start</strong> once to test it. Then save the input as a <strong>task</strong> (the Actor page offers &ldquo;Save as a new task&rdquo;) and name it, for example &ldquo;jobs.ch morning check&rdquo;. A schedule runs a saved task.</p>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it, read the output and set the schedule</h2>
+      <p>When the test run finishes, the Output tab shows one row per ad. This is a real item from the Actor, trimmed to the fields you need for monitoring:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "b122af9a-865f-410f-a553-6271e208158c",
+  "title": "Wissenschaftliche/r Mitarbeiter/in öffentliche Finanzen - Städte und Gemeinden",
+  "company_name": "Kantonale Verwaltung Zürich",
+  "location": "Zürich",
+  "canton": "ZH",
+  "employment_type": "temporary",
+  "workload_min": 80,
+  "workload_max": 100,
+  "posted_at": "2026-11-03T19:03:16Z",
+  "expires_at": "2026-12-04T00:00:00Z",
+  "source_url": "https://www.jobs.ch/de/stellenangebote/detail/b122af9a-865f-410f-a553-6271e208158c/",
+  "source_platform": "jobs.ch",
+  "scraped_at": "2026-11-12T14:15:10Z"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">id</code>: the unique ID of the ad on jobs.ch. This is the key for the dedup step. The same ID is part of the <code class="code-inline">source_url</code>.</li>
+        <li><code class="code-inline">title</code>, <code class="code-inline">company_name</code>, <code class="code-inline">location</code>, <code class="code-inline">canton</code>: what you scan in the morning.</li>
+        <li><code class="code-inline">employment_type</code> and <code class="code-inline">workload_min</code> / <code class="code-inline">workload_max</code>: type of contract and workload (Pensum) in percent.</li>
+        <li><code class="code-inline">posted_at</code> and <code class="code-inline">expires_at</code>: when the ad went live and when it ends.</li>
+        <li><code class="code-inline">source_url</code>: the link you click to read the ad.</li>
+      </ul>
+      <p>Now schedule it. In the Apify Console open <strong>Schedules</strong>, click <strong>Create new</strong>, and set:</p>
+      <ul>
+        <li><strong>Cron expression:</strong> <code class="code-inline">0 7 * * *</code> runs every day at 07:00.</li>
+        <li><strong>Timezone:</strong> choose Europe/Zurich, so 07:00 means 07:00 in Switzerland.</li>
+        <li><strong>Actions:</strong> add your saved task &ldquo;jobs.ch morning check&rdquo;.</li>
+      </ul>
+      <p>Save it. From tomorrow the run starts by itself. Each run writes its own dataset, so every morning's results are kept separately.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Keep only the new listings (dedup by job id)</h2>
+      <p>Pick one of two ways. Both rely on the same idea: keep a sheet called <strong>Seen</strong> with one <code class="code-inline">id</code> per row. An ad is new if its <code class="code-inline">id</code> is not in that sheet yet.</p>
+      <h3>Option A: Google Sheets only (a minute a day)</h3>
+      <p>Create a spreadsheet with three tabs: <strong>Seen</strong>, <strong>Today</strong> and <strong>New</strong>. Each morning, open the latest run in the Apify Console, export the dataset as CSV with the fields <code class="code-inline">id</code>, <code class="code-inline">title</code>, <code class="code-inline">company_name</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code> in that order, and import it into the <strong>Today</strong> tab (File &rarr; Import &rarr; Replace current sheet). In cell A1 of the <strong>New</strong> tab, enter:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=FILTER(Today!A2:F, COUNTIF(Seen!A:A, Today!A2:A)=0)</code></pre></div>
+      <p>The result lists only the ads whose ID is not yet in <strong>Seen</strong>. Read them, then copy the rows of <strong>Today</strong> (without the header) to the bottom of <strong>Seen</strong> so tomorrow they count as known. Keep the header row in the first row of <strong>Seen</strong> and put the IDs in column A.</p>
+      <h3>Option B: n8n, fully automatic</h3>
+      <p>In <a target="_blank" rel="noopener" href="https://n8n.io">n8n</a>, build a workflow that runs when the Apify run finishes. In Apify, open your saved task, go to <strong>Integrations</strong> and add a webhook for the event &ldquo;run succeeded&rdquo; that points to an n8n Webhook node. The nodes, in order:</p>
+      <ol>
+        <li><strong>Webhook:</strong> receives the finished run, including its <code class="code-inline">defaultDatasetId</code>.</li>
+        <li><strong>Google Sheets</strong> (get rows), renamed to <em>Seen IDs</em>: reads the <strong>Seen</strong> tab. Turn on <em>Always Output Data</em> in the node settings, so the workflow also runs while the sheet is still empty.</li>
+        <li><strong>HTTP Request:</strong> a GET to the dataset, with your Apify token as a query parameter or credential. Adjust the expression to the shape of your webhook payload:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">https://api.apify.com/v2/datasets/{{ $json.body.resource.defaultDatasetId }}/items?format=json&amp;clean=true</code></pre></div>
+      <ol start="4">
+        <li><strong>Code</strong> (run once for all items): keeps only the ads that are not in <em>Seen IDs</em>:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-javascript">// Input items: the dataset items from the HTTP Request node.
+// "Seen IDs" is the Google Sheets node that reads the id column.
+const seen = new Set($('Seen IDs').all().map(i =&gt; String(i.json.id)));
+const fresh = [];
+for (const item of $input.all()) {
+  const id = String(item.json.id);
+  if (!seen.has(id)) {
+    seen.add(id); // also drops duplicates inside the same run
+    fresh.push({ json: item.json });
+  }
+}
+return fresh;</code></pre></div>
+      <ol start="5">
+        <li><strong>Google Sheets</strong> (append rows), in a chain: first to your <strong>Jobs</strong> tab with the full rows, then to <strong>Seen</strong> with the <code class="code-inline">id</code> column. Add a Slack, Telegram or email node after the Code node if you want a morning message with the titles.</li>
+      </ol>
+      <div class="callout tip"><strong>Check it once.</strong> Run the workflow twice in a row on the same dataset. The second run should add zero rows. If it adds rows, compare the <code class="code-inline">id</code> column in <strong>Seen</strong> with the dataset: they must be the same text.</div>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor is priced at <strong>$5.00 / 1,000 job detail result</strong>. Every ad the run returns counts as a result, including the ones you already knew from the day before. Examples: 100 results &asymp; $0.50. If a morning run returns 20 ads, that is 600 results a month &asymp; $3.00.</p>
+    <p>Two settings keep it small. A narrow search (keyword, place, canton) returns fewer ads, and <code class="code-inline">maxResultsPerQuery</code> sets a ceiling. Using <code class="code-inline">publicationDate</code> <code class="code-inline">"1"</code> instead of <code class="code-inline">"3"</code> returns less overlap, at the price of less safety margin if a run is missed. Details are on the <a href="/actors/jobs-ch-scraper/">actor page</a>.</p>
+
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>How do I get only new jobs.ch listings each day?</summary>
+        <p>Run the Jobs.ch Scraper on a daily Apify schedule with publicationDate set to 3 and sortBy set to newest. Then compare the id of each ad against the ids you already stored, in Google Sheets or n8n, and keep only the ids you have not seen.</p>
+      </details>
+      <details>
+        <summary>Why does the same ad show up two days in a row?</summary>
+        <p>The age filter works in whole days and an ad stays online for weeks. A search for the last 3 days therefore returns ads you already saw yesterday. The dedup step by id removes them.</p>
+      </details>
+      <details>
+        <summary>Which field should I use to recognise an ad?</summary>
+        <p>Use id. It is unique per ad on jobs.ch and is also part of the source_url. Do not use the title, because the same employer can post the same title in several places.</p>
+      </details>
+      <details>
+        <summary>What does a daily job monitor cost?</summary>
+        <p>The Actor charges $5.00 / 1,000 job detail result, counted per ad the run returns. If a morning run returns 20 ads, that is 600 results a month, about $3.00.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/jobs-ch-scraper/">Jobs.ch Scraper, actor page</a>: input fields, output fields and price at a glance.</li>
+      <li><a href="/tutorials/jobs-ch-scraper-export-swiss-jobs/">How to scrape jobs.ch: export Swiss job listings to CSV</a>: a one-off export with filters.</li>
+      <li><a href="/de/tutorials/jobs-ch-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">jobs.ch Stellenanzeigen exportieren (Deutsch)</a></li>
+      <li><a href="/tutorials/monitor-competitor-careers-pages/">Monitor competitor careers pages</a>: watch specific employers for new roles.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: job listings from 110+ job boards with one call.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobs-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-jobs-ch-listings" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

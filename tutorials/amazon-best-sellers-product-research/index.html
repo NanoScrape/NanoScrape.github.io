@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Amazon Best Sellers Product Research by Price & Rating | NanoScrape</title>
+  <meta name="description" content="Pull a category's Amazon Best Sellers top 100, then see which price bands and ratings dominate to find product ideas. Step by step with Google Sheets.">
+  <meta name="primary-keyword" content="amazon best sellers product research">
+  <meta property="og:title" content="Amazon Best Sellers Product Research by Price & Rating | NanoScrape">
+  <meta property="og:description" content="Scrape Amazon Best Sellers for a category and find product ideas by price band and rating, with copy-paste input and Google Sheets formulas.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting (json + bash + javascript + python + csharp + java) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to research Amazon products with the Best Sellers list",
+  "description": "Use the Amazon Bestsellers Scraper on Apify to pull a category's top 100 and analyse price bands and ratings in Google Sheets to find product ideas.",
+  "totalTime": "PT15M",
+  "supply": [
+    {
+      "@type": "HowToSupply",
+      "name": "Free Apify account"
+    },
+    {
+      "@type": "HowToSupply",
+      "name": "Two or three Amazon Best Sellers category URLs"
+    }
+  ],
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Amazon Bestsellers Scraper (Apify)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Actor",
+      "text": "Open the Amazon Bestsellers Scraper on Apify and copy the Best Sellers URLs of the categories you want to research."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch the input to JSON, paste the startUrls with maxResultsPerCategory 100 and your category URLs."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Start, then check position, price, stars and reviewsCount in the Output tab."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Analyse in Google Sheets",
+      "text": "Export as CSV, import into Google Sheets, add a price band column, summarise with QUERY and filter a shortlist by stars and review count."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Amazon Best Sellers Product Research by Price & Rating",
+  "description": "Pull a category's Amazon Best Sellers top 100, then see which price bands and ratings dominate to find product ideas. Step by step with Google Sheets.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-13",
+  "dateModified": "2026-11-13",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Which Amazon marketplaces can I research?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor covers 20 marketplaces, including the US, UK, Germany, France, Italy, Spain, Canada and Japan. Paste a Best Sellers URL from the marketplace you want and the Actor detects it. Prices come back in that marketplace's currency, so keep each marketplace in its own sheet."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How many products can I get per category?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Up to 100. Amazon's Best Sellers list ends at rank 100, and the Actor reads the whole list through pagination. For a bigger sample, scrape several related sub-categories."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is a product on the Best Sellers list a good product idea?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It is a sign of current demand, not proof of profit. The list does not show your margin, shipping cost or how hard it is to rank a new listing. Use the price and rating table to narrow the field, then validate each candidate yourself."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to scrape a category?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor charges $1.00 / 1,000 result, so a full top-100 list of one category (100 results) is about $0.10."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Amazon Best Sellers Research",
+      "item": "https://www.nanoscrape.com/tutorials/amazon-best-sellers-product-research/"
+    }
+  ]
+}
+  </script>
+
+<style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Amazon Best Sellers Research</nav>
+
+    <h1>How to Find Product Ideas in Amazon Best Sellers by Price and Rating</h1>
+    <p class="lead">You want to know what sells on Amazon before you pick a product to source or sell. A Best Sellers list shows the winners, but not which price range and rating level they cluster in. Here you pull the full top 100 of a category with the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-best-sellers-product-research">Amazon Bestsellers Scraper</a>, group it by price band and rating in Google Sheets, and end with a shortlist of product ideas.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> top 100 of one category: about $0.10</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify Console, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-best-sellers-product-research" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why Best Sellers lists work</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste this input</a></li>
+        <li><a href="#step-3">Step 3: Run it and read the output</a></li>
+        <li><a href="#step-4">Step 4: Price bands and ratings</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">Why Best Sellers lists work for product research</h2>
+    <p>Amazon ranks the top 100 products in every category by recent sales. That makes each list a ready-made sample of what shoppers are buying right now. A single page shows you the winners, but not the pattern behind them. Which price range do most of the top 100 sit in? Do 4.0-star products rank as high as 4.6-star ones? Are the leaders old products with hundreds of thousands of reviews, or newer ones with a few hundred?</p>
+    <p>You answer these questions by turning the list into a table and grouping it by price and rating. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-best-sellers-product-research">Amazon Bestsellers Scraper</a> returns one row per ranked product with <code class="code-inline">position</code>, <code class="code-inline">price</code>, <code class="code-inline">stars</code> and <code class="code-inline">reviewsCount</code>, which is exactly what you need. This tutorial is about reading one snapshot of a category. If you want to follow ranks over time or use the Movers and Shakers and New Releases lists, see the <a href="/tutorials/amazon-trending-products-bestseller-rank/">trending products tutorial</a>.</p>
+    <div class="callout warn"><strong>A demand signal, not a verdict.</strong> A product on a Best Sellers list sells well today. It does not tell you the margin, the competition on your own listing or whether the trend lasts. Use the table to build a shortlist, then check each idea yourself.</div>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <p>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-best-sellers-product-research">Amazon Bestsellers Scraper on Apify</a> and click <strong>Try for free</strong>. Sign up with Google or email. Apify's free plan includes monthly platform credit, which is enough for the runs in this tutorial. You work in the Apify Console, so there is nothing to install.</p>
+      <p>Next, pick the categories. Go to amazon.com, open <strong>Best Sellers</strong>, click into the department you care about (and a sub-category if you want a narrower niche), and copy the URL from the address bar. Pick two or three categories that are close to each other, so you can compare them later.</p>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Switch the input to <strong>JSON</strong> and paste this. It reads the Best Sellers list of two categories, the full top 100 of each. Replace the two URLs with your own.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "startUrls": [
+    {"url": "https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics/"},
+    {"url": "https://www.amazon.com/Best-Sellers/zgbs/hpc/"}
+  ],
+  "country": "US",
+  "language": "AUTO",
+  "maxResultsPerCategory": 100,
+  "maxResults": 0,
+  "concurrency": 2
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">startUrls</code>: the category pages you copied. The marketplace and the list type (Best Sellers) are detected from the URL.</li>
+        <li><code class="code-inline">maxResultsPerCategory</code>: 100 is Amazon's own cap per list, so this returns the whole top 100.</li>
+        <li><code class="code-inline">maxResults</code>: <code class="code-inline">0</code> means no total cap. Set a number here if you want a hard ceiling on a run.</li>
+        <li><code class="code-inline">country</code> and <code class="code-inline">language</code>: used for browse-node IDs; with full URLs the actor matches the marketplace to the URL.</li>
+        <li><code class="code-inline">concurrency</code>: how many categories are fetched in parallel.</li>
+      </ul>
+      <p>The Actor can also read Movers and Shakers, New Releases, Most Wished For and Most Gifted lists. For this research, stay with Best Sellers: it is the list that shows what already sells in volume.</p>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save &amp; Start</strong>. When the run finishes, the <strong>Output</strong> tab shows one row per product. This is a real item from the Actor (rank 1 of the Electronics list, trimmed):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "asin": "B08JHCVHTY",
+  "url": "https://www.amazon.com/dp/B08JHCVHTY",
+  "marketplace": "US",
+  "categoryUrl": "https://www.amazon.com/Best-Sellers-Electronics/zgbs/electronics/",
+  "categoryName": "Best Sellers in Electronics",
+  "categoryBreadCrumbs": ["Electronics"],
+  "listType": "bestseller",
+  "position": 1,
+  "title": "blink plus plan with monthly auto-renewal",
+  "brand": null,
+  "price": { "value": 11.99, "currency": "$", "raw": "$11.99" },
+  "listPrice": null,
+  "stars": 4.4,
+  "reviewsCount": 281429,
+  "isAmazonChoice": false,
+  "isPrime": false,
+  "isLimitedDeal": false,
+  "dealText": null,
+  "scrapedAt": "2026-10-24T11:44:26Z"
+}</code></pre></div>
+      <p>The fields that matter for product research:</p>
+      <ul>
+        <li><code class="code-inline">position</code>: the true rank from 1 to 100 within the category.</li>
+        <li><code class="code-inline">price.value</code>: the price as a number. In a CSV export it appears as its own column (<code class="code-inline">price/value</code>), so you can sort and calculate with it. <code class="code-inline">price.currency</code> holds the symbol.</li>
+        <li><code class="code-inline">stars</code> and <code class="code-inline">reviewsCount</code>: rating and number of ratings. Together they tell you whether a product is well liked and how established it is.</li>
+        <li><code class="code-inline">listPrice</code>: the struck-through original price, filled when a product is on sale.</li>
+        <li><code class="code-inline">categoryName</code> and <code class="code-inline">categoryBreadCrumbs</code>: which list a row came from, useful when you scraped several categories at once.</li>
+        <li><code class="code-inline">isPrime</code>, <code class="code-inline">isAmazonChoice</code>, <code class="code-inline">isLimitedDeal</code>: badges as shown on the card.</li>
+      </ul>
+      <div class="callout"><strong>Check what you are looking at.</strong> The real item above is a subscription plan, not a physical product, and <code class="code-inline">brand</code> is <code class="code-inline">null</code> because Amazon often does not show it on list cards. Some Best Sellers lists mix in plans, digital items or gift cards. You filter those out in the next step.</div>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Find the price bands and ratings that dominate</h2>
+      <p>In the Output tab click <strong>Export</strong>, choose <strong>CSV</strong>, and select these fields: <code class="code-inline">position</code>, <code class="code-inline">title</code>, <code class="code-inline">price</code>, <code class="code-inline">stars</code>, <code class="code-inline">reviewsCount</code>, <code class="code-inline">categoryName</code>. In Google Sheets use <strong>File &rarr; Import</strong> and upload the file.</p>
+      <p>For the formulas below, arrange the columns like this: A position, B title, C price, D stars, E reviews, and leave F empty for the band. Move the columns to match, or change the letters in the formulas.</p>
+      <h3>1. Put every product into a price band</h3>
+      <p>In F2 enter this formula and fill it down. The bands are an example, so change the limits to fit your category:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=IFS(C2="","no price",C2&lt;15,"under $15",C2&lt;30,"$15-30",C2&lt;60,"$30-60",TRUE,"$60+")</code></pre></div>
+      <h3>2. Count products and average rating per band</h3>
+      <p>On a second sheet, this formula builds the summary table:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=QUERY(A1:F,"select F, count(A), avg(D), avg(E) where C is not null group by F label count(A) 'Products', avg(D) 'Avg stars', avg(E) 'Avg reviews'",1)</code></pre></div>
+      <p>Read it like this: the band with the most products is where the bulk of the sales sits. The band with a high average rating but few products is a gap that buyers may still be underserved in. If you scraped several categories, add <code class="code-inline">categoryName</code> as a second column in the QUERY to compare niches side by side.</p>
+      <h3>3. Build a shortlist of product ideas</h3>
+      <p>Now filter for products that rank in the top 100 but are not yet buried under reviews, rated 4.3 stars or more, with the plans and gift cards removed:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=FILTER(A2:F, D2:D&gt;=4.3, E2:E&lt;2000, NOT(REGEXMATCH(LOWER(B2:B),"plan|subscription|gift card")))</code></pre></div>
+      <p>The thresholds (4.3 stars, under 2,000 reviews) are starting points. Lower the review limit to find newer listings, or raise the star limit to see only the best-liked products. Sort the result by <code class="code-inline">position</code> and you have a list of products that sell well and that a new seller could realistically compete with.</p>
+      <p>Two further checks help. Compare <code class="code-inline">listPrice</code> to <code class="code-inline">price</code> to see which bands rely on discounts. And scrape the same categories again a few weeks later: products that are new on your second list are the ones gaining ground.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor is priced at <strong>$1.00 / 1,000 result</strong>. A full top-100 list for one category is 100 results, so 100 results &asymp; $0.10. The two-category input above returns up to 200 results &asymp; $0.20. Scraping ten categories is 1,000 results &asymp; $1.00. Amazon caps every list at 100 products, so you cannot pull more than that per category.</p>
+    <p>The numbers come from the per-result price on the <a href="/actors/amazon-bestsellers-scraper/">actor page</a>. Apify's free plan includes monthly platform credit, so your first runs may cost nothing out of pocket.</p>
+
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Which Amazon marketplaces can I research?</summary>
+        <p>The Actor covers 20 marketplaces, including the US, UK, Germany, France, Italy, Spain, Canada and Japan. Paste a Best Sellers URL from the marketplace you want and the Actor detects it. Prices come back in that marketplace's currency, so keep each marketplace in its own sheet.</p>
+      </details>
+      <details>
+        <summary>How many products can I get per category?</summary>
+        <p>Up to 100. Amazon's Best Sellers list ends at rank 100, and the Actor reads the whole list through pagination. For a bigger sample, scrape several related sub-categories.</p>
+      </details>
+      <details>
+        <summary>Is a product on the Best Sellers list a good product idea?</summary>
+        <p>It is a sign of current demand, not proof of profit. The list does not show your margin, shipping cost or how hard it is to rank a new listing. Use the price and rating table to narrow the field, then validate each candidate yourself.</p>
+      </details>
+      <details>
+        <summary>How much does it cost to scrape a category?</summary>
+        <p>The Actor charges $1.00 / 1,000 result, so a full top-100 list of one category (100 results) is about $0.10.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/amazon-bestsellers-scraper/">Amazon Bestsellers Scraper, actor page</a>: input fields, output fields and price at a glance.</li>
+      <li><a href="/tutorials/amazon-trending-products-bestseller-rank/">Track Amazon trending products and bestseller rankings</a>: Movers and Shakers, New Releases and n8n automation.</li>
+      <li><a href="/actors/amazon-product-scraper/">Amazon Product Scraper, actor page</a>: product detail data for the ideas on your shortlist.</li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-bestsellers-scraper?fpr=0khfbz&amp;fp_sid=t-amazon-best-sellers-product-research" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
