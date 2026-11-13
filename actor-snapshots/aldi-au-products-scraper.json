@@ -1,0 +1,33 @@
+{
+  "slug": "nanodata/aldi-au-products-scraper",
+  "name": "aldi-au-products-scraper",
+  "title": "ALDI Australia Products Scraper",
+  "description": "Collect products from the ALDI Australia catalogue: name, brand, price, unit price, pack size, category, images and special-buy flags. Pay per product.",
+  "readme": "# ALDI Australia Products Scraper\n\nCollect the product list of ALDI Australia (www.aldi.com.au). For each product you get the name, brand, price in AUD, unit price (per kg or per litre), pack size, category, images and the flags the site shows, such as While Stocks Last and sale dates. You can read the whole catalogue (about 3,300 products on 110 pages) or single categories.\n\n## What you get\n\n| Field | Example | Notes |\n| --- | --- | --- |\n| productId, sku | 000000000000281818, 281818 | ALDI product code |\n| name, brand | Double Cream Camembert 200g, EMPORIUM SELECTION | |\n| price, priceText, currency | 4.99, $4.99, AUD | |\n| wasPrice, discountText | null | Filled when the tile shows a reduced price |\n| unitPriceText, unitPrice, unitPriceQuantity, unitPriceUnit | $24.95 per 1 kg, 24.95, 1, kg | As shown on the site |\n| unitPricePerBase, unitPriceBaseUnit | 24.95, kg | Same price converted to per kg or per L, so rows compare |\n| packSize, packSizeValue, packSizeUnit | 200 g, 200, g | |\n| categoryPath, categoryUrl | [\"Dairy, Eggs & Fridge\", \"Cheese\"] | Set when you read a category link |\n| imageUrl, imageUrls | links | Image sizes found on the tile |\n| isAvailable, isSpecialBuy, isWhileStocksLast | true, false, false | |\n| badges, promoText, promoDate | [\"On Sale Wed 11 Nov\"], On Sale Wed 11 Nov, 2026-11-11 | Date is set when the badge names a day |\n| sourceUrl, pageNumber, scrapedAt | | Where and when the row was read |\n\nWith **Include product page details** switched on, each row also gets: description, productDetails (the titled text sections of the page), detailImageUrls (largest gallery images), availabilityStatus, itemCondition, brandUrl, detailBadges, detailPrice and detailName. Fields with no data on the site are null.\n\n## Input\n\n| Field | Meaning | Default |\n| --- | --- | --- |\n| startUrls | Catalogue or category links under www.aldi.com.au/products. A link ending in ?page=N starts at page N. | https://www.aldi.com.au/products |\n| maxResults | Total number of products across all links, read in the order listed. | 30 |\n| maxPages | Pages to read for each link. 0 means no limit besides maxResults. | 0 |\n| includeDetails | Open each product page as well. This adds one page request per product. | false |\n\nExample: two categories, up to 80 products, two pages each.\n\n```json\n{\n  \"startUrls\": [\n    \"https://www.aldi.com.au/products/dairy-eggs-fridge/cheese/k/1111111163\",\n    \"https://www.aldi.com.au/products/bakery/k/920000000\"\n  ],\n  \"maxResults\": 80,\n  \"maxPages\": 2\n}\n```\n\nExample: the first 100 products of the whole catalogue with product page details.\n\n```json\n{ \"startUrls\": [\"https://www.aldi.com.au/products\"], \"maxResults\": 100, \"includeDetails\": true }\n```\n\nCategory links look like `https://www.aldi.com.au/products/dairy-eggs-fridge/cheese/k/1111111163`. Copy them from the category menu on the ALDI site. An empty input returns the first 30 products of the catalogue.\n\nLinks to the search results (`/results`), the brand pages (`/brands`) and the tools pages (`/tools`) are refused, because the site asks crawlers to stay away from them. If any link in the list is refused, the run stops before it reads anything and charges nothing.\n\n## Pricing\n\nYou pay per product row plus a small fee per run.\n\n| Event | Name | Price |\n| --- | --- | --- |\n| Run start (charged once, together with the first delivered rows) | actor-start | $0.001 per run |\n| One product row | product-result | $0.002 per product ($2.00 per 1,000) |\n\nThe product page details option adds no extra event. It makes the run slower because each product needs its own page request. If you set a maximum cost for the run, the actor stops cleanly when the next rows no longer fit. A run that finds nothing charges nothing.\n\n## Output sample\n\n```json\n{\n  \"productId\": \"000000000000281811\",\n  \"sku\": \"281811\",\n  \"url\": \"https://www.aldi.com.au/product/emporium-selection-triple-cream-brie-cheese-200g-000000000000281811\",\n  \"name\": \"Triple Cream Brie Cheese 200g\",\n  \"brand\": \"EMPORIUM SELECTION\",\n  \"price\": 4.99,\n  \"priceText\": \"$4.99\",\n  \"currency\": \"AUD\",\n  \"unitPriceText\": \"$24.95 per 1 kg\",\n  \"unitPrice\": 24.95,\n  \"unitPriceUnit\": \"kg\",\n  \"packSize\": \"200 g\",\n  \"categoryPath\": [\"Dairy, Eggs & Fridge\", \"Cheese\"],\n  \"isAvailable\": true,\n  \"isSpecialBuy\": false,\n  \"badges\": null,\n  \"pageNumber\": 1\n}\n```\n\n## FAQ\n\n**How many products does a page hold?** 30. The whole catalogue is about 110 pages.\n\n**Are prices the same in every store?** ALDI states that prices can differ by store. The site shows the price for a default store, and that is the price you get here.\n\n**Why are some unit prices empty?** The site shows no unit price for some products, such as single items. Those fields are null.\n\n**Why does a category link return nothing?** If the link is not a known category, the site shows the full catalogue instead. The actor treats that as no result and reports it in the status message.\n\n**How fast is it?** The actor reads one page at a time with a short pause between pages. A 30 product page takes a second or two. With product page details on, expect one more request per product.\n\n**Can I run it every day to track prices?** Yes. Use the same start links on a schedule and compare the price and unitPricePerBase fields by productId.\n\n**Does it need a login?** No. It reads public pages only.\n",
+  "readmeSource": "actors/ecommerce/aldi-au-products-scraper/README.md",
+  "pricing": {
+    "model": "PAY_PER_EVENT",
+    "effectiveSince": "2026-11-06T11:20:25.000Z",
+    "events": [
+      {
+        "key": "actor-start",
+        "title": "Actor run started",
+        "description": "Charged once per run, together with the first delivered product",
+        "isPrimary": false,
+        "priceUsd": 0.001,
+        "tieredPriceUsd": null
+      },
+      {
+        "key": "product-result",
+        "title": "ALDI Australia product scraped",
+        "description": "One ALDI Australia product delivered to the dataset",
+        "isPrimary": true,
+        "priceUsd": 0.002,
+        "tieredPriceUsd": null
+      }
+    ],
+    "upcomingChange": false
+  },
+  "inputSchema": null,
+  "fetchedAt": "2026-11-13T05:23:09.663Z"
+}
