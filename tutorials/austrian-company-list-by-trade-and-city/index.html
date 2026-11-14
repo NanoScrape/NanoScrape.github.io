@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Austrian Company List by Trade and City | NanoScrape</title>
+  <meta name="description" content="Build a list of Austrian companies for one trade in one city or state, with website, address and size, from FirmenABC. Step by step with Apify.">
+  <meta name="primary-keyword" content="austrian company list">
+  <meta property="og:title" content="Austrian Company List by Trade and City | NanoScrape">
+  <meta property="og:description" content="Export the companies of one trade in one Austrian city or state, for example IT services in Wien, with website, address and employee count.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to build an Austrian company list for one trade and city",
+  "description": "Use the FirmenABC Scraper on Apify with a category URL such as IT services in Wien, then sort and filter the export in Google Sheets.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "FirmenABC Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the FirmenABC Actor",
+      "text": "Open the FirmenABC Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the category URL",
+      "text": "Copy the list page for your trade and state or city from firmenabc.at and paste it into searchUrls with maxResults and includeDetails."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one company with name, website, address, postal_code, categories and employee_count."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Build the prospect list",
+      "text": "Export CSV, import it into Google Sheets, sort by employee_count and remove duplicates by id."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to get a list of Austrian companies by trade and city",
+  "description": "Build a list of Austrian companies for one trade in one city or state, with website, address and size, from FirmenABC. Step by step with Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Can I get companies of one trade in one city?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Open the trade and city on firmenabc.at, copy the list page URL and paste it into searchUrls. The keyword search is Austria-wide and ignores the location field."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Which states can I use?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "State pages use the slugs wien, noe, ooe, stmk, sbg, tirol, ktn, vbg and bgld, for example firmenabc.at/firmen/wien."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why are employee_count or website empty for some companies?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "They are only filled when the company page states them. Many companies have no employee paragraph or no website listed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the list contain every company in the trade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It contains the companies that FirmenABC lists for that category and place."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pay per result: $5.00 per 1,000 business details. 100 companies with details are $0.50."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Austrian company list",
+      "item": "https://www.nanoscrape.com/tutorials/austrian-company-list-by-trade-and-city/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Austrian company list</nav>
+
+    <h1>How to get a list of Austrian companies by trade and city</h1>
+    <p class="lead">You need a list of Austrian companies in one trade and one city, for example IT service companies in Wien, for B2B prospecting or market research? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city">FirmenABC Scraper</a> reads a FirmenABC list page and returns one row per company with website, address, postal code, category, employee count and founding year. A short Google Sheets step turns it into your prospect list. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 companies $0.50</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why a category page</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Build the prospect list</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">Why a category page works better than a keyword</h2>
+    <p>FirmenABC groups companies by trade and by state or city. A category URL such as IT services in Wien lists exactly the companies in that trade and place, which is the list a B2B prospecting project starts from. The keyword search is different: it covers all of Austria and ignores the location field, so it is the wrong tool for a city list. This page builds a Vienna IT-company list from a category URL. The <a href="/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/" hreflang="de" lang="de">German tutorial</a> shows a second example, a trade list for Graz with phone and email.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city">FirmenABC Scraper on Apify</a>. The <a href="/actors/firmenabc-at-scraper/">Actor page on NanoScrape</a> lists every output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Find the category URL and paste the input</h2>
+      <p>On <a target="_blank" rel="noopener" href="https://www.firmenabc.at/">firmenabc.at</a> open the state or city and pick the trade. Copy the address of the list page. Example: all companies in the category IT services (<em>IT-Dienstleistungen</em>) in Wien.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchUrls": [
+    "https://www.firmenabc.at/firmen/wien/it-dienstleistungen_CXq"
+  ],
+  "maxResults": 100,
+  "includeDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchUrls</code>: one or more list pages. Other real examples are all companies in Burgenland (<code class="code-inline">https://www.firmenabc.at/firmen/bgld</code>) or restaurants in Steiermark (<code class="code-inline">https://www.firmenabc.at/firmen/stmk/restaurant_CJg</code>). State slugs: wien, noe, ooe, stmk, sbg, tirol, ktn, vbg, bgld.</li>
+        <li><code class="code-inline">maxResults</code>: how many companies to collect. Start at 10 for a test.</li>
+        <li><code class="code-inline">includeDetails</code>: <code class="code-inline">true</code> (the default) opens each company page for website, email, phone, description, opening hours and more. With <code class="code-inline">false</code> you only get the list data.</li>
+      </ul>
+      <div class="callout tip"><strong>Keyword search is Austria-wide.</strong> The <code class="code-inline">searchQuery</code> field returns companies from all of Austria and ignores <code class="code-inline">location</code>. For a city or state, always use a list URL in <code class="code-inline">searchUrls</code>.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>, then open the <strong>Dataset</strong> tab. Each row is one company. This is the sample item from the Actor's README (a delicatessen in St. Poelten, shown only to illustrate the structure), shortened to the company fields used here:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "BBSNi",
+  "name": "Famos Delikatessen",
+  "website": "https://www.famos-delikatessen.at",
+  "address": "Domgasse 10",
+  "city": "St. Poelten",
+  "postal_code": "3100",
+  "country_code": "AT",
+  "latitude": 48.2081,
+  "longitude": 15.6267,
+  "categories": ["Delikatessengeschaeft / Feinkost in Sankt Poelten (Stadt)"],
+  "rating": 5.0,
+  "review_count": 1,
+  "employee_count": "6",
+  "founding_year": 1982,
+  "source_url": "https://www.firmenabc.at/famos-delikatessen_BBSNi",
+  "source_platform": "firmenabc.at",
+  "scraped_at": "2026-03-26T10:00:00Z"
+}</code></pre></div>
+      <p>The fields for a B2B list:</p>
+      <ul>
+        <li><code class="code-inline">name</code>, <code class="code-inline">website</code>, <code class="code-inline">address</code>, <code class="code-inline">postal_code</code> and <code class="code-inline">city</code>: the company and where it sits. Use <code class="code-inline">postal_code</code> to cut a city list by district.</li>
+        <li><code class="code-inline">categories</code>: the trades the company is listed under.</li>
+        <li><code class="code-inline">employee_count</code> and <code class="code-inline">founding_year</code>: company size and age, read from the company portrait. They are empty when the portrait does not state them.</li>
+        <li><code class="code-inline">rating</code> and <code class="code-inline">review_count</code>: public ratings.</li>
+        <li><code class="code-inline">latitude</code> and <code class="code-inline">longitude</code>: to put the companies on a map.</li>
+        <li><code class="code-inline">source_url</code>: the company page on FirmenABC. <code class="code-inline">id</code> is the stable key for dropping duplicates.</li>
+      </ul>
+      <p>The company page can also carry company phone, email and a block of register contacts. This tutorial uses company data only and leaves the person fields out. Check data-protection and unfair-competition rules for your use before you contact anyone.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Turn the export into a prospect list</h2>
+      <ol>
+        <li>In the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong> and select <code class="code-inline">name</code>, <code class="code-inline">website</code>, <code class="code-inline">address</code>, <code class="code-inline">postal_code</code>, <code class="code-inline">city</code>, <code class="code-inline">categories</code>, <code class="code-inline">employee_count</code>, <code class="code-inline">founding_year</code>, <code class="code-inline">rating</code> and <code class="code-inline">source_url</code>.</li>
+        <li>Import the file into Google Sheets (File &rarr; Import).</li>
+        <li>Sort by <code class="code-inline">employee_count</code> to start with the larger companies, or filter <code class="code-inline">founding_year</code> for young firms. Companies without a <code class="code-inline">website</code> can be checked by hand or dropped.</li>
+        <li>Repeat the run with a second category URL, for example another state, and paste the new rows below. Use <code class="code-inline">id</code> to remove duplicates.</li>
+      </ol>
+      <p>The list shows companies that FirmenABC lists, not every company in the trade.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>Pay per result: <strong>$5.00 per 1,000 business details</strong>, which is $0.005 per company with <code class="code-inline">includeDetails</code> on: 10 companies are $0.05, 100 are $0.50 and 1,000 are $5.00. The Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city">Actor's Apify page</a> shows every event and any upcoming change.</p>
+
+    <h2 id="use-cases">Who uses a company list like this</h2>
+    <ul>
+      <li><strong>Agencies and software vendors</strong> build a list of local companies in one trade for outreach or a campaign.</li>
+      <li><strong>Suppliers and wholesalers</strong> map customers by trade and district.</li>
+      <li><strong>Market researchers</strong> count companies by category, size and founding year in one city or state.</li>
+    </ul>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Can I get companies of one trade in one city?</summary>
+        <p>Yes. Open the trade and city on firmenabc.at, copy the list page URL and paste it into searchUrls. The keyword search is Austria-wide and ignores the location field.</p>
+      </details>
+      <details>
+        <summary>Which states can I use?</summary>
+        <p>State pages use the slugs wien, noe, ooe, stmk, sbg, tirol, ktn, vbg and bgld, for example firmenabc.at/firmen/wien.</p>
+      </details>
+      <details>
+        <summary>Why are employee_count or website empty for some companies?</summary>
+        <p>They are only filled when the company page states them. Many companies have no employee paragraph or no website listed.</p>
+      </details>
+      <details>
+        <summary>Does the list contain every company in the trade?</summary>
+        <p>No. It contains the companies that FirmenABC lists for that category and place.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>Pay per result: $5.00 per 1,000 business details. 100 companies with details are $0.50.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/firmenabc-at-scraper/">FirmenABC Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/de/tutorials/firmenabc-scraper-firmenliste-oesterreich/" hreflang="de" lang="de">Tischler in Graz: Firmenliste mit Telefon und E-Mail (Deutsch)</a></li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city">FirmenABC Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/firmenabc-at-scraper?fpr=0khfbz&amp;fp_sid=t-austrian-company-list-by-trade-and-city" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

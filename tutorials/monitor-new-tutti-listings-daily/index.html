@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monitor New tutti.ch Listings Every Day | NanoScrape</title>
+  <meta name="description" content="Get a daily list of new tutti.ch listings for one search, filtered by price and canton. Scheduled Apify run with Google Sheets, no code.">
+  <meta name="primary-keyword" content="tutti.ch new listings">
+  <meta property="og:title" content="Monitor New tutti.ch Listings Every Day | NanoScrape">
+  <meta property="og:description" content="Watch one tutti.ch search and get only the listings posted since the last run, with price in CHF, canton and link.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to get a daily list of new tutti.ch listings",
+  "description": "Use the Tutti.ch Scraper on Apify with sortBy newest and maxAgeHours, schedule it daily and filter by price and canton in Google Sheets.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Tutti.ch Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Tutti.ch Actor",
+      "text": "Open the Tutti.ch Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to the JSON input and paste searchUrls, sortBy newest, maxAgeHours 24, maxResults, maxResultsPerQuery and includeDetails false."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one listing with title, price_chf, canton, seller_type, posted_at and source_url."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule it daily",
+      "text": "Create a daily schedule in Apify, export the dataset to CSV or Google Sheets and filter by price_chf and canton."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to monitor new tutti.ch listings every day",
+  "description": "Get a daily list of new tutti.ch listings for one search, filtered by price and canton. Scheduled Apify run with Google Sheets, no code.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does it return only new listings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, listings posted within the last maxAgeHours, when sortBy is newest. Run it on a schedule with the same interval to get a rolling feed of new listings."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I limit it to one canton or a price range?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Set the filters on tutti.ch, copy the URL from your browser and paste it into searchUrls. You can also filter price_chf and canton in the exported table."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do I see a few older listings?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Promoted listings can appear out of order. The Actor waits for three older listings in a row before it stops, and the maxAgeHours filter still applies to the output."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Pay per result: $0.003 per listing, $0.005 with details. 100 listings without details are $0.30. A monitoring run bills only the fresh listings it returns."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to configure a proxy?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The Actor reads public search pages and there is no proxy input to set."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "New tutti.ch listings",
+      "item": "https://www.nanoscrape.com/tutorials/monitor-new-tutti-listings-daily/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; New tutti.ch listings</nav>
+
+    <h1>How to monitor new tutti.ch listings every day</h1>
+    <p class="lead">You want to see new second-hand listings on tutti.ch for one search, for example an IKEA shelf or a bike, without checking the site all day? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily">Tutti.ch Scraper</a> reads the newest listings for your search, returns only those posted in the last N hours, and a daily schedule turns that into a fresh list you can filter by price and canton. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> 100 listings $0.30</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why monitor instead of searching by hand</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Get a daily list</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">Why monitor instead of searching by hand</h2>
+    <p>A saved search on tutti.ch means you open the site and scroll. A scheduled run does it for you: once a day the Actor reads the newest listings for your search and returns only those posted since the last run, as a table you can filter by price and canton. Good second-hand deals, such as a used IKEA shelf or a bike below your budget, are often gone within hours, so a daily list of fresh listings beats a weekly look. This page covers the monitoring setup. For comparing prices across many listings, see the <a href="/de/tutorials/tutti-scraper-occasion-preise-vergleichen/" hreflang="de" lang="de">tutti.ch price comparison tutorial (German)</a>.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily">Tutti.ch Scraper on Apify</a>. The <a href="/actors/tutti-ch-scraper/">Actor page on NanoScrape</a> lists every output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: new listings for &ldquo;kallax&rdquo; (the IKEA shelf) across Switzerland, posted in the last 24 hours. Replace the search URL with your own.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchUrls": [
+    "https://www.tutti.ch/de/li/ganze-schweiz?q=kallax"
+  ],
+  "sortBy": "newest",
+  "maxAgeHours": 24,
+  "maxResults": 200,
+  "maxResultsPerQuery": 100,
+  "includeDetails": false
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchUrls</code>: a tutti.ch search URL. For a plain keyword, use the share format <code class="code-inline">https://www.tutti.ch/de/li/ganze-schweiz?q=your-keyword</code>. For a category, region or price range, set the filters on tutti.ch, copy the URL from your browser and paste it here.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> is the default and is required for the early stop below.</li>
+        <li><code class="code-inline">maxAgeHours</code>: only listings posted within the last N hours. Set it to the interval between your runs, 24 for a daily schedule. The Actor stops paging once it sees three listings in a row that are older, so it does not re-read the whole search.</li>
+        <li><code class="code-inline">maxResults</code> and <code class="code-inline">maxResultsPerQuery</code>: safety caps for a single run.</li>
+        <li><code class="code-inline">includeDetails</code>: leave it <code class="code-inline">false</code> for a price-and-location alert. Switch it on only if you need GPS, all photos, condition or seller fields.</li>
+      </ul>
+      <div class="callout tip"><strong>URL sort wins.</strong> If your search URL already contains <code class="code-inline">?sorting=...</code>, that value is used instead of <code class="code-inline">sortBy</code>. If you copied a URL sorted by price, the early stop does not apply, so copy it sorted by newest.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>, then open the <strong>Dataset</strong> tab. Each row is one listing. This is the sample item from the Actor's README, with the seller name left out:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "45678901",
+  "title": "IKEA Kallax Regal weiss 4x4",
+  "price": "CHF 80.–",
+  "price_chf": 80,
+  "currency": "CHF",
+  "category": "Möbel",
+  "location": "Zürich, 8005",
+  "canton": "ZH",
+  "postcode": "8005",
+  "seller_type": "private",
+  "listing_source": "tutti",
+  "image_count": 4,
+  "posted_at": "2026-04-18T10:00:00Z",
+  "source_url": "https://www.tutti.ch/de/vi/zuerich/moebel/ikea-kallax-regal/45678901",
+  "scraped_at": "2026-04-20T08:00:00Z"
+}</code></pre></div>
+      <p>The fields you need for an alert:</p>
+      <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">price_chf</code> (numeric, so you can filter) and <code class="code-inline">price</code> (as shown on the ad).</li>
+        <li><code class="code-inline">location</code>, <code class="code-inline">canton</code> and <code class="code-inline">postcode</code>: to keep your region.</li>
+        <li><code class="code-inline">seller_type</code>: <code class="code-inline">private</code> or <code class="code-inline">professional</code>, useful if you only want private sellers.</li>
+        <li><code class="code-inline">posted_at</code> and <code class="code-inline">source_url</code>: when it was posted and the link to open the ad.</li>
+        <li><code class="code-inline">id</code>: the listing ID, to drop duplicates if two runs overlap.</li>
+      </ul>
+      <p>Prices are the asking prices on the ad. A listing without a price has an empty price field.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Get a daily list of new listings</h2>
+      <ol>
+        <li>In the Apify Console open <strong>Schedules</strong>, create a schedule that runs once a day, and attach this Actor with the input above.</li>
+        <li>After a run, open the Dataset, click <strong>Export</strong> and choose <strong>CSV</strong>, or import the dataset into Google Sheets.</li>
+        <li>In the sheet, filter <code class="code-inline">price_chf</code> to your budget and <code class="code-inline">canton</code> to your region, for example <code class="code-inline">price_chf</code> at most 100 and <code class="code-inline">canton</code> equal to ZH. Sort by <code class="code-inline">posted_at</code>, newest first.</li>
+        <li>Open the <code class="code-inline">source_url</code> of the rows you like.</li>
+      </ol>
+      <p>Keep the schedule interval and <code class="code-inline">maxAgeHours</code> the same. Every 6 hours with <code class="code-inline">maxAgeHours</code> 6 works the same way, only faster. If a run is skipped, listings from that gap are missed, so choose a window slightly longer than the interval and drop duplicates by <code class="code-inline">id</code>.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>Pay per result: <strong>$0.003 per listing</strong>, or <strong>$0.005 per listing with details</strong> ($5.00 per 1,000 detail listings, as shown on the Actor page). With <code class="code-inline">includeDetails</code> off, 100 listings are $0.30. Because <code class="code-inline">maxAgeHours</code> stops paging at old listings, a daily run bills only the fresh listings it returns. The current prices are on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily">Actor's Apify page</a>.</p>
+
+    <h2 id="use-cases">Who uses a new-listings feed like this</h2>
+    <ul>
+      <li><strong>Bargain hunters</strong> watch one product, such as a bike, a sofa or a camera lens, and see new asks below their limit the same day.</li>
+      <li><strong>Resellers</strong> track what is newly listed in their category to source stock.</li>
+      <li><strong>Shop owners</strong> keep an eye on how second-hand offers for their products appear and at what asking price.</li>
+    </ul>
+    <p>The data is public listing data. Seller names, phone numbers or emails in a listing can be personal data, so check data-protection rules before you store or contact anyone.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does it return only new listings?</summary>
+        <p>Yes, listings posted within the last maxAgeHours, when sortBy is newest. Run it on a schedule with the same interval to get a rolling feed of new listings.</p>
+      </details>
+      <details>
+        <summary>Can I limit it to one canton or a price range?</summary>
+        <p>Set the filters on tutti.ch, copy the URL from your browser and paste it into searchUrls. You can also filter price_chf and canton in the exported table.</p>
+      </details>
+      <details>
+        <summary>Why do I see a few older listings?</summary>
+        <p>Promoted listings can appear out of order. The Actor waits for three older listings in a row before it stops, and the maxAgeHours filter still applies to the output.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>Pay per result: $0.003 per listing, $0.005 with details. 100 listings without details are $0.30. A monitoring run bills only the fresh listings it returns.</p>
+      </details>
+      <details>
+        <summary>Do I need to configure a proxy?</summary>
+        <p>No. The Actor reads public search pages and there is no proxy input to set.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/tutti-ch-scraper/">Tutti.ch Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/de/tutorials/tutti-scraper-occasion-preise-vergleichen/" hreflang="de" lang="de">Occasion-Preise auf tutti.ch vergleichen (Deutsch)</a>: price comparison with median and quartiles.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily">Tutti.ch Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/tutti-ch-scraper?fpr=0khfbz&amp;fp_sid=t-monitor-new-tutti-listings-daily" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

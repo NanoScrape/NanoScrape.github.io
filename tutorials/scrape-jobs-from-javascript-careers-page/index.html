@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrape Jobs from a JavaScript Careers Page | NanoScrape</title>
+  <meta name="description" content="A careers page that shows no jobs without JavaScript? Read its open roles into one table with a browser-based Actor on Apify: input, filters and checks.">
+  <meta name="primary-keyword" content="scrape jobs from javascript careers page">
+  <meta property="og:title" content="Scrape Jobs from a JavaScript Careers Page | NanoScrape">
+  <meta property="og:description" content="Read open roles from careers pages that only load their jobs with JavaScript, into one table, step by step on Apify.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to scrape jobs from a JavaScript-rendered careers page",
+  "description": "Use the Website Job Extractor (Browser) on Apify to read open roles from a careers page that only renders its job list with JavaScript, with keyword, location and date filters, and check the result with the company summary row.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Website Job Extractor (Browser) (Apify Actor)"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Check that the page needs a browser",
+      "text": "Open the careers page and see whether the jobs are in the first HTML or only appear after the page has loaded. Try the plain Website Job Extractor first."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Open the Website Job Extractor (Browser) on Apify and paste a companies list with the careers page address in career_urls, plus keywords, location, postedWithinDays and maxResultsPerCompany."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each job is one row with title, location, job_url and browser_extraction set to true."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Check the company summary row",
+      "text": "Look at the job_extraction_done row of the company: job_count and, when it is 0, the reason field that says why."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to scrape jobs from a JavaScript careers page",
+  "description": "A careers page that shows no jobs without JavaScript? Read its open roles into one table with a browser-based Actor on Apify: input, filters and checks.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why does a normal scraper return no jobs on my careers page?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The page probably sends an empty shell and loads the job list with JavaScript afterwards. A tool that only downloads the HTML sees no jobs. The browser Actor renders the page first, so it sees what you see."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I always use the browser version?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Try the plain Website Job Extractor first, and the Career Site Jobs Scraper if you know the page runs on a supported applicant tracking system. The browser version is slower and costs more, so it is meant as the last step."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between website_url and career_urls?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "website_url is a company homepage, and the Actor looks for the careers page from there. career_urls are the addresses of the job list or a job search page, and the Actor reads them directly. If you know the address, use career_urls."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why did a company return 0 jobs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Open the job_extraction_done row of the company. Its reason field says why, for example that the filters removed all jobs, or that the address did not resolve."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "$0.05 per company whose career site was read, plus $0.024 per job when the API key fields stay empty, as in this guide ($0.008 per job with your own AI key). Detail pages and rendered pages have their own events, listed on the Actor page."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Scrape a JavaScript careers page",
+      "item": "https://www.nanoscrape.com/tutorials/scrape-jobs-from-javascript-careers-page/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Scrape a JavaScript careers page</nav>
+
+    <h1>How to scrape jobs from a JavaScript careers page</h1>
+    <p class="lead">You open a company's careers page in the browser and see a list of jobs, but a simple scraper gets an empty page? Many careers sites are built with React, Vue or Angular and only fill in the job list after the page has loaded, or embed an applicant tracking system widget. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page">Website Job Extractor (Browser)</a> renders the page like a browser, reads the open roles and returns one row per job. This tutorial shows when you need it, the input to paste and how to check the result.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> $0.05 per company + $0.024 per job</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">When a careers page needs a browser</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run it and read the output</a></li>
+        <li><a href="#step-4">Step 4: Check the result</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">When a careers page needs a browser</h2>
+    <p>Some careers pages send the full job list in the page itself. Others send an almost empty page and load the jobs afterwards with JavaScript, so a tool that only downloads the HTML sees no jobs. That is the case this Actor is built for: pages built with React, Vue, Angular or similar frameworks, and pages that show a skeleton without JavaScript. It opens the page in a browser, waits for the content, and reads the job list from what is shown.</p>
+    <p>Use it as the last step, not the first, because rendering a page is slower and costs more than reading plain HTML. A sensible order:</p>
+    <ol>
+      <li>Try the plain <a href="/actors/website-job-extractor/">Website Job Extractor</a> first. It handles many careers pages without a browser. The <a href="/tutorials/monitor-competitor-careers-pages/">competitor careers pages tutorial</a> shows it step by step. It can also hand a page over to the browser Actor itself when you set <code class="code-inline">enableBrowserFallback</code> to <code class="code-inline">true</code>.</li>
+      <li>If you know the page runs on a supported applicant tracking system such as Greenhouse, Lever, Workable or Personio, the <a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a> reads it directly.</li>
+      <li>Use the browser Actor, this tutorial, when the first one returns nothing and the page is not on a supported system. When the jobs sit in a system the Actor knows, such as Workday or Greenhouse, it reads that system's job list directly and skips the browser for that company.</li>
+    </ol>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page">Website Job Extractor (Browser) on Apify</a>. The <a href="/actors/website-job-extractor-browser/">Actor page on NanoScrape</a> lists the output fields.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: the engineering roles in Germany that were posted in the last 30 days on one careers search page. The address is the example from the Actor's documentation; replace it with the careers page you want.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "companies": [
+    {
+      "company_id": "stripe",
+      "company_name": "Stripe",
+      "career_urls": [
+        "https://stripe.com/jobs/search"
+      ]
+    }
+  ],
+  "keywords": [
+    "engineer"
+  ],
+  "location": "Germany",
+  "postedWithinDays": 30,
+  "maxResultsPerCompany": 25,
+  "sortBy": "newest"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">companies</code>: one item per company. <code class="code-inline">company_id</code> and <code class="code-inline">company_name</code> are labels you choose; they come back on every row so you can tell companies apart.</li>
+        <li><code class="code-inline">career_urls</code>: the address of the page that lists the jobs, or of a search results page. If you already have this address, use it here. <code class="code-inline">website_url</code> is for a company homepage when you want the Actor to look for the careers page itself.</li>
+        <li><code class="code-inline">keywords</code>: the job title must contain at least one of the words. <code class="code-inline">location</code> takes a city, region or country, and country names and codes both work. <code class="code-inline">postedWithinDays</code> keeps recent jobs; jobs without a posting date are kept.</li>
+        <li><code class="code-inline">maxResultsPerCompany</code>: the cap per company (default 200, <code class="code-inline">0</code> means all). The filters run before the cap, so a cap of 25 returns the first 25 jobs that match.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> where the careers site offers a date sort; otherwise the rows arrive in the site's own order.</li>
+        <li>API keys: leave them empty. Without a key the Actor runs in managed mode and needs no AI account of your own.</li>
+      </ul>
+      <div class="callout tip"><strong>Need the full posting text?</strong> Set <code class="code-inline">includeJobDetails</code> to <code class="code-inline">true</code> to read each job's detail page. It adds <code class="code-inline">description_md</code> and, where the posting states them, fields such as salary, workload, deadline and languages. Detail pages have their own price event, listed on the Pricing tab.</div>
+      <div class="callout"><strong>Memory:</strong> the default of 1024 MB is enough to start. If many of your pages are custom sites that need rendering, the Actor's documentation recommends 2048 MB.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run ends, open the <strong>Dataset</strong> tab. Each job is one row, marked with <code class="code-inline">browser_extraction: true</code>. This is the example row from the Actor's documentation (a placeholder company), shortened to the main fields:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "company_id": "abc-123",
+  "company_name": "TechCorp AG",
+  "title": "Senior Frontend Developer (m/w/d)",
+  "location": "Zürich",
+  "employment_type": "Vollzeit",
+  "department": "Engineering",
+  "job_url": "https://techcorp.ch/jobs/senior-frontend-developer-zurich",
+  "job_id": "senior-frontend-developer-zurich",
+  "application_url": "https://techcorp.ch/jobs/apply/123",
+  "confidence": 0.85,
+  "browser_extraction": true,
+  "extracted_at": "2026-03-09T10:00:00.000Z"
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">employment_type</code> and <code class="code-inline">department</code>: the role as the page states it. Fields the page does not give stay <code class="code-inline">null</code>; the keys are always present.</li>
+        <li><code class="code-inline">job_url</code> and <code class="code-inline">application_url</code>: the link to the posting and, where available, to the application. Some careers pages list jobs inline without a link of their own. Then <code class="code-inline">job_url</code> is the page address plus <code class="code-inline">#job-</code> and a title slug, and <code class="code-inline">job_url_is_synthetic</code> is <code class="code-inline">true</code>.</li>
+        <li><code class="code-inline">confidence</code>: how sure the extraction is for a row that was read from a rendered page.</li>
+        <li><code class="code-inline">ats_system</code>: the job system behind the page, when one was found.</li>
+      </ul>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Check the result</h2>
+      <p>Besides the jobs, every company gets one summary row with <code class="code-inline">_type: job_extraction_done</code>. Open it first. It tells you how many jobs the page reported and how many were delivered, so you know the list is complete.</p>
+      <ul>
+        <li><code class="code-inline">job_count</code> and <code class="code-inline">jobs_pushed</code>: how many jobs were found and delivered for the company. <code class="code-inline">jobs_total_reported_by_site</code> is the number the site itself shows, when it shows one.</li>
+        <li><code class="code-inline">reason</code>: when <code class="code-inline">job_count</code> is 0, this says why. <code class="code-inline">filtered_out_by_filters</code> means jobs were read but your keywords, location or date removed them: loosen the filters. <code class="code-inline">dns_error</code> and <code class="code-inline">connection_error</code> mean the address did not resolve or the page could not be fetched: check the URL.</li>
+      </ul>
+      <p>When the numbers look right, add the careers page to a schedule in the Apify Console (<strong>Schedules</strong>) and run it weekly with <code class="code-inline">sortBy</code> set to <code class="code-inline">newest</code>. Use <code class="code-inline">job_url</code> to drop jobs you already have.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor is pay per event. It charges <strong>$0.05 per company</strong> whose career site was read, and <strong>$0.024 per job</strong> ($24.00 per 1,000 jobs) when you leave the API key fields empty, as in this guide. With your own AI key the job event is $0.008 per job. Detail pages and rendered pages have their own events. The full list is on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page">Actor's Apify page</a>, and the <a href="/actors/website-job-extractor-browser/">Actor page on NanoScrape</a> shows the current price. Because the browser variant costs more than the plain one, run it only on the pages that need it.</p>
+
+    <h2 id="use-cases">Who uses it</h2>
+    <ul>
+      <li><strong>Recruiters and sourcers</strong> read the open roles of companies whose careers page does not show up in a plain export.</li>
+      <li><strong>Market researchers</strong> count roles by team and location for companies with modern single-page careers sites.</li>
+      <li><strong>Job board builders</strong> add employer careers pages that are not covered by a standard feed.</li>
+    </ul>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Why does a normal scraper return no jobs on my careers page?</summary>
+        <p>The page probably sends an empty shell and loads the job list with JavaScript afterwards. A tool that only downloads the HTML sees no jobs. The browser Actor renders the page first, so it sees what you see.</p>
+      </details>
+      <details>
+        <summary>Should I always use the browser version?</summary>
+        <p>No. Try the plain Website Job Extractor first, and the Career Site Jobs Scraper if you know the page runs on a supported applicant tracking system. The browser version is slower and costs more, so it is meant as the last step.</p>
+      </details>
+      <details>
+        <summary>What is the difference between website_url and career_urls?</summary>
+        <p>website_url is a company homepage, and the Actor looks for the careers page from there. career_urls are the addresses of the job list or a job search page, and the Actor reads them directly. If you know the address, use career_urls.</p>
+      </details>
+      <details>
+        <summary>Why did a company return 0 jobs?</summary>
+        <p>Open the job_extraction_done row of the company. Its reason field says why, for example that the filters removed all jobs, or that the address did not resolve.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>$0.05 per company whose career site was read, plus $0.024 per job when the API key fields stay empty, as in this guide ($0.008 per job with your own AI key). Detail pages and rendered pages have their own events, listed on the Actor page.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/website-job-extractor-browser/">Website Job Extractor (Browser), Actor page</a>: output fields and price.</li>
+      <li><a href="/tutorials/monitor-competitor-careers-pages/">Monitor Competitor Careers Pages</a>: the plain Website Job Extractor, step by step.</li>
+      <li><a href="/actors/website-job-extractor/">Website Job Extractor</a> and <a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>: the two steps to try before the browser version.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page">Website Job Extractor (Browser) on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-job-extractor-browser?fpr=0khfbz&amp;fp_sid=t-scrape-jobs-from-javascript-careers-page" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apprentissage en Allemagne : exporter les offres Ausbildung | NanoScrape</title>
+  <meta name="description" content="Exportez les offres d&#x27;Ausbildung de la Bundesagentur für Arbeit par métier et par ville vers un tableur. Pas à pas avec Apify, entrée et sortie réelles.">
+  <meta name="primary-keyword" content="apprentissage en allemagne">
+  <meta property="og:title" content="Apprentissage en Allemagne : exporter les offres Ausbildung | NanoScrape">
+  <meta property="og:description" content="Trouvez des offres d&#x27;apprentissage (Ausbildung) dans une ville allemande : filtre par métier, export vers Google Sheets, uniquement les nouveautés à chaque exécution.">
+  <meta property="og:url" content="https://www.nanoscrape.com/fr/tutorials/apprentissage-en-allemagne-arbeitsagentur/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/fr/tutorials/apprentissage-en-allemagne-arbeitsagentur/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/fr/tutorials/apprentissage-en-allemagne-arbeitsagentur/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/apprenticeships-in-germany-ausbildung-arbeitsagentur/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/ausbildungsplaetze-finden-arbeitsagentur/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/apprenticeships-in-germany-ausbildung-arbeitsagentur/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Comment trouver un apprentissage en Allemagne avec les données de l'Arbeitsagentur",
+  "description": "Utilisez l'Arbeitsagentur Scraper sur Apify pour récupérer uniquement les offres d'apprentissage (Ausbildung) d'un métier et d'une ville, puis regroupez-les par employeur dans Google Sheets.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Arbeitsagentur Scraper (acteur Apify)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Ouvrir l'acteur Arbeitsagentur",
+      "text": "Ouvrez l'Arbeitsagentur Scraper sur Apify, cliquez sur Try for free et inscrivez-vous."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Coller l'entrée",
+      "text": "Passez en entrée JSON et collez searchQueries, titleFilter, location, radius, offerType training, postedWithinDays, sortBy et maxResultsPerQuery."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Lancer l'acteur et lire le résultat",
+      "text": "Cliquez sur Save and Run, puis ouvrez l'onglet Dataset. Chaque ligne est une offre avec title, company, location, posted_at et source_url."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Regrouper par employeur",
+      "text": "Exportez en CSV, importez dans Google Sheets et utilisez une formule QUERY pour compter les offres par employeur. Activez onlyNewSinceLastRun et planifiez l'exécution pour ne voir que les nouvelles offres."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Comment trouver un apprentissage (Ausbildung) en Allemagne avec les données de l'Arbeitsagentur",
+  "description": "Exportez les offres d'Ausbildung de la Bundesagentur für Arbeit par métier et par ville vers un tableur. Pas à pas avec Apify, entrée et sortie réelles.",
+  "inLanguage": "fr",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/fr/tutorials/apprentissage-en-allemagne-arbeitsagentur/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Quelle différence entre offerType training et employmentType APPRENTICESHIP ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Les deux demandent à la Bundesagentur les offres d'apprentissage (angebotsart 4). Si vous définissez offerType, il remplace le type d'offre que définirait employmentType ; utilisez donc offerType training pour être explicite."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "offerType training inclut-il les études en alternance (duales Studium) ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Le libellé du type d'offre est Apprenticeship / dual study (Ausbildung / duales Studium) : la recherche couvre donc ce que la Bundesagentur classe sous ce type. Utilisez titleFilter si vous ne voulez que certains intitulés de poste."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Que fait onlyNewSinceLastRun ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'acteur mémorise les identifiants d'offres livrés lors des exécutions précédentes avec les mêmes paramètres de recherche et les ignore avant la récupération des détails et avant toute facturation. Il conserve les 50 000 derniers identifiants ; l'option est désactivée par défaut."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Combien ça coûte ?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "L'acteur fonctionne au paiement à l'événement. Consultez le tarif actuel sur la page de l'acteur. Le prix affiché sur la page de l'acteur de NanoScrape est toujours le prix en vigueur."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutoriels",
+      "item": "https://www.nanoscrape.com/fr/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Apprentissage en Allemagne",
+      "item": "https://www.nanoscrape.com/fr/tutorials/apprentissage-en-allemagne-arbeitsagentur/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper - Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/fr/tutorials/">Tutoriels</a> &rsaquo; Apprentissage en Allemagne</nav>
+
+    <h1>Comment trouver un apprentissage (Ausbildung) en Allemagne avec les données de l'Arbeitsagentur</h1>
+    <p class="lead">Vous voulez une liste d'offres d'<em>Ausbildung</em> (formation professionnelle en alternance) pour un métier près d'une ville allemande ? L'<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr">Arbeitsagentur Scraper</a> interroge la Bundesagentur für Arbeit uniquement pour les offres d'apprentissage, grâce au filtre de type d'offre, et renvoie chaque offre avec l'employeur, le lieu et un lien. Une courte étape dans Google Sheets montre ensuite quelles entreprises forment dans votre métier. Aucun code nécessaire.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Durée :</strong> 15 minutes</div>
+      <div class="meta-item"><strong>Niveau :</strong> Débutant</div>
+      <div class="meta-item"><strong>Coût :</strong> voir le tarif actuel sur la page de l'acteur</div>
+      <div class="meta-item"><strong>Outils :</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr" class="btn-primary">Ouvrir l'acteur sur Apify &rarr;</a>
+      <a href="#cout" class="btn-secondary">Voir le coût</a>
+    </div>
+
+    <div class="toc">
+      <h2>Dans ce tutoriel</h2>
+      <ol>
+        <li><a href="#pourquoi">Pourquoi chercher ici</a></li>
+        <li><a href="#etape-1">Étape 1 : Ouvrir l'acteur</a></li>
+        <li><a href="#etape-2">Étape 2 : Coller l'entrée</a></li>
+        <li><a href="#etape-3">Étape 3 : Lancer et lire le résultat</a></li>
+        <li><a href="#etape-4">Étape 4 : Exploiter la liste</a></li>
+        <li><a href="#cout">Combien ça coûte</a></li>
+        <li><a href="#cas-d-usage">Qui l'utilise</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="pourquoi">Pourquoi chercher un apprentissage dans ces données</h2>
+    <p>En Allemagne, l'<em>Ausbildung</em> (la formation professionnelle en alternance, l'équivalent de l'apprentissage) est classée sous son propre type d'offre auprès de la Bundesagentur für Arbeit, l'agence fédérale pour l'emploi. Il est donc possible de demander uniquement les offres d'Ausbildung, dans une ville, pour un métier, et rien d'autre. L'<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr">Arbeitsagentur Scraper</a> envoie ce filtre pour vous et renvoie chaque offre sur une ligne. Vous voyez alors quelles entreprises proches de chez vous forment dans un métier, et combien de places elles proposent. Le <a href="/de/tutorials/arbeitsagentur-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">tutoriel allemand</a> couvre l'export général avec filtres par Land et par période. Cette page porte uniquement sur l'Ausbildung.</p>
+
+    <div class="step" id="etape-1">
+      <span class="step-number">ÉTAPE 1</span>
+      <h2>Ouvrir l'acteur Arbeitsagentur</h2>
+      <ol>
+        <li>Ouvrez l'<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr">Arbeitsagentur Scraper sur Apify</a>. La <a href="/actors/arbeitsagentur-de-scraper/fr/">page de l'acteur sur NanoScrape</a> liste tous les champs de sortie.</li>
+        <li>Cliquez sur <strong>Try for free</strong> et inscrivez-vous avec Google ou par e-mail. Le forfait gratuit d'Apify inclut un crédit de plateforme mensuel, suffisant pour un premier test.</li>
+        <li>Vous arrivez sur l'onglet <strong>Input</strong> de l'acteur. Passez en vue <strong>JSON</strong> pour coller l'entrée ci-dessous.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="etape-2">
+      <span class="step-number">ÉTAPE 2</span>
+      <h2>Coller cette entrée</h2>
+      <p>Exemple : les apprentissages dans les soins (Pflege) à Berlin et dans les environs, publiés au cours des 28 derniers jours, les plus récents d'abord. Remplacez le mot-clé, les mots du titre et la ville par les vôtres.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copier le code">Copier</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Pflege"
+  ],
+  "titleFilter": "Ausbildung, Auszubildende, Pflegefachmann, Pflegefachfrau",
+  "location": "Berlin",
+  "radius": 25,
+  "offerType": "training",
+  "postedWithinDays": 28,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": false
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code> : le métier, en allemand. Ajoutez-en d'autres, par exemple « Mechatroniker » ; les doublons sont supprimés entre les mots-clés.</li>
+        <li><code class="code-inline">offerType</code> : le filtre d'apprentissage. La valeur <code class="code-inline">training</code> demande uniquement les offres Apprenticeship / dual study (Ausbildung). Les autres valeurs sont <code class="code-inline">work</code>, <code class="code-inline">self_employed</code> et <code class="code-inline">internship_trainee</code>.</li>
+        <li><code class="code-inline">location</code> et <code class="code-inline">radius</code> : ville et rayon en km. Le rayon nécessite un lieu.</li>
+        <li><code class="code-inline">postedWithinDays</code> : uniquement les offres publiées au cours des N derniers jours. Tout nombre entier convient, par exemple 7, 14 ou 28.</li>
+        <li><code class="code-inline">titleFilter</code> : ne garde que les offres dont le titre contient l'un de vos mots. Appliqué avant le chargement des détails.</li>
+        <li><code class="code-inline">sortBy</code> : <code class="code-inline">newest</code> place les offres les plus récentes en premier.</li>
+        <li><code class="code-inline">includeJobDetails</code> : désactivé, l'exécution reste rapide. Activez-le seulement si vous avez besoin de la description complète et du site web de l'entreprise.</li>
+      </ul>
+      <div class="callout tip"><strong>Vous préférez tout un Land ?</strong> Laissez <code class="code-inline">location</code> vide et définissez <code class="code-inline">bundesland</code> avec un code de Land comme <code class="code-inline">BY</code> (Bavière) ou <code class="code-inline">NW</code> (Rhénanie-du-Nord-Westphalie).</div>
+    </div>
+
+    <div class="step" id="etape-3">
+      <span class="step-number">ÉTAPE 3</span>
+      <h2>Lancer l'acteur et lire le résultat</h2>
+      <p>Cliquez sur <strong>Save and Run</strong>. Quand l'exécution est terminée, ouvrez l'onglet <strong>Dataset</strong>. Chaque ligne est une offre. Voici l'exemple tiré de la documentation de l'acteur, réduit aux champs de liste (les champs de contact, de salaire et de profil d'entreprise sont omis). Il montre une offre d'emploi classique pour illustrer les champs ; les offres d'apprentissage ont la même structure :</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copier le code">Copier</button><pre><code class="language-json">{
+  "id": "12345-10000000000-S",
+  "title": "Pflegeassistent /in",
+  "company": "Beispiel Pflege GmbH",
+  "location": "10179, Berlin",
+  "country": "DE",
+  "employment_type": "full-time",
+  "description_snippet": "Fur [mehrere] Standorte des Grossraums Berlin...",
+  "posted_at": "2026-02-26T00:00:00.000Z",
+  "modified_at": "2026-02-26T14:51:45.062Z",
+  "source_url": "https://www.arbeitsagentur.de/jobsuche/jobdetail/12345-10000000000-S",
+  "source_platform": "arbeitsagentur.de",
+  "search_query": "Pflege",
+  "scraped_at": "2026-03-04T15:36:48.707Z"
+}</code></pre></div>
+      <p>Les champs utiles pour une liste d'Ausbildung :</p>
+      <ul>
+        <li><code class="code-inline">title</code> et <code class="code-inline">company</code> : l'offre et l'entreprise formatrice.</li>
+        <li><code class="code-inline">location</code> : code postal et localité.</li>
+        <li><code class="code-inline">posted_at</code> et <code class="code-inline">modified_at</code> : la date de publication de l'offre et celle de sa dernière modification.</li>
+        <li><code class="code-inline">source_url</code> : le lien vers l'offre sur arbeitsagentur.de, où vous postulez.</li>
+        <li><code class="code-inline">description_snippet</code> : un court extrait de l'offre. Avec <code class="code-inline">includeJobDetails</code> activé, vous obtenez aussi la description complète et le site web de l'entreprise quand l'employeur en indique un.</li>
+      </ul>
+      <p>Ce tutoriel n'utilise aucun champ de contact. Postulez via le lien de l'offre et vérifiez les règles de protection des données applicables à votre usage avant de stocker des données personnelles.</p>
+    </div>
+
+    <div class="step" id="etape-4">
+      <span class="step-number">ÉTAPE 4</span>
+      <h2>Transformer les offres en liste d'Ausbildung</h2>
+      <ol>
+        <li>Dans l'onglet Dataset, cliquez sur <strong>Export</strong>, choisissez <strong>CSV</strong> et sélectionnez <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>.</li>
+        <li>Importez le fichier dans Google Sheets (Fichier &rarr; Importer) dans une feuille nommée <em>jobs</em>. Avec l'ordre ci-dessus, le titre est en colonne A, l'employeur en B et la localité en C.</li>
+        <li>Dans une nouvelle feuille, comptez les offres ouvertes par entreprise formatrice :</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copier le code">Copier</button><pre><code class="language-text">=QUERY(jobs!A:E, "select B, count(A) where A is not null group by B order by count(A) desc", 1)</code></pre></div>
+      <ol start="4">
+        <li>Triez par nombre, du plus grand au plus petit. Les employeurs avec plusieurs offres sont ceux qui forment à grande échelle dans votre métier. Ouvrez <code class="code-inline">source_url</code> pour lire une offre et postuler.</li>
+      </ol>
+      <h3>Ne voir que les nouveautés</h3>
+      <p>Définissez <code class="code-inline">onlyNewSinceLastRun</code> sur <code class="code-inline">true</code> et planifiez la même entrée dans la console Apify, sous <strong>Schedules</strong>. L'acteur ignore alors toute offre déjà livrée lors d'une exécution précédente avec les mêmes paramètres de recherche : chaque exécution ne renvoie que les nouvelles offres.</p>
+    </div>
+
+    <h2 id="cout">Combien ça coûte</h2>
+    <p>L'acteur fonctionne au paiement à l'événement, facturé par résultat. Consultez le tarif actuel sur la <a href="/actors/arbeitsagentur-de-scraper/fr/">page de l'acteur</a> : c'est toujours le prix en vigueur aujourd'hui. La liste complète des événements figure dans l'onglet Pricing de la <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr">page Apify de l'acteur</a>. Utilisez <code class="code-inline">titleFilter</code> et un <code class="code-inline">maxResultsPerQuery</code> réduit pour un premier test, et <code class="code-inline">onlyNewSinceLastRun</code> pour ne pas payer des offres que vous avez déjà.</p>
+
+    <h2 id="cas-d-usage">Qui utilise une liste d'Ausbildung</h2>
+    <ul>
+      <li><strong>Les jeunes en fin de scolarité et leurs parents</strong> qui veulent toutes les offres pour un métier à portée de leur domicile, dans un seul tableau.</li>
+      <li><strong>Les conseillers d'orientation et les établissements scolaires</strong> qui tiennent à jour la liste des entreprises formatrices de la région.</li>
+      <li><strong>Les organismes de formation et les recruteurs</strong> qui suivent quelles entreprises publient des places d'apprentissage.</li>
+    </ul>
+    <p>Besoin de plus d'un site ? L'<a href="/tutorials/how-to-scrape-every-job-online/" hreflang="en" lang="en">acteur job feed couvre plus de 110 sites d'emploi</a> avec un seul appel (tutoriel en anglais).</p>
+
+    <h2 id="faq">Questions fréquentes</h2>
+    <div class="faq">
+      <details>
+        <summary>Quelle différence entre offerType training et employmentType APPRENTICESHIP ?</summary>
+        <p>Les deux demandent à la Bundesagentur les offres d'apprentissage (angebotsart 4). Si vous définissez <code class="code-inline">offerType</code>, il remplace le type d'offre que définirait <code class="code-inline">employmentType</code> ; utilisez donc <code class="code-inline">offerType training</code> pour être explicite.</p>
+      </details>
+      <details>
+        <summary>offerType training inclut-il les études en alternance (duales Studium) ?</summary>
+        <p>Le libellé du type d'offre est Apprenticeship / dual study (Ausbildung / duales Studium) : la recherche couvre donc ce que la Bundesagentur classe sous ce type. Utilisez <code class="code-inline">titleFilter</code> si vous ne voulez que certains intitulés de poste.</p>
+      </details>
+      <details>
+        <summary>Que fait onlyNewSinceLastRun ?</summary>
+        <p>L'acteur mémorise les identifiants d'offres livrés lors des exécutions précédentes avec les mêmes paramètres de recherche et les ignore avant la récupération des détails et avant toute facturation. Il conserve les 50 000 derniers identifiants ; l'option est désactivée par défaut.</p>
+      </details>
+      <details>
+        <summary>Combien ça coûte ?</summary>
+        <p>L'acteur fonctionne au paiement à l'événement. Consultez le tarif actuel sur la <a href="/actors/arbeitsagentur-de-scraper/fr/">page de l'acteur</a>. Le prix affiché sur la page de l'acteur de NanoScrape est toujours le prix en vigueur.</p>
+      </details>
+    </div>
+
+    <h2>Ressources associées</h2>
+    <ul>
+      <li><a href="/actors/arbeitsagentur-de-scraper/fr/">Arbeitsagentur Scraper, page de l'acteur</a> : champs d'entrée, champs de sortie et tarif actuel.</li>
+      <li><a href="/tutorials/apprenticeships-in-germany-ausbildung-arbeitsagentur/" hreflang="en" lang="en">Apprenticeships in Germany (version anglaise de ce tutoriel)</a></li>
+      <li><a href="/de/tutorials/arbeitsagentur-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">Arbeitsagentur Stellenanzeigen exportieren (allemand)</a></li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/" hreflang="en" lang="en">How to Scrape Every Job Online</a> : plus de 110 sites d'emploi en un seul appel (anglais).</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr">Arbeitsagentur Scraper sur Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/arbeitsagentur-de-scraper?fpr=0khfbz&amp;fp_sid=t-apprentissage-en-allemagne-arbeitsagentur-fr" class="btn-primary">Ouvrir l'acteur sur Apify &rarr;</a>
+      <a href="/fr/tutorials/" class="btn-secondary">Voir tous les tutoriels</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copi\u00e9 !';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = '\u00c9chec de la copie';
+      setTimeout(function() { btn.textContent = 'Copier'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
