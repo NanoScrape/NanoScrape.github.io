@@ -162,7 +162,7 @@
       "name": "Can I collect email addresses too?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits each business website and extracts team contacts."
+        "text": "Yes. Set enableEmailExtraction to true. No API key is needed. The scraper visits each business website and adds the public email addresses it finds to the place in the emails_from_website field."
       }
     },
     {
@@ -519,8 +519,8 @@
     <h3>Popular times histogram</h3>
     <p>Add <code class="code-inline">"includePopularTimes": true</code> and each place gets a <code class="code-inline">popular_times</code> object with visitor-traffic scores by weekday and hour (0 to 100). Great for finding low-traffic time slots. Adds about 1.5 seconds per place.</p>
     <h3>Contact email extraction</h3>
-    <p>Add <code class="code-inline">"enableContactExtraction": true</code> and <code class="code-inline">"geminiApiKey": "your-gemini-key"</code>. After the Maps scrape completes, an AI-powered add-on visits every business website found in the results and extracts team member names, emails, phone numbers, and departments. Great for turning a lead list into a contact list in one step. Get a free Gemini API key at <a target="_blank" rel="noopener" href="https://aistudio.google.com/app/apikey">Google AI Studio</a>.</p>
-    <div class="callout"><strong>How the add-ons are billed:</strong> the base Google Maps scrape stays at $1 per 1,000 places regardless of which enrichments you enable. Contact extraction is billed separately by the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz&amp;fp_sid=t-scrape-google-maps-with-n8n">Website Contact Extractor</a>. Reviews and popular times are free.</div>
+    <p>Add <code class="code-inline">"enableEmailExtraction": true</code>. No API key is needed. After the Maps scrape completes, an add-on visits every business website found in the results and adds the public email addresses it finds to each place in <code class="code-inline">emails_from_website</code>, plus phone numbers in <code class="code-inline">phones_from_website</code> and social profile links in <code class="code-inline">social_urls</code>. Great for turning a lead list into a contact list in one step.</p>
+    <div class="callout"><strong>How the add-ons are billed:</strong> the base Google Maps scrape stays at $1 per 1,000 places regardless of which enrichments you enable. Email extraction is billed separately, per page crawled, by the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-google-maps-with-n8n">Website Email Scraper</a>. Reviews and popular times are free.</div>
 
     <h2 id="duplicates">Skip places you have already scraped</h2>
     <p>Every place on Google Maps has a stable identifier called a CID. It does not change even if the business renames or moves. To avoid re-collecting places on scheduled runs, pass an array of CIDs in the <code class="code-inline">excludeCids</code> parameter.</p>
@@ -537,7 +537,7 @@
 
     <h2 id="cost">What it costs</h2>
     <ul>
-        <li><strong>Apify actor:</strong> $1.00 per 1,000 places. All 30-plus fields included. Reviews and popular times are free add-ons. Contact extraction is billed separately by the sub-actor.</li>
+        <li><strong>Apify actor:</strong> $1.00 per 1,000 places. All 30-plus fields included. Reviews and popular times are free add-ons. Email extraction is billed separately by the sub-actor.</li>
         <li><strong>n8n:</strong> free on Desktop and self-hosted. n8n Cloud starts at $20/month.</li>
         <li><strong>Google Sheets:</strong> free.</li>
       </ul>
@@ -563,7 +563,7 @@
       </details>
       <details>
         <summary>Can I collect email addresses too?</summary>
-        <p>Yes. Set enableContactExtraction to true and provide a Gemini API key. The scraper visits every business website found in the results and extracts team member emails, names, positions, and phone numbers using AI.</p>
+        <p>Yes. Set enableEmailExtraction to true. No API key is needed. The scraper visits every business website found in the results and adds the public email addresses it finds to each place in the emails_from_website field.</p>
       </details>
       <details>
         <summary>What if I want more than about 120 places for one search?</summary>
