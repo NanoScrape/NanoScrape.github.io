@@ -84,6 +84,9 @@
         .lang-panel { display: none; }
         .lang-panel.is-active { display: block; }
 </style>
+ <script type="application/ld+json">
+ {"@context": "https://schema.org", "@type": "FAQPage", "inLanguage": "de", "mainEntity": [{"@type": "Question", "name": "Warum bekomme ich nur etwa 120 Orte pro Suche, und wie bekomme ich mehr?", "acceptedAnswer": {"@type": "Answer", "text": "Google Maps bricht eine einzelne Suche nach etwa 120 Orten ab. Setzen Sie maxResultsPerQuery über 100 und nennen Sie einen Ort in der Suche, zum Beispiel „Zahnarzt in Berlin“. Dann teilt der Scraper das Gebiet in Kacheln auf, und eine Suche kann Hunderte oder Tausende verschiedener Orte liefern. Mit areaTiling auf off bleibt es bei der einfachen Suche."}}, {"@type": "Question", "name": "Kann er E-Mail-Adressen von Firmen aus Google Maps auslesen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, wenn enableEmailExtraction eingeschaltet ist. Der Scraper liest E-Mails, Telefonnummern und Social-Media-Links von der Website jedes Ortes und ergänzt jede Zeile um emails_from_website, phones_from_website, social_urls und address_from_website. Die Option ist standardmäßig aus und findet nur, was die Website selbst veröffentlicht."}}, {"@type": "Question", "name": "Kann ich Google-Bewertungen abrufen?", "acceptedAnswer": {"@type": "Answer", "text": "Ja, mit includeReviews auf true. maxReviewsPerPlace steht standardmäßig auf 8 (bis 1000), reviewsSort legt die Reihenfolge fest, und reviewsNewerThan (JJJJ-MM-TT) lässt ältere Bewertungen weg. Für bekannte Orte geht das auch ohne Suche, indem Sie placeUrls angeben."}}, {"@type": "Question", "name": "Wie überspringe ich Orte, die ich schon habe?", "acceptedAnswer": {"@type": "Answer", "text": "Tragen Sie die Google-Maps-CIDs, die Sie bereits haben, in excludeCids ein. Die CID bleibt gleich, auch wenn eine Firma Namen oder Adresse ändert. Wiederholte Läufe liefern so nur neue Orte."}}]}
+ </script>
 </head>
 <body>
 
@@ -304,6 +307,16 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
  <ul>
  <li><a href="/de/tutorials/google-maps-scraper-firmendaten-exportieren/"><strong>Google Maps Scraper: Firmendaten als Tabelle exportieren</strong></a> — Schritt für Schritt, mit Claude-Prompt und echtem Beispiel (Zahnärzte in Hamburg)</li>
  </ul>
+
+ <h2 class="section-title" id="faq-de">Häufige Fragen</h2>
+ <h3>Warum bekomme ich nur etwa 120 Orte pro Suche, und wie bekomme ich mehr?</h3>
+ <p>Google Maps bricht eine einzelne Suche nach etwa 120 Orten ab. Setzen Sie <code>maxResultsPerQuery</code> über 100 und nennen Sie einen Ort in der Suche, zum Beispiel „Zahnarzt in Berlin“. Dann teilt der Scraper das Gebiet in Kacheln auf, und eine Suche kann Hunderte oder Tausende verschiedener Orte liefern. Mit <code>areaTiling</code> auf <code>off</code> bleibt es bei der einfachen Suche.</p>
+ <h3>Kann er E-Mail-Adressen von Firmen aus Google Maps auslesen?</h3>
+ <p>Ja, wenn <code>enableEmailExtraction</code> eingeschaltet ist. Der Scraper liest E-Mails, Telefonnummern und Social-Media-Links von der Website jedes Ortes und ergänzt jede Zeile um <code>emails_from_website</code>, <code>phones_from_website</code>, <code>social_urls</code> und <code>address_from_website</code>. Die Option ist standardmäßig aus und findet nur, was die Website selbst veröffentlicht.</p>
+ <h3>Kann ich Google-Bewertungen abrufen?</h3>
+ <p>Ja, mit <code>includeReviews</code> auf true. <code>maxReviewsPerPlace</code> steht standardmäßig auf 8 (bis 1000), <code>reviewsSort</code> legt die Reihenfolge fest, und <code>reviewsNewerThan</code> (JJJJ-MM-TT) lässt ältere Bewertungen weg. Für bekannte Orte geht das auch ohne Suche, indem Sie <code>placeUrls</code> angeben.</p>
+ <h3>Wie überspringe ich Orte, die ich schon habe?</h3>
+ <p>Tragen Sie die Google-Maps-CIDs, die Sie bereits haben, in <code>excludeCids</code> ein. Die CID bleibt gleich, auch wenn eine Firma Namen oder Adresse ändert. Wiederholte Läufe liefern so nur neue Orte.</p>
 
  <h2 class="section-title">Verwandte Actors</h2>
  <ul>
