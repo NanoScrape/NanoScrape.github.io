@@ -30,7 +30,7 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/wayback-machine-urls-scraper/#app",
-      "name": "Wayback Machine URLs Scraper: Archived URL Lists for Any Domain",
+      "name": "Wayback Machine URLs Scraper",
       "description": "List the captures the Internet Archive Wayback Machine holds for a domain or URL: capture time, original URL, status code, file type, size and a ready archive link. Pay per capture.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.002",
+        "price": "0.0020",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.002",
+          "price": "0.0020",
           "priceCurrency": "USD",
           "unitText": "per capture"
         }
@@ -70,13 +70,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Web Tools",
-          "item": "https://www.nanoscrape.com/actors/tools/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "Wayback Machine URLs Scraper: Archived URL Lists for Any Domain"
+          "name": "Wayback Machine URLs Scraper"
         }
       ]
     },
@@ -106,7 +100,7 @@
           "name": "How much does the wayback-machine-urls-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "$0.002 per capture delivered ($2.00 per 1,000), billed per result on Apify. 100 captures cost about $0.20. A run that finds nothing is not charged. No monthly subscription."
+            "text": "Priced at $0.002 per capture ($2.00 per 1,000). A run that finds nothing is not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,47 +108,31 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "10 fields per capture: <code>urlkey</code>, <code>timestamp</code>, <code>capturedAt</code> in ISO 8601, <code>original</code> URL, <code>mimetype</code>, <code>statuscode</code>, content <code>digest</code>, <code>length</code> in bytes, <code>archiveUrl</code> and the <code>query</code> that found it. A value the archive does not record is null."
+            "text": "10 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Does the actor download the archived pages?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. It lists captures and gives a link for each. Open <code>archiveUrl</code> to see the archived copy."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
           "@type": "Question",
-          "name": "Why do I get one row per URL by default?",
+          "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "<code>collapse</code> is <code>urlkey</code> by default, which keeps one capture per URL (the earliest). Use <code>digest</code> to get one row per changed version, or <code>none</code> for every capture."
+            "text": "No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side."
           }
         },
         {
           "@type": "Question",
-          "name": "Why is statuscode sometimes empty?",
+          "name": "How fresh is the data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "For repeat captures the archive records no status code. These rows have a null <code>statuscode</code> and are left out by the default filter <code>200</code>. Set <code>statusFilter</code> to <code>any</code> to keep them."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How fast is it?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The actor sends one request at a time with at least one second between requests, to respect the archive’s limits. The archive often answers slowly or asks to wait, so a run of a few hundred rows can take a few minutes. If the archive keeps refusing, the run stops cleanly with a status that says so, and only delivered rows are charged."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need an Internet Archive account?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. The actor reads the public capture index. It is an independent tool and not affiliated with the Internet Archive; please keep your use modest and in line with its terms of use."
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -260,59 +238,52 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Wayback Machine URLs Scraper: Archived URL Lists for Any Domain</h1>
-    <p class="direct-answer">The NanoScrape Wayback Machine URLs Scraper is an Apify actor that lists the captures the Internet Archive holds for a domain or URL. It returns 10 fields per capture including capture time, original URL, status code, file type, content hash, size and a link to the archived copy, priced at $2 per 1,000 captures, with no account, API key or monthly subscription required.</p>
-    <p class="lead">List the captures that the Internet Archive Wayback Machine holds for a domain or a URL <a href="https://web.archive.org" target="_blank" rel="noopener">(source platform)</a>. Each row is one capture with its time, original address, status code, file type, size and a link that opens the archived copy. Pay per capture.</p>
+    <h1>Wayback Machine URLs Scraper</h1>
+    <p class="direct-answer">The NanoScrape Wayback Machine Urls Scraper is an Apify actor that extracts structured data from web.archive.org. It returns 10 fields per result including urlkey, timestamp, capturedAt, original, mimetype, priced at $2/1k capture, with no API key or monthly subscription required.</p>
+    <p class="lead">List the captures the Internet Archive Wayback Machine holds for a domain or URL: capture time, original URL, status code, file type, size and a ready archive link <a href="https://web.archive.org" target="_blank" rel="noopener">(source platform)</a>. Pay per capture.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/nanodata/wayback-machine-urls-scraper?fpr=0khfbz&amp;fp_sid=a-wayback-machine-urls-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 captures</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$2.00 / 1,000 capture</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">GLOBAL</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">global</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 10 fields per result</h2>
     <table class="compare-table">
       <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>urlkey</code></td><td>string | null</td><td>com,apify)/.well-known/agents.md</td><td>Capture</td></tr>
-      <tr><td><code>timestamp</code></td><td>string | null</td><td>20260508051948</td><td>Capture</td></tr>
-      <tr><td><code>capturedAt</code></td><td>string | null</td><td>2026-05-08T05:19:48Z</td><td>Capture</td></tr>
-      <tr><td><code>original</code></td><td>string | null</td><td>https://apify.com/.well-known/agents.md</td><td>Capture</td></tr>
-      <tr><td><code>mimetype</code></td><td>string | null</td><td>text/markdown</td><td>Capture</td></tr>
-      <tr><td><code>statuscode</code></td><td>integer | null</td><td>200</td><td>Capture</td></tr>
-      <tr><td><code>digest</code></td><td>string | null</td><td>6ZQES6QBXK4TU6TBASZ23HGUCQ4CRYIR</td><td>Capture</td></tr>
-      <tr><td><code>length</code></td><td>integer | null</td><td>7750</td><td>Capture</td></tr>
-      <tr><td><code>archiveUrl</code></td><td>string | null</td><td>https://web.archive.org/web/20260508051948/https://apif…</td><td>Capture</td></tr>
-      <tr><td><code>query</code></td><td>string | null</td><td>apify.com</td><td>Query</td></tr>
+      <tr><td><code>urlkey</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>timestamp</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>capturedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>original</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>mimetype</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>statuscode</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>digest</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>length</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>archiveUrl</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>query</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p><code>urls</code> takes domains (<code>apify.com</code>) or full URLs (<code>https://apify.com/blog</code>), worked through in order. <code>matchType</code> is <code>domain</code> (default, the domain and its subdomains), <code>host</code>, <code>prefix</code> or <code>exact</code>. <code>from</code> and <code>to</code> limit the capture dates by year (<code>2020</code>) or date (<code>20200131</code>). <code>statusFilter</code> (default <code>200</code>) takes a code, a pattern such as <code>2..</code>, <code>!404</code> to leave a code out, or <code>any</code>, and <code>mimeTypeFilter</code> keeps one file type such as <code>application/pdf</code> or <code>image/.*</code>. <code>collapse</code> is <code>urlkey</code> (default, one row per URL), <code>digest</code> (a new row only when the content changed) or <code>none</code> (every capture). <code>maxResults</code> (default 1000, up to 1,000,000) counts all entries together; <code>maxResultsPerUrl</code> shares the budget between entries. With no input the actor returns a sample of 100 captures for <code>apify.com</code>.</p>
-    <h2 class="section-title">Input example — every version of one page in 2023</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;urls&quot;: [
-    &quot;https://apify.com/pricing&quot;
+    &quot;apify.com&quot;,
+    &quot;crawlee.dev&quot;
   ],
-  &quot;matchType&quot;: &quot;exact&quot;,
-  &quot;from&quot;: &quot;2023&quot;,
-  &quot;to&quot;: &quot;2023&quot;,
-  &quot;collapse&quot;: &quot;digest&quot;
-}</code></pre></div>
-    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;urlkey&quot;: &quot;com,apify)/.well-known/agents.md&quot;,
-  &quot;timestamp&quot;: &quot;20260508051948&quot;,
-  &quot;capturedAt&quot;: &quot;2026-05-08T05:19:48Z&quot;,
-  &quot;original&quot;: &quot;https://apify.com/.well-known/agents.md&quot;,
-  &quot;mimetype&quot;: &quot;text/markdown&quot;,
-  &quot;statuscode&quot;: 200,
-  &quot;digest&quot;: &quot;6ZQES6QBXK4TU6TBASZ23HGUCQ4CRYIR&quot;,
-  &quot;length&quot;: 7750,
-  &quot;archiveUrl&quot;: &quot;https://web.archive.org/web/20260508051948/https://apify.com/.well-known/agents.md&quot;,
-  &quot;query&quot;: &quot;apify.com&quot;
+  &quot;matchType&quot;: &quot;domain&quot;,
+  &quot;statusFilter&quot;: &quot;200&quot;,
+  &quot;collapse&quot;: &quot;urlkey&quot;,
+  &quot;maxResults&quot;: 30,
+  &quot;maxResultsPerUrl&quot;: 50,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
+  }
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.002</strong> per capture delivered ($2.00 per 1,000). Examples: 100 captures ≈ $0.20; 1,000 captures ≈ $2.00. With <code>collapse</code> set to <code>none</code> you pay for every capture of a page, so keep runs small with <code>from</code>, <code>to</code> and <code>maxResults</code>. A run that finds nothing is not charged, and a maximum cost per run stops the run cleanly. No monthly subscription — you only pay for what you extract.</p>
+    <p>Priced at <strong>$0.002</strong> per capture ($2.00 per 1,000). A run that finds nothing is not charged. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p><code>urls</code> takes domains (<code>apify.com</code>) or full URLs (<code>https://apify.com/blog</code>), worked through in order. <code>matchType</code> is <code>domain</code> (default, the domain and its subdomains), <code>host</code>, <code>prefix</code> or <code>exact</code>. <code>from</code> and <code>to</code> limit the capture dates by year (<code>2020</code>) or date (<code>20200131</code>). <code>statusFilter</code> (default <code>200</code>) takes a code, a pattern such as <code>2..</code>, <code>!404</code> to leave a code out, or <code>any</code>, and <code>mimeTypeFilter</code> keeps one file type such as <code>application/pdf</code> or <code>image/.*</code>. <code>collapse</code> is <code>urlkey</code> (default, one row per URL), <code>digest</code> (a new row only when the content changed) or <code>none</code> (every capture). <code>maxResults</code> (default 1000, up to 1,000,000) counts all entries together; <code>maxResultsPerUrl</code> shares the budget between entries. With no input the actor returns a sample of 100 captures for <code>apify.com</code>.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -438,25 +409,22 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the wayback-machine-urls-scraper cost?</summary><p>$0.002 per capture delivered ($2.00 per 1,000), billed per result on Apify. 100 captures cost about $0.20. A run that finds nothing is not charged. No monthly subscription.</p></details>
-      <details><summary>What fields does it return?</summary><p>10 fields per capture: <code>urlkey</code>, <code>timestamp</code>, <code>capturedAt</code> in ISO 8601, <code>original</code> URL, <code>mimetype</code>, <code>statuscode</code>, content <code>digest</code>, <code>length</code> in bytes, <code>archiveUrl</code> and the <code>query</code> that found it. A value the archive does not record is null.</p></details>
-      <details><summary>Does the actor download the archived pages?</summary><p>No. It lists captures and gives a link for each. Open <code>archiveUrl</code> to see the archived copy.</p></details>
-      <details><summary>Why do I get one row per URL by default?</summary><p><code>collapse</code> is <code>urlkey</code> by default, which keeps one capture per URL (the earliest). Use <code>digest</code> to get one row per changed version, or <code>none</code> for every capture.</p></details>
-      <details><summary>Why is statuscode sometimes empty?</summary><p>For repeat captures the archive records no status code. These rows have a null <code>statuscode</code> and are left out by the default filter <code>200</code>. Set <code>statusFilter</code> to <code>any</code> to keep them.</p></details>
-      <details><summary>How fast is it?</summary><p>The actor sends one request at a time with at least one second between requests, to respect the archive’s limits. The archive often answers slowly or asks to wait, so a run of a few hundred rows can take a few minutes. If the archive keeps refusing, the run stops cleanly with a status that says so, and only delivered rows are charged.</p></details>
-      <details><summary>Do I need an Internet Archive account?</summary><p>No. The actor reads the public capture index. It is an independent tool and not affiliated with the Internet Archive; please keep your use modest and in line with its terms of use.</p></details>
+      <details><summary>How much does the wayback-machine-urls-scraper cost?</summary><p>Priced at $0.002 per capture ($2.00 per 1,000). A run that finds nothing is not charged. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>10 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/broken-link-checker/"><span class="name">Broken Link Checker</span><span class="summary">Check every link on a website via API: status code, redirect chains, source page, link text, response time, broken count. $3/1k sites, pay per result.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/sitemap-url-discovery/"><span class="name">Sitemap Scraper API</span><span class="summary">Parse every sitemap and robots.txt of a website via API: all URLs with lastmod, changefreq, priority and source sitemap. $2/1k sites, pay per result.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/website-content-crawler/"><span class="name">Website Content Crawler</span><span class="summary">Crawl any website into clean Markdown and plain text for LLMs, RAG and AI agents: title, URL, depth, word count per page. $2/1k pages, pay per result.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/domain-whois-dns/"><span class="name">Domain Whois Dns Scraper</span><span class="summary">Look up WHOIS and DNS records for domains: registrar, dates, name servers, mail records. Pay per result on Apify.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/france-fuel-prices-scraper/"><span class="name">France Fuel Prices Scraper</span><span class="summary">Current fuel prices for French service stations: diesel, SP95, SP98, E10, E85, LPG with update times, outages, services and hours. Filter by department, region or city. Pay per station.</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/nanodata/wayback-machine-urls-scraper?fpr=0khfbz&amp;fp_sid=a-wayback-machine-urls-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Actor v0.1.1 · Maintained by NanoScrape (nanodata on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

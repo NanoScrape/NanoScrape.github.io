@@ -31,7 +31,7 @@
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/luma-events-scraper/#app",
       "name": "Luma Events Scraper: Public Events by City",
-      "description": "Scrape public Luma events by city: title, start time, venue, organizer calendar, hosts, guest count, ticket price, spots left. $2.50 per 1,000 events.",
+      "description": "Read the public Luma event lists of cities such as San Francisco, London and Berlin: title, time, venue, organizer, hosts, guest count and ticket price.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -70,12 +70,6 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Search & News",
-          "item": "https://www.nanoscrape.com/actors/search-news/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
           "name": "Luma Events Scraper: Public Events by City"
         }
       ]
@@ -106,7 +100,7 @@
           "name": "How much does the luma-events-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.0025 per event saved to the dataset ($2.50 per 1,000). An event that appears in two cities is returned and charged once. No monthly subscription, you only pay for what you extract."
+            "text": "Priced at $0.0025 per event ($2.50 per 1,000; 100 events ≈ $0.25). An event found in two cities is charged once. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,39 +108,15 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "52 fields per event: ID, title and link, start and end time with time zone, in-person or online, venue, address, city and coordinates, organizer calendar, public hosts, guest count, ticket price and currency, free or paid, sold-out and spots-left flags, and where the event was found."
+            "text": "52 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "How do I find the city name?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Open the city on luma.com and copy the last part of the address, for example london from luma.com/london. You can also paste the full city address."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Are guest names or e-mail addresses included?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Guest lists and attendee data are never collected, you get the guest count only. Hosts are the public hosts that Luma shows on the event."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why are the venue name and address sometimes empty?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Some hosts show the venue only to registered guests. Then the venue name and street address stay empty and you still get the city, the area and an approximate point."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it return the long description or the agenda?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Only the public event list of a city is read. Event pages are not opened, so the long description, the agenda, tags and the full ticket list are not collected."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -154,7 +124,15 @@
           "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. No Luma account and no API key. Give the actor city names and it does the rest."
+            "text": "No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fresh is the data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -261,125 +239,160 @@
 
   <div class="detail">
     <h1>Luma Events Scraper: Public Events by City</h1>
-    <p class="direct-answer">The NanoScrape Luma Events Scraper is an Apify actor that extracts the public event lists of Luma city pages. It returns 52 fields per event including title, start and end time, venue and coordinates, organizer calendar, hosts, guest count, ticket price and spots left, priced at $2.50 per 1,000 events, with no API key or monthly subscription required.</p>
-    <p class="lead">Read the public event lists of Luma cities such as San Francisco, London or Berlin and get one record per event: title, start and end time with time zone, venue and address when the host shows them, organizer calendar, public hosts, guest count and ticket details <a href="https://luma.com" target="_blank" rel="noopener">(source platform)</a>. Filter by keyword or free events. Pay per result.</p>
+    <p class="direct-answer">The NanoScrape Luma Events Scraper is an Apify actor that extracts structured data from luma.com. It returns 52 fields per result including name, city, address, address_mode, address_visibility, priced at $2.5/1k event, with no API key or monthly subscription required.</p>
+    <p class="lead">Read the public Luma event lists of cities such as San Francisco, London and Berlin: title, time, venue, organizer, hosts, guest count and ticket price. <a href="https://luma.com" target="_blank" rel="noopener">(source platform)</a></p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/luma-events-scraper?fpr=0khfbz&amp;fp_sid=a-luma-events-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$2.50 / 1,000 events</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$2.50 / 1,000 event</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">GLOBAL</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">global</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 52 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>event_id</code></td><td>string</td><td>evt-rHsW01TbVlWcu5h</td><td>Event</td></tr>
-      <tr><td><code>name</code></td><td>string | null</td><td>Build Day: OpenRouter x Meta</td><td>Event</td></tr>
-      <tr><td><code>url</code></td><td>string</td><td>https://luma.com/openro-lu9g</td><td>Event</td></tr>
-      <tr><td><code>start_at</code></td><td>string | null</td><td>2026-11-10T01:30:00.000Z</td><td>Time</td></tr>
-      <tr><td><code>end_at</code></td><td>string | null</td><td>2026-11-10T04:30:00.000Z</td><td>Time</td></tr>
-      <tr><td><code>timezone</code></td><td>string | null</td><td>America/Los_Angeles</td><td>Time</td></tr>
-      <tr><td><code>event_type</code></td><td>string | null</td><td>independent</td><td>Event</td></tr>
-      <tr><td><code>visibility</code></td><td>string | null</td><td>public</td><td>Event</td></tr>
-      <tr><td><code>location_type</code></td><td>string | null</td><td>offline</td><td>Event</td></tr>
-      <tr><td><code>cover_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Event</td></tr>
-      <tr><td><code>social_image_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Event</td></tr>
-      <tr><td><code>venue_name</code></td><td>string | null</td><td><em>null</em></td><td>Venue</td></tr>
-      <tr><td><code>address</code></td><td>string | null</td><td><em>null</em></td><td>Venue</td></tr>
-      <tr><td><code>short_address</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Venue</td></tr>
-      <tr><td><code>neighborhood</code></td><td>string | null</td><td>Embarcadero</td><td>Venue</td></tr>
-      <tr><td><code>city</code></td><td>string | null</td><td>San Francisco</td><td>Venue</td></tr>
-      <tr><td><code>region</code></td><td>string | null</td><td>California</td><td>Venue</td></tr>
-      <tr><td><code>country</code></td><td>string | null</td><td>United States</td><td>Venue</td></tr>
-      <tr><td><code>country_code</code></td><td>string | null</td><td>US</td><td>Venue</td></tr>
-      <tr><td><code>latitude</code></td><td>number | null</td><td>37.79475711874529</td><td>Venue</td></tr>
-      <tr><td><code>longitude</code></td><td>number | null</td><td>-122.39248043213138</td><td>Venue</td></tr>
-      <tr><td><code>address_mode</code></td><td>string | null</td><td>obfuscated</td><td>Venue</td></tr>
-      <tr><td><code>address_visibility</code></td><td>string | null</td><td>guests-only</td><td>Venue</td></tr>
-      <tr><td><code>calendar_id</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>calendar_name</code></td><td>string | null</td><td>OpenRouter Events</td><td>Organizer</td></tr>
-      <tr><td><code>calendar_slug</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>calendar_url</code></td><td>string | null</td><td>https://luma.com/openrouter</td><td>Organizer</td></tr>
-      <tr><td><code>calendar_description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>calendar_avatar_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>calendar_website</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>calendar_verified</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Organizer</td></tr>
-      <tr><td><code>hosts</code></td><td>array</td><td>{"id": "usr-DEvlRUEgt0TvbYA", "name": "O…</td><td>Organizer</td></tr>
-      <tr><td><code>host_count</code></td><td>integer</td><td>1</td><td>Organizer</td></tr>
-      <tr><td><code>guest_count</code></td><td>integer | null</td><td>0</td><td>Tickets</td></tr>
-      <tr><td><code>ticket_count</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>registration_status</code></td><td>string | null</td><td>open</td><td>Tickets</td></tr>
-      <tr><td><code>waitlist_enabled</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>is_free</code></td><td>boolean | null</td><td>true</td><td>Tickets</td></tr>
-      <tr><td><code>price</code></td><td>number | null</td><td><em>null</em></td><td>Tickets</td></tr>
-      <tr><td><code>price_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>price_is_flexible</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>max_price</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>is_sold_out</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>spots_remaining</code></td><td>integer | null</td><td>8</td><td>Tickets</td></tr>
-      <tr><td><code>is_near_capacity</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Tickets</td></tr>
-      <tr><td><code>require_approval</code></td><td>boolean | null</td><td>true</td><td>Tickets</td></tr>
-      <tr><td><code>search_city</code></td><td>string</td><td>sf</td><td>Search</td></tr>
-      <tr><td><code>place_id</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Search</td></tr>
-      <tr><td><code>place_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Search</td></tr>
-      <tr><td><code>page</code></td><td>integer</td><td>1</td><td>Search</td></tr>
-      <tr><td><code>rank</code></td><td>integer</td><td>1</td><td>Search</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>event_id</code></td><td>string</td><td>evt-VKXzaaUWEDUaU71</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>name</code></td><td>string | null</td><td>Junto Founder Dinner (Hosted by Andrew & Friends)</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>url</code></td><td>string</td><td>https://luma.com/juntodinnernov9</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>cover_url</code></td><td>string | null</td><td>https://images.lumacdn.com/uploads/i4/53422b43-94a5-4549-bd0b-2e68cc2b9692.png</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>social_image_url</code></td><td>string | null</td><td>https://images.lumacdn.com/event-social/lu/0ac6b519-56d6-4db3-8828-8e56a2505878.png</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>venue_name</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td><td>73%</td></tr>
+      <tr><td><code>calendar_id</code></td><td>string | null</td><td>cal-kcWhMbIs2X0Y2Xb</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>calendar_name</code></td><td>string | null</td><td>Andrew's Yeung's Tech Events</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>calendar_url</code></td><td>string | null</td><td>https://luma.com/andrewsmixers</td><td>Core</td><td>93%</td></tr>
+      <tr><td><code>calendar_avatar_url</code></td><td>string | null</td><td>https://images.lumacdn.com/calendars/z7/f60cbca8-3b8b-400f-8dc3-bc45e20c49e5</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>place_id</code></td><td>string</td><td>discplace-Izx1rQVSh8njYpP</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>place_name</code></td><td>string | null</td><td>New York</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>location_type</code></td><td>string | null</td><td>offline</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td><td>73%</td></tr>
+      <tr><td><code>short_address</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Location</td><td>73%</td></tr>
+      <tr><td><code>city</code></td><td>string | null</td><td>New York</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>region</code></td><td>string | null</td><td>New York</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>country</code></td><td>string | null</td><td>United States</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>country_code</code></td><td>string | null</td><td>US</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>latitude</code></td><td>number | null</td><td><code>40.71372974866208</code></td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>longitude</code></td><td>number | null</td><td><code>-74.00512720075862</code></td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address_mode</code></td><td>string | null</td><td>obfuscated</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>address_visibility</code></td><td>string | null</td><td>guests-only</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>search_city</code></td><td>string</td><td>nyc</td><td>Location</td><td>100%</td></tr>
+      <tr><td><code>calendar_description</code></td><td>string | null</td><td>Join our community of 50,000+ founders, CEOs, investors, and professionals in tech.</td><td>Description</td><td>67%</td></tr>
+      <tr><td><code>start_at</code></td><td>string | null</td><td>2026-11-09T23:00:00.000Z</td><td>Reviews / rating</td><td>100%</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-11-09T13:30:53Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>end_at</code></td><td>string | null</td><td>2026-11-10T01:30:00.000Z</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>timezone</code></td><td>string | null</td><td>America/New_York</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>event_type</code></td><td>string | null</td><td>independent</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>visibility</code></td><td>string | null</td><td>public</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>neighborhood</code></td><td>string | null</td><td>Tribeca</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>calendar_slug</code></td><td>string | null</td><td>andrewsmixers</td><td>Other</td><td>93%</td></tr>
+      <tr><td><code>calendar_website</code></td><td>string | null</td><td>https://meetfibe.com</td><td>Other</td><td>80%</td></tr>
+      <tr><td><code>calendar_verified</code></td><td>boolean | null</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>hosts</code></td><td>array</td><td><code>[{"id": "usr-DWfcHYvEcII5W5R", "name": "Andrew Yeung", "username": "andrewyeung"</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>host_count</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>guest_count</code></td><td>integer | null</td><td><code>0</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>ticket_count</code></td><td>integer | null</td><td><code>0</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>registration_status</code></td><td>string | null</td><td>waitlist</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>waitlist_enabled</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>is_free</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>price</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>7%</td></tr>
+      <tr><td><code>price_currency</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>7%</td></tr>
+      <tr><td><code>price_is_flexible</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>7%</td></tr>
+      <tr><td><code>max_price</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>is_sold_out</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>spots_remaining</code></td><td>integer | null</td><td><code>0</code></td><td>Other</td><td>53%</td></tr>
+      <tr><td><code>is_near_capacity</code></td><td>boolean | null</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>require_approval</code></td><td>boolean | null</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>page</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>rank</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put city names in <code>cities</code> as written in the Luma address (<code>sf</code>, <code>london</code>, <code>berlin</code>, <code>new-york</code>) or as city addresses such as <code>https://luma.com/london</code>. <code>keyword</code> keeps events whose title, calendar, host or venue contains the word, <code>freeOnly</code> keeps free events. <code>maxResults</code> (default 100) is shared across all cities and cities are read in the order given, so with a low limit the first city can fill the whole run. An event found in two cities is returned once. An empty input reads San Francisco.</p>
-    <h2 class="section-title">Input example — free events in Berlin with a keyword</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;cities&quot;: [
-    &quot;berlin&quot;
+    &quot;sf&quot;,
+    &quot;london&quot;
   ],
-  &quot;keyword&quot;: &quot;startup&quot;,
-  &quot;freeOnly&quot;: true,
-  &quot;maxResults&quot;: 50
+  &quot;maxResults&quot;: 30,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
+  }
 }</code></pre></div>
     <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;event_id&quot;: &quot;evt-rHsW01TbVlWcu5h&quot;,
-  &quot;name&quot;: &quot;Build Day: OpenRouter x Meta&quot;,
-  &quot;url&quot;: &quot;https://luma.com/openro-lu9g&quot;,
-  &quot;start_at&quot;: &quot;2026-11-10T01:30:00.000Z&quot;,
-  &quot;end_at&quot;: &quot;2026-11-10T04:30:00.000Z&quot;,
-  &quot;timezone&quot;: &quot;America/Los_Angeles&quot;,
+  &quot;event_id&quot;: &quot;evt-VKXzaaUWEDUaU71&quot;,
+  &quot;name&quot;: &quot;Junto Founder Dinner (Hosted by Andrew &amp; Friends)&quot;,
+  &quot;url&quot;: &quot;https://luma.com/juntodinnernov9&quot;,
+  &quot;start_at&quot;: &quot;2026-11-09T23:00:00.000Z&quot;,
+  &quot;end_at&quot;: &quot;2026-11-10T01:30:00.000Z&quot;,
+  &quot;timezone&quot;: &quot;America/New_York&quot;,
+  &quot;event_type&quot;: &quot;independent&quot;,
+  &quot;visibility&quot;: &quot;public&quot;,
   &quot;location_type&quot;: &quot;offline&quot;,
+  &quot;cover_url&quot;: &quot;https://images.lumacdn.com/uploads/i4/53422b43-94a5-4549-bd0b-2e68cc2b9692.png&quot;,
+  &quot;social_image_url&quot;: &quot;https://images.lumacdn.com/event-social/lu/0ac6b519-56d6-4db3-8828-8e56a2505878.png&quot;,
   &quot;venue_name&quot;: null,
   &quot;address&quot;: null,
-  &quot;neighborhood&quot;: &quot;Embarcadero&quot;,
-  &quot;city&quot;: &quot;San Francisco&quot;,
-  &quot;region&quot;: &quot;California&quot;,
+  &quot;short_address&quot;: null,
+  &quot;neighborhood&quot;: &quot;Tribeca&quot;,
+  &quot;city&quot;: &quot;New York&quot;,
+  &quot;region&quot;: &quot;New York&quot;,
+  &quot;country&quot;: &quot;United States&quot;,
   &quot;country_code&quot;: &quot;US&quot;,
-  &quot;latitude&quot;: 37.79475711874529,
-  &quot;longitude&quot;: -122.39248043213138,
+  &quot;latitude&quot;: 40.71372974866208,
+  &quot;longitude&quot;: -74.00512720075862,
   &quot;address_mode&quot;: &quot;obfuscated&quot;,
   &quot;address_visibility&quot;: &quot;guests-only&quot;,
-  &quot;calendar_name&quot;: &quot;OpenRouter Events&quot;,
-  &quot;calendar_url&quot;: &quot;https://luma.com/openrouter&quot;,
+  &quot;calendar_id&quot;: &quot;cal-kcWhMbIs2X0Y2Xb&quot;,
+  &quot;calendar_name&quot;: &quot;Andrew&#39;s Yeung&#39;s Tech Events&quot;,
+  &quot;calendar_slug&quot;: &quot;andrewsmixers&quot;,
+  &quot;calendar_url&quot;: &quot;https://luma.com/andrewsmixers&quot;,
+  &quot;calendar_description&quot;: &quot;Join our community of 50,000+ founders, CEOs, investors, and professionals in tech.&quot;,
+  &quot;calendar_avatar_url&quot;: &quot;https://images.lumacdn.com/calendars/z7/f60cbca8-3b8b-400f-8dc3-bc45e20c49e5&quot;,
+  &quot;calendar_website&quot;: &quot;https://meetfibe.com&quot;,
+  &quot;calendar_verified&quot;: false,
   &quot;hosts&quot;: [
     {
-      &quot;id&quot;: &quot;usr-DEvlRUEgt0TvbYA&quot;,
-      &quot;name&quot;: &quot;OpenRouter&quot;,
-      &quot;twitter&quot;: &quot;openrouter&quot;
+      &quot;id&quot;: &quot;usr-DWfcHYvEcII5W5R&quot;,
+      &quot;name&quot;: &quot;Andrew Yeung&quot;,
+      &quot;username&quot;: &quot;andrewyeung&quot;,
+      &quot;profile_url&quot;: &quot;https://luma.com/user/andrewyeung&quot;,
+      &quot;avatar_url&quot;: &quot;https://cdn.lu.ma/avatars/qy/962c0a0c-bb03-4b8f-81eb-3f9002b1c725&quot;,
+      &quot;bio&quot;: &quot;Entrepreneur, investor, events host.&quot;,
+      &quot;website&quot;: &quot;https://www.andrewyeung.co&quot;,
+      &quot;twitter&quot;: &quot;andruyeung&quot;,
+      &quot;instagram&quot;: &quot;andrew.today&quot;,
+      &quot;linkedin&quot;: &quot;/in/andyeung&quot;,
+      &quot;youtube&quot;: null,
+      &quot;tiktok&quot;: &quot;andruyeung&quot;,
+      &quot;verified&quot;: false
     }
   ],
   &quot;host_count&quot;: 1,
   &quot;guest_count&quot;: 0,
-  &quot;registration_status&quot;: &quot;open&quot;,
+  &quot;ticket_count&quot;: 0,
+  &quot;registration_status&quot;: &quot;waitlist&quot;,
+  &quot;waitlist_enabled&quot;: true,
   &quot;is_free&quot;: true,
   &quot;price&quot;: null,
-  &quot;spots_remaining&quot;: 8,
+  &quot;price_currency&quot;: null,
+  &quot;price_is_flexible&quot;: null,
+  &quot;max_price&quot;: null,
+  &quot;is_sold_out&quot;: true,
+  &quot;spots_remaining&quot;: 0,
+  &quot;is_near_capacity&quot;: false,
   &quot;require_approval&quot;: true,
-  &quot;search_city&quot;: &quot;sf&quot;,
+  &quot;search_city&quot;: &quot;nyc&quot;,
+  &quot;place_id&quot;: &quot;discplace-Izx1rQVSh8njYpP&quot;,
+  &quot;place_name&quot;: &quot;New York&quot;,
   &quot;page&quot;: 1,
-  &quot;rank&quot;: 1
+  &quot;rank&quot;: 1,
+  &quot;scraped_at&quot;: &quot;2026-11-09T13:30:53Z&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.0025</strong> per event saved to the dataset ($2.50 per 1,000): 100 events ≈ $0.25, 1,000 events ≈ $2.50. An event found in two cities is charged once, and an interrupted run continues without charging events twice. The run ends cleanly at your maximum total charge. No monthly subscription, you pay only for what you extract.</p>
+    <p>Priced at <strong>$0.0025</strong> per event ($2.50 per 1,000; 100 events ≈ $0.25). An event found in two cities is charged once. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put city names in <code>cities</code> as written in the Luma address (<code>sf</code>, <code>london</code>, <code>berlin</code>, <code>new-york</code>) or as city addresses such as <code>https://luma.com/london</code>. <code>keyword</code> keeps events whose title, calendar, host or venue contains the word, <code>freeOnly</code> keeps free events. <code>maxResults</code> (default 100) is shared across all cities and cities are read in the order given, so with a low limit the first city can fill the whole run. An event found in two cities is returned once. An empty input reads San Francisco.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -505,24 +518,18 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the luma-events-scraper cost?</summary><p>Priced at $0.0025 per event saved to the dataset ($2.50 per 1,000). An event that appears in two cities is returned and charged once. No monthly subscription, you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>52 fields per event: ID, title and link, start and end time with time zone, in-person or online, venue, address, city and coordinates, organizer calendar, public hosts, guest count, ticket price and currency, free or paid, sold-out and spots-left flags, and where the event was found.</p></details>
-      <details><summary>How do I find the city name?</summary><p>Open the city on luma.com and copy the last part of the address, for example london from luma.com/london. You can also paste the full city address.</p></details>
-      <details><summary>Are guest names or e-mail addresses included?</summary><p>No. Guest lists and attendee data are never collected, you get the guest count only. Hosts are the public hosts that Luma shows on the event.</p></details>
-      <details><summary>Why are the venue name and address sometimes empty?</summary><p>Some hosts show the venue only to registered guests. Then the venue name and street address stay empty and you still get the city, the area and an approximate point.</p></details>
-      <details><summary>Does it return the long description or the agenda?</summary><p>No. Only the public event list of a city is read. Event pages are not opened, so the long description, the agenda, tags and the full ticket list are not collected.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. No Luma account and no API key. Give the actor city names and it does the rest.</p></details>
-    </div>
-    <h2 class="section-title">Related actors in this category</h2>
-    <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/eventbrite-scraper/"><span class="name">Eventbrite Scraper</span><span class="summary">Scrape Eventbrite events by keyword or city: title, date, venue, address, organizer, price, free/online flags.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/meetup-scraper/"><span class="name">Meetup Scraper</span><span class="summary">Scrape public Meetup events by keyword, city or group: date, venue with coordinates, RSVP count, ticket fee, topics.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/google-trends-scraper/"><span class="name">Google Trends Scraper</span><span class="summary">Scrape Google Trends: interest over time, interest by region, top and rising related queries, trending searches.</span></a>
+      <details><summary>How much does the luma-events-scraper cost?</summary><p>Priced at $0.0025 per event ($2.50 per 1,000; 100 events ≈ $0.25). An event found in two cities is charged once. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>52 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/luma-events-scraper?fpr=0khfbz&amp;fp_sid=a-luma-events-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-09</strong> · Actor v0.1.2 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

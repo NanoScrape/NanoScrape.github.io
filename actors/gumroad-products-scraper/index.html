@@ -30,8 +30,8 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/gumroad-products-scraper/#app",
-      "name": "Gumroad Products Scraper: Search Products, Prices and Ratings",
-      "description": "Scrape Gumroad products by keyword: name, price, currency, ratings, seller, product type, subscription info, link. $3 per 1,000 products, no API key.",
+      "name": "Gumroad Products Scraper: Search Products, Prices, Ratings",
+      "description": "Search the public Gumroad catalog by keyword: one record per product with name, price, currency, ratings, seller profile, product type, subscription info, thumbnail and short description.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.003",
+        "price": "0.0030",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.003",
+          "price": "0.0030",
           "priceCurrency": "USD",
           "unitText": "per product"
         }
@@ -76,7 +76,7 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Gumroad Products Scraper: Search Products, Prices and Ratings"
+          "name": "Gumroad Products Scraper: Search Products, Prices, Ratings"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "name": "How much does the gumroad-products-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.003 per product saved to the dataset ($3.00 per 1,000). A product found by two search terms is returned and charged once. No monthly subscription, you only pay for what you extract."
+            "text": "Priced at $0.003 per product ($3.00 per 1,000; 100 products ≈ $0.30). Duplicates are returned and charged once. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,39 +114,15 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "30 fields per product: product ID and permalink, name, URL, short description, product type, price, currency and price in cents, original price, pay-what-you-want and membership flags, rating average and count, limited-sale info, thumbnail, public seller profile and the search that found it."
+            "text": "30 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Does it return sales numbers or buyer data?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Only what the public search result shows for a product and its seller. Buyer data, sales numbers, reviews and file lists are not collected."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why is the description short?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The search result shows a short description and the site cuts it after about 100 characters. Product pages are not opened, so full descriptions are not collected."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Can I filter by price range?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. The site accepts a price range filter but returns prices outside it, so the actor does not offer one. Use sort (price_asc, price_desc) or filter the dataset by the price field."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How many products can I get per search term?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Up to maxResults divided by the number of terms, with a ceiling of 10,000 in total. The site reports how many products match a term but may stop serving results before the last one, so a term ends when the site returns no more products."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -154,7 +130,15 @@
           "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. No Gumroad account and no API key. Give the actor search terms and it does the rest."
+            "text": "No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fresh is the data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -260,88 +244,100 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Gumroad Products Scraper: Search Products, Prices and Ratings</h1>
-    <p class="direct-answer">The NanoScrape Gumroad Products Scraper is an Apify actor that extracts products from the public Gumroad product search. It returns 30 fields per product including name, price and currency, rating average and count, seller profile, product type and the product URL, priced at $3 per 1,000 products, with no API key or monthly subscription required.</p>
-    <p class="lead">Search the public Gumroad catalog by keyword and get one record per product: name, price and currency, star rating and rating count, seller name and profile link, product type, membership info, thumbnail, short description and the product link <a href="https://gumroad.com" target="_blank" rel="noopener">(source platform)</a>. Optional tag, minimum rating and sort order. Pay per result.</p>
+    <h1>Gumroad Products Scraper: Search Products, Prices, Ratings</h1>
+    <p class="direct-answer">The NanoScrape Gumroad Products Scraper is an Apify actor that extracts product listings and prices from gumroad.com. It returns 30 fields per result including name, description, ratings_count, rating_average, permalink, priced at $3/1k product, with no API key or monthly subscription required.</p>
+    <p class="lead">Search the public Gumroad catalog by keyword: one record per product with name, price, currency, ratings, seller profile, product type, subscription info, thumbnail and short description. <a href="https://gumroad.com" target="_blank" rel="noopener">(source platform)</a></p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/gumroad-products-scraper?fpr=0khfbz&amp;fp_sid=a-gumroad-products-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000 products</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$3.00 / 1,000 product</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">GLOBAL</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">global</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 30 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>product_id</code></td><td>string</td><td>0JuZNhk2hZSSIuSmt10oeQ==</td><td>Product</td></tr>
-      <tr><td><code>permalink</code></td><td>string</td><td>dljbz</td><td>Product</td></tr>
-      <tr><td><code>name</code></td><td>string</td><td>Prompt Vault Pro</td><td>Product</td></tr>
-      <tr><td><code>url</code></td><td>string</td><td>https://hoxy.gumroad.com/l/prompt-vault-pro</td><td>Product</td></tr>
-      <tr><td><code>description</code></td><td>string | null</td><td>Get the 300 field-tested prompts in Prompt Vault, the searchable Notio…</td><td>Product</td></tr>
-      <tr><td><code>native_type</code></td><td>string | null</td><td>digital</td><td>Product</td></tr>
-      <tr><td><code>price</code></td><td>number | null</td><td>75</td><td>Price</td></tr>
-      <tr><td><code>price_cents</code></td><td>integer | null</td><td>7500</td><td>Price</td></tr>
-      <tr><td><code>currency</code></td><td>string | null</td><td>USD</td><td>Price</td></tr>
-      <tr><td><code>original_price</code></td><td>number | null</td><td><em>null</em></td><td>Price</td></tr>
-      <tr><td><code>is_pay_what_you_want</code></td><td>boolean</td><td>false</td><td>Price</td></tr>
-      <tr><td><code>is_subscription</code></td><td>boolean</td><td>false</td><td>Membership</td></tr>
-      <tr><td><code>recurrence</code></td><td>string | null</td><td><em>null</em></td><td>Membership</td></tr>
-      <tr><td><code>duration_in_months</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Membership</td></tr>
-      <tr><td><code>ratings_count</code></td><td>integer | null</td><td>2</td><td>Ratings</td></tr>
-      <tr><td><code>rating_average</code></td><td>number | null</td><td>5</td><td>Ratings</td></tr>
-      <tr><td><code>quantity_remaining</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Availability</td></tr>
-      <tr><td><code>is_sales_limited</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Availability</td></tr>
-      <tr><td><code>thumbnail_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Product</td></tr>
-      <tr><td><code>seller_id</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Seller</td></tr>
-      <tr><td><code>seller_name</code></td><td>string | null</td><td>HOXY</td><td>Seller</td></tr>
-      <tr><td><code>seller_url</code></td><td>string | null</td><td>https://hoxy.gumroad.com</td><td>Seller</td></tr>
-      <tr><td><code>seller_avatar_url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Seller</td></tr>
-      <tr><td><code>seller_is_verified</code></td><td>boolean</td><td><em>(populated when data available)</em></td><td>Seller</td></tr>
-      <tr><td><code>search_term</code></td><td>string</td><td>notion</td><td>Search</td></tr>
-      <tr><td><code>search_tag</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Search</td></tr>
-      <tr><td><code>search_sort</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Search</td></tr>
-      <tr><td><code>rank</code></td><td>integer</td><td>10</td><td>Search</td></tr>
-      <tr><td><code>term_total_results</code></td><td>integer</td><td><em>(populated when data available)</em></td><td>Search</td></tr>
-      <tr><td><code>scraped_at</code></td><td>string</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>product_id</code></td><td>string</td><td>wVa2zLDMP7NOXIWMPuog0A==</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>name</code></td><td>string</td><td>Foliage & Grass Brushset (Photoshop/Procreate)</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>url</code></td><td>string</td><td>https://tamberella.gumroad.com/l/UrGvW</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>thumbnail_url</code></td><td>string | null</td><td>https://public-files.gumroad.com/unblglk3hh7p0uwzjklt1h3sihjb</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>seller_id</code></td><td>string | null</td><td>6269476387461</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>seller_name</code></td><td>string | null</td><td>Devin Elle Kurtz</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>seller_url</code></td><td>string | null</td><td>https://tamberella.gumroad.com</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>seller_avatar_url</code></td><td>string | null</td><td>https://public-files.gumroad.com/2o7choegwpcd9fswiv1t3u5ixmfb</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>description</code></td><td>string | null</td><td>So happy to release this set at long last! Tips and contributions welcome if you're abl...</td><td>Description</td><td>100%</td></tr>
+      <tr><td><code>is_pay_what_you_want</code></td><td>boolean</td><td><code>true</code></td><td>Salary</td><td>100%</td></tr>
+      <tr><td><code>duration_in_months</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Employment</td><td>—</td></tr>
+      <tr><td><code>ratings_count</code></td><td>integer | null</td><td><code>4267</code></td><td>Reviews / rating</td><td>100%</td></tr>
+      <tr><td><code>rating_average</code></td><td>number | null</td><td><code>5</code></td><td>Reviews / rating</td><td>87%</td></tr>
+      <tr><td><code>scraped_at</code></td><td>string</td><td>2026-11-09T13:28:02Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>permalink</code></td><td>string</td><td>UrGvW</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>native_type</code></td><td>string | null</td><td>digital</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>price</code></td><td>number | null</td><td><code>0</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>price_cents</code></td><td>integer | null</td><td><code>0</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>currency</code></td><td>string | null</td><td>USD</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>original_price</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>is_subscription</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>recurrence</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>13%</td></tr>
+      <tr><td><code>quantity_remaining</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>is_sales_limited</code></td><td>boolean</td><td><code>false</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>seller_is_verified</code></td><td>boolean</td><td><code>true</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>search_term</code></td><td>string</td><td>procreate brushes</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>search_tag</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>search_sort</code></td><td>string | null</td><td>highest_rated</td><td>Other</td><td>33%</td></tr>
+      <tr><td><code>rank</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>term_total_results</code></td><td>integer</td><td><code>6329</code></td><td>Other</td><td>100%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put keywords in <code>searchTerms</code> (for example <code>notion</code> or <code>lightroom presets</code>); each term is read in turn and <code>maxResults</code> (default 100, up to 10,000) is shared between the terms. <code>sort</code> is <code>default</code>, <code>price_asc</code>, <code>price_desc</code>, <code>newest</code> or <code>highest_rated</code>. <code>tag</code> keeps products with one tag (one tag per run) and <code>minRating</code> (1 to 4) keeps products rated at least that many stars. A product found by two terms is returned once. An empty input searches for <code>notion</code>. A price range filter is not offered, use <code>sort</code> or filter the dataset by <code>price</code>.</p>
-    <h2 class="section-title">Input example — well rated products for two keywords</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;searchTerms&quot;: [
-    &quot;notion&quot;,
-    &quot;lightroom presets&quot;
+    &quot;notion&quot;
   ],
-  &quot;sort&quot;: &quot;highest_rated&quot;,
-  &quot;minRating&quot;: 4,
-  &quot;maxResults&quot;: 120
+  &quot;maxResults&quot;: 30,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
+  }
 }</code></pre></div>
     <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;product_id&quot;: &quot;0JuZNhk2hZSSIuSmt10oeQ==&quot;,
-  &quot;permalink&quot;: &quot;dljbz&quot;,
-  &quot;name&quot;: &quot;Prompt Vault Pro&quot;,
-  &quot;url&quot;: &quot;https://hoxy.gumroad.com/l/prompt-vault-pro&quot;,
-  &quot;description&quot;: &quot;Get the 300 field-tested prompts in Prompt Vault, the searchable Notion Command Center, and video…&quot;,
+  &quot;product_id&quot;: &quot;wVa2zLDMP7NOXIWMPuog0A==&quot;,
+  &quot;permalink&quot;: &quot;UrGvW&quot;,
+  &quot;name&quot;: &quot;Foliage &amp; Grass Brushset (Photoshop/Procreate)&quot;,
+  &quot;url&quot;: &quot;https://tamberella.gumroad.com/l/UrGvW&quot;,
+  &quot;description&quot;: &quot;So happy to release this set at long last! Tips and contributions welcome if you&#39;re able to and w...&quot;,
   &quot;native_type&quot;: &quot;digital&quot;,
-  &quot;price&quot;: 75,
-  &quot;price_cents&quot;: 7500,
+  &quot;price&quot;: 0,
+  &quot;price_cents&quot;: 0,
   &quot;currency&quot;: &quot;USD&quot;,
   &quot;original_price&quot;: null,
-  &quot;is_pay_what_you_want&quot;: false,
+  &quot;is_pay_what_you_want&quot;: true,
   &quot;is_subscription&quot;: false,
   &quot;recurrence&quot;: null,
-  &quot;ratings_count&quot;: 2,
+  &quot;duration_in_months&quot;: null,
+  &quot;ratings_count&quot;: 4267,
   &quot;rating_average&quot;: 5,
-  &quot;seller_name&quot;: &quot;HOXY&quot;,
-  &quot;seller_url&quot;: &quot;https://hoxy.gumroad.com&quot;,
-  &quot;search_term&quot;: &quot;notion&quot;,
-  &quot;rank&quot;: 10
+  &quot;quantity_remaining&quot;: null,
+  &quot;is_sales_limited&quot;: false,
+  &quot;thumbnail_url&quot;: &quot;https://public-files.gumroad.com/unblglk3hh7p0uwzjklt1h3sihjb&quot;,
+  &quot;seller_id&quot;: &quot;6269476387461&quot;,
+  &quot;seller_name&quot;: &quot;Devin Elle Kurtz&quot;,
+  &quot;seller_url&quot;: &quot;https://tamberella.gumroad.com&quot;,
+  &quot;seller_avatar_url&quot;: &quot;https://public-files.gumroad.com/2o7choegwpcd9fswiv1t3u5ixmfb&quot;,
+  &quot;seller_is_verified&quot;: true,
+  &quot;search_term&quot;: &quot;procreate brushes&quot;,
+  &quot;search_tag&quot;: null,
+  &quot;search_sort&quot;: &quot;highest_rated&quot;,
+  &quot;rank&quot;: 1,
+  &quot;term_total_results&quot;: 6329,
+  &quot;scraped_at&quot;: &quot;2026-11-09T13:28:02Z&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.003</strong> per product saved to the dataset ($3.00 per 1,000): 100 products ≈ $0.30, 1,000 products ≈ $3.00. A product is charged once, even when several search terms find it, and an interrupted run continues without charging products twice. The run ends cleanly at your maximum total charge. No monthly subscription, you pay only for what you extract.</p>
+    <p>Priced at <strong>$0.003</strong> per product ($3.00 per 1,000; 100 products ≈ $0.30). Duplicates are returned and charged once. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put keywords in <code>searchTerms</code> (for example <code>notion</code> or <code>lightroom presets</code>); each term is read in turn and <code>maxResults</code> (default 100, up to 10,000) is shared between the terms. <code>sort</code> is <code>default</code>, <code>price_asc</code>, <code>price_desc</code>, <code>newest</code> or <code>highest_rated</code>. <code>tag</code> keeps products with one tag (one tag per run) and <code>minRating</code> (1 to 4) keeps products rated at least that many stars. A product found by two terms is returned once. An empty input searches for <code>notion</code>. A price range filter is not offered, use <code>sort</code> or filter the dataset by <code>price</code>.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -467,25 +463,26 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the gumroad-products-scraper cost?</summary><p>Priced at $0.003 per product saved to the dataset ($3.00 per 1,000). A product found by two search terms is returned and charged once. No monthly subscription, you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>30 fields per product: product ID and permalink, name, URL, short description, product type, price, currency and price in cents, original price, pay-what-you-want and membership flags, rating average and count, limited-sale info, thumbnail, public seller profile and the search that found it.</p></details>
-      <details><summary>Does it return sales numbers or buyer data?</summary><p>No. Only what the public search result shows for a product and its seller. Buyer data, sales numbers, reviews and file lists are not collected.</p></details>
-      <details><summary>Why is the description short?</summary><p>The search result shows a short description and the site cuts it after about 100 characters. Product pages are not opened, so full descriptions are not collected.</p></details>
-      <details><summary>Can I filter by price range?</summary><p>No. The site accepts a price range filter but returns prices outside it, so the actor does not offer one. Use sort (price_asc, price_desc) or filter the dataset by the price field.</p></details>
-      <details><summary>How many products can I get per search term?</summary><p>Up to maxResults divided by the number of terms, with a ceiling of 10,000 in total. The site reports how many products match a term but may stop serving results before the last one, so a term ends when the site returns no more products.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. No Gumroad account and no API key. Give the actor search terms and it does the rest.</p></details>
+      <details><summary>How much does the gumroad-products-scraper cost?</summary><p>Priced at $0.003 per product ($3.00 per 1,000; 100 products ≈ $0.30). Duplicates are returned and charged once. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>30 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/shopify-store-scraper/"><span class="name">Shopify Store Scraper</span><span class="summary">Scrape products, prices and vendors from Shopify stores.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/producthunt-scraper/"><span class="name">Product Hunt Scraper</span><span class="summary">Scrape Product Hunt daily, weekly and monthly leaderboards.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/ebay-scraper/"><span class="name">eBay Scraper</span><span class="summary">Scrape eBay active listings by keyword or URL: price, condition, shipping, bids, sold count, images.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/amazon-search-scraper/"><span class="name">Amazon Search Scraper</span><span class="summary">Scrape Amazon search results: products, prices and ranks across 20 markets.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/amazon-search-scraper/"><span class="name">Amazon Search Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/amazon-bestsellers-scraper/"><span class="name">Amazon Bestsellers Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/geizhals-scraper/"><span class="name">Geizhals Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/aliexpress-scraper/"><span class="name">AliExpress Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/ebay-scraper/"><span class="name">eBay Scraper</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/gumroad-products-scraper?fpr=0khfbz&amp;fp_sid=a-gumroad-products-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-09</strong> · Actor v0.1.1 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

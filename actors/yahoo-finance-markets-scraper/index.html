@@ -30,8 +30,8 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/yahoo-finance-markets-scraper/#app",
-      "name": "Yahoo Finance Markets Scraper: Stocks, ETFs and Crypto Lists",
-      "description": "Export Yahoo Finance market lists: most active, gainers, losers, trending, ETFs, crypto. Price, volume, market cap, P/E as numbers. $0.90 per 1,000 rows.",
+      "name": "Yahoo Finance Markets Scraper",
+      "description": "Read the public Yahoo Finance market lists: most active, gainers, losers, trending, 52-week movers, ETFs and crypto. Price, volume, market cap, P/E and 52-week range as numbers. Data export only.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
       "operatingSystem": "Apify cloud",
@@ -70,13 +70,7 @@
         {
           "@type": "ListItem",
           "position": 3,
-          "name": "Search & News",
-          "item": "https://www.nanoscrape.com/actors/search-news/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 4,
-          "name": "Yahoo Finance Markets Scraper: Stocks, ETFs and Crypto Lists"
+          "name": "Yahoo Finance Markets Scraper"
         }
       ]
     },
@@ -106,7 +100,7 @@
           "name": "How much does the yahoo-finance-markets-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Priced at $0.0009 per row saved to the dataset ($0.90 per 1,000). The same row price applies to stock, ETF and crypto rows. No monthly subscription, you only pay for what you extract."
+            "text": "Priced at $0.0009 per row ($0.90 per 1,000; 100 rows ≈ $0.09). The same price applies to stock, ETF and crypto rows. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,39 +108,15 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "34 fields: symbol, name, asset class, list and rank, quote URL, currency, price, change and change percent, volume, 3-month average volume, market cap, P/E ratio, 52-week change and range, with the raw text kept next to the numbers. ETF rows add moving averages and returns, crypto rows add 24-hour volume and circulating supply."
+            "text": "34 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Is this financial advice?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. The actor exports the public market lists as data. The data is for research and is not investment advice. Prices are as the site shows them at the moment the page was read and can be delayed."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Why both a number and a raw text?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "The page writes large values in short form. You get the number for calculations and the raw text, such as 4.314T, to compare with the page."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "How many rows can I get per list?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Up to the list total or maxResults, whichever is smaller, with a ceiling of 1,000 per list. The trending list has one page of 100 rows, and the gainers list is short on some days. The crypto list has thousands of rows and is read in list order."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Does it return single quotes, news or history?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. Only the market list pages are read. Single quote pages, news, charts, price history and financial statements are not collected."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
@@ -154,7 +124,15 @@
           "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. No Yahoo account and no API key. Give the actor list names and it does the rest."
+            "text": "No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How fresh is the data?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -260,96 +238,108 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Yahoo Finance Markets Scraper: Stocks, ETFs and Crypto Lists</h1>
-    <p class="direct-answer">The NanoScrape Yahoo Finance Markets Scraper is an Apify actor that exports the public market lists of finance.yahoo.com. It returns 34 fields per row including symbol, name, price, change, volume, market cap, P/E ratio and 52-week range as numbers with the raw text kept, priced at $0.90 per 1,000 rows, with no API key or monthly subscription required. The data is for research and is not financial advice.</p>
-    <p class="lead">Read the public market lists of Yahoo Finance (most active, gainers, losers, trending, 52-week gainers and losers, most active ETFs and all crypto currencies) and get one record per row with the numbers already parsed: price, change, volume, market cap, P/E and 52-week range, with the raw text kept alongside <a href="https://finance.yahoo.com" target="_blank" rel="noopener">(source platform)</a>. A data export for research, not financial advice. Pay per result.</p>
+    <h1>Yahoo Finance Markets Scraper</h1>
+    <p class="direct-answer">The NanoScrape Yahoo Finance Markets Scraper is an Apify actor that extracts structured data from finance.yahoo.com. It returns 34 fields per result including name, symbol, assetClass, list, rank, priced at $0.9/1k stock, with no API key or monthly subscription required.</p>
+    <p class="lead">Read the public Yahoo Finance market lists: most active, gainers, losers, trending, 52-week movers, ETFs and crypto <a href="https://finance.yahoo.com" target="_blank" rel="noopener">(source platform)</a>. Price, volume, market cap, P/E and 52-week range as numbers. Data export only.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/yahoo-finance-markets-scraper?fpr=0khfbz&amp;fp_sid=a-yahoo-finance-markets-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$0.90 / 1,000 stocks</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$0.90 / 1,000 stock</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">US</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">global</div></div>
     </div>
     <h2 class="section-title">What you can scrape — 34 fields per result</h2>
     <table class="compare-table">
-      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>symbol</code></td><td>string</td><td>NVDA</td><td>Instrument</td></tr>
-      <tr><td><code>name</code></td><td>string | null</td><td>NVIDIA Corporation</td><td>Instrument</td></tr>
-      <tr><td><code>assetClass</code></td><td>string</td><td>stock</td><td>Instrument</td></tr>
-      <tr><td><code>list</code></td><td>string</td><td>most-active</td><td>List</td></tr>
-      <tr><td><code>rank</code></td><td>integer</td><td>1</td><td>List</td></tr>
-      <tr><td><code>quoteUrl</code></td><td>string</td><td>https://finance.yahoo.com/quote/NVDA/</td><td>Instrument</td></tr>
-      <tr><td><code>currency</code></td><td>string | null</td><td>USD</td><td>Instrument</td></tr>
-      <tr><td><code>price</code></td><td>number | null</td><td>176.18</td><td>Price</td></tr>
-      <tr><td><code>change</code></td><td>number | null</td><td>-2.49</td><td>Price</td></tr>
-      <tr><td><code>changePercent</code></td><td>number | null</td><td>-1.39</td><td>Price</td></tr>
-      <tr><td><code>changePercentRaw</code></td><td>string | null</td><td>-1.39%</td><td>Price</td></tr>
-      <tr><td><code>volume</code></td><td>integer | null</td><td>416216000</td><td>Volume and size</td></tr>
-      <tr><td><code>volumeRaw</code></td><td>string | null</td><td>416.216M</td><td>Volume and size</td></tr>
-      <tr><td><code>avgVolume3m</code></td><td>integer | null</td><td>122713000</td><td>Volume and size</td></tr>
-      <tr><td><code>avgVolume3mRaw</code></td><td>string | null</td><td>122.713M</td><td>Volume and size</td></tr>
-      <tr><td><code>marketCap</code></td><td>integer | null</td><td>4314000000000</td><td>Volume and size</td></tr>
-      <tr><td><code>marketCapRaw</code></td><td>string | null</td><td>4.314T</td><td>Volume and size</td></tr>
-      <tr><td><code>peRatioTtm</code></td><td>number | null</td><td>23.6</td><td>Volume and size</td></tr>
-      <tr><td><code>fiftyTwoWeekChangePercent</code></td><td>number | null</td><td>-7.5</td><td>52-week</td></tr>
-      <tr><td><code>fiftyTwoWeekChangePercentRaw</code></td><td>string | null</td><td>-7.50%</td><td>52-week</td></tr>
-      <tr><td><code>fiftyTwoWeekLow</code></td><td>number | null</td><td>164.27</td><td>52-week</td></tr>
-      <tr><td><code>fiftyTwoWeekHigh</code></td><td>number | null</td><td>243.37</td><td>52-week</td></tr>
-      <tr><td><code>fiftyTwoWeekRangeRaw</code></td><td>string | null</td><td>164.27 - 243.37</td><td>52-week</td></tr>
-      <tr><td><code>fiftyDayAverage</code></td><td>number | null</td><td><em>(ETF lists only)</em></td><td>ETF only</td></tr>
-      <tr><td><code>twoHundredDayAverage</code></td><td>number | null</td><td><em>(ETF lists only)</em></td><td>ETF only</td></tr>
-      <tr><td><code>return3mPercent</code></td><td>number | null</td><td><em>(ETF lists only)</em></td><td>ETF only</td></tr>
-      <tr><td><code>returnYtdPercent</code></td><td>number | null</td><td><em>(ETF lists only)</em></td><td>ETF only</td></tr>
-      <tr><td><code>volume24h</code></td><td>integer | null</td><td><em>(crypto lists only)</em></td><td>Crypto only</td></tr>
-      <tr><td><code>volume24hRaw</code></td><td>string | null</td><td><em>(crypto lists only)</em></td><td>Crypto only</td></tr>
-      <tr><td><code>volumeAllCurrencies</code></td><td>integer | null</td><td><em>(crypto lists only)</em></td><td>Crypto only</td></tr>
-      <tr><td><code>circulatingSupply</code></td><td>integer | null</td><td><em>(crypto lists only)</em></td><td>Crypto only</td></tr>
-      <tr><td><code>circulatingSupplyRaw</code></td><td>string | null</td><td><em>(crypto lists only)</em></td><td>Crypto only</td></tr>
-      <tr><td><code>page</code></td><td>integer</td><td>1</td><td>List</td></tr>
-      <tr><td><code>scrapedAt</code></td><td>string</td><td>2026-11-10T14:00:00Z</td><td>Metadata</td></tr>
+      <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th><th>Fill %</th></tr>
+      <tr><td><code>name</code></td><td>string | null</td><td>Space Exploration Technologies Corp.</td><td>Core</td><td>100%</td></tr>
+      <tr><td><code>scrapedAt</code></td><td>string</td><td>2026-11-10T14:48:23Z</td><td>Metadata</td><td>100%</td></tr>
+      <tr><td><code>symbol</code></td><td>string</td><td>SPCX</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>assetClass</code></td><td>string</td><td>stock</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>list</code></td><td>string</td><td>most-active</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>rank</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>quoteUrl</code></td><td>string</td><td>https://finance.yahoo.com/quote/SPCX/</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>currency</code></td><td>string | null</td><td>USD</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>price</code></td><td>number | null</td><td><code>138.33</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>change</code></td><td>number | null</td><td><code>-3.74</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>changePercent</code></td><td>number | null</td><td><code>-2.63</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>changePercentRaw</code></td><td>string | null</td><td>-2.63%</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>volume</code></td><td>integer | null</td><td><code>94611000</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>volumeRaw</code></td><td>string | null</td><td>94.611M</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>avgVolume3m</code></td><td>integer | null</td><td><code>97980000</code></td><td>Other</td><td>67%</td></tr>
+      <tr><td><code>avgVolume3mRaw</code></td><td>string | null</td><td>97.98M</td><td>Other</td><td>67%</td></tr>
+      <tr><td><code>marketCap</code></td><td>integer | null</td><td><code>1929000000000</code></td><td>Other</td><td>67%</td></tr>
+      <tr><td><code>marketCapRaw</code></td><td>string | null</td><td>1.929T</td><td>Other</td><td>67%</td></tr>
+      <tr><td><code>peRatioTtm</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>13%</td></tr>
+      <tr><td><code>fiftyTwoWeekChangePercent</code></td><td>number | null</td><td><code>-16.58</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiftyTwoWeekChangePercentRaw</code></td><td>string | null</td><td>-16.58%</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiftyTwoWeekLow</code></td><td>number | null</td><td><code>104.83</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiftyTwoWeekHigh</code></td><td>number | null</td><td><code>225.64</code></td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiftyTwoWeekRangeRaw</code></td><td>string | null</td><td>104.83 - 225.64</td><td>Other</td><td>100%</td></tr>
+      <tr><td><code>fiftyDayAverage</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>33%</td></tr>
+      <tr><td><code>twoHundredDayAverage</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>33%</td></tr>
+      <tr><td><code>return3mPercent</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>20%</td></tr>
+      <tr><td><code>returnYtdPercent</code></td><td>number | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>20%</td></tr>
+      <tr><td><code>volume24h</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>volume24hRaw</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>volumeAllCurrencies</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>circulatingSupply</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>circulatingSupplyRaw</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td><td>—</td></tr>
+      <tr><td><code>page</code></td><td>integer</td><td><code>1</code></td><td>Other</td><td>100%</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p>Put list names in <code>lists</code>: <code>most-active</code>, <code>gainers</code>, <code>losers</code>, <code>trending</code>, <code>52-week-gainers</code>, <code>52-week-losers</code>, <code>etf-most-active</code> and <code>crypto-all</code>; each list is read in turn. <code>maxResults</code> (default 100, maximum 1,000) is the most rows from each list, up to the list total. Other list names are refused before the run starts. Large values come as numbers (<code>4.314T</code> becomes <code>4314000000000</code>) with the raw text in fields such as <code>marketCapRaw</code>; values the page shows as <code>--</code> come back as null. An empty input reads <code>most-active</code>.</p>
-    <h2 class="section-title">Input example — gainers and losers</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;lists&quot;: [
-    &quot;gainers&quot;,
-    &quot;losers&quot;
+    &quot;most-active&quot;
   ],
-  &quot;maxResults&quot;: 60
+  &quot;maxResults&quot;: 30,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
+  }
 }</code></pre></div>
     <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
-  &quot;symbol&quot;: &quot;NVDA&quot;,
-  &quot;name&quot;: &quot;NVIDIA Corporation&quot;,
+  &quot;symbol&quot;: &quot;SPCX&quot;,
+  &quot;name&quot;: &quot;Space Exploration Technologies Corp.&quot;,
   &quot;assetClass&quot;: &quot;stock&quot;,
   &quot;list&quot;: &quot;most-active&quot;,
   &quot;rank&quot;: 1,
-  &quot;quoteUrl&quot;: &quot;https://finance.yahoo.com/quote/NVDA/&quot;,
+  &quot;quoteUrl&quot;: &quot;https://finance.yahoo.com/quote/SPCX/&quot;,
   &quot;currency&quot;: &quot;USD&quot;,
-  &quot;price&quot;: 176.18,
-  &quot;change&quot;: -2.49,
-  &quot;changePercent&quot;: -1.39,
-  &quot;changePercentRaw&quot;: &quot;-1.39%&quot;,
-  &quot;volume&quot;: 416216000,
-  &quot;volumeRaw&quot;: &quot;416.216M&quot;,
-  &quot;avgVolume3m&quot;: 122713000,
-  &quot;avgVolume3mRaw&quot;: &quot;122.713M&quot;,
-  &quot;marketCap&quot;: 4314000000000,
-  &quot;marketCapRaw&quot;: &quot;4.314T&quot;,
-  &quot;peRatioTtm&quot;: 23.6,
-  &quot;fiftyTwoWeekChangePercent&quot;: -7.5,
-  &quot;fiftyTwoWeekChangePercentRaw&quot;: &quot;-7.50%&quot;,
-  &quot;fiftyTwoWeekLow&quot;: 164.27,
-  &quot;fiftyTwoWeekHigh&quot;: 243.37,
-  &quot;fiftyTwoWeekRangeRaw&quot;: &quot;164.27 - 243.37&quot;,
+  &quot;price&quot;: 138.33,
+  &quot;change&quot;: -3.74,
+  &quot;changePercent&quot;: -2.63,
+  &quot;changePercentRaw&quot;: &quot;-2.63%&quot;,
+  &quot;volume&quot;: 94611000,
+  &quot;volumeRaw&quot;: &quot;94.611M&quot;,
+  &quot;avgVolume3m&quot;: 97980000,
+  &quot;avgVolume3mRaw&quot;: &quot;97.98M&quot;,
+  &quot;marketCap&quot;: 1929000000000,
+  &quot;marketCapRaw&quot;: &quot;1.929T&quot;,
+  &quot;peRatioTtm&quot;: null,
+  &quot;fiftyTwoWeekChangePercent&quot;: -16.58,
+  &quot;fiftyTwoWeekChangePercentRaw&quot;: &quot;-16.58%&quot;,
+  &quot;fiftyTwoWeekLow&quot;: 104.83,
+  &quot;fiftyTwoWeekHigh&quot;: 225.64,
+  &quot;fiftyTwoWeekRangeRaw&quot;: &quot;104.83 - 225.64&quot;,
+  &quot;fiftyDayAverage&quot;: null,
+  &quot;twoHundredDayAverage&quot;: null,
+  &quot;return3mPercent&quot;: null,
+  &quot;returnYtdPercent&quot;: null,
+  &quot;volume24h&quot;: null,
+  &quot;volume24hRaw&quot;: null,
+  &quot;volumeAllCurrencies&quot;: null,
+  &quot;circulatingSupply&quot;: null,
+  &quot;circulatingSupplyRaw&quot;: null,
   &quot;page&quot;: 1,
-  &quot;scrapedAt&quot;: &quot;2026-11-10T14:00:00Z&quot;
+  &quot;scrapedAt&quot;: &quot;2026-11-10T14:48:23Z&quot;
 }</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.0009</strong> per row saved to the dataset ($0.90 per 1,000): 100 rows ≈ $0.09, 1,000 rows ≈ $0.90. The same row price applies to stock, ETF and crypto rows. A symbol that appears twice in the same list is returned and charged once, and an interrupted run continues without charging rows twice. The run ends cleanly at your maximum total charge. No monthly subscription, you pay only for what you extract.</p>
+    <p>Priced at <strong>$0.0009</strong> per row ($0.90 per 1,000; 100 rows ≈ $0.09). The same price applies to stock, ETF and crypto rows. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p>Put list names in <code>lists</code>: <code>most-active</code>, <code>gainers</code>, <code>losers</code>, <code>trending</code>, <code>52-week-gainers</code>, <code>52-week-losers</code>, <code>etf-most-active</code> and <code>crypto-all</code>; each list is read in turn. <code>maxResults</code> (default 100, maximum 1,000) is the most rows from each list, up to the list total. Other list names are refused before the run starts. Large values come as numbers (<code>4.314T</code> becomes <code>4314000000000</code>) with the raw text in fields such as <code>marketCapRaw</code>; values the page shows as <code>--</code> come back as null. An empty input reads <code>most-active</code>.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -475,24 +465,18 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the yahoo-finance-markets-scraper cost?</summary><p>Priced at $0.0009 per row saved to the dataset ($0.90 per 1,000). The same row price applies to stock, ETF and crypto rows. No monthly subscription, you only pay for what you extract.</p></details>
-      <details><summary>What fields does it return?</summary><p>34 fields: symbol, name, asset class, list and rank, quote URL, currency, price, change and change percent, volume, 3-month average volume, market cap, P/E ratio, 52-week change and range, with the raw text kept next to the numbers. ETF rows add moving averages and returns, crypto rows add 24-hour volume and circulating supply.</p></details>
-      <details><summary>Is this financial advice?</summary><p>No. The actor exports the public market lists as data. The data is for research and is not investment advice. Prices are as the site shows them at the moment the page was read and can be delayed.</p></details>
-      <details><summary>Why both a number and a raw text?</summary><p>The page writes large values in short form. You get the number for calculations and the raw text, such as 4.314T, to compare with the page.</p></details>
-      <details><summary>How many rows can I get per list?</summary><p>Up to the list total or maxResults, whichever is smaller, with a ceiling of 1,000 per list. The trending list has one page of 100 rows, and the gainers list is short on some days. The crypto list has thousands of rows and is read in list order.</p></details>
-      <details><summary>Does it return single quotes, news or history?</summary><p>No. Only the market list pages are read. Single quote pages, news, charts, price history and financial statements are not collected.</p></details>
-      <details><summary>Do I need an API key from the source platform?</summary><p>No. No Yahoo account and no API key. Give the actor list names and it does the rest.</p></details>
-    </div>
-    <h2 class="section-title">Related actors in this category</h2>
-    <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/sec-edgar-filings-scraper/"><span class="name">SEC EDGAR Filings Scraper</span><span class="summary">Scrape SEC EDGAR filings by ticker, CIK, company or full-text search.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/google-news-scraper/"><span class="name">Google News Scraper</span><span class="summary">Scrape Google News articles, sources and dates by keyword.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/crunchbase-scraper/"><span class="name">Crunchbase Scraper</span><span class="summary">Scrape company profiles from Crunchbase: funding, investors, team size, categories.</span></a>
+      <details><summary>How much does the yahoo-finance-markets-scraper cost?</summary><p>Priced at $0.0009 per row ($0.90 per 1,000; 100 rows ≈ $0.09). The same price applies to stock, ETF and crypto rows. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>34 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/santamaria-automations/yahoo-finance-markets-scraper?fpr=0khfbz&amp;fp_sid=a-yahoo-finance-markets-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Last verified run: <strong>2026-11-10</strong> · Actor v0.1.1 · Maintained by NanoScrape (santamaria-automations on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>

@@ -30,7 +30,7 @@
     {
       "@type": "SoftwareApplication",
       "@id": "https://www.nanoscrape.com/actors/bluesky-profiles-posts-scraper/#app",
-      "name": "Bluesky Profiles and Posts Scraper: Public Profiles and Posts",
+      "name": "Bluesky Profiles and Posts Scraper",
       "description": "Find Bluesky profiles by keyword and collect posts from any profile. Followers, bio, links, likes, reposts and attachments. Pay per row.",
       "applicationCategory": "DeveloperApplication",
       "applicationSubCategory": "Web scraping",
@@ -39,10 +39,10 @@
       "offers": {
         "@type": "Offer",
         "priceCurrency": "USD",
-        "price": "0.001",
+        "price": "0.0010",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
-          "price": "0.001",
+          "price": "0.0010",
           "priceCurrency": "USD",
           "unitText": "per post or profile"
         }
@@ -76,7 +76,7 @@
         {
           "@type": "ListItem",
           "position": 4,
-          "name": "Bluesky Profiles and Posts Scraper: Public Profiles and Posts"
+          "name": "Bluesky Profiles and Posts Scraper"
         }
       ]
     },
@@ -106,7 +106,7 @@
           "name": "How much does the bluesky-profiles-posts-scraper cost?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "$0.001 per row delivered, post or profile ($1.00 per 1,000), billed per result on Apify. 100 rows cost about $0.10. A run that finds nothing is not charged. No monthly subscription."
+            "text": "Priced at $0.001 per post or profile row ($1.00 per 1,000). A run that finds nothing is not charged, and the profile details option has no extra charge. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract."
           }
         },
         {
@@ -114,47 +114,31 @@
           "name": "What fields does it return?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "65 fields across two row types, marked by <code>recordType</code>. Profile rows: handle, DID, link, display name, bio, counts of followers, follows, posts, lists, feeds and starter packs, dates, labels and pinned post. Post rows: text, language, hashtags, links, likes, reposts, replies, quotes, images, videos, link cards, quoted post, thread and repost details. A value the source does not send is null."
+            "text": "65 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data."
           }
         },
         {
           "@type": "Question",
-          "name": "Can I search posts by keyword?",
+          "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "No. Keyword search for posts is only open to signed-in users at the source, so this actor does not offer it. Find profiles by keyword, then collect their posts by handle."
+            "text": "Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use."
           }
         },
         {
           "@type": "Question",
-          "name": "Which data is collected?",
+          "name": "Do I need an API key from the source platform?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Public profiles and public posts only. Direct messages, private accounts and follower or following lists are not collected, and profile and post counts are snapshots taken when the run reads them."
+            "text": "No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side."
           }
         },
         {
           "@type": "Question",
-          "name": "Why do follower counts show as null?",
+          "name": "How fresh is the data?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Counts come from the profile lookup. If you switch <code>includeProfileDetails</code> off, or the lookup fails for a group of profiles, those fields stay empty and <code>detailsIncluded</code> is false."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "What is a repost row?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "When a profile reposts another account’s post, the feed lists it. The row describes the original post with <code>isRepost</code> true and the reposting account in <code>repostedByHandle</code>. Switch <code>includeReposts</code> off to keep only the profile’s own posts."
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Do I need a Bluesky account or API key?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "No. The actor reads public data only. It is an independent tool and not affiliated with Bluesky."
+            "text": "Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically."
           }
         }
       ]
@@ -260,147 +244,103 @@
   <div id="site-header"></div>
 
   <div class="detail">
-    <h1>Bluesky Profiles and Posts Scraper: Public Profiles and Posts</h1>
-    <p class="direct-answer">The NanoScrape Bluesky Profiles and Posts Scraper is an Apify actor that exports public Bluesky profiles and posts. It returns 65 fields across profile and post rows including handle, bio, follower counts, post text, likes, reposts, replies, quotes, images, videos and link cards, priced at $1 per 1,000 posts or profiles, with no account, API key or monthly subscription required.</p>
-    <p class="lead">Find public Bluesky profiles by keyword and collect the posts of any profile as clean rows <a href="https://bsky.app" target="_blank" rel="noopener">(source platform)</a>. Profile rows carry the bio, follower counts, links and dates; post rows carry the text, likes, reposts, replies, quotes and attachments. Public data only. Pay per row.</p>
+    <h1>Bluesky Profiles and Posts Scraper</h1>
+    <p class="direct-answer">The NanoScrape Bluesky Profiles Posts Scraper is an Apify actor that extracts public social media posts and profiles from bsky.app. It returns 65 fields per result including description, recordType, did, handle, url, priced at $1/1k post or profile, with no API key or monthly subscription required.</p>
+    <p class="lead">Find Bluesky profiles by keyword and collect posts from any profile <a href="https://bsky.app" target="_blank" rel="noopener">(source platform)</a>. Followers, bio, links, likes, reposts and attachments. Pay per row.</p>
 
     <div class="ctas">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/nanodata/bluesky-profiles-posts-scraper?fpr=0khfbz&amp;fp_sid=a-bluesky-profiles-posts-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
     <div class="specs">
-      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 posts or profiles</div></div>
+      <div class="spec"><div class="label">Pricing</div><div class="value">$1.00 / 1,000 post or profile</div></div>
       <div class="spec"><div class="label">Runtime</div><div class="value">Cloud (Apify)</div></div>
-      <div class="spec"><div class="label">Coverage</div><div class="value">GLOBAL</div></div>
+      <div class="spec"><div class="label">Proxy</div><div class="value">Datacenter</div></div>
+      <div class="spec"><div class="label">Coverage</div><div class="value">global</div></div>
     </div>
-    <h2 class="section-title">What you can scrape — 65 fields across profile and post rows</h2>
+    <h2 class="section-title">What you can scrape — 65 fields per result</h2>
     <table class="compare-table">
       <tr><th>Field</th><th>Type</th><th>Example</th><th>Group</th></tr>
-      <tr><td><code>recordType</code></td><td>string | null</td><td>profile</td><td>Metadata</td></tr>
-      <tr><td><code>did</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>handle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>url</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile / Post</td></tr>
-      <tr><td><code>displayName</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>description</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>avatar</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>banner</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>createdAt</code></td><td>string | null</td><td>2023-04-20T18:59:15.031Z</td><td>Profile / Post</td></tr>
-      <tr><td><code>indexedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>followersCount</code></td><td>integer | null</td><td>6138</td><td>Profile</td></tr>
-      <tr><td><code>followsCount</code></td><td>integer | null</td><td>223</td><td>Profile</td></tr>
-      <tr><td><code>postsCount</code></td><td>integer | null</td><td>12047</td><td>Profile</td></tr>
-      <tr><td><code>listsCount</code></td><td>integer | null</td><td>6</td><td>Profile</td></tr>
-      <tr><td><code>feedGeneratorsCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>starterPacksCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>isLabeler</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>verifiedStatus</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>labels</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>pinnedPostUri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>joinedViaStarterPackUri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Profile</td></tr>
-      <tr><td><code>chatAllowIncoming</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Profile</td></tr>
-      <tr><td><code>searchTerm</code></td><td>string | null</td><td>marketing</td><td>Profile</td></tr>
-      <tr><td><code>detailsIncluded</code></td><td>boolean | null</td><td>true</td><td>Profile</td></tr>
+      <tr><td><code>url</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Core</td></tr>
+      <tr><td><code>description</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Description</td></tr>
+      <tr><td><code>starterPacksCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Reviews / rating</td></tr>
       <tr><td><code>scrapedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Metadata</td></tr>
-      <tr><td><code>uri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>cid</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>authorHandle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post author</td></tr>
-      <tr><td><code>authorDid</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post author</td></tr>
-      <tr><td><code>authorDisplayName</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post author</td></tr>
-      <tr><td><code>authorAvatar</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post author</td></tr>
-      <tr><td><code>text</code></td><td>string | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>langs</code></td><td>array | null</td><td>["en"]</td><td>Post content</td></tr>
-      <tr><td><code>replyCount</code></td><td>integer | null</td><td>204</td><td>Post numbers</td></tr>
-      <tr><td><code>repostCount</code></td><td>integer | null</td><td>470</td><td>Post numbers</td></tr>
-      <tr><td><code>likeCount</code></td><td>integer | null</td><td>3581</td><td>Post numbers</td></tr>
-      <tr><td><code>quoteCount</code></td><td>integer | null</td><td>87</td><td>Post numbers</td></tr>
-      <tr><td><code>bookmarkCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Post numbers</td></tr>
-      <tr><td><code>embedType</code></td><td>string | null</td><td>images</td><td>Attachments</td></tr>
-      <tr><td><code>externalUrl</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>externalTitle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>externalDescription</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>externalThumb</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>imageUrls</code></td><td>array | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>imageAlts</code></td><td>array | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>videoUrl</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>videoThumbnail</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>videoAlt</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>quotedPostUri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>quotedPostUrl</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>quotedPostText</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>quotedAuthorHandle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Attachments</td></tr>
-      <tr><td><code>hashtags</code></td><td>array | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>links</code></td><td>array | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>mentionedDids</code></td><td>array | null</td><td><em>(as published)</em></td><td>Post content</td></tr>
-      <tr><td><code>isReply</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Thread</td></tr>
-      <tr><td><code>replyParentUri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Thread</td></tr>
-      <tr><td><code>replyRootUri</code></td><td>string | null</td><td><em>(as published)</em></td><td>Thread</td></tr>
-      <tr><td><code>replyParentAuthorHandle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Thread</td></tr>
-      <tr><td><code>isRepost</code></td><td>boolean | null</td><td>true</td><td>Repost</td></tr>
-      <tr><td><code>repostedByHandle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Repost</td></tr>
-      <tr><td><code>repostedByDid</code></td><td>string | null</td><td><em>(as published)</em></td><td>Repost</td></tr>
-      <tr><td><code>repostedByDisplayName</code></td><td>string | null</td><td><em>(as published)</em></td><td>Repost</td></tr>
-      <tr><td><code>repostedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Repost</td></tr>
-      <tr><td><code>sourceHandle</code></td><td>string | null</td><td><em>(as published)</em></td><td>Repost</td></tr>
+      <tr><td><code>avatar</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>imageUrls</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>imageAlts</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>videoUrl</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>videoThumbnail</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>videoAlt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Media</td></tr>
+      <tr><td><code>recordType</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>did</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>handle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>displayName</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>banner</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>createdAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>indexedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>followersCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>followsCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>postsCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>listsCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>feedGeneratorsCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>isLabeler</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>verifiedStatus</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>labels</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>pinnedPostUri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>joinedViaStarterPackUri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>chatAllowIncoming</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>searchTerm</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>detailsIncluded</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>uri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>cid</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>authorHandle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>authorDid</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>authorDisplayName</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>authorAvatar</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>text</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>langs</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>replyCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>repostCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>likeCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>quoteCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>bookmarkCount</code></td><td>integer | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>embedType</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>externalUrl</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>externalTitle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>externalDescription</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>externalThumb</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>quotedPostUri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>quotedPostUrl</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>quotedPostText</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>quotedAuthorHandle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>hashtags</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>links</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>mentionedDids</code></td><td>array | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>isReply</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>replyParentUri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>replyRootUri</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>replyParentAuthorHandle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>isRepost</code></td><td>boolean | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>repostedByHandle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>repostedByDid</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>repostedByDisplayName</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>repostedAt</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
+      <tr><td><code>sourceHandle</code></td><td>string | null</td><td><em>(populated when data available)</em></td><td>Other</td></tr>
     </table>
-    <h2 class="section-title">Input</h2>
-    <p><code>searchTerms</code> finds profiles by keyword, one search per term, and returns profile rows; <code>maxProfiles</code> (default 100, up to 50000) is split evenly across the terms. <code>handles</code> names the profiles whose posts you want, as <code>name.bsky.social</code>, <code>@name.bsky.social</code>, a <code>did:plc:…</code> id or a bsky.app profile link, and returns post rows; <code>maxPostsPerProfile</code> (default 50, up to 5000) caps each profile. <code>postFilter</code> is <code>posts_no_replies</code> (default), <code>posts_with_replies</code>, <code>posts_and_author_threads</code>, <code>posts_with_media</code> or <code>posts_with_video</code>. <code>includeProfileDetails</code> (default on) adds counts, banner and pinned post to profile rows at no extra charge, and <code>includeReposts</code> (default on) keeps reposts, marked with <code>isRepost</code>. You can combine search terms and handles in one run; an empty input runs a small sample. There is no keyword search for posts: find profiles by keyword, then collect their posts by handle.</p>
-    <h2 class="section-title">Input example — profiles by keyword and posts of one profile</h2>
+    <h2 class="section-title">Input example — showcase (full detail)</h2>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
   &quot;searchTerms&quot;: [
-    &quot;newsroom&quot;
+    &quot;data engineering&quot;
   ],
-  &quot;maxProfiles&quot;: 50,
-  &quot;handles&quot;: [
-    &quot;bsky.app&quot;
-  ],
-  &quot;maxPostsPerProfile&quot;: 30,
-  &quot;includeReposts&quot;: false
-}</code></pre></div>
-    <h2 class="section-title">Output example — real dataset item (PII scrubbed)</h2>
-    <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">[
-  {
-    &quot;recordType&quot;: &quot;profile&quot;,
-    &quot;did&quot;: &quot;(as published)&quot;,
-    &quot;handle&quot;: &quot;(as published)&quot;,
-    &quot;url&quot;: &quot;(as published)&quot;,
-    &quot;displayName&quot;: &quot;(as published)&quot;,
-    &quot;description&quot;: &quot;(as published)&quot;,
-    &quot;followersCount&quot;: 6138,
-    &quot;followsCount&quot;: 223,
-    &quot;postsCount&quot;: 12047,
-    &quot;listsCount&quot;: 6,
-    &quot;createdAt&quot;: &quot;2023-04-20T18:59:15.031Z&quot;,
-    &quot;pinnedPostUri&quot;: &quot;(as published)&quot;,
-    &quot;searchTerm&quot;: &quot;marketing&quot;,
-    &quot;detailsIncluded&quot;: true
-  },
-  {
-    &quot;recordType&quot;: &quot;post&quot;,
-    &quot;uri&quot;: &quot;(as published)&quot;,
-    &quot;url&quot;: &quot;(as published)&quot;,
-    &quot;authorHandle&quot;: &quot;(as published)&quot;,
-    &quot;text&quot;: &quot;(as published)&quot;,
-    &quot;createdAt&quot;: &quot;2026-11-05T16:03:13.775Z&quot;,
-    &quot;langs&quot;: [
-      &quot;en&quot;
-    ],
-    &quot;likeCount&quot;: 3581,
-    &quot;repostCount&quot;: 470,
-    &quot;replyCount&quot;: 204,
-    &quot;quoteCount&quot;: 87,
-    &quot;embedType&quot;: &quot;images&quot;,
-    &quot;imageUrls&quot;: [
-      &quot;(as published)&quot;
-    ],
-    &quot;hashtags&quot;: [
-      &quot;(as published)&quot;
-    ],
-    &quot;isRepost&quot;: true,
-    &quot;repostedByHandle&quot;: &quot;(as published)&quot;,
-    &quot;sourceHandle&quot;: &quot;(as published)&quot;
+  &quot;maxProfiles&quot;: 20,
+  &quot;includeProfileDetails&quot;: true,
+  &quot;proxyConfiguration&quot;: {
+    &quot;useApifyProxy&quot;: true
   }
-]</code></pre></div>
+}</code></pre></div>
     <h2 class="section-title">Cost math</h2>
-    <p>Priced at <strong>$0.001</strong> per row delivered, whether it is a post or a profile ($1.00 per 1,000). Examples: 100 rows ≈ $0.10; 1,000 rows ≈ $1.00. A run that finds nothing is not charged, the profile details option has no extra charge, and a maximum cost per run stops the run cleanly. No monthly subscription — you only pay for what you extract.</p>
+    <p>Priced at <strong>$0.001</strong> per post or profile row ($1.00 per 1,000). A run that finds nothing is not charged, and the profile details option has no extra charge. The first runs land inside Apify's $5/mo free-tier credit — pay only for what you extract, no monthly subscription.</p>
+    <h2 class="section-title">Input</h2>
+    <p><code>searchTerms</code> finds profiles by keyword, one search per term, and returns profile rows; <code>maxProfiles</code> (default 100, up to 50000) is split evenly across the terms. <code>handles</code> names the profiles whose posts you want, as <code>name.bsky.social</code>, <code>@name.bsky.social</code>, a <code>did:plc:…</code> id or a bsky.app profile link, and returns post rows; <code>maxPostsPerProfile</code> (default 50, up to 5000) caps each profile. <code>postFilter</code> is <code>posts_no_replies</code> (default), <code>posts_with_replies</code>, <code>posts_and_author_threads</code>, <code>posts_with_media</code> or <code>posts_with_video</code>. <code>includeProfileDetails</code> (default on) adds counts, banner and pinned post to profile rows at no extra charge, and <code>includeReposts</code> (default on) keeps reposts, marked with <code>isRepost</code>. You can combine search terms and handles in one run; an empty input runs a small sample. There is no keyword search for posts: find profiles by keyword, then collect their posts by handle.</p>
     <h2 class="section-title">Integrations</h2>
     <ul>
       <li><strong>n8n / Make / Zapier</strong> — trigger runs and process results via webhook</li>
@@ -526,24 +466,26 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     </div>
     <h2 class="section-title">FAQ</h2>
     <div class="faq">
-      <details><summary>How much does the bluesky-profiles-posts-scraper cost?</summary><p>$0.001 per row delivered, post or profile ($1.00 per 1,000), billed per result on Apify. 100 rows cost about $0.10. A run that finds nothing is not charged. No monthly subscription.</p></details>
-      <details><summary>What fields does it return?</summary><p>65 fields across two row types, marked by <code>recordType</code>. Profile rows: handle, DID, link, display name, bio, counts of followers, follows, posts, lists, feeds and starter packs, dates, labels and pinned post. Post rows: text, language, hashtags, links, likes, reposts, replies, quotes, images, videos, link cards, quoted post, thread and repost details. A value the source does not send is null.</p></details>
-      <details><summary>Can I search posts by keyword?</summary><p>No. Keyword search for posts is only open to signed-in users at the source, so this actor does not offer it. Find profiles by keyword, then collect their posts by handle.</p></details>
-      <details><summary>Which data is collected?</summary><p>Public profiles and public posts only. Direct messages, private accounts and follower or following lists are not collected, and profile and post counts are snapshots taken when the run reads them.</p></details>
-      <details><summary>Why do follower counts show as null?</summary><p>Counts come from the profile lookup. If you switch <code>includeProfileDetails</code> off, or the lookup fails for a group of profiles, those fields stay empty and <code>detailsIncluded</code> is false.</p></details>
-      <details><summary>What is a repost row?</summary><p>When a profile reposts another account’s post, the feed lists it. The row describes the original post with <code>isRepost</code> true and the reposting account in <code>repostedByHandle</code>. Switch <code>includeReposts</code> off to keep only the profile’s own posts.</p></details>
-      <details><summary>Do I need a Bluesky account or API key?</summary><p>No. The actor reads public data only. It is an independent tool and not affiliated with Bluesky.</p></details>
+      <details><summary>How much does the bluesky-profiles-posts-scraper cost?</summary><p>Priced at $0.001 per post or profile row ($1.00 per 1,000). A run that finds nothing is not charged, and the profile details option has no extra charge. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
+      <details><summary>What fields does it return?</summary><p>65 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
+      <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
+      <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
     </div>
     <h2 class="section-title">Related actors in this category</h2>
     <div class="related-actors">
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/twitter-x-profiles-tweets-scraper/"><span class="name">Twitter X Profiles Tweets Scraper</span><span class="summary">Scrape public X (Twitter) profiles and tweets. Pay per result on Apify.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/threads-search-scraper/"><span class="name">Threads Search Scraper</span><span class="summary">Scrape Threads search results: post text, author, engagement. Pay per result on Apify.</span></a>
-      <a class="related-actor" href="https://www.nanoscrape.com/actors/reddit-scraper/"><span class="name">Reddit Scraper</span><span class="summary">Scrape Reddit posts and comments from any subreddit, search query, or user profile. Returns title, author, post text, link URL and comments.</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/threads-search-scraper/"><span class="name">Threads Search Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/tiktok-profile-scraper/"><span class="name">Tiktok Profile Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/reddit-scraper/"><span class="name">Reddit Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/facebook-pages-scraper/"><span class="name">Facebook Pages Scraper</span></a>
+      <a class="related-actor" href="https://www.nanoscrape.com/actors/instagram-scraper/"><span class="name">Instagram Scraper</span></a>
     </div>
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored noopener" href="https://apify.com/nanodata/bluesky-profiles-posts-scraper?fpr=0khfbz&amp;fp_sid=a-bluesky-profiles-posts-scraper" class="btn-primary">Open on Apify &rarr;</a>
     </div>
+    <p class="footer-verify">Actor v0.1.1 · Maintained by NanoScrape (nanodata on Apify)
+    </p>
   </div>
 
   <div id="site-footer"></div>
