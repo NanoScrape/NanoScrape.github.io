@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Neue Software-Jobs diese Woche: Stellen der letzten 7 Tage | NanoScrape</title>
+  <meta name="description" content="Neue Stellen der letzten 7 Tage für eine Rolle und Stadt von stellenanzeigen.de listen, neueste zuerst. Schritt für Schritt mit Apify und Google Sheets.">
+  <meta name="primary-keyword" content="neue jobs diese woche">
+  <meta property="og:title" content="Neue Software-Jobs diese Woche: Stellen der letzten 7 Tage | NanoScrape">
+  <meta property="og:description" content="Nur die neuen Stellen der letzten Woche für eine Rolle in einer deutschen Stadt: neueste zuerst, exportiert nach Google Sheets, jede Woche wiederholt.">
+  <meta property="og:url" content="https://www.nanoscrape.com/de/tutorials/neue-software-jobs-diese-woche-stellenanzeigen/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://www.nanoscrape.com/og/og-default.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/de/tutorials/neue-software-jobs-diese-woche-stellenanzeigen/">
+  <link rel="alternate" hreflang="de" href="https://www.nanoscrape.com/de/tutorials/neue-software-jobs-diese-woche-stellenanzeigen/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/new-software-jobs-germany-this-week-stellenanzeigen/">
+  <link rel="alternate" hreflang="fr" href="https://www.nanoscrape.com/fr/tutorials/nouvelles-offres-developpeur-allemagne-stellenanzeigen/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/new-software-jobs-germany-this-week-stellenanzeigen/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "Neue Jobs in Deutschland diese Woche mit stellenanzeigen.de auflisten",
+  "description": "Mit dem Stellenanzeigen.de Scraper auf Apify die Stellen der letzten 7 Tage für eine Rolle und Stadt sammeln, neueste zuerst, und die neuen in Google Sheets markieren.",
+  "totalTime": "PT15M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Stellenanzeigen.de Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Stellenanzeigen.de Actor öffnen",
+      "text": "Öffne den Stellenanzeigen.de Scraper auf Apify, klicke auf Try for free und registriere dich."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Eingabe einfügen",
+      "text": "Wechsle zur JSON-Eingabe und füge searchQueries, location, radius, postedWithinDays 7, sortBy newest, maxResultsPerQuery und includeJobDetails ein."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Starten und Ausgabe lesen",
+      "text": "Klicke auf Save and Run und öffne den Tab Dataset. Jede Zeile ist eine Stelle mit id, title, company, location, posted_at, Gehaltsfeldern und source_url."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Neue Anzeigen markieren",
+      "text": "Exportiere als CSV, importiere in Google Sheets und vergleiche die Spalte id mit den IDs, die du schon kennst. Plane den Lauf jede Woche."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Neue Software-Jobs diese Woche finden: Stellenanzeigen.de Scraper",
+  "description": "Neue Stellen der letzten 7 Tage für eine Rolle und Stadt von stellenanzeigen.de listen, neueste zuerst. Schritt für Schritt mit Apify und Google Sheets.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "inLanguage": "de",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/de/tutorials/neue-software-jobs-diese-woche-stellenanzeigen/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Was deckt „in den letzten 7 Tagen“ genau ab?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Die Plattform filtert danach, wie lange eine Anzeige online ist. Der Actor sendet deinen Wert als onlyAdsOnlineForDays. Unterstützt sind 1, 7 und 30; andere Zahlen werden akzeptiert, können aber auf den nächstliegenden dieser Werte gerundet werden."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Kann ich nach Berufskategorie filtern?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Dieser Actor hat kein Kategoriefeld. Nutze den Suchbegriff in searchQueries, zum Beispiel Software Engineer oder Pflegefachkraft, und ergänze mehrere Suchbegriffe, um einen Beruf abzudecken."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Warum ist posted_at in manchen Zeilen leer?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Im Beispiel für den reinen Suchmodus ist posted_at null. Mit includeJobDetails auf true enthalten die Detailzeilen posted_at, originally_posted_at und expires_at."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Was kostet es, eine Woche neuer Stellen zu prüfen?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Abrechnung pro Ergebnis. Eine Stelle mit vollständigen Details kostet 7,50 $ pro 1.000 Ergebnisse, 100 Stellen mit Details also etwa 0,75 $. Den Preis für Zeilen ohne Details findest du im Tab Pricing auf der Actor-Seite bei Apify."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/de/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Neue Jobs diese Woche",
+      "item": "https://www.nanoscrape.com/de/tutorials/neue-software-jobs-diese-woche-stellenanzeigen/"
+    }
+  ]
+}
+  </script>
+
+<style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper: Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/de/tutorials/">Tutorials</a> &rsaquo; Neue Jobs diese Woche</nav>
+
+    <h1>Neue Software-Jobs diese Woche finden: Stellenanzeigen.de Scraper</h1>
+    <p class="lead">Du willst sehen, was neu ist, nicht alles, was online steht? Der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1">Stellenanzeigen.de Scraper</a> liefert nur die Anzeigen der letzten 7 Tage für deinen Suchbegriff und deine Stadt, neueste zuerst, mit Arbeitgeber, Gehalt (wenn angegeben), Daten und Link. Ein kurzer Schritt in Google Sheets markiert, welche Anzeigen du noch nicht kanntest. Wiederhole den Lauf jede Woche. Ohne Code.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Dauer:</strong> 15 Minuten</div>
+      <div class="meta-item"><strong>Niveau:</strong> Einsteiger</div>
+      <div class="meta-item"><strong>Kosten:</strong> 100 Stellen mit Details etwa 0,75 $</div>
+      <div class="meta-item"><strong>Werkzeuge:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="#kosten" class="btn-secondary">Kosten ansehen</a>
+    </div>
+
+    <div class="toc">
+      <h2>In diesem Tutorial</h2>
+      <ol>
+        <li><a href="#warum">Warum eine Wochenliste</a></li>
+        <li><a href="#schritt-1">Schritt 1: Actor öffnen</a></li>
+        <li><a href="#schritt-2">Schritt 2: Eingabe einfügen</a></li>
+        <li><a href="#schritt-3">Schritt 3: Starten und Ausgabe lesen</a></li>
+        <li><a href="#schritt-4">Schritt 4: Mit der Liste arbeiten</a></li>
+        <li><a href="#kosten">Was das kostet</a></li>
+        <li><a href="#anwendungen">Wer es nutzt</a></li>
+        <li><a href="#faq">Häufige Fragen</a></li>
+      </ol>
+    </div>
+
+
+
+    <h2 id="warum">Warum eine wöchentliche Liste neuer Stellen</h2>
+    <p>Wer in einem Bereich Arbeit sucht oder einen Arbeitsmarkt beobachtet, fragt nicht „Was ist online?“, sondern „Was ist seit letzter Woche neu?“. Eine Suche auf der Website kann nach Datum sortieren, aber du blätterst von Hand und kannst Wochen nicht vergleichen. Mit dem <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1">Stellenanzeigen.de Scraper</a> legst du Suchbegriff, Stadt und ein Zeitfenster von 7 Tagen fest, neueste zuerst, und bekommst eine saubere Tabelle der Anzeigen, die in diesem Zeitraum erschienen sind. Das <a href="/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/">Tutorial zum reinen CSV-Export</a> gibt es separat. Diese Seite zeigt die wöchentliche Routine „Was ist neu?“.</p>
+
+    <div class="step" id="schritt-1">
+      <span class="step-number">SCHRITT 1</span>
+      <h2>Stellenanzeigen.de Actor öffnen</h2>
+      <ol>
+        <li>Öffne den <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1">Stellenanzeigen.de Scraper auf Apify</a>. Auf der <a href="/actors/stellenanzeigen-de-scraper/de/">Actor-Seite bei NanoScrape</a> stehen alle Ausgabefelder.</li>
+        <li>Klicke auf <strong>Try for free</strong> und registriere dich mit Google oder E-Mail. Der Free-Plan von Apify enthält monatliches Plattform-Guthaben, genug für einen ersten Test.</li>
+        <li>Du landest im Tab <strong>Input</strong> des Actors. Wechsle zur <strong>JSON</strong>-Ansicht, um die Eingabe unten einzufügen.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="schritt-2">
+      <span class="step-number">SCHRITT 2</span>
+      <h2>Eingabe einfügen</h2>
+      <p>Beispiel: Stellen als Software Engineer in und um Berlin, die in den letzten 7 Tagen online gegangen sind, neueste zuerst. Ersetze Suchbegriff und Stadt durch deine eigenen.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Software Engineer"
+  ],
+  "location": "Berlin",
+  "radius": 30,
+  "postedWithinDays": 7,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: die Rolle, so wie die Anzeigen sie schreiben. Du kannst weitere Suchbegriffe ergänzen, zum Beispiel „Softwareentwickler“. Doppelte Anzeigen werden über alle Suchbegriffe hinweg entfernt.</li>
+        <li><code class="code-inline">location</code> und <code class="code-inline">radius</code>: Stadt und Umkreis in km. Der Radius wird auf 10-km-Schritte gerundet; 0 verwendet den Standard der Plattform von 30 km.</li>
+        <li><code class="code-inline">postedWithinDays</code>: das Zeitfenster. Es wird auf Seiten der Plattform durchgesetzt. Unterstützt sind 1, 7 und 30; mit 7 bekommst du die Wochenliste.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> setzt die neuesten Anzeigen nach oben, genau das willst du für einen geplanten Lauf.</li>
+        <li><code class="code-inline">includeJobDetails</code>: lass es auf <code class="code-inline">true</code>, um Datum, Gehalt und Adresse in jeder Zeile zu bekommen. Ausgeschaltet liefert der Actor nur die Basisdaten aus der Trefferliste.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: für einen Test beginnst du mit 20 und erhöhst dann.</li>
+      </ul>
+      <div class="callout tip"><strong>Mehrere Rollen in einem Lauf?</strong> Trage jede Rolle in <code class="code-inline">searchQueries</code> ein. Der Actor durchsucht jeden Suchbegriff einzeln und entfernt Duplikate, sodass keine Anzeige doppelt geliefert wird.</div>
+    </div>
+
+    <div class="step" id="schritt-3">
+      <span class="step-number">SCHRITT 3</span>
+      <h2>Starten und Ausgabe lesen</h2>
+      <p>Klicke auf <strong>Save and Run</strong>. Sobald der Lauf beendet ist, öffne den Tab <strong>Dataset</strong>. Jede Zeile ist eine Stelle. Das ist das Beispiel im Detailmodus aus der Actor-Dokumentation, gekürzt auf die Felder, die hier zählen (die Kontaktfelder und die vollständige Beschreibung sind weggelassen):</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "16175643",
+  "title": "Senior Software Engineer (m/w/d)",
+  "company": "Tech GmbH",
+  "location": "Berlin, Bundesland Berlin",
+  "canton": "BE",
+  "country": "DE",
+  "work_address": "Friedrichstr. 123 10117 Berlin",
+  "job_status": "online",
+  "employment_type": "full-time",
+  "salary_text": "60.000 - 80.000 EUR/YEAR",
+  "salary_min": 60000,
+  "salary_max": 80000,
+  "salary_currency": "EUR",
+  "description_snippet": "Wir suchen einen erfahrenen Software Engineer...",
+  "remote_option": "hybrid",
+  "posted_at": "2026-03-05T00:00:00.000Z",
+  "originally_posted_at": "2026-02-10T00:00:00.000Z",
+  "expires_at": "2026-05-05T00:00:00.000Z",
+  "apply_url": "https://www.stellenanzeigen.de/job/...",
+  "company_url": "https://www.stellenanzeigen.de/unternehmen/tech-gmbh/",
+  "company_benefits": [
+    "Homeoffice",
+    "Flexible Arbeitszeiten"
+  ],
+  "search_query": "Software Engineer",
+  "source_url": "https://www.stellenanzeigen.de/job/senior-software-engineer-berlin-16175643/",
+  "source_platform": "stellenanzeigen.de",
+  "scraped_at": "2026-03-09T08:30:00.000Z"
+}</code></pre></div>
+      <p>Diese Felder brauchst du für eine Liste neuer Stellen:</p>
+      <ul>
+        <li><code class="code-inline">title</code>, <code class="code-inline">company</code> und <code class="code-inline">location</code>: die Anzeige, der Arbeitgeber und der Ort.</li>
+        <li><code class="code-inline">posted_at</code>, <code class="code-inline">originally_posted_at</code> und <code class="code-inline">expires_at</code>: die Daten, damit du prüfen kannst, ob die Anzeige in dein Zeitfenster fällt, und siehst, wann sie ausläuft.</li>
+        <li><code class="code-inline">salary_text</code>, <code class="code-inline">salary_min</code>, <code class="code-inline">salary_max</code> und <code class="code-inline">remote_option</code>: das Gehalt, soweit die Anzeige es nennt, und die Remote-Option.</li>
+        <li><code class="code-inline">source_url</code> und <code class="code-inline">apply_url</code>: der Link zur Anzeige und der Link zur Bewerbung.</li>
+        <li><code class="code-inline">id</code>: eine stabile ID, um Duplikate zwischen den wöchentlichen Läufen zu entfernen.</li>
+      </ul>
+      <p>Dieses Tutorial nutzt keine Felder zu Ansprechpartnern. Bewirb dich über den Link in der Anzeige und prüfe die Datenschutzregeln für deinen Zweck, bevor du personenbezogene Daten speicherst.</p>
+    </div>
+
+    <div class="step" id="schritt-4">
+      <span class="step-number">SCHRITT 4</span>
+      <h2>Aus dem Export eine Wochenliste machen</h2>
+      <ol>
+        <li>Klicke im Tab Dataset auf <strong>Export</strong>, wähle <strong>CSV</strong> und markiere <code class="code-inline">id</code>, <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">salary_text</code>, <code class="code-inline">remote_option</code>, <code class="code-inline">source_url</code>.</li>
+        <li>Importiere die Datei in Google Sheets (Datei &rarr; Importieren) als Tabellenblatt mit dem Namen <em>jobs</em>. In dieser Reihenfolge steht die ID in Spalte A, der Titel in B, der Arbeitgeber in C und der Ort in D.</li>
+        <li>Halte in einem Blatt namens <em>seen</em> die IDs, die du schon kennst, in Spalte A. Markiere in einer neuen Spalte auf <em>jobs</em> die Anzeigen, die diese Woche wirklich neu sind:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=IF(COUNTIF(seen!A:A, A2)=0, "NEW", "")</code></pre></div>
+      <div class="callout"><strong>Deutsche Spracheinstellung in Google Sheets?</strong> Dann trennst du die Argumente einer Formel mit Semikolon statt Komma.</div>
+      <ol start="4">
+        <li>Filtere die neue Spalte nach <code class="code-inline">NEW</code> und sortiere nach <code class="code-inline">posted_at</code>, neueste zuerst. Kopiere danach die IDs der neuen Anzeigen in das Blatt <em>seen</em>.</li>
+      </ol>
+      <h3>Jede Woche automatisch laufen lassen</h3>
+      <p>Öffne in der Apify Console <strong>Schedules</strong> und starte dieselbe Eingabe einmal pro Woche, zum Beispiel montags früh, mit <code class="code-inline">postedWithinDays</code> auf 7. Jeder Lauf liefert dann die Anzeigen der vergangenen Woche, neueste zuerst.</p>
+    </div>
+
+    <h2 id="kosten">Was das kostet</h2>
+    <p>Abrechnung pro Ergebnis: <strong>7,50 $ pro 1.000 Stellen mit vollständigen Details</strong> (0,0075 $ pro Stelle). In diesem Tutorial sind die Details an (<code class="code-inline">includeJobDetails</code>), also: 10 Stellen &asymp; 0,075 $, 100 &asymp; 0,75 $, 1.000 &asymp; 7,50 $. Ein erster Test mit 20 Stellen kostet etwa 0,15 $. Den Preis für Zeilen ohne Details, die vollständige Liste der Abrechnungsereignisse und mögliche Preisänderungen findest du im Tab Pricing auf der <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1">Apify-Seite des Actors</a>.</p>
+
+    <h2 id="anwendungen">Wer eine wöchentliche Liste neuer Stellen nutzt</h2>
+    <ul>
+      <li><strong>Jobsuchende</strong>, die nur die Anzeigen der letzten Woche sehen und sich früh bewerben wollen.</li>
+      <li><strong>Recruiter und Karrierecoaches</strong>, die beobachten, wie viele neue Stellen für einen Beruf in welcher Stadt erscheinen.</li>
+      <li><strong>Analysten und Journalisten</strong>, die den deutschen Arbeitsmarkt für einen Beruf Woche für Woche verfolgen.</li>
+    </ul>
+    <p>Du brauchst mehr als eine Jobbörse? Der <a href="/tutorials/how-to-scrape-every-job-online/">Job-Feed-Actor deckt 110+ Jobbörsen</a> mit einem Aufruf ab.</p>
+
+    <h2 id="faq">Häufige Fragen</h2>
+    <div class="faq">
+      <details>
+        <summary>Was deckt „in den letzten 7 Tagen“ genau ab?</summary>
+        <p>Die Plattform filtert danach, wie lange eine Anzeige online ist. Der Actor sendet deinen Wert als onlyAdsOnlineForDays. Unterstützt sind 1, 7 und 30; andere Zahlen werden akzeptiert, können aber auf den nächstliegenden dieser Werte gerundet werden.</p>
+      </details>
+      <details>
+        <summary>Kann ich nach Berufskategorie filtern?</summary>
+        <p>Dieser Actor hat kein Kategoriefeld. Nutze den Suchbegriff in searchQueries, zum Beispiel Software Engineer oder Pflegefachkraft, und ergänze mehrere Suchbegriffe, um einen Beruf abzudecken.</p>
+      </details>
+      <details>
+        <summary>Warum ist posted_at in manchen Zeilen leer?</summary>
+        <p>Im Beispiel für den reinen Suchmodus ist posted_at null. Mit includeJobDetails auf true enthalten die Detailzeilen posted_at, originally_posted_at und expires_at.</p>
+      </details>
+      <details>
+        <summary>Was kostet es, eine Woche neuer Stellen zu prüfen?</summary>
+        <p>Abrechnung pro Ergebnis. Eine Stelle mit vollständigen Details kostet 7,50 $ pro 1.000 Ergebnisse, 100 Stellen mit Details also etwa 0,75 $. Den Preis für Zeilen ohne Details findest du im Tab Pricing auf der Actor-Seite bei Apify.</p>
+      </details>
+    </div>
+
+    <h2>Weiterführende Links</h2>
+    <ul>
+      <li><a href="/actors/stellenanzeigen-de-scraper/de/">Stellenanzeigen.de Scraper, Actor-Seite</a>: Eingabefelder, Ausgabefelder und Preis.</li>
+      <li><a href="/de/tutorials/stellenanzeigen-scraper-stellenanzeigen-exportieren/">stellenanzeigen.de Scraper: Stellenanzeigen exportieren</a>: das reine CSV-Tutorial.</li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online (Englisch)</a>: Stellenanzeigen von 110+ Jobbörsen mit einem Aufruf.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1">Stellenanzeigen.de Scraper auf Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/stellenanzeigen-de-scraper?fpr=0khfbz&amp;fp_sid=t-new-software-jobs-germany-this-week-st-d206f1" class="btn-primary">Actor auf Apify öffnen &rarr;</a>
+      <a href="/de/tutorials/" class="btn-secondary">Alle Tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
