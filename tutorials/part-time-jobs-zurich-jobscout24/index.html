@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Part-Time Jobs in Zurich: Export from JobScout24 | NanoScrape</title>
+  <meta name="description" content="Find part-time jobs in Zurich: filter JobScout24.ch by region and employment type, get workload and salary text, and export to Google Sheets with Apify.">
+  <meta name="primary-keyword" content="part time jobs zurich">
+  <meta property="og:title" content="Part-Time Jobs in Zurich: Export from JobScout24 | NanoScrape">
+  <meta property="og:description" content="Collect part-time jobs in the Zurich region from JobScout24.ch and sort them by workload in Google Sheets.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to find part-time jobs in Zurich with JobScout24",
+  "description": "Use the JobScout24.ch Scraper on Apify to collect part-time job ads for the Zurich region, then filter and sort them by workload in Google Sheets.",
+  "totalTime": "PT20M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "JobScout24.ch Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the JobScout24 Actor",
+      "text": "Open the JobScout24.ch Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to the JSON input and paste searchQueries, region, employmentType, postedWithinDays, sortBy, maxResultsPerQuery and includeJobDetails for your job title."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one ad with employment_type, workload_min, workload_max, canton and salary_text."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Sort in Sheets",
+      "text": "Export CSV, import it into Google Sheets, filter by workload and count ads per company. Schedule a weekly run."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to find part-time jobs in Zurich with JobScout24",
+  "description": "Find part-time jobs in Zurich: filter JobScout24.ch by region and employment type, get workload and salary text, and export to Google Sheets with Apify.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does the part-time filter use the workload percentage?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor has an employmentType filter (part-time) and also returns workload_min and workload_max for each ad, so you can narrow further in your sheet, for example to jobs that allow 60%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I search another region than Zurich?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The region filter takes zurich, bern, basel, aargau, ostschweiz, zentralschweiz, romandie, tessin, graubunden, wallis or remote. Leave it empty to search all of Switzerland, and use the canton column in the output to narrow down."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the salary always filled?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. salary_text holds the salary as the ad shows it, and it stays empty when the ad shows none."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The price per job is on the Actor page and can change, so see the current price on the Actor page. You are charged per job saved, and a test with maxResultsPerQuery set to 20 keeps a first run small."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Part-time jobs in Zurich",
+      "item": "https://www.nanoscrape.com/tutorials/part-time-jobs-zurich-jobscout24/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper, Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Part-time jobs in Zurich</nav>
+
+    <h1>How to find part-time jobs in Zurich with JobScout24</h1>
+    <p class="lead">You want part-time jobs in Zurich, for example an admin role at 60%, in one sheet you can sort and filter? The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24">JobScout24.ch Scraper</a> filters by region and employment type, returns the workload range of each ad and gives you one row per job. This guide builds that list in about 20 minutes, from a real input.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 20 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> see the Actor page</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why filter for part-time at the source</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run and read the output</a></li>
+        <li><a href="#step-4">Step 4: Sort the ads</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="why">Why filter for part-time at the source</h2>
+    <p>Many Swiss job ads state a workload, written as 60%, 80 to 100% or similar. The JobScout24.ch Actor reads the type into <code class="code-inline">employment_type</code> and the range into <code class="code-inline">workload_min</code> and <code class="code-inline">workload_max</code>, and it filters by <code class="code-inline">employmentType</code> and <code class="code-inline">region</code> before the ads are saved. That gives you one clean table of part-time jobs for one region instead of a long list to read by hand. For the plain export of JobScout24 listings, see the German guide <a href="/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">JobScout24 Stellenanzeigen exportieren</a>.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the JobScout24 Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24">JobScout24.ch Scraper on Apify</a>. The <a href="/actors/jobscout24-ch-scraper/">Actor page on NanoScrape</a> lists every output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: part-time administration jobs (&ldquo;Sachbearbeiter&rdquo;) in the Zurich region, posted in the last 14 days, newest first. Replace the keyword with your job title.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "Sachbearbeiter"
+  ],
+  "region": "zurich",
+  "employmentType": "part-time",
+  "postedWithinDays": 14,
+  "sortBy": "newest",
+  "maxResultsPerQuery": 100,
+  "includeJobDetails": true
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: the job title, in German as the ads are written. Add synonyms such as &ldquo;Sachbearbeiterin&rdquo;; duplicates across keywords are removed.</li>
+        <li><code class="code-inline">region</code>: <code class="code-inline">zurich</code> here. Other values are bern, basel, aargau, ostschweiz, zentralschweiz, romandie, tessin, graubunden, wallis and remote. Leave it empty to search all of Switzerland.</li>
+        <li><code class="code-inline">employmentType</code>: <code class="code-inline">part-time</code>. The other values are full-time, temporary, apprenticeship and internship.</li>
+        <li><code class="code-inline">postedWithinDays</code>: 14 keeps the list to recent ads. The site shows ages in whole days, so 1 keeps today and yesterday.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">newest</code> puts the latest ads first.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code>: start at 20 for a test, then raise it.</li>
+        <li><code class="code-inline">includeJobDetails</code>: keep it <code class="code-inline">true</code> for the full description, apply link and company data. Turn it off for a faster list with listing data only.</li>
+      </ul>
+      <div class="callout tip"><strong>Narrow by field of work too.</strong> Add <code class="code-inline">"category": "healthcare"</code> (or it, finance, sales, education and others) to stay inside one field, and <code class="code-inline">titleFilter</code> to keep only titles that contain your words.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run ends, open the <strong>Dataset</strong> tab. Each row is one ad. This is the example row from the Actor's documentation, from a search with details off (fields the listing does not show stay <code class="code-inline">null</code>). It is a full-time row from Basel, shown for the field names; in a part-time search <code class="code-inline">employment_type</code> and the workload range show the reduced Pensum:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "id": "10453788",
+  "title": "SAP Entwickler*in",
+  "company": "Universität Basel",
+  "location": "Basel",
+  "country": "CH",
+  "canton": "BS",
+  "top_listing": true,
+  "employment_type": "full-time",
+  "workload_min": 80,
+  "workload_max": 100,
+  "salary_text": null,
+  "posted_at": "2026-11-05T05:18:05.129Z",
+  "source_url": "https://www.jobscout24.ch/en/job/22005a0a-1f96-4f3e-a600-4ac6fde47530/",
+  "source_platform": "jobscout24.ch",
+  "search_query": "Developer",
+  "scraped_at": "2026-11-12T05:18:05Z"
+}</code></pre></div>
+      <p>The fields you need for a part-time search:</p>
+      <ul>
+        <li><code class="code-inline">title</code> and <code class="code-inline">company</code>: what the job is and who offers it.</li>
+        <li><code class="code-inline">location</code> and <code class="code-inline">canton</code>: place and canton code, for example ZH.</li>
+        <li><code class="code-inline">employment_type</code>, <code class="code-inline">workload_min</code> and <code class="code-inline">workload_max</code>: the type and the Pensum range in percent.</li>
+        <li><code class="code-inline">salary_text</code>: the salary as the ad shows it, when it shows one.</li>
+        <li><code class="code-inline">posted_at</code>: the posting date.</li>
+        <li><code class="code-inline">source_url</code> and <code class="code-inline">apply_url</code>: the ad and the way to apply. With details on you also get the full description and the company profile.</li>
+      </ul>
+      <p>With details on, the dataset also has contact fields for some ads. This tutorial does not use them. Reach employers through their public channels, and check the data-protection rules for your use before you store personal data.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Sort the ads in Google Sheets</h2>
+      <ol>
+        <li>In the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong> and select <code class="code-inline">title</code>, <code class="code-inline">company</code>, <code class="code-inline">location</code>, <code class="code-inline">workload_min</code>, <code class="code-inline">workload_max</code>, <code class="code-inline">posted_at</code>, <code class="code-inline">source_url</code>.</li>
+        <li>Import the file into Google Sheets (File &rarr; Import). The columns are A to G in the order above.</li>
+        <li>Keep the ads that fit the share of work you want. For a 60% job, keep rows where the minimum workload (column D) is 60 or less and the maximum (column E) is 60 or more:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=FILTER(A2:G, D2:D&lt;=60, E2:E&gt;=60)</code></pre></div>
+      <ol start="4">
+        <li>To see which employers advertise the most part-time roles, count ads per company:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=QUERY(A2:G, "select B, count(A) where B is not null group by B order by count(A) desc label count(A) 'Ads'")</code></pre></div>
+      <p>The list covers ads on JobScout24.ch only.</p>
+      <h3>Keep it fresh with a schedule</h3>
+      <p>In the Apify Console, open <strong>Schedules</strong> and run the same input once a week with <code class="code-inline">sortBy</code> set to <code class="code-inline">newest</code>. Use <code class="code-inline">id</code> to drop ads you already have. The <code class="code-inline">postedWithinDays</code> filter keeps each run short.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>Pay per event, per job saved to the dataset, with no monthly fee. The price differs a little between a run with full details and one with listing data only, so <strong>see the current price on the <a href="/actors/jobscout24-ch-scraper/">Actor page</a></strong> or on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24">Actor's Apify page</a>. The <code>titleFilter</code> input drops ads whose title does not contain your terms before the job page is opened, so those ads add no job charges. A first test with <code>maxResultsPerQuery</code> set to 20 keeps the first run small.</p>
+
+    <h2 id="use-cases">Who uses a part-time list like this</h2>
+    <ul>
+      <li><strong>Job seekers</strong> looking for a reduced workload in one job title and region, with the ads sorted by date.</li>
+      <li><strong>Parents returning to work and career coaches</strong> who need to see what is open at 40, 60 or 80%.</li>
+      <li><strong>Recruiters and researchers</strong> tracking which employers in the Zurich region advertise part-time roles.</li>
+    </ul>
+    <p>Need more than one board? The <a href="/tutorials/how-to-scrape-every-job-online/">job feed Actor covers 110+ job boards</a> with one call.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does the part-time filter use the workload percentage?</summary>
+        <p>The Actor has an employmentType filter (part-time) and also returns workload_min and workload_max for each ad, so you can narrow further in your sheet, for example to jobs that allow 60%.</p>
+      </details>
+      <details>
+        <summary>Can I search another region than Zurich?</summary>
+        <p>Yes. The region filter takes zurich, bern, basel, aargau, ostschweiz, zentralschweiz, romandie, tessin, graubunden, wallis or remote. Leave it empty to search all of Switzerland, and use the canton column in the output to narrow down.</p>
+      </details>
+      <details>
+        <summary>Is the salary always filled?</summary>
+        <p>No. salary_text holds the salary as the ad shows it, and it stays empty when the ad shows none.</p>
+      </details>
+      <details>
+        <summary>How much does it cost?</summary>
+        <p>The price per job is on the Actor page and can change, so see the current price on the <a href="/actors/jobscout24-ch-scraper/">Actor page</a>. You are charged per job saved, and a test with maxResultsPerQuery set to 20 keeps a first run small.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/jobscout24-ch-scraper/">JobScout24.ch Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/de/tutorials/jobscout24-scraper-stellenanzeigen-exportieren/" hreflang="de" lang="de">JobScout24 Stellenanzeigen exportieren (Deutsch)</a></li>
+      <li><a href="/tutorials/how-to-scrape-every-job-online/">How to Scrape Every Job Online</a>: 110+ job boards with one call.</li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24">JobScout24.ch Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/jobscout24-ch-scraper?fpr=0khfbz&amp;fp_sid=t-part-time-jobs-zurich-jobscout24" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>

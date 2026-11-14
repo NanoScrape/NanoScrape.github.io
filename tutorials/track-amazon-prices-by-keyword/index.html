@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Amazon Prices by Keyword Over Time | NanoScrape</title>
+  <meta name="description" content="Track prices, ratings and rank of the top Amazon results for one keyword on one marketplace, week by week, with Apify and Google Sheets. No code needed.">
+  <meta name="primary-keyword" content="track amazon prices by keyword">
+  <meta property="og:title" content="Track Amazon Prices by Keyword Over Time | NanoScrape">
+  <meta property="og:description" content="Run the same Amazon keyword search every week and see which products change price, rating or position.">
+  <meta property="og:url" content="https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <!-- Prism.js syntax highlighting -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "HowTo",
+  "name": "How to track Amazon prices and ratings for one keyword over time",
+  "description": "Use the Amazon Product Search Scraper on Apify to collect the top results for one keyword on one Amazon marketplace on a schedule, then compare price, stars and position per product in Google Sheets.",
+  "totalTime": "PT20M",
+  "tool": [
+    {
+      "@type": "HowToTool",
+      "name": "Apify"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Amazon Product Search Scraper (Apify Actor)"
+    },
+    {
+      "@type": "HowToTool",
+      "name": "Google Sheets"
+    }
+  ],
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Open the Amazon search Actor",
+      "text": "Open the Amazon Product Search Scraper on Apify, click Try for free and sign up."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Paste the input",
+      "text": "Switch to the JSON input and paste searchQueries, country, maxResultsPerQuery, maxPages, sortBy and includeSponsored for your keyword and marketplace."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Run and read the output",
+      "text": "Click Save and Run, then open the Dataset tab. Each row is one product on the results page with asin, price, stars, reviewsCount, positionOverall and scrapedAt."
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Schedule it and compare",
+      "text": "Create a weekly schedule with the same input, export each run to CSV, stack the exports in Google Sheets and build a pivot table with asin in the rows and the run date in the columns."
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to track Amazon prices for a keyword over time",
+  "description": "Track prices, ratings and rank of the top Amazon results for one keyword on one marketplace, week by week, with Apify and Google Sheets. No code needed.",
+  "image": "https://www.nanoscrape.com/nanoscrape_logo_square.png",
+  "author": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "NanoScrape",
+    "url": "https://www.nanoscrape.com",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.nanoscrape.com/nanoscrape_logo_square.png"
+    }
+  },
+  "datePublished": "2026-11-14",
+  "dateModified": "2026-11-14",
+  "mainEntityOfPage": "https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/"
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this show the real best seller rank of a product?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It reads the search results page for your keyword. You get the position of each product on that page, plus the Best Seller badge when Amazon shows it. Amazon's category ranks come from its Best Sellers lists, which are a different data source."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do I get one row per product and keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Each row is one product on one search. If the same product appears under two keywords, you get two rows, each tagged with its searchQuery. That lets you compare the position of one product across keyword variants."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I track several marketplaces?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Use one run per marketplace with the country input, or mix search addresses from different Amazon domains in startUrls. Keep each marketplace in its own sheet so currencies are not mixed."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is listPrice or stars empty for some products?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Amazon shows a struck-through price only when the product is on sale, and ratings only when a product has reviews. When the card does not show a field, it stays empty."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much does it cost to track one keyword?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The Actor is pay per result. The current price is on the Actor page on NanoScrape and on the Pricing tab on Apify. A tracker with one keyword and a small maxResultsPerQuery keeps the number of products per run low."
+      }
+    }
+  ]
+}
+  </script>
+
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.nanoscrape.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Tutorials",
+      "item": "https://www.nanoscrape.com/tutorials/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Track Amazon prices by keyword",
+      "item": "https://www.nanoscrape.com/tutorials/track-amazon-prices-by-keyword/"
+    }
+  ]
+}
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+    .draft-banner { background: #f59e0b; color: #0b0e14; text-align: center; padding: 12px 20px; font-size: 0.9rem; font-weight: 600; }
+    .draft-banner a { color: #0b0e14; text-decoration: underline; }
+    .example { display: grid; grid-template-columns: 200px 1fr; gap: 24px; align-items: start; margin: 20px 0; }
+    .example figure { margin: 0; }
+    .example img { width: 100%; height: auto; border-radius: 12px; border: 1px solid var(--border); display: block; }
+    @media (max-width: 480px) { .example { grid-template-columns: 1fr; } .example figure { max-width: 220px; } }
+    .article > details { margin: 12px 0; }
+    .article > details > summary { cursor: pointer; color: var(--accent); font-weight: 600; }
+    .small { font-size: 0.9rem; color: var(--muted); }
+    .code-block code.language-text { white-space: pre-wrap; word-break: break-word; }
+  </style>
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/tutorials/">Tutorials</a> &rsaquo; Track Amazon prices by keyword</nav>
+
+    <h1>How to track Amazon prices for a keyword over time</h1>
+    <p class="lead">You sell, source or resell in a niche and want to know how the first results for a keyword move: which products get cheaper, whose ratings climb, who drops out of the top. The <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword">Amazon Product Search Scraper</a> reads the Amazon search results page for a keyword on one marketplace. Run it on a schedule with the same input and a short Google Sheets pivot shows price, stars and position per product from week to week. No code needed.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Time:</strong> 20 minutes</div>
+      <div class="meta-item"><strong>Difficulty:</strong> Beginner</div>
+      <div class="meta-item"><strong>Cost:</strong> see the current price on the actor page</div>
+      <div class="meta-item"><strong>Tools:</strong> Apify, Google Sheets</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="#cost" class="btn-secondary">See the cost</a>
+    </div>
+
+    <div class="toc">
+      <h2>In this tutorial</h2>
+      <ol>
+        <li><a href="#why">Why track one keyword</a></li>
+        <li><a href="#step-1">Step 1: Open the Actor</a></li>
+        <li><a href="#step-2">Step 2: Paste the input</a></li>
+        <li><a href="#step-3">Step 3: Run it and read the output</a></li>
+        <li><a href="#step-4">Step 4: Schedule it and compare weeks</a></li>
+        <li><a href="#cost">What it costs</a></li>
+        <li><a href="#use-cases">Who uses it</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+
+    <h2 id="why">Why track one keyword</h2>
+    <p>A single price check tells you little. What helps in product research is the movement: a product that drops from $59.99 to $49.99, a competitor that gains a few thousand reviews in a month, a newcomer that shows up in the first 20 products. A keyword search is a good unit for this, because the results page is what a shopper sees when they type that phrase. The Actor returns every product on the page with its price, rating, review count, badges and position, so the same search repeated each week becomes a time series. For the top lists Amazon itself publishes, see the <a href="/tutorials/amazon-best-sellers-product-research/">Best Sellers product research tutorial</a>. This page is about search results for a phrase you choose.</p>
+
+    <div class="step" id="step-1">
+      <span class="step-number">STEP 1</span>
+      <h2>Open the Amazon search Actor</h2>
+      <ol>
+        <li>Open the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword">Amazon Product Search Scraper on Apify</a>. The <a href="/actors/amazon-search-scraper/">Actor page on NanoScrape</a> lists every input and output field.</li>
+        <li>Click <strong>Try for free</strong> and sign up with Google or email. Apify's free plan includes monthly platform credit, enough for a first test.</li>
+        <li>You land on the Actor's <strong>Input</strong> tab. Switch to the <strong>JSON</strong> view to paste the input below.</li>
+      </ol>
+    </div>
+
+    <div class="step" id="step-2">
+      <span class="step-number">STEP 2</span>
+      <h2>Paste this input</h2>
+      <p>Example: the first 50 products for &ldquo;echo dot&rdquo; on amazon.com, in Amazon's default relevance order, without paid placements. Replace the keyword and marketplace with yours.</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "searchQueries": [
+    "echo dot"
+  ],
+  "country": "US",
+  "maxResultsPerQuery": 50,
+  "maxPages": 4,
+  "sortBy": "relevance",
+  "includeSponsored": false,
+  "concurrency": 3
+}</code></pre></div>
+      <ul>
+        <li><code class="code-inline">searchQueries</code>: the phrase a shopper types. Each keyword runs as its own search. Use one keyword per tracker so the history stays clean.</li>
+        <li><code class="code-inline">country</code>: the marketplace for your keywords, for example <code class="code-inline">US</code>, <code class="code-inline">UK</code>, <code class="code-inline">DE</code>, <code class="code-inline">FR</code> or <code class="code-inline">JP</code> (20 are supported). Keep it the same in every run, because prices and currencies differ per marketplace.</li>
+        <li><code class="code-inline">sortBy</code>: <code class="code-inline">relevance</code> is Amazon's default order and the one that matches what most shoppers see. Do not change it between runs, or positions are no longer comparable.</li>
+        <li><code class="code-inline">maxResultsPerQuery</code> and <code class="code-inline">maxPages</code>: a results page holds around 16 organic products, so 4 pages cover 50 products. Both caps stop the run; the smaller one wins.</li>
+        <li><code class="code-inline">includeSponsored</code>: <code class="code-inline">false</code> drops paid placements from the output. They are still counted in the position numbers, so <code class="code-inline">positionOverall</code> matches what a shopper sees.</li>
+        <li><code class="code-inline">minPrice</code>, <code class="code-inline">maxPrice</code> and <code class="code-inline">minStars</code> are optional filters if you only care about a price band or well-rated products. Add them from the first run on and never change them later.</li>
+      </ul>
+      <div class="callout tip"><strong>Prefer to paste an Amazon address?</strong> Use <code class="code-inline">startUrls</code> with a search page such as <code class="code-inline">https://www.amazon.de/s?k=kaffeemaschine</code>. The marketplace is read from the address, so <code class="code-inline">country</code> is not needed for it.</div>
+    </div>
+
+    <div class="step" id="step-3">
+      <span class="step-number">STEP 3</span>
+      <h2>Run it and read the output</h2>
+      <p>Click <strong>Save and Run</strong>. When the run ends, open the <strong>Dataset</strong> tab. Each row is one product on the results page. This is the example row from the Actor's documentation, shortened to the fields that matter for tracking:</p>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-json">{
+  "asin": "B09B8V1LZ3",
+  "title": "Amazon Echo Dot (5th Gen, 2022 release) | With bigger vibrant sound",
+  "url": "https://www.amazon.com/dp/B09B8V1LZ3",
+  "marketplace": "US",
+  "searchQuery": "echo dot",
+  "sortBy": "relevance",
+  "page": 1,
+  "positionOnPage": 1,
+  "positionOverall": 1,
+  "isSponsored": false,
+  "isAmazonChoice": true,
+  "isBestSeller": false,
+  "isPrime": true,
+  "price": {
+    "value": 49.99,
+    "currency": "$",
+    "raw": "$49.99"
+  },
+  "listPrice": {
+    "value": 59.99,
+    "currency": "$",
+    "raw": "$59.99"
+  },
+  "stars": 4.7,
+  "reviewsCount": 193736,
+  "deliveryText": "FREE delivery Mon, Jun 16",
+  "couponText": "Save $5 with coupon",
+  "purchaseVolumeText": "10K+ bought in past month"
+}</code></pre></div>
+      <p>The fields you need for a tracker:</p>
+      <ul>
+        <li><code class="code-inline">asin</code>: Amazon's product ID, your key for matching a product from one run to the next.</li>
+        <li><code class="code-inline">price</code> and <code class="code-inline">listPrice</code>: the shown price, and the struck-through price when the product is on sale. <code class="code-inline">couponText</code> shows a coupon if there is one.</li>
+        <li><code class="code-inline">stars</code> and <code class="code-inline">reviewsCount</code>: rating and number of reviews. <code class="code-inline">purchaseVolumeText</code> is the &ldquo;bought in past month&rdquo; text Amazon shows, when it shows one.</li>
+        <li><code class="code-inline">positionOverall</code> (and <code class="code-inline">page</code>, <code class="code-inline">positionOnPage</code>): where the product sits in the results for this keyword.</li>
+        <li><code class="code-inline">isSponsored</code>, <code class="code-inline">isAmazonChoice</code>, <code class="code-inline">isBestSeller</code>: the badges on the card.</li>
+        <li><code class="code-inline">scrapedAt</code>: when the row was read. You need it to tell the weeks apart.</li>
+      </ul>
+      <p>Some fields are empty when Amazon does not show them: <code class="code-inline">listPrice</code> only when the product is on sale, <code class="code-inline">stars</code> and <code class="code-inline">reviewsCount</code> not for products without reviews. That is expected, not an error.</p>
+    </div>
+
+    <div class="step" id="step-4">
+      <span class="step-number">STEP 4</span>
+      <h2>Schedule it and compare weeks</h2>
+      <ol>
+        <li>In the Apify Console open <strong>Schedules</strong>, create a schedule, and add this Actor with the saved input. Weekly is a good start for price movement.</li>
+        <li>After each run, in the Dataset tab click <strong>Export</strong>, choose <strong>CSV</strong> and select <code class="code-inline">asin</code>, <code class="code-inline">title</code>, <code class="code-inline">price</code>, <code class="code-inline">stars</code>, <code class="code-inline">reviewsCount</code>, <code class="code-inline">positionOverall</code> and <code class="code-inline">scrapedAt</code>. Nested fields such as <code class="code-inline">price</code> are flattened into columns; check the header names in the file.</li>
+        <li>Import the first file into Google Sheets as a sheet called <em>log</em>. For every later run, import the file and append its rows under the old ones (File &rarr; Import &rarr; Append to current sheet).</li>
+        <li>Add a date column that cuts the day out of <code class="code-inline">scrapedAt</code>. If <code class="code-inline">scrapedAt</code> is in column G and the data starts in row 2, put this in H2 and drag it down:</li>
+      </ol>
+      <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-text">=LEFT(G2,10)</code></pre></div>
+      <ol start="5">
+        <li>Select the log, choose <strong>Insert &rarr; Pivot table</strong>, put <code class="code-inline">asin</code> (and <code class="code-inline">title</code>) in <em>Rows</em>, the date column in <em>Columns</em> and the price value in <em>Values</em> with the summary <em>MAX</em>. You now see every product as a row and every run as a column.</li>
+        <li>Build a second pivot with <code class="code-inline">positionOverall</code> in <em>Values</em> to see who moves up or down. Add a column to the right of the price pivot that divides the last week by the first week minus 1 to get the change in percent.</li>
+      </ol>
+      <p>Two things to keep in mind when you read the table. A product that leaves the first 50 products simply has no value for that week, which is itself a signal. And the results page is Amazon's ranking for that moment, so small rank changes between two runs are normal; look for products that move over several weeks.</p>
+    </div>
+
+    <h2 id="cost">What it costs</h2>
+    <p>The Actor is pay per result, and you are charged for the products it returns, not for failed fetches. Because a tracker runs the same input again and again, check the current price before you schedule it: <strong>see the current price on the <a href="/actors/amazon-search-scraper/">Actor page</a></strong> or on the Pricing tab of the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword">Actor's Apify page</a>. To keep a tracker small, use one keyword, a low <code class="code-inline">maxResultsPerQuery</code> and a weekly schedule.</p>
+
+    <h2 id="use-cases">Who uses a keyword tracker like this</h2>
+    <ul>
+      <li><strong>Sellers and brand owners</strong> watch how competing products in their niche are priced and rated, and whether coupons or sale prices appear.</li>
+      <li><strong>Product researchers</strong> check whether a niche is dominated by a few established products or whether new ones enter the first results.</li>
+      <li><strong>Resellers and deal hunters</strong> follow the price of a product group on one marketplace and spot the weeks it is cheaper.</li>
+    </ul>
+    <p>Need the full product page for the products you found, such as description, variants and reviews? Use the <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-product-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword">Amazon Product Scraper</a> with the <code class="code-inline">asin</code> values from your log. Comparing this Actor with another search crawler? See the <a href="/compare/amazon-search-scraper-vs-junglee-amazon-crawler/">comparison with Junglee Amazon Crawler</a>.</p>
+
+    <h2 id="faq">Frequently asked questions</h2>
+    <div class="faq">
+      <details>
+        <summary>Does this show the real best seller rank of a product?</summary>
+        <p>No. It reads the search results page for your keyword. You get the position of each product on that page, plus the Best Seller badge when Amazon shows it. Amazon's category ranks come from its Best Sellers lists, which are a different data source.</p>
+      </details>
+      <details>
+        <summary>Why do I get one row per product and keyword?</summary>
+        <p>Each row is one product on one search. If the same product appears under two keywords, you get two rows, each tagged with its searchQuery. That lets you compare the position of one product across keyword variants.</p>
+      </details>
+      <details>
+        <summary>Can I track several marketplaces?</summary>
+        <p>Yes. Use one run per marketplace with the country input, or mix search addresses from different Amazon domains in startUrls. Keep each marketplace in its own sheet so currencies are not mixed.</p>
+      </details>
+      <details>
+        <summary>Why is listPrice or stars empty for some products?</summary>
+        <p>Amazon shows a struck-through price only when the product is on sale, and ratings only when a product has reviews. When the card does not show a field, it stays empty.</p>
+      </details>
+      <details>
+        <summary>How much does it cost to track one keyword?</summary>
+        <p>The Actor is pay per result. The current price is on the Actor page on NanoScrape and on the Pricing tab on Apify. A tracker with one keyword and a small maxResultsPerQuery keeps the number of products per run low.</p>
+      </details>
+    </div>
+
+    <h2>Related resources</h2>
+    <ul>
+      <li><a href="/actors/amazon-search-scraper/">Amazon Product Search Scraper, Actor page</a>: input fields, output fields and price.</li>
+      <li><a href="/tutorials/amazon-best-sellers-product-research/">Amazon Best Sellers Product Research</a>: a shortlist of product ideas from the top 100 of a category.</li>
+      <li><a href="/compare/amazon-search-scraper-vs-junglee-amazon-crawler/">Amazon Product Search Scraper vs Junglee Amazon Crawler</a></li>
+      <li><a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword">Amazon Product Search Scraper on Apify</a></li>
+    </ul>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/amazon-search-scraper?fpr=0khfbz&amp;fp_sid=t-track-amazon-prices-by-keyword" class="btn-primary">Open the Actor on Apify &rarr;</a>
+      <a href="/tutorials/" class="btn-secondary">All tutorials</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <!-- Prism.js syntax highlighting -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-json.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-csharp.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-java.min.js" defer></script>
+  <script>
+  // Copy-to-clipboard for all .copy-btn elements in code blocks
+  document.addEventListener('click', function(e) {
+    if (!e.target.matches('.copy-btn')) return;
+    var pre = e.target.parentElement.querySelector('pre');
+    if (!pre) return;
+    var btn = e.target;
+    navigator.clipboard.writeText(pre.textContent).then(function() {
+      var orig = btn.textContent;
+      btn.classList.add('copied'); btn.textContent = 'Copied!';
+      setTimeout(function() { btn.textContent = orig; btn.classList.remove('copied'); }, 1500);
+    }).catch(function() {
+      btn.textContent = 'Copy failed';
+      setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+    });
+  });
+  </script>
+</body>
+</html>
