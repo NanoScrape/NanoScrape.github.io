@@ -119,6 +119,38 @@
         },
         {
           "@type": "Question",
+          "name": "Can I use an Amazon search URL instead of keywords?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Put <code>/s?k=...</code> links in <code>startUrls</code> and the marketplace is detected from the domain. For keywords in <code>searchQueries</code>, the <code>country</code> input picks the marketplace. You can mix both in one run."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many pages and results can I get per keyword?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "<code>maxPages</code> walks up to 20 result pages per keyword, with around 16 organic rows per page. <code>maxResultsPerQuery</code> caps rows per keyword and <code>maxResults</code> caps the whole run. The actor stops earlier when a page returns fewer than 4 organic rows."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I filter by price, rating, Prime or remove sponsored results?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes: <code>minPrice</code>, <code>maxPrice</code>, <code>minStars</code> (1 to 4) and <code>includeSponsored</code> set to false. <code>primeOnly</code> works on the US marketplace only and is ignored elsewhere."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it return product detail pages or only search results?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Only search result cards, one row per result. Each row has the ASIN, price, stars, badges and its position (<code>page</code>, <code>positionOnPage</code>, <code>positionOverall</code>), and the same ASIN found under two keywords appears twice. For full product details the README points to the separate Amazon Product Scraper."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -493,6 +525,10 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <div class="faq">
       <details><summary>How much does the amazon-search-scraper cost?</summary><p>$1.00 / 1,000 result, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
       <details><summary>What fields does it return?</summary><p>31 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Can I use an Amazon search URL instead of keywords?</summary><p>Yes. Put <code>/s?k=...</code> links in <code>startUrls</code> and the marketplace is detected from the domain. For keywords in <code>searchQueries</code>, the <code>country</code> input picks the marketplace. You can mix both in one run.</p></details>
+      <details><summary>How many pages and results can I get per keyword?</summary><p><code>maxPages</code> walks up to 20 result pages per keyword, with around 16 organic rows per page. <code>maxResultsPerQuery</code> caps rows per keyword and <code>maxResults</code> caps the whole run. The actor stops earlier when a page returns fewer than 4 organic rows.</p></details>
+      <details><summary>Can I filter by price, rating, Prime or remove sponsored results?</summary><p>Yes: <code>minPrice</code>, <code>maxPrice</code>, <code>minStars</code> (1 to 4) and <code>includeSponsored</code> set to false. <code>primeOnly</code> works on the US marketplace only and is ignored elsewhere.</p></details>
+      <details><summary>Does it return product detail pages or only search results?</summary><p>Only search result cards, one row per result. Each row has the ASIN, price, stars, badges and its position (<code>page</code>, <code>positionOnPage</code>, <code>positionOverall</code>), and the same ASIN found under two keywords appears twice. For full product details the README points to the separate Amazon Product Scraper.</p></details>
       <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies, switching to residential proxies only when a request is blocked. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
@@ -508,6 +544,7 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <h2 class="section-title">Related tutorials</h2>
     <ul>
       <li><a href="/compare/amazon-search-scraper-vs-junglee-amazon-crawler/"><strong>Amazon Search Scraper vs Junglee Amazon Crawler: prices compared</strong></a> - Free-plan prices side by side, with a worked example.</li>
+      <li><a href="/tutorials/track-amazon-prices-by-keyword/"><strong>How to track Amazon prices for a keyword over time</strong></a> - Track prices, ratings and rank of the top Amazon results for one keyword on one marketplace, week by week…</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">

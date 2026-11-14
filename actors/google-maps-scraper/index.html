@@ -119,6 +119,38 @@
         },
         {
           "@type": "Question",
+          "name": "Why do I get about 120 places per search and how do I get more?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Google Maps cuts a single search off at about 120 places. Set <code>maxResultsPerQuery</code> above 100 with a location in the query (for example \"dentist in Berlin\") and the area is split into tiles, so one query can return hundreds or thousands of unique places. <code>areaTiling</code> set to <code>off</code> keeps the single search."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can it extract business emails from Google Maps listings?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, with <code>enableEmailExtraction</code> turned on. It reads emails, phones and social links from each place's website and adds <code>emails_from_website</code>, <code>phones_from_website</code>, <code>social_urls</code> and <code>address_from_website</code> to each row. It is off by default and only finds what the website publishes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I scrape Google reviews for places?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Set <code>includeReviews</code> to true. <code>maxReviewsPerPlace</code> defaults to 8 (up to 1000), <code>reviewsSort</code> picks the order, and <code>reviewsNewerThan</code> (YYYY-MM-DD) skips older reviews. You can also fetch reviews for known places by passing <code>placeUrls</code> without a search."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I skip places I already scraped?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pass the Google Maps CIDs you already have in <code>excludeCids</code>. The CID is a stable place identifier that does not change if the business changes its name or address, so repeat runs only return new places."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -609,6 +641,10 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <div class="faq">
       <details><summary>How much does the google-maps-scraper cost?</summary><p>$1.00 / 1,000 place, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
       <details><summary>What fields does it return?</summary><p>84 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Why do I get about 120 places per search and how do I get more?</summary><p>Google Maps cuts a single search off at about 120 places. Set <code>maxResultsPerQuery</code> above 100 with a location in the query (for example "dentist in Berlin") and the area is split into tiles, so one query can return hundreds or thousands of unique places. <code>areaTiling</code> set to <code>off</code> keeps the single search.</p></details>
+      <details><summary>Can it extract business emails from Google Maps listings?</summary><p>Yes, with <code>enableEmailExtraction</code> turned on. It reads emails, phones and social links from each place's website and adds <code>emails_from_website</code>, <code>phones_from_website</code>, <code>social_urls</code> and <code>address_from_website</code> to each row. It is off by default and only finds what the website publishes.</p></details>
+      <details><summary>Can I scrape Google reviews for places?</summary><p>Yes. Set <code>includeReviews</code> to true. <code>maxReviewsPerPlace</code> defaults to 8 (up to 1000), <code>reviewsSort</code> picks the order, and <code>reviewsNewerThan</code> (YYYY-MM-DD) skips older reviews. You can also fetch reviews for known places by passing <code>placeUrls</code> without a search.</p></details>
+      <details><summary>How do I skip places I already scraped?</summary><p>Pass the Google Maps CIDs you already have in <code>excludeCids</code>. The CID is a stable place identifier that does not change if the business changes its name or address, so repeat runs only return new places.</p></details>
       <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
@@ -629,6 +665,7 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
       <li><a href="/tutorials/google-maps-scraper-business-leads-contact-data/"><strong>How to Use a Google Maps Scraper to Extract Business Leads and Contact Data</strong></a> - Step-by-step tutorial for the google-maps-scraper actor.</li>
       <li><a href="/fr/tutorials/scraper-google-maps/"><strong>Comment scraper Google Maps</strong></a> - Step-by-step tutorial for the google-maps-scraper actor.</li>
       <li><a href="/tutorials/google-maps-api-alternative/"><strong>How to Get Google Maps Data Without the Places API</strong></a> - Step-by-step tutorial for the google-maps-scraper actor.</li>
+      <li><a href="/tutorials/google-maps-competitor-analysis-ratings-reviews/"><strong>Google Maps competitor analysis: compare ratings and review counts</strong></a> - Compare local competitors' Google Maps ratings and review counts in one sheet. Rank dentists, gyms or…</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">

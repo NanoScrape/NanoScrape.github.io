@@ -119,6 +119,38 @@
         },
         {
           "@type": "Question",
+          "name": "Can I search several job titles in one run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Put them in <code>searchQueries</code>. Each keyword runs as its own search and results are deduplicated across keywords, and <code>search_query</code> on each row shows which keyword found it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I limit the search to one city and distance?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Set <code>city</code> and <code>radius</code>. The radius is in km around the city, 0 to 200, default 30. Leave <code>city</code> empty to search all of Germany."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I get the newest postings first?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "<code>sortBy</code> defaults to <code>newest</code>, which uses the site's date sort, and each job carries <code>posted_at</code> and <code>posted_at_text</code>. Paid top-slot ads and listings without a date are skipped in this mode. Use <code>relevance</code> for the site's default ranking."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I run it faster without full job descriptions, or scrape specific job links?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Set <code>includeDetails</code> to false for list-only results, which is faster but leaves out the detail-page data such as salary, requirements and benefits. To check specific listings, pass their links in <code>directUrls</code>, which skips the search."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -541,6 +573,10 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <div class="faq">
       <details><summary>How much does the meinestadt-de-scraper cost?</summary><p>$8.50 / 1,000 job detail result, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
       <details><summary>What fields does it return?</summary><p>45 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Can I search several job titles in one run?</summary><p>Yes. Put them in <code>searchQueries</code>. Each keyword runs as its own search and results are deduplicated across keywords, and <code>search_query</code> on each row shows which keyword found it.</p></details>
+      <details><summary>How do I limit the search to one city and distance?</summary><p>Set <code>city</code> and <code>radius</code>. The radius is in km around the city, 0 to 200, default 30. Leave <code>city</code> empty to search all of Germany.</p></details>
+      <details><summary>How do I get the newest postings first?</summary><p><code>sortBy</code> defaults to <code>newest</code>, which uses the site's date sort, and each job carries <code>posted_at</code> and <code>posted_at_text</code>. Paid top-slot ads and listings without a date are skipped in this mode. Use <code>relevance</code> for the site's default ranking.</p></details>
+      <details><summary>Can I run it faster without full job descriptions, or scrape specific job links?</summary><p>Set <code>includeDetails</code> to false for list-only results, which is faster but leaves out the detail-page data such as salary, requirements and benefits. To check specific listings, pass their links in <code>directUrls</code>, which skips the search.</p></details>
       <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP with datacenter proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
@@ -560,6 +596,7 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <ul>
       <li><a href="/tutorials/how-to-scrape-every-job-online/"><strong>How to Scrape Every Job Online</strong></a> - Build a multi-board job pipeline covering Germany and beyond.</li>
       <li><a href="/tutorials/how-to-scrape-every-job-online/"><strong>How to Scrape MeineStadt.de Jobs</strong></a> - Step-by-step tutorial for the meinestadt-de-scraper actor.</li>
+      <li><a href="/tutorials/jobs-near-me-germany-meinestadt/"><strong>How to find jobs near you in Germany with meinestadt.de</strong></a> - Collect all local jobs within a radius of a German city from meinestadt.de and export them to a sheet…</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">

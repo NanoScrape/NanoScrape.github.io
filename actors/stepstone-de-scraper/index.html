@@ -119,6 +119,38 @@
         },
         {
           "@type": "Question",
+          "name": "Can I paste a StepStone search URL instead of typing keywords?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Paste browser search URLs into <code>searchUrls</code> to keep every filter you set on the site (sector, region, discipline, experience, skills). It can be combined with <code>searchQueries</code>, and results are deduplicated by job ID."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I only get jobs posted recently?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Use <code>postedWithinDays</code> (for example 1, 7 or 30; 0 turns the filter off) and keep <code>sortBy</code> on <code>newest</code>, which the README recommends for scheduled runs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How many jobs can one run return?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "<code>maxResultsPerQuery</code> defaults to 100 per keyword and <code>maxResults</code> caps the total across keywords (0 means unlimited). Each results page holds up to 25 rows, and <code>maxPagesFetched</code> (default 10) limits pages scanned per query, so raise it for a narrow <code>titleFilter</code> on a broad keyword."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it return salaries and application links?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Salary fields are filled only when the employer states a salary, so most jobs have none. <code>apply_url</code> is null for most jobs because applications go through StepStone's own form."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "Is scraping this site legal?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -552,6 +584,10 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <div class="faq">
       <details><summary>How much does the stepstone-de-scraper cost?</summary><p>$0.003 per job, +$0.005 with full details, billed per result on Apify. Apify's $5/month free tier covers the first runs. No monthly subscription — you only pay for what you extract.</p></details>
       <details><summary>What fields does it return?</summary><p>61 fields per result. Full field catalog is listed in the 'What you can scrape' table above — includes core identifiers, descriptive text, dates, and any category-specific data.</p></details>
+      <details><summary>Can I paste a StepStone search URL instead of typing keywords?</summary><p>Yes. Paste browser search URLs into <code>searchUrls</code> to keep every filter you set on the site (sector, region, discipline, experience, skills). It can be combined with <code>searchQueries</code>, and results are deduplicated by job ID.</p></details>
+      <details><summary>How do I only get jobs posted recently?</summary><p>Use <code>postedWithinDays</code> (for example 1, 7 or 30; 0 turns the filter off) and keep <code>sortBy</code> on <code>newest</code>, which the README recommends for scheduled runs.</p></details>
+      <details><summary>How many jobs can one run return?</summary><p><code>maxResultsPerQuery</code> defaults to 100 per keyword and <code>maxResults</code> caps the total across keywords (0 means unlimited). Each results page holds up to 25 rows, and <code>maxPagesFetched</code> (default 10) limits pages scanned per query, so raise it for a narrow <code>titleFilter</code> on a broad keyword.</p></details>
+      <details><summary>Does it return salaries and application links?</summary><p>Salary fields are filled only when the employer states a salary, so most jobs have none. <code>apply_url</code> is null for most jobs because applications go through StepStone's own form.</p></details>
       <details><summary>Is scraping this site legal?</summary><p>Scraping publicly available data is generally permitted in most jurisdictions, but GDPR applies to any personal data you collect. Review your local rules and consult a lawyer for commercial use.</p></details>
       <details><summary>Do I need an API key from the source platform?</summary><p>No. This actor reads public pages over HTTP: search pages without a proxy, detail pages with residential proxies. No API key, no OAuth, no rate-limit management on your side.</p></details>
       <details><summary>How fresh is the data?</summary><p>Every run pulls live data at execution time. Set up a schedule (daily/hourly/weekly cron) in the Apify console to keep your dataset current automatically.</p></details>
@@ -570,6 +606,8 @@ List&lt;Map&lt;String,Object&gt;&gt; items = client.dataset(run.getDefaultDatase
     <h2 class="section-title">Related tutorials</h2>
     <ul>
       <li><a href="/tutorials/how-to-scrape-every-job-online/"><strong>How to Scrape Every Job Online</strong></a> - End-to-end guide to building a multi-board job feed covering DACH and beyond.</li>
+      <li><a href="/tutorials/stepstone-scraper-export-german-jobs/"><strong>How to Scrape StepStone: Export German Job Listings to CSV</strong></a> - Export job listings from StepStone.de to CSV, Excel or JSON, no code. Step by step, with a real example…</li>
+      <li><a href="/tutorials/find-companies-hiring-in-germany-stepstone/"><strong>How to find companies hiring in Germany with StepStone</strong></a> - Build a list of companies hiring for a role in a German city, grouped by company with open roles, size and…</li>
     </ul>
 
     <div class="ctas" style="margin-top:40px">
