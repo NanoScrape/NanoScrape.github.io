@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Outreach Drafts from Google Maps (Free n8n Template) | NanoScrape</title>
+  <meta name="description" content="Free n8n template: every weekday it finds new local businesses on Google Maps, looks up the inbox they publish on their own website, logs them in Google Sheets and leaves Gmail drafts. It never sends.">
+  <meta property="og:title" content="Daily Outreach Drafts from Google Maps (Free n8n Template) | NanoScrape">
+  <meta property="og:description" content="Google Maps to role inbox to Google Sheet to Gmail drafts, every weekday. Drafts only, never sent.">
+  <meta property="og:url" content="https://www.nanoscrape.com/templates/n8n/daily-outreach-drafts/">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/templates/n8n/daily-outreach-drafts/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "NanoScrape", "item": "https://www.nanoscrape.com/"},
+      {"@type": "ListItem", "position": 2, "name": "Templates", "item": "https://www.nanoscrape.com/templates/"},
+      {"@type": "ListItem", "position": 3, "name": "Daily outreach drafts from Google Maps", "item": "https://www.nanoscrape.com/templates/n8n/daily-outreach-drafts/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {"@type": "Question", "name": "Does this workflow send emails?", "acceptedAnswer": {"@type": "Answer", "text": "No. The Gmail node only creates drafts. You read each draft and press send yourself."}},
+      {"@type": "Question", "name": "Which email addresses does it use?", "acceptedAnswer": {"@type": "Answer", "text": "Only role inboxes such as info@, hello@ or events@ that the company publishes on its own website. It never picks a personal address, and it does not guess or verify addresses."}},
+      {"@type": "Question", "name": "Do I need an OpenAI or other AI key?", "acceptedAnswer": {"@type": "Answer", "text": "No. The workflow needs Apify, Google Sheets and Gmail. The drafts are built from your own template, not written by AI."}},
+      {"@type": "Question", "name": "What happens on a day with no new companies?", "acceptedAnswer": {"@type": "Answer", "text": "The Google Maps search still runs (about $0.02 for 20 places), then the workflow stops: no contact lookup, no rows, no drafts."}}
+    ]
+  }
+  </script>
+
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; }
+    .article li strong { color: var(--white); }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0 28px; font-size: 0.9rem; }
+    .flow span { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 12px; color: var(--white); }
+    .flow i { color: var(--muted); font-style: normal; }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+    table { width: 100%; border-collapse: collapse; margin: 8px 0 20px; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--white); font-weight: 600; }
+    .table-wrap { overflow-x: auto; }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq details p { margin: 10px 0 4px; }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+
+  <div id="site-header"></div>
+
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; <a href="/templates/">Templates</a> &rsaquo; Daily outreach drafts</nav>
+
+    <h1>Daily Outreach Drafts from Google Maps (n8n Template)</h1>
+    <p class="lead">Every weekday morning this n8n workflow finds new local businesses on Google Maps, looks up the inbox each one publishes on its own website, logs them in a Google Sheet and leaves one Gmail draft per company. It never sends an email: you read the drafts and press send yourself.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Tool:</strong> n8n (Cloud or self-hosted)</div>
+      <div class="meta-item"><strong>Setup:</strong> about 10 minutes</div>
+      <div class="meta-item"><strong>Needs:</strong> Apify, Google Sheets, Gmail</div>
+      <div class="meta-item"><strong>Tested on:</strong> n8n 2.35.7 and 2.47.7</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="noopener" href="https://n8n.io/workflows/22983-create-daily-outreach-leads-and-gmail-drafts-from-google-maps-with-apify-and-sheets/" class="btn-primary">Get the template on n8n.io</a>
+      <a href="#setup" class="btn-secondary">Setup steps</a>
+    </div>
+
+    <figure>
+      <a href="workflow.png" target="_blank" rel="noopener"><img src="workflow.png" alt="The n8n workflow canvas: weekday trigger, Settings, Sheet setup, Google Maps search, known-domain filter, contact extractor, role-inbox pick, email scraper for gaps, Sheet rows and Gmail draft node" loading="lazy" width="2148" height="534"></a>
+      <figcaption>The full workflow in n8n. Click to open it at full size.</figcaption>
+    </figure>
+
+    <h2 id="flow">How it works</h2>
+    <div class="flow">
+      <span>Weekdays at 6 AM</span><i>&rarr;</i>
+      <span>Google Maps search</span><i>&rarr;</i>
+      <span>Skip known companies</span><i>&rarr;</i>
+      <span>Role inbox from the company's website</span><i>&rarr;</i>
+      <span>Google Sheet row</span><i>&rarr;</i>
+      <span>Gmail draft (never sent)</span>
+    </div>
+    <ol>
+      <li><strong>Your Sheet.</strong> On the first run the workflow creates a Google Sheet called <em>Daily outreach drafts - NanoScrape</em> with a <em>Leads</em> tab. Later runs find it by name and skip every company already in it (matched by website domain).</li>
+      <li><strong>Find new companies.</strong> The <a href="/actors/google-maps-scraper/">Google Maps Scraper</a> returns 20 places for today's search and city. Places without a website, closed places and known domains are dropped, and at most <span class="code-inline">newPerDay</span> are kept. Each weekday uses the next search &times; city pair from your lists, because the same search returns mostly the same places every day.</li>
+      <li><strong>Find a role inbox.</strong> The <a href="/actors/website-contact-extractor/">Website Contact Extractor</a> reads each website's contact pages (no API key needed) and picks a role inbox such as info@, hello@ or events@. Companies still without one go to the <a href="/actors/website-email-scraper/">Website Email Scraper</a> (up to 5 pages per site).</li>
+      <li><strong>Log and draft.</strong> Every new company gets a row with status <em>to review</em>. Companies with an inbox also get a Gmail draft built from your subject and body template.</li>
+    </ol>
+
+    <h2 id="different">What it does and does not do</h2>
+    <ul>
+      <li><strong>Drafts only.</strong> The Gmail node creates drafts. Nothing is ever sent.</li>
+      <li><strong>Role inboxes only.</strong> It uses inboxes the company publishes for enquiries on its own website. It never picks a personal address, and it does not guess or verify addresses.</li>
+      <li><strong>Daily and incremental.</strong> The Sheet is its memory, so a repeated run never adds a company or a draft twice. Delete a row to let that company come back.</li>
+      <li><strong>No AI key.</strong> Drafts come from your own template, with <span class="code-inline">{company}</span>, <span class="code-inline">{category}</span> and <span class="code-inline">{city}</span> filled in. Personalise each one before you send.</li>
+      <li><strong>Cost-capped.</strong> Every Apify node has a maximum cost per run.</li>
+    </ul>
+    <div class="callout warn"><strong>Before you send:</strong> check your country's rules for B2B email (for example GDPR or PECR) before you send any of the drafts.</div>
+
+    <h2 id="setup">Setup</h2>
+    <ol>
+      <li>Import the template from <a target="_blank" rel="noopener" href="https://n8n.io/workflows/22983-create-daily-outreach-leads-and-gmail-drafts-from-google-maps-with-apify-and-sheets/">n8n.io</a>.</li>
+      <li>Install the verified community node <span class="code-inline">@apify/n8n-nodes-apify</span> if your n8n does not have it yet (<a target="_blank" rel="noopener" href="https://docs.apify.com/platform/integrations/n8n">Apify's install guide</a>), then connect your Apify account in the three Apify nodes (OAuth2 on n8n Cloud, or an API token).</li>
+      <li>Connect Google Sheets and Gmail. The Sheet is created on the first run.</li>
+      <li>Open the <strong>Settings</strong> node and fill in your searches and cities (one per line), how many new companies per day, your name, and the email subject and body.</li>
+      <li>Click <strong>Test workflow</strong>, check the Sheet and your Gmail drafts, then activate it. It runs Monday to Friday at 6 AM in your n8n timezone.</li>
+    </ol>
+
+    <h2 id="cost">What it costs</h2>
+    <p>n8n, Google Sheets and Gmail cost nothing extra on top of your plans. The Apify actors charge per result at their Store prices:</p>
+    <div class="table-wrap">
+    <table>
+      <tr><th>Step</th><th>Actor</th><th>Billed for</th></tr>
+      <tr><td>Find companies</td><td><a href="/actors/google-maps-scraper/">Google Maps Scraper</a></td><td>each place returned (20 per run)</td></tr>
+      <tr><td>Role inbox</td><td><a href="/actors/website-contact-extractor/">Website Contact Extractor</a></td><td>each website where contacts were found</td></tr>
+      <tr><td>Gaps only</td><td><a href="/actors/website-email-scraper/">Website Email Scraper</a></td><td>each page crawled</td></tr>
+    </table>
+    </div>
+    <p>About $0.08 per daily run in our test (10 new companies, Apify Store prices). Up to about $0.15 if every website needs the inbox lookup, and about $0.02 on days with nothing new. Each Apify node has a maximum cost per run. See each actor page for current prices.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details><summary>Does this workflow send emails?</summary><p>No. The Gmail node only creates drafts. You read each draft and press send yourself.</p></details>
+      <details><summary>Which email addresses does it use?</summary><p>Only role inboxes such as info@, hello@ or events@ that the company publishes on its own website. It never picks a personal address, and it does not guess or verify addresses.</p></details>
+      <details><summary>Do I need an OpenAI or other AI key?</summary><p>No. The workflow needs Apify, Google Sheets and Gmail. The drafts are built from your own template, not written by AI.</p></details>
+      <details><summary>What happens on a day with no new companies?</summary><p>The Google Maps search still runs (about $0.02 for 20 places), then the workflow stops: no contact lookup, no rows, no drafts.</p></details>
+    </div>
+
+    <h2>Actors in this template</h2>
+    <ul>
+      <li><a href="/actors/google-maps-scraper/">Google Maps Scraper</a> (<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/google-maps-scraper?fpr=0khfbz&amp;fp_sid=tpl-daily-outreach-drafts">on Apify</a>)</li>
+      <li><a href="/actors/website-contact-extractor/">Website Contact Extractor</a> (<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-contact-extractor?fpr=0khfbz&amp;fp_sid=tpl-daily-outreach-drafts">on Apify</a>)</li>
+      <li><a href="/actors/website-email-scraper/">Website Email Scraper</a> (<a target="_blank" rel="noopener" href="https://apify.com/santamaria-automations/website-email-scraper?fpr=0khfbz&amp;fp_sid=tpl-daily-outreach-drafts">on Apify</a>)</li>
+    </ul>
+    <p>More: <a href="/tutorials/scrape-google-maps-with-n8n/">Scrape Google Maps with n8n</a> (step-by-step tutorial) and <a href="/templates/">all templates</a>.</p>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="noopener" href="https://n8n.io/workflows/22983-create-daily-outreach-leads-and-gmail-drafts-from-google-maps-with-apify-and-sheets/" class="btn-primary">Get the template on n8n.io</a>
+      <a href="/templates/" class="btn-secondary">All templates</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+</body>
+</html>
