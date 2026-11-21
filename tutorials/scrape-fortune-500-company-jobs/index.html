@@ -64,7 +64,7 @@
     },
     {
       "@type": "HowToTool",
-      "name": "NanoScrape Job Feed (private beta)"
+      "name": "NanoScrape Job Feed"
     }
   ],
   "step": [
@@ -85,8 +85,8 @@
     },
     {
       "@type": "HowToStep",
-      "name": "Tier 4: Job Feed orchestrator (private beta)",
-      "text": "Hand the F500 list to Job Feed and it fans out per ATS, runs all three extractors in parallel, dedupes by job_url, unifies the schema, and pushes a single dataset. Currently private beta - email contact@nanoscrape.com to request access."
+      "name": "Tier 4: Job Feed orchestrator",
+      "text": "Hand the F500 list to Job Feed and it fans out per ATS, runs all three extractors in parallel, dedupes by job_url, unifies the schema, and pushes a single dataset. Job Feed runs on Apify, pay per job."
     }
   ]
 }
@@ -325,7 +325,7 @@
 
     <div class="ctas">
       <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-fortune-500-company-jobs" class="btn-primary">Try the Career Site Jobs Scraper free</a>
-      <a href="/jobfeed/#signup" class="btn-secondary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz&amp;fp_sid=t-scrape-fortune-500-company-jobs" class="btn-secondary">Try Job Feed on Apify</a>
     </div>
 
     <div class="toc">
@@ -338,18 +338,17 @@
         <li><a href="#tier-1-ats">Tier 1: ATS-native scraping (57% of F500)</a></li>
         <li><a href="#tier-2-llm-http">Tier 2: LLM HTTP extraction (custom sites)</a></li>
         <li><a href="#tier-3-llm-browser">Tier 3: LLM browser fallback (JS-only sites)</a></li>
-        <li><a href="#tier-4-orchestrator">Tier 4: Job Feed orchestrator (private beta)</a></li>
+        <li><a href="#tier-4-orchestrator">Tier 4: Job Feed orchestrator</a></li>
         <li><a href="#unify-schema">Unify output across tiers (mapper script)</a></li>
         <li><a href="#mcp-integration">Run the pipeline from Claude or ChatGPT (MCP)</a></li>
         <li><a href="#f500-list">The full Fortune 500 careers-URL list</a></li>
         <li><a href="#cost">What it costs to sweep the F500</a></li>
         <li><a href="#automation">Automate the whole pipeline with n8n</a></li>
-        <li><a href="#jobfeed-saas">Coming soon: JobFeed SaaS</a></li>
       </ol>
     </div>
 
     <h2 id="at-a-glance">Fortune 500 ATS distribution at a glance</h2>
-    <p><em>By the NanoScrape team · Published 2026-09-01 · Updated 2026-10-15</em></p>
+    <p><em>By the NanoScrape team · Published 2026-09-01 · Updated 2026-11-21</em></p>
     <p>Which Applicant Tracking Systems dominate the Fortune 500 today? Here's the full distribution across all 500 companies, color-coded by which NanoScrape scraper handles that ATS. Workday accounts for about 23% of the F500 careers pages.</p>
     <figure>
       <img src="assets/f500-ats-chart.svg" alt="Horizontal bar chart of the Fortune 500 Applicant Tracking System distribution. Workday leads with 118 companies, followed by custom in-house sites at 103, pending browser-check at 50, Phenom at 41, and 18 more ATS platforms tapering to 1 company each. Bars color-coded by NanoScrape scraper tier." loading="lazy" width="900" height="746">
@@ -405,7 +404,7 @@ Tier 4 - Custom build (WAF-hardened):            11 companies (2.2%)
 
 Every F500 company gets a recommended scraper - 100% coverage attempted,
 ~85-90% expected to actually return jobs on the first run.</code></pre></div>
-    <div class="callout"><strong>Why not 100%?</strong> A handful of deployments (SuccessFactors WAF-hardened tenants, Paradox conversational-AI portals, and a few Taleo classic FTL portals) actively block automated access with per-request JavaScript challenges. Those companies can still be scraped, but they need a real browser session with human-in-the-loop CAPTCHA solving, which changes the economics enough that we treat them as a Tier 4 problem - see the JobFeed SaaS section.</div>
+    <div class="callout"><strong>Why not 100%?</strong> A handful of deployments (SuccessFactors WAF-hardened tenants, Paradox conversational-AI portals, and a few Taleo classic FTL portals) actively block automated access with per-request JavaScript challenges. Those companies can still be scraped, but they need a real browser session with human-in-the-loop CAPTCHA solving, which changes the economics enough that we do not cover them today.</div>
     <h3>Coverage by industry</h3>
     <p>If you only care about specific verticals, here's how the F500 breaks down by industry sector:</p>
     <ul>
@@ -424,10 +423,10 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
     <p>Here's the whole pipeline at a glance. Each tier writes to its own dataset with its own field names; a small mapper script (or the Job Feed orchestrator) unifies them into a single schema.</p>
     <figure>
       <img src="assets/f500-3-actor-stack.svg" alt="Flow diagram of the 3-actor NanoScrape stack: Fortune 500 careers URL list feeds into the Job Feed orchestrator, which fans out to Tier 1 Career Site Jobs Scraper (285 companies), Tier 2 Website Job Extractor (103 companies), and Tier 3 Website Job Extractor Browser (101 companies). All three tiers merge into a unified F500 jobs dataset." loading="lazy" width="920" height="620">
-      <figcaption>The 3-actor NanoScrape stack for Fortune 500 jobs coverage. Job Feed (private beta) routes each URL to the right tier and merges output.</figcaption>
+      <figcaption>The 3-actor NanoScrape stack for Fortune 500 jobs coverage. Job Feed routes each URL to the right tier and merges output.</figcaption>
     </figure>
     <div class="callout"><strong>Two cost-saving arrows in that diagram.</strong> (1) The LLM extractors (Tier 2/3) emit <code class="code-inline">ats_system</code> and <code class="code-inline">ats_url</code> whenever they detect a supported ATS on the way in. Feed those URLs into Tier 1 on the next run and you replace ~$0.014/company of LLM work with ~$0.001/company of ATS-native fetching. (2) Turn on <code class="code-inline">enablePlaywrightFallback: true</code> on the HTTP LLM extractor and it automatically re-runs any JS-flagged company through the Browser variant, so you only pay browser prices where you actually need them.</div>
-    <div class="callout warn"><strong>Heads up on schemas.</strong> Career Site Jobs Scraper returns <code class="code-inline">company</code>, <code class="code-inline">ats_platform</code>, <code class="code-inline">apply_url</code>. Website Job Extractor returns <code class="code-inline">company_id</code>, <code class="code-inline">company_name</code>, <code class="code-inline">ats_system</code>, <code class="code-inline">application_url</code>. The core fields (<code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">description</code>, <code class="code-inline">job_url</code>) match, but a handful of names differ. See the <a href="#unify-schema">mapper script section</a> for a 40-line normalizer, or use Job Feed (private beta) to skip the mapping altogether.</div>
+    <div class="callout warn"><strong>Heads up on schemas.</strong> Career Site Jobs Scraper returns <code class="code-inline">company</code>, <code class="code-inline">ats_platform</code>, <code class="code-inline">apply_url</code>. Website Job Extractor returns <code class="code-inline">company_id</code>, <code class="code-inline">company_name</code>, <code class="code-inline">ats_system</code>, <code class="code-inline">application_url</code>. The core fields (<code class="code-inline">title</code>, <code class="code-inline">location</code>, <code class="code-inline">description</code>, <code class="code-inline">job_url</code>) match, but a handful of names differ. See the <a href="#unify-schema">mapper script section</a> for a 40-line normalizer, or use <a href="/actors/job-feed/">Job Feed</a> to skip the mapping altogether.</div>
     <p>You can run the whole thing tier by tier as a manual playbook (skip to <a href="#tier-1-ats">Tier 1</a>), or hand the F500 list to the orchestrator and let it run every night on autopilot (skip to <a href="#tier-4-orchestrator">Tier 4</a>).</p>
 
     <div class="step" id="tier-1-ats">
@@ -627,7 +626,7 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
 
     <div class="step" id="tier-4-orchestrator">
       <span class="step-number">STEP 4</span>
-      <h2>Tier 4: Job Feed orchestrator (private beta)</h2>
+      <h2>Tier 4: Job Feed orchestrator</h2>
       <p>Running the three extractors by hand for a one-shot F500 sweep is straightforward. Running them regularly, tracking which companies changed platforms, handling failures with backoff, and merging into a single evergreen dataset with a unified schema - that becomes an ongoing operations job.</p>
       <p>The <strong>NanoScrape Job Feed</strong> actor is the orchestrator that handles all of that. You give it a list of company URLs (or the full F500 careers-URL CSV from this tutorial), and it:</p>
       <ul>
@@ -638,11 +637,11 @@ Every F500 company gets a recommended scraper - 100% coverage attempted,
         <li><strong>Unifies the schema:</strong> maps <code class="code-inline">company_id</code>/<code class="code-inline">company</code> to a single field, aligns <code class="code-inline">ats_system</code>/<code class="code-inline">ats_platform</code>, normalises date formats, parses salary to a numeric range where possible.</li>
         <li>Emits one consolidated dataset per run.</li>
       </ul>
-      <div class="callout tip"><strong>Currently in private beta.</strong> Job Feed handles operational complexity we don't want to expose to the public API surface yet (per-tenant rate-limit budgets, cross-actor retry orchestration, F500-scale dataset sharding). We're onboarding beta users one by one to make sure the pipeline holds up under real workloads. To request access, email <a href="/jobfeed/#signup">contact@nanoscrape.com</a> with your use case and expected daily volume. Beta users pay only Apify platform costs during the trial period.</div>
+      <div class="callout tip"><strong>Run it on Apify.</strong> Job Feed is a public Apify actor: you pay per job, with no subscription. See the <a href="/actors/job-feed/">Job Feed page</a> for the input fields and pricing.</div>
     </div>
 
     <h2 id="unify-schema">Unify output across tiers (mapper script)</h2>
-    <p>Career Site Jobs Scraper and Website Job Extractor emit compatible-but-not-identical fields. Until Job Feed goes public (or if you want to keep raw control of your pipeline), here's a ~50-line Python normalizer that flattens both into a single schema and dedupes by <code class="code-inline">job_url</code> preferring Tier 1 (ATS-native, no LLM interpretation) over Tier 2/3 when the same URL appears in both.</p>
+    <p>Career Site Jobs Scraper and Website Job Extractor emit compatible-but-not-identical fields. If you want to keep raw control of your pipeline instead of using Job Feed, here's a ~50-line Python normalizer that flattens both into a single schema and dedupes by <code class="code-inline">job_url</code> preferring Tier 1 (ATS-native, no LLM interpretation) over Tier 2/3 when the same URL appears in both.</p>
     <div class="code-block"><button class="copy-btn" data-copy-target aria-label="Copy code">Copy</button><pre><code class="language-python">from typing import Any
 
 def normalize_career_site_jobs(row: dict[str, Any]) -&gt; dict[str, Any]:
@@ -715,7 +714,7 @@ def merge_all_tiers(tier1_rows, tier2_rows, tier3_rows):
   "source_tier": "ats",
   "scraped_at": "2026-09-01T06:00:00Z"
 }</code></pre></div>
-    <div class="callout tip"><strong>Skip the mapper entirely with Job Feed.</strong> Job Feed does this normalization internally and lets you subscribe to the diff (new / removed / updated jobs) between two runs, without you having to persist raw datasets. Email <a href="/jobfeed/#signup">contact@nanoscrape.com</a> for beta access.</div>
+    <div class="callout tip"><strong>Skip the mapper entirely with Job Feed.</strong> <a href="/actors/job-feed/">Job Feed</a> does this normalization internally, and its <code class="code-inline">onlyNewJobs</code> option returns only jobs you have not received in earlier runs, so you do not have to persist raw datasets to find new ones.</div>
 
     <h2 id="mcp-integration">Run the pipeline from Claude or ChatGPT (MCP)</h2>
     <p>All three actors expose an Apify MCP server URL, so you can drive them from any MCP-compatible AI client - Claude Desktop, Claude.ai, Cursor, VS Code, LangChain, LlamaIndex, or custom agents - without writing any code.</p>
@@ -780,7 +779,7 @@ TOTAL PER FULL SWEEP:               ~$411.96
 ---------------------------------------------------------------</code></pre></div>
     <div class="callout"><strong>Validated with live smoke runs (2026-09-01).</strong> We ran bounded versions of the exact inputs in this tutorial against all three actors. Charged-event structure and per-event pricing match the math above. Real full-sweep costs will vary a bit with the actual job count per company (which we assumed ~500 avg) and how many custom sites turn out to be JS-rendered (Amazon, Walmart, Meta all were - so Tier 3 share may be larger than the 10% baseline for retail + tech-heavy slices).</div>
     <h3>Repeat runs</h3>
-    <p>Right now the actors do not filter by <code class="code-inline">postedAfter</code> or <code class="code-inline">updatedSince</code>, so a repeat run re-processes every job. If you want a delta-only feed today, the practical approach is: run the sweep, persist the result to your DB, then diff against yesterday's snapshot in SQL. Native incremental support (only pay for newly opened/closed jobs) is on the Job Feed orchestrator roadmap and will be free during the private beta.</p>
+    <p>Right now the actors do not filter by <code class="code-inline">postedAfter</code> or <code class="code-inline">updatedSince</code>, so a repeat run re-processes every job. If you want a delta-only feed today, the practical approach is: run the sweep, persist the result to your DB, then diff against yesterday's snapshot in SQL. Job Feed's <code class="code-inline">onlyNewJobs</code> option returns only jobs you have not received before.</p>
     <h3>Free-tier arithmetic</h3>
     <p>Apify's free tier includes $5/month of platform credit. That's enough to run a Tier 1 sweep against your favourite 10 F500 companies (~5,000 jobs = $5.00) for free, or to test the LLM extractor against 100+ custom career pages. Google Gemini's free tier fully covers Tier 2 for anything short of a full weekly F500 sweep.</p>
 
@@ -797,19 +796,8 @@ TOTAL PER FULL SWEEP:               ~$411.96
         <li><strong>Persist:</strong> Postgres, Supabase, BigQuery, or Google Sheets node writes the day's dataset with an <code class="code-inline">as_of</code> date column.</li>
         <li><strong>Diff:</strong> optional last node runs a SQL diff against yesterday's snapshot and posts "N new / M closed" to Slack.</li>
       </ol>
-    <div class="callout tip"><strong>Or skip the wiring entirely.</strong> Once Job Feed goes public, this whole workflow collapses to a single node call: <em>Run santamaria-automations/job-feed with input {companies: f500.csv}</em>. Everything above happens inside the actor. See the <a href="#jobfeed-saas">JobFeed SaaS</a> section for what's coming next.</div>
+    <div class="callout tip"><strong>Or skip the wiring entirely.</strong> <a href="/actors/job-feed/">Job Feed</a> runs this workflow as a single actor call: pass the career-site URLs in its <code class="code-inline">careerSites</code> input and it detects the ATS, runs the right extractor and returns one deduplicated dataset.</div>
 
-    <h2 id="jobfeed-saas">Coming soon: JobFeed SaaS</h2>
-    <p>Running this pipeline yourself, on your own Apify account, is the right answer if you want raw data control and you're comfortable operating scrapers. But most teams that need Fortune 500 hiring data don't want to operate scrapers - they want a REST endpoint that returns fresh, deduped, normalized job listings on demand.</p>
-    <p>That's what <strong>JobFeed SaaS</strong> will be. We're currently building it on top of the same three-actor stack described in this tutorial. It exposes:</p>
-    <ul>
-        <li><strong>REST API:</strong> <code class="code-inline">GET /v1/jobs?company=nvidia&amp;updated_since=2026-08-25</code></li>
-        <li><strong>Webhooks:</strong> subscribe to new / removed / updated jobs per company or per keyword.</li>
-        <li><strong>Freshness SLA:</strong> Fortune 500 and Global 2000 refreshed every 24h; long-tail on demand.</li>
-        <li><strong>Unified schema:</strong> same field names regardless of underlying ATS, salary parsed to a numeric range where available.</li>
-        <li><strong>ATS analytics:</strong> query hiring velocity by industry, seniority, geography, and remote status without running any scrapers yourself.</li>
-      </ul>
-    <div class="callout tip"><strong>Join the JobFeed SaaS waitlist.</strong> Email <a href="/jobfeed/#signup">contact@nanoscrape.com</a> with your use case (recruitment analytics, competitive intelligence, ATS enrichment, job board sourcing, market research, etc.) and expected daily volume. Waitlist members get first access to the private beta and a founding-customer discount on paid tiers.</div>
 
     <h2 id="faq">FAQ</h2>
     <div class="faq">
@@ -819,7 +807,7 @@ TOTAL PER FULL SWEEP:               ~$411.96
       </details>
       <details>
         <summary>Do the actors support incremental (postedAfter / updatedSince) scraping?</summary>
-        <p>Not today. Both Career Site Jobs Scraper and Website Job Extractor perform a full re-fetch on every run. To build a delta feed, run the sweep, write the result to your database with an as_of column, then SQL-diff against yesterday. Native incremental (only pay for jobs that changed) is on the Job Feed orchestrator roadmap and will be free during the private beta.</p>
+        <p>Not today. Both Career Site Jobs Scraper and Website Job Extractor perform a full re-fetch on every run. To build a delta feed, run the sweep, write the result to your database with an as_of column, then SQL-diff against yesterday. Job Feed's onlyNewJobs option returns only jobs you have not received before.</p>
       </details>
       <details>
         <summary>How often do F500 careers pages change ATS platforms?</summary>
@@ -831,7 +819,7 @@ TOTAL PER FULL SWEEP:               ~$411.96
       </details>
       <details>
         <summary>Why do the extractors output different field names?</summary>
-        <p>Because they were built at different times to solve slightly different problems - Career Site Jobs Scraper is a pure HTTP client that mirrors each ATS API's original field vocabulary, while Website Job Extractor is an LLM pipeline that emits its own opinionated schema for cross-site normalization. The mapper script in the 'Unify output across tiers' section reconciles them in ~50 lines of Python. Job Feed (private beta) does the same thing internally so users of the orchestrator never see the split.</p>
+        <p>Because they were built at different times to solve slightly different problems - Career Site Jobs Scraper is a pure HTTP client that mirrors each ATS API's original field vocabulary, while Website Job Extractor is an LLM pipeline that emits its own opinionated schema for cross-site normalization. The mapper script in the 'Unify output across tiers' section reconciles them in ~50 lines of Python. Job Feed does the same thing internally so users of the orchestrator never see the split.</p>
       </details>
       <details>
         <summary>What about companies I can&#39;t scrape (SuccessFactors, Paradox, Taleo classic)?</summary>
@@ -859,7 +847,7 @@ TOTAL PER FULL SWEEP:               ~$411.96
 
     <div class="ctas" style="margin-top:40px">
       <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/career-site-jobs-scraper?fpr=0khfbz&amp;fp_sid=t-scrape-fortune-500-company-jobs" class="btn-primary">Try the Career Site Jobs Scraper free</a>
-      <a href="/jobfeed/#signup" class="btn-secondary">Request Job Feed private beta access</a>
+      <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz&amp;fp_sid=t-scrape-fortune-500-company-jobs" class="btn-secondary">Try Job Feed on Apify</a>
     </div>
   </article>
 
