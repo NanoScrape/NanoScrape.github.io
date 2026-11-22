@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Data API: Scrape &amp; Aggregate 130+ Job Boards | NanoScrape</title>
+  <meta name="description" content="Job API and job scraper for 130+ job boards plus company career sites (Greenhouse, Workday, Lever and 20+ ATS). Recruitment and job market data as JSON or CSV.">
+  <meta property="og:title" content="Job Data API: Scrape &amp; Aggregate 130+ Job Boards">
+  <meta property="og:description" content="Job API and job scraper for 130+ job boards plus company career sites (Greenhouse, Workday, Lever and 20+ ATS). Recruitment and job market data as JSON or CSV.">
+  <meta property="og:url" content="https://www.nanoscrape.com/job-data/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/job-data/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/job-data/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/job-data/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebPage", "name": "Job data from 130+ job boards: one API, one schema", "url": "https://www.nanoscrape.com/job-data/", "description": "Job API and job scraper for 130+ job boards plus company career sites (Greenhouse, Workday, Lever and 20+ ATS). Recruitment and job market data as JSON or CSV.", "publisher": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com/"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "NanoScrape", "item": "https://www.nanoscrape.com/"}, {"@type": "ListItem", "position": 2, "name": "Job data", "item": "https://www.nanoscrape.com/job-data/"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is scraping job boards legal?", "acceptedAnswer": {"@type": "Answer", "text": "Job ads are published so that anyone can read them, and our scrapers only collect what a visitor sees without logging in. The rules still depend on your country, the site's terms and what you do with the data, especially any personal data such as recruiter names. This is general information, not legal advice; check with a lawyer for your use case."}}, {"@type": "Question", "name": "How fresh is the data?", "acceptedAnswer": {"@type": "Answer", "text": "Each run reads the boards live, so the data is as fresh as the boards at run time. Use postedWithinDays to keep only recent ads and a daily schedule with onlyNewJobs to receive new ads only."}}, {"@type": "Question", "name": "How are duplicates handled?", "acceptedAnswer": {"@type": "Answer", "text": "Job Feed matches the same job across boards and keywords and keeps one row. The other boards it appeared on are listed in the run's sources manifest."}}, {"@type": "Question", "name": "Which countries are covered?", "acceptedAnswer": {"@type": "Answer", "text": "Job Feed covers national job boards in 38 countries and the Middle East, plus 11 international and 10 remote job boards. Coverage is deepest in Switzerland, Germany and Austria. The board table above lists every board by country."}}, {"@type": "Question", "name": "Is there an API rate limit?", "acceptedAnswer": {"@type": "Answer", "text": "Runs use Apify's API, so Apify's account limits apply, not per-board limits. Job Feed spreads the work over the boards and caps how many run in parallel, so one slow board does not hold up the rest."}}, {"@type": "Question", "name": "Can I export to Google Sheets, CSV or Excel?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Every run's results download as JSON, CSV or Excel from Apify, and the Google Sheets, n8n, Make and Zapier integrations push them on to wherever you need them."}}]}]</script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --surface-2: #12172080; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 20px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .breadcrumb a:hover { color: var(--accent); }
+    .article h1 { font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.15rem; color: var(--muted); margin-bottom: 24px; }
+    .meta-row { display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.85rem; color: var(--muted); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 12px 0; margin-bottom: 32px; }
+    .meta-row .meta-item strong { color: var(--white); font-weight: 600; }
+
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 40px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 28px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; color: var(--text); }
+    .article li strong { color: var(--white); }
+
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 20px 24px; margin-bottom: 40px; }
+    .toc h2 { font-size: 1rem; margin: 0 0 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); font-weight: 600; }
+    .toc ol { margin: 0; padding-left: 20px; }
+    .toc li { margin-bottom: 4px; }
+    .toc a { color: var(--text); }
+    .toc a:hover { color: var(--accent); }
+
+    .ctas { display: flex; gap: 12px; margin: 24px 0 40px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 700; font-size: 0.95rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 12px 24px; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+    /* .code-block is a positioning wrapper — Prism (prism-tomorrow) or fallback <pre> draws the box */
+    .code-block { position: relative; margin: 12px 0 24px; }
+    .code-block > pre:not([class*="language-"]) {
+      margin: 0; padding: 18px 20px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem;
+      color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto;
+    }
+    .code-block > pre[class*="language-"] {
+      margin: 0; border: 1px solid var(--border); border-radius: 8px;
+      font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; line-height: 1.55;
+    }
+    .code-block code[class*="language-"] { font-family: inherit; font-size: inherit; text-shadow: none; }
+    .code-block .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.72rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; z-index: 2; transition: color 0.15s, border-color 0.15s; }
+    .code-block .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .code-block .copy-btn.copied { color: #10b981; border-color: #10b981; }
+    .code-inline { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85em; background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 1px 6px; color: var(--white); }
+
+    .article figure { margin: 24px 0 28px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 10px; text-align: center; font-style: italic; }
+    .article .figure-group { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 24px 0 28px; }
+    .article .figure-group figure { margin: 0; }
+    @media (max-width: 640px) { .article .figure-group { grid-template-columns: 1fr; } }
+
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; color: var(--text); font-size: 0.95rem; }
+    .callout strong { color: var(--white); }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .callout.warn { border-left-color: var(--warn); background: rgba(245,158,11,0.08); }
+
+    .step { border-top: 1px solid var(--border); padding-top: 28px; margin-top: 32px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 10px; }
+
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq summary::marker { color: var(--muted); }
+    .faq details p { margin: 10px 0 4px; color: var(--text); }
+
+    footer { text-align: center; padding: 28px; color: var(--muted); font-size: 0.8rem; border-top: 1px solid var(--border); }
+    @media (max-width: 480px) {
+      .article h1 { font-size: 1.55rem; }
+      .article h2 { font-size: 1.25rem; }
+      .ctas { flex-direction: column; }
+      .btn-primary, .btn-secondary { text-align: center; min-height: 44px; display: flex; align-items: center; justify-content: center; }
+    }
+    #site-header { min-height: 56px; } #site-footer { min-height: 80px; }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; Job data</nav>
+
+    <h1>Job data from 130+ job boards: one API, one schema</h1>
+    <p class="lead">Job ads are spread over thousands of job boards and company career sites, each with its own layout and fields. NanoScrape turns them into one table: title, company, location, salary when the ad lists it, posting date, apply link and the board it came from. You can pull one board at a time with a dedicated scraper, or run <a href="/actors/job-feed/">Job Feed</a> to search 130+ job boards plus company career sites in one run and get each job once, deduplicated across boards.</p>
+
+    <div class="meta-row">
+      <div class="meta-item"><strong>Sources:</strong> 130+ job boards + company career sites (Greenhouse, Workday, Lever and 20+ ATS)</div>
+      <div class="meta-item"><strong>Output:</strong> JSON, CSV, Excel, API, n8n</div>
+      <div class="meta-item"><strong>Billing:</strong> pay per job on Apify, no subscription</div>
+    </div>
+
+    <div class="ctas">
+      <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz&amp;fp_sid=p-job-data" class="btn-primary">Try Job Feed on Apify</a>
+      <a href="/actors/job-scrapers/" class="btn-secondary">Browse single-board job scrapers</a>
+    </div>
+
+    <div class="toc">
+      <h2>On this page</h2>
+      <ol>
+        <li><a href="#job-api">Job API: query jobs like an API</a></li>
+        <li><a href="#scraper-vs-aggregator">Job scraper, job API or job aggregator?</a></li>
+        <li><a href="#boards">Which job boards are covered</a></li>
+        <li><a href="#recruitment-data">Recruitment data use cases</a></li>
+        <li><a href="#job-market-data">Job market and labor market data</a></li>
+        <li><a href="#automate">Automate it: n8n and no-code</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#faq">FAQ</a></li>
+      </ol>
+    </div>
+
+    <h2 id="job-api">Job API: query jobs like an API</h2>
+    <p>Every NanoScrape job scraper runs on Apify, so every one of them is also an API. You send keywords, a country and a location; you get back structured job rows. The same call works from curl, Python, JavaScript, n8n, Make or an AI agent over MCP. Job board APIs, where they exist at all, are usually partner-only or limited to the board's own ads. Here one input schema covers every source.</p>
+    <p>Start a run and wait for the results in one request:</p>
+<pre><code class="language-bash">curl -X POST "https://api.apify.com/v2/acts/santamaria-automations~job-feed/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"keywords": ["data engineer"], "countries": ["DE"], "location": "Berlin", "postedWithinDays": 7, "maxResultsTotal": 200}'</code></pre>
+    <p>The same from Python:</p>
+<pre><code class="language-python">from apify_client import ApifyClient
+
+client = ApifyClient("YOUR_APIFY_TOKEN")
+run = client.actor("santamaria-automations/job-feed").call(run_input={
+    "keywords": ["data engineer"],
+    "countries": ["DE"],
+    "location": "Berlin",
+    "postedWithinDays": 7,
+    "maxResultsTotal": 200,
+})
+for job in client.dataset(run["defaultDatasetId"]).iterate_items():
+    print(job["title"], job["company"], job["location"])</code></pre>
+    <p>Main input fields:</p>
+    <table>
+      <thead><tr><th>Field</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><code>keywords</code></td><td>Search terms, sent to every selected board. Results are deduplicated across keywords and boards.</td></tr>
+        <tr><td><code>countries</code></td><td>Country markets. Each one switches on its main boards.</td></tr>
+        <tr><td><code>platforms</code></td><td>Name boards explicitly, on top of the country defaults.</td></tr>
+        <tr><td><code>location</code>, <code>radiusKm</code></td><td>City or region plus a radius. Rows clearly outside the radius are dropped before they are charged.</td></tr>
+        <tr><td><code>postedWithinDays</code></td><td>Only recent ads. 1 = last 24 hours.</td></tr>
+        <tr><td><code>careerSites</code>, <code>companyUrls</code></td><td>Company career pages to read alongside the boards.</td></tr>
+        <tr><td><code>onlyNewJobs</code></td><td>Daily runs return only jobs you have not received before.</td></tr>
+      </tbody>
+    </table>
+    <p>Each row has the same core fields, whatever board it came from: <code>title</code>, <code>company</code>, <code>location</code>, <code>salary</code> (when the ad states it), <code>posted_at</code>, <code>apply_url</code> and the source board. The <a href="/actors/job-feed/">Job Feed page</a> lists every output field.</p>
+
+    <h2 id="scraper-vs-aggregator">Job scraper, job API or job aggregator?</h2>
+    <p>Pick by how many sources you need.</p>
+    <table>
+      <thead><tr><th>You need</th><th>Use</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Jobs from one specific board, e.g. LinkedIn, Indeed or StepStone</td><td>That board's dedicated scraper: <a href="/actors/linkedin-scraper/">LinkedIn Jobs</a>, <a href="/actors/indeed-http-scraper/">Indeed</a>, <a href="/actors/stepstone-de-scraper/">StepStone</a>, <a href="/actors/glassdoor-scraper/">Glassdoor</a> and the rest in the <a href="/actors/job-scrapers/">job scrapers hub</a></td><td>Every field that board offers, board-specific filters, the board's own price only</td></tr>
+        <tr><td>All jobs for a search across a country or several</td><td><a href="/actors/job-feed/">Job Feed</a></td><td>One input, 130+ boards, each job once, one schema</td></tr>
+        <tr><td>Every open role at a list of companies</td><td><a href="/actors/career-site-jobs-scraper/">Career Site Jobs Scraper</a>, or Job Feed with <code>careerSites</code></td><td>Reads the company's applicant tracking system directly</td></tr>
+        <tr><td>Jobs from a career page with no known ATS</td><td><a href="/actors/website-job-extractor/">Website Job Extractor</a></td><td>AI extraction from any careers page</td></tr>
+      </tbody>
+    </table>
+    <p>Job Feed is a job aggregator you run yourself: it starts the single-board scrapers for you, merges their rows and removes duplicates, so the same ad posted on three boards shows up once, with the other boards listed as additional sources.</p>
+
+    <h2 id="boards">Which job boards are covered</h2>
+    <p>130+ job boards you can select in Job Feed: 118 national and regional boards in 38 countries and the Middle East, 11 international and 10 remote boards. Boards with their own scraper link to its page.</p>
+    <table>
+      <thead><tr><th>Market</th><th>Boards</th><th>Job boards</th></tr></thead>
+      <tbody>
+        <tr><td>Switzerland</td><td>21</td><td><a href="/actors/alpha-topjobs-ch-scraper/">alpha.ch / topjobs.ch</a>, <a href="/actors/arbeit-swiss-scraper/">arbeit.swiss</a>, <a href="/actors/carriera-ch-scraper/">carriera.ch</a>, <a href="/actors/ge-ch-emploi-scraper/">ge.ch</a>, <a href="/actors/ictjobs-ch-scraper/">ictjobs.ch</a>, <a href="/actors/jobbasel-ch-scraper/">jobbasel.ch</a>, <a href="/actors/jobbern-ch-scraper/">jobbern.ch</a>, <a href="/actors/jobmittelland-ch-scraper/">jobmittelland.ch</a>, <a href="/actors/jobs-ch-scraper/">jobs.ch</a>, <a href="/actors/jobscout24-ch-scraper/">jobscout24.ch</a>, <a href="/actors/jobup-ch-scraper/">jobup.ch</a>, <a href="/actors/jobzueri-ch-scraper/">jobzueri.ch</a>, <a href="/actors/lavoro-cdt-ch-scraper/">lavoro.cdt.ch</a>, <a href="/actors/myjob-ch-scraper/">myjob.ch</a>, <a href="/actors/nicejob-de-scraper/">nicejob.de</a>, <a href="/actors/vd-ch-emploi-scraper/">offres-emploi.vd.ch</a>, <a href="/actors/ostjob-ch-scraper/">ostjob.ch</a>, <a href="/actors/schaffu-ch-scraper/">schaffu.ch</a>, <a href="/actors/sozjobs-ch-scraper/">sozjobs.ch</a>, <a href="/actors/swissdevjobs-ch-scraper/">swissdevjobs.ch</a>, <a href="/actors/zentraljob-ch-scraper/">zentraljob.ch</a></td></tr>
+        <tr><td>United States</td><td>17</td><td><a href="/actors/insidehighered-careers-scraper/">careers.insidehighered.com</a>, <a href="/actors/craigslist-jobs-scraper/">craigslist.org</a>, <a href="/actors/dribbble-jobs-scraper/">dribbble.com</a>, <a href="/actors/healthecareers-scraper/">healthecareers.com</a>, <a href="/actors/higheredjobs-scraper/">higheredjobs.com</a>, <a href="/actors/biospace-scraper/">jobs.biospace.com</a>, <a href="/actors/chronicle-jobs-scraper/">jobs.chronicle.com</a>, <a href="/actors/levels-fyi-scraper/">levels.fyi</a>, <a href="/actors/nejm-careercenter-scraper/">nejmcareercenter.org</a>, <a href="/actors/rigzone-us-scraper/">rigzone.com</a>, <a href="/actors/snagajob-us-scraper/">snagajob.com</a>, <a href="/actors/statejobsny-jobs-scraper/">statejobs.ny.gov</a>, <a href="/actors/topschooljobs-jobs-scraper/">topschooljobs.org</a>, <a href="/actors/usajobs-federal-scraper/">usajobs.gov</a>, <a href="/actors/wayup-us-scraper/">wayup.com</a>, <a href="/actors/wellfound-jobs-scraper/">wellfound.com</a>, <a href="/actors/workatastartup-scraper/">workatastartup.com</a></td></tr>
+        <tr><td>United Kingdom</td><td>16</td><td><a href="/actors/charityjob-uk-scraper/">charityjob.co.uk</a>, <a href="/actors/cwjobs-uk-scraper/">cwjobs.co.uk</a>, <a href="/actors/escape-the-city-scraper/">escapethecity.org</a>, <a href="/actors/gaapweb-jobs-scraper/">gaapweb.com</a>, <a href="/actors/hays-scraper/">hays.com</a>, <a href="/actors/jobs-ac-uk-scraper/">jobs.ac.uk</a>, <a href="/actors/nhs-jobs-scraper/">jobs.nhs.uk</a>, <a href="/actors/jobserve-uk-scraper/">jobserve.com</a>, <a href="/actors/milkround-uk-scraper/">milkround.com</a>, <a href="/actors/prospects-uk-scraper/">prospects.ac.uk  (graduate/placement jobs)</a>, <a href="/actors/reed-uk-scraper/">reed.co.uk</a>, <a href="/actors/targetjobs-uk-scraper/">targetjobs.co.uk</a>, <a href="/actors/teaching-vacancies-uk-scraper/">teaching-vacancies.service.gov.uk</a>, <a href="/actors/tes-uk-scraper/">tes.com</a>, <a href="/actors/totaljobs-scraper/">totaljobs.com</a>, <a href="/actors/totallylegal-jobs-scraper/">totallylegal.com</a></td></tr>
+        <tr><td>Germany</td><td>7</td><td><a href="/actors/arbeitsagentur-de-scraper/">arbeitsagentur.de</a>, <a href="/actors/jobware-de-scraper/">jobware.de</a>, <a href="/actors/meinestadt-de-scraper/">meinestadt.de</a>, <a href="/actors/stellenanzeigen-de-scraper/">stellenanzeigen.de</a>, <a href="/actors/stellenmarkt-de-scraper/">stellenmarkt.de</a>, <a href="/actors/stepstone-de-scraper/">stepstone.de</a>, <a href="/actors/xing-jobs-scraper/">xing.com</a></td></tr>
+        <tr><td>Austria</td><td>4</td><td><a href="/actors/ams-at-scraper/">ams.at</a>, <a href="/actors/karriere-at-scraper/">karriere.at</a>, <a href="/actors/stepstone-at-scraper/">stepstone.at</a>, <a href="/actors/westjob-at-scraper/">westjob.at</a></td></tr>
+        <tr><td>Poland</td><td>4</td><td><a href="/actors/justjoinit-scraper/">justjoin.it</a>, <a href="/actors/nofluffjobs-eu-scraper/">nofluffjobs.com</a>, <a href="/actors/praca-gov-pl-scraper/">praca.gov.pl</a>, <a href="/actors/pracuj-pl-scraper/">pracuj.pl</a></td></tr>
+        <tr><td>France</td><td>3</td><td><a href="/actors/france-travail-scraper/">francetravail.fr</a>, <a href="/actors/hellowork-fr-scraper/">hellowork.com</a>, <a href="/actors/welcome-to-the-jungle-scraper/">welcometothejungle.com</a></td></tr>
+        <tr><td>India</td><td>3</td><td><a href="/actors/cutshort-scraper/">cutshort.io</a>, <a href="/actors/foundit-in-scraper/">foundit.in</a>, <a href="/actors/naukri-scraper/">naukri.com</a></td></tr>
+        <tr><td>Romania</td><td>3</td><td><a href="/actors/anofm-ro-scraper/">anofm.ro  (RO keyword required)</a>, <a href="/actors/ejobs-ro-scraper/">ejobs.ro</a>, <a href="/actors/hipo-ro-jobs-scraper/">hipo.ro</a></td></tr>
+        <tr><td>Belgium</td><td>2</td><td><a href="/actors/forem-be-scraper/">leforem.be</a>, <a href="/actors/vdab-be-scraper/">vdab.be</a></td></tr>
+        <tr><td>Denmark</td><td>2</td><td><a href="/actors/jobindex-dk-scraper/">jobindex.dk</a>, <a href="/actors/techjob-dk-jobs-scraper/">techjob.dk</a></td></tr>
+        <tr><td>Japan</td><td>2</td><td><a href="/actors/daijob-jobs-scraper/">daijob.com</a>, <a href="/actors/green-japan-jobs-scraper/">green-japan.com</a></td></tr>
+        <tr><td>Netherlands</td><td>2</td><td><a href="/actors/nationale-vacaturebank-nl-scraper/">nationalevacaturebank.nl</a>, <a href="/actors/werk-nl-scraper/">werk.nl</a></td></tr>
+        <tr><td>Norway</td><td>2</td><td><a href="/actors/arbeidsplassen-jobs-scraper/">arbeidsplassen.nav.no</a>, <a href="/actors/finn-no-scraper/">finn.no</a></td></tr>
+        <tr><td>Portugal</td><td>2</td><td><a href="/actors/itjobs-pt-jobs-scraper/">itjobs.pt</a>, <a href="/actors/net-empregos-pt-scraper/">net-empregos.com</a></td></tr>
+        <tr><td>Russia</td><td>2</td><td><a href="/actors/hh-ru-scraper/">hh.ru</a>, <a href="/actors/trudvsem-ru-scraper/">trudvsem.ru</a></td></tr>
+        <tr><td>Spain</td><td>2</td><td><a href="/actors/sepe-es-scraper/">empleate.gob.es</a>, <a href="/actors/infojobs-scraper/">infojobs.net</a></td></tr>
+        <tr><td>Thailand</td><td>2</td><td><a href="/actors/jobbkk-jobs-scraper/">jobbkk.com</a>, <a href="/actors/jobtopgun-jobs-scraper/">jobtopgun.com</a></td></tr>
+        <tr><td>Ukraine</td><td>2</td><td><a href="/actors/dcz-gov-ua-scraper/">dcz.gov.ua</a>, <a href="/actors/work-ua-scraper/">work.ua</a></td></tr>
+        <tr><td>Algeria</td><td>1</td><td><a href="/actors/emploitic-jobs-scraper/">emploitic.com</a></td></tr>
+        <tr><td>Australia</td><td>1</td><td><a href="/actors/seek-scraper/">seek.com.au</a></td></tr>
+        <tr><td>Canada</td><td>1</td><td><a href="/actors/jobbank-ca-scraper/">jobbank.gc.ca</a></td></tr>
+        <tr><td>Chile</td><td>1</td><td><a href="/actors/chiletrabajos-jobs-scraper/">chiletrabajos.cl</a></td></tr>
+        <tr><td>Croatia</td><td>1</td><td><a href="/actors/mojposao-hr-scraper/">mojposao.hr</a></td></tr>
+        <tr><td>Czechia</td><td>1</td><td><a href="/actors/prace-cz-scraper/">prace.cz</a></td></tr>
+        <tr><td>Ghana</td><td>1</td><td><a href="/actors/jobwebghana-jobs-scraper/">jobwebghana.com</a></td></tr>
+        <tr><td>Greece</td><td>1</td><td><a href="/actors/kariera-gr-scraper/">kariera.gr  (EL keyword required)</a></td></tr>
+        <tr><td>Hungary</td><td>1</td><td><a href="/actors/profession-hu-scraper/">profession.hu</a></td></tr>
+        <tr><td>Ireland</td><td>1</td><td><a href="/actors/irishjobs-ie-scraper/">irishjobs.ie</a></td></tr>
+        <tr><td>Italy</td><td>1</td><td><a href="/actors/subito-it-jobs-scraper/">subito.it</a></td></tr>
+        <tr><td>Middle East</td><td>1</td><td><a href="/actors/bayt-scraper/">bayt.com</a></td></tr>
+        <tr><td>Nigeria</td><td>1</td><td><a href="/actors/hotnigerianjobs-jobs-scraper/">hotnigerianjobs.com</a></td></tr>
+        <tr><td>Philippines</td><td>1</td><td><a href="/actors/onlinejobs-ph-jobs-scraper/">onlinejobs.ph</a></td></tr>
+        <tr><td>Slovakia</td><td>1</td><td><a href="/actors/profesia-sk-scraper/">profesia.sk</a></td></tr>
+        <tr><td>South Africa</td><td>1</td><td><a href="/actors/jobmail-jobs-scraper/">jobmail.co.za</a></td></tr>
+        <tr><td>South Korea</td><td>1</td><td><a href="/actors/jobkorea-kr-scraper/">jobkorea.co.kr</a></td></tr>
+        <tr><td>Sweden</td><td>1</td><td><a href="/actors/arbetsformedlingen-se-scraper/">arbetsformedlingen.se</a></td></tr>
+        <tr><td>Taiwan</td><td>1</td><td><a href="/actors/cake-jobs-scraper/">cake.me</a></td></tr>
+        <tr><td>Tunisia</td><td>1</td><td><a href="/actors/tanitjobs-jobs-scraper/">tanitjobs.com</a></td></tr>
+        <tr><td>International</td><td>11</td><td><a href="/actors/computrabajo-scraper/">computrabajo.com</a>, <a href="/actors/efinancialcareers-scraper/">efinancialcareers.com</a>, <a href="/actors/euraxess-scraper/">euraxess.ec.europa.eu</a>, <a href="/actors/glassdoor-scraper/">glassdoor.com  (see README for per-result pricing)</a>, <a href="/actors/idealist-scraper/">idealist.org</a>, <a href="/actors/indeed-http-scraper/">indeed.com (HTTP)</a>, <a href="/actors/jobrapido-scraper/">jobrapido.com</a>, <a href="/actors/jobteaser-jobs-scraper/">jobteaser.com</a>, <a href="/actors/linkedin-scraper/">linkedin.com</a>, <a href="/actors/michaelpage-scraper/">michaelpage.com</a>, <a href="/actors/ycombinator-scraper/">news.ycombinator.com  (HN job board submissions)</a></td></tr>
+        <tr><td>Remote</td><td>10</td><td><a href="/actors/builtin-scraper/">builtin.com</a>, <a href="/actors/cryptojobslist-scraper/">cryptojobslist.com</a>, <a href="/actors/dice-scraper/">dice.com</a>, <a href="/actors/e-fellows-scraper/">e-fellows.net</a>, <a href="/actors/jobgether-jobs-scraper/">jobgether.com</a>, <a href="/actors/jobspresso-jobs-scraper/">jobspresso.co</a>, <a href="/actors/remoteok-scraper/">remoteok.com</a>, <a href="/actors/remotive-scraper/">remotive.com</a>, <a href="/actors/web3career-scraper/">web3.career</a>, <a href="/actors/weworkremotely-scraper/">weworkremotely.com</a></td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="recruitment-data">Recruitment data use cases</h2>
+    <ul>
+      <li><strong>Agency lead generation:</strong> companies hiring right now for roles you place are your warmest leads. Search by role and region, then group the rows by company. See <a href="/tutorials/find-companies-hiring-in-germany-stepstone/">finding companies that are hiring in Germany</a>.</li>
+      <li><strong>Competitor hiring:</strong> new roles at a competitor show where it is investing. <a href="/tutorials/monitor-competitor-careers-pages/">Monitor competitor career pages</a> on a schedule and get only the new ads.</li>
+      <li><strong>Sourcing and job boards of your own:</strong> fill a niche job board or an internal job wall with fresh, deduplicated ads.</li>
+      <li><strong>Sales signals:</strong> a company hiring five data engineers probably needs data tools. Filter by title and turn the companies into a target list.</li>
+    </ul>
+
+    <h2 id="job-market-data">Job market and labor market data</h2>
+    <p>Run the same search every day and the rows become a time series: how many ads per role, city and company, how fast new ones appear, which salaries are stated. Every row carries its posting date and source, so counts can be rebuilt and checked. Our <a href="/job-market-index/">Job Market Index</a> is built this way; the <a href="/job-market-index/switzerland/">Switzerland edition</a> shows what the data supports.</p>
+    <p>Two limits to keep in mind. Salary is only there when the ad states it, which in many countries is a minority of ads. And job ads measure demand that employers advertise, not all hiring, so treat them as a leading indicator, not as official labor statistics.</p>
+
+    <h2 id="automate">Automate it: n8n and no-code</h2>
+    <p>Job Feed runs on a schedule in Apify, or from n8n, Make and Zapier through the Apify integrations. A daily run with <code>onlyNewJobs</code> on returns just the ads you have not seen, ready for a sheet, a CRM or a Slack channel. The <a href="/tutorials/how-to-scrape-every-job-online/">guide to scraping every job online</a> walks through the setup.</p>
+
+    <h2 id="pricing">Pricing</h2>
+    <p>You pay per job on Apify, with no subscription. A Job Feed run costs the price of each board scraper it starts (listed on that scraper's page) plus Job Feed's own fee of $0.50 per 1,000 unique jobs it delivers. Duplicates removed across boards are not charged the Job Feed fee. Single-board scrapers charge only their own price. Apify's free plan includes $5 of monthly credit, enough to test before you pay anything.</p>
+
+    <h2 id="faq">FAQ</h2>
+    <div class="faq">
+      <details>
+        <summary>Is scraping job boards legal?</summary>
+        <p>Job ads are published so that anyone can read them, and our scrapers only collect what a visitor sees without logging in. The rules still depend on your country, the site's terms and what you do with the data, especially any personal data such as recruiter names. This is general information, not legal advice; check with a lawyer for your use case.</p>
+      </details>
+      <details>
+        <summary>How fresh is the data?</summary>
+        <p>Each run reads the boards live, so the data is as fresh as the boards at run time. Use <code>postedWithinDays</code> to keep only recent ads and a daily schedule with <code>onlyNewJobs</code> to receive new ads only.</p>
+      </details>
+      <details>
+        <summary>How are duplicates handled?</summary>
+        <p>Job Feed matches the same job across boards and keywords and keeps one row. The other boards it appeared on are listed in the run's sources manifest.</p>
+      </details>
+      <details>
+        <summary>Which countries are covered?</summary>
+        <p>Job Feed covers national job boards in 38 countries and the Middle East, plus 11 international and 10 remote job boards. Coverage is deepest in Switzerland, Germany and Austria. The board table above lists every board by country.</p>
+      </details>
+      <details>
+        <summary>Is there an API rate limit?</summary>
+        <p>Runs use Apify's API, so Apify's account limits apply, not per-board limits. Job Feed spreads the work over the boards and caps how many run in parallel, so one slow board does not hold up the rest.</p>
+      </details>
+      <details>
+        <summary>Can I export to Google Sheets, CSV or Excel?</summary>
+        <p>Yes. Every run's results download as JSON, CSV or Excel from Apify, and the Google Sheets, n8n, Make and Zapier integrations push them on to wherever you need them.</p>
+      </details>
+    </div>
+
+    <div class="ctas" style="margin-top:40px">
+      <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz&amp;fp_sid=p-job-data" class="btn-primary">Try Job Feed on Apify</a>
+      <a href="/actors/job-scrapers/" class="btn-secondary">Browse single-board job scrapers</a>
+    </div>
+  </article>
+
+  <div id="site-footer"></div>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js" defer></script>
+</body>
+</html>
