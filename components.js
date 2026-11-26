@@ -593,7 +593,7 @@
  // SUBID_RE in scripts/make-short-links.py.
  // ==========================================================================
 
- var SUBID_RE = /^(am|aj|bm|bj|c|br|yt)-[a-z0-9-]{1,36}$/;
+ var SUBID_RE = /^(am|aj|bm|bj|c|br|yt|js)-[a-z0-9-]{1,36}$/;
  var SUBID_KEY = 'ns_subid';
  var APIFY_SUBID = { refParam: 'fpr', refValue: '0khfbz', subIdParam: 'fp_sid' };
  var SUBID_HOSTS = {

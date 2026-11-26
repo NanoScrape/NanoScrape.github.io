@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Every Job Site at Once | NanoScrape</title>
+  <meta name="description" content="One search across 130+ job sites and the career pages of the companies you pick. Set it up in 3 steps, or ask Claude to find jobs for you.">
+  <meta property="og:title" content="Search every job site at once">
+  <meta property="og:description" content="One search across 130+ job sites and the career pages of the companies you pick. 3 steps, no coding.">
+  <meta property="og:url" content="https://www.nanoscrape.com/find-jobs/">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://www.nanoscrape.com/nanoscrape_logo_square.png">
+  <link rel="canonical" href="https://www.nanoscrape.com/find-jobs/">
+  <link rel="alternate" hreflang="en" href="https://www.nanoscrape.com/find-jobs/">
+  <link rel="alternate" hreflang="x-default" href="https://www.nanoscrape.com/find-jobs/">
+  <link rel="icon" type="image/svg+xml" href="/nanoscrape-icon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon-180.png">
+  <script type="application/ld+json">[{"@context": "https://schema.org", "@type": "WebPage", "name": "Search every job site at once", "url": "https://www.nanoscrape.com/find-jobs/", "description": "One search across 130+ job sites and the career pages of the companies you pick. Set it up in 3 steps, or ask Claude to find jobs for you.", "publisher": {"@type": "Organization", "name": "NanoScrape", "url": "https://www.nanoscrape.com/"}}, {"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "NanoScrape", "item": "https://www.nanoscrape.com/"}, {"@type": "ListItem", "position": 2, "name": "Find jobs", "item": "https://www.nanoscrape.com/find-jobs/"}]}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to know how to code?", "acceptedAnswer": {"@type": "Answer", "text": "No. You fill in a form (or paste one of the examples on this page) and press Start. The Claude option works in plain language."}}, {"@type": "Question", "name": "What does it cost?", "acceptedAnswer": {"@type": "Answer", "text": "Signing up on Apify is free. Each search uses credits from your Apify account, and the Job Feed page on Apify shows the current price before you start. Keep the job limit low for your first search."}}, {"@type": "Question", "name": "Does it apply to jobs for me?", "acceptedAnswer": {"@type": "Answer", "text": "No. It finds jobs and gives you the links. You read them and apply on the company's or job site's own page."}}, {"@type": "Question", "name": "Can I get new jobs every day?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. On Apify, add a schedule to your saved search, set Posted within to 1 or 2 days and turn on Only new jobs, so each run brings only jobs you have not seen yet."}}]}]</script>
+  <style>
+    :root { --bg: #080a10; --surface: #0e1118; --border: #1a1f2e; --text: #dce8f5; --muted: #7a99ba; --accent: #0047ff; --accent-glow: rgba(0,71,255,0.15); --white: #dce8f5; --success: #22c55e; --warn: #f59e0b; }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.75; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .article { max-width: 820px; margin: 0 auto; padding: 20px 16px 60px; }
+    .breadcrumb { color: var(--muted); font-size: 0.85rem; margin-bottom: 20px; }
+    .breadcrumb a { color: var(--muted); }
+    .article h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: var(--white); }
+    .article .lead { font-size: 1.2rem; color: var(--muted); margin-bottom: 24px; }
+    .article h2 { font-size: 1.5rem; font-weight: 700; margin: 44px 0 12px; color: var(--white); }
+    .article h3 { font-size: 1.15rem; font-weight: 700; margin: 24px 0 10px; color: var(--white); }
+    .article p { margin-bottom: 16px; }
+    .article ul, .article ol { padding-left: 24px; margin-bottom: 20px; }
+    .article li { margin-bottom: 6px; }
+    .article li strong, .article p strong { color: var(--white); }
+    .ctas { display: flex; gap: 12px; margin: 24px 0 32px; flex-wrap: wrap; }
+    .btn-primary { display: inline-block; background: var(--accent); color: #fff; padding: 13px 26px; border-radius: 8px; font-weight: 700; font-size: 1rem; }
+    .btn-primary:hover { opacity: 0.9; text-decoration: none; }
+    .btn-secondary { display: inline-block; border: 1px solid var(--border); color: var(--muted); padding: 13px 26px; border-radius: 8px; font-weight: 600; font-size: 1rem; }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+    .paths { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 8px 0 12px; }
+    .path { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 18px 20px; }
+    .path h3 { margin: 0 0 6px; }
+    .path p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+    @media (max-width: 640px) { .paths { grid-template-columns: 1fr; } }
+    .step { border-top: 1px solid var(--border); padding-top: 26px; margin-top: 30px; }
+    .step-number { display: inline-block; background: var(--accent); color: #fff; font-weight: 700; font-size: 0.75rem; padding: 3px 10px; border-radius: 999px; letter-spacing: 1px; margin-bottom: 8px; }
+    .article figure { margin: 18px 0 24px; }
+    .article figure img { display: block; max-width: 100%; height: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+    .article figcaption { font-size: 0.85rem; color: var(--muted); margin-top: 8px; text-align: center; }
+    .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0 0; }
+    .tabs button { font: inherit; font-size: 0.9rem; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer; }
+    .tabs button[aria-selected="true"] { border-color: var(--accent); color: var(--white); }
+    .code-block { position: relative; margin: 10px 0 20px; }
+    .code-block pre { margin: 0; padding: 16px 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.85rem; color: var(--text); line-height: 1.55; white-space: pre; overflow-x: auto; }
+    .copy-btn { position: absolute; top: 10px; right: 10px; padding: 4px 10px; font-size: 0.75rem; background: rgba(8,10,16,0.85); color: var(--muted); border: 1px solid var(--border); border-radius: 4px; cursor: pointer; font-family: inherit; }
+    .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+    .copy-btn.copied { color: var(--success); border-color: var(--success); }
+    .callout { border-left: 3px solid var(--accent); background: var(--accent-glow); border-radius: 4px; padding: 14px 18px; margin: 20px 0; font-size: 0.95rem; }
+    .callout.tip { border-left-color: var(--success); background: rgba(34,197,94,0.08); }
+    .prompt { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 16px; margin: 8px 0; font-style: italic; }
+    .faq details { border: 1px solid var(--border); border-radius: 8px; padding: 14px 18px; margin-bottom: 10px; background: var(--surface); }
+    .faq details[open] { border-color: var(--accent); }
+    .faq summary { cursor: pointer; font-weight: 600; color: var(--white); }
+    .faq details p { margin: 10px 0 4px; }
+    @media (max-width: 480px) { .article h1 { font-size: 1.6rem; } .article h2 { font-size: 1.25rem; } .ctas { flex-direction: column; } .ctas a { text-align: center; } }
+  </style>
+</head>
+<body>
+  <div id="site-header"></div>
+  <article class="article">
+    <nav class="breadcrumb"><a href="/">NanoScrape</a> &rsaquo; Find jobs</nav>
+
+    <h1>Search every job site at once</h1>
+    <p class="lead">Type your job title and town once. Job Feed searches 130+ job sites, plus the career pages of the companies you pick, and gives you one list with no duplicates.</p>
+
+    <div class="ctas">
+      <a href="#steps" class="btn-primary">Show me how (3 steps)</a>
+      <a href="#claude" class="btn-secondary">Or ask Claude to do it</a>
+    </div>
+
+    <div class="paths">
+      <div class="path">
+        <h3>Option 1: do it yourself</h3>
+        <p>Open Job Feed on Apify, paste one of our example searches, press Start. About 5 minutes the first time.</p>
+      </div>
+      <div class="path">
+        <h3>Option 2: ask Claude</h3>
+        <p>Connect Apify to Claude once, then write "find nursing jobs near Manchester" in plain English.</p>
+      </div>
+    </div>
+
+    <section id="steps">
+      <h2>Option 1: three steps</h2>
+
+      <div class="step">
+        <span class="step-number">STEP 1</span>
+        <h3>Open Job Feed and sign in</h3>
+        <p>Job Feed runs on Apify. Click the button, then <strong>Try for free</strong>. Signing up is free; you can use your Google account.</p>
+        <div class="ctas" style="margin:14px 0 18px">
+          <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed?fpr=0khfbz&amp;fp_sid=p-find-jobs" class="btn-primary">Open Job Feed on Apify</a>
+        </div>
+      </div>
+
+      <div class="step">
+        <span class="step-number">STEP 2</span>
+        <h3>Paste your search</h3>
+        <p>Pick the example closest to you and click <strong>Copy</strong>. In Apify, switch the input from <strong>Manual</strong> to <strong>JSON</strong>, select everything and paste. Then change the job title and town to yours.</p>
+
+        <div class="tabs" role="tablist" aria-label="Example searches">
+          <button type="button" role="tab" aria-selected="true" data-ex="ex-uk">UK</button>
+          <button type="button" role="tab" aria-selected="false" data-ex="ex-us">US</button>
+          <button type="button" role="tab" aria-selected="false" data-ex="ex-co">With company career pages</button>
+        </div>
+        <div class="code-block" id="ex-uk"><button type="button" class="copy-btn">Copy</button><pre>{
+  "countries": ["UK"],
+  "keywords": ["Nurse"],
+  "location": "Manchester",
+  "radiusKm": 20,
+  "postedWithinDays": 7,
+  "maxResultsPerPlatform": 20,
+  "maxResultsTotal": 100
+}</pre></div>
+        <div class="code-block" id="ex-us" hidden><button type="button" class="copy-btn">Copy</button><pre>{
+  "countries": ["US"],
+  "keywords": ["Customer Service"],
+  "location": "Austin",
+  "radiusKm": 30,
+  "postedWithinDays": 7,
+  "maxResultsPerPlatform": 20,
+  "maxResultsTotal": 100
+}</pre></div>
+        <div class="code-block" id="ex-co" hidden><button type="button" class="copy-btn">Copy</button><pre>{
+  "countries": ["UK"],
+  "keywords": ["Marketing"],
+  "location": "London",
+  "postedWithinDays": 7,
+  "companyUrls": [
+    "https://boards.greenhouse.io/deliveroo"
+  ],
+  "maxResultsPerPlatform": 20,
+  "maxResultsTotal": 100
+}</pre></div>
+        <ul>
+          <li><strong>keywords</strong>: the job titles you want. You can list several: <code>["Nurse", "Healthcare Assistant"]</code>.</li>
+          <li><strong>location</strong> and <strong>radiusKm</strong>: your town and how far you will travel, in km (20 km is about 12 miles).</li>
+          <li><strong>postedWithinDays</strong>: only jobs from the last 7 days.</li>
+          <li><strong>companyUrls</strong>: the careers pages of companies you would like to work for. Many of their jobs never reach the big job sites. The example has one company's careers page; swap in the companies you want. Each company costs a bit more than a job site search, so add the ones you really want.</li>
+          <li><strong>maxResultsPerPlatform</strong> and <strong>maxResultsTotal</strong>: at most 20 jobs from each site and 100 jobs in total, so your first search stays small. (Sites that already started searching still finish and count their own results.)</li>
+        </ul>
+        <figure>
+          <img src="/find-jobs/step-2-input.png" alt="The UK example search as Job Feed input in JSON: countries UK, keywords Nurse, location Manchester, radius 20 km" width="1568" height="386" loading="lazy">
+          <figcaption>The UK example as Job Feed reads it. Change the job title and town to yours.</figcaption>
+        </figure>
+      </div>
+
+      <div class="step">
+        <span class="step-number">STEP 3</span>
+        <h3>Press Start and open your list</h3>
+        <p>Press <strong>Save &amp; Start</strong>. When the run finishes, open the <strong>Output</strong> tab: one row per job, with the title, company, place, date and an apply link to the original ad. Click <strong>Export</strong> to download it for Excel or Google Sheets.</p>
+        <figure>
+          <img src="/find-jobs/step-3-output.png" alt="The Output tab of a finished Job Feed run: nursing jobs with title, company, location, posted date and apply link" width="1568" height="714" loading="lazy">
+          <figcaption>Our UK test search: 39 nursing jobs, one row each, with a link to apply.</figcaption>
+        </figure>
+        <div class="callout tip"><strong>Want new jobs every morning?</strong> Save the search as a task, add a schedule (for example daily at 7:00), set <code>"postedWithinDays": 2</code> and <code>"onlyNewJobs": true</code>. Each run then brings only jobs you have not seen yet. The first run brings everything, and job sites still count repeats they return, so the short date window is what keeps daily runs small.</div>
+      </div>
+    </section>
+
+    <section id="claude">
+      <h2>Option 2: ask Claude to find jobs for you</h2>
+      <p>If you use <a href="https://claude.ai/" target="_blank" rel="noopener">Claude</a>, you can connect it to Apify once and then just ask. Claude runs Job Feed for you and shows the jobs in the chat.</p>
+      <ol>
+        <li>In Claude, open <strong>Customize</strong> &rsaquo; <strong>Connectors</strong>, search for <strong>Apify</strong> and add it.</li>
+        <li>Click <strong>Connect</strong> and sign in to your <a target="_blank" rel="sponsored nofollow noopener" href="https://console.apify.com/sign-up?fpr=0khfbz&amp;fp_sid=p-find-jobs">Apify account</a> (free sign-up), then <strong>Allow access</strong>.</li>
+        <li>Start a new chat and ask in plain English.</li>
+      </ol>
+      <p>Apify's step-by-step guide with pictures: <a target="_blank" rel="sponsored nofollow noopener" href="https://docs.apify.com/integrations/claude-ai?fpr=0khfbz&amp;fp_sid=p-find-jobs">Connect Apify to Claude</a>.</p>
+      <h3>Things you can ask</h3>
+      <div class="prompt">Use the Apify actor santamaria-automations/job-feed to find nursing jobs within 20 km of Manchester, UK, posted in the last 7 days. Limit it to 50 jobs and show me a table with title, employer, town and link.</div>
+      <div class="prompt">Use santamaria-automations/job-feed to find remote customer service jobs in the US posted this week. Group them by company.</div>
+      <div class="prompt">Here is my CV: [paste]. Use santamaria-automations/job-feed to find matching jobs near Leeds and rank the top 10 by how well they fit.</div>
+      <div class="callout">Searches run on your Apify account, so they use your Apify credits, the same as Option 1. Ask Claude to keep the job limit low.</div>
+    </section>
+
+    <section id="automation">
+      <h2>For advanced users: a daily job tracker in n8n</h2>
+      <p>Our free n8n template checks your searches and favourite companies every morning, puts new jobs in a Google Sheet, scores each one against your CV with your own AI model and drafts a cover letter for the good matches. It never applies or sends anything for you.</p>
+      <div class="ctas" style="margin:14px 0 8px">
+        <a href="https://github.com/NanoScrape/scraping-automation-templates/tree/main/job-matches-cover-letters" target="_blank" rel="noopener" class="btn-secondary">Get the template (GitHub)</a>
+      </div>
+      <p>No n8n yet? <a href="https://n8n.partnerlinks.io/rx97o1phofve" target="_blank" rel="sponsored nofollow noopener">n8n Cloud</a> has a free trial; a self-hosted n8n works the same way.</p>
+    </section>
+
+    <section class="faq">
+      <h2>Questions</h2>
+      <details><summary>Do I need to know how to code?</summary><p>No. You fill in a form (or paste one of the examples above) and press Start. The Claude option works in plain language.</p></details>
+      <details><summary>What does it cost?</summary><p>Signing up on Apify is free. Each search uses credits from your Apify account, and the <a target="_blank" rel="sponsored nofollow noopener" href="https://apify.com/santamaria-automations/job-feed/pricing?fpr=0khfbz&amp;fp_sid=p-find-jobs">Job Feed pricing tab</a> shows the current price before you start. Keep the job limit low for your first search.</p></details>
+      <details><summary>Does it apply to jobs for me?</summary><p>No. It finds jobs and gives you the links. You read them and apply on the company's or job site's own page.</p></details>
+      <details><summary>Can I get new jobs every day?</summary><p>Yes. On Apify, add a schedule to your saved search, set Posted within to 1 or 2 days and turn on Only new jobs, so each run brings only jobs you have not seen yet.</p></details>
+      <details><summary>Which countries and job sites?</summary><p>Job Feed covers 130+ job sites: national job sites in 38 countries, including the UK and the US, plus Indeed and LinkedIn (and Glassdoor when you search a whole country rather than a town). The <a href="/actors/job-feed/">Job Feed page</a> lists them all.</p></details>
+    </section>
+  </article>
+
+  <div id="site-footer"></div>
+  <script src="/components.js?v=6"></script>
+  <script src="/search.js?v=6"></script>
+  <script>
+  (function () {
+    var tabs = document.querySelectorAll('.tabs button');
+    tabs.forEach(function (b) {
+      b.addEventListener('click', function () {
+        tabs.forEach(function (t) {
+          var on = t === b;
+          t.setAttribute('aria-selected', on ? 'true' : 'false');
+          document.getElementById(t.getAttribute('data-ex')).hidden = !on;
+        });
+      });
+    });
+    document.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var text = btn.parentNode.querySelector('pre').textContent;
+        var done = function () { btn.textContent = 'Copied'; btn.classList.add('copied'); setTimeout(function () { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1800); };
+        if (navigator.clipboard) { navigator.clipboard.writeText(text).then(done, function () {}); }
+      });
+    });
+  })();
+  </script>
+</body>
+</html>
